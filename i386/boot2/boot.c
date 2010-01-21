@@ -57,17 +57,18 @@
 #include "libsa.h"
 #include "ramdisk.h"
 #include "gui.h"
+#include "platform.h"
 
 long gBootMode; /* defaults to 0 == kBootModeNormal */
-BOOL gOverrideKernel;
+bool gOverrideKernel;
 static char gBootKernelCacheFile[512];
 static char gCacheNameAdler[64 + 256];
 char *gPlatformName = gCacheNameAdler;
 char gRootDevice[512];
 char gMKextName[512];
 char gMacOSVersion[8];
-BOOL gEnableCDROMRescan;
-BOOL gScanSingleDrive;
+bool gEnableCDROMRescan;
+bool gScanSingleDrive;
 
 int     bvCount = 0;
 //int		menucount = 0;
@@ -76,15 +77,13 @@ int     gDeviceCount = 0;
 BVRef   bvr;
 BVRef   menuBVR;
 BVRef   bvChain;
-BOOL    useGUI = TRUE;
+bool    useGUI;
 
 //static void selectBiosDevice(void);
-
-static
-unsigned long Adler32(unsigned char *buffer, long length);
+static unsigned long Adler32(unsigned char *buffer, long length);
 
 
-static BOOL gUnloadPXEOnExit = 0;
+static bool gUnloadPXEOnExit = false;
 
 /*
  * How long to wait (in seconds) to load the
@@ -100,37 +99,30 @@ static BOOL gUnloadPXEOnExit = 0;
 //==========================================================================
 // Zero the BSS.
 
-static void zeroBSS()
+static void zeroBSS(void)
 {
-    extern char _DATA__bss__begin, _DATA__bss__end;
-    extern char _DATA__common__begin, _DATA__common__end;
+	extern char _DATA__bss__begin, _DATA__bss__end;
+	extern char _DATA__common__begin, _DATA__common__end;
 
-    bzero( &_DATA__bss__begin,
-           (&_DATA__bss__end - &_DATA__bss__begin) );
-
-    bzero( &_DATA__common__begin, 
-           (&_DATA__common__end - &_DATA__common__begin) );
+	bzero(&_DATA__bss__begin, (&_DATA__bss__end - &_DATA__bss__begin));
+	bzero(&_DATA__common__begin, (&_DATA__common__end - &_DATA__common__begin));
 }
 
 //==========================================================================
 // Malloc error function
 
-static void malloc_error(char *addr, size_t size)
+static void malloc_error(char *addr, size_t size, const char *file, int line)
 {
-    printf("\nMemory allocation error (0x%x, 0x%x)\n",
-           (unsigned)addr, (unsigned)size);
-    asm volatile ("hlt");
+	stop("\nMemory allocation error! Addr=0x%x, Size=0x%x, File=%s, Line=%d\n", (unsigned)addr, (unsigned)size, file, line);
 }
 
-/*!
-    Initializes the runtime.  Right now this means zeroing the BSS and initializing malloc.
- */
-void initialize_runtime()
+//==========================================================================
+//Initializes the runtime.  Right now this means zeroing the BSS and initializing malloc.
+//
+void initialize_runtime(void)
 {
-    zeroBSS();
-
-    // Initialize malloc
-    malloc_init(0, 0, 0, malloc_error);
+	zeroBSS();
+	malloc_init(0, 0, 0, malloc_error);
 }
 
 //==========================================================================
@@ -182,12 +174,10 @@ static int ExecKernel(void *binary)
         }
     }
 
-	BOOL dummyVal;
-
-    if (getBoolForKey(kWaitForKeypressKey, &dummyVal, &bootInfo->bootConfig) && dummyVal)
-    {
-      printf("Press any key to continue...");
-      getc();
+    bool dummyVal;
+    if (getBoolForKey(kWaitForKeypressKey, &dummyVal, &bootInfo->bootConfig) && dummyVal) {
+	printf("Press any key to continue...");
+	getc();
     }
 
     // If we were in text mode, switch to graphics mode.
@@ -211,28 +201,15 @@ static int ExecKernel(void *binary)
 }
 
 //==========================================================================
-// Scan and record the system's hardware information.
-
-static void scanHardware()
-{
-	extern void scan_platform();
-
-	scan_platform();
-}
-
-/*!
-    This is the entrypoint from real-mode which functions exactly as it did before.
-    Multiboot does its own runtime initialization, does some of its own things, and then
-    calls common_boot.
- */
+// This is the entrypoint from real-mode which functions exactly as it did
+// before. Multiboot does its own runtime initialization, does some of its
+// own things, and then calls common_boot.
 void boot(int biosdev)
 {
-    initialize_runtime();
-
-    // Enable A20 gate before accessing memory above 1Mb.
-    enableA20();
-
-    return common_boot(biosdev);
+	initialize_runtime();
+	// Enable A20 gate before accessing memory above 1Mb.
+	enableA20();
+	common_boot(biosdev);
 }
 
 //==========================================================================
@@ -246,38 +223,31 @@ void boot(int biosdev)
 // If biosdev is kBIOSDevNetwork, then this function will return if
 // booting was unsuccessful. This allows the PXE firmware to try the
 // next boot device on its list.
-
-#define DLOG(x) outb(0x80, (x))
-
 void common_boot(int biosdev)
 {
     int      status;
     char     *bootFile;
     unsigned long adler32;
-    BOOL     quiet;
-    BOOL     firstRun = YES;
-    BOOL     instantMenu;
-    BOOL     rescanPrompt;
+    bool     quiet;
+    bool     firstRun = true;
+    bool     instantMenu;
+    bool     rescanPrompt;
     unsigned int allowBVFlags = kBVFlagSystemVolume|kBVFlagForeignBoot;
     unsigned int denyBVFlags = kBVFlagEFISystem;
 
     // Set reminder to unload the PXE base code. Neglect to unload
     // the base code will result in a hang or kernel panic.
-
-    gUnloadPXEOnExit = 1;
+    gUnloadPXEOnExit = true;
 
     // Record the device that the booter was loaded from.
-
     gBIOSDev = biosdev & kBIOSDevMask;
 
     // Initialize boot info structure.
-
     initKernBootStruct();
 
     // Setup VGA text mode.
     // Not sure if it is safe to call setVideoMode() before the
     // config table has been loaded. Call video_mode() instead.
-
 #if DEBUG
     printf("before video_mode\n");
 #endif
@@ -286,11 +256,8 @@ void common_boot(int biosdev)
     printf("after video_mode\n");
 #endif
 
-    // Check to see that this hardware is supported.
-    status = checkForSupportedHardware();
-    if (status != 0) {
-        printf("This hardware configuration is not supported by Darwin/x86. (%d)", status);
-    }
+    // Scan and record the system's hardware information.
+    scan_platform();
 
     // First get info for boot volume.
     scanBootVolumes(gBIOSDev, 0);
@@ -300,43 +267,43 @@ void common_boot(int biosdev)
     // Load boot.plist config file
     status = loadSystemConfig(&bootInfo->bootConfig);
 
-    if ( getBoolForKey( kQuietBootKey, &quiet, &bootInfo->bootConfig ) && quiet ) {
+    if (getBoolForKey(kQuietBootKey, &quiet, &bootInfo->bootConfig) && quiet) {
         gBootMode |= kBootModeQuiet;
     }
 
     // Override firstRun to get to the boot menu instantly by setting "Instant Menu"=y in system config
-    if ( getBoolForKey( kInsantMenuKey, &instantMenu, &bootInfo->bootConfig ) && instantMenu ) {
-        firstRun = FALSE;
+    if (getBoolForKey(kInsantMenuKey, &instantMenu, &bootInfo->bootConfig) && instantMenu) {
+        firstRun = false;
     }
 
     // Loading preboot ramdisk if exists.
     loadPrebootRAMDisk();
 
     // Disable rescan option by default
-    gEnableCDROMRescan = FALSE;
+    gEnableCDROMRescan = false;
 
     // Enable it with Rescan=y in system config
-    if ( getBoolForKey( kRescanKey, &gEnableCDROMRescan, &bootInfo->bootConfig ) && gEnableCDROMRescan ) {
-        gEnableCDROMRescan = TRUE;
+    if (getBoolForKey(kRescanKey, &gEnableCDROMRescan, &bootInfo->bootConfig) && gEnableCDROMRescan) {
+        gEnableCDROMRescan = true;
     }
 
     // Ask the user for Rescan option by setting "Rescan Prompt"=y in system config.
-    rescanPrompt = FALSE;
-    if ( getBoolForKey( kRescanPromptKey, &rescanPrompt , &bootInfo->bootConfig ) && rescanPrompt
-          &&  biosDevIsCDROM(gBIOSDev) ) {
+    rescanPrompt = false;
+    if (getBoolForKey(kRescanPromptKey, &rescanPrompt , &bootInfo->bootConfig) && rescanPrompt && biosDevIsCDROM(gBIOSDev)) {
         gEnableCDROMRescan = promptForRescanOption();
     }
 
     // Enable touching a single BIOS device only if "Scan Single Drive"=y is set in system config.
-    if ( getBoolForKey( kScanSingleDriveKey, &gScanSingleDrive, &bootInfo->bootConfig ) && gScanSingleDrive ) {
-        gScanSingleDrive = TRUE;
+    if (getBoolForKey(kScanSingleDriveKey, &gScanSingleDrive, &bootInfo->bootConfig) && gScanSingleDrive) {
+        gScanSingleDrive = true;
     }
 
     // Create a list of partitions on device(s).
-    if (gScanSingleDrive)
-      scanBootVolumes( gBIOSDev, &bvCount );
-    else
-      scanDisks( gBIOSDev, &bvCount );
+    if (gScanSingleDrive) {
+      scanBootVolumes(gBIOSDev, &bvCount);
+    } else {
+      scanDisks(gBIOSDev, &bvCount);
+    }
 
     // Create a separated bvr chain using the specified filters.
     bvChain = newFilteredBVChain(0x80, 0xFF, allowBVFlags, denyBVFlags, &gDeviceCount);
@@ -349,34 +316,27 @@ void common_boot(int biosdev)
     getc();
 #endif
 
-	// Scan hardware configuration.
-    scanHardware();
-	
-	// Check if GUI=n switch is present in config file
-    if ( getBoolForKey(kGUIKey, &useGUI, &bootInfo->bootConfig) && !useGUI )
-      useGUI = FALSE;
-		
-    // Try initialising the GUI unless disabled
-    if( useGUI )
-      initGUI();
-    
-    // Load boot logo image
-    loadBootGraphics();
+    useGUI = true;
+    // Override useGUI default
+    getBoolForKey(kGUIKey, &useGUI, &bootInfo->bootConfig);
+    if (useGUI) {
+        /* XXX AsereBLN handle error */
+	initGUI();
+    }
 
     setBootGlobals(bvChain);
-    
+
     // Parse args, load and start kernel.
-    while (1)
-    {
+    while (1) {
         const char *val;
         int len;
         int trycache;
         long flags, cachetime, kerneltime, exttime, sleeptime, time;
         int ret = -1;
         void *binary = (void *)kLoadAddr;
-        BOOL tryresume;
-        BOOL tryresumedefault;
-        BOOL forceresume;
+        bool tryresume;
+        bool tryresumedefault;
+        bool forceresume;
 
         config_file_t    systemVersion;		// system.plist of booting partition
 
@@ -385,11 +345,11 @@ void common_boot(int biosdev)
 		
         // Initialize globals.
 
-        sysConfigValid = 0;
-        gErrors        = 0;
+        sysConfigValid = false;
+        gErrors        = false;
 
         status = getBootOptions(firstRun);
-        firstRun = NO;
+        firstRun = false;
         if (status == -1) continue;
 		 
         status = processBootOptions();
@@ -422,54 +382,58 @@ void common_boot(int biosdev)
 		// Turn off any GUI elements
 		if( bootArgs->Video.v_display == GRAPHICS_MODE )
 		{
-			gui.devicelist.draw = NO;
-			gui.bootprompt.draw = NO;
-			gui.menu.draw = NO;
-			gui.infobox.draw = NO;
+			gui.devicelist.draw = false;
+			gui.bootprompt.draw = false;
+			gui.menu.draw = false;
+			gui.infobox.draw = false;
 			drawBackground();
 			updateVRAM();
 		}
 		
 		// Find out which version mac os we're booting.
-		if (!loadConfigFile("System/Library/CoreServices/SystemVersion.plist", &systemVersion) )
-			if (getValueForKey("ProductVersion", &val, &len, &systemVersion))
-			{	
+		if (!loadConfigFile("System/Library/CoreServices/SystemVersion.plist", &systemVersion)) {
+			if (getValueForKey(kProductVersion, &val, &len, &systemVersion)) {	
 				// getValueForKey uses const char for val
 				// so copy it and trim
 				strncpy(gMacOSVersion, val, MIN(len, 4));
 				gMacOSVersion[MIN(len, 4)] = '\0';
 			}
-		
-		archCpuType=detectCpuType ();
-		if (getValueForKey("arch", &val, &len, &bootInfo->bootConfig))
-		{
-			if(strncmp(val,"x86_64",6) == 0)
-				archCpuType=CPU_TYPE_X86_64;
- 			else
-				archCpuType=CPU_TYPE_I386;
 		}
-		
-		if (!getBoolForKey ("Wake", &tryresume, &bootInfo->bootConfig))
-		{
-			tryresume = TRUE;
-			tryresumedefault = TRUE;
-		}
-		else
-			tryresumedefault = FALSE;
 
-		if (!getBoolForKey ("ForceWake", &forceresume, &bootInfo->bootConfig))
-			forceresume = FALSE;
+		if (platformCPUFeature(CPU_FEATURE_EM64T)) {
+			archCpuType = CPU_TYPE_X86_64;
+		} else {
+			archCpuType = CPU_TYPE_I386;
+		}
+		if (getValueForKey(karch, &val, &len, &bootInfo->bootConfig)) {
+			if (strncmp(val, "i386", 4) == 0) {
+				archCpuType = CPU_TYPE_I386;
+			}
+		}
+		if (getValueForKey(k32BitModeFlag, &val, &len, &bootInfo->bootConfig)) {
+			archCpuType = CPU_TYPE_I386;
+		}
 		
-		if (forceresume)
-		{
-			tryresume = TRUE;
-			tryresumedefault = FALSE;
+		if (!getBoolForKey (kWake, &tryresume, &bootInfo->bootConfig)) {
+			tryresume = true;
+			tryresumedefault = true;
+		} else {
+			tryresumedefault = false;
+		}
+
+		if (!getBoolForKey (kForceWake, &forceresume, &bootInfo->bootConfig)) {
+			forceresume = false;
+		}
+		
+		if (forceresume) {
+			tryresume = true;
+			tryresumedefault = false;
 		}
 		
 		while (tryresume) {
 			const char *tmp;
 			BVRef bvr;
-			if (!getValueForKey("WakeImage", &val, &len, &bootInfo->bootConfig))
+			if (!getValueForKey(kWakeImage, &val, &len, &bootInfo->bootConfig))
 				val="/private/var/vm/sleepimage";
 			
 			// Do this first to be sure that root volume is mounted
@@ -485,8 +449,7 @@ void common_boot(int biosdev)
 			if ((ret != 0) || ((flags & kFileTypeMask) != kFileTypeFlat))
 				break;
 			
-			if (!forceresume && sleeptime+3<bvr->modTime)
-			{
+			if (!forceresume && sleeptime+3<bvr->modTime) {
 				printf ("Hibernate image is too old by %d seconds. Use ForceWake=y to override\n",bvr->modTime-sleeptime);
 				break;
 			}
@@ -502,7 +465,7 @@ void common_boot(int biosdev)
 
         adler32 = Adler32((unsigned char *)gCacheNameAdler, sizeof(gCacheNameAdler));
 
-        if (getValueForKey(kKernelCacheKey, &val, &len, &bootInfo->bootConfig) == YES) {
+        if (getValueForKey(kKernelCacheKey, &val, &len, &bootInfo->bootConfig)) {
             strlcpy(gBootKernelCacheFile, val, len+1);
         } else {
             sprintf(gBootKernelCacheFile, "%s.%08lX", kDefaultCachePath, adler32);
@@ -510,7 +473,7 @@ void common_boot(int biosdev)
 
         // Check for cache file.
         trycache = (((gBootMode & kBootModeSafe) == 0) &&
-                    (gOverrideKernel == NO) &&
+                    !gOverrideKernel &&
                     (gBootFileType == kBlockDeviceType) &&
                     (gMKextName[0] == '\0') &&
                     (gBootKernelCacheFile[0] != '\0'));
@@ -593,36 +556,32 @@ void common_boot(int biosdev)
         sleep(8);
 #endif
 
-        if (ret <= 0)
-		{
+        if (ret <= 0) {
 			printf("Can't find %s\n", bootFile);
 
-			if(gui.initialised == YES)
-			{
+			if(gui.initialised) {
 				sleep(1);
 				drawBackground();
-				gui.devicelist.draw = YES;
-				gui.redraw = YES;
+				gui.devicelist.draw = true;
+				gui.redraw = true;
 			}
-				
-            if ( gBootFileType == kNetworkDeviceType )
-            {
+            if (gBootFileType == kNetworkDeviceType) {
                 // Return control back to PXE. Don't unload PXE base code.
-                gUnloadPXEOnExit = 0;
+                gUnloadPXEOnExit = false;
                 break;
             }
-			
         } else {
             /* Won't return if successful. */
             ret = ExecKernel(binary);
         }
-
-    } /* while(1) */
+    }
     
     // chainboot
-    if(status==1)
-	if(getVideoMode() == GRAPHICS_MODE) // if we are already in graphics-mode,
+    if (status==1) {
+	if (getVideoMode() == GRAPHICS_MODE) {	// if we are already in graphics-mode,
 		setVideoMode(VGA_TEXT_MODE, 0);	// switch back to text mode
+	}
+    }
 	
     if ((gBootFileType == kNetworkDeviceType) && gUnloadPXEOnExit) {
 	nbpUnloadBaseCode();

@@ -30,6 +30,41 @@
 #include <mach-o/loader.h>
 #include <stdarg.h>
 #include <stddef.h>
+#include <stdbool.h>
+
+/*
+ * ctype stuff (aserebln)
+ */
+static inline int isupper(char c)
+{
+    return (c >= 'A' && c <= 'Z');
+}
+
+static inline int islower(char c)
+{
+    return (c >= 'a' && c <= 'z');
+}
+
+static inline int isalpha(char c)
+{
+    return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
+}
+
+static inline int isspace(char c)
+{
+    return (c == ' ' || c == '\t' || c == '\n' || c == '\12');
+}
+
+static inline int isdigit(char c)
+{
+    return (c >= '0' && c <= '9');
+}
+
+static inline int isxdigit(char c)
+{
+    return ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f'));
+}
+
 
 /*
  * string.c
@@ -91,8 +126,9 @@ extern int slvprintf(char * buffer, int len, const char * fmt, va_list arg);
 /*
  * zalloc.c
  */
-extern void   malloc_init(char * start, int size, int nodes, void (*malloc_error)(char *, size_t));
-extern void * malloc(size_t size);
+#define malloc(size)	safe_malloc(size, __FILE__, __LINE__)
+extern void   malloc_init(char * start, int size, int nodes, void (*malloc_error)(char *, size_t, const char *, int));
+extern void * safe_malloc(size_t size,const char *file, int line);
 extern void   free(void * start);
 extern void * realloc(void * ptr, size_t size);
 

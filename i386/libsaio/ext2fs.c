@@ -13,10 +13,11 @@
 
 #define EX2ProbeSize	2048
 
-BOOL EX2Probe (const void *buf)
+bool EX2Probe (const void *buf)
 {
 	return (OSReadLittleInt16(buf+0x438,0)==0xEF53);
 }
+
 void EX2GetDescription(CICell ih, char *str, long strMaxLen)
 {
 	char * buf=malloc (EX2ProbeSize);

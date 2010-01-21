@@ -1,10 +1,11 @@
 #include "libsaio.h"
+#include "boot.h"
 #include "bootstruct.h"
 #include "pci.h"
+#include "nvidia.h"
+#include "ati.h"
 
 extern void set_eth_builtin(pci_dt_t *eth_dev);
-extern bool setup_nvidia_devprop(pci_dt_t *nvda_dev);
-extern bool setup_ati_devprop(pci_dt_t *ati_dev);
 extern int ehci_acquire(pci_dt_t *pci_dev);
 extern int uhci_reset(pci_dt_t *pci_dev);
 extern void force_enable_hpet(pci_dt_t *lpc_dev);
@@ -12,21 +13,20 @@ extern void force_enable_hpet(pci_dt_t *lpc_dev);
 void setup_pci_devs(pci_dt_t *pci_dt)
 {
 	char *devicepath;
-	BOOL do_eth_devprop, do_gfx_devprop, fix_ehci, fix_uhci, fix_usb, do_enable_hpet;
+	bool do_eth_devprop, do_gfx_devprop, fix_ehci, fix_uhci, fix_usb, do_enable_hpet;
 	pci_dt_t *current = pci_dt;
 
 	do_eth_devprop = do_gfx_devprop = fix_ehci = fix_uhci = fix_usb = do_enable_hpet = false;
 
-	getBoolForKey("EthernetBuiltIn", &do_eth_devprop, &bootInfo->bootConfig);
-	getBoolForKey("GraphicsEnabler", &do_gfx_devprop, &bootInfo->bootConfig);
-	if (getBoolForKey("USBBusFix", &fix_usb, &bootInfo->bootConfig) && fix_usb)
+	getBoolForKey(kEthernetBuiltIn, &do_eth_devprop, &bootInfo->bootConfig);
+	getBoolForKey(kGraphicsEnabler, &do_gfx_devprop, &bootInfo->bootConfig);
+	if (getBoolForKey(kUSBBusFix, &fix_usb, &bootInfo->bootConfig) && fix_usb) {
 		fix_ehci = fix_uhci = true;
-	else
-	{
-		getBoolForKey("EHCIacquire", &fix_ehci, &bootInfo->bootConfig);
-		getBoolForKey("UHCIreset", &fix_uhci, &bootInfo->bootConfig);
+	} else {
+		getBoolForKey(kEHCIacquire, &fix_ehci, &bootInfo->bootConfig);
+		getBoolForKey(kUHCIreset, &fix_uhci, &bootInfo->bootConfig);
 	}
-	getBoolForKey("ForceHPET", &do_enable_hpet, &bootInfo->bootConfig);
+	getBoolForKey(kForceHPET, &do_enable_hpet, &bootInfo->bootConfig);
 
 	while (current)
 	{

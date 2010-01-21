@@ -62,7 +62,7 @@ static Node *freeNodes, *allocedNodes;
 static Property *freeProperties, *allocedProperties;
 
 Property *
-DT__AddProperty(Node *node, char *name, uint32_t length, void *value)
+DT__AddProperty(Node *node, const char *name, uint32_t length, void *value)
 {
     Property *prop;
 
@@ -112,7 +112,7 @@ DT__AddProperty(Node *node, char *name, uint32_t length, void *value)
 }
 
 Node *
-DT__AddChild(Node *parent, char *name)
+DT__AddChild(Node *parent, const char *name)
 {
     Node *node;
 
@@ -150,7 +150,7 @@ DT__AddChild(Node *parent, char *name)
         parent->children = node;
     }
     DTInfo.numNodes++;
-    DT__AddProperty(node, "name", strlen(name) + 1, name);
+    DT__AddProperty(node, "name", strlen(name) + 1, (void *) name);
     return node;
 }
 
@@ -308,7 +308,7 @@ DT__GetName(Node *node)
 }
 
 Node *
-DT__FindNode(char *path, bool createIfMissing)
+DT__FindNode(const char *path, bool createIfMissing)
 {
     Node *node, *child;
     DTPropertyNameBuf nameBuf;

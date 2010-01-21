@@ -20,7 +20,7 @@ typedef struct {
 	uint32_t colorType, bitDepth;
 	uint32_t compressionMethod, filterMethod, interlaceMethod;
 	uint32_t key_r, key_g, key_b;
-	boolean_t key_defined; // is a transparent color key given?
+	bool key_defined; // is a transparent color key given?
 	vector8_t *palette;
 	vector8_t *image;
 } PNG_info_t;

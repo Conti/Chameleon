@@ -4,21 +4,23 @@ include ../MakePaths.dir
 
 UTILDIR = ../util
 LIBSADIR = ../libsa
+BOOT2DIR = ../boot2
 INSTALLDIR = $(DSTROOT)/System/Library/Frameworks/System.framework/Versions/B/PrivateHeaders/standalone
 #SYMROOT=
 
 OPTIM = -Os -Oz
-DEBUG = NOTHING
+DEBUG = -DNOTHING
+#DEBUG = -DDEBUG_CPU=1 -DDEBUG_MEM=1 -DDEBUG_SPD=1 -DDEBUG_PCI=1 -DDEBUG_SMBIOS=1
 CFLAGS	= $(RC_CFLAGS) $(OPTIM) $(MORECPP) -arch i386 -g -Wmost \
     -D__ARCHITECTURE__=\"i386\" -DSAIO_INTERNAL_USER \
-    -DRCZ_COMPRESSED_FILE_SUPPORT -D$(DEBUG) \
+    -DRCZ_COMPRESSED_FILE_SUPPORT $(DEBUG) \
     -fno-builtin -static $(OMIT_FRAME_POINTER_CFLAG) \
     -mpreferred-stack-boundary=2 -fno-align-functions -fno-stack-protector \
     -march=pentium4 -msse2 -mfpmath=sse -msoft-float
 
 DEFINES=
 CONFIG = hd
-INC = -I. -I$(SYMROOT) -I$(UTILDIR) -I$(LIBSADIR)
+INC = -I. -I$(SYMROOT) -I$(UTILDIR) -I$(LIBSADIR) -I$(BOOT2DIR)
 ifneq "" "$(wildcard /bin/mkdirs)"
   MKDIRS = /bin/mkdirs
 else
@@ -33,14 +35,14 @@ VPATH = $(OBJROOT):$(SYMROOT)
 
 SAIO_OBJS = table.o asm.o bios.o biosfn.o \
 	disk.o sys.o cache.o bootstruct.o \
-	stringTable.o load.o pci.o memory.o misc.o \
+	stringTable.o load.o pci.o allocate.o misc.o \
 	ufs.o ufs_byteorder.o \
 	vbe.o nbp.o hfs.o hfs_compare.o \
 	xml.o ntfs.o msdos.o md5c.o device_tree.o \
-	freq_detect.o platform.o dsdt_patcher.o \
+	cpu.o platform.o dsdt_patcher.o \
 	smbios_patcher.o fake_efi.o ext2fs.o \
 	hpet.o spd.o usb.o pci_setup.o \
-	device_inject.o nvidia.o ati.o
+	device_inject.o nvidia.o ati.o pci_root.o mem.o
 
 
 SAIO_EXTERN_OBJS = console.o

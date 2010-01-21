@@ -55,7 +55,7 @@ DEBUG				EQU  0
 ;
 ; Set to 1 to enable verbose mode
 ;
-VERBOSE				EQU  1
+VERBOSE				EQU  0
 
 ;
 ; Various constants.

@@ -55,8 +55,9 @@
 #define UFS_SUPPORT 0
 #endif
 
-#include "bootstruct.h"
 #include "libsaio.h"
+#include "boot.h"
+#include "bootstruct.h"
 #include "fdisk.h"
 #if UFS_SUPPORT
 #include "ufs.h"
@@ -218,7 +219,7 @@ static const char * bios_error(int errnum)
 // Return:
 //   0 on success, or an error code from INT13/F2 or INT13/F42 BIOS call.
 
-static BOOL cache_valid = FALSE;
+static bool cache_valid = false;
 
 static int Biosread( int biosdev, unsigned long long secno )
 {
@@ -264,7 +265,7 @@ static int Biosread( int biosdev, unsigned long long secno )
 
         xnsecs = N_CACHE_SECS;
         xsec   = (secno / divisor) * divisor;
-        cache_valid = FALSE;
+        cache_valid = false;
 
         while ((rc = ebiosread(biosdev, secno / divisor, xnsecs / divisor)) && (++tries < 5))
         {
@@ -305,7 +306,7 @@ static int Biosread( int biosdev, unsigned long long secno )
         xhead  = head;
         xsec   = sec;
         xnsecs = ((unsigned int)(sec + N_CACHE_SECS) > di.di.params.phys_spt) ? (di.di.params.phys_spt - sec) : N_CACHE_SECS;
-        cache_valid = FALSE;
+        cache_valid = false;
 
         while ((rc = biosread(biosdev, cyl, head, sec, xnsecs)) &&
                (++tries < 5))
@@ -325,7 +326,7 @@ static int Biosread( int biosdev, unsigned long long secno )
     // If the BIOS reported success, mark the sector cache as valid.
 
     if (rc == 0) {
-        cache_valid = TRUE;
+        cache_valid = true;
     }
     biosbuf  = trackbuf + (secno % divisor) * BPS;
     xbiosdev = biosdev;
@@ -1465,7 +1466,7 @@ struct DiskBVMap* diskResetBootVolumes(int biosdev)
     {
         verbose("Resetting BIOS device %xh\n", biosdev);
         // Reset the biosbuf cache
-        cache_valid = FALSE;
+        cache_valid = false;
         if(map == gDiskBVMap)
             gDiskBVMap = map->next;
         else if(prevMap != NULL)
@@ -1580,25 +1581,25 @@ BVRef newFilteredBVChain(int minBIOSDev, int maxBIOSDev, unsigned int allowFlags
        * Adjust the new bvr's fields.
        */
       newBVR->next = NULL;
-      newBVR->filtered = TRUE;
+      newBVR->filtered = true;
 
       if ( (!allowFlags || newBVR->flags & allowFlags)
           && (!denyFlags || !(newBVR->flags & denyFlags) )
           && (newBVR->biosdev >= minBIOSDev && newBVR->biosdev <= maxBIOSDev)
          )
-        newBVR->visible = TRUE;
+        newBVR->visible = true;
       
       /*
        * Looking for "Hide Partition" entries in "hd(x,y) hd(n,m)" format
        * to be able to hide foreign partitions from the boot menu.
        */
 			if ( (newBVR->flags & kBVFlagForeignBoot)
-					&& getValueForKey("Hide Partition", &val, &len, &bootInfo->bootConfig)
+					&& getValueForKey(kHidePartition, &val, &len, &bootInfo->bootConfig)
 				 )
     	{
     	  sprintf(devsw, "hd(%d,%d)", BIOS_DEV_UNIT(newBVR), newBVR->part_no);
     	  if (strstr(val, devsw) != NULL)
-          newBVR->visible = FALSE;
+          newBVR->visible = false;
     	}
 
       /*
@@ -1678,19 +1679,46 @@ static const struct NamedValue fdiskTypes[] =
 
 //==========================================================================
 
-void getBootVolumeDescription( BVRef bvr, char * str, long strMaxLen, BOOL verbose )
+/* If Rename Partition has defined an alias, then extract it  for description purpose */
+static const char * getVolumeLabelAlias( BVRef bvr, const char * str, long strMaxLen)
+{
+  const int MAX_ALIAS_SIZE=31;
+  static char szAlias[MAX_ALIAS_SIZE+1];
+  char *q=szAlias;
+  const char * szAliases = getStringForKey(kRenamePartition, &bootInfo->bootConfig);
+
+  if (!str || !*str || !szAliases) return 0; // no renaming wanted
+
+  const char * p = strstr(szAliases, str);
+  if(!p || !(*p)) return 0; // this volume must not be renamed, or option is malformed
+
+  p+= strlen(str); // skip the "hd(n,m) " field
+  // multiple aliases can be found separated by a semi-column
+  while(*p && *p != ';' && q<(szAlias+MAX_ALIAS_SIZE)) *q++=*p++;
+  *q='\0';
+
+  return szAlias;
+}
+
+void getBootVolumeDescription( BVRef bvr, char * str, long strMaxLen, bool verbose )
 {
     unsigned char type = (unsigned char) bvr->part_type;
     char *p;
 	
     p = str;
-    if (verbose)
-    {
-      sprintf( str, "hd(%d,%d) ",
-          BIOS_DEV_UNIT(bvr), bvr->part_no);
+    if (verbose) {
+      sprintf( str, "hd(%d,%d) ", BIOS_DEV_UNIT(bvr), bvr->part_no);
       for (; strMaxLen > 0 && *p != '\0'; p++, strMaxLen--);
     }
 
+    // See if we should get the renamed alias name for this partion:
+    const char * szAliasName = getVolumeLabelAlias(bvr, str, strMaxLen);
+    if (szAliasName && *szAliasName)
+    {
+	strncpy(bvr->label, szAliasName, strMaxLen);
+	return; // we're done here no need to seek for real name
+    }
+      
     //
     // Get the volume label using filesystem specific functions
     // or use the alternate volume label if available.
@@ -1715,12 +1743,13 @@ void getBootVolumeDescription( BVRef bvr, char * str, long strMaxLen, BOOL verbo
       }
     }
 
+    /* See if a partion rename is wanted: */
+
     // Set the devices label
     sprintf(bvr->label, p);
 }
 
 //==========================================================================
-
 int readBootSector( int biosdev, unsigned int secno, void * buffer )
 {
     struct disk_blk0 * bootSector = (struct disk_blk0 *) buffer;
@@ -1815,7 +1844,7 @@ int rawDiskRead( BVRef bvr, unsigned int secno, void *buffer, unsigned int len )
     }
     secno += bvr->part_boff;
 
-    cache_valid = FALSE;
+    cache_valid = false;
 
     while (len > 0) {
         secs = len / BPS;
@@ -1854,7 +1883,7 @@ int rawDiskWrite( BVRef bvr, unsigned int secno, void *buffer, unsigned int len 
     }
     secno += bvr->part_boff;
 
-    cache_valid = FALSE;
+    cache_valid = false;
 
     while (len > 0) {
         secs = len / BPS;

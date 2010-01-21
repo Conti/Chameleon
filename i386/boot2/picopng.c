@@ -290,7 +290,7 @@ int HuffmanTree_makeFromLengths(HuffmanTree *tree, const vector32_t *bitlen, uin
 	return 0;
 }
 
-int HuffmanTree_decode(const HuffmanTree *tree, boolean_t *decoded, uint32_t *result, size_t *treepos,
+int HuffmanTree_decode(const HuffmanTree *tree, bool *decoded, uint32_t *result, size_t *treepos,
 		uint32_t bit)
 {	// Decodes a symbol from the tree
 	const vector32_t *tree2d = tree->tree2d;
@@ -339,7 +339,7 @@ void Inflator_generateFixedTrees(HuffmanTree *tree, HuffmanTree *treeD)
 uint32_t Inflator_huffmanDecodeSymbol(const uint8_t *in, size_t *bp, const HuffmanTree *codetree,
 		size_t inlength)
 {	// decode a single symbol from given list of bits with given code tree. returns the symbol
-	boolean_t decoded = FALSE;
+	bool decoded = false;
 	uint32_t ct = 0;
 	size_t treepos = 0;
 	for (;;) {
@@ -908,8 +908,8 @@ PNG_info_t *PNG_decode(const uint8_t *in, uint32_t size)
 		return NULL;
 	size_t pos = 33; // first byte of the first chunk after the header
 	vector8_t *idat = NULL; // the data from idat chunks
-	boolean_t IEND = FALSE, known_type = TRUE;
-	info->key_defined = FALSE;
+	bool IEND = false, known_type = true;
+	info->key_defined = false;
 	// loop through the chunks, ignoring unknown chunks and stopping at IEND chunk. IDAT data is
 	// put at the start of the in buffer
 	while (!IEND) {
@@ -941,7 +941,7 @@ PNG_info_t *PNG_decode(const uint8_t *in, uint32_t size)
 			pos += (4 + chunkLength);
 		} else if (chunkType == CHUNK_IEND) { // IEND
 			pos += 4;
-			IEND = TRUE;
+			IEND = true;
 		} else if (chunkType == CHUNK_PLTE) { // PLTE: palette chunk
 			pos += 4; // go after the 4 letters
 			vector8_resize(info->palette, 4 * (chunkLength / 3));
@@ -968,7 +968,7 @@ PNG_info_t *PNG_decode(const uint8_t *in, uint32_t size)
 					PNG_error = 40; // error: this chunk must be 2 bytes for greyscale image
 					return NULL;
 				}
-				info->key_defined = TRUE;
+				info->key_defined = true;
 				info->key_r = info->key_g = info->key_b = 256 * in[pos] + in[pos + 1];
 				pos += 2;
 			} else if (info->colorType == 2) {
@@ -976,7 +976,7 @@ PNG_info_t *PNG_decode(const uint8_t *in, uint32_t size)
 					PNG_error = 41; // error: this chunk must be 6 bytes for RGB image
 					return NULL;
 				}
-				info->key_defined = TRUE;
+				info->key_defined = true;
 				info->key_r = 256 * in[pos] + in[pos + 1];
 				pos += 2;
 				info->key_g = 256 * in[pos] + in[pos + 1];
@@ -994,7 +994,7 @@ PNG_info_t *PNG_decode(const uint8_t *in, uint32_t size)
 				return NULL;
 			}
 			pos += (chunkLength + 4); // skip 4 letters and uninterpreted data of unimplemented chunk
-			known_type = FALSE;
+			known_type = false;
 		}
 		pos += 4; // step over CRC (which is ignored)
 	}

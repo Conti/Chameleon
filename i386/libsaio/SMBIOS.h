@@ -39,6 +39,12 @@ typedef UInt16 SMBWord;
 typedef UInt32 SMBDWord;
 typedef UInt64 SMBQWord;
 
+struct DMIHeader{
+    SMBByte    type;
+    SMBByte    length;
+    SMBWord    handle;
+} __attribute__((packed));
+
 struct DMIEntryPoint {
     SMBByte    anchor[5];
     SMBByte    checksum;

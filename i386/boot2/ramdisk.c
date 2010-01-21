@@ -13,7 +13,7 @@ struct multiboot_info * gRAMDiskMI = NULL;
 
 // gRAMDiskVolume holds the bvr for the mounted ramdisk image.
 BVRef gRAMDiskVolume = NULL;
-BOOL gRAMDiskBTAliased = 0;
+bool gRAMDiskBTAliased = false;
 char gRAMDiskFile[512];
 
 void umountRAMDisk()
@@ -121,20 +121,17 @@ int mountRAMDisk(const char * param)
   return error;
 }
 
-void setRAMDiskBTHook(BOOL mode)
+void setRAMDiskBTHook(bool mode)
 {
   gRAMDiskBTAliased = mode;
-  if (mode == 1)
-  {
+  if (mode) {
     printf("\nEnabled bt(0,0) alias.");
-  }
-  else
-  {
+  } else {
     printf("\nDisabled bt(0,0) alias.");
   }
 }
 
-void showInfoRAMDisk()
+void showInfoRAMDisk(void)
 {
   int len;
   const char *val;
@@ -145,7 +142,7 @@ void showInfoRAMDisk()
 
     printf("\nfile: %s %d", gRAMDiskFile,
             ramdisk_module->mm_mod_end - ramdisk_module->mm_mod_start);
-    printf("\nalias: %s", (gRAMDiskBTAliased == 1) ? "enabled" : "disabled");
+    printf("\nalias: %s", gRAMDiskBTAliased ? "enabled" : "disabled");
 
     // Display ramdisk information if available.
 

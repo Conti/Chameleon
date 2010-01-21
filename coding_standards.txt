@@ -1,0 +1,83 @@
+Coding Standard rev. 0 (First Draft)
+
+1. Indentation
+   having seen most indentation styles going from 2 to 8 spaces, I would suggest a indentation of 4 spaces.
+
+2. Comments
+I see here two main differents cases:
+function description comments and one-line code quite comments
+
+For functions documentation, I suggest to use this syntax
+/**
+ *
+ */
+Note the use of /** that will make future html auto-documentation easier (i.e: Doxygen at least recognize this marker)
+
+for punctual, short code comment, let's use:
+//
+3) #define at top of document 
+4) Global vars right below #include / #define (notation: gLobal)
+Note that global vars and static vars should be avoided as much as possible in favor of local variables use, get/set functions (properties).
+
+5) No curly brackets for single lines
+
+6) else
+{
+    ....
+}
+
+instead of:
+
+else {
+    ....
+}
+
+7) if 
+{
+    ....
+}
+instead of:
+
+if {
+    ....
+}
+
+8) fall through code (using indention) or bail out early (using returns)?
+Using early bail out for preconditions early in the function code,
+use common sense to avoid as an example more than 4 imbricated if() constructions.
+In the later case, consider decomposing your function in more manageable primitives.
+
+9) Spaces/readability i.e. not: if (fd<0)
+but: if (fd < 0)
+
+10. types, variables, functions, naming
+non const variables should follow the (currently mostly used) CamelCase convention:
+int myVariableIsFine;
+instead of :
+int my_variable_is_ok;
+
+Functions should follow the same conventions except for standard c lib related functions.
+Types should share the same convention but start with a Captial letter instead of lower case.
+
+11. Please make sure you extensively initialize variables:
+avoid as much as possible:
+int myVar
+...
+myVar = 10;
+
+but use instead:
+int myVar = 10;
+
+12. const values:
+const int MY_CONST_VARIABLE=42; is also ok for me, depending on the context of use.
+or
+const int MyConstVariable = 42; (with a Capital first letter)
+
+13. macro definitions should follow this convention:
+#define MY_HANDY_MACROS_PSEUDO_FUNC() ...
+
+14. Macros use should be limited to really special cases where they bring real value (like special optimization cases)
+Most of the time inlining a function is much better than the use of macros
+
+15. Don't optimize your code blindly, always favor readability when in doubt.
+Very often, optimization is not necessary where you think it is, think about the bubble sort algorithm, where people would code it in assembly, where a heap or quick sort algorithm would be much more efficient (n log(n) instead of quadratic complexity), as an example when values count to be sorted get high.

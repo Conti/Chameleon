@@ -54,27 +54,6 @@ AllocateMemoryRange(char * rangeName, long start, long length, long type)
     return 0;
 }
 
-#if 0
-long
-AllocateMemoryRange(char * rangeName, long start, long length, long type)
-{
-    if ( bootArgs->numBootDrivers < NDRIVERS )
-    {
-        int num = bootArgs->numBootDrivers;
-
-        bootArgs->driverConfig[num].address = start;
-        bootArgs->driverConfig[num].size    = length;
-        bootArgs->driverConfig[num].type    = type;
-        bootArgs->numBootDrivers++;
-    }
-    else
-    {
-        stop( "AllocateMemoryRange error" );
-    }
-    return 0;
-}
-#endif
-
 long
 AllocateKernelMemory( long inSize )
 {

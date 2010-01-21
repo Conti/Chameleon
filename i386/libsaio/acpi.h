@@ -72,11 +72,20 @@ struct acpi_2_fadt {
 	uint32_t        FIRMWARE_CTRL;
 	uint32_t        DSDT;
 	/*We absolutely don't care about theese fields*/
-	uint8_t         notimp1[88];
-	uint64_t	    X_FIRMWARE_CTRL;
-	uint64_t	    X_DSDT;
+	uint8_t		notimp1[68];
+	/*Reset Fix*/
+	uint32_t	Flags;
+	uint8_t		Reset_SpaceID;
+	uint8_t		Reset_BitWidth;
+	uint8_t		Reset_BitOffset;
+	uint8_t		Reset_AccessWidth;
+	uint64_t	Reset_Address;
+	uint8_t		Reset_Value;
+	uint8_t		Reserved[3];
+	uint64_t	X_FIRMWARE_CTRL;
+	uint64_t	X_DSDT;
 	/*We absolutely don't care about theese fields*/
-	uint8_t         notimp2[96];
+	uint8_t		notimp2[96];
 } __attribute__((packed));
 
 #endif /* !__LIBSAIO_ACPI_H */

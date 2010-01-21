@@ -61,7 +61,9 @@
 #include <AvailabilityMacros.h>
 
 #include "libsaio.h"
+#include "boot.h"
 #include "bootstruct.h"
+#include "ramdisk.h"
 #if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
 # include <Kernel/libkern/crypto/md5.h>
 #else
@@ -110,8 +112,8 @@ BVRef gBIOSBootVolume = NULL;
 BVRef gBootVolume;
 
 // zef - ramdisk variables
-extern BVRef  gRAMDiskVolume;
-extern BOOL   gRAMDiskBTAliased;
+//extern BVRef  gRAMDiskVolume;
+//extern bool   gRAMDiskBTAliased;
 
 //static BVRef getBootVolumeRef( const char * path, const char ** outPath );
 static BVRef newBootVolumeRef( int biosdev, int partno );
@@ -367,6 +369,24 @@ long GetFileBlock(const char *fileSpec, unsigned long long *firstBlock)
 }
 
 //==========================================================================
+// GetFreeFD()
+
+static int GetFreeFd(void)
+{
+	int	fd;
+
+	// Locate a free descriptor slot.
+	for (fd = 0; fd < NFILES; fd++) {
+		if (iob[fd].i_flgs == 0) {
+			return fd;
+	    	}
+	}
+	stop("Out of file descriptors");
+	// not reached
+	return -1;
+}
+
+//==========================================================================
 // iob_from_fdesc()
 //
 // Return a pointer to an allocated 'iob' based on the file descriptor
@@ -392,15 +412,7 @@ int openmem(char * buf, int len)
     int          fdesc;
     struct iob * io;
 
-    // Locate a free descriptor slot.
-
-    for (fdesc = 0; fdesc < NFILES; fdesc++)
-        if (iob[fdesc].i_flgs == 0)
-            goto gotfile;
-
-    stop("Out of file descriptors");
-
-gotfile:
+    fdesc = GetFreeFd();
     io = &iob[fdesc];
     bzero(io, sizeof(*io));
 
@@ -418,57 +430,107 @@ gotfile:
 //==========================================================================
 // open() - Open the file specified by 'path' for reading.
 
-int open(const char * path, int flags)
+static int open_bvr(BVRef bvr, const char *filePath, int flags)
 {
-    int          fdesc, i;
-    struct iob * io;
-    const char * filePath;
-    BVRef        bvr;
+	struct iob	*io;
+	int		fdesc;
+	int		i;
 
-    // Locate a free descriptor slot.
+	if (bvr == NULL) {
+		return -1;
+	}
 
-    for (fdesc = 0; fdesc < NFILES; fdesc++)
-        if (iob[fdesc].i_flgs == 0)
-            goto gotfile;
+	fdesc = GetFreeFd();
+	io = &iob[fdesc];
+	bzero(io, sizeof(*io));
 
-    stop("Out of file descriptors");
+	// Mark the descriptor as taken.
+	io->i_flgs = F_ALLOC;
 
-gotfile:
-    io = &iob[fdesc];
-    bzero(io, sizeof(*io));
+	// Find the next available memory block in the download buffer.
+	io->i_buf = (char *) LOAD_ADDR;
+	for (i = 0; i < NFILES; i++) {
+		if ((iob[i].i_flgs != F_ALLOC) || (i == fdesc)) {
+			continue;
+		}
+		io->i_buf = max(iob[i].i_filesize + iob[i].i_buf, io->i_buf);
+	}
 
-    // Mark the descriptor as taken.
+	// Load entire file into memory. Unnecessary open() calls must be avoided.
+	gFSLoadAddress = io->i_buf;
+	io->i_filesize = bvr->fs_loadfile(bvr, (char *)filePath);
+	if (io->i_filesize < 0) {
+		close(fdesc);
+		return -1;
+	}
+	return fdesc;
+}
 
-    io->i_flgs = F_ALLOC;
+int open(const char *path, int flags)
+{
+	const char	*filepath;
+	BVRef		bvr;
 
-    // Resolve the boot volume from the file spec.
+	// Resolve the boot volume from the file spec.
+	if ((bvr = getBootVolumeRef(path, &filepath)) != NULL) {
+		return open_bvr(bvr, filepath, flags);
+	}
+	return -1;
+}
 
-    if ((bvr = getBootVolumeRef(path, &filePath)) == NULL)
-        goto error;
+int open_bvdev(const char *bvd, const char *path, int flags)
+{
+        const struct devsw	*dp;
+	const char		*cp;
+	BVRef			bvr;
+	int			i;
+	int			len;
+	int			unit;
+	int			partition;
 
-    // Find the next available memory block in the download buffer.
+	if ((i = open(path, flags)) >= 0) {
+		return i;
+	}
 
-    io->i_buf = (char *) LOAD_ADDR;
-    for (i = 0; i < NFILES; i++)
-    {
-        if ((iob[i].i_flgs != F_ALLOC) || (i == fdesc)) continue;
-        io->i_buf = max(iob[i].i_filesize + iob[i].i_buf, io->i_buf);
-    }
+	if (bvd == NULL || (len = strlen(bvd)) < 2) {
+		return -1;
+	}
 
-    // Load entire file into memory. Unnecessary open() calls must
-    // be avoided.
-
-    gFSLoadAddress = io->i_buf;
-    io->i_filesize = bvr->fs_loadfile(bvr, (char *)filePath);
-    if (io->i_filesize < 0) {
-	goto error;
-    }
-
-    return fdesc;
-
-error:
-    close(fdesc);
-    return -1;
+	for (dp=devsw; dp->name; dp++) {
+		if (bvd[0] == dp->name[0] && bvd[1] == dp->name[1]) {
+			unit = 0;
+			partition = 0;
+			/* get optional unit and partition */
+			if (len >= 5 && bvd[2] == '(') { /* min must be present xx(0) */
+				cp = &bvd[3];
+				i = 0;
+				while ((cp - path) < len && isdigit(*cp)) {
+					i = i * 10 + *cp++ - '0';
+					unit = i;
+				}
+				if (*cp++ == ',') {
+					i = 0;
+					while ((cp - path) < len && isdigit(*cp)) {
+						i = i * 10 + *cp++ - '0';
+						partition = i;
+					}
+				}
+			}
+			// turbo - bt(0,0) hook
+			if ((dp->biosdev + unit) == 0x101) {
+				// zef - use the ramdisk if available and the alias is active.
+				if (gRAMDiskVolume != NULL && gRAMDiskBTAliased) {
+					bvr = gRAMDiskVolume;
+				} else {
+					bvr = gBIOSBootVolume;
+				}
+			} else {
+				bvr = newBootVolumeRef(dp->biosdev + unit, partition);
+			}
+			return open_bvr(bvr, path, flags);
+		}
+        }
+	return -1;
 }
 
 //==========================================================================
@@ -700,11 +762,11 @@ void scanDisks(int biosdev, int *count)
 
 BVRef selectBootVolume( BVRef chain )
 {
-  BOOL filteredChain = FALSE;
-	BOOL foundPrimary = FALSE;
+  bool filteredChain = false;
+	bool foundPrimary = false;
   BVRef bvr, bvr1 = 0, bvr2 = 0;
 	
-	if (chain->filtered) filteredChain = TRUE;
+	if (chain->filtered) filteredChain = true;
 	
 	if (multiboot_partition_set)
 		for ( bvr = chain; bvr; bvr = bvr->next )
@@ -719,7 +781,7 @@ BVRef selectBootVolume( BVRef chain )
   char testStr[64];
   int cnt;
 
-  if (getValueForKey("Default Partition", &val, &cnt, &bootInfo->bootConfig) && cnt >= 7 && filteredChain)
+  if (getValueForKey(kDefaultPartition, &val, &cnt, &bootInfo->bootConfig) && cnt >= 7 && filteredChain)
   {
     for ( bvr = chain; bvr; bvr = bvr->next )
     {
@@ -741,7 +803,7 @@ BVRef selectBootVolume( BVRef chain )
 	 */
   for ( bvr = chain; bvr; bvr = bvr->next )
   {
-    if ( bvr->flags & kBVFlagPrimary && bvr->biosdev == gBIOSDev ) foundPrimary = TRUE;
+    if ( bvr->flags & kBVFlagPrimary && bvr->biosdev == gBIOSDev ) foundPrimary = true;
     // zhell -- Undo a regression that was introduced from r491 to 492.
     // if gBIOSBootVolume is set already, no change is required
     if ( bvr->flags & (kBVFlagBootable|kBVFlagSystemVolume)
@@ -898,7 +960,7 @@ BVRef getBootVolumeRef( const char * path, const char ** outPath )
         if (biosdev == 0x101)
         {
           // zef - use the ramdisk if available and the alias is active.
-          if (gRAMDiskVolume != NULL && gRAMDiskBTAliased == 1)
+          if (gRAMDiskVolume != NULL && gRAMDiskBTAliased)
             bvr = gRAMDiskVolume;
           else
             bvr = gBIOSBootVolume;

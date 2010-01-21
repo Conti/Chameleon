@@ -49,6 +49,7 @@
  */
 
 #include "libsaio.h"
+#include "boot.h"
 #include "bootstruct.h"
 #include "pci.h"
 #include "platform.h"
@@ -65,6 +66,7 @@
 #define DBG(x...)
 #endif
 
+#define NVIDIA_ROM_SIZE 0x10000
 #define PATCH_ROM_SUCCESS 1
 #define PATCH_ROM_SUCCESS_HAS_LVDS 2
 #define PATCH_ROM_FAILED 0
@@ -74,63 +76,23 @@
 
 extern uint32_t devices_number;
 
-const char *nvidia_compatible_0[]	=	{ "@0,compatible",	"NVDA,NVMac"		};
-const char *nvidia_compatible_1[]	=	{ "@1,compatible",	"NVDA,NVMac"		};
-const char *nvidia_device_type_0[]	=	{ "@0,device_type",	"display"			};
-const char *nvidia_device_type_1[]	=	{ "@1,device_type",	"display"			};
-const char *nvidia_device_type[]	=	{ "device_type",	"NVDA,Parent"		};
-const char *nvidia_name_0[]			=	{ "@0,name",		"NVDA,Display-A"	};
-const char *nvidia_name_1[]			=	{ "@1,name",		"NVDA,Display-B"	};
-const char *nvidia_slot_name[]		=	{ "AAPL,slot-name",		"Slot-1"};
+const char *nvidia_compatible_0[]	=	{ "@0,compatible",	"NVDA,NVMac" };
+const char *nvidia_compatible_1[]	=	{ "@1,compatible",	"NVDA,NVMac" };
+const char *nvidia_device_type_0[]	=	{ "@0,device_type",	"display" };
+const char *nvidia_device_type_1[]	=	{ "@1,device_type",	"display" };
+const char *nvidia_device_type[]	=	{ "device_type",	"NVDA,Parent" };
+const char *nvidia_name_0[]		=	{ "@0,name",		"NVDA,Display-A" };
+const char *nvidia_name_1[]		=	{ "@1,name",		"NVDA,Display-B" };
+const char *nvidia_slot_name[]		=	{ "AAPL,slot-name",	"Slot-1" };
 
-uint8_t default_NVCAP[]= {	
-0x04, 0x00, 0x00, 0x00,
-0x00, 0x00, 0x0d, 0x00,
-0x00, 0x00, 0x00, 0x00,
-0x00, 0x00, 0x00, 0x0a,
-0x00, 0x00, 0x00, 0x00
+static uint8_t default_NVCAP[]= {
+	0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0d, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0a,
+	0x00, 0x00, 0x00, 0x00
 };
 
-uint16_t swap16(uint16_t toswap) {
-	return (((toswap & 0x00FF) << 8) | ((toswap & 0xFF00) >> 8));
-}
-
-// Known cards as of 2008/08/26
 static struct nv_chipsets_t NVKnownChipsets[] = {
 	{ 0x00000000, "Unknown" },
-	{ 0x10DE0301, "GeForce FX 5800 Ultra" },
-	{ 0x10DE0302, "GeForce FX 5800" },
-	{ 0x10DE0308, "Quadro FX 2000" },
-	{ 0x10DE0309, "Quadro FX 1000" },
-	{ 0x10DE0311, "GeForce FX 5600 Ultra" },
-	{ 0x10DE0312, "GeForce FX 5600" },
-	{ 0x10DE0314, "GeForce FX 5600XT" },
-	{ 0x10DE031A, "GeForce FX Go5600" },
-	{ 0x10DE031B, "GeForce FX Go5650" },
-	{ 0x10DE031C, "Quadro FX Go700" },
-	{ 0x10DE0324, "GeForce FX Go5200" },
-	{ 0x10DE0325, "GeForce FX Go5250" },
-	{ 0x10DE0326, "GeForce FX 5500" },
-	{ 0x10DE0328, "GeForce FX Go5200 32M/64M" },
-	{ 0x10DE032A, "Quadro NVS 55/280 PCI" },
-	{ 0x10DE032B, "Quadro FX 500/600 PCI" },
-	{ 0x10DE032C, "GeForce FX Go53xx Series" },
-	{ 0x10DE032D, "GeForce FX Go5100" },
-	{ 0x10DE0330, "GeForce FX 5900 Ultra" },
-	{ 0x10DE0331, "GeForce FX 5900" },
-	{ 0x10DE0332, "GeForce FX 5900XT" },
-	{ 0x10DE0333, "GeForce FX 5950 Ultra" },
-	{ 0x10DE0334, "GeForce FX 5900ZT" },
-	{ 0x10DE0338, "Quadro FX 3000" },
-	{ 0x10DE033F, "Quadro FX 700" },
-	{ 0x10DE0341, "GeForce FX 5700 Ultra" },
-	{ 0x10DE0342, "GeForce FX 5700" },
-	{ 0x10DE0343, "GeForce FX 5700LE" },
-	{ 0x10DE0344, "GeForce FX 5700VE" },
-	{ 0x10DE0347, "GeForce FX Go5700" },
-	{ 0x10DE0348, "GeForce FX Go5700" },
-	{ 0x10DE034C, "Quadro FX Go1000" },
-	{ 0x10DE034E, "Quadro FX 1100" },
 	{ 0x10DE0040, "GeForce 6800 Ultra" },
 	{ 0x10DE0041, "GeForce 6800" },
 	{ 0x10DE0042, "GeForce 6800 LE" },
@@ -141,6 +103,14 @@ static struct nv_chipsets_t NVKnownChipsets[] = {
 	{ 0x10DE0047, "GeForce 6800 GS" },
 	{ 0x10DE0048, "GeForce 6800 XT" },
 	{ 0x10DE004E, "Quadro FX 4000" },
+	{ 0x10DE0090, "GeForce 7800 GTX" },
+	{ 0x10DE0091, "GeForce 7800 GTX" },
+	{ 0x10DE0092, "GeForce 7800 GT" },
+	{ 0x10DE0093, "GeForce 7800 GS" },
+	{ 0x10DE0095, "GeForce 7800 SLI" },
+	{ 0x10DE0098, "GeForce Go 7800" },
+	{ 0x10DE0099, "GeForce Go 7800 GTX" },
+	{ 0x10DE009D, "Quadro FX 4500" },
 	{ 0x10DE00C0, "GeForce 6800 GS" },
 	{ 0x10DE00C1, "GeForce 6800" },
 	{ 0x10DE00C2, "GeForce 6800 LE" },
@@ -175,20 +145,11 @@ static struct nv_chipsets_t NVKnownChipsets[] = {
 	{ 0x10DE0168, "GeForce Go 6400" },
 	{ 0x10DE0169, "GeForce 6250" },
 	{ 0x10DE016A, "GeForce 7100 GS" },
-	{ 0x10DE0211, "GeForce 6800" },
-	{ 0x10DE0212, "GeForce 6800 LE" },
-	{ 0x10DE0215, "GeForce 6800 GT" },
-	{ 0x10DE0218, "GeForce 6800 XT" },
-	{ 0x10DE0221, "GeForce 6200" },
-	{ 0x10DE0222, "GeForce 6200 A-LE" },
-	{ 0x10DE0090, "GeForce 7800 GTX" },
-	{ 0x10DE0091, "GeForce 7800 GTX" },
-	{ 0x10DE0092, "GeForce 7800 GT" },
-	{ 0x10DE0093, "GeForce 7800 GS" },
-	{ 0x10DE0095, "GeForce 7800 SLI" },
-	{ 0x10DE0098, "GeForce Go 7800" },
-	{ 0x10DE0099, "GeForce Go 7800 GTX" },
-	{ 0x10DE009D, "Quadro FX 4500" },
+	{ 0x10DE0191, "GeForce 8800 GTX" },
+	{ 0x10DE0193, "GeForce 8800 GTS" },
+	{ 0x10DE0194, "GeForce 8800 Ultra" },
+	{ 0x10DE019D, "Quadro FX 5600" },
+	{ 0x10DE019E, "Quadro FX 4600" },
 	{ 0x10DE01D1, "GeForce 7300 LE" },
 	{ 0x10DE01D3, "GeForce 7300 SE" },
 	{ 0x10DE01D6, "GeForce Go 7200" },
@@ -201,6 +162,61 @@ static struct nv_chipsets_t NVKnownChipsets[] = {
 	{ 0x10DE01DD, "GeForce 7500 LE" },
 	{ 0x10DE01DE, "Quadro FX 350" },
 	{ 0x10DE01DF, "GeForce 7300 GS" },
+	{ 0x10DE0211, "GeForce 6800" },
+	{ 0x10DE0212, "GeForce 6800 LE" },
+	{ 0x10DE0215, "GeForce 6800 GT" },
+	{ 0x10DE0218, "GeForce 6800 XT" },
+	{ 0x10DE0221, "GeForce 6200" },
+	{ 0x10DE0222, "GeForce 6200 A-LE" },
+	{ 0x10DE0240, "GeForce 6150" },
+	{ 0x10DE0241, "GeForce 6150 LE" },
+	{ 0x10DE0242, "GeForce 6100" },
+	{ 0x10DE0244, "GeForce Go 6150" },
+	{ 0x10DE0247, "GeForce Go 6100" },
+	{ 0x10DE0290, "GeForce 7900 GTX" },
+	{ 0x10DE0291, "GeForce 7900 GT" },
+	{ 0x10DE0292, "GeForce 7900 GS" },
+	{ 0x10DE0298, "GeForce Go 7900 GS" },
+	{ 0x10DE0299, "GeForce Go 7900 GTX" },
+	{ 0x10DE029A, "Quadro FX 2500M" },
+	{ 0x10DE029B, "Quadro FX 1500M" },
+	{ 0x10DE029C, "Quadro FX 5500" },
+	{ 0x10DE029D, "Quadro FX 3500" },
+	{ 0x10DE029E, "Quadro FX 1500" },
+	{ 0x10DE029F, "Quadro FX 4500 X2" },
+	{ 0x10DE0301, "GeForce FX 5800 Ultra" },
+	{ 0x10DE0302, "GeForce FX 5800" },
+	{ 0x10DE0308, "Quadro FX 2000" },
+	{ 0x10DE0309, "Quadro FX 1000" },
+	{ 0x10DE0311, "GeForce FX 5600 Ultra" },
+	{ 0x10DE0312, "GeForce FX 5600" },
+	{ 0x10DE0314, "GeForce FX 5600XT" },
+	{ 0x10DE031A, "GeForce FX Go5600" },
+	{ 0x10DE031B, "GeForce FX Go5650" },
+	{ 0x10DE031C, "Quadro FX Go700" },
+	{ 0x10DE0324, "GeForce FX Go5200" },
+	{ 0x10DE0325, "GeForce FX Go5250" },
+	{ 0x10DE0326, "GeForce FX 5500" },
+	{ 0x10DE0328, "GeForce FX Go5200 32M/64M" },
+	{ 0x10DE032A, "Quadro NVS 55/280 PCI" },
+	{ 0x10DE032B, "Quadro FX 500/600 PCI" },
+	{ 0x10DE032C, "GeForce FX Go53xx Series" },
+	{ 0x10DE032D, "GeForce FX Go5100" },
+	{ 0x10DE0330, "GeForce FX 5900 Ultra" },
+	{ 0x10DE0331, "GeForce FX 5900" },
+	{ 0x10DE0332, "GeForce FX 5900XT" },
+	{ 0x10DE0333, "GeForce FX 5950 Ultra" },
+	{ 0x10DE0334, "GeForce FX 5900ZT" },
+	{ 0x10DE0338, "Quadro FX 3000" },
+	{ 0x10DE033F, "Quadro FX 700" },
+	{ 0x10DE0341, "GeForce FX 5700 Ultra" },
+	{ 0x10DE0342, "GeForce FX 5700" },
+	{ 0x10DE0343, "GeForce FX 5700LE" },
+	{ 0x10DE0344, "GeForce FX 5700VE" },
+	{ 0x10DE0347, "GeForce FX Go5700" },
+	{ 0x10DE0348, "GeForce FX Go5700" },
+	{ 0x10DE034C, "Quadro FX Go1000" },
+	{ 0x10DE034E, "Quadro FX 1100" },
 	{ 0x10DE0391, "GeForce 7600 GT" },
 	{ 0x10DE0392, "GeForce 7600 GS" },
 	{ 0x10DE0393, "GeForce 7300 GT" },
@@ -213,29 +229,6 @@ static struct nv_chipsets_t NVKnownChipsets[] = {
 	{ 0x10DE039B, "GeForce Go 7900 SE" },
 	{ 0x10DE039C, "Quadro FX 550M" },
 	{ 0x10DE039E, "Quadro FX 560" },
-	{ 0x10DE0290, "GeForce 7900 GTX" },
-	{ 0x10DE0291, "GeForce 7900 GT" },
-	{ 0x10DE0292, "GeForce 7900 GS" },
-	{ 0x10DE0298, "GeForce Go 7900 GS" },
-	{ 0x10DE0299, "GeForce Go 7900 GTX" },
-	{ 0x10DE029A, "Quadro FX 2500M" },
-	{ 0x10DE029B, "Quadro FX 1500M" },
-	{ 0x10DE029C, "Quadro FX 5500" },
-	{ 0x10DE029D, "Quadro FX 3500" },
-	{ 0x10DE029E, "Quadro FX 1500" },
-	{ 0x10DE029F, "Quadro FX 4500 X2" },
-	{ 0x10DE0240, "GeForce 6150" },
-	{ 0x10DE0241, "GeForce 6150 LE" },
-	{ 0x10DE0242, "GeForce 6100" },
-	{ 0x10DE0244, "GeForce Go 6150" },
-	{ 0x10DE0247, "GeForce Go 6100" },
-
-	/*************** G8x ***************/
-	{ 0x10DE0191, "GeForce 8800 GTX" },
-	{ 0x10DE0193, "GeForce 8800 GTS" },
-	{ 0x10DE0194, "GeForce 8800 Ultra" },
-	{ 0x10DE019D, "Quadro FX 5600" },
-	{ 0x10DE019E, "Quadro FX 4600" },
 	{ 0x10DE0400, "GeForce 8600 GTS" },
 	{ 0x10DE0401, "GeForce 8600 GT" },
 	{ 0x10DE0402, "GeForce 8600 GT" },
@@ -267,8 +260,11 @@ static struct nv_chipsets_t NVKnownChipsets[] = {
 	{ 0x10DE042D, "Quadro FX 360M" },
 	{ 0x10DE042E, "GeForce 9300M G" },
 	{ 0x10DE042F, "Quadro NVS 290" },
+	{ 0x10DE05E0, "GeForce GTX 295" },
 	{ 0x10DE05E1, "GeForce GTX 280" },
 	{ 0x10DE05E2, "GeForce GTX 260" },
+	{ 0x10DE05E3, "GeForce GTX 285" },
+	{ 0x10DE05E6, "GeForce GTX 275" },
 	{ 0x10DE0600, "GeForce 8800 GTS 512" },
 	{ 0x10DE0602, "GeForce 8800 GT" },
 	{ 0x10DE0604, "GeForce 9800 GX2" },
@@ -282,15 +278,22 @@ static struct nv_chipsets_t NVKnownChipsets[] = {
 	{ 0x10DE0612, "GeForce 9800 GTX" },
 	{ 0x10DE0613, "GeForce 9800 GTX+" },
 	{ 0x10DE0614, "GeForce 9800 GT" },
-	{ 0x10DE0615, "GeForce 250 GTS" },
 	{ 0x10DE061A, "Quadro FX 3700" },
 	{ 0x10DE061C, "Quadro FX 3600M" },
 	{ 0x10DE0622, "GeForce 9600 GT" },
 	{ 0x10DE0623, "GeForce 9600 GS" },
+	{ 0x10DE0626, "GeForce GT 130" },
+	{ 0x10DE0627, "GeForce GT 140" },
 	{ 0x10DE0628, "GeForce 9800M GTS" },
 	{ 0x10DE062A, "GeForce 9700M GTS" },
 	{ 0x10DE062C, "GeForce 9800M GTS" },
 	{ 0x10DE0640, "GeForce 9500 GT" },
+	{ 0x10DE0641, "GeForce 9400 GT" },
+	{ 0x10DE0642, "GeForce 8400 GS" },
+	{ 0x10DE0643, "GeForce 9500 GT" },
+	{ 0x10DE0644, "GeForce 9500 GS" },
+	{ 0x10DE0645, "GeForce 9500 GS" },
+	{ 0x10DE0646, "GeForce GT 120" },
 	{ 0x10DE0647, "GeForce 9600M GT" },
 	{ 0x10DE0648, "GeForce 9600M GS" },
 	{ 0x10DE0649, "GeForce 9600M GT" },
@@ -303,34 +306,37 @@ static struct nv_chipsets_t NVKnownChipsets[] = {
 	{ 0x10DE06E9, "GeForce 9300M GS" },
 	{ 0x10DE06EA, "Quadro NVS 150M" },
 	{ 0x10DE06EB, "Quadro NVS 160M" },
-
-	/*************** GT2xx *************/
-	{ 0x10DE05E0, "GeForce GTX 295" },
-	{ 0x10DE05E1, "GeForce GTX 280" },
-	{ 0x10DE05E2, "GeForce GTX 260" },
-	{ 0x10DE05E3, "GeForce GTX 285" },
-	{ 0x10DE05E6, "GeForce GTX 275" },
+	{ 0x10DE0A20, "GeForce GT220" },
+	{ 0x10DE0A60, "GeForce G210" },
+	{ 0x10DE0A65, "GeForce 210" }
 };
 
-uint32_t swap32(uint32_t toswap) {
-	return  ((toswap & 0x000000FF) << 24) |
-	((toswap & 0x0000FF00) << 8 ) |
-	((toswap & 0x00FF0000) >> 8 ) |
-	((toswap & 0xFF000000) >> 24);
-}	
-
-uint8_t  read8(uint8_t *ptr, uint16_t offset) { 
-	return ptr[offset];
+static uint16_t swap16(uint16_t x)
+{
+	return (((x & 0x00FF) << 8) | ((x & 0xFF00) >> 8));
 }
 
-uint16_t read16(uint8_t *ptr, uint16_t offset) {
+static uint16_t read16(uint8_t *ptr, uint16_t offset)
+{
 	uint8_t ret[2];
 	ret[0] = ptr[offset+1];
 	ret[1] = ptr[offset];
 	return *((uint16_t*)&ret);
 }
 
-uint32_t read32(uint8_t *ptr, uint16_t offset) {
+#if 0
+static uint32_t swap32(uint32_t x)
+{
+	return ((x & 0x000000FF) << 24) | ((x & 0x0000FF00) << 8 ) | ((x & 0x00FF0000) >> 8 ) | ((x & 0xFF000000) >> 24);
+}
+
+static uint8_t  read8(uint8_t *ptr, uint16_t offset)
+{ 
+	return ptr[offset];
+}
+
+static uint32_t read32(uint8_t *ptr, uint16_t offset)
+{
 	uint8_t ret[4];
 	ret[0] = ptr[offset+3];
 	ret[1] = ptr[offset+2];
@@ -338,9 +344,11 @@ uint32_t read32(uint8_t *ptr, uint16_t offset) {
 	ret[3] = ptr[offset];
 	return *((uint32_t*)&ret);
 }
- 
-int patch_nvidia_rom(uint8_t *rom) {
-	if(!rom || (rom[0] != 0x55 && rom[1] != 0xaa)) {
+#endif
+
+static int patch_nvidia_rom(uint8_t *rom)
+{
+	if (!rom || (rom[0] != 0x55 && rom[1] != 0xaa)) {
 		printf("False ROM signature: 0x%02x%02x\n", rom[0], rom[1]);
 		return PATCH_ROM_FAILED;
 	}
@@ -515,48 +523,43 @@ int patch_nvidia_rom(uint8_t *rom) {
 	return (has_lvds ? PATCH_ROM_SUCCESS_HAS_LVDS : PATCH_ROM_SUCCESS);
 }
 
-char *get_nvidia_model(uint32_t id) {
-	int i=0;
-	for(i = 0; i <  (sizeof(NVKnownChipsets) / sizeof(NVKnownChipsets[0])); i++) {
-		if(NVKnownChipsets[i].device == id)
+static char *get_nvidia_model(uint32_t id) {
+	int	i;
+
+	for (i=1; i< (sizeof(NVKnownChipsets) / sizeof(NVKnownChipsets[0])); i++) {
+		if (NVKnownChipsets[i].device == id) {
 			return NVKnownChipsets[i].name;
+		}
 	}
 	return NVKnownChipsets[0].name;
 }
 
-uint32_t load_nvidia_bios_file(char *filename, char *buffer)
+static uint32_t load_nvidia_bios_file(const char *filename, uint8_t *buf, int bufsize)
 {
-	int		fd, size;
-	char	dirspec[128];
+	int	fd;
+	int	size;
 
-	// Check booting partition
-	sprintf(dirspec, "%s", filename);
-	fd = open(dirspec, 0);
-	if (fd < 0)
-	{	
-		// Check Extra on booting partition
-		sprintf(dirspec, "/Extra/%s", filename);
-		fd = open(dirspec, 0);
-		if (fd < 0)
-		{	
-			// Fall back to booter partition
-			sprintf(dirspec, "bt(0,0)/Extra/%s", filename);
-			fd=open (dirspec, 0);
-			if (fd < 0)
-				return 0;
-		}
+	if ((fd = open_bvdev("bt(0,0)", filename, 0)) < 0) {
+		return 0;
 	}
-
-	size = read(fd, buffer, file_size (fd));
-	close (fd);
-	return  size;
+	size = file_size(fd);
+	if (size > bufsize) {
+		printf("Filesize of %s is bigger than expected! Truncating to 0x%x Bytes!\n", filename, bufsize);
+		size = bufsize;
+	}
+	size = read(fd, (char *)buf, size);
+	close(fd);
+	return size;
 }
 
-int devprop_add_nvidia_template(struct DevPropDevice *device)
+static int devprop_add_nvidia_template(struct DevPropDevice *device)
 {
+	char	tmp[16]; 
+	int	len;
+
 	if(!device)
 		return 0;
-	
+
 	if(!DP_ADD_TEMP_VAL(device, nvidia_compatible_0))
 		return 0;
 	if(!DP_ADD_TEMP_VAL(device, nvidia_device_type_0))
@@ -571,176 +574,136 @@ int devprop_add_nvidia_template(struct DevPropDevice *device)
 		return 0;
 	if(!DP_ADD_TEMP_VAL(device, nvidia_device_type))
 		return 0;
-
-	char tmp[10];
-	sprintf(tmp, "Slot-%x",devices_number);
-	devprop_add_value(device, "AAPL,slot-name", tmp, strlen(tmp));
+	len = sprintf(tmp, "Slot-%x", devices_number);
+	devprop_add_value(device, "AAPL,slot-name", (uint8_t *)tmp, len + 1);
 	devices_number++;
-	
+
 	return 1;
 }
 
-
 bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 {
-	int			len;
-	char		*devicepath;
-	uint8_t		*nvRom, *rom;
-	volatile uint8_t *regs;
-	uint32_t	videoRam, nvBiosOveride, nvBiosSize;
-	uint32_t	bar[7];
-	uint8_t		nvPatch = 0;
-	
-	char		biosVersion[32];
-	char		*model;
-	const char	*nvFilename;
+	struct DevPropDevice		*device;
+	char				*devicepath;
+	struct pci_rom_pci_header_t	*rom_pci_header;	
+	volatile uint8_t		*regs;
+	uint8_t				*rom;
+	uint8_t				*nvRom;
+	uint32_t			videoRam;
+	uint32_t			nvBiosOveride;
+	uint32_t			bar[7];
+	uint32_t			boot_display;
+	int				nvPatch;
+	char				biosVersion[32];
+	char				nvFilename[32];
+	char				*model;
+	bool				doit;
 
 	devicepath = get_pci_dev_path(nvda_dev);
-
 	bar[0] = pci_config_read32(nvda_dev->dev.addr, 0x10 );
 	regs = (uint8_t *) (bar[0] & ~0x0f);
-	
+
 	// Amount of VRAM in kilobytes
 	videoRam = (REG32(0x10020c) & 0xfff00000) >> 10;
-
 	model = get_nvidia_model((nvda_dev->vendor_id << 16) | nvda_dev->device_id);
 
 	verbose("nVidia %s %dMB NV%02x [%04x:%04x] :: %s\n",  
-			model, (videoRam / 1024),
-			(REG32(0) >> 20) & 0x1ff, nvda_dev->vendor_id, nvda_dev->device_id,
-			devicepath);
+		model, (videoRam / 1024),
+		(REG32(0) >> 20) & 0x1ff, nvda_dev->vendor_id, nvda_dev->device_id,
+		devicepath);
 
-	rom = malloc(0x10000);
+	rom = malloc(NVIDIA_ROM_SIZE);
+	sprintf(nvFilename, "/Extra/%04x_%04x.rom", (uint16_t)nvda_dev->vendor_id, (uint16_t)nvda_dev->device_id);
+	if (getBoolForKey(kUseNvidiaROM, &doit, &bootInfo->bootConfig) && doit) {
+		verbose("Looking for nvidia video bios file %s\n", nvFilename);
+		nvBiosOveride = load_nvidia_bios_file(nvFilename, rom, NVIDIA_ROM_SIZE);
+		DBG("%s Signature 0x%02x%02x %d bytes\n", nvFilename, rom[0], rom[1], nvBiosOveride);
+	} else {
+		// Otherwise read bios from card
+		nvBiosOveride = 0;
 
-	if(!rom)
-	{
-		verbose(" ROM malloc failed.\n");
-		return 0;
-	}
+		// TODO: we should really check for the signature before copying the rom, i think.
 
-	if (!getValueForKey("VideoROM", &nvFilename, &len, &bootInfo->bootConfig))
-		nvFilename="NVIDIA.ROM";
-	
-	// Load video bios overide
-	nvBiosOveride = nvBiosSize = load_nvidia_bios_file((char *)nvFilename, (char *)rom);
-	 
-	// Otherwise read bios from card
-	if (nvBiosOveride == 0)
-	{	
-		// TODO: we should really check for the signature
-		//		 before copying the rom, i think.
-		
 		// PRAMIN first
 		nvRom = (uint8_t*)&regs[NV_PRAMIN_OFFSET];
-		bcopy((uint32_t *)nvRom, rom, 0x10000);
+		bcopy((uint32_t *)nvRom, rom, NVIDIA_ROM_SIZE);
 		
 		// Valid Signature ?
-		if(rom[0] != 0x55 && rom[1] != 0xaa)
-		{
+		if (rom[0] != 0x55 && rom[1] != 0xaa) {
 			// PROM next
 			// Enable PROM access
 			(REG32(NV_PBUS_PCI_NV_20)) = NV_PBUS_PCI_NV_20_ROM_SHADOW_DISABLED;
 
 			nvRom = (uint8_t*)&regs[NV_PROM_OFFSET];
-			bcopy((uint8_t *)nvRom, rom, 0x10000);
+			bcopy((uint8_t *)nvRom, rom, NVIDIA_ROM_SIZE);
 			
 			// disable PROM access
 			(REG32(NV_PBUS_PCI_NV_20)) = NV_PBUS_PCI_NV_20_ROM_SHADOW_ENABLED;	
 
 			// Valid Signature ?
-			if(rom[0] != 0x55 && rom[1] != 0xaa)
-			{
+			if (rom[0] != 0x55 && rom[1] != 0xaa) {
 				// 0xC0000 last
-				bcopy((char *)0xc0000, rom, 0x10000);
+				bcopy((char *)0xc0000, rom, NVIDIA_ROM_SIZE);
 				
 				// Valid Signature ?
-				if(rom[0] != 0x55 && rom[1] != 0xaa)
-				{
-					verbose(" Unable to locate video bios.\n");
+				if (rom[0] != 0x55 && rom[1] != 0xaa) {
+					verbose("Unable to locate video bios.\n");
 					return 0;
-				} 
-				else
-					DBG(" ROM Address 0x%x Signature 0x%02x%02x\n", 
-						nvRom, (uint8_t)rom[0], (uint8_t)rom[1]);
+				} else {
+					DBG("ROM Address 0x%x Signature 0x%02x%02x\n", nvRom, rom[0], rom[1]);
+				}
+			} else {
+				DBG("PROM Address 0x%x Signature 0x%02x%02x\n", nvRom, rom[0], rom[1]);
 			}
-			else
-				DBG(" PROM Address 0x%x Signature 0x%02x%02x\n", 
-					nvRom, (uint8_t)rom[0], (uint8_t)rom[1]);
+		} else {
+			DBG("PRAM Address 0x%x Signature 0x%02x%02x\n", nvRom, rom[0], rom[1]);
 		}
-		else
-			DBG(" PRAM Address 0x%x Signature 0x%02x%02x\n", 
-				nvRom, (uint8_t)rom[0], (uint8_t)rom[1]);
 	}
-	else
-		DBG(" %s Signature 0x%02x%02x %d bytes\n", 
-			nvFilename, (uint8_t)rom[0], (uint8_t)rom[1], nvBiosOveride);
 
-	nvPatch = patch_nvidia_rom(rom);
-
-	if(nvPatch == PATCH_ROM_FAILED)
-	{
-		printf(" ROM Patching Failed.\n");
+	if ((nvPatch = patch_nvidia_rom(rom)) == PATCH_ROM_FAILED) {
+		printf("nVidia ROM Patching Failed!\n");
 		return false;
 	}
 
-	struct	pci_rom_pci_header_t *rom_pci_header;	
 	rom_pci_header = (struct pci_rom_pci_header_t*)(rom + *(uint16_t *)&rom[24]);
 
 	// check for 'PCIR' sig
-	if (rom_pci_header->signature == 0x50434952)
-		if (rom_pci_header->device != nvda_dev->device_id)
+	if (rom_pci_header->signature == 0x50434952) {
+		if (rom_pci_header->device != nvda_dev->device_id) {
 			// Get Model from the OpROM
 			model = get_nvidia_model((rom_pci_header->vendor << 16) | rom_pci_header->device);
-	else
-		printf("incorrect PCI ROM sig: 0x%x\n", rom_pci_header->signature);
-
-	if (!string)
-		string = devprop_create_string();
-
-	struct DevPropDevice *device = malloc(sizeof(struct DevPropDevice));
-	device = devprop_add_device(string, devicepath);
-	
-	if(!device)
-	{
-		printf("Failed initializing dev-prop string dev-entry, press any key...\n");
-		free(rom);
-		getc();
-		return false;
+		} else {
+			printf("nVidia incorrect PCI ROM signature: 0x%x\n", rom_pci_header->signature);
+		}
 	}
 
+	if (!string) {
+		string = devprop_create_string();
+	}
+	device = devprop_add_device(string, devicepath);
+
 	/* FIXME: for primary graphics card only */
-	uint32_t boot_display = 0x00000001;
+	boot_display = 1;
 	devprop_add_value(device, "@0,AAPL,boot-display", (uint8_t*)&boot_display, 4);
 
-	if(nvPatch == PATCH_ROM_SUCCESS_HAS_LVDS)
-	{
+	if(nvPatch == PATCH_ROM_SUCCESS_HAS_LVDS) {
 		uint8_t built_in = 0x01;
-		devprop_add_value(device, "@0,built-in", (uint8_t*)&built_in, 1);
+		devprop_add_value(device, "@0,built-in", &built_in, 1);
 	}
 
 	videoRam *= 1024;
-
 	sprintf(biosVersion, "xx.xx.xx - %s", (nvBiosOveride > 0) ? nvFilename : "internal");
 	
 	devprop_add_nvidia_template(device);
 	devprop_add_value(device, "NVCAP", default_NVCAP, 20);
 	devprop_add_value(device, "VRAM,totalsize", (uint8_t*)&videoRam, 4);
-	devprop_add_value(device, "model", (uint8_t*)model, (strlen(model) + 1));
-	devprop_add_value(device, "rom-revision", (uint8_t*)biosVersion, (strlen(biosVersion) + 1));
-
-	BOOL set_vbios_prop = false;
-	getBoolForKey("VBIOS", &set_vbios_prop, &bootInfo->bootConfig);
-	if (set_vbios_prop)
+	devprop_add_value(device, "model", (uint8_t*)model, strlen(model) + 1);
+	devprop_add_value(device, "rom-revision", (uint8_t*)biosVersion, strlen(biosVersion) + 1);
+	if (getBoolForKey(kVBIOS, &doit, &bootInfo->bootConfig) && doit) {
 		devprop_add_value(device, "vbios", rom, (nvBiosOveride > 0) ? nvBiosOveride : (rom[2] * 512));
+	}
 
 	stringdata = malloc(sizeof(uint8_t) * string->length);
-	if(!stringdata)
-	{
-		printf("no stringdata press a key...\n");
-		getc();
-		return false;
-	}
-	
 	memcpy(stringdata, (uint8_t*)devprop_generate_string(string), string->length);
 	stringlength = string->length;
 

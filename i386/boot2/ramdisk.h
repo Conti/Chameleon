@@ -18,9 +18,9 @@ extern int multiboot_get_ramdisk_info(int biosdev, struct driveInfo *dip);
 //
 
 extern BVRef gRAMDiskVolume;
-extern BOOL gRAMDiskBTAliased;
+extern bool gRAMDiskBTAliased;
 
-extern void setRAMDiskBTHook(BOOL mode);
+extern void setRAMDiskBTHook(bool mode);
 extern int mountRAMDisk(const char * param);
 extern void processRAMDiskCommand(char ** argPtr, const char * cmd);
 extern int loadPrebootRAMDisk();

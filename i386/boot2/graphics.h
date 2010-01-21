@@ -19,8 +19,6 @@
 #define DEFAULT_SCREEN_HEIGHT 768
 
 int loadPngImage(const char *filename, uint16_t *width, uint16_t *height, uint8_t **imageData);
-int loadPixmapFromPng(const char *filename, pixmap_t *p);
-int loadPixmapFromEmbeddedPng(uint8_t *pngData, uint32_t pngSize, pixmap_t *p);
 
 unsigned long lookUpCLUTIndex( unsigned char index, unsigned char depth );
 

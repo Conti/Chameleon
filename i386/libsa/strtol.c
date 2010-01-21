@@ -74,37 +74,6 @@ static char sccsid[] = "@(#)strtol.c	5.4 (Berkeley) 2/23/91";
 #include "libsa.h"
 #include <limits.h>
 
-static inline int
-isupper(char c)
-{
-    return (c >= 'A' && c <= 'Z');
-}
-
-static inline int
-islower(char c)
-{
-    return (c >= 'a' && c <= 'z');
-}
-
-static inline int
-isalpha(char c)
-{
-    return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
-}
-
-static inline int
-isspace(char c)
-{
-    return (c == ' ' || c == '\t' || c == '\n' || c == '\12');
-}
-
-static inline int
-isdigit(char c)
-{
-    return (c >= '0' && c <= '9');
-}
-
-
 /*
  * Convert a string to a long integer.
  *

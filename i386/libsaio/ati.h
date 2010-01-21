@@ -37,11 +37,6 @@ struct ati_data_key {
 	uint8_t data[];
 };
 
-struct bios {
-	uint16_t	signature;		/* 0x55AA */
-	uint8_t		size;			/* Size in multiples of 512 */
-};
-
 #define REG8(reg)  ((volatile uint8_t *)regs)[(reg)]
 #define REG16(reg)  ((volatile uint16_t *)regs)[(reg) >> 1]
 #define REG32R(reg)  ((volatile uint32_t *)regs)[(reg) >> 2]

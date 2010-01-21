@@ -23,6 +23,7 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <mach/mach.h>
 #include <mach/mach_error.h>
 #include <sys/file.h>
@@ -35,7 +36,7 @@ int	infile, outfile;
 struct mach_header	mh;
 void *		cmds;
 
-boolean_t		swap_ends;
+static bool	swap_ends;
 
 static unsigned long swap(
     unsigned long x
@@ -85,9 +86,9 @@ usage:
 	exit(1);
     }
     if (mh.magic == MH_MAGIC)
-	swap_ends = FALSE;
+	swap_ends = false;
     else if (mh.magic == MH_CIGAM)
-	swap_ends = TRUE;
+	swap_ends = true;
     else {
     	fprintf(stderr, "bad magic number %lx\n", (unsigned long)mh.magic);
 	exit(1);
@@ -110,7 +111,7 @@ usage:
 
     for (	ncmds = swap(mh.ncmds), cp = cmds;
 		ncmds > 0; ncmds--) {
-	    boolean_t	isDATA;
+	    bool	isDATA;
 	    unsigned	vmsize;
 
 #define lcp	((struct load_command *)cp)    
@@ -123,7 +124,7 @@ usage:
 	    	vmsize = swap(scp->filesize);
 	    else
 	    	vmsize = swap(scp->vmsize);
-	    result = vm_allocate(mach_task_self(), &data, vmsize, TRUE);
+	    result = vm_allocate(mach_task_self(), &data, vmsize, true);
 	    if (result != KERN_SUCCESS) {
 		mach_error("vm_allocate segment data", result);
 		exit(1);

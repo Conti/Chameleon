@@ -1,9 +1,56 @@
 /*
  * Copyright 2008 Islam Ahmed Zaid. All rights reserved.  <azismed@gmail.com>
+ * AsereBLN: 2009: cleanup and bugfix
  */
 
 #include "libsaio.h"
-#include "freq_detect.h"
+#include "platform.h"
+#include "cpu.h"
+
+#ifndef DEBUG_CPU
+#define DEBUG_CPU 0
+#endif
+
+#if DEBUG_CPU
+#define DBG(x...)		printf(x)
+#else
+#define DBG(x...)
+#endif
+
+
+static inline uint64_t rdtsc64(void)
+{
+	uint64_t ret;
+	__asm__ volatile("rdtsc" : "=A" (ret));
+	return ret;
+}
+
+static inline uint64_t rdmsr64(uint32_t msr)
+{
+    uint64_t ret;
+    __asm__ volatile("rdmsr" : "=A" (ret) : "c" (msr));
+    return ret;
+}
+
+static inline void do_cpuid(uint32_t selector, uint32_t *data)
+{
+	asm volatile ("cpuid"
+	  : "=a" (data[0]),
+	  "=b" (data[1]),
+	  "=c" (data[2]),
+	  "=d" (data[3])
+	  : "a" (selector));
+}
+
+static inline void do_cpuid2(uint32_t selector, uint32_t selector2, uint32_t *data)
+{
+	asm volatile ("cpuid"
+	  : "=a" (data[0]),
+	  "=b" (data[1]),
+	  "=c" (data[2]),
+	  "=d" (data[3])
+	  : "a" (selector), "c" (selector2));
+}
 
 // DFE: enable_PIT2 and disable_PIT2 come from older xnu
 
@@ -13,8 +60,7 @@
  *   bit 0 gates the clock,
  *   bit 1 gates output to speaker.
  */
-inline static void
-enable_PIT2(void)
+static inline void enable_PIT2(void)
 {
     /* Enable gate, disable speaker */
     __asm__ volatile(
@@ -25,8 +71,7 @@ enable_PIT2(void)
         : : : "%al" );
 }
 
-inline static void
-disable_PIT2(void)
+static inline void disable_PIT2(void)
 {
     /* Disable gate and output to speaker */
     __asm__ volatile(
@@ -73,7 +118,7 @@ static inline unsigned long poll_PIT2_gate(void)
 /*
  * DFE: Measures the TSC frequency in Hz (64-bit) using the ACPI PM timer
  */
-uint64_t measure_tsc_frequency(void)
+static uint64_t measure_tsc_frequency(void)
 {
     uint64_t tscStart;
     uint64_t tscEnd;
@@ -91,7 +136,7 @@ uint64_t measure_tsc_frequency(void)
      * running under a VM if the TSC is not virtualized and the host
      * steals time.  The TSC is normally virtualized for VMware.
      */
-    for(i = 0; i < 3; ++i)
+    for(i = 0; i < 10; ++i)
     {
         enable_PIT2();
         set_PIT2_mode0(CALIBRATE_LATCH);
@@ -134,10 +179,6 @@ uint64_t measure_tsc_frequency(void)
     return retval;
 }
 
-uint64_t tscFrequency = 0;
-uint64_t fsbFrequency = 0;
-uint64_t cpuFrequency = 0;
-
 /*
  * Calculates the FSB and CPU frequencies using specific MSRs for each CPU
  * - multi. is read from a specific MSR. In the case of Intel, there is:
@@ -147,125 +188,155 @@ uint64_t cpuFrequency = 0;
  * - cpuFrequency = fsbFrequency * multi
  */
 
-void calculate_freq(void)
+void scan_cpu(PlatformInfo_t *p)
 {
-	uint32_t	cpuid_reg[4], cpu_vendor;
-	uint8_t		cpu_family, cpu_model, cpu_extfamily, cpu_extmodel;
+	uint64_t	tscFrequency, fsbFrequency, cpuFrequency;
 	uint64_t	msr, flex_ratio;
 	uint8_t		maxcoef, maxdiv, currcoef, currdiv;
-	
-	do_cpuid(0, cpuid_reg);
-	cpu_vendor = cpuid_reg[1];
-	
-	do_cpuid(1, cpuid_reg);
-	cpu_model = bitfield(cpuid_reg[0], 7, 4);
-	cpu_family = bitfield(cpuid_reg[0], 11, 8);
-	cpu_extmodel = bitfield(cpuid_reg[0], 19, 16);
-	cpu_extfamily = bitfield(cpuid_reg[0], 27, 20);
-	
-	cpu_model += (cpu_extmodel << 4);
 
-	DBG("\nCPU Model: %d - CPU Family: %d - CPU Ext. Family: %d\n", cpu_model, cpu_family, cpu_extfamily);
-	DBG("The booter will now attempt to read the CPU Multiplier (using RDMSR).\n");
-	DBG("Press any key to continue..\n\n");
-#if DEBUG_FREQ
-    getc();
+	maxcoef = maxdiv = currcoef = currdiv = 0;
+
+	/* get cpuid values */
+	do_cpuid(0x00000000, p->CPU.CPUID[CPUID_0]);
+	do_cpuid(0x00000001, p->CPU.CPUID[CPUID_1]);
+	do_cpuid(0x00000002, p->CPU.CPUID[CPUID_2]);
+	do_cpuid(0x00000003, p->CPU.CPUID[CPUID_3]);
+	do_cpuid2(0x00000004, 0, p->CPU.CPUID[CPUID_4]);
+	do_cpuid(0x80000000, p->CPU.CPUID[CPUID_80]);
+	if ((p->CPU.CPUID[CPUID_80][0] & 0x0000000f) >= 1) {
+		do_cpuid(0x80000001, p->CPU.CPUID[CPUID_81]);
+	}
+#if DEBUG_CPU
+	{
+		int		i;
+		printf("CPUID Raw Values:\n");
+		for (i=0; i<CPUID_MAX; i++) {
+			printf("%02d: %08x-%08x-%08x-%08x\n", i,
+				p->CPU.CPUID[i][0], p->CPU.CPUID[i][1],
+				p->CPU.CPUID[i][2], p->CPU.CPUID[i][3]);
+		}
+	}
 #endif
+	p->CPU.Vendor		= p->CPU.CPUID[CPUID_0][1];
+	p->CPU.Model		= bitfield(p->CPU.CPUID[CPUID_1][0], 7, 4);
+	p->CPU.Family		= bitfield(p->CPU.CPUID[CPUID_1][0], 11, 8);
+	p->CPU.ExtModel		= bitfield(p->CPU.CPUID[CPUID_1][0], 19, 16);
+	p->CPU.ExtFamily	= bitfield(p->CPU.CPUID[CPUID_1][0], 27, 20);
+	p->CPU.NoThreads	= bitfield(p->CPU.CPUID[CPUID_1][1], 23, 16);
+	p->CPU.NoCores		= bitfield(p->CPU.CPUID[CPUID_4][0], 31, 26) + 1;
+
+	p->CPU.Model += (p->CPU.ExtModel << 4);
+
+	/* setup features */
+	if ((bit(23) & p->CPU.CPUID[CPUID_1][3]) != 0) {
+		p->CPU.Features |= CPU_FEATURE_MMX;
+	}
+	if ((bit(25) & p->CPU.CPUID[CPUID_1][3]) != 0) {
+		p->CPU.Features |= CPU_FEATURE_SSE;
+	}
+	if ((bit(26) & p->CPU.CPUID[CPUID_1][3]) != 0) {
+		p->CPU.Features |= CPU_FEATURE_SSE2;
+	}
+	if ((bit(0) & p->CPU.CPUID[CPUID_1][2]) != 0) {
+		p->CPU.Features |= CPU_FEATURE_SSE3;
+	}
+	if ((bit(19) & p->CPU.CPUID[CPUID_1][2]) != 0) {
+		p->CPU.Features |= CPU_FEATURE_SSE41;
+	}
+	if ((bit(20) & p->CPU.CPUID[CPUID_1][2]) != 0) {
+		p->CPU.Features |= CPU_FEATURE_SSE42;
+	}
+	if ((bit(29) & p->CPU.CPUID[CPUID_81][3]) != 0) {
+		p->CPU.Features |= CPU_FEATURE_EM64T;
+	}
+	//if ((bit(28) & p->CPU.CPUID[CPUID_1][3]) != 0) {
+	if (p->CPU.NoThreads > p->CPU.NoCores) {
+		p->CPU.Features |= CPU_FEATURE_HTT;
+	}
 
 	tscFrequency = measure_tsc_frequency();
+	fsbFrequency = 0;
+	cpuFrequency = 0;
 
-	DBG("CPU Multiplier: ");
-
-	if((cpu_vendor == 0x756E6547 /* Intel */) && ((cpu_family == 0x06) || (cpu_family == 0x0f)))
-	{
-		if ((cpu_family == 0x06 && cpu_model >= 0x0c) ||
-			(cpu_family == 0x0f && cpu_model >= 0x03))
-		{
+	if ((p->CPU.Vendor == 0x756E6547 /* Intel */) && ((p->CPU.Family == 0x06) || (p->CPU.Family == 0x0f))) {
+		if ((p->CPU.Family == 0x06 && p->CPU.Model >= 0x0c) || (p->CPU.Family == 0x0f && p->CPU.Model >= 0x03)) {
 			/* Nehalem CPU model */
-			if (cpu_family == 0x06 && (cpu_model == 0x1a || cpu_model == 0x1e))
-			{
+			if (p->CPU.Family == 0x06 && (p->CPU.Model == 0x1a || p->CPU.Model == 0x1e)) {
 				msr = rdmsr64(MSR_PLATFORM_INFO);
+				DBG("msr(%d): platform_info %08x\n", __LINE__, msr & 0xffffffff);
 				currcoef = (msr >> 8) & 0xff;
 				msr = rdmsr64(MSR_FLEX_RATIO);
-				if ((msr >> 16) & 0x01)
-				{
+				DBG("msr(%d): flex_ratio %08x\n", __LINE__, msr & 0xffffffff);
+				if ((msr >> 16) & 0x01) {
 					flex_ratio = (msr >> 8) & 0xff;
-					if (currcoef > flex_ratio)
+					if (currcoef > flex_ratio) {
 						currcoef = flex_ratio;
+					}
 				}
 
-				if (currcoef)
-				{
-					DBG("%d\n", currcoef);
+				if (currcoef) {
 					fsbFrequency = (tscFrequency / currcoef);
 				}
 				cpuFrequency = tscFrequency;
-			}
-			else
-			{
+			} else {
 				msr = rdmsr64(IA32_PERF_STATUS);
+				DBG("msr(%d): ia32_perf_stat 0x%08x\n", __LINE__, msr & 0xffffffff);
 				currcoef = (msr >> 8) & 0x1f;
 				/* Non-integer bus ratio for the max-multi*/
 				maxdiv = (msr >> 46) & 0x01;
 				/* Non-integer bus ratio for the current-multi (undocumented)*/
 				currdiv = (msr >> 14) & 0x01;
 
-				if ((cpu_family == 0x06 && cpu_model >= 0x0e) ||
-					(cpu_family == 0x0f)) // This will always be model >= 3
+				if ((p->CPU.Family == 0x06 && p->CPU.Model >= 0x0e) || (p->CPU.Family == 0x0f)) // This will always be model >= 3
 				{
 					/* On these models, maxcoef defines TSC freq */
 					maxcoef = (msr >> 40) & 0x1f;
-				}
-				else
-				{
+				} else {
 					/* On lower models, currcoef defines TSC freq */
 					/* XXX */
 					maxcoef = currcoef;
 				}
 
-				if (maxcoef)
-				{
-					if (maxdiv)
+				if (maxcoef) {
+					if (maxdiv) {
 						fsbFrequency = ((tscFrequency * 2) / ((maxcoef * 2) + 1));
-					else
+					} else {
 						fsbFrequency = (tscFrequency / maxcoef);
-
-					if (currdiv)
+					}
+					if (currdiv) {
 						cpuFrequency = (fsbFrequency * ((currcoef * 2) + 1) / 2);
-					else
+					} else {
 						cpuFrequency = (fsbFrequency * currcoef);
+					}
 					DBG("max: %d%s current: %d%s\n", maxcoef, maxdiv ? ".5" : "",currcoef, currdiv ? ".5" : "");
 				}
 			}
 		}
+		/* Mobile CPU ? */
+		if (rdmsr64(0x17) & (1<<28)) {
+			p->CPU.Features |= CPU_FEATURE_MOBILE;
+		}
 	}
-	else if((cpu_vendor == 0x68747541 /* AMD */) && (cpu_family == 0x0f))
-	{
-		if(cpu_extfamily == 0x00 /* K8 */)
-		{
+#if 0
+	else if((p->CPU.Vendor == 0x68747541 /* AMD */) && (p->CPU.Family == 0x0f)) {
+		if(p->CPU.ExtFamily == 0x00 /* K8 */) {
 			msr = rdmsr64(K8_FIDVID_STATUS);
 			currcoef = (msr & 0x3f) / 2 + 4;
 			currdiv = (msr & 0x01) * 2;
-		}
-		else if(cpu_extfamily >= 0x01 /* K10+ */)
-		{
+		} else if(p->CPU.ExtFamily >= 0x01 /* K10+ */) {
 			msr = rdmsr64(K10_COFVID_STATUS);
-			if(cpu_extfamily == 0x01 /* K10 */)
+			if(p->CPU.ExtFamily == 0x01 /* K10 */)
 				currcoef = (msr & 0x3f) + 0x10;
 			else /* K11+ */
 				currcoef = (msr & 0x3f) + 0x08;
 			currdiv = (2 << ((msr >> 6) & 0x07));
 		}
 
-		if (currcoef)
-		{
-			if (currdiv)
-			{
+		if (currcoef) {
+			if (currdiv) {
 				fsbFrequency = ((tscFrequency * currdiv) / currcoef);
 				DBG("%d.%d\n", currcoef / currdiv, ((currcoef % currdiv) * 100) / currdiv);
-			}
-			else
-			{
+			} else {
 				fsbFrequency = (tscFrequency / currcoef);
 				DBG("%d\n", currcoef);
 			}
@@ -274,18 +345,31 @@ void calculate_freq(void)
 		}
 	}
 
-	if (!fsbFrequency)
-	{
+	if (!fsbFrequency) {
 		fsbFrequency = (DEFAULT_FSB * 1000);
 		cpuFrequency = tscFrequency;
 		DBG("0 ! using the default value for FSB !\n");
 	}
+#endif
 
-	DBG("TSC Frequency:  %dMHz\n", tscFrequency / 1000000);
-	DBG("CPU Frequency:  %dMHz\n", cpuFrequency / 1000000);
-	DBG("FSB Frequency:  %dMHz\n", fsbFrequency / 1000000);
-	DBG("Press [Enter] to continue..\n");
-#if DEBUG_FREQ
-	while (getc() != 0x0d) ;
+	p->CPU.MaxCoef = maxcoef;
+	p->CPU.MaxDiv = maxdiv;
+	p->CPU.CurrCoef = currcoef;
+	p->CPU.CurrDiv = currdiv;
+	p->CPU.TSCFrequency = tscFrequency;
+	p->CPU.FSBFrequency = fsbFrequency;
+	p->CPU.CPUFrequency = cpuFrequency;
+#if DEBUG_CPU
+	DBG("CPU: Vendor/Model/ExtModel: 0x%x/0x%x/0x%x\n", p->CPU.Vendor, p->CPU.Model, p->CPU.ExtModel);
+	DBG("CPU: Family/ExtFamily:      0x%x/0x%x\n", p->CPU.Family, p->CPU.ExtFamily);
+	DBG("CPU: MaxCoef/CurrCoef:      0x%x/0x%x\n", p->CPU.MaxCoef, p->CPU.CurrCoef);
+	DBG("CPU: MaxDiv/CurrDiv:        0x%x/0x%x\n", p->CPU.MaxDiv, p->CPU.CurrDiv);
+	DBG("CPU: TSCFreq:               %dMHz\n", p->CPU.TSCFrequency / 1000000);
+	DBG("CPU: FSBFreq:               %dMHz\n", p->CPU.FSBFrequency / 1000000);
+	DBG("CPU: CPUFreq:               %dMHz\n", p->CPU.CPUFrequency / 1000000);
+	DBG("CPU: NoCores/NoThreads:     %d/%d\n", p->CPU.NoCores, p->CPU.NoThreads);
+	DBG("CPU: Features:              0x%08x\n", p->CPU.Features);
+	printf("(Press a key to continue...)\n");
+	getc();
 #endif
 }

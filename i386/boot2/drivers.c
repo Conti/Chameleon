@@ -145,11 +145,11 @@ Alder32( unsigned char * buffer, long length )
 static long
 InitDriverSupport( void )
 {
-    gExtensionsSpec = (char *) malloc( 4096 );
-    gDriverSpec     = (char *) malloc( 4096 );
-    gFileSpec       = (char *) malloc( 4096 );
-    gTempSpec       = (char *) malloc( 4096 );
-    gFileName       = (char *) malloc( 4096 );
+    gExtensionsSpec = malloc( 4096 );
+    gDriverSpec     = malloc( 4096 );
+    gFileSpec       = malloc( 4096 );
+    gTempSpec       = malloc( 4096 );
+    gFileName       = malloc( 4096 );
 
     if ( !gExtensionsSpec || !gDriverSpec || !gFileSpec || !gTempSpec || !gFileName )
         stop("InitDriverSupport error");
@@ -471,7 +471,7 @@ LoadDriverPList( char * dirSpec, char * name, long bundleType )
         module->executablePath = tmpExecutablePath;
         module->bundlePath = tmpBundlePath;
         module->bundlePathLength = bundlePathLength;
-        module->plistAddr = (void *)malloc(length);
+        module->plistAddr = malloc(length);
   
         if ((module->executablePath == 0) || (module->bundlePath == 0) || (module->plistAddr == 0))
             break;
@@ -727,7 +727,7 @@ ParseXML( char * buffer, ModulePtr * module, TagPtr * personalities )
         return -2;
     }
 
-    tmpModule = (ModulePtr)malloc(sizeof(Module));
+    tmpModule = malloc(sizeof(Module));
     if (tmpModule == 0)
     {
         XMLFreeTag(moduleDict);

@@ -349,7 +349,7 @@ char * decodeRLE( const void * rleData, int rleBlocks, int outBytes )
         unsigned char value;
     } * bp = (struct RLEBlock *) rleData;
 
-    out = cp = (char *) malloc( outBytes );
+    out = cp = malloc( outBytes );
     if ( out == NULL ) return NULL;
 
     while ( rleBlocks-- )
@@ -515,7 +515,7 @@ int loadPngImage(const char *filename, uint16_t *width, uint16_t *height,
     PNG_info_t *info;
     int error = 0;
 
-    pngFile = open(filename, 0);
+    pngFile = open_bvdev("bt(0,0)", filename, 0);
     if (pngFile == -1) {
         error = -1;
         goto failed;
@@ -585,42 +585,6 @@ failed:
 	png_alloc_free_all();
 
     return error;
-}
-
-int loadPixmapFromPng(const char *filename, pixmap_t *p)
-{
-	uint16_t width=0,height=0;
-	uint8_t *imagedata = 0;
-	
-	pixmap_t *pm=malloc(sizeof(pixmap_t));
-	if(!pm) return 0;
-	if((loadPngImage(filename, &width, &height, &imagedata))!=0) return 0;
-	pm->width = width;
-	pm->height = height;
-	pm->pixels = (pixel_t *)imagedata;
-	
-	flipRB(pm);
-	*p=*pm;
-
-	return 1;
-}
-
-int loadPixmapFromEmbeddedPng(uint8_t *pngData, uint32_t pngSize, pixmap_t *p)
-{
-	uint16_t width=0,height=0;
-	uint8_t *imagedata = 0;
-
-	pixmap_t *pm=malloc(sizeof(pixmap_t));
-	if(!pm) return 0;
-	if((loadEmbeddedPngImage(pngData, pngSize, &width, &height, &imagedata))!=0) return 0;
-	pm->width = width;
-	pm->height = height;
-	pm->pixels = (pixel_t *)imagedata;
-
-	flipRB(pm);
-	*p=*pm;
-	
-	return 1;
 }
 
 void blendImage(uint16_t x, uint16_t y, uint16_t width, uint16_t height,
@@ -1076,8 +1040,6 @@ getNumberArrayFromProperty( const char *  propKey,
     char * propStr;
     unsigned long    count = 0;
 
-#define _isdigit(c) ((c) >= '0' && (c) <= '9')
-
     propStr = newStringForKey( (char *) propKey , &bootInfo->bootConfig );
     if ( propStr )
     {
@@ -1092,7 +1054,7 @@ getNumberArrayFromProperty( const char *  propKey,
                 numbers[count++] = val;
                 p = delimiter;
             }
-            while ( ( *p != '\0' ) && !_isdigit(*p) )
+            while ( ( *p != '\0' ) && !isdigit(*p) )
                 p++;
         }
 

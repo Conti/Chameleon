@@ -34,50 +34,20 @@ typedef struct pci_dt_t {
 	struct pci_dt_t	*next;
 } pci_dt_t;
 
-#define PCIADDR(bus, dev, func)		(1 << 31) | (bus << 16) | (dev << 11) | (func << 8)
+#define PCIADDR(bus, dev, func)	(1 << 31) | (bus << 16) | (dev << 11) | (func << 8)
+#define PCI_ADDR_REG		0xcf8
+#define PCI_DATA_REG		0xcfc
 
-#define PCI_ADDR_REG	0xcf8
-#define PCI_DATA_REG	0xcfc
-
-uint32_t pci_config_read(uint32_t pci_addr, uint8_t reg, uint8_t bytes);
-void pci_config_write(uint32_t pci_addr, uint8_t reg, uint32_t data, uint8_t bytes);
-
-static inline uint8_t pci_config_read8(uint32_t pci_addr, uint8_t reg)
-{
-	return (uint8_t)pci_config_read(pci_addr, reg, 1);
-}
-
-static inline uint16_t pci_config_read16(uint32_t pci_addr, uint8_t reg)
-{
-	return (uint16_t)pci_config_read(pci_addr, reg, 2);
-}
-
-static inline uint32_t pci_config_read32(uint32_t pci_addr, uint8_t reg)
-{
-	return (uint32_t)pci_config_read(pci_addr, reg, 4);
-}
-
-
-static inline void pci_config_write8(uint32_t pci_addr, uint8_t reg, uint8_t data)
-{
-	pci_config_write(pci_addr, reg, data, 1);
-}
-
-static inline void pci_config_write16(uint32_t pci_addr, uint8_t reg, uint16_t data)
-{
-	pci_config_write(pci_addr, reg, data, 2);
-}
-
-static inline void pci_config_write32(uint32_t pci_addr, uint8_t reg, uint32_t data)
-{
-	pci_config_write(pci_addr, reg, data, 4);
-}
-
-extern pci_dt_t *root_pci_dev;
-
-char *get_pci_dev_path(pci_dt_t *pci_dt);
-void build_pci_dt(void);
-int check_vga_nvidia(pci_dt_t *pci_dt);
+extern pci_dt_t		*root_pci_dev;
+extern uint8_t		pci_config_read8(uint32_t, uint8_t);
+extern uint16_t		pci_config_read16(uint32_t, uint8_t);
+extern uint32_t		pci_config_read32(uint32_t, uint8_t);
+extern void		pci_config_write8(uint32_t, uint8_t, uint8_t);
+extern void		pci_config_write16(uint32_t, uint8_t, uint16_t);
+extern void		pci_config_write32(uint32_t, uint8_t, uint32_t);
+extern char		*get_pci_dev_path(pci_dt_t *);
+extern void		build_pci_dt(void);
+extern void		dump_pci_dt(pci_dt_t *);
 
 //-----------------------------------------------------------------------------
 // added by iNDi
@@ -826,7 +796,7 @@ struct pci_rom_bios_t {
 #define PCI_CLASS_BRIDGE_HOST		0x0600
 #define PCI_CLASS_BRIDGE_ISA		0x0601
 #define PCI_CLASS_BRIDGE_EISA		0x0602
-#define PCI_CLASS_BRIDGE_MC			0x0603
+#define PCI_CLASS_BRIDGE_MC		0x0603
 #define PCI_CLASS_BRIDGE_PCI		0x0604
 #define PCI_CLASS_BRIDGE_PCMCIA		0x0605
 #define PCI_CLASS_BRIDGE_NUBUS		0x0606

@@ -1,0 +1,15 @@
+- Added JrCs modified convention name change to coding_standards
+- Now malloc (ex. MALLOC in Asere patch) is renamed malloc(size) and is an alias 
+  to safe_malloc(size, file, line) with _FILE_ and _LINE_ prerocessor definitions
+- Added a new 'Rename Partition Feature', now permitting to rename partition 
+  like 'System reserved' to a more meaningful name
+- Added SystemID option permitting to change the System UUID to a fixed value.
+- Added the PciRoot autodetection feature imported from pcefi10.5
+- Added automatic "system-id" injection from dmi bios, also compatible 
+  with SystemID boot option and former SMUUID from smbios,plist
+- Added "system-type' automatic injection (1=Desktop) plus override possibility 
+  with the new system-type option in bootConfig
+- Added SMserial and SMproductname new options for smbios.plist
+- Merged with asere patch, while keeping my fake_efi.c changes, and adding a new 
+  stringForKey() API, also changed the DT__XXXX() set of functions 
+  to handle const char * values instead of char*.

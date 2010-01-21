@@ -21,5 +21,5 @@
  */
 
 extern void NTFSGetDescription(CICell ih, char *str, long strMaxLen);
-extern BOOL NTFSProbe (const void *buf);
+extern bool NTFSProbe (const void *buf);
 

@@ -97,8 +97,7 @@ static uint32_t crc32_tab[] = {
 	0xb40bbe37, 0xc30c8ea1, 0x5a05df1b, 0x2d02ef8d
 };
 
-uint32_t
-crc32(uint32_t crc, const void *buf, size_t size)
+uint32_t crc32(uint32_t crc, const void *buf, size_t size)
 {
 	const uint8_t *p;
 
@@ -128,7 +127,7 @@ void efi_guid_unparse_upper(EFI_GUID const *pGuid, char *out)
         pGuid->Data4[6], pGuid->Data4[7]);
 }
 
-int efi_guid_is_null(EFI_GUID const *pGuid)
+bool efi_guid_is_null(EFI_GUID const *pGuid)
 {
     if(pGuid->Data1 == 0 && pGuid->Data2 == 0 && pGuid->Data3 == 0)
     {
@@ -136,11 +135,11 @@ int efi_guid_is_null(EFI_GUID const *pGuid)
         for(i=0; i<8; ++i)
         {
             if(pGuid->Data4[i] != 0)
-                return FALSE;
+                return false;
         }
-        return TRUE;
+        return true;
     }
-    return FALSE;
+    return false;
 }
 
 #define COMPARE_MEMBER_AND_RETURN_IF_NE(a,b,mem) \
@@ -161,4 +160,3 @@ int efi_guid_compare(EFI_GUID const *pG1, EFI_GUID const *pG2)
     }
     return 0;
 }
-

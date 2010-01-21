@@ -99,6 +99,65 @@ unsigned int time18(void)
     return time.i;
 }
 
+#if 0
+static unsigned long rerangeMemoryMap(unsigned long count)
+{
+	int i, still_changing, newcount = count;
+
+	MemoryRange * range = (MemoryRange *)BIOS_ADDR;
+	struct MemoryRange change_tmp;
+
+	/* sort map list by memory addresses (low -> high) */
+	still_changing = 1;
+	while (still_changing) {
+		still_changing = 0;
+		for (i=1; i<count; i++) {
+			/* if <current_addr> > <last_addr>, swap */
+			if (range[i].base < range[i-1].base) {
+				change_tmp.base = range[i].base;
+				change_tmp.length = range[i].length;
+				change_tmp.type = range[i].type;
+
+				range[i].base = range[i-1].base;
+				range[i].length = range[i-1].length;
+				range[i].type = range[i-1].type;
+
+				range[i-1].base = change_tmp.base;
+				range[i-1].length = change_tmp.length;
+				range[i-1].type = change_tmp.type;
+
+				still_changing=1;
+			}
+		}
+	}
+
+	/* clear overlaps */
+	/* linux's arch/i386/kern/setup.c may have better algorithm */
+	for (i=1; i<count; i++) {
+		if ( range[i-1].base + range[i-1].length > range[i].base ) {
+			range[newcount].base = range[i].base + range[i].length;
+			range[newcount].length = range[i-1].base + range[i-1].length - range[newcount].base;
+			range[newcount].type = range[i-1].type;
+			newcount++;
+
+			range[i-1].length = range[i].base - range[i-1].base;
+		}
+	}
+
+	/*
+	 * 0xb0000000 : 0x10000000 NG
+	 * 0xc0000400 NG
+	 * 0xf2000000 NG
+	 */
+	range[newcount].base = 0xb0000000;
+	range[newcount].length = 0x0f000000;
+	range[newcount].type = kMemoryRangeUsable;
+	newcount++;
+
+	return newcount;
+}
+#endif
+
 unsigned long getMemoryMap( MemoryRange *   rangeArray,
                             unsigned long   maxRangeCount,
                             unsigned long * conMemSizePtr,
@@ -107,10 +166,11 @@ unsigned long getMemoryMap( MemoryRange *   rangeArray,
     #define kMemoryMapSignature  'SMAP'
     #define kDescriptorSizeMin   20
 
-    MemoryRange *        range = (MemoryRange *)BIOS_ADDR;
-    unsigned long        count = 0;
-    unsigned long long   conMemSize = 0;
-    unsigned long long   extMemSize = 0;
+    MemoryRange *	range = (MemoryRange *)BIOS_ADDR;
+    unsigned long	count = 0;
+    unsigned long	rerangedCount;
+    unsigned long long	conMemSize = 0;
+    unsigned long long	extMemSize = 0;
 
     // Prepare for the INT15 E820h call. Each call returns a single
     // memory range. A continuation value is returned that must be
@@ -178,6 +238,11 @@ unsigned long getMemoryMap( MemoryRange *   rangeArray,
     }
     *conMemSizePtr = conMemSize / 1024;  // size in KB
     *extMemSizePtr = extMemSize  / 1024;  // size in KB
+
+#if 0
+    rerangedCount = rerangeMemoryMap(count);
+    range += rerangedCount - count;
+#endif
 
     // Copy out data
     bcopy((char *)BIOS_ADDR, rangeArray, ((char *)range - (char *)BIOS_ADDR));
@@ -770,19 +835,16 @@ APMConnect32(void)
 #endif /* APM_SUPPORT */
 
 #ifdef EISA_SUPPORT
-BOOL
-eisa_present(
-    void
-)
+bool eisa_present(void)
 {
-    static BOOL checked;
-    static BOOL isEISA;
+    static bool checked = false;
+    static bool isEISA;
 
     if (!checked) {
         if (strncmp((char *)0xfffd9, "EISA", 4) == 0)
-            isEISA = TRUE;
+            isEISA = true;
 
-        checked = TRUE;
+        checked = true;
     }
     
     return (isEISA);

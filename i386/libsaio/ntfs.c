@@ -295,15 +295,15 @@ NTFSGetDescription(CICell ih, char *str, long strMaxLen)
     return;
 }
 
-BOOL NTFSProbe(const void * buffer)
+bool NTFSProbe(const void * buffer)
 {
-	BOOL result = FALSE;
+	bool result = false;
 	
 	const struct bootfile	* part_bootfile = buffer;			// NTFS boot sector structure
 	
 	// Looking for NTFS signature.
 	if (strncmp((const char *)part_bootfile->bf_sysid, NTFS_BBID, NTFS_BBIDLEN) == 0)
-		result = TRUE;
+		result = true;
 	
 	return result;
 }
