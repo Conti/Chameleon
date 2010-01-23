@@ -216,36 +216,9 @@ int setupAcpi(void)
 	bool drop_ssdt;
 	bool fix_restart;
 
-	if (!getValueForKey(kDSDT, &dsdt_filename, &len, &bootInfo->bootConfig)) {
-		dsdt_filename = "/Extra/DSDT.aml";
-	}
-
-	if (!getValueForKey("DSDT", &dsdt_filename, &len, &bootInfo->bootConfig))
+	if (!getValueForKey(kDSDT, &dsdt_filename, &len, &bootInfo->bootConfig))
 		dsdt_filename="DSDT.aml";
 	
-	// Rek: Was originally removed by JrCs patch, would like to keep compat for RC5 and take the time
-	// to discuss and agree on this extra dsdt file location checking removal for RC6
-	// For now, I believe the results could be catastrophic for users relying on that feature:
-
-	// Check booting partition
-	sprintf(dirspec,"%s",dsdt_filename);
-	fd=open (dirspec,0);
-	if (fd<0)
-	{	// Check Extra on booting partition
-		sprintf(dirspec,"/Extra/%s",dsdt_filename);
-		fd=open (dirspec,0);
-		if (fd<0)
-		{	// Fall back to booter partition
-			sprintf(dirspec,"bt(0,0)/Extra/%s",dsdt_filename);
-			fd=open (dirspec,0);
-			if (fd<0)
-			{
-				verbose("No DSDT replacement found. Leaving ACPI data as is\n");
-				return setupAcpiNoMod();
-			}
-		}
-	}
-
 	// Load replacement DSDT
 	new_dsdt=loadACPITable(dsdt_filename);
 	if (!new_dsdt)
