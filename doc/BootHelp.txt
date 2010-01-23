@@ -92,3 +92,7 @@ Options useful in the com.apple.Boot.plist file:
     =Yes|No                 Fix rescan issues when using a DVD reader in AHCI mode. 
   Rescan=Yes                Enable CD-ROM rescan mode.
   "Rescan Prompt"=Yes       Prompts for enable CD-ROM rescan mode.
+  SystemId=<UUID>	    [DEPRECATED since RC5] Set manually the system id UUID,
+  			    Please use SMBIOS config option "SMsystemid" instead.
+			    SMUUID in smbios config is also DEPRECATED 
+			    and won't be supported in next releases.

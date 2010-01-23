@@ -1,3 +1,6 @@
+- Started to deprecate former system id uuid options: now encouraging to use SMsystemid because it follows smbios options naming convention, is not as vague as SMUUID, and should belong to smbios config, not bootConfig.
+  For theses reasons, SystemId from bootConfig and SMUUID from smbiosConfig aer now DEPRECATED.
+
 - Integrated JrCs fadt patch (kept for RC5 the existing DSDT.aml  retry algo that disapeared in his patch, should be more discussed for RC6)
 - Added JrCs modified convention name change to coding_standards
 - Now malloc (ex. MALLOC in Asere patch) is renamed malloc(size) and is an alias 

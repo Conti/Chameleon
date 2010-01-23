@@ -467,11 +467,21 @@ static EFI_CHAR8* getUUIDFromString2(const char * szInUUID)
  * or from the bios if not, or from a fixed value if no bios value is found 
  */
 static EFI_CHAR8* getSystemID()
-{	// unable to determine UUID for host. Error: 35 fix
-    const char * sysId = getStringForKey("SystemID", &bootInfo->bootConfig);
+{   // unable to determine UUID for host. Error: 35 fix
+
+    // Rek: new SMsystemid option conforming to smbios notation standards, this option should
+    // belong to smbios config only ...
+    const char * sysId = getStringForKey("SMsystemid", &bootInfo->smbiosConfig);
     EFI_CHAR8* ret = getUUIDFromString(sysId);
+
+    // Rek: Deprecated in RC5, will be REMOVED in RC6 (should not belong to bootConfig but smbiosConfig)
+    if(!sysId || !ret)   // try smbios.plist SMUUID override
+      ret=getUUIDFromString((sysId = getStringForKey("SystemId",&bootInfo->bootConfig)));
+    
+    // Rek: Deprecated in RC5, will be REMOVED in RC6 (SMUUID name is too vague: there is more than one UUID in the system)
     if(!sysId || !ret)   // try smbios.plist SMUUID override
       ret=getUUIDFromString((sysId = getStringForKey("SMUUID",&bootInfo->smbiosConfig)));
+
     if(!sysId || !ret)  { // try bios dmi info UUID extraction 
       ret = getSmbiosUUID();
       sysId=0;
