@@ -71,19 +71,24 @@ struct acpi_2_fadt {
 	uint32_t        CreatorRevision;
 	uint32_t        FIRMWARE_CTRL;
 	uint32_t        DSDT;
+	uint8_t         Model;			// JrCs
+	uint8_t         PM_Profile;		// JrCs
 	/*We absolutely don't care about theese fields*/
-	uint8_t		notimp1[68];
-	/*Reset Fix*/
-	uint32_t	Flags;
-	uint8_t		Reset_SpaceID;
-	uint8_t		Reset_BitWidth;
-	uint8_t		Reset_BitOffset;
-	uint8_t		Reset_AccessWidth;
-	uint64_t	Reset_Address;
-	uint8_t		Reset_Value;
-	uint8_t		Reserved[3];
-	uint64_t	X_FIRMWARE_CTRL;
-	uint64_t	X_DSDT;
+	uint8_t         notimp1[66];
+/* Begin Asere */
+	//Reset Fix
+	uint32_t        Flags;
+	uint8_t         Reset_SpaceID;
+	uint8_t         Reset_BitWidth;
+	uint8_t         Reset_BitOffset;
+	uint8_t         Reset_AccessWidth;
+	uint64_t        Reset_Address;
+	uint8_t         Reset_Value;
+	uint8_t         Reserved[3];
+
+	uint64_t	    X_FIRMWARE_CTRL;
+	uint64_t	    X_DSDT;
+/* End Asere */
 	/*We absolutely don't care about theese fields*/
 	uint8_t		notimp2[96];
 } __attribute__((packed));

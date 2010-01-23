@@ -100,8 +100,10 @@ typedef struct _PlatformInfo_t {
 	struct RAM {
 		RamSlotInfo_t		DIMM[MAX_RAM_SLOTS];	// Information about each slot
 		uint64_t		Frequency;		// Ram Frequency
-		//uint8_t			Type;			// Standard SMBIOS v2.5 Memory Type
 	} RAM;
+
+	uint8_t    Type;    // JrCs: System Type: 1=Desktop, 2=Portable... according ACPI2.0 (FADT: PM_Profile)
+
 } PlatformInfo_t;
 
 extern PlatformInfo_t Platform;

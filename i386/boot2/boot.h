@@ -86,6 +86,7 @@
 #define kDeviceProperties	"device-properties"	/* device_inject.c */
 #define kHidePartition		"Hide Partition"	/* disk.c */
 #define kRenamePartition	"Rename Partition"	/* disk.c */
+#define kRestartFix         "RestartFix"        /* dsdt_patcher.c */
 
 /*
  * Flags to the booter or kernel

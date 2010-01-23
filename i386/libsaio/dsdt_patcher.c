@@ -73,6 +73,119 @@ static struct acpi_2_rsdp* getAddressOfAcpi20Table()
     return NULL;
 }
 
+void *loadACPITable (const char *filename)
+{
+	void *tableAddr;
+	int fd;
+	char dirspec[512];
+
+	// Check booting partition
+	sprintf(dirspec,"%s",filename);
+	fd=open (dirspec,0);
+	if (fd<0)
+	{	// Check Extra on booting partition
+		sprintf(dirspec,"/Extra/%s",filename);
+		fd=open (dirspec,0);
+		if (fd<0)
+		{	// Fall back to booter partition
+			sprintf(dirspec,"bt(0,0)/Extra/%s",filename);
+			fd=open (dirspec,0);
+			if (fd<0)
+			{
+				verbose("ACPI Table not found: %s\n", filename);
+				return NULL;
+			}
+		}
+	}
+
+	tableAddr=(void*)AllocateKernelMemory(file_size (fd));
+	if (tableAddr)
+	{
+		if (read (fd, tableAddr, file_size (fd))!=file_size (fd))
+		{
+			printf("Couldn't read table %s\n",dirspec);
+			free (tableAddr);
+			close (fd);
+			return NULL;
+		}
+
+		DBG("Table %s read and stored at: %x\n", dirspec, tableAddr);
+		close (fd);
+		return tableAddr;
+	}
+
+	printf("Couldn't allocate memory for table %s\n", dirspec);
+	close (fd);
+	return NULL;
+}
+
+struct acpi_2_fadt *
+patch_fadt(struct acpi_2_fadt *fadt, void *new_dsdt)
+{
+
+	struct acpi_2_fadt *fadt_mod;
+	bool fadt_rev2_needed = false;
+	bool fix_restart;
+
+	// Restart Fix
+	if (Platform.CPU.Vendor == 0x756E6547) {	/* Intel */
+		fix_restart = true;
+		getBoolForKey(kRestartFix, &fix_restart, &bootInfo->bootConfig);
+	} else {
+		verbose ("Not an Intel platform: Restart Fix not applied !!!\n");
+		fix_restart = false;
+	}
+
+	if (fix_restart) fadt_rev2_needed = true;
+
+	// Allocate new fadt table
+	if (fadt->Length < 0x84 && fadt_rev2_needed)
+	{
+		fadt_mod=(struct acpi_2_fadt *)AllocateKernelMemory(0x84);
+		memcpy(fadt_mod, fadt, fadt->Length);
+		fadt_mod->Length   = 0x84;
+		fadt_mod->Revision = 0x02; // FADT rev 2 (ACPI 1.0B MS extensions)
+	}
+	else
+	{
+		fadt_mod=(struct acpi_2_fadt *)AllocateKernelMemory(fadt->Length);
+		memcpy(fadt_mod, fadt, fadt->Length);
+	}
+
+	// Set PM_Profile from System-type
+	if (fadt_mod->PM_Profile != Platform.Type) {
+		verbose("FADT: changing PM_Profile from 0x%02x to 0x%02x\n", fadt_mod->PM_Profile, Platform.Type);
+		fadt_mod->PM_Profile = Platform.Type;
+	}
+
+	// Patch FADT to fix restart
+	if (fix_restart)
+	{
+		fadt_mod->Flags|= 0x400;
+		fadt_mod->Reset_SpaceID		= 0x01;   // System I/O
+		fadt_mod->Reset_BitWidth	= 0x08;   // 1 byte
+		fadt_mod->Reset_BitOffset	= 0x00;   // Offset 0
+		fadt_mod->Reset_AccessWidth	= 0x01;   // Byte access
+		fadt_mod->Reset_Address		= 0x0cf9; // Address of the register
+		fadt_mod->Reset_Value		= 0x06;   // Value to write to reset the system
+		verbose("FADT: Restart Fix applied !\n");
+	}
+
+	// Patch DSDT Address
+	DBG("DSDT: Old @%x,%x, ",fadt_mod->DSDT,fadt_mod->X_DSDT);
+
+	fadt_mod->DSDT=(uint32_t)new_dsdt;
+	if ((uint32_t)(&(fadt_mod->X_DSDT))-(uint32_t)fadt_mod+8<=fadt_mod->Length)
+		fadt_mod->X_DSDT=(uint32_t)new_dsdt;
+
+	DBG("New @%x,%x\n",fadt_mod->DSDT,fadt_mod->X_DSDT);
+
+	// Correct the checksum
+	fadt_mod->Checksum=0;
+	fadt_mod->Checksum=256-checksum8(fadt_mod,fadt_mod->Length);
+
+	return fadt_mod;
+}
 
 /* Setup ACPI without replacing DSDT. */
 int setupAcpiNoMod()
@@ -90,9 +203,14 @@ int setupAcpiNoMod()
 /* Setup ACPI. Replace DSDT if DSDT.aml is found */
 int setupAcpi(void)
 {
-	int fd, version;
+	int version;
 	void *new_dsdt;
 	const char *dsdt_filename;
+
+	char dirspec[512];
+
+	int fd;
+
 	int len;
 	bool tmp;
 	bool drop_ssdt;
@@ -102,33 +220,45 @@ int setupAcpi(void)
 		dsdt_filename = "/Extra/DSDT.aml";
 	}
 
-	if ((fd = open_bvdev("bt(0,0)", dsdt_filename, 0)) < 0) {
-		verbose("No DSDT replacement found. Leaving ACPI data as is\n");
-		return setupAcpiNoMod();
+	if (!getValueForKey("DSDT", &dsdt_filename, &len, &bootInfo->bootConfig))
+		dsdt_filename="DSDT.aml";
+	
+	// Rek: Was originally removed by JrCs patch, would like to keep compat for RC5 and take the time
+	// to discuss and agree on this extra dsdt file location checking removal for RC6
+	// For now, I believe the results could be catastrophic for users relying on that feature:
+
+	// Check booting partition
+	sprintf(dirspec,"%s",dsdt_filename);
+	fd=open (dirspec,0);
+	if (fd<0)
+	{	// Check Extra on booting partition
+		sprintf(dirspec,"/Extra/%s",dsdt_filename);
+		fd=open (dirspec,0);
+		if (fd<0)
+		{	// Fall back to booter partition
+			sprintf(dirspec,"bt(0,0)/Extra/%s",dsdt_filename);
+			fd=open (dirspec,0);
+			if (fd<0)
+			{
+				verbose("No DSDT replacement found. Leaving ACPI data as is\n");
+				return setupAcpiNoMod();
+			}
+		}
 	}
 
 	// Load replacement DSDT
-	new_dsdt = (void*)AllocateKernelMemory(file_size (fd));
-	if (!new_dsdt) {
-		printf("Couldn't allocate memory for DSDT\n");
+	new_dsdt=loadACPITable(dsdt_filename);
+	if (!new_dsdt)
+	{
 		close(fd);
 		return setupAcpiNoMod();
 	}
-	if (read(fd, new_dsdt, file_size(fd)) != file_size(fd)) {
-		printf("Couldn't read file\n");
-		close(fd);
-		return setupAcpiNoMod();
-	}
-	close(fd);
+
 	DBG("New DSDT Loaded in memory\n");
-
-	drop_ssdt = getBoolForKey(kDropSSDT, &tmp, &bootInfo->bootConfig) && tmp;
-
-	if (Platform.CPU.Vendor == 0x756E6547) {	/* Intel */
-		fix_restart = true;
-		getBoolForKey(kRestartFix, &fix_restart, &bootInfo->bootConfig);
-	} else {
-		fix_restart = false;
+	
+	{
+		bool tmp;
+		drop_ssdt=getBoolForKey(kDropSSDT, &tmp, &bootInfo->bootConfig)&&tmp;
 	}
 
 	// Do the same procedure for both versions of ACPI
@@ -207,53 +337,22 @@ int setupAcpi(void)
 						continue;
 					}
 					
-					if (fix_restart && fadt->Length < 0x81) {
-						fadt_mod = (struct acpi_2_fadt *)AllocateKernelMemory(0x81);
-						memcpy(fadt_mod, fadt, fadt->Length);
-						fadt_mod->Length = 0x81;
-					} else {                                                                                          
-						fadt_mod = (struct acpi_2_fadt *)AllocateKernelMemory(fadt->Length);
-						memcpy(fadt_mod, fadt, fadt->Length);
-					}
-
-					if (fix_restart) {
-						fadt_mod->Flags |= 0x400;
-						fadt_mod->Reset_SpaceID = 0x01;
-						fadt_mod->Reset_BitWidth = 0x08;
-						fadt_mod->Reset_BitOffset = 0x00;
-						fadt_mod->Reset_AccessWidth = 0x01;
-						fadt_mod->Reset_Address = 0x0cf9;
-						fadt_mod->Reset_Value = 0x06;
-						verbose("FACP: Restart Fix applied\n");
-					}
-
-					// Patch DSDT Address
-					DBG("Old DSDT @%x,%x\n",fadt_mod->DSDT,fadt_mod->X_DSDT);
-
-					fadt_mod->DSDT=(uint32_t)new_dsdt;
-					if ((uint32_t)(&(fadt_mod->X_DSDT))-(uint32_t)fadt_mod+8<=fadt_mod->Length)
-						fadt_mod->X_DSDT=(uint32_t)new_dsdt;
-
-					DBG("New DSDT @%x,%x\n",fadt_mod->DSDT,fadt_mod->X_DSDT);
-
-					// Correct the checksum
-					fadt_mod->Checksum=0;
-					fadt_mod->Checksum=256-checksum8(fadt_mod,fadt_mod->Length);
-					
+					fadt_mod = patch_fadt(fadt, new_dsdt);
 					rsdt_entries[i-dropoffset]=(uint32_t)fadt_mod;
 					continue;
 				}
 			}
+			DBG("\n");
 
 			// Correct the checksum of RSDT
 			rsdt_mod->Length-=4*dropoffset;
 
-			DBG("RSDT Original checksum %d\n", rsdt_mod->Checksum);
+			DBG("RSDT: Original checksum %d, ", rsdt_mod->Checksum);
 
 			rsdt_mod->Checksum=0;
 			rsdt_mod->Checksum=256-checksum8(rsdt_mod,rsdt_mod->Length);
 
-			DBG("RSDT New checksum %d at %x\n", rsdt_mod->Checksum,rsdt_mod);
+			DBG("New checksum %d at %x\n", rsdt_mod->Checksum,rsdt_mod);
 		}
 		else
 		{
@@ -312,43 +411,11 @@ int setupAcpi(void)
 
 						if (!fadt || (uint64_t)xsdt_entries[i] >= 0xffffffff || fadt->Length>0x10000)
 						{
-							printf("FADT incorrect or after 4GB. Dropping XSDT\n");
+							verbose("FADT incorrect or after 4GB. Dropping XSDT\n");
 							goto drop_xsdt;
 						}
 
-						if (fix_restart && fadt->Length < 0x81) {
-							fadt_mod = (struct acpi_2_fadt *)AllocateKernelMemory(0x81);
-							memcpy(fadt_mod, fadt, fadt->Length);
-							fadt_mod->Length = 0x81;
-						} else {
-							fadt_mod = (struct acpi_2_fadt*)AllocateKernelMemory(fadt->Length); 
-							memcpy(fadt_mod, fadt, fadt->Length);
-						}
-
-						if (fix_restart) {
-							fadt_mod->Flags |= 0x400;
-							fadt_mod->Reset_SpaceID = 0x01;
-							fadt_mod->Reset_BitWidth = 0x08;
-							fadt_mod->Reset_BitOffset = 0x00;
-							fadt_mod->Reset_AccessWidth = 0x01;
-							fadt_mod->Reset_Address = 0x0cf9;
-							fadt_mod->Reset_Value = 0x06;
-							verbose("FACP: Restart Fix applied\n");
-						}
-
-						// Patch DSDT Address
-						DBG("Old DSDT @%x,%x\n",fadt_mod->DSDT,fadt_mod->X_DSDT);
-
-						fadt_mod->DSDT=(uint32_t)new_dsdt;
-						if ((uint32_t)(&(fadt_mod->X_DSDT))-(uint32_t)fadt_mod+8<=fadt_mod->Length)
-							fadt_mod->X_DSDT=(uint32_t)new_dsdt;
-
-						DBG("New DSDT @%x,%x\n",fadt_mod->DSDT,fadt_mod->X_DSDT);
-
-						// Correct the checksum
-						fadt_mod->Checksum=0;
-						fadt_mod->Checksum=256-checksum8(fadt_mod,fadt_mod->Length);
-						
+						fadt_mod = patch_fadt(fadt, new_dsdt);
 						xsdt_entries[i-dropoffset]=(uint32_t)fadt_mod;
 
 						DBG("TABLE %c%c%c%c@%x,",table[0],table[1],table[2],table[3],xsdt_entries[i]);
@@ -376,13 +443,13 @@ int setupAcpi(void)
 				 */
 
 				rsdp_mod->XsdtAddress=0xffffffffffffffffLL;
-				printf("XSDT not found or XSDT incorrect\n");
+				verbose("XSDT not found or XSDT incorrect\n");
 			}
 		}
 
 		// Correct the checksum of RSDP      
 
-		DBG("Original checksum %d\n", rsdp_mod->Checksum);
+		DBG("RSDP: Original checksum %d, ", rsdp_mod->Checksum);
 
 		rsdp_mod->Checksum=0;
 		rsdp_mod->Checksum=256-checksum8(rsdp_mod,20);
@@ -391,7 +458,7 @@ int setupAcpi(void)
 
 		if (version)
 		{
-			DBG("Original extended checksum %d\n", rsdp_mod->ExtendedChecksum);
+			DBG("RSDP: Original extended checksum %d", rsdp_mod->ExtendedChecksum);
 
 			rsdp_mod->ExtendedChecksum=0;
 			rsdp_mod->ExtendedChecksum=256-checksum8(rsdp_mod,rsdp_mod->Length);
@@ -415,7 +482,7 @@ int setupAcpi(void)
 		}
 	}
 #if DEBUG_DSDT
-	printf("(Press a key to continue...)\n");
+	printf("Press a key to continue... (DEBUG_DSDT)\n");
 	getc();
 #endif
 	return 1;

@@ -1,3 +1,4 @@
+- Integrated JrCs fadt patch (kept for RC5 the existing DSDT.aml  retry algo that disapeared in his patch, should be more discussed for RC6)
 - Added JrCs modified convention name change to coding_standards
 - Now malloc (ex. MALLOC in Asere patch) is renamed malloc(size) and is an alias 
   to safe_malloc(size, file, line) with _FILE_ and _LINE_ prerocessor definitions
