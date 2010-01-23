@@ -1,0 +1,48 @@
+TODO List for Chameleon Boot Loader
+====================================
+
+- Add a new module capable of writing proprietary Chameleon data to ioreg:
+  Using the DT__xxx() API, we will creat e a set of functions to write
+  to log info, chameleon boot info to be retrieved by helper applications...
+  the only public function for log info purpose of this module would be:
+  logMessageToIOREG(...); // var args printf style format
+  flushLogToIOREG(); // store a unique log info property to the ioreg
+
+  The preferred internal behavior of the log info ioreg buffer
+  would be to store the messages in a consolidated buffer then only write once,
+ this buffer (i.e just before call the kernel) with flushLogToIOREG();
+  The other public function for writing chameleon boot info data would be:
+   
+  verbose() should incorporate a call to logMessageToIOREG() 
+  to permit helper applications to extract
+  this log info (i.e: the chameleon system pref pane)
+
+- Add API for displaying and logging messages like:
+
+    void verbose(...)
+    {
+     ...
+       logMessageToIOREG("%s: %sn", title, s);
+
+    }
+
+    void display_and_log( const char* title, const char* msg) 
+    {
+       printf("%s: %sn", title, s);
+       logMessageToIOREG(title,s);
+    }
+
+    void deprecated(const char * s)
+    {
+       display_and_log("WARNING: Deprecated option",s); 
+       sleep(1);    
+    }
+
+    void error_message(const char * s)
+    {
+       display_and_log("ERROR",s); 
+       getc();
+    }
+
+ - Case unsensitive parsing for the bootConfig options:
+   should help the common/novice user to setup more easily.
