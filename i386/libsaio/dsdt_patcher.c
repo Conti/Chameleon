@@ -207,14 +207,9 @@ int setupAcpi(void)
 	void *new_dsdt;
 	const char *dsdt_filename;
 
-	char dirspec[512];
-
 	int fd;
-
 	int len;
-	bool tmp;
 	bool drop_ssdt;
-	bool fix_restart;
 
 	if (!getValueForKey(kDSDT, &dsdt_filename, &len, &bootInfo->bootConfig))
 		dsdt_filename="DSDT.aml";

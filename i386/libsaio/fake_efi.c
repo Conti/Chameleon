@@ -471,7 +471,7 @@ static EFI_CHAR8* getSystemID()
 
     // Rek: new SMsystemid option conforming to smbios notation standards, this option should
     // belong to smbios config only ...
-    const char * sysId = getStringForKey("SystemId", &bootInfo->smbiosConfig);
+    const char * sysId = getStringForKey("SystemId", &bootInfo->bootConfig);
     EFI_CHAR8* ret = getUUIDFromString(sysId);
 
     if(!sysId || !ret)  { // try bios dmi info UUID extraction 
