@@ -61,7 +61,8 @@ Options useful in the com.apple.Boot.plist file:
   PciRoot=<value>           Use an alternate value for PciRoot. (default value: 0).
 
   GraphicsEnabler=Yes|No    Automatic device-properties generation for graphics cards.
-  VideoROM=<file>           Use an alternate ROM image (default path: /NVIDIA.ROM).
+  UseAtiROM=Yes|No          Use an alternate Ati ROM image (path: /Extra/<vendorid>_<devid>.rom)
+  UseNvidiaROM=Yes|No       Use an alternate Nvidia ROM image (path:  /Extra/<vendorid>_<devid>.rom)
   VBIOS=Yes|No              Inject VBIOS to device-properties.
 
   EthernetBuiltIn=Yes|No    Automatic "built-in"=yes device-properties generation
