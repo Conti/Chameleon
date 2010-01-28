@@ -49,7 +49,7 @@ Options useful in the com.apple.Boot.plist file:
   "Default Partition"       Sets the default boot partition,
     =hd(x,y)                  where 'x' is the disk number, 'y' the partition number.
   "Hide Partition"          Remove unwanted partition(s) from the boot menu.
-    =hd(x,y) [hd(m,n)]
+    =hd(x,y) [hd(m,n)]        only non mac osx boot partitions can be hidden.
 
   "Rename Partition"          Rename partition(s) for the boot menu.
     =hd(x,y) <alias>[;hd(m,n) <alias2> ...]
