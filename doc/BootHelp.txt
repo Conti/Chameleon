@@ -71,15 +71,16 @@ Options useful in the com.apple.Boot.plist file:
   USBBusFix=Yes             Enable the EHCI and UHCI fixes (disabled by default).
   EHCIacquire=Yes           Enable the EHCI fix (disabled by default).
   UHCIreset=Yes             Enable the UHCI fix (disabled by default).
+  ForceHPET=Yes|No          Force Enable HPET.
 
   Wake=No                   Disable wake up after hibernation (enbaled by default).
   ForceWake=Yes             Force using the sleepimage (disabled by default).
-  WakeImage=<file>          Use an alternate sleepimage file 
+  WakeImage=<file>          Use an alternate sleepimage file. 
                               (default path is /private/var/vm/sleepimage).
 
   DropSSDT=Yes              Skip the SSDT tables while relocating the ACPI tables.
   DSDT=<file>               Use an alternate DSDT.aml file 
-                              (default path: /DSDT.aml /Extra/DSDT.aml)
+                              (default path: /DSDT.aml /Extra/DSDT.aml).
 
   SMBIOS=<file>             Use an alternate smbios.plist file 
                               (default path: /smbios.plist /Extra/smbios.plist
@@ -94,5 +95,5 @@ Options useful in the com.apple.Boot.plist file:
   Rescan=Yes                Enable CD-ROM rescan mode.
   "Rescan Prompt"=Yes       Prompts for enable CD-ROM rescan mode.
   SystemId=<UUID>	    Set manually the system id UUID,
-			    SMUUID in smbios config is a reserved field and should not be used.
-			    So SMUUID has no effect on SystemId in this version
+			    SMUUID in smbios config is a reserved field is not used.
+			    So SMUUID has no effect on SystemId.
