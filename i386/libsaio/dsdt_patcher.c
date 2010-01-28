@@ -73,17 +73,33 @@ static struct acpi_2_rsdp* getAddressOfAcpi20Table()
     return NULL;
 }
 
-void *loadACPITable (const char *filename)
+void *loadACPITable ()
 {
 	void *tableAddr;
-	int fd;
+	int fd = -1;
 	char dirspec[512];
+	const char * const filename = "DSDT.aml";
+	const char * overriden_pathname=NULL;
+	int len=0;
 
 	// Check booting partition
-	sprintf(dirspec,"/%s",filename); // Rek: add the '/' because filename contains no path !
+
+	// Rek: if user specified a full path name then take it in consideration
+	if (getValueForKey(kDSDT, &overriden_pathname, &len,  
+			   &bootInfo->bootConfig))
+	{
+	  sprintf(dirspec, "%s", overriden_pathname); // start searching root
+	    //printf("Using custom DSDT path %s\n", dirspec);
+	    //getc();
+	}
+	else
+	  sprintf(dirspec, "/%s", filename); // start searching root
+
 	fd=open (dirspec,0);
+
 	if (fd<0)
 	{	// Check Extra on booting partition
+	        //verbose("Searching for DSDT.aml file ...\n");
 		sprintf(dirspec,"/Extra/%s",filename);
 		fd=open (dirspec,0);
 		if (fd<0)
@@ -205,20 +221,13 @@ int setupAcpi(void)
 {
 	int version;
 	void *new_dsdt;
-	const char *dsdt_filename;
 
-	int fd;
-	int len;
 	bool drop_ssdt;
 	
-	if (!getValueForKey(kDSDT, &dsdt_filename, &len, &bootInfo->bootConfig))
-		dsdt_filename="DSDT.aml";
-	
 	// Load replacement DSDT
-	new_dsdt=loadACPITable(dsdt_filename);
+	new_dsdt=loadACPITable();
 	if (!new_dsdt)
 	{
-		close(fd);
 		return setupAcpiNoMod();
 	}
 
