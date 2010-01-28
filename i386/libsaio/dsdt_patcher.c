@@ -80,7 +80,7 @@ void *loadACPITable (const char *filename)
 	char dirspec[512];
 
 	// Check booting partition
-	sprintf(dirspec,"%s",filename);
+	sprintf(dirspec,"/%s",filename); // Rek: add the '/' because filename contains no path !
 	fd=open (dirspec,0);
 	if (fd<0)
 	{	// Check Extra on booting partition
@@ -210,7 +210,7 @@ int setupAcpi(void)
 	int fd;
 	int len;
 	bool drop_ssdt;
-
+	
 	if (!getValueForKey(kDSDT, &dsdt_filename, &len, &bootInfo->bootConfig))
 		dsdt_filename="DSDT.aml";
 	
