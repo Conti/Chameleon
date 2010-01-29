@@ -1,3 +1,8 @@
+- Fixed display cosmetics of UUID, now a convert.c file contains all 
+  conversions api, to be completed by function that we should reuse.
+  
+- Fixed SystemType would be always forced to a value, now optionally changed
+  only if ovveriden
 - Kept SystemID as the only option to change manually the system-id 
   For theses reasons, SystemId from bootConfig and SMUUID from smbiosConfig aer now DEPRECATED.
 

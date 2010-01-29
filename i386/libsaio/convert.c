@@ -8,15 +8,17 @@
 #include "convert.h"
 
 /** Transform a 16 bytes hexadecimal value UUID to a string */
-const char * getStringFromUUID(const EFI_CHAR8* uuid)
+const char * getStringFromUUID(const EFI_CHAR8* eUUID)
 {
   static char msg[UUID_LEN*2 + 8] = "";
-  if (uuid) sprintf(msg, "%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x",
-		    (int)uuid[0], (int)uuid[1], (int)uuid[2], (int)uuid[3], 
-		    (int)uuid[4], (int)uuid[5], (int)uuid[6], (int)uuid[7],
-		    (int)uuid[8], (int)uuid[9], (int)uuid[10],(int)uuid[11],
-		    (int)uuid[12],(int)uuid[13],(int)uuid[14],(int)uuid[15]);
-  return uuid ? msg : "";
+  if (!eUUID) return "";
+  const unsigned char * uuid = (unsigned char*) eUUID;
+  sprintf(msg, "%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x",
+		    uuid[0], uuid[1], uuid[2], uuid[3], 
+		    uuid[4], uuid[5], uuid[6], uuid[7],
+		    uuid[8], uuid[9], uuid[10],uuid[11],
+		    uuid[12],uuid[13],uuid[14],uuid[15]);
+  return msg ;
 }
 
 /** Parse an UUID string into an (EFI_CHAR8*) buffer */

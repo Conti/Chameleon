@@ -349,18 +349,19 @@ static EFI_CHAR16* getSmbiosChar16(const char * key, size_t* len)
 #define DEBUG_SMBIOS 0
 
 /* Get the SystemID from the bios dmi info */
-static EFI_CHAR8* getSmbiosUUID()
+static  EFI_CHAR8* getSmbiosUUID()
 {
 	struct SMBEntryPoint	*smbios;
 	struct DMIHeader	*dmihdr;
 	SMBByte			*p;
 	int			i, found, isZero, isOnes;
-	static EFI_CHAR8        uuid[UUID_LEN+1]="";
-	
+	static EFI_CHAR8        uuid[UUID_LEN];
+
 	smbios = getAddressOfSmbiosTable();	/* checks for _SM_ anchor and table header checksum */
 	if (memcmp( &smbios->dmi.anchor[0], "_DMI_", 5) != 0) {
 		return 0;
 	}
+
 #if DEBUG_SMBIOS
 	verbose(">>> SMBIOSAddr=0x%08x\n", smbios);
 	verbose(">>> DMI: addr=0x%08x, len=0x%d, count=%d\n", smbios->dmi.tableAddress, 
@@ -369,7 +370,8 @@ static EFI_CHAR8* getSmbiosUUID()
 	i = 0;
 	found = 0;
 	p = (SMBByte *) smbios->dmi.tableAddress;
-	while (i < smbios->dmi.structureCount && p + 4 <= (SMBByte *)smbios->dmi.tableAddress + smbios->dmi.tableLength) {
+	while (i < smbios->dmi.structureCount && p + 4 <= (SMBByte *)smbios->dmi.tableAddress + smbios->dmi.tableLength) 
+	{
 		dmihdr = (struct DMIHeader *) p;
 #if DEBUG_SMBIOS
 		verbose(">>>>>> DMI(%d): type=0x%02x, len=0x%d\n",i,dmihdr->type,dmihdr->length);
@@ -390,7 +392,7 @@ static EFI_CHAR8* getSmbiosUUID()
 	}
 
 	if (!found) return 0;
-
+ 
 	verbose("Found SMBIOS System Information Table 1\n");
 	p += 8;
 
@@ -403,8 +405,7 @@ static EFI_CHAR8* getSmbiosUUID()
 		return 0;
 	}
 
-	memcpy(uuid, p, UUID_LEN+1);
-	uuid[UUID_LEN]=0;
+	memcpy(uuid, p, UUID_LEN);
 	return uuid;
 }
 
@@ -421,12 +422,12 @@ static EFI_CHAR8* getSystemID()
 
     if(!sysId || !ret)  { // try bios dmi info UUID extraction 
       ret = getSmbiosUUID();
-      sysId = getStringFromUUID(ret);
+      sysId = 0;
     }
     if(!ret)   // no bios dmi UUID available, set a fixed value for system-id
       ret=getUUIDFromString((sysId = (const char*) SYSTEM_ID));
 
-    verbose("Customizing SystemID with : %s\n", sysId);
+    verbose("Customizing SystemID with : %s\n", getStringFromUUID(ret)); // apply a nice formatting to the displayed output
     return ret;
 }
 
@@ -444,7 +445,7 @@ void setupEfiDeviceTree(void)
     
     /* Export system-type only if it has been overrriden by the SystemType option */
     Platform.Type = 1;		/* Desktop */
-    if (getValueForKey(kSystemType, &value, &len, &bootInfo->bootConfig) && value != NULL) 
+    if (getValueForKey(kSystemType, &value, (int*) &len, &bootInfo->bootConfig) && value != NULL) 
     {
       if (Platform.Type > 6) 
 	verbose("Error: system-type must be 0..6. Defaulting to 1!\n");
