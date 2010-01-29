@@ -24,9 +24,9 @@ Example arguments include
 
 Example: mach_kernel rd=disk0s1 -v "Graphics Mode"="1920x1200x32"
 
-If the computer won't start up properly, you may be able to start it up using
-safe mode.  Type -x to start up in safe mode, which ignores all cached
-driver files.
+If the computer won't start up properly, you may be able to start it up 
+using safe mode.  Type -x to start up in safe mode, which ignores all 
+cached driver files.
 
 Special booter hotkeys:
   F5            Rescans optical drive.
@@ -41,60 +41,62 @@ Additional useful command-line options:
   config=<file>             Use an alternate Boot.plist file.
 
 Options useful in the com.apple.Boot.plist file:
-  Wait=Yes|No               Prompt for a key press before starting the kernel.
-  "Quiet Boot"=Yes|No       Use quiet boot mode (no messages or prompt).
-  Timeout=8                 Number of seconds to pause at the boot: prompt.
-  "Instant Menu"=Yes        Force displaying the partition selection menu. 
+  Wait=Yes|No             Prompt for a key press before starting the kernel.
+  "Quiet Boot"=Yes|No     Use quiet boot mode (no messages or prompt).
+  Timeout=8               Number of seconds to pause at the boot: prompt.
+  "Instant Menu"=Yes      Force displaying the partition selection menu. 
 
-  "Default Partition"       Sets the default boot partition,
-    =hd(x,y)                  where 'x' is the disk number, 'y' the partition number.
-  "Hide Partition"          Remove unwanted partition(s) from the boot menu.
-    =hd(x,y) [hd(m,n)]        only non mac osx boot partitions can be hidden.
+  "Default Partition"     Sets the default boot partition,
+    =hd(x,y)                where 'x' & 'y' are the disk and partition numbers.
+  "Hide Partition"        Remove unwanted partition(s) from the boot menu.
+    =hd(x,y) [hd(m,n)]      only non mac osx boot partitions can be hidden.
 
-  "Rename Partition"          Rename partition(s) for the boot menu.
-    =hd(x,y) <alias>[;hd(m,n) <alias2> ...]
+  "Rename Partition"        Rename partition(s) for the boot menu.
+    =hd(x,y) <alias> [;hd(m,n) <alias2> ...]
 
-  GUI=No                    Disable the GUI (enabled by default).
-  "Boot Banner"=Yes|No      Show boot banner in GUI mode (enabled by default).
-  "Legacy Logo"=Yes|No      Use the legacy grey apple logo (disabled by default).
+  GUI=No                  Disable the GUI (enabled by default).
+  "Boot Banner"=Yes|No    Show boot banner in GUI mode (enabled by default).
+  "Legacy Logo"=Yes|No    Use the legacy grey apple logo (disabled by default).
   
-  PciRoot=<value>           Use an alternate value for PciRoot. (default value: 0).
+  PciRoot=<value>         Use an alternate value for PciRoot (default value 0).
 
-  GraphicsEnabler=Yes|No    Automatic device-properties generation for graphics cards.
-  UseAtiROM=Yes|No          Use an alternate Ati ROM image (path: /Extra/<vendorid>_<devid>.rom)
-  UseNvidiaROM=Yes|No       Use an alternate Nvidia ROM image (path:  /Extra/<vendorid>_<devid>.rom)
-  VBIOS=Yes|No              Inject VBIOS to device-properties.
+  GraphicsEnabler=Yes|No  Automatic device-properties generation for gfx cards.
+  UseAtiROM=Yes|No        Use an alternate Ati ROM image 
+                            (path: /Extra/<vendorid>_<devid>.rom)
+  UseNvidiaROM=Yes|No     Use an alternate Nvidia ROM image 
+                            (path:  /Extra/<vendorid>_<devid>.rom)
+  VBIOS=Yes|No            Inject VBIOS to device-properties.
 
-  EthernetBuiltIn=Yes|No    Automatic "built-in"=yes device-properties generation
-                            for ethernet interfaces.
+  EthernetBuiltIn=Yes|No  Automatic "built-in"=yes device-properties generation
+                          for ethernet interfaces.
 
-  USBBusFix=Yes             Enable the EHCI and UHCI fixes (disabled by default).
-  EHCIacquire=Yes           Enable the EHCI fix (disabled by default).
-  UHCIreset=Yes             Enable the UHCI fix (disabled by default).
-  ForceHPET=Yes|No          Force Enable HPET.
+  USBBusFix=Yes           Enable the EHCI and UHCI fixes (disabled by default).
+  EHCIacquire=Yes         Enable the EHCI fix (disabled by default).
+  UHCIreset=Yes           Enable the UHCI fix (disabled by default).
+  ForceHPET=Yes|No        Force Enable HPET.
 
-  Wake=No                   Disable wake up after hibernation (enbaled by default).
-  ForceWake=Yes             Force using the sleepimage (disabled by default).
-  WakeImage=<file>          Use an alternate sleepimage file. 
-                              (default path is /private/var/vm/sleepimage).
+  Wake=No                 Disable wake up after hibernation (default: enabled).
+  ForceWake=Yes           Force using the sleepimage (disabled by default).
+  WakeImage=<file>        Use an alternate sleepimage file. 
+                            (default path is /private/var/vm/sleepimage).
 
-  DropSSDT=Yes              Skip the SSDT tables while relocating the ACPI tables.
-  DSDT=<file>               Use an alternate DSDT.aml file 
-                              (default path: /DSDT.aml /Extra/DSDT.aml).
+  DropSSDT=Yes            Skip the SSDT tables while relocating the ACPI tables.
+  DSDT=<file>             Use an alternate DSDT.aml file 
+                            (default path: /DSDT.aml /Extra/DSDT.aml).
 
-  SMBIOS=<file>             Use an alternate smbios.plist file 
-                              (default path: /smbios.plist /Extra/smbios.plist
-                               bt(0,0)/Extra/smbios.plist).
+  SMBIOS=<file>           Use an alternate smbios.plist file 
+                            (default path: /smbios.plist /Extra/smbios.plist
+                             bt(0,0)/Extra/smbios.plist).
 
-  SMBIOSdefaults=No         Don't use the Default values for SMBIOS overriding
-                              if smbios.plist doesn't exist, factory
-                              values are kept.
+  SMBIOSdefaults=No       Don't use the Default values for SMBIOS overriding
+                            if smbios.plist doesn't exist, factory
+                            values are kept.
 
-  "Scan Single Drive"       Scan the drive only where the booter got loaded from.
-    =Yes|No                 Fix rescan issues when using a DVD reader in AHCI mode. 
-  Rescan=Yes                Enable CD-ROM rescan mode.
-  "Rescan Prompt"=Yes       Prompts for enable CD-ROM rescan mode.
-  SystemId=<UUID>	    Set manually the system id UUID,
-			    SMUUID in smbios config is a reserved field is not used.
-  SystemType=<n>	    Set the system type where n is between 0..6
-                            (default =1 (Desktop)
+  "Scan Single Drive"     Scan the drive only where the booter got loaded from.
+    =Yes|No               Fix rescan pbs when using a DVD reader in AHCI mode. 
+  Rescan=Yes              Enable CD-ROM rescan mode.
+  "Rescan Prompt"=Yes     Prompts for enable CD-ROM rescan mode.
+  SystemId=<UUID>         Set manually the system id UUID,
+                          SMUUID in smbios config (reserved field) isn't used.
+  SystemType=<n>          Set the system type where n is between 0..6
+                          (default =1 (Desktop)
