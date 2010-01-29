@@ -1207,7 +1207,7 @@ spinActivityIndicator(int sectors)
     {
         if (currentIndicator >= kNumIndicators) currentIndicator = 0;
         string[0] = indicator[currentIndicator++];
-        printf(string);
+        verbose(string);
     }
 }
 

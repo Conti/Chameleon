@@ -14,6 +14,7 @@
 #include "dsdt_patcher.h"
 #include "smbios_patcher.h"
 #include "device_inject.h"
+#include "convert.h"
 #include "pci.h"
 #include "sl.h"
 
@@ -327,7 +328,6 @@ static const char const SYSTEM_SERIAL_PROP[] = "SystemSerialNumber";
 static const char const SYSTEM_TYPE_PROP[] = "system-type";
 static const char const MODEL_PROP[] = "Model";
 
-#define UUID_LEN	16
 
 /* Get an smbios option string option to convert to EFI_CHAR16 string */
 static EFI_CHAR16* getSmbiosChar16(const char * key, size_t* len)
@@ -338,11 +338,11 @@ static EFI_CHAR16* getSmbiosChar16(const char * key, size_t* len)
 
   if (!key || !(*key) || !len || !src)    return 0;
 
-  *len = strlen(src)+1;
-  dst = (EFI_CHAR16*) malloc( (*len) * 2 );
-  for (; i < (*len) - 1; i++)  dst[i] = src[i];
-  dst[(*len) - 1] = '\0';
-
+  *len = strlen(src);
+  dst = (EFI_CHAR16*) malloc( ((*len)+1) * 2 );
+  for (; i < (*len); i++)  dst[i] = src[i];
+  dst[(*len)] = '\0';
+  *len = ((*len)+1)*2; // return the CHAR16 bufsize in cluding zero terminated CHAR16
   return dst;
 }
 
@@ -404,64 +404,9 @@ static EFI_CHAR8* getSmbiosUUID()
 	}
 
 	memcpy(uuid, p, UUID_LEN+1);
+	uuid[UUID_LEN]=0;
 	return uuid;
 }
-
-/* Parse an UUID string into an (EFI_CHAR8*) buffer */
-static EFI_CHAR8*  getUUIDFromString(const char *source)
-{
-        if (!source) return 0;
-
-	char	*p = (char *)source;
-	int	i;
-	char	buf[3];
-	static EFI_CHAR8 uuid[UUID_LEN+1]="";
-
-	buf[2] = '\0';
-	for (i=0; i<UUID_LEN; i++) {
-		if (p[0] == '\0' || p[1] == '\0' || !isxdigit(p[0]) || !isxdigit(p[1])) {
-			verbose("[ERROR] UUID='%s' syntax error\n", source);
-			return 0;
-		}
-		buf[0] = *p++;
-		buf[1] = *p++;
-		uuid[i] = (unsigned char) strtoul(buf, NULL, 16);
-		if (*p == '-' && (i % 2) == 1 && i < UUID_LEN - 1) {
-			p++;
-		}
-	}
-	uuid[UUID_LEN]='\0';
-
-	if (*p != '\0') {
-		verbose("[ERROR] UUID='%s' syntax error\n", source);
-		return 0;
-	}
-	return uuid;
-}
-
-
-// FIXME: can't use my original code here,
-// Ironically, trying to reuse convertHexStr2Binary() would RESET the system!
-/*
-static EFI_CHAR8* getUUIDFromString2(const char * szInUUID)
-{
-  char szUUID[UUID_LEN+1], *p=szUUID;
-  int size=0;
-  void* ret;
-
-  if (!szInUUID || strlen(szInUUID)<UUID_LEN) return (EFI_CHAR8*) 0;
-
-  while(*szInUUID) if (*szInUUID!='-') *p++=*szInUUID++; else szInUUID++;
-  *p='\0';
-  ret = convertHexStr2Binary(szUUID, &size);
-  if (!ret || size!=UUID_LEN) 
-  {
-      verbose("UUID: cannot convert string <%s> to valid UUID.\n", szUUID);
-      return (EFI_CHAR8*) 0;
-  }
-  return (EFI_CHAR8*) ret; // new allocated buffer containing the converted string to bin
-}
-*/
 
 /* return a binary UUID value from the overriden SystemID and SMUUID if found, 
  * or from the bios if not, or from a fixed value if no bios value is found 
@@ -476,12 +421,12 @@ static EFI_CHAR8* getSystemID()
 
     if(!sysId || !ret)  { // try bios dmi info UUID extraction 
       ret = getSmbiosUUID();
-      sysId=0;
+      sysId = getStringFromUUID(ret);
     }
     if(!ret)   // no bios dmi UUID available, set a fixed value for system-id
       ret=getUUIDFromString((sysId = (const char*) SYSTEM_ID));
 
-    verbose("Customizing SystemID with : %s\n", sysId ? sysId :"BIOS internal UUID");
+    verbose("Customizing SystemID with : %s\n", sysId);
     return ret;
 }
 
@@ -497,9 +442,17 @@ void setupEfiDeviceTree(void)
     
     if (node == 0) stop("Couldn't get root node");
     
-    /* Export system-type */
-    verbose("Using system-type=0x%02x\n", Platform.Type);
-    DT__AddProperty(node, SYSTEM_TYPE_PROP, sizeof(Platform.Type), &Platform.Type);
+    /* Export system-type only if it has been overrriden by the SystemType option */
+    Platform.Type = 1;		/* Desktop */
+    if (getValueForKey(kSystemType, &value, &len, &bootInfo->bootConfig) && value != NULL) 
+    {
+      if (Platform.Type > 6) 
+	verbose("Error: system-type must be 0..6. Defaulting to 1!\n");
+      else
+	Platform.Type = (unsigned char) strtoul(value, NULL, 10);
+      verbose("Using system-type=0x%02x\n", Platform.Type);
+      DT__AddProperty(node, SYSTEM_TYPE_PROP, sizeof(Platform.Type), &Platform.Type);
+    }
 
    /* We could also just do DT__FindNode("/efi/platform", true)
     * But I think eventually we want to fill stuff in the efi node

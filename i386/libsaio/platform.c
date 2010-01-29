@@ -44,12 +44,5 @@ void scan_platform(void)
 	scan_cpu(&Platform);
 	scan_memory(&Platform);
 	scan_spd(&Platform);
-	Platform.Type = 1;		/* Desktop */
-	if (getValueForKey(kSystemType, &value, &len, &bootInfo->bootConfig) && value != NULL) {
-		Platform.Type = (unsigned char) strtoul(value, NULL, 10);
-		if (Platform.Type > 6) {
-			verbose("Error: system-type must be 0..6. Defaulting to 1!\n");
-			Platform.Type = 1;
-		}
-	}
+
 }

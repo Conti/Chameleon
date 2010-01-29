@@ -15,7 +15,7 @@
 extern struct DevPropString *string;
 extern uint8_t *stringdata;
 extern uint32_t stringlength;
-extern void *convertHexStr2Binary(const char *hexStr, int *outLength);
+
 extern void setupDeviceProperties(Node *node);
 
 struct ACPIDevPath {

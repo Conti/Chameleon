@@ -11,7 +11,7 @@
 #include "pci.h"
 #include "pci_root.h"
 #include "device_inject.h"
-
+#include "convert.h"
 
 #ifndef DEBUG_INJECT
 #define DEBUG_INJECT 0
@@ -37,82 +37,6 @@ char *efi_inject_get_devprop_string(uint32_t *len)
 	}
 	verbose("efi_inject_get_devprop_string NULL trying stringdata\n");
 	return NULL;
-}
-
-/* XXX AsereBLN replace by strtoul */
-uint32_t ascii_hex_to_int(char *buff) 
-{
-	uint32_t	value = 0, i, digit;
-	for(i = 0; i < strlen(buff); i++)
-	{
-		if (buff[i] >= 48 && buff[i] <= 57)			// '0' through '9'
-			digit = buff[i] - 48;	
-		else if (buff[i] >= 65 && buff[i] <= 70)	// 'A' through 'F'
-			digit = buff[i] - 55;
-		else if (buff[i] >= 97 && buff[i] <= 102)	// 'a' through 'f'
-			digit = buff[i] - 87;
-		else
-			return value;
-		
-		value = digit + 16 * value;
-	}
-	return	value;
-}
-
-void *convertHexStr2Binary(const char *hexStr, int *outLength)
-{
-  int len;
-  char hexNibble;
-  char hexByte[2];
-  uint8_t binChar;
-  uint8_t *binStr;
-  int hexStrIdx, binStrIdx, hexNibbleIdx;
-
-  len = strlen(hexStr);
-  if (len > 1)
-  {
-    // the resulting binary will be the half size of the input hex string
-    binStr = malloc(len / 2);
-    binStrIdx = 0;
-    hexNibbleIdx = 0;
-    for (hexStrIdx = 0; hexStrIdx < len; hexStrIdx++)
-    {
-      hexNibble = hexStr[hexStrIdx];
-      
-      // ignore all chars except valid hex numbers
-      if (hexNibble >= '0' && hexNibble <= '9'
-        || hexNibble >= 'A' && hexNibble <= 'F'
-        || hexNibble >= 'a' && hexNibble <= 'f')
-      {
-        hexByte[hexNibbleIdx++] = hexNibble;
-        
-        // found both two nibbles, convert to binary
-        if (hexNibbleIdx == 2)
-        {
-          binChar = 0;
-          
-          for (hexNibbleIdx = 0; hexNibbleIdx < sizeof(hexByte); hexNibbleIdx++)
-          {
-            if (hexNibbleIdx > 0) binChar = binChar << 4;
-            
-            if (hexByte[hexNibbleIdx] <= '9') binChar += hexByte[hexNibbleIdx] - '0';
-            else if (hexByte[hexNibbleIdx] <= 'F') binChar += hexByte[hexNibbleIdx] - ('A' - 10);
-            else if (hexByte[hexNibbleIdx] <= 'f') binChar += hexByte[hexNibbleIdx] - ('a' - 10);
-          }
-          
-          binStr[binStrIdx++] = binChar;						
-          hexNibbleIdx = 0;
-        }
-      }
-    }
-    *outLength = binStrIdx;
-    return binStr;
-  }
-  else
-  {
-    *outLength = 0;
-    return NULL;
-  }
 }
 
 void setupDeviceProperties(Node *node)
@@ -143,19 +67,6 @@ void setupDeviceProperties(Node *node)
     if (cnt2 > 0) DT__AddProperty(node, DEVICE_PROPERTIES_PROP, cnt2, binStr);
   }
 }
-
-uint16_t dp_swap16(uint16_t toswap)
-{
-	return (((toswap & 0x00FF) << 8) | ((toswap & 0xFF00) >> 8));
-}
-
-uint32_t dp_swap32(uint32_t toswap)
-{
-	return  ((toswap & 0x000000FF) << 24) |
-			((toswap & 0x0000FF00) << 8 ) |
-			((toswap & 0x00FF0000) >> 8 ) |
-			((toswap & 0xFF000000) >> 24);
-}	
 
 struct DevPropString *devprop_create_string(void)
 {
