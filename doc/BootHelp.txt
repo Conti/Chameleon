@@ -96,4 +96,5 @@ Options useful in the com.apple.Boot.plist file:
   "Rescan Prompt"=Yes       Prompts for enable CD-ROM rescan mode.
   SystemId=<UUID>	    Set manually the system id UUID,
 			    SMUUID in smbios config is a reserved field is not used.
-			    So SMUUID has no effect on SystemId.
+  SystemType=<n>	    Set the system type where n is between 0..6
+                            (default =1 (Desktop)

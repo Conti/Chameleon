@@ -338,10 +338,10 @@ static EFI_CHAR16* getSmbiosChar16(const char * key, size_t* len)
 
   if (!key || !(*key) || !len || !src)    return 0;
 
-  *len = strlen(src);
-  dst = (EFI_CHAR16*) malloc(((*len)+1)*2);
-  for (; i<*len; i++)  dst[i] = src[i];
-  dst[*len] = '\0';
+  *len = strlen(src)+1;
+  dst = (EFI_CHAR16*) malloc( (*len) * 2 );
+  for (; i < (*len) - 1; i++)  dst[i] = src[i];
+  dst[(*len) - 1] = '\0';
 
   return dst;
 }
@@ -471,7 +471,7 @@ static EFI_CHAR8* getSystemID()
 
     // Rek: new SMsystemid option conforming to smbios notation standards, this option should
     // belong to smbios config only ...
-    const char * sysId = getStringForKey("SystemId", &bootInfo->bootConfig);
+    const char * sysId = getStringForKey(kSystemID, &bootInfo->bootConfig);
     EFI_CHAR8* ret = getUUIDFromString(sysId);
 
     if(!sysId || !ret)  { // try bios dmi info UUID extraction 
@@ -491,12 +491,15 @@ void setupEfiDeviceTree(void)
     EFI_CHAR8* ret=0;
     size_t len=0;
     Node *node;
-    EFI_CHAR8 SystemType=1;
     const char *value;
 
     node = DT__FindNode("/", false);
     
     if (node == 0) stop("Couldn't get root node");
+    
+    /* Export system-type */
+    verbose("Using system-type=0x%02x\n", Platform.Type);
+    DT__AddProperty(node, SYSTEM_TYPE_PROP, sizeof(Platform.Type), &Platform.Type);
 
    /* We could also just do DT__FindNode("/efi/platform", true)
     * But I think eventually we want to fill stuff in the efi node
@@ -547,16 +550,7 @@ void setupEfiDeviceTree(void)
     if((ret=getSystemID()))
        DT__AddProperty(efiPlatformNode, SYSTEM_ID_PROP, UUID_LEN, (EFI_UINT32*) ret);
 
-    /* Export system-type. Allowed values are: 0x01 for desktop computer (default),  0x02 for portable computers */
-    if ((value=getStringForKey("system-type",  &bootInfo->bootConfig))) {
-      if (*value != '1' && *value != '2') 
-	verbose("Error: system-type must be 1 (desktop) or 2 (portable). Defaulting to 1!\n");
-      else
-	SystemType = (unsigned char) (*value-'0');
-    }
-    DT__AddProperty(node, SYSTEM_TYPE_PROP, sizeof(EFI_CHAR8), &SystemType);
-
-    /* Export SystemSerialNumber if present */
+     /* Export SystemSerialNumber if present */
     if ((ret16=getSmbiosChar16("SMserial", &len)))
       DT__AddProperty(efiPlatformNode, SYSTEM_SERIAL_PROP, len, ret16);
 
