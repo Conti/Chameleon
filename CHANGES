@@ -1,3 +1,7 @@
+- Fixed the hibernation problem in boot2/resume.c
+- Fixed all new booter versions with SystemType would override the facp value even if correct,
+  now keeps the facp value if correct and no override has been done, implemented a best effort algo.
+  for maximizing the chance to get the most correct value before we decide to use a fixed value (1=desktop)
 - Fixed display cosmetics of UUID, now a convert.c file contains all 
   conversions api, to be completed by function that we should reuse.
   

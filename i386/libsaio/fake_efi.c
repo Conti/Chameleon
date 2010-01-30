@@ -431,30 +431,27 @@ static EFI_CHAR8* getSystemID()
     return ret;
 }
 
+// must be called AFTER setup Acpi because we need to take care of correct facp content to reflect in ioregs
+void setupSystemType()
+{
+    Node *node = DT__FindNode("/", false);
+    if (node == 0) stop("Couldn't get root node");
+    // we need to write this property after facp parsing
+    /* Export system-type only if it has been overrriden by the SystemType option */
+    DT__AddProperty(node, SYSTEM_TYPE_PROP, sizeof(Platform.Type), &Platform.Type);
+}
+
 void setupEfiDeviceTree(void)
 {
     EFI_CHAR16* ret16=0;
     EFI_CHAR8* ret=0;
     size_t len=0;
     Node *node;
-    const char *value;
 
     node = DT__FindNode("/", false);
     
     if (node == 0) stop("Couldn't get root node");
     
-    /* Export system-type only if it has been overrriden by the SystemType option */
-    Platform.Type = 1;		/* Desktop */
-    if (getValueForKey(kSystemType, &value, (int*) &len, &bootInfo->bootConfig) && value != NULL) 
-    {
-      if (Platform.Type > 6) 
-	verbose("Error: system-type must be 0..6. Defaulting to 1!\n");
-      else
-	Platform.Type = (unsigned char) strtoul(value, NULL, 10);
-      verbose("Using system-type=0x%02x\n", Platform.Type);
-      DT__AddProperty(node, SYSTEM_TYPE_PROP, sizeof(Platform.Type), &Platform.Type);
-    }
-
    /* We could also just do DT__FindNode("/efi/platform", true)
     * But I think eventually we want to fill stuff in the efi node
     * too so we might as well create it so we have a pointer for it too.

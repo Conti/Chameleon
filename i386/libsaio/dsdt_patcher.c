@@ -135,14 +135,18 @@ void *loadACPITable ()
 	return NULL;
 }
 
+
 struct acpi_2_fadt *
 patch_fadt(struct acpi_2_fadt *fadt, void *new_dsdt)
 {
 
+        extern void setupSystemType(); 
+	
 	struct acpi_2_fadt *fadt_mod;
 	bool fadt_rev2_needed = false;
 	bool fix_restart;
-
+	const char * value;
+	
 	// Restart Fix
 	if (Platform.CPU.Vendor == 0x756E6547) {	/* Intel */
 		fix_restart = true;
@@ -167,12 +171,36 @@ patch_fadt(struct acpi_2_fadt *fadt, void *new_dsdt)
 		fadt_mod=(struct acpi_2_fadt *)AllocateKernelMemory(fadt->Length);
 		memcpy(fadt_mod, fadt, fadt->Length);
 	}
-
-	// Set PM_Profile from System-type
-	if (fadt_mod->PM_Profile != Platform.Type) {
+	// Determine system type / PM_Model
+	if ( (value=getStringForKey(kSystemType, &bootInfo->bootConfig))!=NULL)
+	{
+	  if (Platform.Type > 6)  
+	  {
+	    if(fadt_mod->PM_Profile<=6)
+	      Platform.Type = fadt_mod->PM_Profile; // get the fadt if correct
+	    else 
+	      Platform.Type = 1;		/* Set a fixed value (Desktop) */
+	    verbose("Error: system-type must be 0..6. Defaulting to %d !\n", Platform.Type);
+	  }
+	  else
+	    Platform.Type = (unsigned char) strtoul(value, NULL, 10);
+	}
+	// Set PM_Profile from System-type if only if user wanted this value to be forced
+	if (fadt_mod->PM_Profile != Platform.Type) 
+	{
+	    if (value) 
+	      { // user has overriden the SystemType so take care of it in FACP
 		verbose("FADT: changing PM_Profile from 0x%02x to 0x%02x\n", fadt_mod->PM_Profile, Platform.Type);
 		fadt_mod->PM_Profile = Platform.Type;
+	    }
+	    else
+	    { // PM_Profile has a different value and no override has been set, so reflect the user value to ioregs
+	      Platform.Type = fadt_mod->PM_Profile <= 6 ? fadt_mod->PM_Profile : 1;
+	    }  
 	}
+	// We now have to write the systemm-type in ioregs: we cannot do it before in setupDeviceTree()
+	// because we need to take care of facp original content, if it is correct.
+	setupSystemType();
 
 	// Patch FADT to fix restart
 	if (fix_restart)
