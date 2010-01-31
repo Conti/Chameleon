@@ -1,5 +1,26 @@
 TODO List for Chameleon Boot Loader
 ====================================
+- Integrate Prasys current work on options and quick shortcut modified version of 18seven
+
+- Add autodetection of efistring algorythm to enabke graphics enabler to beanbled by default while not conflicting whith other efi string overriden content
+  (original idea of Galaxy)
+
+- Add a more sophisticated acpi loading mechanism to enable loading custom acpi tables when dsdtdrop=y
+    Here's a specification to think about:
+    First we must care about if a forced DSDT full path has been specified (was the pb smith had in
+     his first tries) and take it for the DSDT path as is.
+    Then we have the case where no DSDT path was set where we run our usual DSDT search algorithm to find this file.
+    In the latter case, the file has to be named DSDT.aml and be in one of the / /Extra or bt(0,0)/Extra directory.
+    
+    Now a first idea to implement correctly the acpi tables loading would be:
+    
+    Whatever the path was hardcoded in the DSDT option or was automatically found, we extract the path part of 
+    the DSDT file that has been successfully found and we run a loop to enumerate all other acpi files in the same directory.
+    Now for each acpi file found, we should compare the name with an existing acpi table found in the system that
+     we would normally load and replace this usual injection by the content of the file.
+    
+    Once DropDSDT=y is set, no other acpi table than dsdt is loaded, then it is the responsability of user
+    to provide any other acpi table.
 
 - Add a new module capable of writing proprietary Chameleon data to ioreg:
   Using the DT__xxx() API, we will creat e a set of functions to write
