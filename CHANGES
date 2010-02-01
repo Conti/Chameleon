@@ -1,3 +1,5 @@
+- Nvidia injection fix
+- pciroot would not always return correct uuid in autodection mode
 - Fixed the hibernation problem in boot2/resume.c
 - Fixed all new booter versions with SystemType would override the facp value even if correct,
   now keeps the facp value if correct and no override has been done, implemented a best effort algo.
