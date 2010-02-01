@@ -63,7 +63,7 @@ int getPciRootUID(void)
 		}
 		goto out;
 	}
-#if 0
+#if 1
 	/* Chameleon compatibility */
 	if (getValueForKey("PciRoot", &val, &len, &bootInfo->bootConfig)) {
 		if (isdigit(val[0])) {
@@ -107,12 +107,14 @@ int getPciRootUID(void)
 	dsdt_uid = findpciroot(new_dsdt, fsize);
 	free(new_dsdt);
 
-	if (dsdt_uid >= 0 && dsdt_uid <= 9) {
-		rootuid = dsdt_uid;
-	} else {
-		verbose("Could not determine PCI-Root-UID value from DSDT!\n");
+	if(dsdt_uid == 11) dsdt_uid=0; //usually when _UID isnt present, it means uid is zero
+	else if (dsdt_uid < 0 || dsdt_uid > 9) 
+	{
+		printf("PciRoot uid value wasnt found, using 0, if you want it to be 1, use -PciRootUID flag");
+		dsdt_uid = 0;
+		//if(dsdt_uid == 10) //algo failed, PCI0 wasnt found
 	}
 out:
-	verbose("Using PCI-Root-UID value %d\n", rootuid);
+	verbose("Using PCI-Root-UID value: %d\n", rootuid);
 	return rootuid;
 }

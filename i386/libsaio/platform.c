@@ -36,9 +36,6 @@ bool platformCPUFeature(uint32_t feature)
 
 void scan_platform(void)
 {
-	const char	*value;
-	int		len;
-
 	memset(&Platform, 0, sizeof(Platform));
 	build_pci_dt();
 	scan_cpu(&Platform);

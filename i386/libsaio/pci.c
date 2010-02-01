@@ -109,10 +109,29 @@ void scan_pci_bus(pci_dt_t *start, uint8_t bus)
 	}
 }
 
+void enable_pci_devs(void)
+{
+	uint16_t id;
+	uint32_t rcba, *fd;
+
+	id = pci_config_read16(PCIADDR(0, 0x00, 0), 0x00);
+	/* make sure we're on Intel chipset */
+	if (id != 0x8086)
+		return;
+	rcba = pci_config_read32(PCIADDR(0, 0x1f, 0), 0xf0) & ~1;
+	fd = (uint32_t *)(rcba + 0x3418);
+	/* set SMBus Disable (SD) to 0 */
+	*fd &= ~0x8;
+	/* and all devices? */
+	//*fd = 0x1;
+}
+
+
 void build_pci_dt(void)
 {
 	root_pci_dev = malloc(sizeof(pci_dt_t));
 	bzero(root_pci_dev, sizeof(pci_dt_t));
+	enable_pci_devs();
 	scan_pci_bus(root_pci_dev, 0);
 #if DEBUG_PCI
 	dump_pci_dt(root_pci_dev->children);
@@ -132,13 +151,12 @@ char *get_pci_dev_path(pci_dt_t *pci_dt)
 	end = root_pci_dev;
 	while (end != pci_dt) {
 		current = pci_dt;
-		while (current->parent != end) {
-			current = current->parent;
-		}
+		while (current->parent != end) 	current = current->parent;
 		end = current;
-		sprintf(tmp, "%s/Pci(0x%x,0x%x)",
-			(current->parent == root_pci_dev) ? "PciRoot(0x0)" : "",
-			current->dev.bits.dev, current->dev.bits.func);
+		if (current->parent == root_pci_dev) 
+		  sprintf(tmp, "PciRoot(0x%x)/Pci(0x%x,0x%x)", getPciRootUID(), current->dev.bits.dev, current->dev.bits.func);
+		else 
+		  sprintf(tmp, "/Pci(0x%x,0x%x)",  current->dev.bits.dev, current->dev.bits.func);
 		strcat(dev_path, tmp);
 	}
 	return dev_path;
