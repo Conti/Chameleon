@@ -72,66 +72,78 @@ static struct acpi_2_rsdp* getAddressOfAcpi20Table()
     }
     return NULL;
 }
+/** The folowing ACPI Table search algo. should be reused anywhere needed:*/
+int search_and_get_acpi_fd(const char * filename, const char ** outDirspec)
+{
+  int fd=0;
+  const char * overriden_pathname=NULL;
+  static char dirspec[512]="";
+  int len=0;
 
-void *loadACPITable ()
+  /// Take in accound user overriding if it's DSDT only
+  if (strstr(filename, "DSDT") && 
+      getValueForKey(kDSDT, &overriden_pathname, &len,  
+			   &bootInfo->bootConfig))
+    {
+      sprintf(dirspec, "%s", overriden_pathname); // start searching root
+      fd=open (dirspec,0);
+      if (fd>=0) goto success_fd;
+    }
+
+  // Start searching any potential location for ACPI Table
+  sprintf(dirspec, "/%s", filename); // start searching root
+  fd=open (dirspec,0);
+  if (fd>=0) goto success_fd;
+
+  sprintf(dirspec, "%s", filename); // start current dir
+  fd=open (dirspec,0);
+  if (fd>=0) goto success_fd;
+
+  sprintf(dirspec,"/Extra/%s",filename);
+  fd=open (dirspec,0);
+  if (fd>=0) goto success_fd;
+
+  sprintf(dirspec,"bt(0,0)/Extra/%s",filename);
+  fd=open (dirspec,0);
+  if (fd>=0) goto success_fd;
+
+  // NOT FOUND:
+  verbose("ACPI Table not found: %s\n", filename);
+  if (outDirspec) *outDirspec = "";
+  return -1;
+  // FOUND
+success_fd:
+  if (outDirspec) *outDirspec = dirspec; 
+  return fd;
+}
+
+void *loadACPITable (const char * filename)
 {
 	void *tableAddr;
-	int fd = -1;
-	char dirspec[512];
-	const char * const filename = "DSDT.aml";
-	const char * overriden_pathname=NULL;
-	int len=0;
+	const char * dirspec=NULL;
+	
+	int fd = search_and_get_acpi_fd(filename, &dirspec);
 
-	// Check booting partition
-
-	// Rek: if user specified a full path name then take it in consideration
-	if (getValueForKey(kDSDT, &overriden_pathname, &len,  
-			   &bootInfo->bootConfig))
+	if (fd>=0)
 	{
-	  sprintf(dirspec, "%s", overriden_pathname); // start searching root
-	    //printf("Using custom DSDT path %s\n", dirspec);
-	    //getc();
-	}
-	else
-	  sprintf(dirspec, "/%s", filename); // start searching root
-
-	fd=open (dirspec,0);
-
-	if (fd<0)
-	{	// Check Extra on booting partition
-	        //verbose("Searching for DSDT.aml file ...\n");
-		sprintf(dirspec,"/Extra/%s",filename);
-		fd=open (dirspec,0);
-		if (fd<0)
-		{	// Fall back to booter partition
-			sprintf(dirspec,"bt(0,0)/Extra/%s",filename);
-			fd=open (dirspec,0);
-			if (fd<0)
-			{
-				verbose("ACPI Table not found: %s\n", filename);
-				return NULL;
-			}
-		}
-	}
-
-	tableAddr=(void*)AllocateKernelMemory(file_size (fd));
-	if (tableAddr)
-	{
-		if (read (fd, tableAddr, file_size (fd))!=file_size (fd))
-		{
-			printf("Couldn't read table %s\n",dirspec);
-			free (tableAddr);
-			close (fd);
-			return NULL;
-		}
-
-		DBG("Table %s read and stored at: %x\n", dirspec, tableAddr);
-		close (fd);
-		return tableAddr;
-	}
-
+	  tableAddr=(void*)AllocateKernelMemory(file_size (fd));
+	  if (tableAddr)
+	  {
+	      if (read (fd, tableAddr, file_size (fd))!=file_size (fd))
+	      {
+		  printf("Couldn't read table %s\n",dirspec);
+		  free (tableAddr);
+		  close (fd);
+		  return NULL;
+	      }
+	      
+	      DBG("Table %s read and stored at: %x\n", dirspec, tableAddr);
+	      close (fd);
+	      return tableAddr;
+	  }
+	  close (fd);
+	}  
 	printf("Couldn't allocate memory for table %s\n", dirspec);
-	close (fd);
 	return NULL;
 }
 
@@ -253,7 +265,7 @@ int setupAcpi(void)
 	bool drop_ssdt;
 	
 	// Load replacement DSDT
-	new_dsdt=loadACPITable();
+	new_dsdt=loadACPITable("DSDT.aml");
 	if (!new_dsdt)
 	{
 		return setupAcpiNoMod();

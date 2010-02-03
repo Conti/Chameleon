@@ -7,7 +7,7 @@
 #include "bootstruct.h"
 
 #ifndef DEBUG_PCIROOT
-#define DEBUG_PCIROOT 0
+#define DEBUG_PCIROOT 1
 #endif
 
 #if DEBUG_PCIROOT
@@ -46,50 +46,43 @@ static unsigned int findpciroot(unsigned char * dsdt,int len)
 int getPciRootUID(void)
 {
 	void *new_dsdt;
-	const char *dsdt_filename;
 	const char *val;
-	int fd;
-	int dsdt_uid;
 	int len,fsize;
+	const char * dsdt_filename=NULL;
+	extern int search_and_get_acpi_fd(const char *, const char **);
 
-	if (rootuid < 10) {
-		return rootuid;
-	}
+	if (rootuid < 10) return rootuid;
 	rootuid = 0;	/* default uid = 0 */
 
 	if (getValueForKey(kPCIRootUID, &val, &len, &bootInfo->bootConfig)) {
-		if (isdigit(val[0])) {
-			rootuid = val[0] - '0';
-		}
+		if (isdigit(val[0])) rootuid = val[0] - '0';
 		goto out;
 	}
-#if 1
 	/* Chameleon compatibility */
-	if (getValueForKey("PciRoot", &val, &len, &bootInfo->bootConfig)) {
-		if (isdigit(val[0])) {
-			rootuid = val[0] - '0';
-		}
+	else if (getValueForKey("PciRoot", &val, &len, &bootInfo->bootConfig)) {
+		if (isdigit(val[0])) rootuid = val[0] - '0';
 		goto out;
 	}
-
 	/* PCEFI compatibility */
-	if (getValueForKey("-pci0", &val, &len, &bootInfo->bootConfig)) {
+	else if (getValueForKey("-pci0", &val, &len, &bootInfo->bootConfig)) {
 		rootuid = 0;
 		goto out;
 	}
-	if (getValueForKey("-pci1", &val, &len, &bootInfo->bootConfig)) {
+	else if (getValueForKey("-pci1", &val, &len, &bootInfo->bootConfig)) {
 		rootuid = 1;
 		goto out;
 	}
-#endif
-	if (!getValueForKey(kDSDT, &dsdt_filename, &len, &bootInfo->bootConfig)) {
-		dsdt_filename="/Extra/DSDT.aml";
-	}
 
-	if ((fd = open_bvdev("bt(0,0)", dsdt_filename, 0)) < 0) {
-		verbose("[WARNING] %s not found\n", dsdt_filename);
-		goto out;
+	int fd = search_and_get_acpi_fd("DSDT.aml", &dsdt_filename);
+
+	// Check booting partition
+	if (fd<0)
+	{	  
+	  verbose("No DSDT found, using 0 as uid value.\n");
+	  rootuid = 0;
+	  return rootuid;
 	}
+	
 	fsize = file_size(fd);
 
 	if ((new_dsdt = malloc(fsize)) == NULL) {
@@ -104,15 +97,15 @@ int getPciRootUID(void)
 	}
 	close (fd);
 
-	dsdt_uid = findpciroot(new_dsdt, fsize);
+	rootuid = findpciroot(new_dsdt, fsize);
 	free(new_dsdt);
 
-	if(dsdt_uid == 11) dsdt_uid=0; //usually when _UID isnt present, it means uid is zero
-	else if (dsdt_uid < 0 || dsdt_uid > 9) 
+	// make sure it really works: 
+	if (rootuid == 11) rootuid=0; //usually when _UID isnt present, it means uid is zero
+	else if (rootuid < 0 || rootuid > 9) 
 	{
 		printf("PciRoot uid value wasnt found, using 0, if you want it to be 1, use -PciRootUID flag");
-		dsdt_uid = 0;
-		//if(dsdt_uid == 10) //algo failed, PCI0 wasnt found
+		rootuid = 0;
 	}
 out:
 	verbose("Using PCI-Root-UID value: %d\n", rootuid);

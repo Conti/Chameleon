@@ -10,7 +10,7 @@
 #include "pci_root.h"
 
 #ifndef DEBUG_PCI
-#define DEBUG_PCI 0
+#define DEBUG_PCI 1
 #endif
 
 #if DEBUG_PCI
@@ -150,14 +150,22 @@ char *get_pci_dev_path(pci_dt_t *pci_dt)
 
 	dev_path[0] = 0;
 	end = root_pci_dev;
-	while (end != pci_dt) {
+	
+	int uid = getPciRootUID();
+	while (end != pci_dt)
+	{
 		current = pci_dt;
-		while (current->parent != end) 	current = current->parent;
+		while (current->parent != end)
+			current = current->parent;			
 		end = current;
-		if (current->parent == root_pci_dev) 
-		  sprintf(tmp, "PciRoot(0x%x)/Pci(0x%x,0x%x)", getPciRootUID(), current->dev.bits.dev, current->dev.bits.func);
-		else 
-		  sprintf(tmp, "/Pci(0x%x,0x%x)",  current->dev.bits.dev, current->dev.bits.func);
+		if (current->parent == root_pci_dev)
+		{
+			sprintf(tmp, "PciRoot(0x%x)/Pci(0x%x,0x%x)", uid, 
+				current->dev.bits.dev, current->dev.bits.func);
+		} else {
+			sprintf(tmp, "/Pci(0x%x,0x%x)", 
+				current->dev.bits.dev, current->dev.bits.func);
+		}
 		strcat(dev_path, tmp);
 	}
 	return dev_path;

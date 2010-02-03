@@ -168,7 +168,7 @@ unsigned long getMemoryMap( MemoryRange *   rangeArray,
 
     MemoryRange *	range = (MemoryRange *)BIOS_ADDR;
     unsigned long	count = 0;
-    unsigned long	rerangedCount;
+    //    unsigned long	rerangedCount;
     unsigned long long	conMemSize = 0;
     unsigned long long	extMemSize = 0;
 
