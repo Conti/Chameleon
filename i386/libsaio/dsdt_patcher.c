@@ -142,8 +142,9 @@ void *loadACPITable (const char * filename)
 	      return tableAddr;
 	  }
 	  close (fd);
+          printf("Couldn't allocate memory for table \n", dirspec);
 	}  
-	printf("Couldn't allocate memory for table %s\n", dirspec);
+	printf("Couldn't find table %s\n", filename);
 	return NULL;
 }
 
