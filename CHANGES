@@ -1,3 +1,6 @@
+- Added NVIDIA new NVCAP customization support and support for ION gfx cards from aserebln
+- Added ATI new framebuffers support and new cards from PCEFI10.6
+- improved ACPI file search algo by implementing a cache.
 - Nvidia injection fix
 - pciroot would not always return correct uuid in autodection mode
 - Fixed the hibernation problem in boot2/resume.c
