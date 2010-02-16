@@ -10,7 +10,7 @@
 #include "pci_root.h"
 
 #ifndef DEBUG_PCI
-#define DEBUG_PCI 1
+#define DEBUG_PCI 0
 #endif
 
 #if DEBUG_PCI

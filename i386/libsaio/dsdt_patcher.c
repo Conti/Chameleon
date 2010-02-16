@@ -78,6 +78,7 @@ int search_and_get_acpi_fd(const char * filename, const char ** outDirspec)
   int fd=0;
   const char * overriden_pathname=NULL;
   static char dirspec[512]="";
+  static bool first_time =true; 
   int len=0;
 
   /// Take in accound user overriding if it's DSDT only
@@ -85,21 +86,34 @@ int search_and_get_acpi_fd(const char * filename, const char ** outDirspec)
       getValueForKey(kDSDT, &overriden_pathname, &len,  
 			   &bootInfo->bootConfig))
     {
-      sprintf(dirspec, "%s", overriden_pathname); // start searching root
+      sprintf(dirspec, "%s", overriden_pathname);
       fd=open (dirspec,0);
       if (fd>=0) goto success_fd;
     }
-
+  // Check that dirspec is not already assigned with a path
+  if (!first_time && *dirspec) 
+  { // it is so start searching this cached patch first
+      //extract path
+      for (len=strlen(dirspec)-1; len; len--)
+          if (dirspec[len]=='/' || len==0)
+          {
+                  dirspec[len]='\0';
+                  break;
+          }
+      // now concat with the filename
+      strncat(dirspec, "/", sizeof(dirspec));
+      strncat(dirspec, filename, sizeof(dirspec));
+      // and test to see if we don't have our big boy here:
+      fd=open (dirspec,0);
+      if (fd>=0) 
+      {
+          // printf("ACPI file search cache hit: file found at %s\n", dirspec);
+          goto success_fd;
+      }
+  }
   // Start searching any potential location for ACPI Table
-  sprintf(dirspec, "/%s", filename); // start searching root
-  fd=open (dirspec,0);
-  if (fd>=0) goto success_fd;
-
-  sprintf(dirspec, "%s", filename); // start current dir
-  fd=open (dirspec,0);
-  if (fd>=0) goto success_fd;
-
-  sprintf(dirspec,"/Extra/%s",filename);
+  // search the Extra folders first
+  sprintf(dirspec,"/Extra/%s",filename); 
   fd=open (dirspec,0);
   if (fd>=0) goto success_fd;
 
@@ -107,12 +121,22 @@ int search_and_get_acpi_fd(const char * filename, const char ** outDirspec)
   fd=open (dirspec,0);
   if (fd>=0) goto success_fd;
 
+  sprintf(dirspec, "%s", filename); // search current dir
+  fd=open (dirspec,0);
+  if (fd>=0) goto success_fd;
+
+  sprintf(dirspec, "/%s", filename); // search root
+  fd=open (dirspec,0);
+  if (fd>=0) goto success_fd;
+
   // NOT FOUND:
   verbose("ACPI Table not found: %s\n", filename);
   if (outDirspec) *outDirspec = "";
+  first_time = false;
   return -1;
   // FOUND
 success_fd:
+  first_time = false;
   if (outDirspec) *outDirspec = dirspec; 
   return fd;
 }
