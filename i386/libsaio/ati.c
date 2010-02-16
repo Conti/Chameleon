@@ -156,6 +156,8 @@ static struct ati_chipsets_t ATIKnownChipsets[] = {
 	{ 0x1002945A,  "ATI Radeon 4800 Mobility Series"}  ,
 	{ 0x1002945B,  "ATI Radeon 4800 Mobility Series"}  ,
 	{ 0x1002944B,  "ATI Radeon 4800 Mobility Series"}  ,
+        { 0x10029490,  "ATI Radeon 4670 Series"}  ,
+        { 0x10029498,  "ATI Radeon 4650 Series"}  ,
 	{ 0x10029490,  "ATI Radeon 4600 Series"}  ,
 	{ 0x10029498,  "ATI Radeon 4600 Series"}  ,
 	{ 0x1002949E,  "ATI Radeon 4600 Series"}  ,
@@ -166,7 +168,13 @@ static struct ati_chipsets_t ATIKnownChipsets[] = {
 	{ 0x1002954E,  "ATI Radeon 4500 Series"}  ,
 	{ 0x10029552,  "ATI Radeon 4300 Mobility Series"}  ,
 	{ 0x10029553,  "ATI Radeon 4500 Mobility Series"}  ,
-	{ 0x1002954F,  "ATI Radeon 4300 Series"}
+	{ 0x1002954F,  "ATI Radeon 4300 Series"} ,
+        { 0x100294B3,  "ATI Radeon 4770 Series"} ,
+        { 0x100294B5,  "ATI Radeon 4770 Series"} ,
+        { 0x100268B8,  "ATI Radeon 5700 Series"} ,
+        { 0x100268BE,  "ATI Radeon 5700 Series"} ,
+        { 0x10026898,  "ATI Radeon 5800 Series"} ,
+        { 0x10026899,  "ATI Radeon 5800 Series"}
 };
 
 static struct ati_chipsets_t ATIKnownFramebuffers[] = {
@@ -214,17 +222,23 @@ static struct ati_chipsets_t ATIKnownFramebuffers[] = {
 	{ 0x1002945A,  "Motmot"}  ,
 	{ 0x1002945B,  "Motmot"}  ,
 	{ 0x1002944B,  "Motmot"}  ,
-	{ 0x10029490,  "Motmot"}  ,
-	{ 0x10029498,  "Motmot"}  ,
-	{ 0x1002949E,  "Motmot"}  ,
-	{ 0x10029480,  "Motmot"}  ,
-	{ 0x10029488,  "Motmot"}  ,
-	{ 0x10029540,  "Motmot"}  ,
-	{ 0x10029541,  "Motmot"}  ,
-	{ 0x1002954E,  "Motmot"}  ,
-	{ 0x10029552,  "Motmot"}  ,
-	{ 0x10029553,  "Motmot"}  ,
-	{ 0x1002954F,  "Motmot"} 
+        { 0x10029490,  "Peregrine"}  ,
+        { 0x10029498,  "Peregrine"}  ,
+        { 0x1002949E,  "Peregrine"}  ,
+        { 0x10029480,  "Peregrine"}  ,
+        { 0x10029488,  "Peregrine"}  ,
+        { 0x10029540,  "Peregrine"}  ,
+        { 0x10029541,  "Peregrine"}  ,
+        { 0x1002954E,  "Peregrine"}  ,
+        { 0x10029552,  "Peregrine"}  ,
+        { 0x10029553,  "Peregrine"}  ,
+        { 0x1002954F,  "Peregrine"}  ,
+        { 0x100294B3,  "Peregrine"},
+        { 0x100294B5,  "Peregrine"},
+        { 0x100268B8,  "Motmot"},
+        { 0x100268BE,  "Motmot"},
+        { 0x10026898,  "Motmot"},
+        { 0x10026899,  "Motmot"}
 };
 
 static uint32_t accessROM(pci_dt_t *ati_dev, unsigned int mode)
@@ -652,9 +666,11 @@ bool setup_ati_devprop(pci_dt_t *ati_dev)
 	verbose("boot display - %x\n", boot_display);
 	devprop_add_value(device, "@0,AAPL,boot-display", (uint8_t*)&boot_display, 4);
 
-	if (framebuffer[0] == 'M' && framebuffer[1] == 'o' && framebuffer[2] == 't') {
-		devprop_add_ati_template_4xxx(device);
-	} else {
+	if((framebuffer[0] == 'M' && framebuffer[1] == 'o' && framebuffer[2] == 't') || 
+           (framebuffer[0] == 'S' && framebuffer[1] == 'h' && framebuffer[2] == 'r') || 
+           (framebuffer[0] == 'P' && framebuffer[1] == 'e' && framebuffer[2] == 'r')) //faster than strcmp ;)
+                devprop_add_ati_template_4xxx(device);
+	else {
 		devprop_add_ati_template(device);
 		vram_size = getvramsizekb(ati_dev) * 1024;
 		if ((vram_size > 0x80000000) || (vram_size == 0)) {
