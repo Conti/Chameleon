@@ -80,7 +80,7 @@ int getPciRootUID(void)
 	{	  
 	  verbose("No DSDT found, using 0 as uid value.\n");
 	  rootuid = 0;
-	  return rootuid;
+	  goto out;
 	}
 	
 	fsize = file_size(fd);

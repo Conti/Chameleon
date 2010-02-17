@@ -1,3 +1,8 @@
+- Factorized code to prepare a dynamic memory detection algorithm ...
+- Optimized smbios table address search
+- Optimized cursor spinout in textmode if no verbose mode is set
+- Added ram table structures definitions
+- Added getSmbios() a param permitting to select between orig and new smbios entries
 - Changed "Default Partition" behaviour to accept only native system volumes or foreign partitions.
 - Added NVIDIA new NVCAP customization support and support for ION gfx cards from aserebln
 - Added ATI new framebuffers support and new cards from PCEFI10.6

@@ -18,7 +18,7 @@
 #include "pci.h"
 #include "sl.h"
 
-extern struct SMBEntryPoint * getSmbios();
+extern struct SMBEntryPoint * getSmbios(int which); // now cached
 extern void setup_pci_devs(pci_dt_t *pci_dt);
 
 /*
@@ -284,13 +284,6 @@ static const char const CPU_Frequency_prop[] = "CPUFrequency";
  * SMBIOS
  */
 
-/* From Foundation/Efi/Guid/Smbios/SmBios.h */
-/* Modified to wrap Data4 array init with {} */
-#define EFI_SMBIOS_TABLE_GUID \
-  { \
-    0xeb9d2d31, 0x2d88, 0x11d3, {0x9a, 0x16, 0x0, 0x90, 0x27, 0x3f, 0xc1, 0x4d} \
-  }
-
 /* From Foundation/Efi/Guid/Smbios/SmBios.c */
 EFI_GUID const  gEfiSmbiosTableGuid = EFI_SMBIOS_TABLE_GUID;
 
@@ -346,52 +339,19 @@ static EFI_CHAR16* getSmbiosChar16(const char * key, size_t* len)
   return dst;
 }
 
-#define DEBUG_SMBIOS 0
-
 /* Get the SystemID from the bios dmi info */
 static  EFI_CHAR8* getSmbiosUUID()
 {
 	struct SMBEntryPoint	*smbios;
-	struct DMIHeader	*dmihdr;
 	SMBByte			*p;
-	int			i, found, isZero, isOnes;
+	int			i, isZero, isOnes;
 	static EFI_CHAR8        uuid[UUID_LEN];
 
-	smbios = getAddressOfSmbiosTable();	/* checks for _SM_ anchor and table header checksum */
-	if (memcmp( &smbios->dmi.anchor[0], "_DMI_", 5) != 0) {
-		return 0;
-	}
+	smbios = getSmbios(SMBIOS_PATCHED);	/* checks for _SM_ anchor and table header checksum */
+	if (smbios==NULL) return 0; // getSmbios() return a non null value if smbios is found
 
-#if DEBUG_SMBIOS
-	verbose(">>> SMBIOSAddr=0x%08x\n", smbios);
-	verbose(">>> DMI: addr=0x%08x, len=0x%d, count=%d\n", smbios->dmi.tableAddress, 
-		smbios->dmi.tableLength, smbios->dmi.structureCount);
-#endif
-	i = 0;
-	found = 0;
-	p = (SMBByte *) smbios->dmi.tableAddress;
-	while (i < smbios->dmi.structureCount && p + 4 <= (SMBByte *)smbios->dmi.tableAddress + smbios->dmi.tableLength) 
-	{
-		dmihdr = (struct DMIHeader *) p;
-#if DEBUG_SMBIOS
-		verbose(">>>>>> DMI(%d): type=0x%02x, len=0x%d\n",i,dmihdr->type,dmihdr->length);
-#endif
-		if (dmihdr->length < 4 || dmihdr->type == 127 /* EOT */) break;
-		if (dmihdr->type == 1) 	/* 3.3.2 System Information */
-		{	
-		        if (dmihdr->length >= 0x19) found = 1;
-			break;
-		}
-		p = p + dmihdr->length;
-		while ((p - (SMBByte *)smbios->dmi.tableAddress + 1 < smbios->dmi.tableLength) && (p[0] != 0x00 || p[1] != 0x00)) 
-		{
-			p++;
-		}
-		p += 2;
-		i++;
-	}
-
-	if (!found) return 0;
+	p = (SMBByte *) getSmbiosTableStructure(smbios, 1, 0x19); /* Type 1: (3.3.2) System Information */
+	if (p==NULL) return NULL;
  
 	verbose("Found SMBIOS System Information Table 1\n");
 	p += 8;
@@ -527,7 +487,7 @@ static void setupSmbiosConfigFile()
 /* Installs all the needed configuration table entries */
 void setupEfiConfigurationTable()
 {
-  smbios_p = (EFI_PTR32)getSmbios();
+  smbios_p = (EFI_PTR32)getSmbios(SMBIOS_PATCHED);
   addConfigurationTable(&gEfiSmbiosTableGuid, &smbios_p, NULL);
 
   // Setup ACPI with DSDT overrides (mackerintel's patch)

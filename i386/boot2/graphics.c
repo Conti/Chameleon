@@ -1172,7 +1172,6 @@ int getVideoMode(void)
 // Display and clear the activity indicator.
 
 static char indicator[] = {'-', '\\', '|', '/', '-', '\\', '|', '/', '\0'};
-#define kNumIndicators (sizeof(indicator) - 1)
 
 // To prevent a ridiculously fast-spinning indicator,
 // ensure a minimum of 1/9 sec between animation frames.
@@ -1181,9 +1180,7 @@ static char indicator[] = {'-', '\\', '|', '/', '-', '\\', '|', '/', '\0'};
 void
 spinActivityIndicator(int sectors)
 {
-    static unsigned long lastTickTime = 0;
-    unsigned long        currentTickTime = time18();
-    static char          string[3] = {'\0', '\b', '\0'};
+    static unsigned long lastTickTime = 0, currentTickTime;
     
 	if (previewTotalSectors && previewSaveunder)
 	{
@@ -1198,17 +1195,21 @@ spinActivityIndicator(int sectors)
 		return;
 	}
  
-	if (currentTickTime < lastTickTime + MIN_TICKS)
-        return;
-    else
-        lastTickTime = currentTickTime;
-
-    if ( getVideoMode() == VGA_TEXT_MODE )
-    {
-        if (currentIndicator >= kNumIndicators) currentIndicator = 0;
-        string[0] = indicator[currentIndicator++];
-        verbose(string);
-    }
+	if (gVerboseMode) {
+            currentTickTime = time18(); // late binding
+            if (currentTickTime < lastTickTime + MIN_TICKS) {
+                return;
+            } else {
+                lastTickTime = currentTickTime;
+            }
+            
+            if (getVideoMode() == VGA_TEXT_MODE) {
+                if (currentIndicator >= sizeof(indicator)) {
+                    currentIndicator = 0;
+                }
+                printf("%c\b", indicator[currentIndicator++]);
+            }
+        }
 }
 
 void

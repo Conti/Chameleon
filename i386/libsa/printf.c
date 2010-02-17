@@ -45,6 +45,7 @@ sputc(int c, struct putc_info * pi)
 }
 
 /*VARARGS1*/
+/* now slprintf() return the length of the string as in man sprintf()*/
 int sprintf(char * str, const char * fmt, ...)
 {
     va_list ap;
@@ -56,7 +57,7 @@ int sprintf(char * str, const char * fmt, ...)
     prf(fmt, ap, sputc, &pi);
     *pi.str = '\0';
     va_end(ap);
-    return 0;
+    return (pi.str - str);
 }
 
 /*VARARGS1*/

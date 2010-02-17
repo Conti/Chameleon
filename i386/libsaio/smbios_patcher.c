@@ -13,7 +13,7 @@
 #include "SMBIOS.h"
 
 #ifndef DEBUG_SMBIOS
-#define DEBUG_SMBIOS 0
+#define DEBUG_SMBIOS 1
 #endif
 
 #if DEBUG_SMBIOS
@@ -154,11 +154,14 @@ static int sm_get_cputype (char *name, int table_num)
 
 static int sm_get_memtype (char *name, int table_num)
 {
-	if (table_num < MAX_RAM_SLOTS &&
-	    Platform.RAM.DIMM[table_num].InUse &&
-	    Platform.RAM.DIMM[table_num].Type != 0)
-	{
-		return Platform.RAM.DIMM[table_num].Type;
+	int	map;
+
+	if (table_num < MAX_RAM_SLOTS) {
+		map = Platform.DMI.DIMM[table_num];
+		if (Platform.RAM.DIMM[map].InUse && Platform.RAM.DIMM[map].Type != 0) {
+                    DBG("RAM Detected Type = %d\n", Platform.RAM.DIMM[map].Type);
+                    return Platform.RAM.DIMM[map].Type;
+		}
 	}
 	return SMB_MEM_TYPE_DDR2;
 }
@@ -166,43 +169,50 @@ static int sm_get_memtype (char *name, int table_num)
 static int sm_get_memspeed (char *name, int table_num)
 {
 	if (Platform.RAM.Frequency != 0) {
-		return Platform.RAM.Frequency/1000000;
+            DBG("RAM Detected Freq = %d\n", Platform.RAM.Frequency/1000000);
+            return Platform.RAM.Frequency/1000000;
 	}
-	return 667;
+	return 800;
 }
 
 static char *sm_get_memvendor (char *name, int table_num)
 {
-	if (table_num < MAX_RAM_SLOTS &&
-	    Platform.RAM.DIMM[table_num].InUse &&
-	    strlen(Platform.RAM.DIMM[table_num].Vendor) > 0)
-	{
-		DBG("Vendor[%d]='%s'\n", table_num, Platform.RAM.DIMM[table_num].Vendor);
-		return Platform.RAM.DIMM[table_num].Vendor;
+	int	map;
+
+	if (table_num < MAX_RAM_SLOTS) {
+		map = Platform.DMI.DIMM[table_num];
+		if (Platform.RAM.DIMM[map].InUse && strlen(Platform.RAM.DIMM[map].Vendor) > 0) {
+			DBG("RAM Detected Vendor[%d]='%s'\n", table_num, Platform.RAM.DIMM[map].Vendor);
+			return Platform.RAM.DIMM[map].Vendor;
+		}
 	}
 	return "N/A";
 }
 	
 static char *sm_get_memserial (char *name, int table_num)
 {
-	if (table_num < MAX_RAM_SLOTS &&
-	    Platform.RAM.DIMM[table_num].InUse &&
-	    strlen(Platform.RAM.DIMM[table_num].SerialNo) > 0)
-	{
-		DBG("SerialNo[%d]='%s'\n", table_num, Platform.RAM.DIMM[table_num].SerialNo);
-		return Platform.RAM.DIMM[table_num].SerialNo;
+	int	map;
+
+	if (table_num < MAX_RAM_SLOTS) {
+		map = Platform.DMI.DIMM[table_num];
+		if (Platform.RAM.DIMM[map].InUse && strlen(Platform.RAM.DIMM[map].SerialNo) > 0) {
+			DBG("RAM Detected SerialNo[%d]='%s'\n", table_num, Platform.RAM.DIMM[map].SerialNo);
+			return Platform.RAM.DIMM[map].SerialNo;
+		}
 	}
 	return "N/A";
 }
 
 static char *sm_get_mempartno (char *name, int table_num)
 {
-	if (table_num < MAX_RAM_SLOTS &&
-	    Platform.RAM.DIMM[table_num].InUse &&
-	    strlen(Platform.RAM.DIMM[table_num].PartNo) > 0)
-	{
-		DBG("PartNo[%d]='%s'\n", table_num, Platform.RAM.DIMM[table_num].PartNo);
-		return Platform.RAM.DIMM[table_num].PartNo;
+	int	map;
+
+	if (table_num < MAX_RAM_SLOTS) {
+		map = Platform.DMI.DIMM[table_num];
+		if (Platform.RAM.DIMM[map].InUse && strlen(Platform.RAM.DIMM[map].PartNo) > 0) {
+			DBG("Ram Detected PartNo[%d]='%s'\n", table_num, Platform.RAM.DIMM[map].PartNo);
+			return Platform.RAM.DIMM[map].PartNo;
+		}
 	}
 	return "N/A";
 }
@@ -249,36 +259,31 @@ struct smbios_table_description smbios_table_descriptions[]=
 	{.type=132,	.len=0x06,	.numfunc=sm_one}
 };
 
-struct SMBEntryPoint *getAddressOfSmbiosTable(void)
+// getting smbios addr with fast compare ops, late checksum testing ...
+#define COMPARE_DWORD(a,b) ( *((u_int32_t *) a) == *((u_int32_t *) b) )
+static const char * const SMTAG = "_SM_";
+static const char* const DMITAG= "_DMI_";
+
+static struct SMBEntryPoint *getAddressOfSmbiosTable(void)
 {
-	/* First see if we can even find the damn SMBIOS table
-	 * The logic here is to start at 0xf0000 and end at 0xfffff iterating 16 bytes at a time looking
+	struct SMBEntryPoint	*smbios;
+
+	/* 
+	 * The logic is to start at 0xf0000 and end at 0xfffff iterating 16 bytes at a time looking
 	 * for the SMBIOS entry-point structure anchor (literal ASCII "_SM_").
 	 */
-	void *smbios_addr = (void*)SMBIOS_RANGE_START;
-
-	for (; (smbios_addr<=(void*)SMBIOS_RANGE_END) && (*(uint32_t*)smbios_addr!=SMBIOS_ANCHOR_UINT32_LE); smbios_addr+=16) ;
-	if (smbios_addr <= (void*)SMBIOS_RANGE_END) {
-		/* NOTE: The specification does not specifically state what to do in the event of finding an
-		 * SMBIOS anchor on an invalid table.  It might be better to move this code into the for loop
-		 * so that searching can continue.
-		 */
-		uint8_t csum = checksum8(smbios_addr, sizeof(struct SMBEntryPoint));
-		/* The table already contains the checksum so we merely need to see if its checksum is now zero. */
-		if (csum != 0) {
-			printf("Found SMBIOS anchor but bad table checksum.  Assuming no SMBIOS.\n");
-			sleep(5);
-			smbios_addr = 0;
+	smbios = (struct SMBEntryPoint*) SMBIOS_RANGE_START;
+	while (smbios <= (struct SMBEntryPoint *)SMBIOS_RANGE_END) {
+            if (COMPARE_DWORD(smbios->anchor, SMTAG)  && COMPARE_DWORD(smbios->dmi.anchor, DMITAG) &&
+		    checksum8(smbios, sizeof(struct SMBEntryPoint)) == 0)
+		{
+			return smbios;
 		}
-	} else {
-		/* If this happens, it's possible that a PnP BIOS call can be done to retrieve the address of the table.
-		 * The latest versions of the spec state that modern programs should not even attempt to do this.
-		 */
-		printf("Unable to find SMBIOS table.\n");
-		sleep(5);
-		smbios_addr = 0;
+            smbios = (((void*) smbios) + 16);
 	}
-	return smbios_addr;
+	printf("ERROR: Unable to find SMBIOS!\n");
+	sleep(5);
+	return NULL;
 }
 
 /* Compute necessary space requirements for new smbios */
@@ -690,13 +695,68 @@ void smbios_real_run(struct SMBEntryPoint * origsmbios, struct SMBEntryPoint * n
 	verbose("Patched DMI Table\n");
 }
 
-struct SMBEntryPoint *getSmbios(void)
+struct SMBEntryPoint *getSmbios(int which)
 {
-	struct SMBEntryPoint *orig_address;
-	struct SMBEntryPoint *new_address;
+    static struct SMBEntryPoint *orig = NULL; // cached
+    static struct SMBEntryPoint *patched = NULL; // cached
 
-	orig_address=getAddressOfSmbiosTable();
-	new_address = smbios_dry_run(orig_address);
-	smbios_real_run(orig_address, new_address);
-	return new_address;
+	if (orig == NULL) orig = getAddressOfSmbiosTable();
+
+	switch (which) {
+	case SMBIOS_ORIGINAL:
+            return orig;
+	case SMBIOS_PATCHED:
+            if (patched == NULL) {
+                patched = smbios_dry_run(orig);
+                smbios_real_run(orig, patched);
+            }
+            return patched;
+	default:
+            printf("ERROR: invalid option for getSmbios() !!\n");
+            return NULL;
+	}
 }
+
+/** 
+ * Get a table structure entry from a type specification and a smbios address
+ * return NULL if table is not found
+ */
+struct DMIHeader *getSmbiosTableStructure(struct SMBEntryPoint	*smbios, int type, int min_length)
+{
+    struct DMIHeader * dmihdr=NULL;
+    bool found = false;
+    SMBByte* p;
+    int i;
+
+    if (smbios == NULL || type < 0 ) return NULL;
+#if DEBUG_SMBIOS
+	printf(">>> SMBIOSAddr=0x%08x\n", smbios);
+	printf(">>> DMI: addr=0x%08x, len=0x%d, count=%d\n", smbios->dmi.tableAddress, 
+		smbios->dmi.tableLength, smbios->dmi.structureCount);
+#endif
+	p = (SMBByte *) smbios->dmi.tableAddress;
+	for (i=0; i < smbios->dmi.structureCount && p + 4 <= (SMBByte *)smbios->dmi.tableAddress + smbios->dmi.tableLength; i++) 
+	{
+            dmihdr = (struct DMIHeader *) p;
+#if DEBUG_SMBIOS
+            verbose(">>>>>> DMI(%d): type=0x%02x, len=0x%d\n",i,dmihdr->type,dmihdr->length);
+#endif
+            if (dmihdr->length < 4 || dmihdr->type == 127 /* EOT */) break;
+            if (dmihdr->type == type) 	/* 3.3.2 System Information */
+		{	
+                    if (dmihdr->length >= min_length) found = true;
+                    break;
+		}
+            p = p + dmihdr->length;
+            while ((p - (SMBByte *)smbios->dmi.tableAddress + 1 < smbios->dmi.tableLength) && (p[0] != 0x00 || p[1] != 0x00)) 
+		{
+                    p++;
+		}
+            p += 2;
+	}
+
+#if DEBUG_SMBIOS
+        printf("DMI header found for table type %d, length = %d\n", type, dmihdr->type, dmihdr->length);
+#endif
+	return found ? dmihdr : NULL;
+ }
