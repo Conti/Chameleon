@@ -313,17 +313,36 @@ find_boot:
     jne	    .Pass2
 
 .Pass1:
+%ifdef HFSFIRST
+    cmp	    BYTE [si + part.type], kPartTypeHFS		; In pass 1 we're going to find a HFS+ partition
+                                                  ; equipped with boot1h in its boot record
+                                                  ; regardless if it's active or not.
+    jne     .continue
+  	mov		  dh, 1                									; Argument for loadBootSector to check HFS+ partition signature.
+%else
     cmp     BYTE [si + part.bootid], kPartActive	; In pass 1 we are walking on the standard path
-    jne     .continue								; by trying to hop on the active partition.
-	xor		dh, dh									; Argument for loadBootSector to skip HFS+ partition
-													; signature check.
+                                                  ; by trying to hop on the active partition.
+    jne     .continue
+    xor	  	dh, dh               									; Argument for loadBootSector to skip HFS+ partition
+											                        		; signature check.
+%endif
+
     jmp    .tryToBoot
 
 .Pass2:    
-;    cmp	    BYTE [si + part.type], kPartTypeHFS		; In pass 2 we're going to find a HFS+ partition
-;    jne     .continue								; equipped with boot1h in its boot record
-;													; regardless if it's active or not.
-	mov		dh, 1									; Argument for loadBootSector to check HFS+ partition signature.
+%ifdef HFSFIRST
+    cmp     BYTE [si + part.bootid], kPartActive	; In pass 2 we are walking on the standard path
+                                                  ; by trying to hop on the active partition.
+    jne     .continue
+    xor		  dh, dh               									; Argument for loadBootSector to skip HFS+ partition
+											                        		; signature check.
+%else
+    cmp	    BYTE [si + part.type], kPartTypeHFS		; In pass 2 we're going to find a HFS+ partition
+                                                  ; equipped with boot1h in its boot record
+                                                  ; regardless if it's active or not.
+    jne     .continue
+  	mov 		dh, 1                									; Argument for loadBootSector to check HFS+ partition signature.
+%endif
 
     DebugChar('*')
 
@@ -755,7 +774,7 @@ boot_error_str   	db  'error', 0
 
 %if VERBOSE
 gpt_str			db  'GPT', 0
-test_str		db  'testing', 0
+test_str		db  'test', 0
 done_str		db  'done', 0
 %endif
 
@@ -772,27 +791,6 @@ done_str		db  'done', 0
 
 pad_boot:
     times 440-($-$$) db 0
-
-%ifdef FLOPPY
-;--------------------------------------------------------------------------
-; Put fake partition entries for the bootable floppy image
-;
-part1bootid     db    0x80          ; first partition active
-part1head       db    0x00          ; head #
-part1sect       db    0x02          ; sector # (low 6 bits)
-part1cyl        db    0x00          ; cylinder # (+ high 2 bits of above)
-part1systid     db    0xab          ; Apple boot partition
-times   3       db    0x00          ; ignore head/cyl/sect #'s
-part1relsect    dd    0x00000001    ; start at sector 1
-part1numsect    dd    0x00000080    ; 64K for booter
-part2bootid     db    0x00          ; not active
-times   3       db    0x00          ; ignore head/cyl/sect #'s
-part2systid     db    0xa8          ; Apple UFS partition
-times   3       db    0x00          ; ignore head/cyl/sect #'s
-part2relsect    dd    0x00000082    ; start after booter
-; part2numsect  dd    0x00000abe    ; 1.44MB - 65K
-part2numsect    dd    0x000015fe    ; 2.88MB - 65K
-%endif
 
 pad_table_and_sig:
     times 510-($-$$) db 0
