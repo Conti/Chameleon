@@ -776,6 +776,7 @@ BVRef selectBootVolume( BVRef chain )
 	/*
 	 * Checking "Default Partition" key in system configuration - use format: hd(x,y) -
 	 * to override the default selection.
+	 * We accept only kBVFlagSystemVolume or kBVFlagForeignBoot volumes.
 	 */
   const char * val;
   char testStr[64];
@@ -786,7 +787,8 @@ BVRef selectBootVolume( BVRef chain )
     for ( bvr = chain; bvr; bvr = bvr->next )
     {
       *testStr = '\0';
-      if ( bvr->biosdev >= 0x80 && bvr->biosdev < 0x100 )
+      if ( bvr->biosdev >= 0x80 && bvr->biosdev < 0x100
+            && ( bvr->flags & ( kBVFlagSystemVolume|kBVFlagForeignBoot ) ) )
       {
         sprintf(testStr, "hd(%d,%d)", bvr->biosdev - 0x80, bvr->part_no);
         if (strcmp(testStr, val) == 0)
