@@ -12,14 +12,16 @@
 #include "appleboot.h"
 #include "vers.h"
 
-//#define EMBED_THEME
+#define THEME_NAME_DEFAULT	"Default"
+static const char *theme_name = THEME_NAME_DEFAULT;	
 
 #ifdef EMBED_THEME
 #include "art.h"
-#define LOADPNG(img)	if (loadEmbeddedThemeImage(#img, __## img ##_png, __## img ##_png_len) != 0) { return 1; }
+#define LOADPNG(img) \
+if (loadThemeImage(#img) != 0) \
+    if (loadEmbeddedThemeImage(#img, __## img ##_png, __## img ##_png_len) != 0) \
+        return 1;
 #else
-#define THEME_NAME_DEFAULT	"Default"
-static const char *theme_name = THEME_NAME_DEFAULT;	
 #define LOADPNG(img)	if (loadThemeImage(#img) != 0) { return 1; }
 #endif
 
@@ -175,7 +177,7 @@ static int loadEmbeddedThemeImage(const char *image, unsigned char *image_data, 
 	}
 	return 1;
 }
-#else
+#endif
 static int loadThemeImage(const char *image)
 {
 	char		dirspec[256];
@@ -183,7 +185,6 @@ static int loadThemeImage(const char *image)
 	uint16_t	width;
 	uint16_t	height;
 	uint8_t		*imagedata;
-
 
 	if ((strlen(image) + strlen(theme_name) + 20 ) > sizeof(dirspec)) {
 		return 1;
@@ -198,8 +199,10 @@ static int loadThemeImage(const char *image)
 			height = 0;
 			imagedata = NULL;
 			if ((loadPngImage(dirspec, &width, &height, &imagedata)) != 0) {
-				printf("ERROR: GUI: could not open '%s/%s.png'!\n", theme_name, image);
-				sleep(5);
+#ifndef EMBED_THEME
+        printf("ERROR: GUI: could not open '%s/%s.png'!\n", theme_name, image);
+        sleep(2);
+#endif
 				return 1;
 			}
 			images[i].image->width = width;
@@ -211,7 +214,7 @@ static int loadThemeImage(const char *image)
 	}
 	return 1;
 }
-#endif
+
 
 static int loadGraphics(void)
 {
@@ -1663,11 +1666,6 @@ static void loadBootGraphics(void)
 		return;
 	}
 
-#ifdef EMBED_THEME
-	if ((loadEmbeddedPngImage(__boot_png, __boot_png_len, &bootImageWidth, &bootImageHeight, &bootImageData)) != 0) {
-		usePngImage = false; 
-	}
-#else
 	char dirspec[256];
 
 	if ((strlen(theme_name) + 24) > sizeof(dirspec)) {
@@ -1676,9 +1674,11 @@ static void loadBootGraphics(void)
 	}
 	sprintf(dirspec, "/Extra/Themes/%s/boot.png", theme_name);
 	if (loadPngImage(dirspec, &bootImageWidth, &bootImageHeight, &bootImageData) != 0) {
+#ifdef EMBED_THEME
+  	if ((loadEmbeddedPngImage(__boot_png, __boot_png_len, &bootImageWidth, &bootImageHeight, &bootImageData)) != 0)
+#endif
 		usePngImage = false; 
 	}
-#endif
 }
 
 //==========================================================================
