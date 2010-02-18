@@ -737,8 +737,8 @@ void drawDeviceList (int start, int end, int selection)
 			gui.debug.cursor = pos( 10, 100);
 			dprintf( &gui.screen, "label     %s\n",   param->label );
 			dprintf( &gui.screen, "biosdev   0x%x\n", param->biosdev );
-                        dprintf(&gui.screen,  "width     %d\n",  param->width);
-                        dprintf(&gui.screen,  "height    %d\n",  param->height);
+                        dprintf(&gui.screen,  "width     %d\n",  gui.screen.width);
+                        dprintf(&gui.screen,  "height    %d\n",  gui.screen.height);
 			dprintf( &gui.screen, "type      0x%x\n", param->type );
 			dprintf( &gui.screen, "flags     0x%x\n", param->flags );
 			dprintf( &gui.screen, "part_no   %d\n",   param->part_no );
