@@ -82,13 +82,26 @@ __asm__ __volatile__("rdtsc" : "=a" (low), "=d" (high))
 #define SMBHSTADD 4
 #define SMBHSTDAT 5
 
+
 const char * getVendorName(const char * spd)
 {
     uint16_t code = *((uint16_t*) &spd[0x75]);
     int i;
-    for (i=0; i < VEN_MAP_SIZE; i++)
-        if (code==vendorMap[i].code)
-            return vendorMap[i].name;
+    uint16_t bank=0;
+
+    if (spd[2]==0x0b) { // DDR3
+        for (i=0; i < VEN_MAP_SIZE; i++)
+            if (code==vendorMap[i].code)
+                return vendorMap[i].name;
+    }
+    else if (spd[2]==0x08 || spd[2]==0x07) { // DDR2 or DDR
+        for (i=64; i<72 && spd[i]==0x7f;i++) bank++;
+        code = bank+((uint16_t)spd[i])*256;
+        for (i=0; i < VEN_MAP_SIZE; i++)
+            if (code==vendorMap[i].code)
+                return vendorMap[i].name;
+    }
+
     return "No Name";
 }
 
@@ -136,6 +149,14 @@ uint32_t getDDRSerial(const char* spd)
     return ret;
 }
 
+char * getDDRPartNum(const char* spd)
+{
+    if (spd[2]==0x0b) // DDR3
+        return &spd[128];
+    else if (spd[2]==0x08 || spd[2]==0x07) // DDR2 or DDR
+        return &spd[73];
+    return "";
+}
 unsigned char smb_read_byte_intel(uint32_t base, uint8_t adr, uint8_t cmd)
 {
 	int l1, h1, l2, h2;
@@ -175,7 +196,7 @@ static void read_smb_intel(pci_dt_t *smbus_dev)
 
     base = pci_config_read16(smbus_dev->dev.addr, 0x20) & 0xFFFE;
     DBG("Scanning smbus_dev <%04x, %04x> ...\n",smbus_dev->vendor_id, smbus_dev->device_id);
-    
+
     getBoolForKey("DumpSPD", &dump, &bootInfo->bootConfig);
 
    // Search MAX_RAM_SLOTS slots
@@ -185,7 +206,7 @@ static void read_smb_intel(pci_dt_t *smbus_dev)
         spd_size = smb_read_byte_intel(base, 0x50 + i, 0);
         
         // Check spd is present
-        if (spd_size != 0xff)
+        if (spd_size && spd_size != 0xff)
             {
                 slot->InUse = true;
                 
@@ -216,7 +237,7 @@ static void read_smb_intel(pci_dt_t *smbus_dev)
                 
                 spd_type = (slot->spd[SPD_MEMORY_TYPE] < ((char) 12) ? slot->spd[SPD_MEMORY_TYPE] : 0);
                 slot->Type = spd_mem_to_smbios[spd_type];
-                strncpy(slot->PartNo, &slot->spd[0x80], 64);
+                strncpy(slot->PartNo, getDDRPartNum(slot->spd), 64);
                 strncpy(slot->Vendor, getVendorName(slot->spd), 64);
 
                 ser = getDDRSerial(slot->spd);
@@ -228,7 +249,8 @@ static void read_smb_intel(pci_dt_t *smbus_dev)
                     sprintf(slot->SerialNo, "%d", ser);
                 // determine speed
                 slot->Frequency = getDDRspeedMhz(slot->spd);
-                verbose("Slot %d Type %d %dMB (%s) %dMHz Vendor=%s, PartNo=%s SerialNo=%s\n", 
+                if(dump) {
+                    printf("Slot %d Type %d %dMB (%s) %dMHz Vendor=%s, PartNo=%s SerialNo=%s\n", 
                         i, 
                         (int)slot->Type,
                         slot->ModuleSize, 
@@ -237,17 +259,19 @@ static void read_smb_intel(pci_dt_t *smbus_dev)
                         slot->Vendor,
                         slot->PartNo,
                         slot->SerialNo); 
-                if(dump) {
                     dumpPhysAddr("spd content: ",slot->spd, spd_size);
                     getc();
                 }
             }
     }
+#if DEBUG_SPD
+    printf("Press a key to continue\n");
+    getc();
+#endif
 }
 
 static struct smbus_controllers_t smbus_controllers[] = {
 
-	{0x8086, 0x5032, "EP80579", read_smb_intel },
 	{0x8086, 0x269B, "ESB2",    read_smb_intel },
 	{0x8086, 0x25A4, "6300ESB", read_smb_intel },
 	{0x8086, 0x24C3, "ICH4",    read_smb_intel },
@@ -258,7 +282,8 @@ static struct smbus_controllers_t smbus_controllers[] = {
 	{0x8086, 0x2930, "ICH9",    read_smb_intel },	
 	{0x8086, 0x3A30, "ICH10R",  read_smb_intel },
 	{0x8086, 0x3A60, "ICH10B",  read_smb_intel },
-	{0x8086, 0x3B30, "P55",     read_smb_intel }
+	{0x8086, 0x3B30, "P55",     read_smb_intel },
+	{0x8086, 0x5032, "EP80579", read_smb_intel }
 
 };
 
