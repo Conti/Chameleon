@@ -69,7 +69,9 @@ VenIdName vendorMap[] = {
     {0xBA01, "PNY Electronics"}, // id=BA Bank=2
     {0x4F01, "Transcend Information"}, // id=4F Bank=2
     {0x1903, "Centon Electronics"}, // id=19 Bank=4
-    {0x4001, "Viking Components"} // id=40 Bank=2
+    {0x4001, "Viking Components"}, // id=40 Bank=2
+    {0xAD00, "Hynix Semiconductors"}, // id 0xAD Bank 1
+    {0x4304, "Ramaxel Technologies"} // id 0x43 Bank 5
 };
 #define VEN_MAP_SIZE (sizeof(vendorMap)/sizeof(VenIdName))
 
@@ -82,14 +84,15 @@ __asm__ __volatile__("rdtsc" : "=a" (low), "=d" (high))
 #define SMBHSTADD 4
 #define SMBHSTDAT 5
 
-
+/** Get Vendor Name from spd, 2 cases handled DDR3 and DDR2, have different formats.*/
 const char * getVendorName(const char * spd)
 {
-    uint16_t code = *((uint16_t*) &spd[0x75]);
+    uint16_t code;
     int i;
     uint16_t bank=0;
 
     if (spd[2]==0x0b) { // DDR3
+        code  = *((uint16_t*) &spd[0x75]);
         for (i=0; i < VEN_MAP_SIZE; i++)
             if (code==vendorMap[i].code)
                 return vendorMap[i].name;
@@ -102,9 +105,10 @@ const char * getVendorName(const char * spd)
                 return vendorMap[i].name;
     }
 
-    return "No Name";
+    return "NoName";
 }
 
+/** Get Default Memory Module Speed (no overclocking handled) */
 int getDDRspeedMhz(const char * spd)
 {
     if (spd[2]==0x0b) { // DDR3
@@ -137,6 +141,8 @@ int getDDRspeedMhz(const char * spd)
 }
 
 #define UIS(a) ((uint32_t)spd[a])
+
+/** Get DDR3 or DDR2 serial number, 0 most of the times */
 uint32_t getDDRSerial(const char* spd)
 {
     uint32_t ret=0;
@@ -149,14 +155,17 @@ uint32_t getDDRSerial(const char* spd)
     return ret;
 }
 
-char * getDDRPartNum(const char* spd)
+/** Get DDR3 or DDR2 Part Number */
+const char * getDDRPartNum(const char* spd)
 {
     if (spd[2]==0x0b) // DDR3
         return &spd[128];
     else if (spd[2]==0x08 || spd[2]==0x07) // DDR2 or DDR
         return &spd[73];
-    return "";
+    return "N/A";
 }
+
+/** Read one byte from the intel i2c, used for reading SPD on intel chipsets only. */
 unsigned char smb_read_byte_intel(uint32_t base, uint8_t adr, uint8_t cmd)
 {
 	int l1, h1, l2, h2;
@@ -185,6 +194,7 @@ unsigned char smb_read_byte_intel(uint32_t base, uint8_t adr, uint8_t cmd)
 
 int mapping []={0,1,2,3,4,5}; // linear mapping for now, check me
 
+/** Read from smbus the SPD content and interpret it for detecting memory attributes */
 static void read_smb_intel(pci_dt_t *smbus_dev)
 { 
     static int serialnum=0;
