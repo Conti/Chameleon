@@ -10,10 +10,9 @@
 #include "fake_efi.h"
 #include "platform.h"
 #include "smbios_patcher.h"
-#include "SMBIOS.h"
 
 #ifndef DEBUG_SMBIOS
-#define DEBUG_SMBIOS 1
+#define DEBUG_SMBIOS 0
 #endif
 
 #if DEBUG_SMBIOS
@@ -168,10 +167,16 @@ static int sm_get_memtype (char *name, int table_num)
 
 static int sm_get_memspeed (char *name, int table_num)
 {
-	if (Platform.RAM.Frequency != 0) {
-            DBG("RAM Detected Freq = %d\n", Platform.RAM.Frequency/1000000);
-            return Platform.RAM.Frequency/1000000;
+	int	map;
+
+	if (table_num < MAX_RAM_SLOTS) {
+		map = Platform.DMI.DIMM[table_num];
+		if (Platform.RAM.DIMM[map].InUse && Platform.RAM.DIMM[map].Type != 0) {
+                    DBG("RAM Detected Freq = %d Mhz\n", Platform.RAM.DIMM[map].Frequency);
+                    return Platform.RAM.DIMM[map].Frequency;
+		}
 	}
+
 	return 800;
 }
 
@@ -196,8 +201,9 @@ static char *sm_get_memserial (char *name, int table_num)
 	if (table_num < MAX_RAM_SLOTS) {
 		map = Platform.DMI.DIMM[table_num];
 		if (Platform.RAM.DIMM[map].InUse && strlen(Platform.RAM.DIMM[map].SerialNo) > 0) {
-			DBG("RAM Detected SerialNo[%d]='%s'\n", table_num, Platform.RAM.DIMM[map].SerialNo);
-			return Platform.RAM.DIMM[map].SerialNo;
+                    DBG("name = %s, map=%d,  RAM Detected SerialNo[%d]='%s'\n", name ? name : "", 
+                        map, table_num, Platform.RAM.DIMM[map].SerialNo);
+                    return Platform.RAM.DIMM[map].SerialNo;
 		}
 	}
 	return "N/A";
@@ -276,9 +282,9 @@ static struct SMBEntryPoint *getAddressOfSmbiosTable(void)
 	while (smbios <= (struct SMBEntryPoint *)SMBIOS_RANGE_END) {
             if (COMPARE_DWORD(smbios->anchor, SMTAG)  && COMPARE_DWORD(smbios->dmi.anchor, DMITAG) &&
 		    checksum8(smbios, sizeof(struct SMBEntryPoint)) == 0)
-		{
-			return smbios;
-		}
+	    {
+                return smbios;
+	    }
             smbios = (((void*) smbios) + 16);
 	}
 	printf("ERROR: Unable to find SMBIOS!\n");
@@ -286,7 +292,7 @@ static struct SMBEntryPoint *getAddressOfSmbiosTable(void)
 	return NULL;
 }
 
-/* Compute necessary space requirements for new smbios */
+/** Compute necessary space requirements for new smbios */
 struct SMBEntryPoint *smbios_dry_run(struct SMBEntryPoint *origsmbios)
 {
 	struct SMBEntryPoint	*ret;
@@ -318,7 +324,7 @@ struct SMBEntryPoint *smbios_dry_run(struct SMBEntryPoint *origsmbios)
 	ret->entryPointLength = sizeof(*ret);
 	ret->majorVersion = 2;
 	ret->minorVersion = 1;
-	ret->maxStructureSize = 0; 
+	ret->maxStructureSize = 0; // will be calculated later in this function
 	ret->entryPointRevision = 0;
 	for (i=0;i<5;i++) {
 		ret->formattedArea[i] = 0;
@@ -329,11 +335,14 @@ struct SMBEntryPoint *smbios_dry_run(struct SMBEntryPoint *origsmbios)
 	ret->dmi.anchor[2] = 0x4d;
 	ret->dmi.anchor[3] = 0x49;
 	ret->dmi.anchor[4] = 0x5f;
-	ret->dmi.tableLength = 0; 
-	ret->dmi.tableAddress = 0; 
-	ret->dmi.structureCount = 0; 
+	ret->dmi.tableLength = 0;  // will be calculated later in this function
+	ret->dmi.tableAddress = 0; // will be initialized in smbios_real_run()
+	ret->dmi.structureCount = 0; // will be calculated later in this function
 	ret->dmi.bcdRevision = 0x21;
 	tablesptr = smbiostables;
+
+        // add stringlen of overrides to original stringlen, update maxStructure size adequately, 
+        // update structure count and tablepresent[type] with count of type. 
 	if (smbiostables) {
 		for (i=0; i<origsmbiosnum; i++) {
 			struct smbios_table_header	*cur = (struct smbios_table_header *)tablesptr;
@@ -379,6 +388,8 @@ struct SMBEntryPoint *smbios_dry_run(struct SMBEntryPoint *origsmbios)
 			tablespresent[cur->type]++;
 		}
 	}
+        // Add eventually table types whose detected count would be < required count, and update ret header with:
+        // new stringlen addons, structure count, and tablepresent[type] count adequately
 	for (i=0; i<sizeof(smbios_table_descriptions)/sizeof(smbios_table_descriptions[0]); i++) {
 		int	numnec=-1;
 		char	buffer[40];
@@ -426,6 +437,10 @@ struct SMBEntryPoint *smbios_dry_run(struct SMBEntryPoint *origsmbios)
 	return ret;
 }
 
+/** From the origsmbios detected by getAddressOfSmbiosTable() to newsmbios whose entrypoint 
+ * struct has been created by smbios_dry_run, update each table struct content of new smbios
+ * int the new allocated table address of size newsmbios->tablelength.
+ */
 void smbios_real_run(struct SMBEntryPoint * origsmbios, struct SMBEntryPoint * newsmbios)
 {
 	char *smbiostables;
@@ -437,7 +452,9 @@ void smbios_real_run(struct SMBEntryPoint * origsmbios, struct SMBEntryPoint * n
 	int i, j;
 	int tablespresent[256];
 	bool do_auto=true;
-	
+        
+        extern void dumpPhysAddr(const char * title, void * a, int len);
+
 	bzero(tablespresent, sizeof(tablespresent));
 	bzero(handles, sizeof(handles));
 
@@ -453,6 +470,8 @@ void smbios_real_run(struct SMBEntryPoint * origsmbios, struct SMBEntryPoint * n
 	}
 	tablesptr = smbiostables;
 	newtablesptr = (char *)newsmbios->dmi.tableAddress;
+
+        // if old smbios exists then update new smbios  with old smbios original content first
 	if (smbiostables) {
 		for (i=0; i<origsmbiosnum; i++) {
 			struct smbios_table_header	*oldcur = (struct smbios_table_header *) tablesptr;
@@ -461,11 +480,15 @@ void smbios_real_run(struct SMBEntryPoint * origsmbios, struct SMBEntryPoint * n
 			int				nstrings = 0;
 
 			handles[(oldcur->handle) / 8] |= 1 << ((oldcur->handle) % 8);
+
+                        // copy table length from old table to new table but not the old strings
 			memcpy(newcur,oldcur, oldcur->length);
 
 			tablesptr += oldcur->length;
 			stringsptr = tablesptr;
 			newtablesptr += oldcur->length;
+
+                        // calculate the number of strings in the old content
 			for (;tablesptr[0]!=0 || tablesptr[1]!=0; tablesptr++) {
 				if (tablesptr[0] == 0) {
 					nstrings++;
@@ -475,12 +498,25 @@ void smbios_real_run(struct SMBEntryPoint * origsmbios, struct SMBEntryPoint * n
 				nstrings++;
 			}
 			tablesptr += 2;
+
+                        // copy the old strings to new table
 			memcpy(newtablesptr, stringsptr, tablesptr-stringsptr);
-			//point to next possible space for a string
+
+ #if 0
+                        // DEBUG: display this original table 17
+                        
+                        if (oldcur->type==6 || oldcur->type==17)
+                        {
+                            dumpPhysAddr("orig table:", oldcur, oldcur->length + ( tablesptr-stringsptr));
+                        }
+#endif
+			// point to next possible space for a string (deducting the second 0 char at the end)
 			newtablesptr += tablesptr - stringsptr - 1;
-			if (nstrings == 0) {
+                            if (nstrings == 0) { // if no string was found rewind to the first 0 char of the 0,0 terminator
 				newtablesptr--;
 			}
+
+                        // now for each property in the table update the overrides if any (auto or user)
 			for (j=0; j<sizeof(smbios_properties)/sizeof(smbios_properties[0]); j++) {
 				const char	*str;
 				int		size;
@@ -572,6 +608,8 @@ void smbios_real_run(struct SMBEntryPoint * origsmbios, struct SMBEntryPoint * n
 			tablespresent[newcur->type]++;
 		}
 	}
+
+        // for each eventual complementary table not present in the original smbios, do the overrides
 	for (i=0; i<sizeof(smbios_table_descriptions)/sizeof(smbios_table_descriptions[0]); i++) {
 		int	numnec = -1;
 		char	buffer[40];
@@ -688,6 +726,8 @@ void smbios_real_run(struct SMBEntryPoint * origsmbios, struct SMBEntryPoint * n
 			tablespresent[smbios_table_descriptions[i].type]++;
 		}
 	}
+
+        // calculate new checksums
 	newsmbios->dmi.checksum = 0;
 	newsmbios->dmi.checksum = 256 - checksum8(&newsmbios->dmi, sizeof(newsmbios->dmi));
 	newsmbios->checksum = 0;
@@ -707,6 +747,7 @@ struct SMBEntryPoint *getSmbios(int which)
             return orig;
 	case SMBIOS_PATCHED:
             if (patched == NULL) {
+                if (orig==NULL)  orig = getAddressOfSmbiosTable();
                 patched = smbios_dry_run(orig);
                 smbios_real_run(orig, patched);
             }
@@ -730,28 +771,28 @@ struct DMIHeader *getSmbiosTableStructure(struct SMBEntryPoint	*smbios, int type
 
     if (smbios == NULL || type < 0 ) return NULL;
 #if DEBUG_SMBIOS
-	printf(">>> SMBIOSAddr=0x%08x\n", smbios);
-	printf(">>> DMI: addr=0x%08x, len=0x%d, count=%d\n", smbios->dmi.tableAddress, 
-		smbios->dmi.tableLength, smbios->dmi.structureCount);
+    printf(">>> SMBIOSAddr=0x%08x\n", smbios);
+    printf(">>> DMI: addr=0x%08x, len=%d, count=%d\n", smbios->dmi.tableAddress, 
+           smbios->dmi.tableLength, smbios->dmi.structureCount);
 #endif
-	p = (SMBByte *) smbios->dmi.tableAddress;
-	for (i=0; i < smbios->dmi.structureCount && p + 4 <= (SMBByte *)smbios->dmi.tableAddress + smbios->dmi.tableLength; i++) 
+    p = (SMBByte *) smbios->dmi.tableAddress;
+    for (i=0; i < smbios->dmi.structureCount && p + 4 <= (SMBByte *)smbios->dmi.tableAddress + smbios->dmi.tableLength; i++) 
 	{
             dmihdr = (struct DMIHeader *) p;
 #if DEBUG_SMBIOS
-            verbose(">>>>>> DMI(%d): type=0x%02x, len=0x%d\n",i,dmihdr->type,dmihdr->length);
+            // verbose(">>>>>> DMI(%d): type=0x%02x, len=0x%d\n",i,dmihdr->type,dmihdr->length);
 #endif
             if (dmihdr->length < 4 || dmihdr->type == 127 /* EOT */) break;
             if (dmihdr->type == type) 	/* 3.3.2 System Information */
-		{	
-                    if (dmihdr->length >= min_length) found = true;
-                    break;
-		}
+            {	
+                if (dmihdr->length >= min_length) found = true;
+                break;
+	    }
             p = p + dmihdr->length;
             while ((p - (SMBByte *)smbios->dmi.tableAddress + 1 < smbios->dmi.tableLength) && (p[0] != 0x00 || p[1] != 0x00)) 
-		{
+	    {
                     p++;
-		}
+	    }
             p += 2;
 	}
 
