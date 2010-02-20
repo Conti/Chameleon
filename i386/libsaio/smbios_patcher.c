@@ -758,6 +758,43 @@ struct SMBEntryPoint *getSmbios(int which)
 	}
 }
 
+#define MAX_DMI_TABLES 64
+typedef struct DmiNumAssocTag {
+    struct DMIHeader * dmi;
+    uint8_t type;
+} DmiNumAssoc;
+
+static DmiNumAssoc DmiTablePair[MAX_DMI_TABLES];
+static int DmiTablePairCount = 0;
+static int current_pos=0;
+static bool ftTablePairInit = true;
+
+/** Find first original dmi Table with a particular type */
+struct DMIHeader* FindFirstDmiTableOfType(int type, int minlength)
+{
+    if (ftTablePairInit)
+        return getSmbiosTableStructure(getSmbios(SMBIOS_ORIGINAL), 
+                                       type, minlength);
+    current_pos = 0;
+    return FindNextDmiTableOfType(type, minlength);
+};
+
+/** Find next original dmi Table with a particular type */
+struct DMIHeader* FindNextDmiTableOfType(int type, int minlength)
+{
+    int i;
+
+    for (i=current_pos; i < DmiTablePairCount; i++) {
+        if (type == DmiTablePair[i].type && 
+            DmiTablePair[i].dmi &&
+            DmiTablePair[i].dmi->length >= minlength ) {
+            current_pos = i+1;
+            return DmiTablePair[i].dmi;
+        }
+    }
+    return NULL; // not found
+};
+
 /** 
  * Get a table structure entry from a type specification and a smbios address
  * return NULL if table is not found
@@ -765,39 +802,45 @@ struct SMBEntryPoint *getSmbios(int which)
 struct DMIHeader *getSmbiosTableStructure(struct SMBEntryPoint	*smbios, int type, int min_length)
 {
     struct DMIHeader * dmihdr=NULL;
-    bool found = false;
     SMBByte* p;
     int i;
 
-    if (smbios == NULL || type < 0 ) return NULL;
+    if (!ftTablePairInit) {
+        return FindFirstDmiTableOfType(type, min_length);
+    } else {
+        ftTablePairInit = false;
+        bzero(DmiTablePair, sizeof(DmiTablePair));
+
+        if (smbios == NULL || type < 0 ) return NULL;
 #if DEBUG_SMBIOS
-    printf(">>> SMBIOSAddr=0x%08x\n", smbios);
-    printf(">>> DMI: addr=0x%08x, len=%d, count=%d\n", smbios->dmi.tableAddress, 
-           smbios->dmi.tableLength, smbios->dmi.structureCount);
+        printf(">>> SMBIOSAddr=0x%08x\n", smbios);
+        printf(">>> DMI: addr=0x%08x, len=%d, count=%d\n", smbios->dmi.tableAddress, 
+               smbios->dmi.tableLength, smbios->dmi.structureCount);
 #endif
-    p = (SMBByte *) smbios->dmi.tableAddress;
-    for (i=0; i < smbios->dmi.structureCount && p + 4 <= (SMBByte *)smbios->dmi.tableAddress + smbios->dmi.tableLength; i++) 
-	{
+        p = (SMBByte *) smbios->dmi.tableAddress;
+        for (i=0; 
+             i < smbios->dmi.structureCount && 
+             p + 4 <= (SMBByte *)smbios->dmi.tableAddress + smbios->dmi.tableLength; 
+             i++)   {
             dmihdr = (struct DMIHeader *) p;
+                
 #if DEBUG_SMBIOS
             // verbose(">>>>>> DMI(%d): type=0x%02x, len=0x%d\n",i,dmihdr->type,dmihdr->length);
 #endif
             if (dmihdr->length < 4 || dmihdr->type == 127 /* EOT */) break;
-            if (dmihdr->type == type) 	/* 3.3.2 System Information */
-            {	
-                if (dmihdr->length >= min_length) found = true;
-                break;
-	    }
+            DmiTablePair[DmiTablePairCount].dmi = dmihdr;
+            DmiTablePair[DmiTablePairCount].type = dmihdr->type;
+            DmiTablePairCount++;
+#if DEBUG_SMBIOS
+            printf("DMI header found for table type %d, length = %d\n", dmihdr->type, dmihdr->length);
+#endif
             p = p + dmihdr->length;
-            while ((p - (SMBByte *)smbios->dmi.tableAddress + 1 < smbios->dmi.tableLength) && (p[0] != 0x00 || p[1] != 0x00)) 
-	    {
-                    p++;
+            while ((p - (SMBByte *)smbios->dmi.tableAddress + 1 < smbios->dmi.tableLength) && (p[0] != 0x00 || p[1] != 0x00))  {
+                p++;
 	    }
             p += 2;
 	}
-
-#if DEBUG_SMBIOS
-        printf("DMI header found for table type %d, length = %d\n", type, dmihdr->type, dmihdr->length);
-#endif
-	return found ? dmihdr : NULL;
- }
+        
+    }
+    return FindFirstDmiTableOfType(type, min_length);
+}

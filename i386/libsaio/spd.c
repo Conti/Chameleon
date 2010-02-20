@@ -9,6 +9,7 @@
 #include "spd.h"
 #include "saio_internal.h"
 #include "bootstruct.h"
+#include "memvendors.h"
 
 #ifndef DEBUG_SPD
 #define DEBUG_SPD 0
@@ -54,27 +55,6 @@ static uint8_t spd_mem_to_smbios[] =
 };
 #define SPD_TO_SMBIOS_SIZE (sizeof(spd_mem_to_smbios)/sizeof(uint8_t))
 
-typedef struct _vidTag {
-    uint16_t code;
-    const char*  name;
-} VenIdName;
-
-VenIdName vendorMap[] = {
-    {0xCD04, "G Skill Intl"}, // id=CD Bank=5
-    {0xB004, "OCZ"}, // id=B0 Bank=5
-    {0x9801, "Kingston"}, // id=98 Bank=2
-    {0x9E02, "Corsair"}, // id=9E Bank=3
-    {0x0205, "Patriot Memory"}, // id=02 Bank=6
-    {0x9B05, "Crucial Technology"}, // id=9B Bank=6
-    {0xBA01, "PNY Electronics"}, // id=BA Bank=2
-    {0x4F01, "Transcend Information"}, // id=4F Bank=2
-    {0x1903, "Centon Electronics"}, // id=19 Bank=4
-    {0x4001, "Viking Components"}, // id=40 Bank=2
-    {0xAD00, "Hynix Semiconductors"}, // id 0xAD Bank 1
-    {0x4304, "Ramaxel Technologies"} // id 0x43 Bank 5
-};
-#define VEN_MAP_SIZE (sizeof(vendorMap)/sizeof(VenIdName))
-
 #define rdtsc(low,high) \
 __asm__ __volatile__("rdtsc" : "=a" (low), "=d" (high))
 
@@ -87,21 +67,27 @@ __asm__ __volatile__("rdtsc" : "=a" (low), "=d" (high))
 /** Get Vendor Name from spd, 2 cases handled DDR3 and DDR2, have different formats.*/
 const char * getVendorName(const char * spd)
 {
-    uint16_t code;
+    uint8_t code;
     int i;
-    uint16_t bank=0;
+    uint8_t bank=0;
 
     if (spd[2]==0x0b) { // DDR3
-        code  = *((uint16_t*) &spd[0x75]);
+        bank = spd[0x75];
+        code = spd[0x76];
         for (i=0; i < VEN_MAP_SIZE; i++)
-            if (code==vendorMap[i].code)
+            if (bank==vendorMap[i].bank && code==vendorMap[i].code)
                 return vendorMap[i].name;
     }
     else if (spd[2]==0x08 || spd[2]==0x07) { // DDR2 or DDR
-        for (i=64; i<72 && spd[i]==0x7f;i++) bank++;
-        code = bank+((uint16_t)spd[i])*256;
+        if(spd[0x40]==0x7f) {
+            for (i=0x40; i<0x48 && spd[i]==0x7f;i++) bank++;
+            code = spd[i];
+        } else {
+            code = spd[0x40]; 
+            bank = 0;
+        }
         for (i=0; i < VEN_MAP_SIZE; i++)
-            if (code==vendorMap[i].code)
+            if (bank==vendorMap[i].bank && code==vendorMap[i].code)
                 return vendorMap[i].name;
     }
 
@@ -192,7 +178,7 @@ unsigned char smb_read_byte_intel(uint32_t base, uint8_t adr, uint8_t cmd)
     return inb(base + SMBHSTDAT);
 }
 
-int mapping []={0,1,2,3,4,5}; // linear mapping for now, check me
+int mapping []= {0,1,2,3,4,5}; // RAM_SLOT_ENUMERATOR;
 
 /** Read from smbus the SPD content and interpret it for detecting memory attributes */
 static void read_smb_intel(pci_dt_t *smbus_dev)
@@ -210,7 +196,7 @@ static void read_smb_intel(pci_dt_t *smbus_dev)
     getBoolForKey("DumpSPD", &dump, &bootInfo->bootConfig);
 
    // Search MAX_RAM_SLOTS slots
-    for (i = 0; i < 6; i++){
+    for (i = 0; i < MAX_RAM_SLOTS; i++){
         slot = &Platform.RAM.DIMM[i];
         Platform.DMI.DIMM[i]=mapping[i]; // for now no special mapping
         spd_size = smb_read_byte_intel(base, 0x50 + i, 0);
