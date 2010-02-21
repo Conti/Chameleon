@@ -10,7 +10,6 @@
 #include "platform.h"
 #include "libsaio.h"
 
-void scan_smbus_controller(pci_dt_t *smbus_dev);
 void scan_spd(PlatformInfo_t *p);
 
 struct smbus_controllers_t {

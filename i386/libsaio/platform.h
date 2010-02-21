@@ -75,16 +75,16 @@ extern void dumpPhysAddr(const char * title, void * a, int len);
 #define UUID_LEN			16
 
 typedef struct _RamSlotInfo_t {
+    uint32_t            ModuleSize;						// Size of Module in MB
+    uint32_t            Frequency; // in Mhz
+    const char*		Vendor;
+    const char*		PartNo;
+    const char*		SerialNo;
+    char*		spd;							// SPD Dump
     bool		InUse;
     uint8_t		Type;
     uint8_t             BankConnections; // table type 6, see (3.3.7)
     uint8_t             BankConnCnt;
-    uint32_t            ModuleSize;						// Size of Module in MB
-    uint32_t            Frequency; // in Mhz
-    char		Vendor[64];
-    char		PartNo[64];
-    char		SerialNo[16];
-    char		*spd;							// SPD Dump
 
 } RamSlotInfo_t;
 

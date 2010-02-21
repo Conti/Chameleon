@@ -30,13 +30,13 @@ struct smbios_table_header
 
 struct smbios_property
 {
-	char		*name;
+	const char		*name;
 	uint8_t		table_type;
 	enum {SMSTRING, SMWORD, SMBYTE, SMOWORD} value_type;
 	int		offset;
-	int		(*auto_int) (char *name, int table_num);
-	char		*(*auto_str) (char *name, int table_num);
-	char		*(*auto_oword) (char *name, int table_num);
+	int		(*auto_int) (const char *name, int table_num);
+	const char	*(*auto_str) (const char *name, int table_num);
+	const char	*(*auto_oword) (const char *name, int table_num);
 };
 
 struct smbios_table_description
