@@ -92,7 +92,7 @@ const char * getVendorName(RamSlotInfo_t* slot)
                 return vendorMap[i].name;
     }
     /* OK there is no vendor id here lets try to match the partnum if it exists */
-    if (strstr(slot->Vendor,"GU332") == slot->Vendor) // Unifosa fingerprint
+    if (strstr(slot->PartNo,"GU332") == slot->PartNo) // Unifosa fingerprint
         return "Unifosa";
     return "NoName";
 }

@@ -72,7 +72,7 @@ void dumpAllTablesOfType(int i)
             dmihdr;
             dmihdr = FindNextDmiTableOfType(i, 4)) {
             sprintf(title,"Table (type %d) :" , i); 
-            dumpPhysAddr(title, dmihdr, dmihdr->length+16);
+            dumpPhysAddr(title, dmihdr, dmihdr->length+32);
         }
 }
 
@@ -134,4 +134,8 @@ void scan_memory(PlatformInfo_t *p)
             Platform.RAM.DIMM[i].Frequency = memInfo[i]->currentSpeed; // favor real overclocked speed if any
         i++;
     }
+#if 1
+    dumpAllTablesOfType(17);
+    getc();
+#endif
 }
