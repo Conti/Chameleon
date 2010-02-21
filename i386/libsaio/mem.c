@@ -134,7 +134,7 @@ void scan_memory(PlatformInfo_t *p)
             Platform.RAM.DIMM[i].Frequency = memInfo[i]->currentSpeed; // favor real overclocked speed if any
         i++;
     }
-#if 1
+#if 0
     dumpAllTablesOfType(17);
     getc();
 #endif
