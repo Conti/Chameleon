@@ -200,7 +200,7 @@ static void read_smb_intel(pci_dt_t *smbus_dev)
     bool fullBanks =  // needed at least for laptops
         Platform.DMI.MemoryModules ==  Platform.DMI.MaxMemorySlots;
    // Search MAX_RAM_SLOTS slots
-    for (i = 0; i < Platform.DMI.MaxMemorySlots; i++){
+    for (i = 0; i <  MAX_RAM_SLOTS; i++){
         slot = &Platform.RAM.DIMM[i];
         spd_size = smb_read_byte_intel(base, 0x50 + i, 0);
         
