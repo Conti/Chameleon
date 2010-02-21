@@ -73,14 +73,14 @@ const char * getVendorName(RamSlotInfo_t* slot)
     int i = 0;
     const char * spd = slot->spd;
 
-    if (spd[2]==0x0b) { // DDR3
+    if (spd[SPD_MEMORY_TYPE]==SPD_MEMORY_TYPE_SDRAM_DDR3) { // DDR3
         bank = spd[0x75];
         code = spd[0x76];
         for (i=0; i < VEN_MAP_SIZE; i++)
             if (bank==vendorMap[i].bank && code==vendorMap[i].code)
                 return vendorMap[i].name;
     }
-    else if (spd[2]==0x08 || spd[2]==0x07) { // DDR2 or DDR
+    else if (spd[SPD_MEMORY_TYPE]==SPD_MEMORY_TYPE_SDRAM_DDR2) {
         if(spd[0x40]==0x7f) {
             for (i=0x40; i<0x48 && spd[i]==0x7f;i++) bank++;
             code = spd[i];
@@ -101,7 +101,7 @@ const char * getVendorName(RamSlotInfo_t* slot)
 /** Get Default Memory Module Speed (no overclocking handled) */
 int getDDRspeedMhz(const char * spd)
 {
-    if (spd[2]==0x0b) { // DDR3
+    if (spd[SPD_MEMORY_TYPE]==SPD_MEMORY_TYPE_SDRAM_DDR3) { 
         switch(spd[12])  {
         case 0x0f:
             return 1066;
@@ -114,7 +114,7 @@ int getDDRspeedMhz(const char * spd)
             return 800;
         }
     } 
-    else if (spd[2]==0x08)  { // DDR2
+    else if (spd[SPD_MEMORY_TYPE]==SPD_MEMORY_TYPE_SDRAM_DDR2)  {
         switch(spd[9]) {
         case 0x50:
             return 400;
@@ -139,25 +139,11 @@ const char *getDDRSerial(const char* spd)
     static uint8_t serialnum=0;
     uint32_t ret=0,i;
 
-    if  (spd[2]==0x0b) {// DDR3
-        if ( isascii(spd[122]) && isascii(spd[123]) && 
-             isascii(spd[124]) && isascii(spd[125]) ) {
-            for(i=0; i<4; i++) asciiSerial[i] = spd[122+i];
-            asciiSerial[4] = 0;
-            return asciiSerial;
-        }
-        else // assume it is lsb to msb
-            ret = UIS(122) | (UIS(123)<<8) | (UIS(124)<<16) | ((UIS(125)&0x7f)<<24);
+    if  (spd[SPD_MEMORY_TYPE]==SPD_MEMORY_TYPE_SDRAM_DDR3) {// DDR3
+        ret = UIS(122) | (UIS(123)<<8) | (UIS(124)<<16) | ((UIS(125)&0x7f)<<24);
     }
-    else if  (spd[2]==0x08 || spd[2]==0x07) { // DDR2 or DDR
-        if ( isascii(spd[95]) && isascii(spd[96]) && 
-             isascii(spd[97]) && isascii(spd[98]) ) {
-            for (i=0; i<4; i++) asciiSerial[i] = spd[95+i];
-            asciiSerial[4] = 0;
-            return asciiSerial;
-        }
-        else
-            ret =  UIS(95) | (UIS(96)<<8) | (UIS(97)<<16) | ((UIS(98)&0x7f)<<24);
+    else if  (spd[SPD_MEMORY_TYPE]==SPD_MEMORY_TYPE_SDRAM_DDR2) { // DDR2 or DDR
+        ret =  UIS(95) | (UIS(96)<<8) | (UIS(97)<<16) | ((UIS(98)&0x7f)<<24);
     }
 
     if (!ret) sprintf(asciiSerial, "10000000%d", serialnum++);  
@@ -173,9 +159,9 @@ const char * getDDRPartNum(const char* spd)
     int i;
     bool bZero = false;
 
-    if (spd[2]==0x0b) // DDR3
+    if (spd[SPD_MEMORY_TYPE]==SPD_MEMORY_TYPE_SDRAM_DDR3)
         sPart =  &spd[128];
-    else if (spd[2]==0x08 || spd[2]==0x07) // DDR2 or DDR
+    else if (spd[SPD_MEMORY_TYPE]==SPD_MEMORY_TYPE_SDRAM_DDR2)
         sPart = &spd[73];
     if (sPart) { // Check that the spd part name is zero terminated and that it is ascii:
         for (i=0; i<32; i++) {

@@ -65,7 +65,7 @@ extern void dumpPhysAddr(const char * title, void * a, int len);
 #define SMB_MEM_CHANNEL_TRIPLE		3
 
 /* Maximum number of ram slots */
-#define MAX_RAM_SLOTS			12
+#define MAX_RAM_SLOTS			8
 #define RAM_SLOT_ENUMERATOR		{0, 2, 4, 1, 3, 5, 6, 8, 10, 7, 9, 11}
 
 /* Maximum number of SPD bytes */
