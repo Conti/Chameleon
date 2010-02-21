@@ -65,11 +65,12 @@ __asm__ __volatile__("rdtsc" : "=a" (low), "=d" (high))
 #define SMBHSTDAT 5
 
 /** Get Vendor Name from spd, 2 cases handled DDR3 and DDR2, have different formats.*/
-const char * getVendorName(const char * spd)
+const char * getVendorName(RamSlotInfo_t* slot)
 {
-    uint8_t code;
-    int i;
-    uint8_t bank=0;
+    uint8_t bank = 0;
+    uint8_t code = 0;
+    int i = 0;
+    const char * spd = slot->spd;
 
     if (spd[2]==0x0b) { // DDR3
         bank = spd[0x75];
@@ -90,7 +91,9 @@ const char * getVendorName(const char * spd)
             if (bank==vendorMap[i].bank && code==vendorMap[i].code)
                 return vendorMap[i].name;
     }
-
+    /* OK there is no vendor id here lets try to match the partnum if it exists */
+    if (strstr(slot->Vendor,"GU332") == slot->Vendor) // Unifosa fingerprint
+        return "Unifosa";
     return "NoName";
 }
 
@@ -178,92 +181,92 @@ unsigned char smb_read_byte_intel(uint32_t base, uint8_t adr, uint8_t cmd)
     return inb(base + SMBHSTDAT);
 }
 
-int mapping []= {0,1,2,3,4,5}; // RAM_SLOT_ENUMERATOR;
+int mapping []= {0,2,1,3,4,6,5,7,8,10,9,11};
 
 /** Read from smbus the SPD content and interpret it for detecting memory attributes */
 static void read_smb_intel(pci_dt_t *smbus_dev)
 { 
     static int serialnum=0;
-    int i, x, ser;
-    uint8_t		spd_size, spd_type;
-    uint32_t	base;
-    bool            dump = false;
+    int        i, x, ser, speed;
+    uint8_t    spd_size, spd_type;
+    uint32_t   base;
+    bool       dump = false;
     RamSlotInfo_t*  slot;
 
     base = pci_config_read16(smbus_dev->dev.addr, 0x20) & 0xFFFE;
     DBG("Scanning smbus_dev <%04x, %04x> ...\n",smbus_dev->vendor_id, smbus_dev->device_id);
 
     getBoolForKey("DumpSPD", &dump, &bootInfo->bootConfig);
-
+    bool fullBanks =  // needed at least for laptops
+        Platform.DMI.MemoryModules ==  Platform.DMI.MaxMemorySlots;
    // Search MAX_RAM_SLOTS slots
-    for (i = 0; i < MAX_RAM_SLOTS; i++){
+    for (i = 0; i < Platform.DMI.MaxMemorySlots; i++){
         slot = &Platform.RAM.DIMM[i];
-        Platform.DMI.DIMM[i]=mapping[i]; // for now no special mapping
         spd_size = smb_read_byte_intel(base, 0x50 + i, 0);
         
         // Check spd is present
-        if (spd_size && spd_size != 0xff)
-            {
-                slot->InUse = true;
+        if (spd_size && spd_size != 0xff) {
+            slot->InUse = true;
+            
+            slot->spd = malloc(spd_size);
+            if (slot->spd)   {
+                bzero(slot->spd, spd_size);
                 
-                slot->spd = malloc(spd_size);
-                if (slot->spd)   {
-                    bzero(slot->spd, spd_size);
-                    
-                    // Copy spd data into buffer
-                    for (x = 0; x < spd_size; x++)
-                        slot->spd[x] = smb_read_byte_intel(base, 0x50 + i, x);
-                    
-                    switch (slot->spd[SPD_MEMORY_TYPE])  {
-                    case SPD_MEMORY_TYPE_SDRAM_DDR2:
-                        
-                        slot->ModuleSize = ((1 << (slot->spd[SPD_NUM_ROWS] & 0x0f) + (slot->spd[SPD_NUM_COLUMNS] & 0x0f) - 17) * 
-                                            ((slot->spd[SPD_NUM_DIMM_BANKS] & 0x7) + 1) * slot->spd[SPD_NUM_BANKS_PER_SDRAM]);
-                        break;
-                        
-                    case SPD_MEMORY_TYPE_SDRAM_DDR3:
-                        
-                        slot->ModuleSize = ((slot->spd[4] & 0x0f) + 28 ) + ((slot->spd[8] & 0x7)  + 3 );
-                        slot->ModuleSize -= (slot->spd[7] & 0x7) + 25;
-                        slot->ModuleSize = ((1 << slot->ModuleSize) * (((slot->spd[7] >> 3) & 0x1f) + 1));
-                        
-                        break;
-                    }
-                }
+                // Copy spd data into buffer
+                for (x = 0; x < spd_size; x++)
+                    slot->spd[x] = smb_read_byte_intel(base, 0x50 + i, x);
                 
-                spd_type = (slot->spd[SPD_MEMORY_TYPE] < ((char) 12) ? slot->spd[SPD_MEMORY_TYPE] : 0);
-                slot->Type = spd_mem_to_smbios[spd_type];
-                strncpy(slot->PartNo, getDDRPartNum(slot->spd), 64);
-                strncpy(slot->Vendor, getVendorName(slot->spd), 64);
-
-                ser = getDDRSerial(slot->spd);
-                if (ser==0) {
-                    sprintf(slot->SerialNo, "10000000%d", serialnum);
-                    serialnum++;
-                }
-                else
-                    sprintf(slot->SerialNo, "%d", ser);
-                // determine speed
-                slot->Frequency = getDDRspeedMhz(slot->spd);
-                if(dump) {
-                    printf("Slot %d Type %d %dMB (%s) %dMHz Vendor=%s, PartNo=%s SerialNo=%s\n", 
-                        i, 
-                        (int)slot->Type,
-                        slot->ModuleSize, 
-                        spd_memory_types[spd_type],
-                        slot->Frequency,
-                        slot->Vendor,
-                        slot->PartNo,
-                        slot->SerialNo); 
-                    dumpPhysAddr("spd content: ",slot->spd, spd_size);
-                    getc();
+                switch (slot->spd[SPD_MEMORY_TYPE])  {
+                case SPD_MEMORY_TYPE_SDRAM_DDR2:
+                    
+                    slot->ModuleSize = ((1 << (slot->spd[SPD_NUM_ROWS] & 0x0f) + (slot->spd[SPD_NUM_COLUMNS] & 0x0f) - 17) * 
+                                        ((slot->spd[SPD_NUM_DIMM_BANKS] & 0x7) + 1) * slot->spd[SPD_NUM_BANKS_PER_SDRAM]);
+                    break;
+                    
+                case SPD_MEMORY_TYPE_SDRAM_DDR3:
+                    
+                    slot->ModuleSize = ((slot->spd[4] & 0x0f) + 28 ) + ((slot->spd[8] & 0x7)  + 3 );
+                    slot->ModuleSize -= (slot->spd[7] & 0x7) + 25;
+                    slot->ModuleSize = ((1 << slot->ModuleSize) * (((slot->spd[7] >> 3) & 0x1f) + 1));
+                    
+                    break;
                 }
             }
+            
+            spd_type = (slot->spd[SPD_MEMORY_TYPE] < ((char) 12) ? slot->spd[SPD_MEMORY_TYPE] : 0);
+            slot->Type = spd_mem_to_smbios[spd_type];
+            strncpy(slot->PartNo, getDDRPartNum(slot->spd), 64);
+            strncpy(slot->Vendor, getVendorName(slot), 64);
+            
+            ser = getDDRSerial(slot->spd);
+            if (ser==0) {
+                sprintf(slot->SerialNo, "10000000%d", serialnum);
+                serialnum++;
+            }
+            else
+                sprintf(slot->SerialNo, "%d", ser);
+            // determine spd speed
+            speed = getDDRspeedMhz(slot->spd);
+            if (speed > slot->Frequency)  slot->Frequency = speed; // just in case dmi wins on spd
+            if(dump) {
+                printf("Slot %d Type %d %dMB (%s) %dMHz Vendor=%s, PartNo=%s SerialNo=%s\n", 
+                       i, 
+                       (int)slot->Type,
+                       slot->ModuleSize, 
+                       spd_memory_types[spd_type],
+                       slot->Frequency,
+                       slot->Vendor,
+                       slot->PartNo,
+                       slot->SerialNo); 
+                    dumpPhysAddr("spd content: ",slot->spd, spd_size);
+                    getc();
+            }
+        }
+        // laptops sometimes show slot 0 and 2 with slot 1 empty when only 2 slots are presents so:
+        Platform.DMI.DIMM[i]= 
+            i>0 && Platform.RAM.DIMM[1].InUse==false && fullBanks && Platform.DMI.MaxMemorySlots==2 ? 
+            mapping[i] : i; // for laptops case, mapping setup would need to be more generic than this
     }
-#if DEBUG_SPD
-    printf("Press a key to continue\n");
-    getc();
-#endif
 }
 
 static struct smbus_controllers_t smbus_controllers[] = {

@@ -41,5 +41,4 @@ void scan_platform(void)
 	scan_cpu(&Platform);
 	scan_memory(&Platform);
 	scan_spd(&Platform);
-
 }

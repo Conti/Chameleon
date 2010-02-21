@@ -77,6 +77,7 @@ extern void dumpPhysAddr(const char * title, void * a, int len);
 typedef struct _RamSlotInfo_t {
     bool		InUse;
     uint8_t		Type;
+    uint8_t             BankConnections; // table type 6, see (3.3.7)
     uint8_t             BankConnCnt;
     uint32_t            ModuleSize;						// Size of Module in MB
     uint32_t            Frequency; // in Mhz

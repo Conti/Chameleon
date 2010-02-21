@@ -112,6 +112,7 @@ struct DMIMemoryDevice {	/* 3.3.18 Memory Device (Type 17) */
 	SMBByte			bankLocator;
 	SMBByte			memoryType;
 	SMBWord			typeDetail;
+        SMBWord                 speed;
 } __attribute__((packed));
 
 #endif /* !_LIBSAIO_SMBIOS_H */

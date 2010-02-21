@@ -63,6 +63,7 @@ void dumpPhysAddr(const char * title, void * a, int len)
     }
     printf("%s\n",buffer);
 }
+
 void dumpAllTablesOfType(int i)
 {
     char title[32];
@@ -71,59 +72,66 @@ void dumpAllTablesOfType(int i)
             dmihdr;
             dmihdr = FindNextDmiTableOfType(i, 4)) {
             sprintf(title,"Table (type %d) :" , i); 
-            dumpPhysAddr(title, dmihdr, dmihdr->length);
+            dumpPhysAddr(title, dmihdr, dmihdr->length+16);
         }
 }
+
+const char * getDMIString(struct DMIHeader * dmihdr, uint8_t strNum)
+{
+    const char * ret =NULL;
+    const char * startAddr = (const char *) dmihdr;
+    const char * limit = NULL;
+
+    if (!dmihdr || dmihdr->length<4 || strNum==0) return NULL;
+    startAddr += dmihdr->length;
+    limit = startAddr + 256;
+    for(; strNum; strNum--) {
+        if ((*startAddr)==0 && *(startAddr+1)==0) break;
+        if (*startAddr && strNum<=1) {
+            ret = startAddr; // current str
+            break;
+        }
+        while(*startAddr && startAddr<limit) startAddr++;
+        if (startAddr==limit) break; // no terminator found
+        else if((*startAddr==0) && *(startAddr+1)==0) break;
+        else startAddr++;
+    }
+
+    return ret;
+}
+
 void scan_memory(PlatformInfo_t *p)
 {
     int i=0;
-    uint8_t bc=0;
-    struct SMBEntryPoint* smbios = NULL;
     struct DMIHeader * dmihdr = NULL;
     
-    struct DMIMemoryControllerInfo* ctrlInfo = NULL;
-    struct DMIMemoryModuleInfo* memInfo[MAX_RAM_SLOTS];
-    
-    /*
-      struct DMIPhysicalMemoryArray* physMemArray;
-      struct DMIMemoryDevice* memDev;
-    */
-    
-    smbios = getSmbios(SMBIOS_ORIGINAL);	/* checks for _SM_ anchor and table header checksum */
-    if (smbios==NULL) return ; // getSmbios() return a non null value if smbios is found
-    
-    ctrlInfo = (struct DMIMemoryControllerInfo*) FindFirstDmiTableOfType(5, 4);
-    Platform.DMI.MaxMemorySlots = ctrlInfo ? ctrlInfo->numberOfMemorySlots :  0;
-    printf("Number of smbios detected Slots: %02d\n", Platform.DMI.MaxMemorySlots);
-        
-    Platform.DMI.MemoryModules = 0;
+    struct DMIMemoryModuleInfo* memInfo[MAX_RAM_SLOTS]; // 6
+    struct DMIPhysicalMemoryArray* physMemArray; // 16
+    struct DMIMemoryDevice* memDev[MAX_RAM_SLOTS]; //17
+
+    /* We mainly don't use obsolete tables 5,6 because most of computers don't handle it anymore */
+     Platform.DMI.MemoryModules = 0;
+    /* Now lets peek info rom table 16,17 as for some bios, table 5 & 6 are not used */
+    physMemArray = (struct DMIPhysicalMemoryArray*) FindFirstDmiTableOfType(16, 4);
+    Platform.DMI.MaxMemorySlots = physMemArray ? physMemArray->numberOfMemoryDevices :  0;
+ 
+    i = 0;
+    for(dmihdr = FindFirstDmiTableOfType(17, 4);
+        dmihdr;
+        dmihdr = FindNextDmiTableOfType(17, 4) ) {
+        memDev[i] = (struct DMIMemoryDevice*) dmihdr;
+        if (memDev[i]->size !=0 ) Platform.DMI.MemoryModules++;
+        if (memDev[i]->speed>0) Platform.RAM.DIMM[i].Frequency = memDev[i]->speed; // take it here for now but we'll check spd and dmi table 6 as well
+        i++;
+    }
+    // for table 6, we only have a look at the current speed
+    i = 0;
     for(dmihdr = FindFirstDmiTableOfType(6, 4);
         dmihdr;
         dmihdr = FindNextDmiTableOfType(6, 4) ) {
         memInfo[i] = (struct DMIMemoryModuleInfo*) dmihdr;
-        bc =  memInfo[i]->bankConnections;
-        Platform.RAM.DIMM[i].BankConnCnt =  2;
-        if ((bc & 0x0F) == 0x0F)  Platform.RAM.DIMM[i].BankConnCnt--; // 0xF nibble means no connection (3.3.7)
-        if ((bc & 0xF0) == 0xF0)  Platform.RAM.DIMM[i].BankConnCnt--; // 0xF nibble means no connection (3.3.7)
-        printf("Bank Connection code for Slot %d is %02x, so %d bank connections per slot deducted.\n", 
-               i+1, bc, Platform.RAM.DIMM[i].BankConnCnt);
-
-        if ( memInfo[i]->installedSize < 0x7D) // >= 0x7D means error / not installed
-            Platform.DMI.MemoryModules++;
+        if (memInfo[i]->currentSpeed > Platform.RAM.DIMM[i].Frequency) 
+            Platform.RAM.DIMM[i].Frequency = memInfo[i]->currentSpeed; // favor real overclocked speed if any
         i++;
     }
-    Platform.DMI.CntMemorySlots = i;
-    getc();
-   /*
-      physMemArray = (struct DMIPhysicalMemoryArray*) getSmbiosTableStructure(smbios, 16, 0x1);
-      memDev = (struct DMIMemoryDevice*) getSmbiosTableStructure(smbios, 17, 0x1);
-    */
-    /*
-      dumpAllTablesOfType(5);
-      dumpAllTablesOfType(6 );
-      getc();
-      dumpAllTablesOfType(16);
-      dumpAllTablesOfType(17);
-      getc();
-    */
 }
