@@ -36,9 +36,15 @@ bool platformCPUFeature(uint32_t feature)
 
 void scan_platform(void)
 {
+    bool useAutodetection = true;
+    getBoolForKey(kUseMemDetect, &useAutodetection, &bootInfo->bootConfig);
+
 	memset(&Platform, 0, sizeof(Platform));
 	build_pci_dt();
 	scan_cpu(&Platform);
-	scan_memory(&Platform);
-	scan_spd(&Platform);
+        
+        if (useAutodetection) {
+            scan_memory(&Platform);
+            scan_spd(&Platform);
+        }
 }

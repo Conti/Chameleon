@@ -63,6 +63,34 @@ __asm__ __volatile__("rdtsc" : "=a" (low), "=d" (high))
 #define SMBHSTCMD 3
 #define SMBHSTADD 4
 #define SMBHSTDAT 5
+#define SBMBLKDAT 7
+
+/** Read one byte from the intel i2c, used for reading SPD on intel chipsets only. */
+unsigned char smb_read_byte_intel(uint32_t base, uint8_t adr, uint8_t cmd)
+{
+    int l1, h1, l2, h2;
+    unsigned long long t;
+	
+    outb(base + SMBHSTSTS, 0x1f);					// reset SMBus Controller
+    outb(base + SMBHSTDAT, 0xff);
+	
+    while( inb(base + SMBHSTSTS) & 0x01);			// wait until ready
+	
+    outb(base + SMBHSTCMD, cmd);
+    outb(base + SMBHSTADD, (adr << 1) | 0x01 );
+    outb(base + SMBHSTCNT, 0x48 );
+	
+    rdtsc(l1, h1);
+	
+ 	while (!( inb(base + SMBHSTSTS) & 0x02))		// wait til command finished
+	{	
+		rdtsc(l2, h2);
+		t = ((h2 - h1) * 0xffffffff + (l2 - l1)) / (Platform.CPU.TSCFrequency / 40);
+		if (t > 10)
+			break;									// break after 10ms
+    }
+    return inb(base + SMBHSTDAT);
+}
 
 /** Get Vendor Name from spd, 2 cases handled DDR3 and DDR2, 
     have different formats, always return a valid ptr.*/
@@ -177,33 +205,6 @@ const char * getDDRPartNum(const char* spd)
     }
     return ( sPart==NULL || !(*sPart) || !bZero ) ? 
         "N/A" : sPart;
-}
-
-/** Read one byte from the intel i2c, used for reading SPD on intel chipsets only. */
-unsigned char smb_read_byte_intel(uint32_t base, uint8_t adr, uint8_t cmd)
-{
-    int l1, h1, l2, h2;
-    unsigned long long t;
-	
-    outb(base + SMBHSTSTS, 0x1f);					// reset SMBus Controller
-    outb(base + SMBHSTDAT, 0xff);
-	
-    while( inb(base + SMBHSTSTS) & 0x01);			// wait until ready
-	
-    outb(base + SMBHSTCMD, cmd);
-    outb(base + SMBHSTADD, (adr << 1) | 0x01 );
-    outb(base + SMBHSTCNT, 0x48 );
-	
-    rdtsc(l1, h1);
-	
- 	while (!( inb(base + SMBHSTSTS) & 0x02))		// wait til command finished
-	{	
-		rdtsc(l2, h2);
-		t = ((h2 - h1) * 0xffffffff + (l2 - l1)) / (Platform.CPU.TSCFrequency / 40);
-		if (t > 10)
-			break;									// break after 10ms
-    }
-    return inb(base + SMBHSTDAT);
 }
 
 int mapping []= {0,2,1,3,4,6,5,7,8,10,9,11};
