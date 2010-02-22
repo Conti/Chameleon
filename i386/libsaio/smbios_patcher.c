@@ -175,7 +175,7 @@ static int sm_get_memspeed (const char *name, int table_num)
 
 	if (table_num < MAX_RAM_SLOTS) {
 		map = Platform.DMI.DIMM[table_num];
-		if (Platform.RAM.DIMM[map].InUse && Platform.RAM.DIMM[map].Type != 0) {
+		if (Platform.RAM.DIMM[map].InUse && Platform.RAM.DIMM[map].Frequency != 0) {
                     DBG("RAM Detected Freq = %d Mhz\n", Platform.RAM.DIMM[map].Frequency);
                     return Platform.RAM.DIMM[map].Frequency;
 		}
