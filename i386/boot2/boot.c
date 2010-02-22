@@ -449,7 +449,7 @@ void common_boot(int biosdev)
 			if ((ret != 0) || ((flags & kFileTypeMask) != kFileTypeFlat))
 				break;
 			
-			if (!forceresume && sleeptime+3<bvr->modTime) {
+			if (!forceresume && ((sleeptime+3)<bvr->modTime)) {
 				printf ("Hibernate image is too old by %d seconds. Use ForceWake=y to override\n",bvr->modTime-sleeptime);
 				break;
 			}
