@@ -36,7 +36,7 @@ bool platformCPUFeature(uint32_t feature)
 
 void scan_platform(void)
 {
-    bool useAutodetection = true;
+    bool useAutodetection = false;
     getBoolForKey(kUseMemDetect, &useAutodetection, &bootInfo->bootConfig);
 
 	memset(&Platform, 0, sizeof(Platform));
