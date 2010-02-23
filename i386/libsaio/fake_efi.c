@@ -350,7 +350,7 @@ static  EFI_CHAR8* getSmbiosUUID()
 	smbios = getSmbios(SMBIOS_PATCHED);	/* checks for _SM_ anchor and table header checksum */
 	if (smbios==NULL) return 0; // getSmbios() return a non null value if smbios is found
 
-	p = (SMBByte *) getSmbiosTableStructure(smbios, 1, 0x19); /* Type 1: (3.3.2) System Information */
+	p = (SMBByte*) FindFirstDmiTableOfType(1, 0x19); /* Type 1: (3.3.2) System Information */
 	if (p==NULL) return NULL;
  
 	verbose("Found SMBIOS System Information Table 1\n");

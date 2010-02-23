@@ -297,7 +297,7 @@ static struct SMBEntryPoint *getAddressOfSmbiosTable(void)
 }
 
 /** Compute necessary space requirements for new smbios */
-struct SMBEntryPoint *smbios_dry_run(struct SMBEntryPoint *origsmbios)
+static struct SMBEntryPoint *smbios_dry_run(struct SMBEntryPoint *origsmbios)
 {
 	struct SMBEntryPoint	*ret;
 	char			*smbiostables;
@@ -445,7 +445,7 @@ struct SMBEntryPoint *smbios_dry_run(struct SMBEntryPoint *origsmbios)
  * struct has been created by smbios_dry_run, update each table struct content of new smbios
  * int the new allocated table address of size newsmbios->tablelength.
  */
-void smbios_real_run(struct SMBEntryPoint * origsmbios, struct SMBEntryPoint * newsmbios)
+static void smbios_real_run(struct SMBEntryPoint * origsmbios, struct SMBEntryPoint * newsmbios)
 {
 	char *smbiostables;
 	char *tablesptr, *newtablesptr;
@@ -743,23 +743,22 @@ struct SMBEntryPoint *getSmbios(int which)
 {
     static struct SMBEntryPoint *orig = NULL; // cached
     static struct SMBEntryPoint *patched = NULL; // cached
-
-	if (orig == NULL) orig = getAddressOfSmbiosTable();
-
-	switch (which) {
-	case SMBIOS_ORIGINAL:
-            return orig;
-	case SMBIOS_PATCHED:
-            if (patched == NULL) {
-                if (orig==NULL)  orig = getAddressOfSmbiosTable();
-                patched = smbios_dry_run(orig);
-                smbios_real_run(orig, patched);
-            }
-            return patched;
-	default:
-            printf("ERROR: invalid option for getSmbios() !!\n");
-            return NULL;
-	}
+    // whatever we are called with orig or new flag, initialize asap both structures
+    if (orig == NULL) orig = getAddressOfSmbiosTable();
+    if (patched == NULL) {
+        patched = smbios_dry_run(orig);
+        smbios_real_run(orig, patched);
+    }
+	
+    switch (which) {
+    case SMBIOS_ORIGINAL:
+        return orig;
+    case SMBIOS_PATCHED:
+        return patched;
+    default:
+        printf("ERROR: invalid option for getSmbios() !!\n");
+        return NULL;
+    }
 }
 
 #define MAX_DMI_TABLES 64
@@ -773,49 +772,21 @@ static int DmiTablePairCount = 0;
 static int current_pos=0;
 static bool ftTablePairInit = true;
 
-/** Find first original dmi Table with a particular type */
-struct DMIHeader* FindFirstDmiTableOfType(int type, int minlength)
-{
-    if (ftTablePairInit)
-        return getSmbiosTableStructure(getSmbios(SMBIOS_ORIGINAL), 
-                                       type, minlength);
-    current_pos = 0;
-    return FindNextDmiTableOfType(type, minlength);
-};
-
-/** Find next original dmi Table with a particular type */
-struct DMIHeader* FindNextDmiTableOfType(int type, int minlength)
-{
-    int i;
-
-    for (i=current_pos; i < DmiTablePairCount; i++) {
-        if (type == DmiTablePair[i].type && 
-            DmiTablePair[i].dmi &&
-            DmiTablePair[i].dmi->length >= minlength ) {
-            current_pos = i+1;
-            return DmiTablePair[i].dmi;
-        }
-    }
-    return NULL; // not found
-};
-
 /** 
  * Get a table structure entry from a type specification and a smbios address
  * return NULL if table is not found
  */
-struct DMIHeader *getSmbiosTableStructure(struct SMBEntryPoint	*smbios, int type, int min_length)
+static void getSmbiosTableStructure(struct SMBEntryPoint	*smbios, int type, int min_length)
 {
     struct DMIHeader * dmihdr=NULL;
     SMBByte* p;
     int i;
 
-    if (!ftTablePairInit) {
-        return FindFirstDmiTableOfType(type, min_length);
-    } else {
+    if (ftTablePairInit) {
         ftTablePairInit = false;
         bzero(DmiTablePair, sizeof(DmiTablePair));
 
-        if (smbios == NULL || type < 0 ) return NULL;
+        if (smbios == NULL || type < 0 ) return;
 #if DEBUG_SMBIOS
         printf(">>> SMBIOSAddr=0x%08x\n", smbios);
         printf(">>> DMI: addr=0x%08x, len=%d, count=%d\n", smbios->dmi.tableAddress, 
@@ -846,5 +817,31 @@ struct DMIHeader *getSmbiosTableStructure(struct SMBEntryPoint	*smbios, int type
 	}
         
     }
-    return FindFirstDmiTableOfType(type, min_length);
 }
+
+/** Find first new dmi Table with a particular type */
+struct DMIHeader* FindFirstDmiTableOfType(int type, int minlength)
+{
+    if (ftTablePairInit)
+        getSmbiosTableStructure(getSmbios(SMBIOS_PATCHED), 
+                                type, minlength);
+    current_pos = 0;
+    return FindNextDmiTableOfType(type, minlength);
+};
+
+/** Find next new dmi Table with a particular type */
+struct DMIHeader* FindNextDmiTableOfType(int type, int minlength)
+{
+    int i;
+
+    for (i=current_pos; i < DmiTablePairCount; i++) {
+        if (type == DmiTablePair[i].type && 
+            DmiTablePair[i].dmi &&
+            DmiTablePair[i].dmi->length >= minlength ) {
+            current_pos = i+1;
+            return DmiTablePair[i].dmi;
+        }
+    }
+    return NULL; // not found
+};
+

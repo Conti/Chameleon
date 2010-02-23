@@ -49,7 +49,6 @@ struct smbios_table_description
 /** call with flag SMBIOS_ORIGINAL to get orig. entrypoint
    or call with flag SMBIOS_PATCHED to get patched smbios entrypoint
 */
-extern struct DMIHeader *getSmbiosTableStructure(struct SMBEntryPoint	*smbios, int type, int min_length);
 extern struct SMBEntryPoint	*getSmbios(int);
 extern struct DMIHeader* FindNextDmiTableOfType(int type, int minlen);
 extern struct DMIHeader* FindFirstDmiTableOfType(int type, int minlen);
