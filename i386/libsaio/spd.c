@@ -165,7 +165,7 @@ const char *getDDRSerial(const char* spd)
 {
     static char asciiSerial[16];
     static uint8_t serialnum=0;
-    uint32_t ret=0,i;
+    uint32_t ret=0;
 
     if  (spd[SPD_MEMORY_TYPE]==SPD_MEMORY_TYPE_SDRAM_DDR3) {// DDR3
         ret = UIS(122) | (UIS(123)<<8) | (UIS(124)<<16) | ((UIS(125)&0x7f)<<24);

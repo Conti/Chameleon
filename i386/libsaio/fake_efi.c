@@ -478,10 +478,15 @@ void setupEfiDeviceTree(void)
 static void setupSmbiosConfigFile()
 {
   const char * value = getStringForKey(kSMBIOS, &bootInfo->bootConfig);
+  extern void scan_mem();
+
     if (!value)  value = "/Extra/smbios.plist";
     if (loadConfigFile(value, &bootInfo->smbiosConfig) == -1) {
       verbose("No SMBIOS replacement found\n");
     }
+    // get a chance to scan mem dynamically if user asks for it while having the config options loaded as well
+    // as opposed to when it was in scan_platform()
+    scan_mem(); 
     smbios_p = (EFI_PTR32) getSmbios(SMBIOS_PATCHED);	// process smbios asap
 }
 
