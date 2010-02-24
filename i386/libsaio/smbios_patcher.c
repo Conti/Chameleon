@@ -506,15 +506,7 @@ static void smbios_real_run(struct SMBEntryPoint * origsmbios, struct SMBEntryPo
                         // copy the old strings to new table
 			memcpy(newtablesptr, stringsptr, tablesptr-stringsptr);
 
- #if 0
-                        // DEBUG: display this original table 17
-                        
-                        if (oldcur->type==6 || oldcur->type==17)
-                        {
-                            dumpPhysAddr("orig table:", oldcur, oldcur->length + ( tablesptr-stringsptr));
-                        }
-#endif
-			// point to next possible space for a string (deducting the second 0 char at the end)
+ 			// point to next possible space for a string (deducting the second 0 char at the end)
 			newtablesptr += tablesptr - stringsptr - 1;
                             if (nstrings == 0) { // if no string was found rewind to the first 0 char of the 0,0 terminator
 				newtablesptr--;
@@ -739,28 +731,6 @@ static void smbios_real_run(struct SMBEntryPoint * origsmbios, struct SMBEntryPo
 	verbose("Patched DMI Table\n");
 }
 
-struct SMBEntryPoint *getSmbios(int which)
-{
-    static struct SMBEntryPoint *orig = NULL; // cached
-    static struct SMBEntryPoint *patched = NULL; // cached
-    // whatever we are called with orig or new flag, initialize asap both structures
-    if (orig == NULL) orig = getAddressOfSmbiosTable();
-    if (patched == NULL) {
-        patched = smbios_dry_run(orig);
-        smbios_real_run(orig, patched);
-    }
-	
-    switch (which) {
-    case SMBIOS_ORIGINAL:
-        return orig;
-    case SMBIOS_PATCHED:
-        return patched;
-    default:
-        printf("ERROR: invalid option for getSmbios() !!\n");
-        return NULL;
-    }
-}
-
 #define MAX_DMI_TABLES 64
 typedef struct DmiNumAssocTag {
     struct DMIHeader * dmi;
@@ -776,17 +746,14 @@ static bool ftTablePairInit = true;
  * Get a table structure entry from a type specification and a smbios address
  * return NULL if table is not found
  */
-static void getSmbiosTableStructure(struct SMBEntryPoint	*smbios, int type, int min_length)
+static void getSmbiosTableStructure(struct SMBEntryPoint *smbios)
 {
     struct DMIHeader * dmihdr=NULL;
     SMBByte* p;
     int i;
 
-    if (ftTablePairInit) {
+    if (ftTablePairInit && smbios!=NULL) {
         ftTablePairInit = false;
-        bzero(DmiTablePair, sizeof(DmiTablePair));
-
-        if (smbios == NULL || type < 0 ) return;
 #if DEBUG_SMBIOS
         printf(">>> SMBIOSAddr=0x%08x\n", smbios);
         printf(">>> DMI: addr=0x%08x, len=%d, count=%d\n", smbios->dmi.tableAddress, 
@@ -818,13 +785,45 @@ static void getSmbiosTableStructure(struct SMBEntryPoint	*smbios, int type, int 
         
     }
 }
+/** Get soriginal or new smbios entry point, if sucessfull, the adresses are cached for next time */
+struct SMBEntryPoint *getSmbios(int which)
+{
+    static struct SMBEntryPoint *orig = NULL; // cached
+    static struct SMBEntryPoint *patched = NULL; // cached
+    // whatever we are called with orig or new flag, initialize asap both structures
+    if (orig == NULL) orig = getAddressOfSmbiosTable();
+    if (patched == NULL) {
+        if (orig==NULL) {
+            printf("Could not find original SMBIOS !!\n");
+            getc();
+            return NULL;
+        }
+        patched = smbios_dry_run(orig);
+        if(patched==NULL) {
+            printf("Could not create new SMBIOS !!\n");
+            getc();
+        }
+        else {
+            smbios_real_run(orig, patched);
+            getSmbiosTableStructure(patched); // generate tables entry list for fast table finding
+        }
+        
+    }
+	
+    switch (which) {
+    case SMBIOS_ORIGINAL:
+        return orig;
+    case SMBIOS_PATCHED:
+        return patched;
+    default:
+        printf("ERROR: invalid option for getSmbios() !!\n");
+        return NULL;
+    }
+}
 
 /** Find first new dmi Table with a particular type */
 struct DMIHeader* FindFirstDmiTableOfType(int type, int minlength)
 {
-    if (ftTablePairInit)
-        getSmbiosTableStructure(getSmbios(SMBIOS_PATCHED), 
-                                type, minlength);
     current_pos = 0;
     return FindNextDmiTableOfType(type, minlength);
 };
