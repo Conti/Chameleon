@@ -136,8 +136,7 @@ void build_pci_dt(void)
 	scan_pci_bus(root_pci_dev, 0);
 #if DEBUG_PCI
 	dump_pci_dt(root_pci_dev->children);
-	printf("(Press a key to continue...)\n");
-	getc();
+	pause();
 #endif
 }
 

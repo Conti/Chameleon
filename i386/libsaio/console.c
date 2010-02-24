@@ -152,3 +152,10 @@ void stop(const char * fmt, ...)
 	halt();
 	while (1);
 }
+
+/** Print a "Press a key to continue..." message and wait for a key press. */
+void pause() 
+{
+    printf("Press a key to continue...");
+    getc();
+}

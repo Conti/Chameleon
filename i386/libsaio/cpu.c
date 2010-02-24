@@ -369,7 +369,6 @@ void scan_cpu(PlatformInfo_t *p)
 	DBG("CPU: CPUFreq:               %dMHz\n", p->CPU.CPUFrequency / 1000000);
 	DBG("CPU: NoCores/NoThreads:     %d/%d\n", p->CPU.NoCores, p->CPU.NoThreads);
 	DBG("CPU: Features:              0x%08x\n", p->CPU.Features);
-	printf("(Press a key to continue...)\n");
-	getc();
+	pause();
 #endif
 }

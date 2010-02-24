@@ -482,6 +482,7 @@ static void setupSmbiosConfigFile()
     if (loadConfigFile(value, &bootInfo->smbiosConfig) == -1) {
       verbose("No SMBIOS replacement found\n");
     }
+    smbios_p = (EFI_PTR32) getSmbios(SMBIOS_PATCHED);	// process smbios asap
 }
 
 /* Installs all the needed configuration table entries */

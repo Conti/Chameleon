@@ -613,15 +613,13 @@ printMemoryInfo(void)
                (unsigned long)(mp->length),
                mp->type);
         if (line++ > 20) {
-            printf("(Press a key to continue...)");
-            getc();
+            pause();
             line = 0;
         }
         mp++;
     }
     if (line > 0) {
-        printf("(Press a key to continue...)");
-        getc();
+        pause();
     }
     
     setActiveDisplayPage(0);
@@ -661,8 +659,7 @@ void lspci(void)
 
 	dump_pci_dt(root_pci_dev->children);
 
-	printf("(Press a key to continue...)");
-	getc();
+	pause();
 
 	if (bootArgs->Video.v_display == VGA_TEXT_MODE) {
 		setActiveDisplayPage(0);

@@ -25,6 +25,7 @@
 
 PlatformInfo_t    Platform;
 
+/** Return if a CPU feature specified by feature is activated (true) or not (false)  */
 bool platformCPUFeature(uint32_t feature)
 {
 	if (Platform.CPU.Features & feature) {
@@ -34,17 +35,28 @@ bool platformCPUFeature(uint32_t feature)
 	}
 }
 
-void scan_platform(void)
-{
+/** scan mem for memory autodection purpose */
+void scan_mem() {
     bool useAutodetection = false;
     getBoolForKey(kUseMemDetect, &useAutodetection, &bootInfo->bootConfig);
+
+    if (useAutodetection) {
+        scan_memory(&Platform);
+        scan_spd(&Platform);
+    }
+}
+
+/** 
+    Scan platform hardware information, called by the main entry point (common_boot() ) 
+    _before_ bootConfig xml parsing settings are loaded
+*/
+void scan_platform(void)
+{
 
 	memset(&Platform, 0, sizeof(Platform));
 	build_pci_dt();
 	scan_cpu(&Platform);
+        // disabled for now as options can't be read yet here: 
+        // scan_mem();
         
-        if (useAutodetection) {
-            scan_memory(&Platform);
-            scan_spd(&Platform);
-        }
 }
