@@ -732,7 +732,7 @@ static void smbios_real_run(struct SMBEntryPoint * origsmbios, struct SMBEntryPo
 	verbose("Patched DMI Table\n");
 }
 
-#define MAX_DMI_TABLES 64
+#define MAX_DMI_TABLES 96
 typedef struct DmiNumAssocTag {
     struct DMIHeader * dmi;
     uint8_t type;
@@ -778,7 +778,6 @@ static void getSmbiosTableStructure(struct SMBEntryPoint *smbios)
             }
             else {
                 printf("DMI table entries list is full! next entries won't be stored\n");
-                
             }
 #if DEBUG_SMBIOS
             printf("DMI header found for table type %d, length = %d\n", dmihdr->type, dmihdr->length);
