@@ -797,13 +797,17 @@ struct SMBEntryPoint *getSmbios(int which)
 {
     static struct SMBEntryPoint *orig = NULL; // cached
     static struct SMBEntryPoint *patched = NULL; // cached
-    static bool first_time = true;
 
     // whatever we are called with orig or new flag, initialize asap both structures
-    if (first_time) {
-
-        orig = getAddressOfSmbiosTable();
+    switch (which) {
+    case SMBIOS_ORIGINAL:
         if (orig==NULL) {
+            orig = getAddressOfSmbiosTable();
+            getSmbiosTableStructure(orig); // generate tables entry list for fast table finding
+        }
+        return orig;
+    case SMBIOS_PATCHED:
+        if (orig==NULL &&  (orig = getAddressOfSmbiosTable())==NULL ) {
             printf("Could not find original SMBIOS !!\n");
             pause();
         }  else {
@@ -814,17 +818,10 @@ struct SMBEntryPoint *getSmbios(int which)
             }
             else {
                 smbios_real_run(orig, patched);
-                getSmbiosTableStructure(patched); // generate tables entry list for fast table finding
             }
         }
-        first_time = false;
-    }
 
-    switch (which) {
-    case SMBIOS_ORIGINAL:
-        return orig;
-    case SMBIOS_PATCHED:
-        return patched;
+       return patched;
     default:
         printf("ERROR: invalid option for getSmbios() !!\n");
         break;
@@ -833,7 +830,7 @@ struct SMBEntryPoint *getSmbios(int which)
     return NULL;
 }
 
-/** Find first new dmi Table with a particular type */
+/** Find first original dmi Table with a particular type */
 struct DMIHeader* FindFirstDmiTableOfType(int type, int minlength)
 {
     current_pos = 0;
@@ -841,12 +838,12 @@ struct DMIHeader* FindFirstDmiTableOfType(int type, int minlength)
     return FindNextDmiTableOfType(type, minlength);
 };
 
-/** Find next new dmi Table with a particular type */
+/** Find next original dmi Table with a particular type */
 struct DMIHeader* FindNextDmiTableOfType(int type, int minlength)
 {
     int i;
 
-    if (ftTablePairInit) getSmbios(SMBIOS_PATCHED);
+    if (ftTablePairInit) getSmbios(SMBIOS_ORIGINAL);
 
     for (i=current_pos; i < DmiTablePairCount; i++) {
         if (type == DmiTablePair[i].type && 

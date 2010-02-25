@@ -484,14 +484,17 @@ static void setupSmbiosConfigFile()
     if (loadConfigFile(value, &bootInfo->smbiosConfig) == -1) {
       verbose("No SMBIOS replacement found\n");
     }
+
     // get a chance to scan mem dynamically if user asks for it while having the config options loaded as well
-    // as opposed to when it was in scan_platform()
+    // as opposed to when it was in scan_platform(), also load the orig. smbios so that we can access dmi info without
+    // patching the smbios yet
+    getSmbios(SMBIOS_ORIGINAL);
     scan_mem(); 
     smbios_p = (EFI_PTR32) getSmbios(SMBIOS_PATCHED);	// process smbios asap
 }
 
 /* Installs all the needed configuration table entries */
-void setupEfiConfigurationTable()
+static void setupEfiConfigurationTable()
 {
   smbios_p = (EFI_PTR32)getSmbios(SMBIOS_PATCHED);
   addConfigurationTable(&gEfiSmbiosTableGuid, &smbios_p, NULL);
@@ -503,7 +506,7 @@ void setupEfiConfigurationTable()
   fixupEfiSystemTableCRC32(gST);
 }
 
-void setupEfiDevices(void)
+static void setupEfiDevices(setup)
 {
 	setup_pci_devs(root_pci_dev);
 }
