@@ -272,6 +272,12 @@ extern int getVBEInfo(void *vinfo_p);
 extern int getVBEModeInfo(int mode, void *minfo_p);
 extern int getVBEDACFormat(unsigned char *format);
 extern int setVBEDACFormat(unsigned char format);
+
+/*
+ * DDC
+ */
+extern int getEDID(void *ddcblock, uint8_t blocksleft);
+
 extern int setVBEPalette(void *palette);
 extern int getVBEPalette(void *palette);
 extern int setVBEMode(unsigned short mode, const VBECRTCInfoBlock *timing);

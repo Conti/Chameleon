@@ -180,7 +180,7 @@ char *getVBEModeInfoString()
 // Return the VESA mode that matches the properties specified.
 // If a mode is not found, then return the "best" available mode.
 
-static unsigned short
+unsigned short
 getVESAModeWithProperties( unsigned short     width,
                            unsigned short     height,
                            unsigned char      bitsPerPixel,
@@ -1030,7 +1030,7 @@ setVESATextMode( unsigned short cols,
 //==========================================================================
 // getNumberArrayFromProperty
 
-static int
+int
 getNumberArrayFromProperty( const char *  propKey,
                             unsigned long numbers[],
                             unsigned long maxArrayCount )
