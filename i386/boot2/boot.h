@@ -56,7 +56,6 @@
 #define kInsantMenuKey		"Instant Menu"
 #define kDefaultKernel		"mach_kernel"
 #define kGUIKey			"GUI"
-#define kAutoResolutionKey			"AutoResolution"
 #define kBootBannerKey		"Boot Banner"
 #define kWaitForKeypressKey	"Wait"
 /* AsereBLN: added the other keys */
@@ -122,7 +121,6 @@ extern char gRootDevice[];
 extern bool gEnableCDROMRescan;
 extern bool gScanSingleDrive;
 extern bool useGUI;
-extern bool autoResolution;
 
 /*
  * Boot Modes

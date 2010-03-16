@@ -11,7 +11,6 @@
 #include "gui.h"
 #include "appleboot.h"
 #include "vers.h"
-#include "edid.h"
 
 #define THEME_NAME_DEFAULT	"Default"
 static const char *theme_name = THEME_NAME_DEFAULT;	
@@ -557,7 +556,7 @@ void loadThemeValues(config_file_t *theme, bool overide)
  
 int initGUI(void)
 {
-	//int val;
+	int		val;
 #ifdef EMBED_THEME
 	config_file_t	*config;
 	
@@ -579,12 +578,12 @@ int initGUI(void)
 	}
 #endif
 	// parse display size parameters
-	/*if (getIntForKey("screen_width", &val, &bootInfo->themeConfig)) {
+	if (getIntForKey("screen_width", &val, &bootInfo->themeConfig)) {
 		screen_params[0] = val;
 	}
 	if (getIntForKey("screen_height", &val, &bootInfo->themeConfig)) {
 		screen_params[1] = val;
-	}*/
+	}
 	screen_params[2] = 32;
 
 	// Initalizing GUI strucutre.
@@ -1698,30 +1697,17 @@ void drawBootGraphics(void)
 		loadBootGraphics();
 	}
 
-	if (autoResolution = FALSE) {
- 		VBEModeInfoBlock  minfo;
- 		unsigned short    mode_n;
- 		unsigned short    vesaVersion;
- 		
- 		mode_n = getVESAModeWithProperties( screen_params[0], screen_params[1], 32, maColorModeBit             |
- 										   maModeIsSupportedBit       |
- 										   maGraphicsModeBit          |
- 										   maLinearFrameBufferAvailBit,
- 										   0,
- 										   &minfo, &vesaVersion );
- 	} else {
- 		// parse screen size parameters
- 		if(getIntForKey("boot_width", &pos, &bootInfo->themeConfig))
- 			screen_params[0] = pos;
- 		else
- 			screen_params[0] = DEFAULT_SCREEN_WIDTH;
- 		
- 		if(getIntForKey("boot_height", &pos, &bootInfo->themeConfig))
- 			screen_params[1] = pos;
- 		else
- 			screen_params[1] = DEFAULT_SCREEN_HEIGHT;
- 	}
-	
+	// parse screen size parameters
+	if (getIntForKey("boot_width", &pos, &bootInfo->themeConfig)) {
+		screen_params[0] = pos;
+	} else {
+		screen_params[0] = DEFAULT_SCREEN_WIDTH;
+	}
+	if (getIntForKey("boot_height", &pos, &bootInfo->themeConfig)) {
+		screen_params[1] = pos;
+	} else {
+		screen_params[1] = DEFAULT_SCREEN_HEIGHT;
+	}
 	screen_params[2] = 32;
 
 	gui.screen.width = screen_params[0];
