@@ -887,7 +887,8 @@ static long ReadExtent(char * extent, uint64_t extentSize,
         readOffset = ((blockNumber - countedBlocks) * gBlockSize) +
                      (offset % gBlockSize);
     
-        readSize = GetExtentSize(currentExtent, 0) * gBlockSize - readOffset;
+		// MacWen: fix overflow in multiplication by forcing 64bit multiplication
+        readSize = (long long)GetExtentSize(currentExtent, 0) * gBlockSize - readOffset;
         if (readSize > (size - sizeRead)) readSize = size - sizeRead;
 
         readOffset += (long long)GetExtentStart(currentExtent, 0) * gBlockSize;
