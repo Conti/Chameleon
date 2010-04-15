@@ -602,7 +602,7 @@ static long GetCatalogEntry(long * dirIndex, char ** name,
 
     // Read the BTree node and get the record for index.
     ReadExtent(extent, extentSize, kHFSCatalogFileID,
-               curNode * nodeSize, nodeSize, nodeBuf, 1);
+               (long long)curNode * nodeSize, nodeSize, nodeBuf, 1);
     GetBTreeRecord(index, nodeBuf, nodeSize, &testKey, &entry);
 
     GetCatalogEntryInfo(entry, flags, time, finderInfo, infoValid);
@@ -732,7 +732,7 @@ static long ReadBTreeEntry(long btree, void * key, char * entry, long * dirIndex
     while (1) {
         // Read the current node.
         ReadExtent(extent, extentSize, extentFile,
-                   curNode * nodeSize, nodeSize, nodeBuf, 1);
+                   (long long)curNode * nodeSize, nodeSize, nodeBuf, 1);
     
         // Find the matching key.
         lowerBound = 0;
