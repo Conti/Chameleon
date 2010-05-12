@@ -170,7 +170,7 @@ extern long   LoadVolumeFile(BVRef bvr, const char *fileSpec);
 extern long   LoadFile(const char *fileSpec);
 extern long   ReadFileAtOffset(const char * fileSpec, void *buffer, uint64_t offset, uint64_t length);
 extern long   LoadThinFatFile(const char *fileSpec, void **binary);
-extern long   GetDirEntry(const char *dirSpec, long *dirIndex, const char **name,
+extern long   GetDirEntry(const char *dirSpec, long long *dirIndex, const char **name,
                           long *flags, long *time);
 extern long   GetFileInfo(const char *dirSpec, const char *name,
                           long *flags, long *time);

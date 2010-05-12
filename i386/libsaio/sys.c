@@ -294,7 +294,7 @@ long CreateUUIDString(uint8_t uubytes[], int nbytes, char *uuidStr)
 // GetDirEntry - LOW-LEVEL FILESYSTEM FUNCTION.
 //               Fetch the next directory entry for the given directory.
 
-long GetDirEntry(const char * dirSpec, long * dirIndex, const char ** name, 
+long GetDirEntry(const char * dirSpec, long long * dirIndex, const char ** name, 
                  long * flags, long * time)
 {
     const char * dirPath;
@@ -322,7 +322,7 @@ static char* gMakeDirSpec;
 long GetFileInfo(const char * dirSpec, const char * name,
                  long * flags, long * time)
 {
-    long         index = 0;
+    long long index = 0;
     const char * entryName;
 
     if (gMakeDirSpec == 0)

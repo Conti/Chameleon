@@ -46,7 +46,7 @@ static long ReadInode(long inodeNum, InodePtr inode, long *flags, long *time);
 static long ResolvePathToInode(char *filePath, long *flags,
                                InodePtr fileInode, InodePtr dirInode);
 static long ReadDirEntry(InodePtr dirInode, long *fileInodeNum,
-                         long *dirIndex, char **name);
+                         long long *dirIndex, char **name);
 static long FindFileInDir(char *fileName, long *flags,
                           InodePtr fileInode, InodePtr dirInode);
 static char *ReadFileBlock(InodePtr fileInode, long fragNum, long blockOffset,
@@ -223,7 +223,7 @@ long UFSReadFile( CICell ih, char * filePath, void * base, uint64_t offset, uint
 
 #ifndef BOOT1
 
-long UFSGetDirEntry( CICell ih, char * dirPath, long * dirIndex,
+long UFSGetDirEntry( CICell ih, char * dirPath, long long * dirIndex,
                      char ** name, long * flags, long * time,
                      FinderInfo * finderInfo, long * infoValid)
 {
@@ -383,18 +383,18 @@ static long ResolvePathToInode( char * filePath, long * flags,
 }
 
 static long ReadDirEntry( InodePtr dirInode, long * fileInodeNum,
-                          long * dirIndex, char ** name )
+                          long long * dirIndex, char ** name )
 {
     struct direct *dir;
     char          *buffer;
-    long          index;
+    long long     index;
     long          dirBlockNum, dirBlockOffset;
 
     while (1) {
         index = *dirIndex;
     
-        dirBlockOffset = index % DIRBLKSIZ;
-        dirBlockNum    = index / DIRBLKSIZ;
+        dirBlockOffset = (long) (index % DIRBLKSIZ);
+        dirBlockNum    = (long) (index / DIRBLKSIZ);
 
         buffer = ReadFileBlock(dirInode, dirBlockNum, 0, DIRBLKSIZ, 0, 1);
         if (buffer == 0) return -1;
@@ -418,7 +418,8 @@ static long ReadDirEntry( InodePtr dirInode, long * fileInodeNum,
 static long FindFileInDir( char * fileName, long * flags,
                            InodePtr fileInode, InodePtr dirInode )
 {
-    long ret, inodeNum, index = 0;
+    long ret, inodeNum;
+    long long index = 0;
     char *name;
 
     while (1) {

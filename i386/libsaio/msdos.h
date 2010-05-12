@@ -24,7 +24,7 @@ extern void MSDOSGetDescription(CICell ih, char *str, long strMaxLen);
 extern long MSDOSInitPartition(CICell ih);
 extern long MSDOSLoadFile(CICell ih, char * filePath);
 extern long MSDOSReadFile(CICell ih, char * filePath, void *base, uint64_t offset, uint64_t length);
-extern long MSDOSGetDirEntry(CICell ih, char * dirPath, long * dirIndex,
+extern long MSDOSGetDirEntry(CICell ih, char * dirPath, long long * dirIndex,
                            char ** name, long * flags, long * time,
                            FinderInfo * finderInfo, long * infoValid);
 extern long MSDOSGetFileBlock(CICell ih, char *str, unsigned long long *firstBlock);

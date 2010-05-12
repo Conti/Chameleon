@@ -96,7 +96,7 @@ static long NBPLoadFile(CICell ih, char * filePath)
 /*==========================================================================
  * GetDirEntry is not supported.
  */
-static long NBPGetDirEntry(CICell ih, char * dirPath, long * dirIndex,
+static long NBPGetDirEntry(CICell ih, char * dirPath, long long * dirIndex,
                            char ** name, long * flags, long * time,
                            FinderInfo * finderInfo, long * infoValid)
 {

@@ -615,7 +615,7 @@ getdirpfrompath (CICell ih, char *dirspec, uint8_t *buf)
 	return 0;
 }
 
-long MSDOSGetDirEntry(CICell ih, char * dirPath, long * dirIndex,
+long MSDOSGetDirEntry(CICell ih, char * dirPath, long long * dirIndex,
 					  char ** name, long * flags, long * time,
 					  FinderInfo * finderInfo, long * infoValid)
 {
@@ -626,7 +626,7 @@ long MSDOSGetDirEntry(CICell ih, char * dirPath, long * dirIndex,
 		return -1;
 	if (dirPath[0] == '/')
 		dirPath++;
-	st =  (struct msdosdirstate *)*dirIndex;
+	st =  (struct msdosdirstate *)(long) *dirIndex;
 	if (!st)
 	{
 		st=malloc (sizeof (*st));
@@ -651,7 +651,7 @@ long MSDOSGetDirEntry(CICell ih, char * dirPath, long * dirIndex,
 		}
 		else
 			initRoot (st);
-		*dirIndex = (long)st;
+		*dirIndex = (long long) (long) st;
 	}
 	while((dirp = getnextdirent (ih, vfatname, st))&& (dirp->deAttributes & ATTR_VOLUME));
 	if (!dirp)

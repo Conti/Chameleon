@@ -257,7 +257,8 @@ long LoadDrivers( char * dirSpec )
 static long
 FileLoadDrivers( char * dirSpec, long plugin )
 {
-    long         ret, length, index, flags, time, bundleType;
+    long         ret, length, flags, time, bundleType;
+    long long	 index;
     long         result = -1;
     const char * name;
  

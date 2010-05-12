@@ -132,7 +132,7 @@ typedef long (*FSInit)(CICell ih);
 typedef long (*FSLoadFile)(CICell ih, char * filePath);
 typedef long (*FSReadFile)(CICell ih, char *filePath, void *base, uint64_t offset, uint64_t length);
 typedef long (*FSGetFileBlock)(CICell ih, char *filePath, unsigned long long *firstBlock);
-typedef long (*FSGetDirEntry)(CICell ih, char * dirPath, long * dirIndex,
+typedef long (*FSGetDirEntry)(CICell ih, char * dirPath, long long * dirIndex,
                               char ** name, long * flags, long * time,
                               FinderInfo * finderInfo, long * infoValid);
 typedef long (* FSGetUUID)(CICell ih, char *uuidStr);
@@ -157,7 +157,7 @@ struct iob {
 
 struct dirstuff {
     char *         dir_path;        /* directory path */
-    long           dir_index;       /* directory entry index */
+    long long      dir_index;       /* directory entry index */
     BVRef          dir_bvr;         /* volume reference */
 };
 
