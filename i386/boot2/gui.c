@@ -557,14 +557,6 @@ void loadThemeValues(config_file_t *theme, bool overide)
 int initGUI(void)
 {
 	int		val;
-#ifdef EMBED_THEME
-	config_file_t	*config;
-	
-	config = &bootInfo->themeConfig;
-	if (ParseXMLFile((char *)__theme_plist, &config->dictionary) != 0) {
-		return 1;
-	}
-#else
 	int	len;
 	char	dirspec[256];
 
@@ -574,9 +566,17 @@ int initGUI(void)
 	}
 	sprintf(dirspec, "/Extra/Themes/%s/theme.plist", theme_name);
 	if (loadConfigFile(dirspec, &bootInfo->themeConfig) != 0) {
+#ifdef EMBED_THEME
+    config_file_t	*config;
+    
+    config = &bootInfo->themeConfig;
+    if (ParseXMLFile((char *)__theme_plist, &config->dictionary) != 0) {
+      return 1;
+    }
+#else
 		return 1;
-	}
 #endif
+	}
 	// parse display size parameters
 	if (getIntForKey("screen_width", &val, &bootInfo->themeConfig)) {
 		screen_params[0] = val;
