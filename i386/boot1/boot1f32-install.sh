@@ -1,7 +1,6 @@
 #!/bin/sh
 
-# efisysinst.sh
-# 
+# boot1f32-install.sh
 #
 # Created by mackerintel on 2/2/09.
 # Copyright 2009 mackerintel. All rights reserved.
@@ -20,12 +19,8 @@ if [ ! -f boot1f32 ]; then
 	echo "boot1f32 not found";
 	exit 1;
 fi
-if [ ! -f boot0 ]; then
-	echo "boot0 not found";
-	exit 1;
-fi
+
 dd if=/dev/disk${1}s1 count=1 bs=512 of=/tmp/origbs
 cp boot1f32 /tmp/newbs
 dd if=/tmp/origbs of=/tmp/newbs skip=3 seek=3 bs=1 count=87 conv=notrunc
 dd of=/dev/disk${1}s1 count=1 bs=512 if=/tmp/newbs
-dd if=boot0 of=/dev/disk${1} count=430 bs=1
