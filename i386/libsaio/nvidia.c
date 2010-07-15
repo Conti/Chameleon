@@ -341,6 +341,7 @@ static struct nv_chipsets_t NVKnownChipsets[] = {
   { 0x10DE087E, "ION LE" },
 	{ 0x10DE0A20, "GeForce GT220" },
 	{ 0x10DE0A23, "GeForce 210" },
+	{ 0x10DE0A28, "GeForce GT 230M" },
 	{ 0x10DE0A2A, "GeForce GT 230M" },
 	{ 0x10DE0A34, "GeForce GT 240M" },
 	{ 0x10DE0A60, "GeForce G210" },
