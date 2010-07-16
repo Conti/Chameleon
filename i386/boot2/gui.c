@@ -147,7 +147,7 @@ static int infoMenuItemsCount = sizeof(infoMenuItems)/sizeof(infoMenuItems[0]);
 
 static bool infoMenuNativeBoot = false;
 
-static unsigned long screen_params[4] = {0, 0, 0, 0};	// here we store the used screen resolution
+static unsigned long screen_params[4] = {DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT, 32, 0};	// here we store the used screen resolution
 
 #ifdef EMBED_THEME
 static int loadEmbeddedThemeImage(const char *image, unsigned char *image_data, unsigned int image_size)
@@ -578,13 +578,12 @@ int initGUI(void)
 #endif
 	}
 	// parse display size parameters
-	if (getIntForKey("screen_width", &val, &bootInfo->themeConfig)) {
+	if (getIntForKey("screen_width", &val, &bootInfo->themeConfig) && val > 0) {
 		screen_params[0] = val;
 	}
-	if (getIntForKey("screen_height", &val, &bootInfo->themeConfig)) {
+	if (getIntForKey("screen_height", &val, &bootInfo->themeConfig) && val > 0) {
 		screen_params[1] = val;
 	}
-	screen_params[2] = 32;
 
 	// Initalizing GUI strucutre.
 	bzero(&gui, sizeof(gui_t));
@@ -1698,17 +1697,16 @@ void drawBootGraphics(void)
 	}
 
 	// parse screen size parameters
-	if (getIntForKey("boot_width", &pos, &bootInfo->themeConfig)) {
+	if (getIntForKey("boot_width", &pos, &bootInfo->themeConfig) && pos > 0) {
 		screen_params[0] = pos;
 	} else {
 		screen_params[0] = DEFAULT_SCREEN_WIDTH;
 	}
-	if (getIntForKey("boot_height", &pos, &bootInfo->themeConfig)) {
+	if (getIntForKey("boot_height", &pos, &bootInfo->themeConfig) && pos > 0) {
 		screen_params[1] = pos;
 	} else {
 		screen_params[1] = DEFAULT_SCREEN_HEIGHT;
 	}
-	screen_params[2] = 32;
 
 	gui.screen.width = screen_params[0];
 	gui.screen.height = screen_params[1];
