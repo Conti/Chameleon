@@ -774,7 +774,7 @@ BVRef selectBootVolume( BVRef chain )
 				return bvr;
 	
 	/*
-	 * Checking "Default Partition" key in system configuration - use format: hd(x,y) -
+	 * Checking "Default Partition" key in system configuration - use format: hd(x,y) or the volume UUID -
 	 * to override the default selection.
 	 * We accept only kBVFlagSystemVolume or kBVFlagForeignBoot volumes.
 	 */
@@ -786,12 +786,16 @@ BVRef selectBootVolume( BVRef chain )
   {
     for ( bvr = chain; bvr; bvr = bvr->next )
     {
-      *testStr = '\0';
       if ( bvr->biosdev >= 0x80 && bvr->biosdev < 0x100
             && ( bvr->flags & ( kBVFlagSystemVolume|kBVFlagForeignBoot ) ) )
       {
+        // Trying to match hd(x,y) format.
         sprintf(testStr, "hd(%d,%d)", bvr->biosdev - 0x80, bvr->part_no);
         if (strcmp(testStr, val) == 0)
+          return bvr;
+          
+        // Trying to match volume UUID.
+        if (bvr->fs_getuuid && bvr->fs_getuuid(bvr, testStr) == 0 && strcmp(testStr, val) == 0)
           return bvr;
       }
     }
