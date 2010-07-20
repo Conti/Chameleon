@@ -48,7 +48,7 @@
 # define BASE_SEG          BOOT2_SEG
 #endif
 
-#define STACK_SEG         0x8000			// zef: old STACK_SEG 0x5000
+#define STACK_SEG         0x9000			// zef: old STACK_SEG 0x5000
 #define STACK_OFS         0xFFF0      // stack pointer
 
 #define BOOT1U_SEG        0x1000
@@ -57,7 +57,7 @@
 #define BOOT2_SEG         0x2000
 #define BOOT2_OFS         0x0200      // 512 byte disk sector offset
 
-#define BIOS_ADDR         0x8000      // BIOS disk I/O buffer
+#define BIOS_ADDR         0x9000      // BIOS disk I/O buffer
 #define BIOS_LEN          0x8000      // 32K - divisible by 512 and 2048
 
 #define BOOT0_ADDR        0x7E00      // boot0 gets loaded here
@@ -78,24 +78,24 @@
 #define BOOT2_ADDR        ADDR32(BOOT2_SEG, BOOT2_OFS)
 // TODO: BOOT_ADDR ?
 
-#define HIB_ADDR          0x00040000    // special hibernation area
+#define HIB_ADDR          0x00040000  // special hibernation area
 #define HIB_LEN           0x00060000
 
-#define VIDEO_ADDR        0x000A0000    // unusable space
+#define VIDEO_ADDR        0x000A0000  // unusable space
 #define VIDEO_LEN         0x00060000
 
-#define KERNEL_ADDR       0x00100000   // 64M kernel + drivers
-#define KERNEL_LEN        0x04000000
+#define KERNEL_ADDR       0x00100000  // 128M kernel + drivers
+#define KERNEL_LEN        0x08000000
 
-#define ZALLOC_ADDR       0x04100000   // 256M zalloc area
+#define ZALLOC_ADDR       0x08100000  // 256M zalloc area
 #define ZALLOC_LEN        0x10000000
 
-#define LOAD_ADDR         0x14100000   // 95M File load buffer
-#define LOAD_LEN          0x05F80000
+#define LOAD_ADDR         0x18100000  // 64M File load buffer
+#define LOAD_LEN          0x04000000
 
 // Location of data fed to boot2 by the prebooter
-#define PREBOOT_DATA      0x1A080000   // Still have enough room for a 95M ramdisk image
-                                       // in case of 512MB system memory.
+#define PREBOOT_DATA      0x1C100000  // Still have enough room for a 63M ramdisk image
+                                      // in case of 512MB system memory.
 
 #define TFTP_ADDR         LOAD_ADDR   // tftp download buffer
 #define TFTP_LEN          LOAD_LEN
