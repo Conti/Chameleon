@@ -264,10 +264,11 @@ long HFSLoadFile(CICell ih, char * filePath)
 long HFSReadFile(CICell ih, char * filePath, void *base, uint64_t offset,  uint64_t length)
 {
     char entry[512];
+    char devStr[12];
     long dirID, result, flags;
 
     if (HFSInitPartition(ih) == -1) return -1;
-
+    
     dirID = kHFSRootFolderID;
     // Skip a lead '\'.  Start in the system folder if there are two.
     if (filePath[0] == '/') {
@@ -298,8 +299,9 @@ long HFSReadFile(CICell ih, char * filePath, void *base, uint64_t offset,  uint6
 	return -1;
     }
 
-    verbose("Loaded HFS%s file: [%s] %d bytes from %x.\n",
-            (gIsHFSPlus ? "+" : ""), filePath, (uint32_t)length, ih);
+    getDeviceStringFromBVR(ih, devStr);
+    verbose("Loaded HFS%s file: [%s/%s] %d bytes.\n",
+            (gIsHFSPlus ? "+" : ""), devStr, filePath, (uint32_t)length);
 	
     return length;
 }

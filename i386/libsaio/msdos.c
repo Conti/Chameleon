@@ -720,6 +720,8 @@ MSDOSReadFile(CICell ih, char * filePath, void *base, uint64_t offset, uint64_t 
 	char *ptr = (char *)base;
 	struct direntry *dirp;
 	int i;
+  char devStr[12];
+
 	if (MSDOSInitPartition (ih)<0)
 		return -1;
 	if (filePath[0] == '/')
@@ -754,8 +756,10 @@ MSDOSReadFile(CICell ih, char * filePath, void *base, uint64_t offset, uint64_t 
 		ptr+=msdosclustersize;
 		toread-=msdosclustersize;
 	}
-	verbose("Loaded FAT%d file: [%s] %d bytes from %x.\n",
-            msdosfatbits, filePath, (uint32_t)( toread<0 ) ? wastoread : wastoread-toread, ih);
+	
+  getDeviceStringFromBVR(ih, devStr);
+	verbose("Loaded FAT%d file: [%s/%s] %d bytes.\n",
+            msdosfatbits, devStr, filePath, (uint32_t)( toread<0 ) ? wastoread : wastoread-toread);
 	free (buf);
 	if (toread<0)
 		return wastoread;

@@ -87,12 +87,11 @@ struct devsw {
     int type;
 };
 
+// Device entries must be ordered by bios device numbers. 
 static struct devsw devsw[] =
 {
-    { "sd", 0x80, kBIOSDevTypeHardDrive },  /* DEV_SD */
-    { "hd", 0x80, kBIOSDevTypeHardDrive },  /* DEV_HD */
-    { "fd", 0x00, kBIOSDevTypeFloppy    },  /* DEV_FD */
-    { "en", 0xE0, kBIOSDevTypeNetwork   },  /* DEV_EN */
+    { "hd", 0x80,  kBIOSDevTypeHardDrive }, /* DEV_HD */
+    { "en", 0xE0,  kBIOSDevTypeNetwork   }, /* DEV_EN */
     { "rd", 0x100, kBIOSDevTypeHardDrive },
     { "bt", 0x101, kBIOSDevTypeHardDrive }, // turbo - type for booter partition
     { 0, 0 }
@@ -1021,4 +1020,22 @@ static BVRef newBootVolumeRef( int biosdev, int partno )
     }
 
     return bvr ? bvr : bvr1;
+}
+
+int getDeviceStringFromBVR(const BVRef bvr, char *str)
+{
+  const struct devsw *dp;
+
+  if (bvr)
+  {
+    *str = '\0';
+ 
+    for (dp = devsw; dp->name && bvr->biosdev >= dp->biosdev; dp++);
+    dp--;
+    if (dp->name) sprintf(str, "%s(%d,%d)", dp->name, bvr->biosdev - dp->biosdev, bvr->part_no);
+    
+    return true;
+  }
+
+  return false;
 }
