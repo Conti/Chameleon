@@ -48,7 +48,7 @@
 # define BASE_SEG          BOOT2_SEG
 #endif
 
-#define STACK_SEG         0x9000			// zef: old STACK_SEG 0x5000
+#define STACK_SEG         0x1000			// zef: old STACK_SEG 0x5000
 #define STACK_OFS         0xFFF0      // stack pointer
 
 #define BOOT1U_SEG        0x1000
