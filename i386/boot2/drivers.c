@@ -198,26 +198,29 @@ long LoadDrivers( char * dirSpec )
           if ( !(gBIOSBootVolume->biosdev == gBootVolume->biosdev  && gBIOSBootVolume->part_no == gBootVolume->part_no)
                || (gRAMDiskVolume && gRAMDiskBTAliased) )
           {
-			  // First try a specfic OS version folder ie 10.5
-			  sprintf(dirSpecExtra, "bt(0,0)/Extra/%s/", &gMacOSVersion);
-			  if (FileLoadDrivers(dirSpecExtra, 0) != 0)
-			  {	
-				  // Next we'll try the base
-				  strcpy(dirSpecExtra, "bt(0,0)/Extra/");
-				  FileLoadDrivers(dirSpecExtra, 0);
-			  }
-		  }
+            // Next try a specfic OS version folder ie 10.5
+            sprintf(dirSpecExtra, "bt(0,0)/Extra/%s/", &gMacOSVersion);
+            if (FileLoadDrivers(dirSpecExtra, 0) != 0)
+            {	
+              // Next we'll try the base
+              strcpy(dirSpecExtra, "bt(0,0)/Extra/");
+              FileLoadDrivers(dirSpecExtra, 0);
+            }
+          }
         }
 
         // Also try to load Extensions from boot helper partitions.
-        strcpy(dirSpecExtra, "/com.apple.boot.P/System/Library/");
-        if (FileLoadDrivers(dirSpecExtra, 0) != 0)
+        if (gBootVolume->flags & kBVFlagBooter)
         {
-          strcpy(dirSpecExtra, "/com.apple.boot.R/System/Library/");
+          strcpy(dirSpecExtra, "/com.apple.boot.P/System/Library/");
           if (FileLoadDrivers(dirSpecExtra, 0) != 0)
           {
-            strcpy(dirSpecExtra, "/com.apple.boot.S/System/Library/");
-            FileLoadDrivers(dirSpecExtra, 0);
+            strcpy(dirSpecExtra, "/com.apple.boot.R/System/Library/");
+            if (FileLoadDrivers(dirSpecExtra, 0) != 0)
+            {
+              strcpy(dirSpecExtra, "/com.apple.boot.S/System/Library/");
+              FileLoadDrivers(dirSpecExtra, 0);
+            }
           }
         }
 
@@ -252,6 +255,29 @@ long LoadDrivers( char * dirSpec )
 }
 
 //==========================================================================
+// FileLoadMKext
+
+static long
+FileLoadMKext( const char * dirSpec )
+{
+  long  ret, flags, time, time2;
+  
+  ret = GetFileInfo(dirSpec, "Extensions.mkext", &flags, &time);
+  if ((ret == 0) && ((flags & kFileTypeMask) == kFileTypeFlat))
+  {
+      ret = GetFileInfo(dirSpec, "Extensions", &flags, &time2);
+      if ((ret != 0) || ((flags & kFileTypeMask) != kFileTypeDirectory) ||
+          (((gBootMode & kBootModeSafe) == 0) && (time == (time2 + 1))))
+      {
+          sprintf(gDriverSpec, "%sExtensions.mkext", dirSpec);
+          verbose("LoadDrivers: Loading from [%s]\n", gDriverSpec);
+          if (LoadDriverMKext(gDriverSpec) == 0) return 0;
+      }
+  }
+  return -1;
+}
+
+//==========================================================================
 // FileLoadDrivers
 
 static long
@@ -264,37 +290,16 @@ FileLoadDrivers( char * dirSpec, long plugin )
  
     if ( !plugin )
     {
-        long time2;
+        char altDirSpec[512];
 
-        // TODO: refactor this part of code.
-        char altDirSpec[4500];
-        sprintf (altDirSpec,"%sCaches/com.apple.kext.caches/Startup/",dirSpec);
-        ret = GetFileInfo(altDirSpec, "Extensions.mkext", &flags, &time);
-        if ((ret == 0) && ((flags & kFileTypeMask) == kFileTypeFlat))
-        {
-            ret = GetFileInfo(dirSpec, "Extensions", &flags, &time2);
-            if ((ret != 0) || ((flags & kFileTypeMask) != kFileTypeDirectory) ||
-                (((gBootMode & kBootModeSafe) == 0) && (time == (time2 + 1))))
-            {
-                sprintf(gDriverSpec, "%sExtensions.mkext", altDirSpec);
-                verbose("LoadDrivers: Loading from [%s]\n", gDriverSpec);
-                if (LoadDriverMKext(gDriverSpec) == 0) return 0;
-            }
-        }
-        //
+        // First try 10.6's path for loading Extensions.mkext.
+        sprintf(altDirSpec, "%sCaches/com.apple.kext.caches/Startup/", dirSpec);
+        if (FileLoadMKext(altDirSpec) == 0)
+          return 0;
 
-        ret = GetFileInfo(dirSpec, "Extensions.mkext", &flags, &time);
-        if ((ret == 0) && ((flags & kFileTypeMask) == kFileTypeFlat))
-        {
-            ret = GetFileInfo(dirSpec, "Extensions", &flags, &time2);
-            if ((ret != 0) || ((flags & kFileTypeMask) != kFileTypeDirectory) ||
-                (((gBootMode & kBootModeSafe) == 0) && (time == (time2 + 1))))
-            {
-                sprintf(gDriverSpec, "%sExtensions.mkext", dirSpec);
-                verbose("LoadDrivers: Loading from [%s]\n", gDriverSpec);
-                if (LoadDriverMKext(gDriverSpec) == 0) return 0;
-            }
-        }
+        // Next try the legacy path.
+        else if (FileLoadMKext(dirSpec) == 0)
+          return 0;
 
         strcat(dirSpec, "Extensions");
     }
@@ -330,7 +335,7 @@ FileLoadDrivers( char * dirSpec, long plugin )
           result = ret;
 
         if (!plugin) 
-            result = FileLoadDrivers(gDriverSpec, 1);
+          FileLoadDrivers(gDriverSpec, 1);
     }
 
     return result;
