@@ -300,7 +300,7 @@ long HFSReadFile(CICell ih, char * filePath, void *base, uint64_t offset,  uint6
     }
 
     getDeviceStringFromBVR(ih, devStr);
-    verbose("Loaded HFS%s file: [%s/%s] %d bytes.\n",
+    verbose("Read HFS%s file: [%s/%s] %d bytes.\n",
             (gIsHFSPlus ? "+" : ""), devStr, filePath, (uint32_t)length);
 	
     return length;

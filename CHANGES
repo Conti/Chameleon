@@ -1,3 +1,4 @@
+- Added displaying source device and partition number for file read operations.
 - Increased boot2's maximum size from 383.5k to 447.5k.
   Updated stage 1 loaders for handling the new size limit.
 - Added alternate format for setting the default partition. The user can specify the selected
