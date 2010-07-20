@@ -79,7 +79,7 @@ kBoot1RelocAddr		EQU		0xE000								; boot1 relocated address
 kBoot1ExtAddr		EQU		kBoot1RelocAddr + kSectorBytes		; boot1 load address for sector 41-47
 kHFSPlusBuffer		EQU		kBoot1RelocAddr + kBoot1ExtSize		; HFS+ Volume Header address
 
-kBoot2Sectors		EQU		(384 * 1024 - 512) / kSectorBytes	; max size of 'boot' file in sectors
+kBoot2Sectors		EQU		(448 * 1024 - 512) / kSectorBytes	; max size of 'boot' file in sectors
 kBoot2Segment		EQU		0x2000								; boot2 load segment
 kBoot2Address		EQU		kSectorBytes						; boot2 load address
 

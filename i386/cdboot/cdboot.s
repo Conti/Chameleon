@@ -114,7 +114,7 @@ CDBootSizeMagic		 EQU  0xDEADFACE	; indicates if the size field was not specific
 										; at build time.     
 kSectorBytes  		 EQU  2048			; sector size in bytes
 kBoot2Size			 EQU  65024			; default load size for boot2
-kBoot2MaxSize	     EQU  392704		; max size for boot2
+kBoot2MaxSize	     EQU  458240		; max size for boot2
 kBoot2Address        EQU  0x0200        ; boot2 load address
 kBoot2Segment        EQU  0x2000        ; boot2 load segment
 	

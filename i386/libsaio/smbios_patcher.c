@@ -777,7 +777,7 @@ static void getSmbiosTableStructure(struct SMBEntryPoint *smbios)
                 DmiTablePairCount++;
             }
             else {
-                printf("DMI table entries list is full! next entries won't be stored\n");
+                printf("DMI table entries list is full! Next entries won't be stored\n");
             }
 #if DEBUG_SMBIOS
             printf("DMI header found for table type %d, length = %d\n", dmihdr->type, dmihdr->length);

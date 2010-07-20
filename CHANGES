@@ -1,3 +1,5 @@
+- Increased boot2's maximum size from 383.5k to 447.5k.
+  Updated stage 1 loaders for handling the new size limit.
 - Added alternate format for setting the default partition. The user can specify the selected
   volume UUID for the "Default Partition" key.
 - Implemented SPD memory automatic detection and injection,seems to work really great ...
