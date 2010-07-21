@@ -184,6 +184,8 @@ extern int    close(int fdesc);
 extern int    file_size(int fdesc);
 extern int    read(int fdesc, char *buf, int count);
 extern int    write(int fdesc, const char *buf, int count);
+extern int    writebyte(int fdesc, char value);
+extern int    writeint(int fdesc, int value);
 extern int    b_lseek(int fdesc, int addr, int ptr);
 extern int    tell(int fdesc);
 extern const char * systemConfigDir(void);

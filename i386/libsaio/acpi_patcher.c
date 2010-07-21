@@ -788,7 +788,7 @@ int setupAcpi(void)
 		
 		for (i=0; i<30; i++)
 		{
-			char *filename[512];
+			char filename[512];
 
 			sprintf(filename, i>0?"SSDT-%d.aml":"SSDT.aml", i);
 			
