@@ -337,8 +337,8 @@ static struct nv_chipsets_t NVKnownChipsets[] = {
 	{ 0x10DE06F9, "Quadro FX 370 LP" },
 	{ 0x10DE06FA, "Quadro NVS 450" },
 	{ 0x10DE06FD, "Quadro NVS 295" },
-  { 0x10DE087D, "ION 9400M" },
-  { 0x10DE087E, "ION LE" },
+	{ 0x10DE087D, "ION 9400M" },
+	{ 0x10DE087E, "ION LE" },
 	{ 0x10DE0A20, "GeForce GT220" },
 	{ 0x10DE0A23, "GeForce 210" },
 	{ 0x10DE0A28, "GeForce GT 230M" },
@@ -353,7 +353,18 @@ static struct nv_chipsets_t NVKnownChipsets[] = {
 	{ 0x10DE0A78, "Quadro FX 380 LP" },
 	{ 0x10DE0CA3, "GeForce GT 240" },
 	{ 0x10DE0CA8, "GeForce GTS 260M" },
-	{ 0x10DE0CA9, "GeForce GTS 250M" }
+	{ 0x10DE0CA9, "GeForce GTS 250M" },
+	{ 0x10DE0CA3, "GeForce GT240" },
+	{ 0x10DE06C0, "GeForce GTX 480" },
+	{ 0x10DE06CD, "GeForce GTX 470" },
+	{ 0x10DE06C4, "GeForce GTX 465" },
+	{ 0x10DE06CA, "GeForce GTX 480M" },
+	{ 0x10DE0E22, "GeForce GTX 460" },
+	{ 0x10DE0E24, "GeForce GTX 460" },
+	{ 0x10DE06D1, "Tesla C2050" },	// TODO: sub-device id: 0x0771
+	{ 0x10DE06D1, "Tesla C2070" },	// TODO: sub-device id: 0x0772
+	{ 0x10DE06DE, "Tesla M2050" },	// TODO: sub-device id: 0x0846
+	{ 0x10DE06DE, "Tesla M2070" }	// TODO: sub-device id: ?
 };
 
 static uint16_t swap16(uint16_t x)
@@ -681,6 +692,22 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 	videoRam = (REG32(0x10020c) & 0xfff00000) >> 10;
 	model = get_nvidia_model((nvda_dev->vendor_id << 16) | nvda_dev->device_id);
 
+	// FIXME: dirty fermi hack
+	if((nvda_dev->device_id & 0xFFE0) == 0x06C0 ||
+	   (nvda_dev->device_id & 0xFFE0) == 0x0E20) {
+		switch (nvda_dev->device_id) {
+			case 0x06C0: videoRam = 1572864; break; // gtx 480
+			case 0x06CD: videoRam = 1310720; break; // gtx 470
+			case 0x06C4: videoRam = 1048576; break; // gtx 465
+			case 0x06CA: videoRam = 2097152; break; // gtx 480m
+			case 0x0E22: videoRam = 1048576; break; // gtx 460
+			case 0x0E24: videoRam = 1048576; break; // gtx 460
+			case 0x06D1: videoRam = 3145728; break; // tesla c2050/c2070
+			case 0x06DE: videoRam = 3145728; break; // tesla m2050/m2070
+			default: break;
+		}
+	}
+	
 	verbose("nVidia %s %dMB NV%02x [%04x:%04x] :: %s\n",  
 		model, (videoRam / 1024),
 		(REG32(0) >> 20) & 0x1ff, nvda_dev->vendor_id, nvda_dev->device_id,

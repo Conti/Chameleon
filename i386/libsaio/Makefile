@@ -39,11 +39,11 @@ SAIO_OBJS = table.o asm.o bios.o biosfn.o \
 	ufs.o ufs_byteorder.o \
 	vbe.o nbp.o hfs.o hfs_compare.o \
 	xml.o ntfs.o msdos.o md5c.o device_tree.o \
-	cpu.o platform.o dsdt_patcher.o \
+	cpu.o platform.o acpi_patcher.o \
 	smbios_patcher.o fake_efi.o ext2fs.o \
 	hpet.o spd.o usb.o pci_setup.o \
 	device_inject.o nvidia.o ati.o pci_root.o \
-	convert.o mem.o
+	convert.o mem.o aml_generator.o
 
 
 SAIO_EXTERN_OBJS = console.o

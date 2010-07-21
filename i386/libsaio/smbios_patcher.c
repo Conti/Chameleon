@@ -144,14 +144,85 @@ static int sm_get_cpu (const char *name, int table_num)
 
 static int sm_get_cputype (const char *name, int table_num)
 {
-	if (Platform.CPU.NoCores == 1) {
-		return 0x0101;   // <01 01> Intel Core Solo?
-	} else if (Platform.CPU.NoCores == 2) {
-		return 0x0301;   // <01 03> Intel Core 2 Duo
-	} else if (Platform.CPU.NoCores >= 4) {
-		return 0x0501;   // <01 05> Quad-Core Intel Xeon
+	if (Platform.CPU.Vendor == 0x756E6547) {
+		int cores = Platform.CPU.NoCores;
+		int intelPM = Platform.CPU.Model; //+ (Platform.CPU.ExtModel<< 4);//verify this
+		
+		switch (intelPM) {
+			case 13:                    // Pentium M model D
+				return 0x0101;
+				break;
+			case 14:                    // Core Solo/Duo, "Yonah", 65nm
+				return 0x0201;
+				break;
+			case 15:                    // Pentium 4, Core 2, Xeon, "Merom", "Conroe", 65nm
+				switch (cores) {
+					case 1:                // Core Solo
+						return 0x0201;
+						break;
+					case 2:                // Core 2, 65nm
+						return 0x0301;
+						break;
+					case 4:                // Quad Core, Xeon
+						return 0x0501;
+						break;
+					default:
+						return 0x0301;
+						break;
+				}
+				/*                if (cores == 1)
+				 return 0x0201;        // Core Solo
+				 else if (cores == 2)
+				 return 0x0301;        // Core 2, 65nm
+				 else if (cores == 4)
+				 return 0x0501;        // Quad-Core Xeon
+				 else
+				 return 0x0301;*/
+				break;
+			case 21:                    // EP80579 integrated processor
+				return 0x0301;            // ???
+				break;
+			case 22:                    // Core 2 Solo, "Merom-L", "Conroe-L", 45nm
+				return 0x0201;            // ???
+				break;
+			case 23:                    // Core 2 Extreme, Xeon, "Penryn", "Wolfdale", 45nm
+				return 0x0301;
+				break;
+			case 26:                    // Nehalem, Xeon 5500, "Bloomfield", 45nm
+				return 0x0701;
+				break;
+			case 29:                    // Six-Core Xeon 7400, "Dunnington", 45nm
+				return 0x0401;
+				break;
+			case 30:                    // Nehalem, Xeon, "Lynnfield", "Clarksfield", "Jasper", 45nm
+				return 0x0701;
+				break;
+			case 31:                    // Core i5, Xeon MP, "Havendale", "Auburndale", 45nm
+				return 0x0601;
+				break;
+			case 37:                    // Nehalem, "Clarkdale", 32nm
+				return 0x0301;            // ???
+				break;
+			case 44:                    // Nehalem, "Gulftown", 32nm
+				return 0x0601;
+				break;
+			case 46:                    // "Nehalem-ex", "Beckton", 45nm
+				return 0x0301;            // ???
+				break;
+			default:
+				goto core_ident;
+		}
 	} else {
-		return 0x0301;   // Default to Core 2 Duo
+	core_ident:
+		if (Platform.CPU.NoCores == 1) {
+			return 0x0201;   // Core Solo
+		} else if (Platform.CPU.NoCores == 2) {
+			return 0x0301;   // Core 2 Duo
+		} else if (Platform.CPU.NoCores >= 4) {
+			return 0x0501;   // Quad-Core Xeon
+		} else {
+			return 0x0301;   // Core 2 Duo
+		}
 	}
 }
 
@@ -166,6 +237,7 @@ static int sm_get_memtype (const char *name, int table_num)
                     return Platform.RAM.DIMM[map].Type;
 		}
 	}
+	
 	return SMB_MEM_TYPE_DDR2;
 }
 
@@ -777,7 +849,7 @@ static void getSmbiosTableStructure(struct SMBEntryPoint *smbios)
                 DmiTablePairCount++;
             }
             else {
-                printf("DMI table entries list is full! Next entries won't be stored\n");
+                printf("DMI table entries list is full! Next entries won't be stored.\n");
             }
 #if DEBUG_SMBIOS
             printf("DMI header found for table type %d, length = %d\n", dmihdr->type, dmihdr->length);

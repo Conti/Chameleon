@@ -52,11 +52,9 @@ void scan_mem() {
 */
 void scan_platform(void)
 {
-
 	memset(&Platform, 0, sizeof(Platform));
 	build_pci_dt();
 	scan_cpu(&Platform);
-        // disabled for now as options can't be read yet here: 
-        // scan_mem();
-        
+	// It's working after some changes in strdup
+	scan_mem();
 }

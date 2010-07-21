@@ -11,7 +11,7 @@
 #include "fake_efi.h"
 #include "efi_tables.h"
 #include "platform.h"
-#include "dsdt_patcher.h"
+#include "acpi_patcher.h"
 #include "smbios_patcher.h"
 #include "device_inject.h"
 #include "convert.h"

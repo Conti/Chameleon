@@ -177,34 +177,35 @@ const char *getDDRSerial(const char* spd)
     if (!ret) sprintf(asciiSerial, "10000000%d", serialnum++);  
     else      sprintf(asciiSerial, "%d", ret);  
 
-    return asciiSerial;
+	return strdup(asciiSerial);
 }
 
 /** Get DDR3 or DDR2 Part Number, always return a valid ptr */
 const char * getDDRPartNum(const char* spd)
 {
+	static char asciiPartNo[32];
     const char * sPart = NULL;
-    int i;
-    bool bZero = false;
+	int i, index = 0;
 
-    if (spd[SPD_MEMORY_TYPE]==SPD_MEMORY_TYPE_SDRAM_DDR3)
-        sPart =  &spd[128];
-    else if (spd[SPD_MEMORY_TYPE]==SPD_MEMORY_TYPE_SDRAM_DDR2)
-        sPart = &spd[73];
+    if (spd[SPD_MEMORY_TYPE]==SPD_MEMORY_TYPE_SDRAM_DDR3) {
+		sPart = &spd[128];
+	}
+    else if (spd[SPD_MEMORY_TYPE]==SPD_MEMORY_TYPE_SDRAM_DDR2) {
+		sPart = &spd[73];
+	}
+	
     if (sPart) { // Check that the spd part name is zero terminated and that it is ascii:
+		bzero(asciiPartNo, 32);		
         for (i=0; i<32; i++) {
-            if (sPart[i]==0) {
-                bZero = true;
-                break;
-            }
-            else if ( !isascii(sPart[i]) ) {
-                sPart = NULL;
-                break;
-            }
-        }
+            if (isalpha(sPart[i]) || isdigit(sPart[i])) // It seems that System Profiler likes only letters and digits...
+				asciiPartNo[index++] = sPart[i];
+			else if (!isascii(sPart[i]))
+				break;
+		}
+		
+		return strdup(asciiPartNo);
     }
-    return ( sPart==NULL || !(*sPart) || !bZero ) ? 
-        "N/A" : sPart;
+    return "N/A";
 }
 
 int mapping []= {0,2,1,3,4,6,5,7,8,10,9,11};
@@ -260,9 +261,9 @@ static void read_smb_intel(pci_dt_t *smbus_dev)
             
             spd_type = (slot->spd[SPD_MEMORY_TYPE] < ((char) 12) ? slot->spd[SPD_MEMORY_TYPE] : 0);
             slot->Type = spd_mem_to_smbios[spd_type];
-            slot->PartNo = strdup(getDDRPartNum(slot->spd) );
-            slot->Vendor = strdup(getVendorName(slot) );
-            slot->SerialNo = strdup(getDDRSerial(slot->spd));
+            slot->PartNo = getDDRPartNum(slot->spd);
+            slot->Vendor = getVendorName(slot);
+            slot->SerialNo = getDDRSerial(slot->spd);
 
             // determine spd speed
             speed = getDDRspeedMhz(slot->spd);

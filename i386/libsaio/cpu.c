@@ -17,104 +17,6 @@
 #define DBG(x...)
 #endif
 
-
-static inline uint64_t rdtsc64(void)
-{
-	uint64_t ret;
-	__asm__ volatile("rdtsc" : "=A" (ret));
-	return ret;
-}
-
-static inline uint64_t rdmsr64(uint32_t msr)
-{
-    uint64_t ret;
-    __asm__ volatile("rdmsr" : "=A" (ret) : "c" (msr));
-    return ret;
-}
-
-static inline void do_cpuid(uint32_t selector, uint32_t *data)
-{
-	asm volatile ("cpuid"
-	  : "=a" (data[0]),
-	  "=b" (data[1]),
-	  "=c" (data[2]),
-	  "=d" (data[3])
-	  : "a" (selector));
-}
-
-static inline void do_cpuid2(uint32_t selector, uint32_t selector2, uint32_t *data)
-{
-	asm volatile ("cpuid"
-	  : "=a" (data[0]),
-	  "=b" (data[1]),
-	  "=c" (data[2]),
-	  "=d" (data[3])
-	  : "a" (selector), "c" (selector2));
-}
-
-// DFE: enable_PIT2 and disable_PIT2 come from older xnu
-
-/*
- * Enable or disable timer 2.
- * Port 0x61 controls timer 2:
- *   bit 0 gates the clock,
- *   bit 1 gates output to speaker.
- */
-static inline void enable_PIT2(void)
-{
-    /* Enable gate, disable speaker */
-    __asm__ volatile(
-        " inb   $0x61,%%al      \n\t"
-        " and   $0xFC,%%al       \n\t"  /* & ~0x03 */
-        " or    $1,%%al         \n\t"
-        " outb  %%al,$0x61      \n\t"
-        : : : "%al" );
-}
-
-static inline void disable_PIT2(void)
-{
-    /* Disable gate and output to speaker */
-    __asm__ volatile(
-        " inb   $0x61,%%al      \n\t"
-        " and   $0xFC,%%al      \n\t"	/* & ~0x03 */
-        " outb  %%al,$0x61      \n\t"
-        : : : "%al" );
-}
-
-// DFE: set_PIT2_mode0, poll_PIT2_gate, and measure_tsc_frequency are
-// roughly based on Linux code
-
-/* Set the 8254 channel 2 to mode 0 with the specified value.
-   In mode 0, the counter will initially set its gate low when the
-   timer expires.  For this to be useful, you ought to set it high
-   before calling this function.  The enable_PIT2 function does this.
- */
-static inline void set_PIT2_mode0(uint16_t value)
-{
-    __asm__ volatile(
-        " movb  $0xB0,%%al      \n\t"
-        " outb	%%al,$0x43	\n\t"
-        " movb	%%dl,%%al	\n\t"
-        " outb	%%al,$0x42	\n\t"
-        " movb	%%dh,%%al	\n\t"
-        " outb	%%al,$0x42"
-        : : "d"(value) /*: no clobber */ );
-}
-
-/* Returns the number of times the loop ran before the PIT2 signaled */
-static inline unsigned long poll_PIT2_gate(void)
-{
-    unsigned long count = 0;
-    unsigned char nmi_sc_val;
-    do {
-        ++count;
-        __asm__ volatile(
-            "inb	$0x61,%0"
-        : "=q"(nmi_sc_val) /*:*/ /* no input */ /*:*/ /* no clobber */);
-    } while( (nmi_sc_val & 0x20) == 0);
-    return count;
-}
-
 /*
  * DFE: Measures the TSC frequency in Hz (64-bit) using the ACPI PM timer
  */
@@ -249,6 +151,9 @@ void scan_cpu(PlatformInfo_t *p)
 	if ((bit(29) & p->CPU.CPUID[CPUID_81][3]) != 0) {
 		p->CPU.Features |= CPU_FEATURE_EM64T;
 	}
+	if ((bit(5) & p->CPU.CPUID[CPUID_1][3]) != 0) {
+		p->CPU.Features |= CPU_FEATURE_MSR;
+	}
 	//if ((bit(28) & p->CPU.CPUID[CPUID_1][3]) != 0) {
 	if (p->CPU.NoThreads > p->CPU.NoCores) {
 		p->CPU.Features |= CPU_FEATURE_HTT;
@@ -279,7 +184,7 @@ void scan_cpu(PlatformInfo_t *p)
 				}
 				cpuFrequency = tscFrequency;
 			} else {
-				msr = rdmsr64(IA32_PERF_STATUS);
+				msr = rdmsr64(MSR_IA32_PERF_STATUS);
 				DBG("msr(%d): ia32_perf_stat 0x%08x\n", __LINE__, msr & 0xffffffff);
 				currcoef = (msr >> 8) & 0x1f;
 				/* Non-integer bus ratio for the max-multi*/

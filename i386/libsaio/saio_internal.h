@@ -183,6 +183,7 @@ extern int    open_bvdev(const char *bvd, const char *path, int flags);
 extern int    close(int fdesc);
 extern int    file_size(int fdesc);
 extern int    read(int fdesc, char *buf, int count);
+extern int    write(int fdesc, const char *buf, int count);
 extern int    b_lseek(int fdesc, int addr, int ptr);
 extern int    tell(int fdesc);
 extern const char * systemConfigDir(void);

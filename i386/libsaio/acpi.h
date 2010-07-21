@@ -59,6 +59,32 @@ struct acpi_2_xsdt {
 } __attribute__((packed));
 
 // TODO Migrate
+struct acpi_2_ssdt {
+	char            Signature[4];
+	uint32_t        Length;
+	uint8_t         Revision;
+	uint8_t         Checksum;
+	char            OEMID[6];
+	char            OEMTableId[8];
+	uint32_t        OEMRevision;
+	uint32_t        CreatorId;
+	uint32_t        CreatorRevision;
+} __attribute__((packed));
+
+// TODO Migrate
+struct acpi_2_dsdt {
+	char            Signature[4];
+	uint32_t        Length;
+	uint8_t         Revision;
+	uint8_t         Checksum;
+	char            OEMID[6];
+	char            OEMTableId[8];
+	uint32_t        OEMRevision;
+	uint32_t        CreatorId;
+	uint32_t        CreatorRevision;
+} __attribute__((packed));
+
+// TODO Migrate
 struct acpi_2_fadt {
 	char            Signature[4];
 	uint32_t        Length;
@@ -73,8 +99,39 @@ struct acpi_2_fadt {
 	uint32_t        DSDT;
 	uint8_t         Model;			// JrCs
 	uint8_t         PM_Profile;		// JrCs
-	/*We absolutely don't care about theese fields*/
-	uint8_t         notimp1[66];
+	uint16_t		SCI_Interrupt;
+	uint32_t		SMI_Command_Port;
+	uint8_t			ACPI_Enable;
+	uint8_t			ACPI_Disable;
+	uint8_t			S4BIOS_Command;
+	uint8_t			PState_Control;
+	uint32_t		PM1A_Event_Block_Address;
+	uint32_t		PM1B_Event_Block_Address;
+	uint32_t		PM1A_Control_Block_Address;
+	uint32_t		PM1B_Control_Block_Address;
+	uint32_t		PM2_Control_Block_Address;
+	uint32_t		PM_Timer_Block_Address;
+	uint32_t		GPE0_Block_Address;
+	uint32_t		GPE1_Block_Address;
+	uint8_t			PM1_Event_Block_Length;
+	uint8_t			PM1_Control_Block_Length;
+	uint8_t			PM2_Control_Block_Length;
+	uint8_t			PM_Timer_Block_Length;
+	uint8_t			GPE0_Block_Length;
+	uint8_t			GPE1_Block_Length;
+	uint8_t			GPE1_Base_Offset;
+	uint8_t			CST_Support;
+	uint16_t		C2_Latency;
+	uint16_t		C3_Latency;
+	uint16_t		CPU_Cache_Size;
+	uint16_t		Cache_Flush_Stride;
+	uint8_t			Duty_Cycle_Offset;
+	uint8_t			Duty_Cycle_Width;
+	uint8_t			RTC_Day_Alarm_Index;
+	uint8_t			RTC_Month_Alarm_Index;
+	uint8_t			RTC_Century_Index;
+	uint16_t		Boot_Flags;
+	uint8_t			Reserved0;
 /* Begin Asere */
 	//Reset Fix
 	uint32_t        Flags;

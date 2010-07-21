@@ -33,6 +33,7 @@ extern void dumpPhysAddr(const char * title, void * a, int len);
 #define CPU_FEATURE_EM64T		0x00000040		// 64Bit Support
 #define CPU_FEATURE_HTT			0x00000080		// HyperThreading
 #define CPU_FEATURE_MOBILE		0x00000100		// Mobile CPU
+#define CPU_FEATURE_MSR			0x00000200		// MSR Support
 
 /* SMBIOS Memory Types */ 
 #define SMB_MEM_TYPE_UNDEFINED		0
@@ -75,16 +76,16 @@ extern void dumpPhysAddr(const char * title, void * a, int len);
 #define UUID_LEN			16
 
 typedef struct _RamSlotInfo_t {
-    uint32_t            ModuleSize;						// Size of Module in MB
-    uint32_t            Frequency; // in Mhz
+    uint32_t		ModuleSize;						// Size of Module in MB
+    uint32_t		Frequency; // in Mhz
     const char*		Vendor;
     const char*		PartNo;
     const char*		SerialNo;
-    char*		spd;							// SPD Dump
-    bool		InUse;
-    uint8_t		Type;
-    uint8_t             BankConnections; // table type 6, see (3.3.7)
-    uint8_t             BankConnCnt;
+    char*			spd;							// SPD Dump
+    bool			InUse;
+    uint8_t			Type;
+    uint8_t			BankConnections; // table type 6, see (3.3.7)
+    uint8_t			BankConnCnt;
 
 } RamSlotInfo_t;
 
