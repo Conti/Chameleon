@@ -258,18 +258,20 @@ long LoadDrivers( char * dirSpec )
 // FileLoadMKext
 
 static long
-FileLoadMKext( const char * dirSpec )
+FileLoadMKext( const char * dirSpec, const char * extDirSpec )
 {
   long  ret, flags, time, time2;
-  
-  ret = GetFileInfo(dirSpec, "Extensions.mkext", &flags, &time);
+  char altDirSpec[512];
+
+  sprintf (altDirSpec, "%s%s", dirSpec, extDirSpec);
+  ret = GetFileInfo(altDirSpec, "Extensions.mkext", &flags, &time);
   if ((ret == 0) && ((flags & kFileTypeMask) == kFileTypeFlat))
   {
       ret = GetFileInfo(dirSpec, "Extensions", &flags, &time2);
       if ((ret != 0) || ((flags & kFileTypeMask) != kFileTypeDirectory) ||
           (((gBootMode & kBootModeSafe) == 0) && (time == (time2 + 1))))
       {
-          sprintf(gDriverSpec, "%sExtensions.mkext", dirSpec);
+          sprintf(gDriverSpec, "%sExtensions.mkext", altDirSpec);
           verbose("LoadDrivers: Loading from [%s]\n", gDriverSpec);
           if (LoadDriverMKext(gDriverSpec) == 0) return 0;
       }
@@ -290,15 +292,12 @@ FileLoadDrivers( char * dirSpec, long plugin )
  
     if ( !plugin )
     {
-        char altDirSpec[512];
-
         // First try 10.6's path for loading Extensions.mkext.
-        sprintf(altDirSpec, "%sCaches/com.apple.kext.caches/Startup/", dirSpec);
-        if (FileLoadMKext(altDirSpec) == 0)
+        if (FileLoadMKext(dirSpec, "Caches/com.apple.kext.caches/Startup/") == 0)
           return 0;
 
         // Next try the legacy path.
-        else if (FileLoadMKext(dirSpec) == 0)
+        else if (FileLoadMKext(dirSpec, "") == 0)
           return 0;
 
         strcat(dirSpec, "Extensions");
