@@ -68,6 +68,12 @@
 #define kDSDT				"DSDT"				/* acpi_patcher.c */
 #define kDropSSDT			"DropSSDT"			/* acpi_patcher.c */
 #define kRestartFix			"RestartFix"		/* acpi_patcher.c */
+#define kRestartFix			"RestartFix"        /* acpi_patcher.c */
+#define kGeneratePStates	"GeneratePStates"	/* acpi_patcher.c */
+#define kGenerateCStates	"GenerateCStates"	/* acpi_patcher.c */
+#define kDeviceProperties	"device-properties"	/* device_inject.c */
+#define kHidePartition		"Hide Partition"	/* disk.c */
+#define kRenamePartition	"Rename Partition"	/* disk.c */
 #define kSMBIOS				"SMBIOS"			/* fake_efi.c */
 #define kSystemID			"SystemId"			/* fake_efi.c */
 #define kSystemType			"SystemType"		/* fake_efi.c */
@@ -76,20 +82,15 @@
 #define kPCIRootUID			"PCIRootUID"		/* pci_root.c */
 #define kEthernetBuiltIn	"EthernetBuiltIn"	/* pci_setup.c */
 #define kGraphicsEnabler	"GraphicsEnabler"	/* pci_setup.c */
-#define kUSBBusFix			"USBBusFix"			/* pci_setup.c */
-#define kEHCIacquire		"EHCIacquire"		/* pci_setup.c */
-#define kUHCIreset			"UHCIreset"			/* pci_setup.c */
 #define kForceHPET			"ForceHPET"			/* pci_setup.c */
+#define kUseMemDetect		"UseMemDetect"	    /* platform.c */
 #define kSMBIOSdefaults		"SMBIOSdefaults"	/* smbios_patcher.c */
+#define kUSBBusFix			"USBBusFix"			/* usb.c */
+#define kEHCIacquire		"EHCIacquire"		/* usb.c */
+#define kUHCIreset			"UHCIreset"			/* usb.c */
+#define kLegacyOff			"USBLegacyOff"		/* usb.c */
 #define kEHCIhard			"EHCIhard"			/* usb.c */
 #define kDefaultPartition	"Default Partition"	/* sys.c */
-#define kDeviceProperties	"device-properties"	/* device_inject.c */
-#define kHidePartition		"Hide Partition"	/* disk.c */
-#define kRenamePartition	"Rename Partition"	/* disk.c */
-#define kUseMemDetect		"UseMemDetect"	    /* platform.c */
-#define kRestartFix			"RestartFix"        /* acpi_patcher.c */
-#define kGeneratePStates	"GeneratePStates"	/* acpi_patcher.c */
-#define kGenerateCStates	"GenerateCStates"	/* acpi_patcher.c */
 
 /*
  * Flags to the booter or kernel
@@ -138,6 +139,11 @@ extern void initialize_runtime();
 extern void common_boot(int biosdev);
 
 /*
+ * usb.c
+ */
+extern int usb_loop();
+
+/*
  * graphics.c
  */
 extern void printVBEModeInfo();
@@ -165,6 +171,7 @@ extern void drawBootGraphics(void);
 extern void drawPreview(void *src, uint8_t * saveunder);
 extern int getVideoMode(void);
 extern void loadImageScale (void *input, int iw, int ih, int ip, void *output, int ow, int oh, int op, int or);
+
 /*
  * drivers.c
  */

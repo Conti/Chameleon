@@ -6,26 +6,19 @@
 #include "ati.h"
 
 extern void set_eth_builtin(pci_dt_t *eth_dev);
-extern int ehci_acquire(pci_dt_t *pci_dev);
-extern int uhci_reset(pci_dt_t *pci_dev);
+extern void notify_usb_dev(pci_dt_t *pci_dev);
 extern void force_enable_hpet(pci_dt_t *lpc_dev);
 
 void setup_pci_devs(pci_dt_t *pci_dt)
 {
 	char *devicepath;
-	bool do_eth_devprop, do_gfx_devprop, fix_ehci, fix_uhci, fix_usb, do_enable_hpet;
+	bool do_eth_devprop, do_gfx_devprop, do_enable_hpet;
 	pci_dt_t *current = pci_dt;
 
-	do_eth_devprop = do_gfx_devprop = fix_ehci = fix_uhci = fix_usb = do_enable_hpet = false;
+	do_eth_devprop = do_gfx_devprop = do_enable_hpet = false;
 
 	getBoolForKey(kEthernetBuiltIn, &do_eth_devprop, &bootInfo->bootConfig);
 	getBoolForKey(kGraphicsEnabler, &do_gfx_devprop, &bootInfo->bootConfig);
-	if (getBoolForKey(kUSBBusFix, &fix_usb, &bootInfo->bootConfig) && fix_usb) {
-		fix_ehci = fix_uhci = true;
-	} else {
-		getBoolForKey(kEHCIacquire, &fix_ehci, &bootInfo->bootConfig);
-		getBoolForKey(kUHCIreset, &fix_uhci, &bootInfo->bootConfig);
-	}
 	getBoolForKey(kForceHPET, &do_enable_hpet, &bootInfo->bootConfig);
 
 	while (current)
@@ -62,20 +55,7 @@ void setup_pci_devs(pci_dt_t *pci_dt)
 				break;
 
 			case PCI_CLASS_SERIAL_USB:
-				switch (pci_config_read8(current->dev.addr, PCI_CLASS_PROG))
-				{
-					/* EHCI */
-					case 0x20:
-				    	if (fix_ehci)
-							ehci_acquire(current);
-						break;
-
-					/* UHCI */
-					case 0x00:
-				    	if (fix_uhci)
-							uhci_reset(current);
-						break;
-				}
+				notify_usb_dev(current);
 				break;
 
 			case PCI_CLASS_BRIDGE_ISA:
