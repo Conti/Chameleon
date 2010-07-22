@@ -262,7 +262,7 @@ FileLoadMKext( const char * dirSpec, const char * extDirSpec )
 {
   long  ret, flags, time, time2;
   char altDirSpec[512];
-
+	
   sprintf (altDirSpec, "%s%s", dirSpec, extDirSpec);
   ret = GetFileInfo(altDirSpec, "Extensions.mkext", &flags, &time);
   if ((ret == 0) && ((flags & kFileTypeMask) == kFileTypeFlat))

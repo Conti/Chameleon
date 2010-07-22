@@ -195,28 +195,32 @@ void find_acpi_cpu_names(unsigned char* dsdt, int length)
 	
 	for (i=0; i<length-7; i++) 
 	{
-		if (dsdt[i] == 0x83 && dsdt[i+1] == 0x0B && dsdt[i+6] < 32) 
+		if (dsdt[i] == 0x5B && dsdt[i+1] == 0x83) // ProcessorOP
 		{
-			acpi_cpu_name[acpi_cpu_count] = malloc(5);
-			
-			int j;
+			uint8_t offset = i+2+(dsdt[i+2] >> 6) + 1, j;
+			bool add_name = TRUE;
+
 			for (j=0; j<4; j++) 
 			{
-				if (aml_isvalidchar(dsdt[i+2+j])) 
+				char c = dsdt[offset+j];
+				
+				if (!aml_isvalidchar(c)) 
 				{
-					acpi_cpu_name[acpi_cpu_count][j] = dsdt[i+2+j];
-				}
-				else 
-				{
-					verbose("Invalid characters found in ProcessorOP!");
-					free(acpi_cpu_name[acpi_cpu_count]);
-					continue;
+					add_name = FALSE;
+					verbose("Invalid characters found in ProcessorOP!\n");
+					break;
 				}
 			}
 			
-			verbose("Found %c%c%c%c (from DSDT)\n", acpi_cpu_name[acpi_cpu_count][0], acpi_cpu_name[acpi_cpu_count][1], acpi_cpu_name[acpi_cpu_count][2], acpi_cpu_name[acpi_cpu_count][3]);
-			
-			acpi_cpu_count++;
+			if (add_name && dsdt[offset+5] < 32 ) 
+			{
+				acpi_cpu_name[acpi_cpu_count] = malloc(5);
+				memcpy(acpi_cpu_name[acpi_cpu_count], dsdt+offset, 4);
+				
+				verbose("Found %c%c%c%c (from DSDT)\n", acpi_cpu_name[acpi_cpu_count][0], acpi_cpu_name[acpi_cpu_count][1], acpi_cpu_name[acpi_cpu_count][2], acpi_cpu_name[acpi_cpu_count][3]);
+				
+				if (++acpi_cpu_count == 32) return;
+			}
 		}
 	}
 }
@@ -775,8 +779,9 @@ int setupAcpi(void)
 	
 	// Mozodojo: Load additional SSDTs
 	struct acpi_2_ssdt *new_ssdt[32]; // 30 + 2 additional tables for pss & cst
-	struct acpi_2_fadt *fadt; // will be used in CST generator
 	int  ssdt_count=0;
+	
+	// SSDT Options
 	bool drop_ssdt=false, generate_pstates=false, generate_cstates=false; 
 	
 	getBoolForKey(kDropSSDT, &drop_ssdt, &bootInfo->bootConfig);
@@ -841,7 +846,8 @@ int setupAcpi(void)
 			int rsdt_entries_num;
 			int dropoffset=0, i;
 			
-			rsdt_mod=(struct acpi_2_rsdt *)AllocateKernelMemory(rsdt->Length); 
+			// mozo: using malloc cos I didn't found how to free already allocated kernel memory
+			rsdt_mod=(struct acpi_2_rsdt *)malloc(rsdt->Length); 
 			memcpy (rsdt_mod, rsdt, rsdt->Length);
 			rsdp_mod->RsdtAddress=(uint32_t)rsdt_mod;
 			rsdt_entries_num=(rsdt_mod->Length-sizeof(struct acpi_2_rsdt))/4;
@@ -872,7 +878,7 @@ int setupAcpi(void)
 				}
 				if (tableSign(table, "FACP"))
 				{
-					struct acpi_2_fadt *fadt_mod;
+					struct acpi_2_fadt *fadt, *fadt_mod;
 					fadt=(struct acpi_2_fadt *)rsdt_entries[i];
 					
 					DBG("FADT found @%x, Length %d\n",fadt, fadt->Length);
@@ -899,43 +905,24 @@ int setupAcpi(void)
 			}
 			DBG("\n");
 			
+			// Allocate rsdt in Kernel memory area
+			rsdt_mod->Length += rsdt_mod->Length + 4*ssdt_count - 4*dropoffset;
+			struct acpi_2_rsdt *rsdt_copy = (struct acpi_2_rsdt *)AllocateKernelMemory(rsdt_mod->Length);
+			memcpy (rsdt_copy, rsdt_mod, rsdt_mod->Length);
+			free(rsdt_mod); rsdt_mod = rsdt_copy;
+			rsdp_mod->RsdtAddress=(uint32_t)rsdt_mod;
+			rsdt_entries_num=(rsdt_mod->Length-sizeof(struct acpi_2_rsdt))/4;
+			rsdt_entries=(uint32_t *)(rsdt_mod+1);
+			
 			// Mozodojo: Insert additional SSDTs into RSDT
 			if(ssdt_count>0)
 			{
-				uint32_t j = rsdt_mod->Length;
-				bool add_new_ssdt = TRUE;
+				int j;
 				
-				rsdt_mod->Length+=4*ssdt_count-4*dropoffset;
-				
-				if (rsdt_mod->Length > j)
-				{
-					struct acpi_2_rsdt *rsdt_copy = (struct acpi_2_rsdt *)AllocateKernelMemory(rsdt_mod->Length);
-					if (rsdt_copy) 
-					{
-						memcpy (rsdt_copy, rsdt_mod, rsdt_mod->Length);
-						free(rsdt_mod); rsdt_mod = rsdt_copy;
-						rsdp_mod->RsdtAddress=(uint32_t)rsdt_mod;
-						rsdt_entries_num=(rsdt_mod->Length-sizeof(struct acpi_2_rsdt))/4;
-						rsdt_entries=(uint32_t *)(rsdt_mod+1);
-					}
-					else 
-					{
-						verbose("RSDT: Couldn't allocate memory for additional SSDT tables!\n");
-						add_new_ssdt = FALSE;
-					}
-				}
-				
-				if (add_new_ssdt) 
-				{
-					for (j=0; j<ssdt_count; j++)
-						rsdt_entries[i-dropoffset+j]=(uint32_t)new_ssdt[j];
+				for (j=0; j<ssdt_count; j++)
+					rsdt_entries[i-dropoffset+j]=(uint32_t)new_ssdt[j];
 					
-					verbose("RSDT: Added %d SSDT table(s)\n", ssdt_count);
-				}
-			}
-			else 
-			{
-				rsdt_mod->Length-=4*dropoffset;
+				verbose("RSDT: Added %d SSDT table(s)\n", ssdt_count);
 			}
 
 			// Correct the checksum of RSDT
@@ -967,7 +954,8 @@ int setupAcpi(void)
 				int xsdt_entries_num, i;
 				int dropoffset=0;
 				
-				xsdt_mod=(struct acpi_2_xsdt*)AllocateKernelMemory(xsdt->Length); 
+				// mozo: using malloc cos I didn't found how to free already allocated kernel memory
+				xsdt_mod=(struct acpi_2_xsdt*)malloc(xsdt->Length); 
 				memcpy(xsdt_mod, xsdt, xsdt->Length);
 				rsdp_mod->XsdtAddress=(uint32_t)xsdt_mod;
 				xsdt_entries_num=(xsdt_mod->Length-sizeof(struct acpi_2_xsdt))/8;
@@ -998,7 +986,7 @@ int setupAcpi(void)
 					}
 					if (tableSign(table, "FACP"))
 					{
-						struct acpi_2_fadt *fadt_mod;
+						struct acpi_2_fadt *fadt, *fadt_mod;
 						fadt=(struct acpi_2_fadt *)(uint32_t)xsdt_entries[i];
 						
 						DBG("FADT found @%x,%x, Length %d\n",(uint32_t)(xsdt_entries[i]>>32),fadt, 
@@ -1030,44 +1018,24 @@ int setupAcpi(void)
 					
 				}
 				
+				// Allocate xsdt in Kernel memory area
+				xsdt_mod->Length += 8*ssdt_count - 8*dropoffset;
+				struct acpi_2_xsdt *xsdt_copy = (struct acpi_2_xsdt *)AllocateKernelMemory(xsdt_mod->Length);
+				memcpy(xsdt_copy, xsdt_mod, xsdt_mod->Length);
+				free(xsdt_mod); xsdt_mod = xsdt_copy;
+				rsdp_mod->XsdtAddress=(uint32_t)xsdt_mod;
+				xsdt_entries_num=(xsdt_mod->Length-sizeof(struct acpi_2_xsdt))/8;
+				xsdt_entries=(uint64_t *)(xsdt_mod+1);
+				
 				// Mozodojo: Insert additional SSDTs into XSDT
 				if(ssdt_count>0)
 				{
-					int j = xsdt_mod->Length;
-					bool add_new_ssdt = TRUE;
+					int j;
 					
-					xsdt_mod->Length+=8*ssdt_count-8*dropoffset;
-					
-					if (xsdt_mod->Length > j) 
-					{
-						struct acpi_2_xsdt *xsdt_copy = (struct acpi_2_xsdt *)AllocateKernelMemory(xsdt_mod->Length);
+					for (j=0; j<ssdt_count; j++)
+						xsdt_entries[i-dropoffset+j]=(uint32_t)new_ssdt[j];
 						
-						if (xsdt_copy) 
-						{
-							memcpy(xsdt_copy, xsdt_mod, xsdt_mod->Length);
-							free(xsdt_mod); xsdt_mod = xsdt_copy;
-							rsdp_mod->XsdtAddress=(uint32_t)xsdt_mod;
-							xsdt_entries_num=(xsdt_mod->Length-sizeof(struct acpi_2_xsdt))/8;
-							xsdt_entries=(uint64_t *)(xsdt_mod+1);
-						}
-						else
-						{
-							verbose("RSDT: Couldn't allocate memory for additional SSDT tables!\n");
-							add_new_ssdt = FALSE;	
-						}
-					}
-					
-					if (add_new_ssdt) 
-					{
-						for (j=0; j<ssdt_count; j++)
-							xsdt_entries[i-dropoffset+j]=(uint32_t)new_ssdt[j];
-						
-						verbose("Added %d SSDT table(s) into XSDT\n", ssdt_count);
-					}
-				}
-				else 
-				{
-					xsdt_mod->Length-=8*dropoffset;
+					verbose("Added %d SSDT table(s) into XSDT\n", ssdt_count);
 				}
 
 				// Correct the checksum of XSDT

@@ -15,7 +15,7 @@ unsigned char aml_get_length_size(long length)
 		return 2;
 	else if (length > 0x3FFF) 
 		return 3;
-		
+	
 	return 1;
 }
 
@@ -163,31 +163,11 @@ int aml_fill_simple_name(char* buffer, const char* name)
 	return 4;
 }
 
-int aml_get_names_count(const char* name)
-{
-	int i, len = strlen(name), count = 0;
-	
-	for (i = 0; i < len; i++)
-	{
-		if (name[i] == '.') 
-		{
-			count++;
-		}
-		else if (!aml_isvalidchar(name[i]))
-		{
-			len = i;
-			break;
-		}
-	}
-	
-	if (count == 0 && len > 0) 
-		count++;
-	
-	return count;
-}
-
 int aml_fill_name(struct aml_chunk* node, const char* name)
 {
+	if (!node) 
+		return -1;
+	
 	int i, len = strlen(name), count = 0;
 	
 	for (i = 0; i < len; i++)
@@ -230,11 +210,13 @@ int aml_fill_name(struct aml_chunk* node, const char* name)
 		node->Buffer[offset++] = 0x2f; // Multi name
 		node->Buffer[offset++] = count; // Names count
 	}
-
+	
 	int j = 0;
 	
 	for (i = 0; i < count; i++) 
 	{
+		offset += aml_fill_simple_name(node->Buffer + offset, name + j);
+		
 		while (name[j] != '.') 
 		{
 			if (j < len)
@@ -247,8 +229,6 @@ int aml_fill_name(struct aml_chunk* node, const char* name)
 				return -1;
 			}
 		}
-
-		offset += aml_fill_simple_name(node->Buffer + offset, name + j);
 	}
 	
 	return offset;
@@ -261,9 +241,9 @@ int aml_add_name(struct aml_chunk* parent, const char* name, int count, ...)
 	if (node)
 	{
 		node->Type = AML_CHUNK_NAME;
-			
+		
 		aml_fill_name(node, name);
-			
+		
 		return node->Length;
 	}
 	

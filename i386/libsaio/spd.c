@@ -175,7 +175,7 @@ const char *getDDRSerial(const char* spd)
     }
 
     if (!ret) sprintf(asciiSerial, "10000000%d", serialnum++);  
-    else      sprintf(asciiSerial, "%d", ret);  
+    else      sprintf(asciiSerial, "%X", ret);  
 
 	return strdup(asciiSerial);
 }
@@ -197,15 +197,16 @@ const char * getDDRPartNum(const char* spd)
     if (sPart) { // Check that the spd part name is zero terminated and that it is ascii:
 		bzero(asciiPartNo, 32);		
         for (i=0; i<32; i++) {
-            if (isalpha(sPart[i]) || isdigit(sPart[i])) // It seems that System Profiler likes only letters and digits...
-				asciiPartNo[index++] = sPart[i];
-			else if (!isascii(sPart[i]))
+			char c = sPart[i];
+            if (isalpha(c) || isdigit(c) || ispunct(c)) // It seems that System Profiler likes only letters and digits...
+				asciiPartNo[index++] = c;
+			else if (!isascii(c))
 				break;
 		}
 		
 		return strdup(asciiPartNo);
     }
-    return "N/A";
+    return NULL;
 }
 
 int mapping []= {0,2,1,3,4,6,5,7,8,10,9,11};

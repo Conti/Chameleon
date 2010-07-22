@@ -70,6 +70,11 @@ static inline int isxdigit(char c)
     return ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f'));
 }
 
+//Azi: TODO - add more ponctuation characters as needed; at least these two, i need for PartNo.
+static inline int ispunct(char c)
+{
+    return (c == '.' || c == '-');
+}
 
 /*
  * string.c

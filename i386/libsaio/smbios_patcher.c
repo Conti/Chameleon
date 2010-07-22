@@ -142,88 +142,52 @@ static int sm_get_cpu (const char *name, int table_num)
 	return Platform.CPU.CPUFrequency/1000000;
 }
 
+static int sm_get_simplecputype()
+{
+	if (Platform.CPU.NoCores >= 4) 
+	{
+		return 0x0501;   // Quad-Core Xeon
+	}
+	else if (Platform.CPU.NoCores == 1) 
+	{
+		return 0x0201;   // Core Solo
+	};
+	
+	return 0x0301;   // Core 2 Duo
+}
+
 static int sm_get_cputype (const char *name, int table_num)
 {
-	if (Platform.CPU.Vendor == 0x756E6547) {
-		int cores = Platform.CPU.NoCores;
-		int intelPM = Platform.CPU.Model; //+ (Platform.CPU.ExtModel<< 4);//verify this
+	if (Platform.CPU.Vendor == 0x756E6547) // Intel
+	{
+		verbose("CPU is Intel, family 0x%x, model 0x%x, ext.model 0x%x\n", Platform.CPU.Family, Platform.CPU.Model, Platform.CPU.ExtModel);
 		
-		switch (intelPM) {
-			case 13:                    // Pentium M model D
-				return 0x0101;
-				break;
-			case 14:                    // Core Solo/Duo, "Yonah", 65nm
-				return 0x0201;
-				break;
-			case 15:                    // Pentium 4, Core 2, Xeon, "Merom", "Conroe", 65nm
-				switch (cores) {
-					case 1:                // Core Solo
-						return 0x0201;
-						break;
-					case 2:                // Core 2, 65nm
+		switch (Platform.CPU.Family) 
+		{
+			case 0x06:
+			{
+				switch (Platform.CPU.Model)
+				{
+					case 0x0F: // Intel Core (65nm)
+					case 0x17: // Intel Core (45nm)
+					case 0x1C: // Intel Atom (45nm)
+						return sm_get_simplecputype();
+					case 0x1A: // Intel Core i7 LGA1366 (45nm)
+						return 0x0701;
+					case 0x1E: // Intel Core i5, i7 LGA1156 (45nm)
+					case 0x1F: // Intel Core i5, i7 LGA1156 (45nm) ???
+						return 0x0601;
+					case 0x25: // Intel Core i3, i5, i7 LGA1156 (32nm)
 						return 0x0301;
-						break;
-					case 4:                // Quad Core, Xeon
-						return 0x0501;
-						break;
-					default:
-						return 0x0301;
-						break;
+					case 0x2C: // Intel Core i7 LGA1366 (32nm) 6 Core
+					case 0x2E: // Intel Core i7 LGA1366 (45nm) 6 Core ???
+						return 0x0601;
 				}
-				/*                if (cores == 1)
-				 return 0x0201;        // Core Solo
-				 else if (cores == 2)
-				 return 0x0301;        // Core 2, 65nm
-				 else if (cores == 4)
-				 return 0x0501;        // Quad-Core Xeon
-				 else
-				 return 0x0301;*/
-				break;
-			case 21:                    // EP80579 integrated processor
-				return 0x0301;            // ???
-				break;
-			case 22:                    // Core 2 Solo, "Merom-L", "Conroe-L", 45nm
-				return 0x0201;            // ???
-				break;
-			case 23:                    // Core 2 Extreme, Xeon, "Penryn", "Wolfdale", 45nm
-				return 0x0301;
-				break;
-			case 26:                    // Nehalem, Xeon 5500, "Bloomfield", 45nm
-				return 0x0701;
-				break;
-			case 29:                    // Six-Core Xeon 7400, "Dunnington", 45nm
-				return 0x0401;
-				break;
-			case 30:                    // Nehalem, Xeon, "Lynnfield", "Clarksfield", "Jasper", 45nm
-				return 0x0701;
-				break;
-			case 31:                    // Core i5, Xeon MP, "Havendale", "Auburndale", 45nm
-				return 0x0601;
-				break;
-			case 37:                    // Nehalem, "Clarkdale", 32nm
-				return 0x0301;            // ???
-				break;
-			case 44:                    // Nehalem, "Gulftown", 32nm
-				return 0x0601;
-				break;
-			case 46:                    // "Nehalem-ex", "Beckton", 45nm
-				return 0x0301;            // ???
-				break;
-			default:
-				goto core_ident;
-		}
-	} else {
-	core_ident:
-		if (Platform.CPU.NoCores == 1) {
-			return 0x0201;   // Core Solo
-		} else if (Platform.CPU.NoCores == 2) {
-			return 0x0301;   // Core 2 Duo
-		} else if (Platform.CPU.NoCores >= 4) {
-			return 0x0501;   // Quad-Core Xeon
-		} else {
-			return 0x0301;   // Core 2 Duo
+			}
 		}
 	}
+	
+	return sm_get_simplecputype();
 }
 
 static int sm_get_memtype (const char *name, int table_num)
