@@ -31,10 +31,10 @@ boolean_t tableSign(char *table, const char *sgn)
 	int i;
 	for (i=0; i<4; i++) {
 		if ((table[i] &~0x20) != (sgn[i] &~0x20)) {
-			return FALSE;
+			return false;
 		}
 	}
-	return TRUE;
+	return true;
 }
 
 /* Gets the ACPI 1.0 RSDP address */
@@ -198,7 +198,7 @@ void find_acpi_cpu_names(unsigned char* dsdt, int length)
 		if (dsdt[i] == 0x5B && dsdt[i+1] == 0x83) // ProcessorOP
 		{
 			uint8_t offset = i+2+(dsdt[i+2] >> 6) + 1, j;
-			bool add_name = TRUE;
+			bool add_name = true;
 
 			for (j=0; j<4; j++) 
 			{
@@ -206,7 +206,7 @@ void find_acpi_cpu_names(unsigned char* dsdt, int length)
 				
 				if (!aml_isvalidchar(c)) 
 				{
-					add_name = FALSE;
+					add_name = false;
 					verbose("Invalid characters found in ProcessorOP!\n");
 					break;
 				}
@@ -386,7 +386,7 @@ struct acpi_2_ssdt *generate_cst_ssdt(struct acpi_2_fadt* fadt)
 		ssdt->Checksum = 256 - checksum8(ssdt, ssdt->Length);
 		
 		//dumpPhysAddr("C-States SSDT content: ", ssdt, ssdt_size);
-		
+				
 		verbose ("SSDT with CPU C-States generated successfully\n");
 		
 		return ssdt;
@@ -893,12 +893,18 @@ int setupAcpi(void)
 					rsdt_entries[i-dropoffset]=(uint32_t)fadt_mod;
 					
 					// Generate _CST SSDT
-					if (generate_cstates && (new_ssdt[ssdt_count] = generate_cst_ssdt(fadt_mod))) 
+					if (generate_cstates && (new_ssdt[ssdt_count] = generate_cst_ssdt(fadt_mod)))
+					{
+						generate_cstates = false; // Generate SSDT only once!
 						ssdt_count++;
+					}
 					
 					// Generating _PSS SSDT
 					if (generate_pstates && (new_ssdt[ssdt_count] = generate_pss_ssdt((void*)fadt_mod->DSDT)))
+					{
+						generate_pstates = false; // Generate SSDT only once!
 						ssdt_count++;
+					}
 					
 					continue;
 				}
@@ -906,7 +912,7 @@ int setupAcpi(void)
 			DBG("\n");
 			
 			// Allocate rsdt in Kernel memory area
-			rsdt_mod->Length += rsdt_mod->Length + 4*ssdt_count - 4*dropoffset;
+			rsdt_mod->Length += 4*ssdt_count - 4*dropoffset;
 			struct acpi_2_rsdt *rsdt_copy = (struct acpi_2_rsdt *)AllocateKernelMemory(rsdt_mod->Length);
 			memcpy (rsdt_copy, rsdt_mod, rsdt_mod->Length);
 			free(rsdt_mod); rsdt_mod = rsdt_copy;
@@ -1005,11 +1011,17 @@ int setupAcpi(void)
 						
 						// Generate _CST SSDT
 						if (generate_cstates && (new_ssdt[ssdt_count] = generate_cst_ssdt(fadt_mod))) 
+						{
+							generate_cstates = false; // Generate SSDT only once!
 							ssdt_count++;
+						}
 						
 						// Generating _PSS SSDT
 						if (generate_pstates && (new_ssdt[ssdt_count] = generate_pss_ssdt((void*)fadt_mod->DSDT)))
+						{
+							generate_pstates = false; // Generate SSDT only once!
 							ssdt_count++;
+						}
 						
 						continue;
 					}
