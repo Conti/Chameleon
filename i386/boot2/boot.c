@@ -174,13 +174,13 @@ static int ExecKernel(void *binary)
         }
     }
 
+	usb_loop();
+
     bool dummyVal;
 	if (getBoolForKey(kWaitForKeypressKey, &dummyVal, &bootInfo->bootConfig) && dummyVal) {
 		printf("Press any key to continue...");
 		getc();
 	}
-
-	usb_loop();
 
     // If we were in text mode, switch to graphics mode.
     // This will draw the boot graphics unless we are in
