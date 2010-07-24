@@ -44,7 +44,7 @@ void scan_mem() {
     getBoolForKey(kUseMemDetect, &useAutodetection, &bootInfo->bootConfig);
 
     if (useAutodetection) {
-        scan_memory(&Platform); // useless at least for now, mem freq now only relies on spd.
+        scan_memory(&Platform); // unfortunately still necesary for some comp where spd cant read correct speed
         scan_spd(&Platform);
     }
     done = true;
