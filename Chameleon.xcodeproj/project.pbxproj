@@ -7,16 +7,19 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		B0056CD611F3868000754B65 /* boot */ = {isa = PBXFileReference; lastKnownFileType = file; path = boot; sourceTree = "<group>"; };
+		0172D0DC11FB66820030222E /* dram_controllers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dram_controllers.h; sourceTree = "<group>"; };
+		0172D0DD11FB66820030222E /* dram_controllers.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dram_controllers.c; sourceTree = "<group>"; };
+		019DFBAF11FB94090013E8CC /* MEMTEST86_LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MEMTEST86_LICENSE; sourceTree = "<group>"; };
+		B0056CD611F3868000754B65 /* boot */ = {isa = PBXFileReference; lastKnownFileType = text; path = boot; sourceTree = "<group>"; };
 		B0056CD711F3868000754B65 /* boot.sys */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.preload"; path = boot.sys; sourceTree = "<group>"; };
-		B0056CD811F3868000754B65 /* boot0 */ = {isa = PBXFileReference; lastKnownFileType = file; path = boot0; sourceTree = "<group>"; };
-		B0056CD911F3868000754B65 /* boot0hfs */ = {isa = PBXFileReference; lastKnownFileType = file; path = boot0hfs; sourceTree = "<group>"; };
-		B0056CDA11F3868000754B65 /* boot1f32 */ = {isa = PBXFileReference; lastKnownFileType = file; path = boot1f32; sourceTree = "<group>"; };
-		B0056CDB11F3868000754B65 /* boot1h */ = {isa = PBXFileReference; lastKnownFileType = file; path = boot1h; sourceTree = "<group>"; };
-		B0056CDC11F3868000754B65 /* boot1he */ = {isa = PBXFileReference; lastKnownFileType = file; path = boot1he; sourceTree = "<group>"; };
-		B0056CDD11F3868000754B65 /* boot1hp */ = {isa = PBXFileReference; lastKnownFileType = file; path = boot1hp; sourceTree = "<group>"; };
-		B0056CDE11F3868000754B65 /* cdboot */ = {isa = PBXFileReference; lastKnownFileType = file; path = cdboot; sourceTree = "<group>"; };
-		B0056CDF11F3868000754B65 /* chain0 */ = {isa = PBXFileReference; lastKnownFileType = file; path = chain0; sourceTree = "<group>"; };
+		B0056CD811F3868000754B65 /* boot0 */ = {isa = PBXFileReference; lastKnownFileType = text; path = boot0; sourceTree = "<group>"; };
+		B0056CD911F3868000754B65 /* boot0hfs */ = {isa = PBXFileReference; lastKnownFileType = text; path = boot0hfs; sourceTree = "<group>"; };
+		B0056CDA11F3868000754B65 /* boot1f32 */ = {isa = PBXFileReference; lastKnownFileType = text; path = boot1f32; sourceTree = "<group>"; };
+		B0056CDB11F3868000754B65 /* boot1h */ = {isa = PBXFileReference; lastKnownFileType = text; path = boot1h; sourceTree = "<group>"; };
+		B0056CDC11F3868000754B65 /* boot1he */ = {isa = PBXFileReference; lastKnownFileType = text; path = boot1he; sourceTree = "<group>"; };
+		B0056CDD11F3868000754B65 /* boot1hp */ = {isa = PBXFileReference; lastKnownFileType = text; path = boot1hp; sourceTree = "<group>"; };
+		B0056CDE11F3868000754B65 /* cdboot */ = {isa = PBXFileReference; lastKnownFileType = text; path = cdboot; sourceTree = "<group>"; };
+		B0056CDF11F3868000754B65 /* chain0 */ = {isa = PBXFileReference; lastKnownFileType = text; path = chain0; sourceTree = "<group>"; };
 		B0056CE011F3868000754B65 /* embedded.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = embedded.h; sourceTree = "<group>"; };
 		B0056CE111F3868000754B65 /* libsa.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libsa.a; sourceTree = "<group>"; };
 		B0056CE211F3868000754B65 /* libsaio.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libsaio.a; sourceTree = "<group>"; };
@@ -313,6 +316,7 @@
 				B0056D8011F3868000754B65 /* coding_standards.txt */,
 				B0056D8111F3868000754B65 /* CHANGES */,
 				B0056D8211F3868000754B65 /* APPLE_LICENSE */,
+				019DFBAF11FB94090013E8CC /* MEMTEST86_LICENSE */,
 			);
 			name = Chameleon;
 			sourceTree = "<group>";
@@ -491,6 +495,8 @@
 				B0056D3911F3868000754B65 /* device_tree.c */,
 				B0056D3A11F3868000754B65 /* device_tree.h */,
 				B0056D3B11F3868000754B65 /* disk.c */,
+				0172D0DC11FB66820030222E /* dram_controllers.h */,
+				0172D0DD11FB66820030222E /* dram_controllers.c */,
 				B0056D3C11F3868000754B65 /* efi.h */,
 				B0056D3D11F3868000754B65 /* ext2fs.c */,
 				B0056D3E11F3868000754B65 /* ext2fs.h */,

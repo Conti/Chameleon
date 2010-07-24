@@ -506,19 +506,15 @@ static void setupEfiConfigurationTable()
   fixupEfiSystemTableCRC32(gST);
 }
 
-static void setupEfiDevices(setup)
-{
-	setup_pci_devs(root_pci_dev);
-}
 
 /* Entrypoint from boot.c */
 void setupFakeEfi(void)
 {
+	// Generate efi device strings 
+	setup_pci_devs(root_pci_dev);
+	
 	// load smbios.plist file if any
 	setupSmbiosConfigFile();
-	
-	// Generate efi device strings 
-	setupEfiDevices();
 	
 	// Initialize the base table
 	setupEfiTables();

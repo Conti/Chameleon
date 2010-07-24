@@ -300,7 +300,22 @@ static void read_smb_intel(pci_dt_t *smbus_dev)
 
             // determine spd speed
             speed = getDDRspeedMhz(slot->spd);
-            if (slot->Frequency<speed) slot->Frequency = speed; // should test the mem controller to get potential overclocking info ? 
+            if (slot->Frequency<speed) slot->Frequency = speed;
+			
+			// pci memory controller if available, is more reliable
+			if (Platform.RAM.Frequency > 0) {
+				uint32_t freq = (uint32_t)Platform.RAM.Frequency / 500000;
+				// now round off special cases
+				uint32_t fmod100 = freq %100;
+				switch(fmod100) {
+					case 32:	freq++;	break;
+					case 65:	freq++; break;
+					case 98:	freq+=2;break;
+					case 99:	freq++; break;
+				}
+				slot->Frequency = freq;
+			}
+			
 			printf("Slot: %d Type %d %dMB (%s) %dMHz Vendor=%s\n      PartNo=%s SerialNo=%s\n", 
                        i, 
                        (int)slot->Type,
@@ -374,7 +389,5 @@ bool find_and_read_smbus_controller(pci_dt_t* pci_dt)
 
 void scan_spd(PlatformInfo_t *p)
 {
-	printf("\n--> Start of mem detect:\n");
     find_and_read_smbus_controller(root_pci_dev);
-	printf("\n<-- End   of mem detect.\n");
 }

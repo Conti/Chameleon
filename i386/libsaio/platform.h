@@ -111,6 +111,15 @@ typedef struct _PlatformInfo_t {
 	} CPU;
 
 	struct RAM {
+		uint64_t		Frequency;				// Ram Frequency
+		uint32_t		Divider;				// Memory divider
+		uint8_t			CAS;					// CAS 1/2/2.5/3/4/5/6/7
+		uint8_t			TRC;					
+		uint8_t			TRP;
+		uint8_t			RAS;
+		uint8_t			Channels;				// Channel Configuration Single,Dual or Triple
+		uint8_t			NoSlots;				// Maximum no of slots available
+		uint8_t			Type;					// Standard SMBIOS v2.5 Memory Type
 		RamSlotInfo_t		DIMM[MAX_RAM_SLOTS];	// Information about each slot
 	} RAM;
 
