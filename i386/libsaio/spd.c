@@ -190,26 +190,24 @@ int getDDRspeedMhz(const char * spd)
     return  800; // default freq for unknown types
 }
 
-#define UIS(a) ((uint32_t)spd[a])
+#define SMST(a) ((uint8_t)((spd[a] & 0xf0) >> 4))
+#define SLST(a) ((uint8_t)(spd[a] & 0x0f))
 
 /** Get DDR3 or DDR2 serial number, 0 most of the times, always return a valid ptr */
 const char *getDDRSerial(const char* spd)
 {
     static char asciiSerial[16];
-    static uint8_t serialnum=0;
-    uint32_t ret=0;
-
-    if  (spd[SPD_MEMORY_TYPE]==SPD_MEMORY_TYPE_SDRAM_DDR3) {// DDR3
-        ret = UIS(122) | (UIS(123)<<8) | (UIS(124)<<16) | ((UIS(125)&0x7f)<<24);
+    
+    if (spd[SPD_MEMORY_TYPE]==SPD_MEMORY_TYPE_SDRAM_DDR3) // DDR3
+    {
+	sprintf(asciiSerial, "%X%X%X%X%X%X%X%X", SMST(125) & 0x7, SLST(125), SMST(124), SLST(124), SMST(123), SLST(123), SMST(122), SLST(122));
     }
-    else if  (spd[SPD_MEMORY_TYPE]==SPD_MEMORY_TYPE_SDRAM_DDR2) { // DDR2 or DDR
-        ret =  UIS(95) | (UIS(96)<<8) | (UIS(97)<<16) | ((UIS(98)&0x7f)<<24);
+    else if (spd[SPD_MEMORY_TYPE]==SPD_MEMORY_TYPE_SDRAM_DDR2) // DDR2 or DDR
+    { 
+	sprintf(asciiSerial, "%X%X%X%X%X%X%X%X", SMST(98) & 0x7, SLST(98), SMST(97), SLST(97), SMST(96), SLST(96), SMST(95), SLST(95));
     }
 
-    if (!ret) sprintf(asciiSerial, "10000000%d", serialnum++);  
-    else      sprintf(asciiSerial, "%X", ret);  
-
-	return strdup(asciiSerial);
+    return strdup(asciiSerial);
 }
 
 /** Get DDR3 or DDR2 Part Number, always return a valid ptr */
@@ -226,9 +224,9 @@ const char * getDDRPartNum(char* spd, uint32_t base, int slot)
 	}
 	
     // Check that the spd part name is zero terminated and that it is ascii:
-	bzero(asciiPartNo, 32);
+    bzero(asciiPartNo, sizeof(asciiPartNo));
 	char c;
-	for (i=start; i<start+32; i++) {
+	for (i=start; i < start + sizeof(asciiPartNo); i++) {
 		READ_SPD(spd, base, slot, i); // only read once the corresponding model part (ddr3 or ddr2)
 		c = spd[i];
 		if (isalpha(c) || isdigit(c) || ispunct(c)) // It seems that System Profiler likes only letters and digits...
