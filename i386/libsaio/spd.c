@@ -204,7 +204,7 @@ const char *getDDRSerial(const char* spd)
     }
     else if (spd[SPD_MEMORY_TYPE]==SPD_MEMORY_TYPE_SDRAM_DDR2) // DDR2 or DDR
     { 
-	sprintf(asciiSerial, "%X%X%X%X%X%X%X%X", SMST(95) /*& 0x7/*, SLST(95), SMST(96), SLST(96), SMST(97), SLST(97), SMST(98), SLST(98));
+	sprintf(asciiSerial, "%X%X%X%X%X%X%X%X", SMST(95) /*& 0x7*/, SLST(95), SMST(96), SLST(96), SMST(97), SLST(97), SMST(98), SLST(98));
     }
 
     return strdup(asciiSerial);
