@@ -1,0 +1,7 @@
+Chameleon is a Darwin/XNU boot loader based on Apple's boot-132.
+
+Because Chameleon now uses part of GPL V2 licensed code in 2 files,
+it *must* conform to the most restrictive license that it uses that is the:
+GPL Version 2 LICENSE
+
+Chameleon can thus be (and has to be) freely distributed under the term of the GPL V2 license which prevals as it is the most restrictive license.
