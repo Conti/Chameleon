@@ -37,13 +37,17 @@ bool platformCPUFeature(uint32_t feature)
 
 /** scan mem for memory autodection purpose */
 void scan_mem() {
-    bool useAutodetection = false;
+    static bool done = false;
+    if (done) return;
+
+    bool useAutodetection = true;
     getBoolForKey(kUseMemDetect, &useAutodetection, &bootInfo->bootConfig);
 
     if (useAutodetection) {
-        scan_memory(&Platform);
+        scan_memory(&Platform); // useless at least for now, mem freq now only relies on spd.
         scan_spd(&Platform);
     }
+    done = true;
 }
 
 /** 

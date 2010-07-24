@@ -1,6 +1,9 @@
 /*
  * spd.c - serial presence detect memory information
- * (restored from pcefi10.5)
+ *
+ * Originally restored from pcefi10.5
+ * Dynamic mem detection original impl. by Rekursor
+ * System profiler fix and other fixes by Mozodojo.
  */
 
 #include "libsaio.h"
@@ -85,35 +88,64 @@ unsigned char smb_read_byte_intel(uint32_t base, uint8_t adr, uint8_t cmd)
  	while (!( inb(base + SMBHSTSTS) & 0x02))		// wait til command finished
 	{	
 		rdtsc(l2, h2);
-		t = ((h2 - h1) * 0xffffffff + (l2 - l1)) / (Platform.CPU.TSCFrequency / 40);
-		if (t > 10)
-			break;									// break after 10ms
+		t = ((h2 - h1) * 0xffffffff + (l2 - l1)) / (Platform.CPU.TSCFrequency / 100);
+		if (t > 5)
+			break;									// break after 5ms
     }
     return inb(base + SMBHSTDAT);
 }
 
+/* SPD i2c read optimization: prefetch only what we need, read non prefetcheable bytes on the fly */
+#define READ_SPD(spd, base, slot, x) spd[x] = smb_read_byte_intel(base, 0x50 + slot, x)
+
+int spd_indexes[] = {
+	SPD_MEMORY_TYPE,
+	SPD_DDR3_MEMORY_BANK,
+	SPD_DDR3_MEMORY_CODE,
+	SPD_NUM_ROWS,
+	SPD_NUM_COLUMNS,
+	SPD_NUM_DIMM_BANKS,
+	SPD_NUM_BANKS_PER_SDRAM,
+	4,7,8,9,12,64, /* TODO: give names to these values */
+	95,96,97,98, 122,123,124,125 /* UIS */
+};
+#define SPD_INDEXES_SIZE (sizeof(spd_indexes) / sizeof(int))
+
+/** Read from spd *used* values only*/
+static void init_spd(char * spd, uint32_t base, int slot)
+{
+	int i;
+	for (i=0; i< SPD_INDEXES_SIZE; i++) {
+		READ_SPD(spd, base, slot, spd_indexes[i]);
+	}
+}
+
 /** Get Vendor Name from spd, 2 cases handled DDR3 and DDR2, 
     have different formats, always return a valid ptr.*/
-const char * getVendorName(RamSlotInfo_t* slot)
+const char * getVendorName(RamSlotInfo_t* slot, uint32_t base, int slot_num)
 {
     uint8_t bank = 0;
     uint8_t code = 0;
     int i = 0;
-    const char * spd = slot->spd;
+    char * spd = slot->spd;
 
     if (spd[SPD_MEMORY_TYPE]==SPD_MEMORY_TYPE_SDRAM_DDR3) { // DDR3
-        bank = spd[0x75];
-        code = spd[0x76];
+        bank = spd[SPD_DDR3_MEMORY_BANK];
+        code = spd[SPD_DDR3_MEMORY_CODE];
         for (i=0; i < VEN_MAP_SIZE; i++)
             if (bank==vendorMap[i].bank && code==vendorMap[i].code)
                 return vendorMap[i].name;
     }
     else if (spd[SPD_MEMORY_TYPE]==SPD_MEMORY_TYPE_SDRAM_DDR2) {
-        if(spd[0x40]==0x7f) {
-            for (i=0x40; i<0x48 && spd[i]==0x7f;i++) bank++;
+        if(spd[64]==0x7f) {
+            for (i=64; i<72 && spd[i]==0x7f;i++) {
+			  bank++;
+			  READ_SPD(spd, base, slot_num,i+1); // prefetch next spd byte to read for next loop
+			}
+			READ_SPD(spd, base, slot_num,i);
             code = spd[i];
         } else {
-            code = spd[0x40]; 
+            code = spd[64]; 
             bank = 0;
         }
         for (i=0; i < VEN_MAP_SIZE; i++)
@@ -181,40 +213,41 @@ const char *getDDRSerial(const char* spd)
 }
 
 /** Get DDR3 or DDR2 Part Number, always return a valid ptr */
-const char * getDDRPartNum(const char* spd)
+const char * getDDRPartNum(char* spd, uint32_t base, int slot)
 {
 	static char asciiPartNo[32];
-    const char * sPart = NULL;
-	int i, index = 0;
+	int i, start=0, index = 0;
 
     if (spd[SPD_MEMORY_TYPE]==SPD_MEMORY_TYPE_SDRAM_DDR3) {
-		sPart = &spd[128];
+		start = 128;
 	}
     else if (spd[SPD_MEMORY_TYPE]==SPD_MEMORY_TYPE_SDRAM_DDR2) {
-		sPart = &spd[73];
+		start = 73;
 	}
 	
-    if (sPart) { // Check that the spd part name is zero terminated and that it is ascii:
-		bzero(asciiPartNo, 32);		
-        for (i=0; i<32; i++) {
-			char c = sPart[i];
-            if (isalpha(c) || isdigit(c) || ispunct(c)) // It seems that System Profiler likes only letters and digits...
-				asciiPartNo[index++] = c;
-			else if (!isascii(c))
-				break;
-		}
-		
-		return strdup(asciiPartNo);
-    }
+    // Check that the spd part name is zero terminated and that it is ascii:
+	bzero(asciiPartNo, 32);
+	char c;
+	for (i=start; i<start+32; i++) {
+		READ_SPD(spd, base, slot, i); // only read once the corresponding model part (ddr3 or ddr2)
+		c = spd[i];
+		if (isalpha(c) || isdigit(c) || ispunct(c)) // It seems that System Profiler likes only letters and digits...
+			asciiPartNo[index++] = c;
+		else if (!isascii(c))
+			break;
+	}
+	
+	return strdup(asciiPartNo);
     return NULL;
 }
 
 int mapping []= {0,2,1,3,4,6,5,7,8,10,9,11};
 
+
 /** Read from smbus the SPD content and interpret it for detecting memory attributes */
 static void read_smb_intel(pci_dt_t *smbus_dev)
 { 
-    int        i, x, speed;
+    int        i, speed;
     uint8_t    spd_size, spd_type;
     uint32_t   base;
     bool       dump = false;
@@ -227,23 +260,24 @@ static void read_smb_intel(pci_dt_t *smbus_dev)
     bool fullBanks =  // needed at least for laptops
         Platform.DMI.MemoryModules ==  Platform.DMI.MaxMemorySlots;
    // Search MAX_RAM_SLOTS slots
+	char spdbuf[256];
+
     for (i = 0; i <  MAX_RAM_SLOTS; i++){
         slot = &Platform.RAM.DIMM[i];
         spd_size = smb_read_byte_intel(base, 0x50 + i, 0);
-        
         // Check spd is present
         if (spd_size && (spd_size != 0xff) ) {
-            slot->spd = malloc(spd_size);
-            if (slot->spd == NULL) continue;
 
+			slot->spd = spdbuf;
             slot->InUse = true;
 
             bzero(slot->spd, spd_size);
             
             // Copy spd data into buffer
-            for (x = 0; x < spd_size; x++)
-                slot->spd[x] = smb_read_byte_intel(base, 0x50 + i, x);
             
+			//for (x = 0; x < spd_size; x++) slot->spd[x] = smb_read_byte_intel(base, 0x50 + i, x);
+            init_spd(slot->spd, base, i);
+			
             switch (slot->spd[SPD_MEMORY_TYPE])  {
             case SPD_MEMORY_TYPE_SDRAM_DDR2:
                 
@@ -262,15 +296,14 @@ static void read_smb_intel(pci_dt_t *smbus_dev)
             
             spd_type = (slot->spd[SPD_MEMORY_TYPE] < ((char) 12) ? slot->spd[SPD_MEMORY_TYPE] : 0);
             slot->Type = spd_mem_to_smbios[spd_type];
-            slot->PartNo = getDDRPartNum(slot->spd);
-            slot->Vendor = getVendorName(slot);
+            slot->PartNo = getDDRPartNum(slot->spd, base, i);
+            slot->Vendor = getVendorName(slot, base, i);
             slot->SerialNo = getDDRSerial(slot->spd);
 
             // determine spd speed
             speed = getDDRspeedMhz(slot->spd);
-            if (speed > slot->Frequency)  slot->Frequency = speed; // just in case dmi wins on spd
-            if(dump) {
-                printf("Slot %d Type %d %dMB (%s) %dMHz Vendor=%s, PartNo=%s SerialNo=%s\n", 
+            if (slot->Frequency<speed) slot->Frequency = speed; // should test the mem controller to get potential overclocking info ? 
+			printf("Slot: %d Type %d %dMB (%s) %dMHz Vendor=%s\n      PartNo=%s SerialNo=%s\n", 
                        i, 
                        (int)slot->Type,
                        slot->ModuleSize, 
@@ -279,7 +312,8 @@ static void read_smb_intel(pci_dt_t *smbus_dev)
                        slot->Vendor,
                        slot->PartNo,
                        slot->SerialNo); 
-                    dumpPhysAddr("spd content: ",slot->spd, spd_size);
+			if(DEBUG_SPD) {
+                  dumpPhysAddr("spd content: ",slot->spd, spd_size);
                     getc();
             }
         }
@@ -289,10 +323,7 @@ static void read_smb_intel(pci_dt_t *smbus_dev)
             i>0 && Platform.RAM.DIMM[1].InUse==false && fullBanks && Platform.DMI.MaxMemorySlots==2 ? 
             mapping[i] : i; // for laptops case, mapping setup would need to be more generic than this
         
-        if (slot->spd) {
-            free(slot->spd);
-            slot->spd = NULL;
-        }
+		slot->spd = NULL;
 
     } // for
 }
@@ -322,7 +353,7 @@ bool find_and_read_smbus_controller(pci_dt_t* pci_dt)
     int i;
 
     while (current) {
-#if DEBUG_SPD
+#if 0
         printf("%02x:%02x.%x [%04x] [%04x:%04x] :: %s\n", 
                current->dev.bits.bus, current->dev.bits.dev, current->dev.bits.func, 
                current->class_id, current->vendor_id, current->device_id, 
@@ -345,5 +376,7 @@ bool find_and_read_smbus_controller(pci_dt_t* pci_dt)
 
 void scan_spd(PlatformInfo_t *p)
 {
+	printf("\n--> Start of mem detect:\n");
     find_and_read_smbus_controller(root_pci_dev);
+	printf("\n<-- End   of mem detect.\n");
 }
