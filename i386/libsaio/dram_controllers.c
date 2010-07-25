@@ -514,35 +514,6 @@ static struct mem_controller_t dram_controllers[] = {
 	
 };
 
-static const char *memory_device_types[] =
-{
-	"RAM",          /* 00h  Undefined */
-	"RAM",          /* 01h  Other */
-	"RAM",          /* 02h  Unknown */
-	"DRAM",         /* 03h  DRAM */
-	"EDRAM",        /* 04h  EDRAM */
-	"VRAM",         /* 05h  VRAM */
-	"SRAM",         /* 06h  SRAM */
-	"RAM",          /* 07h  RAM */
-	"ROM",          /* 08h  ROM */
-	"FLASH",        /* 09h  FLASH */
-	"EEPROM",       /* 0Ah  EEPROM */
-	"FEPROM",       /* 0Bh  FEPROM */
-	"EPROM",        /* 0Ch  EPROM */
-	"CDRAM",        /* 0Dh  CDRAM */
-	"3DRAM",        /* 0Eh  3DRAM */
-	"SDRAM",        /* 0Fh  SDRAM */
-	"SGRAM",        /* 10h  SGRAM */
-	"RDRAM",        /* 11h  RDRAM */
-	"DDR SDRAM",    /* 12h  DDR */
-	"DDR2 SDRAM",   /* 13h  DDR2 */
-	"DDR2 FB-DIMM"  /* 14h  DDR2 FB-DIMM */
-	"",				/* 15h  RAM (Not Used) */
-	"",				/* 16h  RAM (Not Used) */
-	"",				/* 17h  RAM (Not Used) */
-	"DDR3 SDRAM"    /* 18h  DDR3 (AppleSMBIOS 1.1.1+) */
-};
-
 static const char *memory_channel_types[] =
 {
 	"Unknown", "Single", "Dual", "Triple"
@@ -558,20 +529,18 @@ void scan_dram_controller(pci_dt_t *dram_dev)
 			verbose("%s%s DRAM Controller [%4x:%4x] at %02x:%02x.%x\n", 
 						(dram_dev->vendor_id == 0x8086) ? "Intel " : "" ,
 						dram_controllers[i].name, dram_dev->vendor_id, dram_dev->device_id,
-						dram_dev->dev.bits.bus, dram_dev->dev.bits.dev, dram_dev->dev.bits.func
-						);
+						dram_dev->dev.bits.bus, dram_dev->dev.bits.dev, dram_dev->dev.bits.func);
 			
-			if(dram_controllers[i].initialise != NULL)
+			if (dram_controllers[i].initialise != NULL)
 				dram_controllers[i].initialise(dram_dev);
 							
-			if(dram_controllers[i].poll_timings != NULL)
+			if (dram_controllers[i].poll_timings != NULL)
 				dram_controllers[i].poll_timings(dram_dev);
 								
-			if(dram_controllers[i].poll_speed != NULL)
+			if (dram_controllers[i].poll_speed != NULL)
 				dram_controllers[i].poll_speed(dram_dev);
-						
-			printf("%s %d MHz (%d) %s Channel %d-%d-%d-%d\n", 
-						memory_device_types[Platform.RAM.Type],
+
+			verbose("Frequency detected: %d MHz (%d) %s Channel %d-%d-%d-%d\n", 
 						(uint32_t)Platform.RAM.Frequency / 1000000,
 						(uint32_t)Platform.RAM.Frequency / 500000,
 						memory_channel_types[Platform.RAM.Channels],

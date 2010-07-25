@@ -127,10 +127,10 @@ const char * getVendorName(RamSlotInfo_t* slot, uint32_t base, int slot_num)
     uint8_t bank = 0;
     uint8_t code = 0;
     int i = 0;
-    char * spd = slot->spd;
+    uint8_t * spd = (uint8_t *) slot->spd;
 
     if (spd[SPD_MEMORY_TYPE]==SPD_MEMORY_TYPE_SDRAM_DDR3) { // DDR3
-        bank = spd[SPD_DDR3_MEMORY_BANK];
+        bank = (spd[SPD_DDR3_MEMORY_BANK] & 0x07f); // constructors like Patriot use b7=1
         code = spd[SPD_DDR3_MEMORY_CODE];
         for (i=0; i < VEN_MAP_SIZE; i++)
             if (bank==vendorMap[i].bank && code==vendorMap[i].code)

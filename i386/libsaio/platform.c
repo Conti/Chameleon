@@ -51,7 +51,7 @@ void scan_mem() {
 		}
         scan_memory(&Platform); // unfortunately still necesary for some comp where spd cant read correct speed
         scan_spd(&Platform);
-		getc();
+		//getc();
     }
     done = true;
 }
