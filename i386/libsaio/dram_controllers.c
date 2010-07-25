@@ -119,7 +119,7 @@ static void get_fsb_i965(pci_dt_t *dram_dev)
 			case 2:	mch_ratio = 166667; break; // 1.666666667
 			case 3:	mch_ratio = 200000; break;
 			case 4:	mch_ratio = 266667; break; // 2.666666667
-			case 5:	mch_ratio = 133553; break; // 1.333333333
+			case 5:	mch_ratio = 333333; break; // 3.333333333
 		}
 			break;
 			
@@ -185,6 +185,7 @@ static void get_fsb_im965(pci_dt_t *dram_dev)
 		default: 
 		case 2:	mch_fsb = 800; break;
 		case 3:	mch_fsb = 667; break;				
+		case 6:	mch_fsb = 1066; break;			
 	}
 	
 	switch (mch_fsb)
@@ -213,13 +214,18 @@ static void get_fsb_im965(pci_dt_t *dram_dev)
 		case 800:
 			switch ((mch_cfg >> 4) & 7)
 			{
-				case 1:	mch_ratio = 83000;  break; // 0.833333333
+				case 1:	mch_ratio =  83333; break; // 0.833333333
 				case 2:	mch_ratio = 100000; break;
 				case 3:	mch_ratio = 133333; break; // 1.333333333
 				case 4:	mch_ratio = 166667; break; // 1.666666667
 				case 5:	mch_ratio = 200000; break;
 			}
 			break;
+		case 1066:
+			switch ((mch_cfg >> 4)&7) {
+				case 5:	mch_ratio = 150000; break;
+				case 6:	mch_ratio = 200000; break;
+			}
 			
 	}
 	
