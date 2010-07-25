@@ -1714,8 +1714,10 @@ void drawBootGraphics(void)
 	// find best matching vesa mode for our requested width & height
 	getGraphicModeParams(screen_params);
 
-	setVideoMode(GRAPHICS_MODE, 0);
-
+	if (bootArgs->Video.v_display == VGA_TEXT_MODE) {
+		setVideoMode(GRAPHICS_MODE, 0);
+	}
+	
 	if (getValueForKey("-checkers", &dummyVal, &length, &bootInfo->bootConfig)) {
 		drawCheckerBoard();
 	} else {
