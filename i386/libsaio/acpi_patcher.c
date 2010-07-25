@@ -189,17 +189,20 @@ void *loadACPITable (const char * filename)
 uint8_t	acpi_cpu_count = 0;
 char* acpi_cpu_name[32];
 
-void find_acpi_cpu_names(unsigned char* dsdt, int length)
+void get_acpi_cpu_names(unsigned char* dsdt, uint32_t length)
 {
-	int i;
+	uint32_t i;
 	
 	for (i=0; i<length-7; i++) 
 	{
 		if (dsdt[i] == 0x5B && dsdt[i+1] == 0x83) // ProcessorOP
 		{
-			uint8_t offset = i+2+(dsdt[i+2] >> 6) + 1, j;
+			uint32_t offset = i + 3 + (dsdt[i+2] >> 6);
+			
 			bool add_name = true;
 
+			uint8_t j;
+			
 			for (j=0; j<4; j++) 
 			{
 				char c = dsdt[offset+j];
@@ -207,17 +210,18 @@ void find_acpi_cpu_names(unsigned char* dsdt, int length)
 				if (!aml_isvalidchar(c)) 
 				{
 					add_name = false;
-					verbose("Invalid characters found in ProcessorOP!\n");
+					verbose("Invalid character found in ProcessorOP 0x%x!\n", c);
 					break;
 				}
 			}
 			
-			if (add_name && dsdt[offset+5] < 32 ) 
+			if (add_name) 
 			{
-				acpi_cpu_name[acpi_cpu_count] = malloc(5);
+				acpi_cpu_name[acpi_cpu_count] = malloc(4);
 				memcpy(acpi_cpu_name[acpi_cpu_count], dsdt+offset, 4);
+				i = offset + 5;
 				
-				verbose("Found %c%c%c%c (from DSDT)\n", acpi_cpu_name[acpi_cpu_count][0], acpi_cpu_name[acpi_cpu_count][1], acpi_cpu_name[acpi_cpu_count][2], acpi_cpu_name[acpi_cpu_count][3]);
+				verbose("Found ACPI CPU: %c%c%c%c\n", acpi_cpu_name[acpi_cpu_count][0], acpi_cpu_name[acpi_cpu_count][1], acpi_cpu_name[acpi_cpu_count][2], acpi_cpu_name[acpi_cpu_count][3]);
 				
 				if (++acpi_cpu_count == 32) return;
 			}
@@ -236,163 +240,122 @@ struct acpi_2_ssdt *generate_cst_ssdt(struct acpi_2_fadt* fadt)
 		0x31, 0x03, 0x10, 0x20 							/* 1.._		*/
 	};
 	
-	char chunk_name_body[] =
+	char cstate_resource_template[] = 
 	{
-		0x5C, 0x5F, 0x50, 0x52, 0x5F, 0x08, 0x43, 0x53, /* \_PR_.CS */
-		0x54, 0x5F										/* T_		*/
+		0x11, 0x14, 0x0A, 0x11, 0x82, 0x0C, 0x00, 0x7F, 
+		0x01, 0x02, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 
+		0x00, 0x00, 0x00, 0x79, 0x00
 	};
-	
-	char chunk_c1[] =
-	{
-		0x12, 0x1C, 0x04, 0x11, 0x14, 0x0A, 0x11, 0x82,
-		0x0C, 0x00, 0x7F, 0x01, 0x02, 0x01, 0x00, 0x00,
-		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x79, 0x00,
-		0x01, 0x01, 0x0B, 0xE8, 0x03 					
-	};
-	
-	char chunk_c2[] =
-	{
-		0x12, 0x1E, 0x04, 0x11, 0x14, 0x0A, 0x11, 0x82,
-		0x0C, 0x00, 0x7F, 0x01, 0x02, 0x01, 0x10, 0x00,
-		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x79, 0x00,
-		0x0A, 0x02, 0x0A, 0x40, 0x0B, 0xF4, 0x01 					
-	};
-	
-	char chunk_c3[] =
-	{
-		0x12, 0x1F, 0x04, 0x11, 0x14, 0x0A, 0x11, 0x82,
-		0x0C, 0x00, 0x7F, 0x01, 0x02, 0x01, 0x20, 0x00,
-		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x79, 0x00,
-		0x0A, 0x03, 0x0B, 0x60, 0x03, 0x0B, 0x5E, 0x01
-	};
-		
-	char chunk_alias[] = 
-	{
-		0x10, 0x14, 0x5C, 0x2E, 0x5F, 0x50, 0x52, 0x5F, /* ..\._PR_ */
-		0x43, 0x50, 0x55, 0x30, 0x06, 0x43, 0x53, 0x54, /* CPU0.CST */
-		0x5F, 0x5F, 0x43, 0x53, 0x54					/* __CST	*/
-	};
+
+	if (Platform.CPU.Vendor != 0x756E6547) {
+		verbose ("Not an Intel platform: C-States will not be generated !!!\n");
+		return NULL;
+	}
 	
 	if (fadt == NULL) {
-		verbose ("FACP not exists: C-States not generated !!!\n");
+		verbose ("FACP not exists: C-States will not be generated !!!\n");
 		return NULL;
 	}
 	
 	struct acpi_2_dsdt* dsdt = (void*)fadt->DSDT;
 	
 	if (dsdt == NULL) {
-		verbose ("DSDT not found: C-States not generated !!!\n");
+		verbose ("DSDT not found: C-States will not be generated !!!\n");
 		return NULL;
 	}
 	
 	if (acpi_cpu_count == 0) 
-		find_acpi_cpu_names((void*)dsdt, dsdt->Length);
+		get_acpi_cpu_names((void*)dsdt, dsdt->Length);
 	
-	if (acpi_cpu_count > 0) {
-		bool c2_enabled = fadt->C2_Latency < 100, c3_enabled = fadt->C3_Latency < 1000;
+	if (acpi_cpu_count > 0) 
+	{
+		bool c2_enabled = fadt->C2_Latency < 100;
+		bool c3_enabled = fadt->C3_Latency < 1000;
+		bool c4_enabled = false;
 		
-		// Setup C2 Latency
-		if (c2_enabled)
-			chunk_c2[27] = fadt->C2_Latency & 0xff;
-		
-		// Setup C3 Latency
-		if (c3_enabled) {
-			chunk_c3[27] = fadt->C3_Latency & 0xff;
-			chunk_c3[28] = (fadt->C3_Latency >> 8) & 0xff;
-		}
-		
-		// Generating SSDT
-		uint32_t package_length = 
-			4 +
-			sizeof(chunk_c1) + 
-			c2_enabled * sizeof(chunk_c2) +
-			c3_enabled * sizeof(chunk_c3);
-		
-		if (package_length > 0x3f) 
-			package_length++;
-		
-		uint32_t name_length = 
-			1 +
-			sizeof(chunk_name_body) + 
-			1 + package_length;
-		
-		if (name_length > 0x3f) 
-			name_length++;
-		
-		uint32_t ssdt_size = 
-			sizeof(ssdt_header) + 
-			1 + name_length +
-			acpi_cpu_count * sizeof(chunk_alias);
-		
-		struct acpi_2_ssdt *ssdt = (void*)AllocateKernelMemory(ssdt_size);
-		int fd = openmem((char*)ssdt, ssdt_size);
+		getBoolForKey(kEnableC4States, &c4_enabled, &bootInfo->bootConfig);
 
-		// Header
-		write(fd, ssdt_header, sizeof(ssdt_header));
+		unsigned char cstates_count = 1 + (c2_enabled ? 1 : 0) + (c3_enabled ? 1 : 0);
 		
-		// Scope (\_PR) { Name (CST
-		writebyte(fd, 0x10); // id
-		if (name_length > 0x3f) 
-		{
-			writebyte(fd, 0x40 | (name_length & 0xf)); // lo half-byte
-			writebyte(fd, name_length >> 4); // hi byte
-		}
-		else 
-		{
-			writebyte(fd, name_length); // length
-		}
-		write(fd, chunk_name_body, sizeof(chunk_name_body));
+		struct aml_chunk* root = aml_create_node(NULL);
+			aml_add_buffer(root, ssdt_header, sizeof(ssdt_header)); // SSDT header
+			struct aml_chunk* scop = aml_add_scope(root, "\\_PR_");
+				struct aml_chunk* name = aml_add_name(scop, "CST_");
+					struct aml_chunk* pack = aml_add_package(name);
+						aml_add_byte(pack, cstates_count);
 		
-		//Package (0x04) { 0x03,
-		writebyte(fd, 0x12); // id
-		if (package_length > 0x3f) 
-		{
-			writebyte(fd, 0x40 | (package_length & 0xf)); // lo half-byte
-			writebyte(fd, package_length >> 4); // hi byte
-		}
-		else 
-		{
-			writebyte(fd, package_length); // length
-		}
-		uint8_t cstates_count = 1 + c2_enabled + c3_enabled;
-		writebyte(fd, cstates_count + 1);
-		writebyte(fd, 0x0A); // first entry - number of c-states
-		writebyte(fd, cstates_count);
+						struct aml_chunk* tmpl = aml_add_package(pack);
+							cstate_resource_template[11] = 0x00; // C1
+							aml_add_buffer(tmpl, cstate_resource_template, sizeof(cstate_resource_template));
+							aml_add_byte(tmpl, 0x01); // C1
+							aml_add_byte(tmpl, 0x01); // Latency
+							aml_add_word(tmpl, 0x03e8); // Power
+
+						// C2
+						if (c2_enabled) 
+						{
+							tmpl = aml_add_package(pack);
+								cstate_resource_template[11] = 0x10; // C2
+								aml_add_buffer(tmpl, cstate_resource_template, sizeof(cstate_resource_template));
+								aml_add_byte(tmpl, 0x02); // C2
+								aml_add_byte(tmpl, fadt->C2_Latency);
+								aml_add_word(tmpl, 0x01f4); // Power
+						}
+						// C4
+						if (c4_enabled) 
+						{
+							tmpl = aml_add_package(pack);
+							cstate_resource_template[11] = 0x30; // C4
+							aml_add_buffer(tmpl, cstate_resource_template, sizeof(cstate_resource_template));
+							aml_add_byte(tmpl, 0x04); // C4
+							aml_add_word(tmpl, fadt->C3_Latency / 2); // TODO: right latency for C4
+							aml_add_byte(tmpl, 0xfa); // Power
+						}
+						else
+						// C3
+						if (c3_enabled) 
+						{
+							tmpl = aml_add_package(pack);
+							cstate_resource_template[11] = 0x20; // C3
+							aml_add_buffer(tmpl, cstate_resource_template, sizeof(cstate_resource_template));
+							aml_add_byte(tmpl, 0x03); // C3
+							aml_add_word(tmpl, fadt->C3_Latency);
+							aml_add_word(tmpl, 0x015e); // Power
+						}
+						
+			
+			// Aliaces
+			int i;
+			for (i = 0; i < acpi_cpu_count; i++) 
+			{
+				char name[9];
+				sprintf(name, "_PR_%c%c%c%c", acpi_cpu_name[i][0], acpi_cpu_name[i][1], acpi_cpu_name[i][2], acpi_cpu_name[i][3]);
+				
+				scop = aml_add_scope(root, name);
+					aml_add_alias(scop, "CST_", "_CST");
+			}
 		
-		// C1
-		write(fd, chunk_c1, sizeof(chunk_c1));
+		aml_calculate_size(root);
 		
-		// C2
-		if (c2_enabled) 
-			write(fd, chunk_c2, sizeof(chunk_c2));
+		struct acpi_2_ssdt *ssdt = (struct acpi_2_ssdt *)AllocateKernelMemory(root->Size);
+	
+		aml_write_node(root, (void*)ssdt, 0);
 		
-		// C3
-		if (c3_enabled) 
-			write(fd, chunk_c3, sizeof(chunk_c3));
-		
-		// Write aliases
-		int i;
-		for (i = 0; i < acpi_cpu_count; i++) {
-			int j;
-			for (j = 0; j < 4; j++)
-				chunk_alias[8+j] = acpi_cpu_name[i][j];
-			write(fd, chunk_alias, sizeof(chunk_alias));
-		}
-		
-		close(fd);
-		
-		ssdt->Length = ssdt_size;
+		ssdt->Length = root->Size;
 		ssdt->Checksum = 0;
 		ssdt->Checksum = 256 - checksum8(ssdt, ssdt->Length);
 		
-		//dumpPhysAddr("C-States SSDT content: ", ssdt, ssdt_size);
+		aml_destroy_node(root);
+		
+		//dumpPhysAddr("C-States SSDT content: ", ssdt, ssdt->Length);
 				
 		verbose ("SSDT with CPU C-States generated successfully\n");
 		
 		return ssdt;
 	}
-	else {
-		verbose ("DSDT CPUs not found: C-States not generated !!!\n");
+	else 
+	{
+		verbose ("ACPI CPUs not found: C-States not generated !!!\n");
 	}
 
 	return NULL;
@@ -409,19 +372,6 @@ struct acpi_2_ssdt *generate_pss_ssdt(struct acpi_2_dsdt* dsdt)
 		0x31, 0x03, 0x10, 0x20,							/* 1.._		*/
 	};
 	
-	char chunk_name_body[] =
-	{
-		0x5C, 0x5F, 0x50, 0x52, 0x5F, 0x08, 0x50, 0x53, /* \_PR_.PS */
-		0x53, 0x5F										/* S_		*/
-	};
-	
-	char chunk_alias[] = 
-	{
-		0x10, 0x14, 0x5C, 0x2E, 0x5F, 0x50, 0x52, 0x5F, /* ..\._PR_ */
-		0x43, 0x50, 0x55, 0x30, 0x06, 0x50, 0x53, 0x53, /* CPU0.PSS */
-		0x5F, 0x5F, 0x50, 0x53, 0x53					/* __PSS	*/
-	};
-	
 	if (Platform.CPU.Vendor != 0x756E6547) {
 		verbose ("Not an Intel platform: P-States will not be generated !!!\n");
 		return NULL;
@@ -433,7 +383,7 @@ struct acpi_2_ssdt *generate_pss_ssdt(struct acpi_2_dsdt* dsdt)
 	}
 	
 	if (acpi_cpu_count == 0) 
-		find_acpi_cpu_names((void*)dsdt, dsdt->Length);
+		get_acpi_cpu_names((void*)dsdt, dsdt->Length);
 	
 	if (acpi_cpu_count > 0) 
 	{	
@@ -442,9 +392,6 @@ struct acpi_2_ssdt *generate_pss_ssdt(struct acpi_2_dsdt* dsdt)
 		uint8_t p_states_count;		
 		
 		// Retrieving P-States, ported from code by superhai (c)
-		
-
-		
 		switch (Platform.CPU.Family) {
 			case 0x06: 
 			{
@@ -453,16 +400,20 @@ struct acpi_2_ssdt *generate_pss_ssdt(struct acpi_2_dsdt* dsdt)
 					case 0x0F: // Intel Core (65nm)
 					case 0x17: // Intel Core (45nm)
 					case 0x1C: // Intel Atom (45nm)
-					case 0x1A: // Intel Core i7 LGA1366 (45nm)
-					case 0x1E: // Intel Core i5, i7 LGA1156 (45nm)
-					case 0x25: // Intel Core i3, i5, i7 LGA1156 (32nm)
-					case 0x2C: // Intel Core i7 LGA1366 (32nm) 6 Core
 						if (rdmsr64(MSR_IA32_EXT_CONFIG) & (1 << 27)) 
 						{
 							wrmsr64(MSR_IA32_EXT_CONFIG, (rdmsr64(MSR_IA32_EXT_CONFIG) | (1 << 28))); 
 							delay(1);
 							cpu_dynamic_fsb = rdmsr64(MSR_IA32_EXT_CONFIG) & (1 << 28);
 						}
+						break;
+					case 0x1A: // Intel Core i7 LGA1366 (45nm)
+					case 0x1E: // Intel Core i5, i7 LGA1156 (45nm)
+					case 0x1F:
+					case 0x25: // Intel Core i3, i5, i7 LGA1156 (32nm)
+					case 0x2C: // Intel Core i7 LGA1366 (32nm) 6 Core
+					case 0x2F:
+						cpu_dynamic_fsb = rdmsr64(MSR_IA32_PERF_STATUS) & (1 << 15);
 						break;
 				}
 			}
@@ -478,33 +429,39 @@ struct acpi_2_ssdt *generate_pss_ssdt(struct acpi_2_dsdt* dsdt)
 		
 		if (minimum.FID == 0) 
 		{
+			uint64_t msr;
 			uint8_t i;
 			// Probe for lowest fid
 			for (i = maximum.FID; i >= 0x6; i--) 
 			{
-				wrmsr64(MSR_IA32_PERF_CONTROL, (rdmsr64(MSR_IA32_PERF_CONTROL) & 0xFFFFFFFFFFFF0000ULL) | (i << 8) | minimum.VID);
+				msr = rdmsr64(MSR_IA32_PERF_CONTROL);
+				wrmsr64(MSR_IA32_PERF_CONTROL, (msr & 0xFFFFFFFFFFFF0000ULL) | (i << 8) | minimum.VID);
 				intel_waitforsts();
 				minimum.FID = (rdmsr64(MSR_IA32_PERF_STATUS) >> 8) & 0x1F; 
 				delay(1);
 			}
 			
-			wrmsr64(MSR_IA32_PERF_CONTROL, (rdmsr64(MSR_IA32_PERF_CONTROL) & 0xFFFFFFFFFFFF0000ULL) | (maximum.FID << 8) | maximum.VID);
+			msr = rdmsr64(MSR_IA32_PERF_CONTROL);
+			wrmsr64(MSR_IA32_PERF_CONTROL, (msr & 0xFFFFFFFFFFFF0000ULL) | (maximum.FID << 8) | maximum.VID);
 			intel_waitforsts();
 		}
 		
 		if (minimum.VID == maximum.VID) 
 		{	
+			uint64_t msr;
 			uint8_t i;
 			// Probe for lowest vid
 			for (i = maximum.VID; i > 0xA; i--) 
 			{
-				wrmsr64(MSR_IA32_PERF_CONTROL, (rdmsr64(MSR_IA32_PERF_CONTROL) & 0xFFFFFFFFFFFF0000ULL) | (minimum.FID << 8) | i);
+				msr = rdmsr64(MSR_IA32_PERF_CONTROL);
+				wrmsr64(MSR_IA32_PERF_CONTROL, (msr & 0xFFFFFFFFFFFF0000ULL) | (minimum.FID << 8) | i);
 				intel_waitforsts();
 				minimum.VID = rdmsr64(MSR_IA32_PERF_STATUS) & 0x3F; 
 				delay(1);
 			}
 			
-			wrmsr64(MSR_IA32_PERF_CONTROL, (rdmsr64(MSR_IA32_PERF_CONTROL) & 0xFFFFFFFFFFFF0000ULL) | (maximum.FID << 8) | maximum.VID);
+			msr = rdmsr64(MSR_IA32_PERF_CONTROL);
+			wrmsr64(MSR_IA32_PERF_CONTROL, (msr & 0xFFFFFFFFFFFF0000ULL) | (maximum.FID << 8) | maximum.VID);
 			intel_waitforsts();
 		}
 		
@@ -569,84 +526,57 @@ struct acpi_2_ssdt *generate_pss_ssdt(struct acpi_2_dsdt* dsdt)
 		
 		if (p_states_count > 0) 
 		{	
-			uint32_t i, pss_entries_size = 33 * p_states_count, pss_package_length = pss_entries_size + 2;
+			int i;
 			
-			if (pss_package_length > 0x3f) pss_package_length++; // for chunks > 0x3f bytes length have 2 bytes encoding
+			struct aml_chunk* root = aml_create_node(NULL);
+				aml_add_buffer(root, ssdt_header, sizeof(ssdt_header)); // SSDT header
+					struct aml_chunk* scop = aml_add_scope(root, "\\_PR_");
+						struct aml_chunk* name = aml_add_name(scop, "PSS_");
+							struct aml_chunk* pack = aml_add_package(name);
 			
-			uint32_t pss_name_length = (1 /* id=0x12 */ + pss_package_length) + (1 + 10);
-			
-			if (pss_name_length > 0x3f) pss_name_length++;
-			
-			uint32_t ssdt_size = 36 + (1 /* id=0x10 */ + pss_name_length) + acpi_cpu_count * sizeof(chunk_alias);
-			
-			struct acpi_2_ssdt *ssdt = (void*)AllocateKernelMemory(ssdt_size);
-			int fd = openmem((char*)ssdt, ssdt_size);
-			
-			// write header
-			write(fd, ssdt_header, sizeof(ssdt_header));
-			
-			// write Scope (\_PR) {	Name (PSS, ...
-			writebyte(fd, 0x10); // id
-			if (pss_name_length > 0x3f) 
-			{
-				writebyte(fd, 0x40 | (pss_name_length & 0xf)); // lo half-byte
-				writebyte(fd, pss_name_length >> 4); // hi byte
-			}
-			else 
-			{
-				writebyte(fd, pss_name_length); // length
-			}
-			write(fd, chunk_name_body, sizeof(chunk_name_body));
-			
-			// write Package(p_states_count) { ...
-			writebyte(fd, 0x12); // id
-			if (pss_package_length > 0x3f) 
-			{
-				writebyte(fd, 0x40 | (pss_package_length & 0xf)); // lo half-byte
-				writebyte(fd, pss_package_length >> 4); // hi byte
-			}
-			else 
-			{
-				writebyte(fd, pss_package_length); // length
-			}
-			writebyte(fd, p_states_count); // entries
-			
-			for (i = 0; i < p_states_count; i++) 
-			{
-				DBG("P-State: Frequency %d MHz, FID 0x%x, VID 0x%x\n", p_states[i].Frequency, p_states[i].FID, p_states[i].VID);
+								for (i = 0; i < p_states_count; i++) 
+								{
+									struct aml_chunk* pstt = aml_add_package(pack);
+									
+									aml_add_dword(pstt, p_states[i].Frequency);
+									aml_add_dword(pstt, 0x00000000); // Power
+									aml_add_dword(pstt, 0x0000000A); // Latency
+									aml_add_dword(pstt, 0x0000000A); // Latency
+									aml_add_dword(pstt, p_states[i].Control);
+									aml_add_dword(pstt, i+1); // Status
+								}
 				
-				writebyte(fd, 0x12); // chunk id
-				writebyte(fd, 32); // chunk length without id 
-				writebyte(fd, 6); // entries
+			// Add aliaces
+			for (i = 0; i < acpi_cpu_count; i++) 
+			{
+				char name[9];
+				sprintf(name, "_PR_%c%c%c%c", acpi_cpu_name[i][0], acpi_cpu_name[i][1], acpi_cpu_name[i][2], acpi_cpu_name[i][3]);
 				
-				writebyte(fd, 0x0C); /* id */ writeint(fd, p_states[i].Frequency); // value
-				writebyte(fd, 0x0C); /* id */ writeint(fd, 0x00000000); // value
-				writebyte(fd, 0x0C); /* id */ writeint(fd, 0x0000000A); // value
-				writebyte(fd, 0x0C); /* id */ writeint(fd, 0x0000000A); // value
-				writebyte(fd, 0x0C); /* id */ writeint(fd, p_states[i].Control); // value
-				writebyte(fd, 0x0C); /* id */ writeint(fd, i + 1); // value
+				scop = aml_add_scope(root, name);
+				aml_add_alias(scop, "PSS_", "_PSS");
 			}
 			
-			// Write aliases
-			for (i = 0; i < acpi_cpu_count; i++) {
-				int j;
-				for (j = 0; j < 4; j++)
-					chunk_alias[8+j] = acpi_cpu_name[i][j];
-				write(fd, chunk_alias, sizeof(chunk_alias));
-			}
+			aml_calculate_size(root);
 			
-			ssdt->Length = ssdt_size;
+			struct acpi_2_ssdt *ssdt = (struct acpi_2_ssdt *)AllocateKernelMemory(root->Size);
+			
+			aml_write_node(root, (void*)ssdt, 0);
+			
+			ssdt->Length = root->Size;
 			ssdt->Checksum = 0;
 			ssdt->Checksum = 256 - checksum8(ssdt, ssdt->Length);
 			
-			//dumpPhysAddr("P-States SSDT content: ", ssdt, ssdt_size);
+			aml_destroy_node(root);
+			
+			//dumpPhysAddr("P-States SSDT content: ", ssdt, ssdt->Length);
+			
 			verbose ("SSDT with CPU P-States generated successfully\n");
 			
 			return ssdt;
 		}
 	}
 	else {
-		verbose ("DSDT CPUs not found: P-States not generated !!!\n");
+		verbose ("ACPI CPUs not found: P-States not generated !!!\n");
 	}
 	
 	return NULL;
@@ -699,7 +629,7 @@ struct acpi_2_fadt *patch_fadt(struct acpi_2_fadt *fadt, struct acpi_2_dsdt *new
 		else
 			Platform.Type = (unsigned char) strtoul(value, NULL, 10);
 	}
-	// Set PM_Profile from System-type if only if user wanted this value to be forced
+	// Set PM_Profile from System-type if only user wanted this value to be forced
 	if (fadt_mod->PM_Profile != Platform.Type) 
 	{
 	    if (value) 
