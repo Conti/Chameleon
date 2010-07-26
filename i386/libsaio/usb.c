@@ -81,7 +81,7 @@ int usb_loop()
 	
 	struct pciList* current = usbList;
 	
-	while(current && current->next)
+	while(current)
 	{
 		switch (pci_config_read8(current->pciDev->dev.addr, PCI_CLASS_PROG))
 		{
