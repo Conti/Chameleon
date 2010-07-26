@@ -202,7 +202,7 @@ extern BVRef  selectBootVolume(BVRef chain);
 extern void   getBootVolumeDescription(BVRef bvr, char *str, long strMaxLen, bool verbose);
 extern void   setRootVolume(BVRef volume);
 extern void   setBootGlobals(BVRef chain);
-extern int    getDeviceStringFromBVR(const BVRef volume, char *str);
+extern int    getDeviceDescription(BVRef volume, char *str);
 
 extern int    gBIOSDev;
 extern int    gBootFileType;

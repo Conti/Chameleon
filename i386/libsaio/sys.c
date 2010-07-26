@@ -1076,19 +1076,22 @@ static BVRef newBootVolumeRef( int biosdev, int partno )
     return bvr ? bvr : bvr1;
 }
 
-int getDeviceStringFromBVR(const BVRef bvr, char *str)
+//==========================================================================
+// getDeviceDescription() - Extracts unit number and partition number
+// from bvr structure into "dw(u,p)" format.
+int getDeviceDescription(BVRef bvr, char *str)
 {
 	const struct devsw *dp;
 	
+	*str = '\0';
+
 	if (bvr)
 	{
-		*str = '\0';
+		for (dp = devsw; dp->name && bvr->biosdev >= dp->biosdev; dp++);
+		dp--;
+		if (dp->name) sprintf(str, "%s(%d,%d)", dp->name, bvr->biosdev - dp->biosdev, bvr->part_no);
 		
-	    for (dp = devsw; dp->name && bvr->biosdev >= dp->biosdev; dp++);
-	    dp--;
-	    if (dp->name) sprintf(str, "%s(%d,%d)", dp->name, bvr->biosdev - dp->biosdev, bvr->part_no);
-		
-	    return true;
+		return true;
 	}
 	
 	return false;

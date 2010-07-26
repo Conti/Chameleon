@@ -112,7 +112,7 @@ static int countdown( const char * msg, int row, int timeout )
 	
 		char dummy[80];
 		getBootVolumeDescription( gBootVolume, dummy, 80, true );
-		drawDeviceIcon( gBootVolume, gui.screen.pixmap, p );
+		drawDeviceIcon( gBootVolume, gui.screen.pixmap, p, false );
 		drawStrCenteredAt( (char *) msg, &font_small, gui.screen.pixmap, gui.countdown.pos );
 		
 		// make this screen the new background

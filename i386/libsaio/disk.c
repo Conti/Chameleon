@@ -1707,7 +1707,8 @@ void getBootVolumeDescription( BVRef bvr, char * str, long strMaxLen, bool verbo
 	
     p = str;
     if (verbose) {
-      sprintf( str, "hd(%d,%d) ", BIOS_DEV_UNIT(bvr), bvr->part_no);
+      getDeviceDescription(bvr, str);
+      strcat(str, " ");
       for (; strMaxLen > 0 && *p != '\0'; p++, strMaxLen--);
     }
 
