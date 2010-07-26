@@ -1,6 +1,7 @@
 /*
  * dram controller access and scan from the pci host controller
- * Integrated and adapted for chameleon 2.0 RC5 by Rekursor from original :
+ * Integrated and adapted for chameleon 2.0 RC5 by Rekursor from bs0d work
+ * original source comes from:
  *
  * memtest86
  *
