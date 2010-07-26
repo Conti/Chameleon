@@ -103,3 +103,5 @@ Options useful in the com.apple.Boot.plist file:
                           SMUUID in smbios config (reserved field) isn't used.
   SystemType=<n>          Set the system type where n is between 0..6
                           (default =1 (Desktop)
+  md0=<file>              Load raw img file into memory for use as XNU's md0
+                          ramdisk. /Extra/Postboot.img is used otherwise.
