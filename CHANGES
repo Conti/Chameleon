@@ -1,4 +1,8 @@
 - md0 code. Notified xnu when an md ramdisk is specified
+- Added rollover image support for selected device icons.
+  Use device_<type>_o.png in theme folder. Credits goes to Blackosx.
+- Revisited theme resource embedding. Using the device_<type> icons are optional with
+  the exception of device_generic.
 - Optimized memory detection speed
 - Added displaying source device and partition number for file read operations.
 - Increased boot2's maximum size from 383.5k to 447.5k.
