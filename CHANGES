@@ -1,3 +1,4 @@
+- md0 code. Notified xnu when an md ramdisk is specified
 - Optimized memory detection speed
 - Added displaying source device and partition number for file read operations.
 - Increased boot2's maximum size from 383.5k to 447.5k.

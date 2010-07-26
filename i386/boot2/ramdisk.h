@@ -8,6 +8,14 @@
 #define __BOOT_RAMDISK_H
 
 #define RAMDISKCONFIG_FILENAME "rd(0,0)/RAMDisk.plist"
+//#define kPostbootRamdisk
+void md0Ramdisk();
+
+typedef struct RAMDiskParam
+{
+	ppnum_t base;
+	unsigned int size;
+} RAMDiskParam;
 
 /* mboot.c */
 extern struct multiboot_info *gMI;

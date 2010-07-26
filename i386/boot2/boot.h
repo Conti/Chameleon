@@ -92,6 +92,7 @@
 #define kLegacyOff			"USBLegacyOff"		/* usb.c */
 #define kEHCIhard			"EHCIhard"			/* usb.c */
 #define kDefaultPartition	"Default Partition"	/* sys.c */
+#define kMD0Image			"md0"				/* ramdisk.h */
 
 /*
  * Flags to the booter or kernel

@@ -162,6 +162,8 @@ static int ExecKernel(void *binary)
 
     setupFakeEfi();
 
+    md0Ramdisk();
+
     verbose("Starting Darwin %s\n",( archCpuType == CPU_TYPE_I386 ) ? "x86" : "x86_64");
 
     // Cleanup the PXE base code.
