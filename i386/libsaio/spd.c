@@ -308,6 +308,7 @@ static void read_smb_intel(pci_dt_t *smbus_dev)
 				// now round off special cases
 				uint32_t fmod100 = freq %100;
 				switch(fmod100) {
+					case  1:	freq--;	break;
 					case 32:	freq++;	break;
 					case 65:	freq++; break;
 					case 98:	freq+=2;break;
