@@ -35,8 +35,13 @@ void md0Ramdisk()
 		
 		if(fh < 0)
 		{
-			sprintf(filename, "rd(0,0)/Extra/%s", override_filename);
-			if((fh = open(filename, 0)) < 0)
+			if(gRAMDiskVolume && !gRAMDiskBTAliased)
+			{
+				sprintf(filename, "rd(0,0)/Extra/%s", override_filename);
+				fh = open(filename, 0);
+			}
+			
+			if(fh < 0)
 			{
 				sprintf(filename, "/Extra/%s", override_filename);
 				fh = open(filename, 0);
@@ -49,8 +54,12 @@ void md0Ramdisk()
 	if(fh < 0)
 	{
 		// Fallback to Postboot.img
-		sprintf(filename, "rd(0,0)/Extra/Postboot.img");
-		fh = open(filename, 0);
+		if(gRAMDiskVolume && !gRAMDiskBTAliased)
+		{
+			sprintf(filename, "rd(0,0)/Extra/Postboot.img");
+			fh = open(filename, 0);
+		}
+		
 		if(fh < 0)
 		{
 			sprintf(filename, "/Extra/Postboot.img");	// Check /Extra if not in rd(0,0)
