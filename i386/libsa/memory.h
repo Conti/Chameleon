@@ -57,7 +57,7 @@
 #define BOOT2_SEG         0x2000
 #define BOOT2_OFS         0x0200      // 512 byte disk sector offset
 
-#define BIOS_ADDR         0x9000      // BIOS disk I/O buffer
+#define BIOS_ADDR         0x8000      // BIOS disk I/O buffer
 #define BIOS_LEN          0x8000      // 32K - divisible by 512 and 2048
 
 #define BOOT0_ADDR        0x7E00      // boot0 gets loaded here
