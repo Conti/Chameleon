@@ -518,6 +518,10 @@ static struct mem_controller_t dram_controllers[] = {
 	{ 0x8086, 0x3401, "NHM IMC",		setup_nhm, get_fsb_nhm,   get_timings_nhm },
 	{ 0x8086, 0x3402, "NHM IMC",		setup_nhm, get_fsb_nhm,   get_timings_nhm },
 	{ 0x8086, 0x3403, "NHM IMC",		setup_nhm, get_fsb_nhm,   get_timings_nhm },
+	{ 0x8086, 0x3404, "NHM IMC",		setup_nhm, get_fsb_nhm,   get_timings_nhm },
+	{ 0x8086, 0x3405, "NHM IMC",		setup_nhm, get_fsb_nhm,   get_timings_nhm },
+	{ 0x8086, 0x3406, "NHM IMC",		setup_nhm, get_fsb_nhm,   get_timings_nhm },
+	{ 0x8086, 0x3407, "NHM IMC",		setup_nhm, get_fsb_nhm,   get_timings_nhm },
 	
 };
 
