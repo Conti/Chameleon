@@ -97,6 +97,12 @@ static struct devsw devsw[] =
     { 0, 0 }
 };
 
+// Pseudo BIOS devices
+enum {
+	kPseudoBIOSDevRAMDisk = 0x100,
+	kPseudoBIOSDevBooter = 0x101
+};
+
 /*
  * Max number of file descriptors.
  */
@@ -109,10 +115,6 @@ void * gFSLoadAddress = 0;
 // Turbo - save what we think is our original BIOS boot volume if we have one 0xab
 BVRef gBIOSBootVolume = NULL;
 BVRef gBootVolume;
-
-// zef - ramdisk variables
-//extern BVRef  gRAMDiskVolume;
-//extern bool   gRAMDiskBTAliased;
 
 //static BVRef getBootVolumeRef( const char * path, const char ** outPath );
 static BVRef newBootVolumeRef( int biosdev, int partno );
@@ -513,17 +515,7 @@ int open_bvdev(const char *bvd, const char *path, int flags)
 					}
 				}
 			}
-			// turbo - bt(0,0) hook
-			if ((dp->biosdev + unit) == 0x101) {
-				// zef - use the ramdisk if available and the alias is active.
-				if (gRAMDiskVolume != NULL && gRAMDiskBTAliased) {
-					bvr = gRAMDiskVolume;
-				} else {
-					bvr = gBIOSBootVolume;
-				}
-			} else {
-				bvr = newBootVolumeRef(dp->biosdev + unit, partition);
-			}
+			bvr = newBootVolumeRef(dp->biosdev + unit, partition);
 			return open_bvr(bvr, path, flags);
 		}
         }
@@ -1014,20 +1006,7 @@ BVRef getBootVolumeRef( const char * path, const char ** outPath )
         if (*cp == RP) cp++;
         
         biosdev = dp->biosdev + unit;
-
-        // turbo - bt(0,0) hook
-        if (biosdev == 0x101)
-        {
-          // zef - use the ramdisk if available and the alias is active.
-          if (gRAMDiskVolume != NULL && gRAMDiskBTAliased)
-            bvr = gRAMDiskVolume;
-          else
-            bvr = gBIOSBootVolume;
-        }
-        else
-        {
-          bvr = newBootVolumeRef(biosdev, part);
-        }
+        bvr = newBootVolumeRef(biosdev, part);
 
         if(bvr == NULL)
             return NULL;
@@ -1051,29 +1030,46 @@ BVRef getBootVolumeRef( const char * path, const char ** outPath )
 }
 
 //==========================================================================
-
 // Function name is a misnomer as scanBootVolumes usually calls diskScanBootVolumes
 // which caches the information.  So it's only allocated on the first run.
 static BVRef newBootVolumeRef( int biosdev, int partno )
 {
-    BVRef bvr, bvr1, bvrChain;
+	BVRef bvr, bvr1, bvrChain;
 
-    // Fetch the volume list from the device.
+	bvr = bvr1 = NULL;
 
-    scanBootVolumes( biosdev, NULL );
-    bvrChain = getBVChainForBIOSDev(biosdev);
+    // Try resolving "rd" and "bt" devices first.
+	if (biosdev == kPseudoBIOSDevRAMDisk)
+	{
+		if (gRAMDiskVolume)
+		    bvr1 = gRAMDiskVolume;
+	}
+	else if (biosdev == kPseudoBIOSDevBooter)
+	{
+		if (gRAMDiskVolume != NULL && gRAMDiskBTAliased)
+			bvr1 = gRAMDiskVolume;
+		else
+			bvr1 = gBIOSBootVolume;
+	}
+	else
+	{
+		// Fetch the volume list from the device.
 
-    // Look for a perfect match based on device and partition number.
+		scanBootVolumes( biosdev, NULL );
+		bvrChain = getBVChainForBIOSDev(biosdev);
 
-    for ( bvr1 = NULL, bvr = bvrChain; bvr; bvr = bvr->next )
-    {
-        if ( ( bvr->flags & kBVFlagNativeBoot ) == 0 ) continue;
-    
-        bvr1 = bvr;
-        if ( bvr->part_no == partno ) break;
-    }
+		// Look for a perfect match based on device and partition number.
 
-    return bvr ? bvr : bvr1;
+		for ( bvr1 = NULL, bvr = bvrChain; bvr; bvr = bvr->next )
+		{
+			if ( ( bvr->flags & kBVFlagNativeBoot ) == 0 ) continue;
+
+			bvr1 = bvr;
+			if ( bvr->part_no == partno ) break;
+		}
+	}
+
+	return bvr ? bvr : bvr1;
 }
 
 //==========================================================================
