@@ -169,7 +169,6 @@
 		B0056D7B11F3868000754B65 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		B0056D7C11F3868000754B65 /* TODO */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
 		B0056D7D11F3868000754B65 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
-		B0056D7E11F3868000754B65 /* efisysinst.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = efisysinst.sh; sourceTree = "<group>"; };
 		B0056D7F11F3868000754B65 /* CREDITS */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CREDITS; sourceTree = "<group>"; };
 		B0056D8011F3868000754B65 /* coding_standards.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = coding_standards.txt; sourceTree = "<group>"; };
 		B0056D8111F3868000754B65 /* CHANGES */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGES; sourceTree = "<group>"; };
@@ -298,6 +297,8 @@
 		B0056E1A11F3868000754B65 /* Users_Guide0.5.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Users_Guide0.5.pdf; sourceTree = "<group>"; };
 		B00F494911F6089500B1D7C5 /* aml_generator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aml_generator.h; sourceTree = "<group>"; };
 		B00F494A11F6089500B1D7C5 /* aml_generator.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = aml_generator.c; sourceTree = "<group>"; };
+		B0146EFF11FDEF550010765C /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		B0146F0011FDEFB90010765C /* GPL_V2_LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = GPL_V2_LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -309,14 +310,15 @@
 				B0056CE511F3868000754B65 /* i386 */,
 				B0056D8311F3868000754B65 /* package */,
 				B0056CD411F3868000754B65 /* sym */,
+				B0056D8211F3868000754B65 /* APPLE_LICENSE */,
+				B0056D7F11F3868000754B65 /* CREDITS */,
+				B0056D8111F3868000754B65 /* CHANGES */,
+				B0146F0011FDEFB90010765C /* GPL_V2_LICENSE */,
+				B0146EFF11FDEF550010765C /* README */,
+				019DFBAF11FB94090013E8CC /* MEMTEST86_LICENSE */,
 				B0056D7C11F3868000754B65 /* TODO */,
 				B0056D7D11F3868000754B65 /* Makefile */,
-				B0056D7E11F3868000754B65 /* efisysinst.sh */,
-				B0056D7F11F3868000754B65 /* CREDITS */,
 				B0056D8011F3868000754B65 /* coding_standards.txt */,
-				B0056D8111F3868000754B65 /* CHANGES */,
-				B0056D8211F3868000754B65 /* APPLE_LICENSE */,
-				019DFBAF11FB94090013E8CC /* MEMTEST86_LICENSE */,
 			);
 			name = Chameleon;
 			sourceTree = "<group>";
