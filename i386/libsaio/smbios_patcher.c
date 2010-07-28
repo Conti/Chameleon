@@ -101,6 +101,21 @@ static const SMStrEntryPair const sm_macpro_defaults[]={
 	{ "",""	}
 };
 
+// defaults for an iMac11,1 core i5/i7
+static const SMStrEntryPair const sm_imacCore_i5_i7_defaults[]={
+	{"SMbiosvendor",	"Apple Inc."			},
+	{"SMbiosversion",	"IM111.0034.B00"	},
+	{"SMbiosdate",		"06/01/2009"			},
+	{"SMmanufacter",	"Apple Inc."			},
+	{"SMproductname",	"iMac11,1"			},	
+	{"SMsystemversion",	"1.0"				},
+	{"SMserial",		"SOMESRLNMBR"			},
+	{"SMfamily",		"iMac"				},
+	{"SMboardmanufacter","Apple Computer, Inc."	},
+	{"SMboardproduct",	"Mac-F2268DAE"			},
+	{ "",""	}
+};
+
 static const char* sm_get_defstr(const char * key, int table_num)
 {
 	int	i;
@@ -113,13 +128,41 @@ static const char* sm_get_defstr(const char * key, int table_num)
 			sm_defaults=sm_macbook_defaults;
 		}
 	} else {
-		switch (Platform.CPU.NoCores) {
-		case 1: sm_defaults=sm_macmini_defaults; break;
-		case 2: sm_defaults=sm_imac_defaults; break;
-		default: sm_defaults=sm_macpro_defaults; break;
+		switch (Platform.CPU.NoCores) 
+		{
+			case 1: 
+				sm_defaults=sm_macmini_defaults; 
+				break;
+			case 2:
+				sm_defaults=sm_imac_defaults;
+				break;
+			default:
+			{
+				switch (Platform.CPU.Family) 
+				{
+					case 0x06:
+					{
+						switch (Platform.CPU.Model)
+						{
+							case 0x1E: // Intel Core i7 LGA1156 (45nm)
+							case 0x1F: // Intel Core i5 LGA1156 (45nm)
+								sm_defaults=sm_imacCore_i5_i7_defaults; 
+								break;
+							default:
+								sm_defaults=sm_macpro_defaults; 
+								break;
+						}
+						break;
+					}
+					default:
+						sm_defaults=sm_macpro_defaults; 
+						break;
+				}
+				break;
+			}
 		}
 	}
-
+	
 	for (i=0; sm_defaults[i].key[0]; i++) {
 		if (!strcmp (sm_defaults[i].key, key)) {
 			return sm_defaults[i].value;
