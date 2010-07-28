@@ -106,6 +106,7 @@ typedef struct _PlatformInfo_t {
 		uint64_t		TSCFrequency;		// TSC Frequency Hz
 		uint64_t		FSBFrequency;		// FSB Frequency Hz
 		uint64_t		CPUFrequency;		// CPU Frequency Hz
+		uint64_t		BusFrequency;		// Bus Frequency Hz
 		uint32_t		BrandString[16];	// 48 Byte Branding String
 		uint32_t		CPUID[CPUID_MAX][4];	// CPUID 0..4, 80..81 Raw Values
 	} CPU;

@@ -156,7 +156,7 @@ static int sm_get_simplecputype()
 	return 0x0301;   // Core 2 Duo
 }
 
-static int sm_get_cputype (const char *name, int table_num)
+static int sm_get_bus_speed (const char *name, int table_num)
 {
 	if (Platform.CPU.Vendor == 0x756E6547) // Intel
 	{
@@ -171,11 +171,48 @@ static int sm_get_cputype (const char *name, int table_num)
 					case 0x0F: // Intel Core (65nm)
 					case 0x17: // Intel Core (45nm)
 					case 0x1C: // Intel Atom (45nm)
-						return sm_get_simplecputype();
-					case 0x1E: // Intel Core i5, i7 LGA1156 (45nm)
+						return 0; // TODO: populate bus speed for these processors
 					case 0x1A: // Intel Core i7 LGA1366 (45nm)
-						return 0x0701;
+					case 0x1E: // Intel Core i5, i7 LGA1156 (45nm)
 					case 0x1F: // Intel Core i5, i7 LGA1156 (45nm) ???
+						return 4800; // GT/s
+					case 0x25: // Intel Core i3, i5, i7 LGA1156 (32nm)
+						return 0; // TODO: populate bus speed for these processors
+					case 0x2C: // Intel Core i7 LGA1366 (32nm) 6 Core
+					case 0x2E: // Intel Core i7 LGA1366 (45nm) 6 Core ???
+						return 0; // TODO: populate bus speed for these processors
+				}
+			}
+		}
+	}
+	return 0;
+}
+
+static int sm_get_cputype (const char *name, int table_num)
+	{
+	if (Platform.CPU.Vendor == 0x756E6547) // Intel
+	{
+		verbose("CPU is Intel, family 0x%x, model 0x%x, ext.model 0x%x\n", Platform.CPU.Family, Platform.CPU.Model, Platform.CPU.ExtModel);
+		
+		switch (Platform.CPU.Family) 
+		{
+			case 0x06:
+			{
+				switch (Platform.CPU.Model)
+				{
+					case 0x0F: // Intel Core (65nm)
+					case 0x17: // Intel Core (45nm)
+					case 0x1C: // Intel Atom (45nm)
+						return sm_get_simplecputype();
+					case 0x1A: // Intel Core i7 LGA1366 (45nm)
+						Platform.CPU.BusFrequency = 4800;
+						return 0x0701;
+				case 0x1E: // Intel Core i5, i7 LGA1156 (45nm)
+						// get this opportunity to fill the known processor interconnect speed for cor i5/i7 in GT/s
+						Platform.CPU.BusFrequency = 4800;
+						return 0x0701;
+				case 0x1F: // Intel Core i5, i7 LGA1156 (45nm) ???
+						Platform.CPU.BusFrequency = 4800;
 						return 0x0601;
 					case 0x25: // Intel Core i3, i5, i7 LGA1156 (32nm)
 						return 0x0301;
@@ -291,7 +328,7 @@ struct smbios_property smbios_properties[]=
 	{.name="SMmemserial",		.table_type=17,	.value_type=SMSTRING,	.offset=0x18,	.auto_str=sm_get_memserial},
 	{.name="SMmempart",		.table_type=17,	.value_type=SMSTRING,	.offset=0x1A,	.auto_str=sm_get_mempartno},
 	{.name="SMcputype",		.table_type=131,.value_type=SMWORD,	.offset=0x04,	.auto_int=sm_get_cputype},
-	{.name="SMbusspeed",		.table_type=132,.value_type=SMWORD,	.offset=0x04,	.auto_str=0		}
+	{.name="SMbusspeed",		.table_type=132,.value_type=SMWORD,	.offset=0x04,	.auto_int=sm_get_bus_speed}
 };
 
 struct smbios_table_description smbios_table_descriptions[]=
