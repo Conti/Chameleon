@@ -248,14 +248,11 @@ static int sm_get_cputype (const char *name, int table_num)
 					case 0x1C: // Intel Atom (45nm)
 						return sm_get_simplecputype();
 					case 0x1A: // Intel Core i7 LGA1366 (45nm)
-						Platform.CPU.BusFrequency = 4800;
 						return 0x0701;
 				case 0x1E: // Intel Core i5, i7 LGA1156 (45nm)
 						// get this opportunity to fill the known processor interconnect speed for cor i5/i7 in GT/s
-						Platform.CPU.BusFrequency = 4800;
 						return 0x0701;
 				case 0x1F: // Intel Core i5, i7 LGA1156 (45nm) ???
-						Platform.CPU.BusFrequency = 4800;
 						return 0x0601;
 					case 0x25: // Intel Core i3, i5, i7 LGA1156 (32nm)
 						return 0x0301;
