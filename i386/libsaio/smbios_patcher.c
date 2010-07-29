@@ -144,6 +144,7 @@ static const char* sm_get_defstr(const char * key, int table_num)
 					{
 						switch (Platform.CPU.Model)
 						{
+							case 0x19: // Intel Core i5 650
 							case 0x1E: // Intel Core i7 LGA1156 (45nm)
 							case 0x1F: // Intel Core i5 LGA1156 (45nm)
 								sm_defaults=sm_imacCore_i5_i7_defaults; 
@@ -213,10 +214,12 @@ static int sm_get_bus_speed (const char *name, int table_num)
 					case 0x17: // Intel Core (45nm)
 					case 0x1C: // Intel Atom (45nm)
 						return 0; // TODO: populate bus speed for these processors
+					case 0x19: // Intel Core i5 650 @3.20 Ghz
+						return 3600; // GT/s / 1000
 					case 0x1A: // Intel Core i7 LGA1366 (45nm)
 					case 0x1E: // Intel Core i5, i7 LGA1156 (45nm)
 					case 0x1F: // Intel Core i5, i7 LGA1156 (45nm) ???
-						return 4800; // GT/s
+						return 4800; // GT/s / 1000
 					case 0x25: // Intel Core i3, i5, i7 LGA1156 (32nm)
 						return 0; // TODO: populate bus speed for these processors
 					case 0x2C: // Intel Core i7 LGA1366 (32nm) 6 Core
@@ -255,7 +258,8 @@ static int sm_get_cputype (const char *name, int table_num)
 				case 0x1E: // Intel Core i5, i7 LGA1156 (45nm)
 						// get this opportunity to fill the known processor interconnect speed for cor i5/i7 in GT/s
 						return (result = 0x0701);
-				case 0x1F: // Intel Core i5, i7 LGA1156 (45nm) ???
+					case 0x19: // Intel Core i5 650 @3.20 Ghz
+					case 0x1F: // Intel Core i5, i7 LGA1156 (45nm) ???
 						return 0x0601;
 					case 0x25: // Intel Core i3, i5, i7 LGA1156 (32nm)
 						return (result = 0x0301);
