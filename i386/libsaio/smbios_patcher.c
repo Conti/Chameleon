@@ -233,15 +233,15 @@ static int sm_get_bus_speed (const char *name, int table_num)
 }
 
 static int sm_get_cputype (const char *name, int table_num)
-	{
-		static bool done = false;
-		static int result=0;
-		
-	if (done) return result;
+{
+	static bool done = false;		
 		
 	if (Platform.CPU.Vendor == 0x756E6547) // Intel
 	{
-		verbose("CPU is Intel, family 0x%x, model 0x%x, ext.model 0x%x\n", Platform.CPU.Family, Platform.CPU.Model, Platform.CPU.ExtModel);
+		if (!done) {
+			verbose("CPU is Intel, family 0x%x, model 0x%x, ext.model 0x%x\n", Platform.CPU.Family, Platform.CPU.Model, Platform.CPU.ExtModel);
+			done = true;
+		}
 		
 		switch (Platform.CPU.Family) 
 		{
@@ -254,25 +254,24 @@ static int sm_get_cputype (const char *name, int table_num)
 					case 0x1C: // Intel Atom (45nm)
 						return sm_get_simplecputype();
 					case 0x1A: // Intel Core i7 LGA1366 (45nm)
-						return (result = 0x0701);
-				case 0x1E: // Intel Core i5, i7 LGA1156 (45nm)
+						return 0x0701;
+					case 0x1E: // Intel Core i5, i7 LGA1156 (45nm)
 						// get this opportunity to fill the known processor interconnect speed for cor i5/i7 in GT/s
-						return (result = 0x0701);
+						return 0x0701;
 					case 0x19: // Intel Core i5 650 @3.20 Ghz
 					case 0x1F: // Intel Core i5, i7 LGA1156 (45nm) ???
 						return 0x0601;
 					case 0x25: // Intel Core i3, i5, i7 LGA1156 (32nm)
-						return (result = 0x0301);
+						return 0x0301;
 					case 0x2C: // Intel Core i7 LGA1366 (32nm) 6 Core
 					case 0x2E: // Intel Core i7 LGA1366 (45nm) 6 Core ???
-						return (result = 0x0601);
+						return 0x0601;
 				}
 			}
 		}
 	}
 	
-	return (result = sm_get_simplecputype());
-	if (!done) done = true;
+	return sm_get_simplecputype();
 }
 
 static int sm_get_memtype (const char *name, int table_num)
