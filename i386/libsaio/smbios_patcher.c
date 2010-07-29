@@ -202,9 +202,7 @@ static int sm_get_simplecputype()
 static int sm_get_bus_speed (const char *name, int table_num)
 {
 	if (Platform.CPU.Vendor == 0x756E6547) // Intel
-	{
-		verbose("CPU is Intel, family 0x%x, model 0x%x, ext.model 0x%x\n", Platform.CPU.Family, Platform.CPU.Model, Platform.CPU.ExtModel);
-		
+	{		
 		switch (Platform.CPU.Family) 
 		{
 			case 0x06:
@@ -233,6 +231,11 @@ static int sm_get_bus_speed (const char *name, int table_num)
 
 static int sm_get_cputype (const char *name, int table_num)
 	{
+		static bool done = false;
+		static int result=0;
+		
+	if (done) return result;
+		
 	if (Platform.CPU.Vendor == 0x756E6547) // Intel
 	{
 		verbose("CPU is Intel, family 0x%x, model 0x%x, ext.model 0x%x\n", Platform.CPU.Family, Platform.CPU.Model, Platform.CPU.ExtModel);
@@ -248,23 +251,24 @@ static int sm_get_cputype (const char *name, int table_num)
 					case 0x1C: // Intel Atom (45nm)
 						return sm_get_simplecputype();
 					case 0x1A: // Intel Core i7 LGA1366 (45nm)
-						return 0x0701;
+						return (result = 0x0701);
 				case 0x1E: // Intel Core i5, i7 LGA1156 (45nm)
 						// get this opportunity to fill the known processor interconnect speed for cor i5/i7 in GT/s
-						return 0x0701;
+						return (result = 0x0701);
 				case 0x1F: // Intel Core i5, i7 LGA1156 (45nm) ???
 						return 0x0601;
 					case 0x25: // Intel Core i3, i5, i7 LGA1156 (32nm)
-						return 0x0301;
+						return (result = 0x0301);
 					case 0x2C: // Intel Core i7 LGA1366 (32nm) 6 Core
 					case 0x2E: // Intel Core i7 LGA1366 (45nm) 6 Core ???
-						return 0x0601;
+						return (result = 0x0601);
 				}
 			}
 		}
 	}
 	
-	return sm_get_simplecputype();
+	return (result = sm_get_simplecputype());
+	if (!done) done = true;
 }
 
 static int sm_get_memtype (const char *name, int table_num)
@@ -570,9 +574,11 @@ static void smbios_real_run(struct SMBEntryPoint * origsmbios, struct SMBEntryPo
 	int i, j;
 	int tablespresent[256];
 	bool do_auto=true;
-        
-        extern void dumpPhysAddr(const char * title, void * a, int len);
+	
+    static bool done = false; // IMPROVEME: called twice via getSmbios(), but only the second call can get all necessary info !
 
+	extern void dumpPhysAddr(const char * title, void * a, int len);
+	
 	bzero(tablespresent, sizeof(tablespresent));
 	bzero(handles, sizeof(handles));
 
@@ -842,7 +848,11 @@ static void smbios_real_run(struct SMBEntryPoint * origsmbios, struct SMBEntryPo
 	newsmbios->dmi.checksum = 256 - checksum8(&newsmbios->dmi, sizeof(newsmbios->dmi));
 	newsmbios->checksum = 0;
 	newsmbios->checksum = 256 - checksum8(newsmbios, sizeof(*newsmbios));
-	verbose("Patched DMI Table\n");
+	
+	if (!done) {
+		verbose("Patched DMI Table\n");
+		done=true;
+	}
 }
 
 #define MAX_DMI_TABLES 96
