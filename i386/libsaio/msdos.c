@@ -55,6 +55,7 @@
 
 #define LABEL_LENGTH		11
 #define MAX_DOS_BLOCKSIZE	2048
+#define MAX_CACHE_BLOCKSIZE 32768
 
 #define	CLUST_FIRST		2/* reserved cluster range */
 #define	CLUST_RSRVD32	0x0ffffff8	/* reserved cluster range */
@@ -74,6 +75,7 @@ static int msdosrootDirSectors = 0;
 static CICell msdoscurrent = 0;
 static int msdosrootcluster = 0;
 static int msdosfatbits = 0;
+static int msdosCacheBlockSize = 0;
 
 #if UNUSED
 /*
@@ -151,7 +153,7 @@ MSDOSInitPartition (CICell ih)
 	
 	if (msdoscurrent == ih)
 	{
-		CacheInit(ih, msdosclustersize);
+		CacheInit(ih, msdosCacheBlockSize);
 		return 0;
 	}
 	
@@ -220,11 +222,27 @@ MSDOSInitPartition (CICell ih)
 	}
 	
 	msdosclustersize = msdosbps * spc;
-
 	msdoscurrent = ih;
-	CacheInit(ih, msdosclustersize);
+	
+	msdosCacheBlockSize = (msdosclustersize > MAX_CACHE_BLOCKSIZE) ? msdosclustersize : MAX_CACHE_BLOCKSIZE;
+	CacheInit(ih, msdosCacheBlockSize);
 	free (buf);
 	return 0;
+}
+
+static int
+readSectorAligned(CICell ih, off_t readOffset, char *buf, int size)
+{
+    long long sectorOffset = (uint64_t)readOffset / msdosCacheBlockSize * msdosCacheBlockSize;
+    long relOffset = readOffset % msdosCacheBlockSize;
+    char *cacheBuffer;
+
+    cacheBuffer = malloc(msdosCacheBlockSize);
+    CacheRead(ih, cacheBuffer, sectorOffset, msdosCacheBlockSize, true);
+    bcopy(cacheBuffer + relOffset, buf, size);
+    free(cacheBuffer);
+
+    return 0;
 }
 
 static int
@@ -263,18 +281,17 @@ msdosreadcluster (CICell ih, uint8_t *buf, int size, off_t *cluster)
 	/* Read in "cluster" */
 	if (buf)
 	{
-		Seek(ih, readOffset);
-		Read(ih, (long)buf, size);
+        readSectorAligned(ih, readOffset, (char *)buf, size);
 	}
-	
+
 	/* Find first sector of FAT */
-	readOffset = msdosressector*msdosbps;
+	readOffset = msdosressector * msdosbps;
+
 	/* Find sector containing "cluster" entry in FAT */
-	readOffset += ((uint64_t)*cluster * (uint64_t)msdosfatbits)/8;
+	readOffset += ((uint64_t)*cluster * (uint64_t)msdosfatbits) / 8;
 	
 	/* Read one sector of the FAT */
-	Seek(ih, readOffset);
-	Read(ih, (long)tmpbuf, 4);
+	readSectorAligned(ih, readOffset, tmpbuf, 4);
 	
 	switch (msdosfatbits) {
 		case 32:

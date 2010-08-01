@@ -39,7 +39,7 @@ typedef struct CacheEntry CacheEntry;
 
 #define kCacheSize            (0x100000)
 #define kCacheMinBlockSize    (0x200)
-#define kCacheMaxBlockSize    (0x4000)
+#define kCacheMaxBlockSize    (0x8000)
 #define kCacheMaxEntries      (kCacheSize / kCacheMinBlockSize)
 
 static CICell     gCacheIH;
@@ -74,7 +74,7 @@ void CacheInit( CICell ih, long blockSize )
 #endif
 
     if ((blockSize  < kCacheMinBlockSize) ||
-        (blockSize >= kCacheMaxBlockSize))
+        (blockSize > kCacheMaxBlockSize))
         return;
 
     gCacheBlockSize = blockSize;
