@@ -410,7 +410,7 @@ VenIdName vendorMap[] = {
 		{ 3, 0x10, "Agere Systems"},
 		{ 3, 0x91, "NeoMagic"},
 		{ 3, 0x92, "AuroraNetics"},
-		{ 3, 0x13, "Golden Empire"},
+		{ 3, 0x13, "Geil"},
 		{ 3, 0x94, "Mushkin"},
 		{ 3, 0x15, "Tioga Technologies"},
 		{ 3, 0x16, "Netlist"},
