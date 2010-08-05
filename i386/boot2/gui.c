@@ -754,8 +754,12 @@ void drawDeviceIcon(BVRef device, pixmap_t *buffer, position_t p, bool isSelecte
 		}
 	}
 	
-	// Use the next (device_*_o) image for the selected item.
-    if (isSelected) devicetype++;
+	// Draw the selection image and use the next (device_*_o) image for the selected item.
+    if (isSelected)
+	{
+		blend(images[iSelection].image, buffer, centeredAt(images[iSelection].image, p));
+		devicetype++;
+	}
 
 	// draw icon
 	blend( images[devicetype].image, buffer, centeredAt( images[devicetype].image, p ));
@@ -827,8 +831,6 @@ void drawDeviceList (int start, int end, int selection)
 			if(gui.menu.draw)
 				drawInfoMenuItems();
 			 
-			blend( images[iSelection].image, gui.devicelist.pixmap, centeredAt( images[iSelection].image, p ) );
-			
 #if DEBUG
             gui.debug.cursor = pos( 10, 100);
             dprintf( &gui.screen, "label     %s\n",   param->label );
