@@ -75,7 +75,6 @@ static int msdosrootDirSectors = 0;
 static CICell msdoscurrent = 0;
 static int msdosrootcluster = 0;
 static int msdosfatbits = 0;
-static int msdosCacheBlockSize = 0;
 
 #if UNUSED
 /*
@@ -153,7 +152,7 @@ MSDOSInitPartition (CICell ih)
 	
 	if (msdoscurrent == ih)
 	{
-		CacheInit(ih, msdosCacheBlockSize);
+		CacheInit(ih, msdosclustersize);
 		return 0;
 	}
 	
@@ -224,8 +223,7 @@ MSDOSInitPartition (CICell ih)
 	msdosclustersize = msdosbps * spc;
 	msdoscurrent = ih;
 	
-	msdosCacheBlockSize = (msdosclustersize > MAX_CACHE_BLOCKSIZE) ? msdosclustersize : MAX_CACHE_BLOCKSIZE;
-	CacheInit(ih, msdosCacheBlockSize);
+	CacheInit(ih, msdosclustersize);
 	free (buf);
 	return 0;
 }
@@ -233,12 +231,12 @@ MSDOSInitPartition (CICell ih)
 static int
 readSectorAligned(CICell ih, off_t readOffset, char *buf, int size)
 {
-    long long sectorOffset = (uint64_t)readOffset / msdosCacheBlockSize * msdosCacheBlockSize;
-    long relOffset = readOffset % msdosCacheBlockSize;
+    long long sectorOffset = (uint64_t)readOffset / msdosclustersize * msdosclustersize;
+    long relOffset = readOffset % msdosclustersize;
     char *cacheBuffer;
 
-    cacheBuffer = malloc(msdosCacheBlockSize);
-    CacheRead(ih, cacheBuffer, sectorOffset, msdosCacheBlockSize, true);
+    cacheBuffer = malloc(msdosclustersize);
+    CacheRead(ih, cacheBuffer, sectorOffset, msdosclustersize, true);
     bcopy(cacheBuffer + relOffset, buf, size);
     free(cacheBuffer);
 
