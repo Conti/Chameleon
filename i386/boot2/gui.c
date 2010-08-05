@@ -1786,6 +1786,7 @@ void drawBootGraphics(void)
 	int pos;
 	int length;
 	const char *dummyVal;
+	int oldScreenWidth, oldScreenHeight;
 	bool legacy_logo;
 	uint16_t x, y; 
 	
@@ -1807,16 +1808,23 @@ void drawBootGraphics(void)
 		screen_params[1] = DEFAULT_SCREEN_HEIGHT;
 	}
 
+    // Save current screen resolution.
+	oldScreenWidth = gui.screen.width;
+	oldScreenHeight = gui.screen.height;
+
 	gui.screen.width = screen_params[0];
 	gui.screen.height = screen_params[1];
 
 	// find best matching vesa mode for our requested width & height
 	getGraphicModeParams(screen_params);
 
-	if (bootArgs->Video.v_display == VGA_TEXT_MODE) {
+    // Set graphics mode if the booter was in text mode or the screen resolution has changed.
+	if (bootArgs->Video.v_display == VGA_TEXT_MODE
+		|| (screen_params[0] != oldScreenWidth && screen_params[1] != oldScreenHeight) )
+	{
 		setVideoMode(GRAPHICS_MODE, 0);
 	}
-	
+
 	if (getValueForKey("-checkers", &dummyVal, &length, &bootInfo->bootConfig)) {
 		drawCheckerBoard();
 	} else {

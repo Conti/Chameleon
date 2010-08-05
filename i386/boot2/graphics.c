@@ -36,6 +36,8 @@
  * for spinning disk
  */
 static int currentIndicator = 0;
+static int oldScreenWidth = 0;
+static int oldScreenHeight = 0;
 
 int previewTotalSectors = 0;
 int previewLoadedSectors = 0;
@@ -1127,7 +1129,10 @@ setVideoMode( int mode, int drawgraphics)
             params[1] = 25;
         }
 
-        setVESATextMode( params[0], params[1], 4 );
+		if (params[0] != oldScreenWidth && params[1] != oldScreenHeight)
+		{
+			setVESATextMode( params[0], params[1], 4 );
+		}
         bootArgs->Video.v_display = VGA_TEXT_MODE;
     }
 
