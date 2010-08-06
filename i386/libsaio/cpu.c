@@ -135,20 +135,22 @@ void scan_cpu(PlatformInfo_t *p)
 	/* Copyright: from Apple's XNU cpuid.c */
 	if (p->CPU.CPUID[CPUID_80][0] > 0x80000004) {
 		uint32_t	reg[4];
-        char        str[128], *c;
+        char        str[128], *s;
 		/*
 		 * The brand string 48 bytes (max), guaranteed to
 		 * be NUL terminated.
 		 */
 		do_cpuid(0x80000002, reg);
-		bcopy((char *)reg, &p->CPU.BrandString[0], 16);
+		bcopy((char *)reg, &str[0], 16);
 		do_cpuid(0x80000003, reg);
-		bcopy((char *)reg, &p->CPU.BrandString[16], 16);
+		bcopy((char *)reg, &str[16], 16);
 		do_cpuid(0x80000004, reg);
-		bcopy((char *)reg, &p->CPU.BrandString[32], 16);
-		for (c = str; *c != '\0'; c++) {
-			if (*c != ' ') break;
+		bcopy((char *)reg, &str[32], 16);
+		for (s = str; *s != '\0'; s++) {
+			if (*s != ' ') break;
 		}
+		
+		strlcpy(p->CPU.BrandString,	s, sizeof(p->CPU.BrandString));
 		
 		if (!strncmp(p->CPU.BrandString, CPU_STRING_UNKNOWN, min(sizeof(p->CPU.BrandString), strlen(CPU_STRING_UNKNOWN) + 1))) {
 			 /*

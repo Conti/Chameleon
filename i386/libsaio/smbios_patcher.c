@@ -272,7 +272,7 @@ static int sm_get_cputype (const char *name, int table_num)
 	if (Platform.CPU.Vendor == 0x756E6547) // Intel
 	{
 		if (!done) {
-			verbose("CPU is %s, family 0x%x, model 0x%x, brand %s\n", Platform.CPU.BrandString, Platform.CPU.Family, Platform.CPU.Model);
+			verbose("CPU is %s, family 0x%x, model 0x%x\n", Platform.CPU.BrandString, Platform.CPU.Family, Platform.CPU.Model);
 			done = true;
 		}
 		
