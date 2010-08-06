@@ -14,6 +14,8 @@ extern void scan_cpu(PlatformInfo_t *);
 #define bitmask(h,l)		((bit(h)|(bit(h)-1)) & ~(bit(l)-1))
 #define bitfield(x,h,l)		(((x) & bitmask(h,l)) >> l)
 
+#define CPU_STRING_UNKNOWN		"Unknown CPU Typ"
+
 #define	MSR_IA32_PERF_STATUS	0x198
 #define MSR_IA32_PERF_CONTROL	0x199
 #define MSR_IA32_EXT_CONFIG		0x00EE

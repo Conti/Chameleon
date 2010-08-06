@@ -23,6 +23,18 @@ extern void dumpPhysAddr(const char * title, void * a, int len);
 #define CPUID_81			6
 #define CPUID_MAX			7
 
+#define CPU_MODEL_YONAH			0x0E
+#define CPU_MODEL_MEROM			0x0F
+#define CPU_MODEL_PENRYN		0x17
+#define CPU_MODEL_NEHALEM		0x1A
+#define CPU_MODEL_ATOM			0x1C
+#define CPU_MODEL_FIELDS		0x1E	/* Lynnfield, Clarksfield, Jasper */
+#define CPU_MODEL_DALES			0x1F	/* Havendale, Auburndale */
+#define CPU_MODEL_DALES_32NM	0x25	/* Clarkdale, Arrandale */
+#define CPU_MODEL_WESTMERE		0x2C	/* Gulftown, Westmere-EP, Westmere-WS */
+#define CPU_MODEL_NEHALEM_EX	0x2E
+#define CPU_MODEL_WESTMERE_EX	0x2F
+
 /* CPU Features */
 #define CPU_FEATURE_MMX			0x00000001		// MMX Instruction Set
 #define CPU_FEATURE_SSE			0x00000002		// SSE Instruction Set
@@ -36,9 +48,9 @@ extern void dumpPhysAddr(const char * title, void * a, int len);
 #define CPU_FEATURE_MSR			0x00000200		// MSR Support
 
 /* SMBIOS Memory Types */ 
-#define SMB_MEM_TYPE_UNDEFINED		0
+#define SMB_MEM_TYPE_UNDEFINED	0
 #define SMB_MEM_TYPE_OTHER		1
-#define SMB_MEM_TYPE_UNKNOWN		2
+#define SMB_MEM_TYPE_UNKNOWN	2
 #define SMB_MEM_TYPE_DRAM		3
 #define SMB_MEM_TYPE_EDRAM		4
 #define SMB_MEM_TYPE_VRAM		5
@@ -93,6 +105,8 @@ typedef struct _PlatformInfo_t {
 	struct CPU {
 		uint32_t		Features;		// CPU Features like MMX, SSE2, VT, MobileCPU
 		uint32_t		Vendor;			// Vendor
+		uint32_t		Signature;		// Signature
+		uint32_t		Stepping;		// Stepping
 		uint32_t		Model;			// Model
 		uint32_t		ExtModel;		// Extended Model
 		uint32_t		Family;			// Family
@@ -106,7 +120,7 @@ typedef struct _PlatformInfo_t {
 		uint64_t		TSCFrequency;		// TSC Frequency Hz
 		uint64_t		FSBFrequency;		// FSB Frequency Hz
 		uint64_t		CPUFrequency;		// CPU Frequency Hz
-		uint32_t		BrandString[16];	// 48 Byte Branding String
+		char			BrandString[48];	// 48 Byte Branding String
 		uint32_t		CPUID[CPUID_MAX][4];	// CPUID 0..4, 80..81 Raw Values
 	} CPU;
 
@@ -120,7 +134,7 @@ typedef struct _PlatformInfo_t {
 		uint8_t			Channels;				// Channel Configuration Single,Dual or Triple
 		uint8_t			NoSlots;				// Maximum no of slots available
 		uint8_t			Type;					// Standard SMBIOS v2.5 Memory Type
-		RamSlotInfo_t		DIMM[MAX_RAM_SLOTS];	// Information about each slot
+		RamSlotInfo_t	DIMM[MAX_RAM_SLOTS];	// Information about each slot
 	} RAM;
 
 	struct DMI {

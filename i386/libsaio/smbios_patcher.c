@@ -88,31 +88,46 @@ static const SMStrEntryPair const sm_imac_defaults[]={
 
 // defaults for a Mac Pro
 static const SMStrEntryPair const sm_macpro_defaults[]={
-	{"SMbiosvendor",	"Apple Computer, Inc."		},
-	{"SMbiosversion",	"MP31.88Z.006C.B05.0802291410"	},
-	{"SMbiosdate",		"04/01/2008"			},
-	{"SMmanufacter",	"Apple Computer, Inc."		},
-	{"SMproductname",	"MacPro3,1"			},
-	{"SMsystemversion",	"1.0"				},
-	{"SMserial",		"SOMESRLNMBR"			},
-	{"SMfamily",		"MacPro"			},
-	{"SMboardmanufacter",	"Apple Computer, Inc."		},
-	{"SMboardproduct",	"Mac-F4208DC8"			},
+	{"SMbiosvendor",		"Apple Computer, Inc."			},
+	{"SMbiosversion",		"MP31.88Z.006C.B05.0802291410"	},
+	{"SMbiosdate",			"04/01/2008"					},
+	{"SMmanufacter",		"Apple Computer, Inc."			},
+	{"SMproductname",		"MacPro3,1"						},
+	{"SMsystemversion",		"1.0"							},
+	{"SMserial",			"SOMESRLNMBR"					},
+	{"SMfamily",			"MacPro"						},
+	{"SMboardmanufacter",	"Apple Computer, Inc."			},
+	{"SMboardproduct",		"Mac-F4208DC8"					},
 	{ "",""	}
 };
 
-// defaults for an iMac11,1 core i5/i7
-static const SMStrEntryPair const sm_imacCore_i5_i7_defaults[]={
-	{"SMbiosvendor",	"Apple Inc."			},
-	{"SMbiosversion",	"IM111.0034.B00"	},
-	{"SMbiosdate",		"06/01/2009"			},
-	{"SMmanufacter",	"Apple Inc."			},
-	{"SMproductname",	"iMac11,1"			},	
-	{"SMsystemversion",	"1.0"				},
-	{"SMserial",		"SOMESRLNMBR"			},
-	{"SMfamily",		"iMac"				},
-	{"SMboardmanufacter","Apple Computer, Inc."	},
-	{"SMboardproduct",	"Mac-F2268DAE"			},
+// defaults for an iMac11,1 core i3/i5/i7
+static const SMStrEntryPair const sm_imac_core_defaults[]={
+	{"SMbiosvendor",		"Apple Inc."					},
+	{"SMbiosversion",		"IM111.88Z.0034.B00.0802091538"	},
+	{"SMbiosdate",			"06/01/2009"					},
+	{"SMmanufacter",		"Apple Inc."					},
+	{"SMproductname",		"iMac11,1"						},	
+	{"SMsystemversion",		"1.0"							},
+	{"SMserial",			"SOMESRLNMBR"					},
+	{"SMfamily",			"iMac"							},
+	{"SMboardmanufacter",	"Apple Computer, Inc."			},
+	{"SMboardproduct",		"Mac-F2268DAE"					},
+	{ "",""	}
+};
+
+// defaults for a Mac Pro 4,1 core i7/Xeon
+static const SMStrEntryPair const sm_macpro_core_defaults[]={
+	{"SMbiosvendor",		"Apple Computer, Inc."			},
+	{"SMbiosversion",		"MP41.88Z.0081.B04.0903051113"	},
+	{"SMbiosdate",			"11/06/2009"					},
+	{"SMmanufacter",		"Apple Computer, Inc."			},
+	{"SMproductname",		"MacPro4,1"						},
+	{"SMsystemversion",		"1.0"							},
+	{"SMserial",			"SOMESRLNMBR"					},
+	{"SMfamily",			"MacPro"						},
+	{"SMboardmanufacter",	"Apple Computer, Inc."			},
+	{"SMboardproduct",		"Mac-F4208DC8"					},
 	{ "",""	}
 };
 
@@ -144,10 +159,17 @@ static const char* sm_get_defstr(const char * key, int table_num)
 					{
 						switch (Platform.CPU.Model)
 						{
-							case 0x19: // Intel Core i5 650
-							case 0x1E: // Intel Core i7 LGA1156 (45nm)
-							case 0x1F: // Intel Core i5 LGA1156 (45nm)
-								sm_defaults=sm_imacCore_i5_i7_defaults; 
+							case CPU_MODEL_FIELDS: // Intel Core i5, i7 LGA1156 (45nm)
+							case CPU_MODEL_DALES: // Intel Core i5, i7 LGA1156 (45nm) ???
+							case CPU_MODEL_DALES_32NM: // Intel Core i3, i5, i7 LGA1156 (32nm) (Clarkdale, Arrandale)
+							case 0x19: // Intel Core i5 650 @3.20 Ghz 
+								sm_defaults=sm_imac_core_defaults; 
+								break;
+							case CPU_MODEL_NEHALEM: 
+							case CPU_MODEL_NEHALEM_EX:
+							case CPU_MODEL_WESTMERE: 
+							case CPU_MODEL_WESTMERE_EX:
+								sm_defaults=sm_macpro_core_defaults; 
 								break;
 							default:
 								sm_defaults=sm_macpro_defaults; 
@@ -210,21 +232,32 @@ static int sm_get_bus_speed (const char *name, int table_num)
 			{
 				switch (Platform.CPU.Model)
 				{
-					case 0x0F: // Intel Core (65nm)
-					case 0x17: // Intel Core (45nm)
-					case 0x1C: // Intel Atom (45nm)
+					case 0x0D: // ?
+					case CPU_MODEL_YONAH: // Yonah
+					case CPU_MODEL_MEROM: // Merom
+					case CPU_MODEL_PENRYN: // Penryn
+					case CPU_MODEL_ATOM: // Intel Atom (45nm)
 						return 0; // TODO: populate bus speed for these processors
-					case 0x19: // Intel Core i5 650 @3.20 Ghz
-						return 3600; // GT/s / 1000
-					case 0x1A: // Intel Core i7 LGA1366 (45nm)
-					case 0x1E: // Intel Core i5, i7 LGA1156 (45nm)
-					case 0x1F: // Intel Core i5, i7 LGA1156 (45nm) ???
+						
+					case CPU_MODEL_FIELDS: // Intel Core i5, i7 LGA1156 (45nm)
+						if (strstr(Platform.CPU.BrandString, "Core(TM) i5"))
+							return 2500; // Core i5
+						return 4800; // Core i7
+						
+					case CPU_MODEL_NEHALEM: // Intel Core i7 LGA1366 (45nm)
+					case CPU_MODEL_NEHALEM_EX:
+					case CPU_MODEL_DALES: // Intel Core i5, i7 LGA1156 (45nm) ???
 						return 4800; // GT/s / 1000
-					case 0x25: // Intel Core i3, i5, i7 LGA1156 (32nm)
+						
+					case CPU_MODEL_DALES_32NM: // Intel Core i3, i5, i7 LGA1156 (32nm) (Clarkdale, Arrandale)
 						return 0; // TODO: populate bus speed for these processors
-					case 0x2C: // Intel Core i7 LGA1366 (32nm) 6 Core
-					case 0x2E: // Intel Core i7 LGA1366 (45nm) 6 Core ???
+						
+					case CPU_MODEL_WESTMERE: // Intel Core i7 LGA1366 (32nm) 6 Core (Gulftown, Westmere-EP, Westmere-WS)
+					case CPU_MODEL_WESTMERE_EX: // Intel Core i7 LGA1366 (45nm) 6 Core ???
 						return 0; // TODO: populate bus speed for these processors
+						
+					case 0x19: // Intel Core i5 650 @3.20 Ghz
+						return 3600; // why? Intel spec says 2.5GT/s 
 				}
 			}
 		}
@@ -239,7 +272,7 @@ static int sm_get_cputype (const char *name, int table_num)
 	if (Platform.CPU.Vendor == 0x756E6547) // Intel
 	{
 		if (!done) {
-			verbose("CPU is Intel, family 0x%x, model 0x%x, ext.model 0x%x\n", Platform.CPU.Family, Platform.CPU.Model, Platform.CPU.ExtModel);
+			verbose("CPU is %s, family 0x%x, model 0x%x, brand %s\n", Platform.CPU.BrandString, Platform.CPU.Family, Platform.CPU.Model);
 			done = true;
 		}
 		
@@ -249,23 +282,39 @@ static int sm_get_cputype (const char *name, int table_num)
 			{
 				switch (Platform.CPU.Model)
 				{
-					case 0x0F: // Intel Core (65nm)
-					case 0x17: // Intel Core (45nm)
-					case 0x1C: // Intel Atom (45nm)
+					case 0x0D: // ?
+					case CPU_MODEL_YONAH: // Yonah
+					case CPU_MODEL_MEROM: // Merom
+					case CPU_MODEL_PENRYN: // Penryn
+					case CPU_MODEL_ATOM: // Intel Atom (45nm)
 						return sm_get_simplecputype();
-					case 0x1A: // Intel Core i7 LGA1366 (45nm)
-						return 0x0701;
-					case 0x1E: // Intel Core i5, i7 LGA1156 (45nm)
-						// get this opportunity to fill the known processor interconnect speed for cor i5/i7 in GT/s
-						return 0x0701;
+						
+					case CPU_MODEL_NEHALEM: // Intel Core i7 LGA1366 (45nm)
+						return 0x0701; // Core i7
+						
+					case CPU_MODEL_FIELDS: // Lynnfield, Clarksfield, Jasper
+						if (strstr(Platform.CPU.BrandString, "Core(TM) i5"))
+							return 0x601; // Core i5
+						return 0x701; // Core i7
+						
+					case CPU_MODEL_DALES: // Intel Core i5, i7 LGA1156 (45nm) (Havendale, Auburndale)
+						if (strstr(Platform.CPU.BrandString, "Core(TM) i5"))
+							return 0x601; // Core i5
+						return 0x0701; // Core i7
+						
+					case CPU_MODEL_DALES_32NM: // Intel Core i3, i5, i7 LGA1156 (32nm) (Clarkdale, Arrandale)
+						if (strstr(Platform.CPU.BrandString, "Core(TM) i3"))
+							return 0x301; // Core i3
+						if (strstr(Platform.CPU.BrandString, "Core(TM) i5"))
+							return 0x601; // Core i5
+						return 0x0701; // Core i7
+						
+					case CPU_MODEL_WESTMERE: // Intel Core i7 LGA1366 (32nm) 6 Core (Gulftown, Westmere-EP, Westmere-WS)
+					case CPU_MODEL_WESTMERE_EX: // Intel Core i7 LGA1366 (45nm) 6 Core ???
+						return 0x0701; // Core i7
+						
 					case 0x19: // Intel Core i5 650 @3.20 Ghz
-					case 0x1F: // Intel Core i5, i7 LGA1156 (45nm) ???
-						return 0x0601;
-					case 0x25: // Intel Core i3, i5, i7 LGA1156 (32nm)
-						return 0x0301;
-					case 0x2C: // Intel Core i7 LGA1366 (32nm) 6 Core
-					case 0x2E: // Intel Core i7 LGA1366 (45nm) 6 Core ???
-						return 0x0601;
+						return 0x601; // Core i5
 				}
 			}
 		}

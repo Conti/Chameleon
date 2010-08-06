@@ -120,6 +120,8 @@ void scan_cpu(PlatformInfo_t *p)
 	}
 #endif
 	p->CPU.Vendor		= p->CPU.CPUID[CPUID_0][1];
+	p->CPU.Signature	= p->CPU.CPUID[CPUID_1][0];
+	p->CPU.Stepping		= bitfield(p->CPU.CPUID[CPUID_1][0], 3, 0);
 	p->CPU.Model		= bitfield(p->CPU.CPUID[CPUID_1][0], 7, 4);
 	p->CPU.Family		= bitfield(p->CPU.CPUID[CPUID_1][0], 11, 8);
 	p->CPU.ExtModel		= bitfield(p->CPU.CPUID[CPUID_1][0], 19, 16);
@@ -128,7 +130,35 @@ void scan_cpu(PlatformInfo_t *p)
 	p->CPU.NoCores		= bitfield(p->CPU.CPUID[CPUID_4][0], 31, 26) + 1;
 
 	p->CPU.Model += (p->CPU.ExtModel << 4);
-
+	
+	/* get brand string (if supported) */
+	/* Copyright: from Apple's XNU cpuid.c */
+	if (p->CPU.CPUID[CPUID_80][0] > 0x80000004) {
+		uint32_t	reg[4];
+        char        str[128], *c;
+		/*
+		 * The brand string 48 bytes (max), guaranteed to
+		 * be NUL terminated.
+		 */
+		do_cpuid(0x80000002, reg);
+		bcopy((char *)reg, &p->CPU.BrandString[0], 16);
+		do_cpuid(0x80000003, reg);
+		bcopy((char *)reg, &p->CPU.BrandString[16], 16);
+		do_cpuid(0x80000004, reg);
+		bcopy((char *)reg, &p->CPU.BrandString[32], 16);
+		for (c = str; *c != '\0'; c++) {
+			if (*c != ' ') break;
+		}
+		
+		if (!strncmp(p->CPU.BrandString, CPU_STRING_UNKNOWN, min(sizeof(p->CPU.BrandString), strlen(CPU_STRING_UNKNOWN) + 1))) {
+			 /*
+			  * This string means we have a firmware-programmable brand string,
+			  * and the firmware couldn't figure out what sort of CPU we have.
+			  */
+			 p->CPU.BrandString[0] = '\0';
+		 }
+	}
+	
 	/* setup features */
 	if ((bit(23) & p->CPU.CPUID[CPUID_1][3]) != 0) {
 		p->CPU.Features |= CPU_FEATURE_MMX;

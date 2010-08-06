@@ -386,8 +386,7 @@ struct acpi_2_ssdt *generate_pss_ssdt(struct acpi_2_dsdt* dsdt)
 		get_acpi_cpu_names((void*)dsdt, dsdt->Length);
 	
 	if (acpi_cpu_count > 0) 
-	{	
-		
+	{
 		struct p_state initial, maximum, minimum, p_states[32];
 		uint8_t p_states_count = 0;		
 		
@@ -397,9 +396,11 @@ struct acpi_2_ssdt *generate_pss_ssdt(struct acpi_2_dsdt* dsdt)
 			{
 				switch (Platform.CPU.Model) 
 				{
-					case 0x0F: // Intel Core (65nm)
-					case 0x17: // Intel Core (45nm)
-					case 0x1C: // Intel Atom (45nm)
+					case 0x0D: // ?
+					case CPU_MODEL_YONAH: // Yonah
+					case CPU_MODEL_MEROM: // Merom
+					case CPU_MODEL_PENRYN: // Penryn
+					case CPU_MODEL_ATOM: // Intel Atom (45nm)
 					{
 						bool cpu_dynamic_fsb = false;
 						
@@ -515,12 +516,12 @@ struct acpi_2_ssdt *generate_pss_ssdt(struct acpi_2_dsdt* dsdt)
 							p_states_count -= invalid;
 						}
 					} break;
-					case 0x1A: // Intel Core i7 LGA1366 (45nm)
-					case 0x1E: // Intel Core i5, i7 LGA1156 (45nm)
-					case 0x1F:
-					case 0x25: // Intel Core i3, i5, i7 LGA1156 (32nm)
-					case 0x2C: // Intel Core i7 LGA1366 (32nm) 6 Core
-					case 0x2F:
+					case CPU_MODEL_FIELDS:
+					case CPU_MODEL_NEHALEM: 
+					case CPU_MODEL_DALES:
+					case CPU_MODEL_DALES_32NM:
+					case CPU_MODEL_WESTMERE:
+					case CPU_MODEL_WESTMERE_EX:
 					default:
 						verbose ("Unsupported CPU: P-States not generated !!!\n");
 						break;
@@ -529,7 +530,6 @@ struct acpi_2_ssdt *generate_pss_ssdt(struct acpi_2_dsdt* dsdt)
 		}
 		
 		// Generating SSDT
-		
 		if (p_states_count > 0) 
 		{	
 			int i;
