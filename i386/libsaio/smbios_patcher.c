@@ -10,6 +10,7 @@
 #include "fake_efi.h"
 #include "platform.h"
 #include "smbios_patcher.h"
+#include "pci.h"
 
 #ifndef DEBUG_SMBIOS
 #define DEBUG_SMBIOS 0
@@ -233,31 +234,64 @@ static int sm_get_bus_speed (const char *name, int table_num)
 				switch (Platform.CPU.Model)
 				{
 					case 0x0D: // ?
-					case CPU_MODEL_YONAH: // Yonah
-					case CPU_MODEL_MEROM: // Merom
-					case CPU_MODEL_PENRYN: // Penryn
-					case CPU_MODEL_ATOM: // Intel Atom (45nm)
+					case CPU_MODEL_YONAH:	// Yonah		0x0E
+					case CPU_MODEL_MEROM:	// Merom		0x0F
+					case CPU_MODEL_PENRYN:	// Penryn		0x17
+					case CPU_MODEL_ATOM:	// Atom 45nm	0x1C
 						return 0; // TODO: populate bus speed for these processors
 						
-					case CPU_MODEL_FIELDS: // Intel Core i5, i7 LGA1156 (45nm)
-						if (strstr(Platform.CPU.BrandString, "Core(TM) i5"))
-							return 2500; // Core i5
-						return 4800; // Core i7
+//					case CPU_MODEL_FIELDS: // Intel Core i5, i7 LGA1156 (45nm)
+//						if (strstr(Platform.CPU.BrandString, "Core(TM) i5"))
+//							return 2500; // Core i5
+//						return 4800; // Core i7
 						
-					case CPU_MODEL_NEHALEM: // Intel Core i7 LGA1366 (45nm)
-					case CPU_MODEL_NEHALEM_EX:
-					case CPU_MODEL_DALES: // Intel Core i5, i7 LGA1156 (45nm) ???
-						return 4800; // GT/s / 1000
-						
-					case CPU_MODEL_DALES_32NM: // Intel Core i3, i5, i7 LGA1156 (32nm) (Clarkdale, Arrandale)
-						return 0; // TODO: populate bus speed for these processors
-						
-					case CPU_MODEL_WESTMERE: // Intel Core i7 LGA1366 (32nm) 6 Core (Gulftown, Westmere-EP, Westmere-WS)
+//					case CPU_MODEL_NEHALEM: // Intel Core i7 LGA1366 (45nm)
+//					case CPU_MODEL_NEHALEM_EX:
+//					case CPU_MODEL_DALES: // Intel Core i5, i7 LGA1156 (45nm) ???
+//						return 4800; // GT/s / 1000
+//						
 					case CPU_MODEL_WESTMERE_EX: // Intel Core i7 LGA1366 (45nm) 6 Core ???
 						return 0; // TODO: populate bus speed for these processors
 						
+//					case 0x19: // Intel Core i5 650 @3.20 Ghz
+//						return 2500; // why? Intel spec says 2.5GT/s 
+
 					case 0x19: // Intel Core i5 650 @3.20 Ghz
-						return 3600; // why? Intel spec says 2.5GT/s 
+					case CPU_MODEL_NEHALEM: // Intel Core i7 LGA1366 (45nm)
+					case CPU_MODEL_FIELDS: // Intel Core i5, i7 LGA1156 (45nm)
+					case CPU_MODEL_DALES: // Intel Core i5, i7 LGA1156 (45nm) ???
+					case CPU_MODEL_DALES_32NM: // Intel Core i3, i5, i7 LGA1156 (32nm)
+					case CPU_MODEL_WESTMERE: // Intel Core i7 LGA1366 (32nm) 6 Core
+					case CPU_MODEL_NEHALEM_EX: // Intel Core i7 LGA1366 (45nm) 6 Core ???
+					{ // thanks to dgobe for i3/i5/i7 bus speed detection
+						int nhm_bus = 0x3F;
+						static long possible_nhm_bus[] = {0xFF, 0x7F, 0x3F};
+						unsigned long did, vid;
+						int i;
+						
+						// Nehalem supports Scrubbing
+						// First, locate the PCI bus where the MCH is located
+						for(i = 0; i < sizeof(possible_nhm_bus); i++)
+						{
+							vid = pci_config_read16(PCIADDR(possible_nhm_bus[i], 3, 4), 0x00);
+							did = pci_config_read16(PCIADDR(possible_nhm_bus[i], 3, 4), 0x02);
+							vid &= 0xFFFF;
+							did &= 0xFF00;
+							
+							if(vid == 0x8086 && did >= 0x2C00)
+								nhm_bus = possible_nhm_bus[i]; 
+						}
+						
+						unsigned long qpimult, qpibusspeed;
+						qpimult = pci_config_read32(PCIADDR(nhm_bus, 2, 1), 0x50);
+						qpimult &= 0x7F;
+						DBG("qpimult %d\n", qpimult);
+						qpibusspeed = (qpimult * 2 * (Platform.CPU.FSBFrequency/1000000));
+						// Rek: rounding decimals to match original mac profile info
+						if (qpibusspeed%100 != 0)qpibusspeed = ((qpibusspeed+50)/100)*100;
+						DBG("qpibusspeed %d\n", qpibusspeed);
+						return qpibusspeed;
+					}
 				}
 			}
 		}
