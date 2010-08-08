@@ -209,20 +209,6 @@ static int sm_get_cpu (const char *name, int table_num)
 	return Platform.CPU.CPUFrequency/1000000;
 }
 
-static int sm_get_simplecputype()
-{
-	if (Platform.CPU.NoCores >= 4) 
-	{
-		return 0x0501;   // Quad-Core Xeon
-	}
-	else if (Platform.CPU.NoCores == 1) 
-	{
-		return 0x0201;   // Core Solo
-	};
-	
-	return 0x0301;   // Core 2 Duo
-}
-
 static int sm_get_bus_speed (const char *name, int table_num)
 {
 	if (Platform.CPU.Vendor == 0x756E6547) // Intel
@@ -299,6 +285,20 @@ static int sm_get_bus_speed (const char *name, int table_num)
 	return 0;
 }
 
+static int sm_get_simplecputype()
+{
+	if (Platform.CPU.NoCores >= 4) 
+	{
+		return 0x0501;   // Quad-Core Xeon
+	}
+	else if (Platform.CPU.NoCores == 1) 
+	{
+		return 0x0201;   // Core Solo
+	};
+	
+	return 0x0301;   // Core 2 Duo
+}
+
 static int sm_get_cputype (const char *name, int table_num)
 {
 	static bool done = false;		
@@ -338,7 +338,7 @@ static int sm_get_cputype (const char *name, int table_num)
 						
 					case CPU_MODEL_DALES_32NM: // Intel Core i3, i5, i7 LGA1156 (32nm) (Clarkdale, Arrandale)
 						if (strstr(Platform.CPU.BrandString, "Core(TM) i3"))
-							return 0x301; // Core i3
+							return 0x901; // Core i3
 						if (strstr(Platform.CPU.BrandString, "Core(TM) i5"))
 							return 0x601; // Core i5
 						return 0x0701; // Core i7
