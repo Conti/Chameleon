@@ -317,7 +317,7 @@ static void read_smb_intel(pci_dt_t *smbus_dev)
 				slot->Frequency = freq;
 			}
 			
-			printf("Slot: %d Type %d %dMB (%s) %dMHz Vendor=%s\n      PartNo=%s SerialNo=%s\n", 
+			verbose("Slot: %d Type %d %dMB (%s) %dMHz Vendor=%s\n      PartNo=%s SerialNo=%s\n", 
                        i, 
                        (int)slot->Type,
                        slot->ModuleSize, 
