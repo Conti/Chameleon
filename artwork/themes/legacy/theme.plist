@@ -13,7 +13,7 @@
 	<key>screen_textmargin_v</key>
 	<string>10</string>
 	<key>screen_bgcolor</key>
-	<string>#53514C</string>
+	<string>#222334</string>
 	<key>background_pos_x</key>
 	<string>50%</string>
 	<key>background_pos_y</key>
@@ -31,7 +31,7 @@
 	<key>devices_pos_y</key>
 	<string></string>
 	<key>devices_bgcolor</key>
-	<string>#53514C</string>
+	<string>#222334</string>
 	<key>devices_transparency</key>
 	<string>0</string>
 	<key>devices_max_visible</key>
@@ -53,7 +53,7 @@
 	<key>bootprompt_textmargin_v</key>
 	<string>5</string>
 	<key>bootprompt_bgcolor</key>
-	<string>#53514C</string>
+	<string>#222334</string>
 	<key>bootprompt_transparency</key>
 	<string>1</string>
 	<key>infobox_pos_x</key>
@@ -69,7 +69,7 @@
 	<key>infobox_textmargin_v</key>
 	<string>10</string>
 	<key>infobox_bgcolor</key>
-	<string>#53514C</string>
+	<string>#222334</string>
 	<key>infobox_transparency</key>
 	<string>10</string>
 	<key>menu_pos_x</key>
@@ -81,7 +81,7 @@
 	<key>menu_textmargin_v</key>
 	<string>5</string>
 	<key>menu_bgcolor</key>
-	<string>#53514C</string>
+	<string>#222334</string>
 	<key>menu_transparency</key>
 	<string>1</string>
 	<key>progressbar_pos_x</key>
