@@ -663,20 +663,43 @@ int hex2bin(const char *hex, uint8_t *bin, int len)
 	return 0;
 }
 
+unsigned long long mem_detect(volatile uint8_t *regs, uint8_t nvCardType, pci_dt_t *nvda_dev)
+{
+	unsigned long long vram_size = 0;
+
+	if (nvCardType < NV_ARCH_50) {
+		vram_size  = REG32(NV04_PFB_FIFO_DATA);
+		vram_size &= NV10_PFB_FIFO_DATA_RAM_AMOUNT_MB_MASK;
+	}
+	else if (nvCardType >= NV_ARCH_C0) {
+		vram_size  = REG32(NVC0_MEM_CTRLR_COUNT);
+		vram_size *= REG32(NVC0_MEM_CTRLR_RAM_AMOUNT);
+		vram_size <<= 20;
+	}
+	else {
+		vram_size = REG32(NV04_PFB_FIFO_DATA);
+		vram_size |= (vram_size & 0xff) << 32;
+		vram_size &= 0xffffffff00ll;
+	}
+		
+	return vram_size;
+}
+
 bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 {
 	struct DevPropDevice		*device;
-	char				*devicepath;
+	char						*devicepath;
 	struct pci_rom_pci_header_t	*rom_pci_header;	
-	volatile uint8_t		*regs;
+	volatile uint8_t	*regs;
 	uint8_t				*rom;
 	uint8_t				*nvRom;
-	uint32_t			videoRam;
+	uint8_t				nvCardType;
+	unsigned long long	videoRam;
 	uint32_t			nvBiosOveride;
 	uint32_t			bar[7];
 	uint32_t			boot_display;
-	int				nvPatch;
-	int				len;
+	int					nvPatch;
+	int					len;
 	char				biosVersion[32];
 	char				nvFilename[32];
 	char				kNVCAP[12];
@@ -687,31 +710,20 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 	devicepath = get_pci_dev_path(nvda_dev);
 	bar[0] = pci_config_read32(nvda_dev->dev.addr, 0x10 );
 	regs = (uint8_t *) (bar[0] & ~0x0f);
+	
+	delay(50);
+		
+	// get card type
+	nvCardType = (REG32(0) >> 20) & 0x1ff;
 
 	// Amount of VRAM in kilobytes
-	videoRam = (REG32(0x10020c) & 0xfff00000) >> 10;
+	videoRam = mem_detect(regs, nvCardType, nvda_dev);
 	model = get_nvidia_model((nvda_dev->vendor_id << 16) | nvda_dev->device_id);
-
-	// FIXME: dirty fermi hack
-	if((nvda_dev->device_id & 0xFFE0) == 0x06C0 ||
-	   (nvda_dev->device_id & 0xFFE0) == 0x0E20) {
-		switch (nvda_dev->device_id) {
-			case 0x06C0: videoRam = 1572864; break; // gtx 480
-			case 0x06CD: videoRam = 1310720; break; // gtx 470
-			case 0x06C4: videoRam = 1048576; break; // gtx 465
-			case 0x06CA: videoRam = 2097152; break; // gtx 480m
-			case 0x0E22: videoRam = 1048576; break; // gtx 460
-			case 0x0E24: videoRam = 1048576; break; // gtx 460
-			case 0x06D1: videoRam = 3145728; break; // tesla c2050/c2070
-			case 0x06DE: videoRam = 3145728; break; // tesla m2050/m2070
-			default: break;
-		}
-	}
 	
 	verbose("nVidia %s %dMB NV%02x [%04x:%04x] :: %s\n",  
-		model, (videoRam / 1024),
-		(REG32(0) >> 20) & 0x1ff, nvda_dev->vendor_id, nvda_dev->device_id,
-		devicepath);
+			model, (uint32_t)(videoRam / 1024 / 1024),
+			(REG32(0) >> 20) & 0x1ff, nvda_dev->vendor_id, nvda_dev->device_id,
+			devicepath);
 
 	rom = malloc(NVIDIA_ROM_SIZE);
 	sprintf(nvFilename, "/Extra/%04x_%04x.rom", (uint16_t)nvda_dev->vendor_id, (uint16_t)nvda_dev->device_id);
@@ -797,9 +809,40 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 		uint8_t built_in = 0x01;
 		devprop_add_value(device, "@0,built-in", &built_in, 1);
 	}
-
-	videoRam *= 1024;
-	sprintf(biosVersion, "xx.xx.xx - %s", (nvBiosOveride > 0) ? nvFilename : "internal");
+	
+	// get bios version
+	const int MAX_BIOS_VERSION_LENGTH = 32;
+	char* version_str = (char*)malloc(MAX_BIOS_VERSION_LENGTH);
+	memset(version_str, 0, MAX_BIOS_VERSION_LENGTH);
+	int i, version_start;
+	int crlf_count = 0;
+	// only search the first 384 bytes
+	for(i = 0; i < 0x180; i++) {
+		if(rom[i] == 0x0D && rom[i+1] == 0x0A) {
+			crlf_count++;
+			// second 0x0D0A was found, extract bios version
+			if(crlf_count == 2) {
+				if(rom[i-1] == 0x20) i--; // strip last " "
+				for(version_start = i; version_start > (i-MAX_BIOS_VERSION_LENGTH); version_start--) {
+					// find start
+					if(rom[version_start] == 0x00) {
+						version_start++;
+						
+						// strip "Version "
+						if(strncmp((const char*)rom+version_start, "Version ", 8) == 0) {
+							version_start += 8;
+						}
+						
+						strncpy(version_str, (const char*)rom+version_start, i-version_start);
+						break;
+					}
+				}
+				break;
+			}
+		}
+	}
+	
+	sprintf(biosVersion, "%s", (nvBiosOveride > 0) ? nvFilename : version_str);
 
 	sprintf(kNVCAP, "NVCAP_%04x", nvda_dev->device_id);
 	if (getValueForKey(kNVCAP, &value, &len, &bootInfo->bootConfig) && len == NVCAP_LEN * 2) {

@@ -517,9 +517,10 @@ struct acpi_2_ssdt *generate_pss_ssdt(struct acpi_2_dsdt* dsdt)
 						}
 					} break;
 					case CPU_MODEL_FIELDS:
-					case CPU_MODEL_NEHALEM: 
 					case CPU_MODEL_DALES:
 					case CPU_MODEL_DALES_32NM:
+					case CPU_MODEL_NEHALEM: 
+					case CPU_MODEL_NEHALEM_EX:
 					case CPU_MODEL_WESTMERE:
 					case CPU_MODEL_WESTMERE_EX:
 					default:
