@@ -379,11 +379,6 @@ void common_boot(int biosdev)
 		
         // Other status (e.g. 0) means that we should proceed with boot.
 		
-		if( bootArgs->Video.v_display == GRAPHICS_MODE )
-			drawBackground();
-			
-        // Found and loaded a config file. Proceed with boot.
-
 		// Turn off any GUI elements
 		if( bootArgs->Video.v_display == GRAPHICS_MODE )
 		{
@@ -391,6 +386,7 @@ void common_boot(int biosdev)
 			gui.bootprompt.draw = false;
 			gui.menu.draw = false;
 			gui.infobox.draw = false;
+			gui.logo.draw = false;
 			drawBackground();
 			updateVRAM();
 		}
@@ -564,12 +560,8 @@ void common_boot(int biosdev)
         if (ret <= 0) {
 			printf("Can't find %s\n", bootFile);
 
-			if(gui.initialised) {
-				sleep(1);
-				drawBackground();
-				gui.devicelist.draw = true;
-				gui.redraw = true;
-			}
+			sleep(1);
+
             if (gBootFileType == kNetworkDeviceType) {
                 // Return control back to PXE. Don't unload PXE base code.
                 gUnloadPXEOnExit = false;

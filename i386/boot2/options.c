@@ -866,6 +866,7 @@ int getBootOptions(bool firstRun)
 
 	if (bootArgs->Video.v_display == GRAPHICS_MODE) {
 		// redraw the background buffer
+		gui.logo.draw = true;
 		drawBackground();
 		gui.devicelist.draw = true;
 		gui.redraw = true;

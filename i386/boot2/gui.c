@@ -439,7 +439,10 @@ void drawBackground()
 	blend( images[iBackground].image, gui.screen.pixmap, gui.background.pos );
 	
 	// draw logo.png into background buffer
-	blend( images[iLogo].image, gui.screen.pixmap, gui.logo.pos);
+	if (gui.logo.draw)
+	{
+    	blend( images[iLogo].image, gui.screen.pixmap, gui.logo.pos);
+	}
 	
 	memcpy( gui.backbuffer->pixels, gui.screen.pixmap->pixels, gui.backbuffer->width * gui.backbuffer->height * 4 );
 }
@@ -699,7 +702,8 @@ int initGUI(void)
 				if (createWindowBuffer(&gui.devicelist) == 0) {
 					if (createWindowBuffer(&gui.bootprompt) == 0) {
 						if (createWindowBuffer(&gui.infobox) == 0) {
-							if (createWindowBuffer(&gui.menu) == 0) {							
+							if (createWindowBuffer(&gui.menu) == 0) {
+							    gui.logo.draw = true;
 								drawBackground();
 								// lets copy the screen into the back buffer
 								memcpy( gui.backbuffer->pixels, gui.screen.pixmap->pixels, gui.backbuffer->width * gui.backbuffer->height * 4 );
