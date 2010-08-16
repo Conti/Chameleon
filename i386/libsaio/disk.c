@@ -77,7 +77,6 @@ typedef struct gpt_ent gpt_ent;
 #include "efi.h"
 #include "efi_tables.h"
 
-#define BPS              512     /* sector size of the device */
 #define PROBEFS_SIZE     BPS * 4 /* buffer size for filesystem probe */
 #define CD_BPS           2048    /* CD-ROM block size */
 #define N_CACHE_SECS     (BIOS_LEN / BPS)  /* Must be a multiple of 4 for CD-ROMs */

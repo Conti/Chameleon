@@ -147,6 +147,7 @@ struct iob {
     char *         i_buf;           /* file load address */
 };
 
+#define BPS        512              /* sector size of the device */
 #define F_READ     0x1              /* file opened for reading */
 #define F_WRITE    0x2              /* file opened for writing */
 #define F_ALLOC    0x4              /* buffer allocated */
