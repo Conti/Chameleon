@@ -447,7 +447,7 @@ void drawBackground()
 	memcpy( gui.backbuffer->pixels, gui.screen.pixmap->pixels, gui.backbuffer->width * gui.backbuffer->height * 4 );
 }
 
-void loadThemeValues(config_file_t *theme, bool overide)
+void loadThemeValues(config_file_t *theme)
 {
 	unsigned int screen_width  = gui.screen.width;
 	unsigned int screen_height = gui.screen.height;
@@ -647,6 +647,12 @@ void loadThemeValues(config_file_t *theme, bool overide)
 
 	if(getColorForKey("font_console_color", &color, theme))
 		gui.screen.font_console_color = (color & 0x00FFFFFF);
+		
+	if (gui.devicelist.pixmap)
+	{
+	    free(gui.devicelist.pixmap);
+        createWindowBuffer(&gui.devicelist);
+    }
 }
  
 int initGUI(void)
@@ -692,7 +698,7 @@ int initGUI(void)
 
 	// load graphics otherwise fail and return
 	if (loadGraphics() == 0) {
-		loadThemeValues(&bootInfo->themeConfig, true);
+		loadThemeValues(&bootInfo->themeConfig);
 		colorFont(&font_small, gui.screen.font_small_color);
 		colorFont(&font_console, gui.screen.font_console_color);
 

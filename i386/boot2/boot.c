@@ -373,6 +373,7 @@ void common_boot(int biosdev)
               
             bvChain = newFilteredBVChain(0x80, 0xFF, allowBVFlags, denyBVFlags, &gDeviceCount);
             setBootGlobals(bvChain);
+            loadThemeValues(&bootInfo->themeConfig);
           }
           continue;
         }
