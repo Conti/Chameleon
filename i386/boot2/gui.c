@@ -417,6 +417,18 @@ int createWindowBuffer( window_t *window )
 	return 0;
 }
 
+int freeWindowBuffer( window_t *window )
+{
+	if (window->pixmap && window->pixmap->pixels)
+    {
+		free(window->pixmap->pixels);
+		free(window->pixmap);
+		return 0;
+	}
+		
+	return 1;
+}
+
 void fillPixmapWithColor(pixmap_t *pm, uint32_t color)
 {
 	int x,y;
@@ -650,7 +662,7 @@ void loadThemeValues(config_file_t *theme)
 		
 	if (gui.devicelist.pixmap)
 	{
-	    free(gui.devicelist.pixmap);
+	    freeWindowBuffer(&gui.devicelist);
         createWindowBuffer(&gui.devicelist);
     }
 }
