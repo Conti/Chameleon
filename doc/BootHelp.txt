@@ -14,8 +14,8 @@ Example arguments include
 
  kernel: kernel name                (e.g. "mach_kernel" - must be in "/" )
 
- flags: -v (verbose)    -s (single user mode), 
-        -x (safe mode)  -F (ignore boot configuration file)
+ flags: -v (verbose)    -s (single user mode)    -x (safe mode) 
+        -F (ignore "Kernel Flags" specified in boot configuration file)
 
  "Graphics Mode"="WIDTHxHEIGHTxDEPTH" (e.g. "1024x768x32")
 
