@@ -54,7 +54,7 @@
 #include "msdos.h"
 
 #define LABEL_LENGTH		11
-#define MSDOS_CACHE_BLOCKSIZE BPS * 2
+#define MSDOS_CACHE_BLOCKSIZE BPS
 
 #define	CLUST_FIRST		2/* reserved cluster range */
 #define	CLUST_RSRVD32	0x0ffffff8	/* reserved cluster range */
