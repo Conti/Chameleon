@@ -1193,21 +1193,24 @@ spinActivityIndicator(int sectors)
 		return;
 	}
  
-	if (gVerboseMode) {
-            currentTickTime = time18(); // late binding
-            if (currentTickTime < lastTickTime + MIN_TICKS) {
-                return;
-            } else {
-                lastTickTime = currentTickTime;
-            }
-            
-            if (getVideoMode() == VGA_TEXT_MODE) {
-                if (currentIndicator >= sizeof(indicator)) {
-                    currentIndicator = 0;
-                }
-                printf("%c\b", indicator[currentIndicator++]);
-            }
-        }
+	currentTickTime = time18(); // late binding
+	if (currentTickTime < lastTickTime + MIN_TICKS)
+	{
+		return;
+	}
+	else
+	{
+		lastTickTime = currentTickTime;
+	}
+	
+	if (getVideoMode() == VGA_TEXT_MODE)
+	{
+		if (currentIndicator >= sizeof(indicator))
+		{
+			currentIndicator = 0;
+		}
+		printf("%c\b", indicator[currentIndicator++]);
+	}
 }
 
 void
