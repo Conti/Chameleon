@@ -1,3 +1,5 @@
+- Removed obsolete -f option, use -x instead
+- Removed -x32 option, use arch=i386 instead
 - Added automatic SMBusspeed detection for lga1156 core i5/7 cpus
 - Added new iMac11,1 sbios default model for lga1156 core i5/17 mobos
 - md0 code. Notified xnu when an md ramdisk is specified

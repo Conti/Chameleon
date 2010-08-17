@@ -412,10 +412,7 @@ void common_boot(int biosdev)
 				archCpuType = CPU_TYPE_I386;
 			}
 		}
-		if (getValueForKey(k32BitModeFlag, &val, &len, &bootInfo->bootConfig)) {
-			archCpuType = CPU_TYPE_I386;
-		}
-		
+
 		if (!getBoolForKey (kWake, &tryresume, &bootInfo->bootConfig)) {
 			tryresume = true;
 			tryresumedefault = true;

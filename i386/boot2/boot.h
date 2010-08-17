@@ -101,7 +101,6 @@
 #define kSafeModeFlag		"-x"
 #define kIgnoreBootFileFlag	"-F"
 #define kSingleUserModeFlag	"-s"
-#define k32BitModeFlag		"-x32"
 
 /*
  * Booter behavior control
