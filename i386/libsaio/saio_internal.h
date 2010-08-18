@@ -89,8 +89,11 @@ extern long   CacheRead(CICell ih, char *buffer, long long offset,
 /* console.c */
 extern bool   gVerboseMode;
 extern bool   gErrors;
+extern void   initBooterLog(void);
+extern void   setupBooterLog(void);
 extern void   putchar(int ch);
 extern int    getchar(void);
+extern void   msglog(const char * format, ...);
 extern int    printf(const char *format, ...);
 extern int    error(const char *format, ...);
 extern int    verbose(const char *format, ...);

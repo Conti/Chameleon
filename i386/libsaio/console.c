@@ -52,6 +52,68 @@ extern int	vprf(const char * fmt, va_list ap);
 bool gVerboseMode;
 bool gErrors;
 
+/* Kabyl: BooterLog */
+#define BOOTER_LOG_SIZE	(64 * 1024)
+#define SAFE_LOG_SIZE	80
+
+char *msgbuf = 0;
+char *cursor = 0;
+
+struct putc_info {
+    char * str;
+    char * last_str;
+};
+
+static void sputc(int c, struct putc_info * pi)
+{
+	if (pi->last_str)
+	if (pi->str == pi->last_str)
+	{
+		*(pi->str) = '\0';
+		return;
+	}
+	*(pi->str)++ = c;
+}
+
+void initBooterLog(void)
+{
+	msgbuf = malloc(BOOTER_LOG_SIZE);
+	bzero(msgbuf, BOOTER_LOG_SIZE);
+	cursor = msgbuf;
+}
+
+void msglog(const char * fmt, ...)
+{
+	va_list ap;
+	struct putc_info pi;
+
+	if (!msgbuf)
+		return;
+
+	if (((cursor - msgbuf) > (BOOTER_LOG_SIZE - SAFE_LOG_SIZE)))
+		return;
+
+	va_start(ap, fmt);
+	pi.str = cursor;
+	pi.last_str = 0;
+	prf(fmt, ap, sputc, &pi);
+	*pi.str = '\0';
+	va_end(ap);
+	cursor += (pi.str - cursor);
+}
+
+void setupBooterLog(void)
+{
+	if (!msgbuf)
+		return;
+
+	Node *node = DT__FindNode("/", false);
+	if (node)
+		DT__AddProperty(node, "boot-log", strlen((char *)msgbuf) + 1, msgbuf);
+}
+/* Kabyl: !BooterLog */
+
+
 /*
  * write one character to console
  */
@@ -103,6 +165,23 @@ int printf(const char * fmt, ...)
 		prf(fmt, ap, putchar, 0);
 	else
 		vprf(fmt, ap);
+
+	{
+	/* Kabyl: BooterLog */
+		struct putc_info pi;
+
+		if (!msgbuf)
+			return 0;
+
+		if (((cursor - msgbuf) > (BOOTER_LOG_SIZE - SAFE_LOG_SIZE)))
+			return 0;
+		pi.str = cursor;
+		pi.last_str = 0;
+		prf(fmt, ap, sputc, &pi);
+		*pi.str = '\0';
+		cursor += (pi.str - cursor);
+	}
+
 	va_end(ap);
     return 0;
 }
@@ -111,15 +190,32 @@ int verbose(const char * fmt, ...)
 {
     va_list ap;
     
+	va_start(ap, fmt);
     if (gVerboseMode)
     {
-		va_start(ap, fmt);
 		if (bootArgs->Video.v_display == VGA_TEXT_MODE)
 			prf(fmt, ap, putchar, 0);
 		else
 			vprf(fmt, ap);
-        va_end(ap);
     }
+
+	{
+	/* Kabyl: BooterLog */
+		struct putc_info pi;
+
+		if (!msgbuf)
+			return 0;
+
+		if (((cursor - msgbuf) > (BOOTER_LOG_SIZE - SAFE_LOG_SIZE)))
+			return 0;
+		pi.str = cursor;
+		pi.last_str = 0;
+		prf(fmt, ap, sputc, &pi);
+		*pi.str = '\0';
+		cursor += (pi.str - cursor);
+	}
+
+    va_end(ap);
     return(0);
 }
 

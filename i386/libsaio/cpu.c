@@ -14,7 +14,7 @@
 #if DEBUG_CPU
 #define DBG(x...)		printf(x)
 #else
-#define DBG(x...)
+#define DBG(x...)		msglog(x)
 #endif
 
 /*
@@ -297,7 +297,7 @@ void scan_cpu(PlatformInfo_t *p)
 	p->CPU.TSCFrequency = tscFrequency;
 	p->CPU.FSBFrequency = fsbFrequency;
 	p->CPU.CPUFrequency = cpuFrequency;
-#if DEBUG_CPU
+
 	DBG("CPU: Vendor/Model/ExtModel: 0x%x/0x%x/0x%x\n", p->CPU.Vendor, p->CPU.Model, p->CPU.ExtModel);
 	DBG("CPU: Family/ExtFamily:      0x%x/0x%x\n", p->CPU.Family, p->CPU.ExtFamily);
 	DBG("CPU: MaxCoef/CurrCoef:      0x%x/0x%x\n", p->CPU.MaxCoef, p->CPU.CurrCoef);
@@ -307,6 +307,7 @@ void scan_cpu(PlatformInfo_t *p)
 	DBG("CPU: CPUFreq:               %dMHz\n", p->CPU.CPUFrequency / 1000000);
 	DBG("CPU: NoCores/NoThreads:     %d/%d\n", p->CPU.NoCores, p->CPU.NoThreads);
 	DBG("CPU: Features:              0x%08x\n", p->CPU.Features);
+#if DEBUG_CPU
 	pause();
 #endif
 }
