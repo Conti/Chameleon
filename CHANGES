@@ -1,3 +1,4 @@
+- Added Booter Log Dump Tool
 - Added Booter message Logging (":/boot-log" ioreg property)
 - Removed obsolete -f option, use -x instead
 - Removed -x32 option, use arch=i386 instead
