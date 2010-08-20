@@ -735,7 +735,6 @@ int getBootOptions(bool firstRun)
 
 	// Checking user pressed keys
 	bool f8press = false, spress = false, vpress = false;
-	int key;
 	while (readKeyboardStatus()) {
 		key = bgetc ();
 		if (key == 0x4200) f8press = true;
