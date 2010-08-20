@@ -20,7 +20,7 @@ SYMDIR = $(SYMROOT)
 LIBSADIR = ../libsa
 LIBSAIODIR = ../libsaio
 UTILDIR = ../util
-THEME = default
+THEME = embed
 THEMEDIR = ../../artwork/themes/$(THEME)
 INC = -I. -I.. -I$(SYMDIR) -I$(LIBSADIR) -I$(LIBSAIODIR) -I$(UTILDIR)
 ifneq "" "$(wildcard /bin/mkdirs)"
