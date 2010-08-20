@@ -1444,12 +1444,11 @@ static void scanFSLevelBVRSettings(BVRef chain)
 
 void rescanBIOSDevice(int biosdev)
 {
-  struct DiskBVMap *oldMap = diskResetBootVolumes(biosdev);
-  CacheReset();
-  diskFreeMap(oldMap);
-  oldMap = NULL;
-  
-  scanBootVolumes(biosdev, 0);
+	struct DiskBVMap *oldMap = diskResetBootVolumes(biosdev);
+	CacheReset();
+	diskFreeMap(oldMap);
+	oldMap = NULL;
+	scanBootVolumes(biosdev, 0);
 }
 
 struct DiskBVMap* diskResetBootVolumes(int biosdev)

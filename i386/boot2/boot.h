@@ -99,6 +99,7 @@
  */
 #define kVerboseModeFlag	"-v"
 #define kSafeModeFlag		"-x"
+#define kIgnoreCachesFlag	"-f"
 #define kIgnoreBootFileFlag	"-F"
 #define kSingleUserModeFlag	"-s"
 
