@@ -51,11 +51,11 @@
 	<string>horizontal</string>
 
 	<key>bootprompt_pos_x</key>
-	<string>%50</string>
+	<string></string>
 	<key>bootprompt_pos_y</key>
-	<string>-2</string>
+	<string>-6</string>
 	<key>bootprompt_width</key>
-	<string>50%</string>
+	<string>40%</string>
 	<key>bootprompt_height</key>
 	<string>20</string>
 	<key>bootprompt_textmargin_h</key>
@@ -63,7 +63,7 @@
 	<key>bootprompt_textmargin_v</key>
 	<string>5</string>
 	<key>bootprompt_bgcolor</key>
-	<string>#767f73</string>
+	<string>#3e3e3e</string>
 	<key>bootprompt_transparency</key>
 	<string>1</string>
 
