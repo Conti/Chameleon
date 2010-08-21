@@ -1685,77 +1685,64 @@ static const struct NamedValue fdiskTypes[] =
 
 //==========================================================================
 
-char* matchVolumeToString( BVRef bvr, const char* match, bool matchParcial)
+static char * matchStrings(const char * str1, const char * str2, bool matchPartial)
 {
-	char testStr[64];
-    char *ret = 0;
-    int len = 0;
-	 
+	char * ret = NULL;
+
+	if (matchPartial)
+		ret = strstr(str1, str2);
+	else if (!strcmp(str1, str2))
+		ret = (char *)str1;
+
+	if(ret)
+		ret += strlen(str2);
+
+	return ret;
+}
+
+char * matchVolumeToString(BVRef bvr, const char * match, bool matchPartial)
+{
+	char testStr[128];
+	char tempStr[128];
+	char * ret = NULL;
+	int len = 0;
+
+	*tempStr = '\0';
+
 	if ( !bvr || !match || !*match)
-		return 0;
-	
+		return NULL;
+
 	if ( bvr->biosdev < 0x80 || bvr->biosdev >= 0x100
-         || !(bvr->flags & (kBVFlagSystemVolume|kBVFlagForeignBoot)) )
-        return 0;
-        
-    // Try to match hd(x,y) first.
-    len = snprintf(testStr, sizeof(testStr)-1, "hd(%d,%d)", BIOS_DEV_UNIT(bvr), bvr->part_no);
-    if ( matchParcial )
-        ret = strstr(match, testStr);
-    else if ( !strcmp(match, testStr) )
-        ret = (char*) match;
-    if(ret)
-        return ret+len;
-    
-    
-    // Try to match volume UUID.
-    if ( bvr->fs_getuuid && bvr->fs_getuuid(bvr, testStr) == 0 )
-    {
-        {
-            char* temp = malloc(64);
-            if(temp && bvr->description) {
-                bvr->description(bvr, temp, 63);
-                verbose("Volume: UUID=%s, Label=%s\n", testStr, temp);
-            }
-        }
-        
-        len = strlen(testStr);
-        if ( matchParcial )
-            ret = strstr(match, testStr);
-        else if ( !strcmp(match, testStr) )
-            ret = (char*) match;
-        if(ret)
-            return ret+len;
-    }
-    
-    // Try to match volume label (always quoted).
-    if ( bvr->description )
-    {   
-        char *temp = 0;
-        
-        bvr->description(bvr, testStr, sizeof(testStr)-1); 
-        len = strlen(testStr);
-        if ( !len )
-             return 0;
-        
-        len += 2; /* quoted */
-        temp = malloc(len+1);
-        
-        if(temp)
-        {
-            len = snprintf(temp, len, "\"%s\"", testStr);
-            if ( matchParcial )
-                ret = strstr(match, temp);
-            else if ( !strcmp(match, temp) )
-                ret = (char*) match;
-            
-            free(temp);
-            if (ret)
-                return ret+len;
-        }
+		 || !(bvr->flags & (kBVFlagSystemVolume|kBVFlagForeignBoot)) )
+		return NULL;
+
+	// Try to match hd(x,y) first.
+	sprintf(testStr, "hd(%d,%d)", BIOS_DEV_UNIT(bvr), bvr->part_no);
+	if (ret = matchStrings(match, testStr, matchPartial))
+		return ret;
+
+	// Try to match volume UUID.
+	if ( bvr->fs_getuuid && !(bvr->fs_getuuid(bvr, testStr)) )
+	{
+		if (ret = matchStrings(match, testStr, matchPartial))
+			return ret;
 	}
-	
-	return 0;
+
+	// Try to match volume label (always quoted).
+	if (bvr->description)
+	{
+		// Gather volume label into tempStr.
+		bvr->description(bvr, tempStr, sizeof(tempStr) - 1);
+		len = strlen(tempStr);
+		if (len == 0)
+			return NULL;
+			
+		sprintf(testStr, "\"%s\"", tempStr);
+		if (ret = matchStrings(match, testStr, matchPartial))
+			return ret;
+	}
+
+	return NULL;
 }
 
 /* If Rename Partition has defined an alias, then extract it  for description purpose */

@@ -297,37 +297,37 @@ NTFSGetDescription(CICell ih, char *str, long strMaxLen)
 
 long NTFSGetUUID(CICell ih, char *uuidStr)
 {
-    bool NTFSProbe(const void*);
-    
-    struct bootfile *boot;
-    void *buf = malloc(MAX_BLOCK_SIZE);
-    if ( !buf )
-        return -1;
-    
-    /*
-     * Read the boot sector, check signatures, and do some minimal
-     * sanity checking.  NOTE: the size of the read below is intended
-     * to be a multiple of all supported block sizes, so we don't
-     * have to determine or change the device's block size.
-     */
-    Seek(ih, 0);
-    Read(ih, (long)buf, MAX_BLOCK_SIZE);
-    
-    boot = (struct bootfile *) buf;
-    
-    // Check for NTFS signature
-    if ( memcmp((void*)boot->bf_sysid, NTFS_BBID, NTFS_BBIDLEN) != 0 )
-        return -1;
-    
-    // Check for non-null volume serial number
-    if( !boot->bf_volsn )
-        return -1;
-    
-    // Use UUID like the one you get on Windows
-    return sprintf(uuidStr, "%04X-%04X", (unsigned short)(boot->bf_volsn >> 16) & 0xFFFF,
-                                         (unsigned short)boot->bf_volsn & 0xFFFF);
-    
-    // return CreateUUIDString((uint8_t*)&(boot->bf_volsn), sizeof(boot->bf_volsn), uuidStr);
+	bool NTFSProbe(const void*);
+
+	struct bootfile *boot;
+	void *buf = malloc(MAX_BLOCK_SIZE);
+	if ( !buf )
+		return -1;
+
+	/*
+	 * Read the boot sector, check signatures, and do some minimal
+	 * sanity checking.	 NOTE: the size of the read below is intended
+	 * to be a multiple of all supported block sizes, so we don't
+	 * have to determine or change the device's block size.
+	 */
+	Seek(ih, 0);
+	Read(ih, (long)buf, MAX_BLOCK_SIZE);
+
+	boot = (struct bootfile *) buf;
+
+	// Check for NTFS signature
+	if ( memcmp((void*)boot->bf_sysid, NTFS_BBID, NTFS_BBIDLEN) != 0 )
+		return -1;
+
+	// Check for non-null volume serial number
+	if( !boot->bf_volsn )
+		return -1;
+
+	// Use UUID like the one you get on Windows
+	sprintf(uuidStr, "%04X-%04X",	(unsigned short)(boot->bf_volsn >> 16) & 0xFFFF,
+									(unsigned short)boot->bf_volsn & 0xFFFF);
+
+	return 0;
 }    
 
 bool NTFSProbe(const void * buffer)
