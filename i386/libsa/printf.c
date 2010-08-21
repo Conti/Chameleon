@@ -60,6 +60,20 @@ int sprintf(char * str, const char * fmt, ...)
     return (pi.str - str);
 }
 
+int snprintf(char *str, long len, const char * fmt, ...)
+{
+    va_list ap;
+    struct putc_info pi;
+    
+    va_start(ap, fmt);
+    pi.str = str;
+    pi.last_str = str + len - 1;
+    prf(fmt, ap, sputc, &pi);
+    *pi.str = '\0';
+    va_end(ap);
+    return (pi.str - str);
+}
+
 /*VARARGS1*/
 int slvprintf(char * str, int len, const char * fmt, va_list ap)
 {

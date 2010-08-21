@@ -67,6 +67,9 @@
 #include "msdos.h"
 #include "ext2fs.h"
 
+#include "xml.h"
+#include "disk.h"
+
 #include <limits.h>
 #include <IOKit/storage/IOApplePartitionScheme.h>
 #include <IOKit/storage/IOGUIDPartitionScheme.h>
@@ -870,7 +873,8 @@ static BVRef diskScanFDiskBootVolumes( int biosdev, int * countPtr )
                                     biosdev, partno,
                                     part->relsect,
                                     part,
-                                    0, 0, 0, 0, 0, 0,
+                                    0, 0, 0, 0, 0,
+                                    NTFSGetUUID,
                                     NTFSGetDescription,
                                     (BVFree)free,
                                     0, kBIOSDevTypeHardDrive, 0);
@@ -1552,9 +1556,15 @@ BVRef newFilteredBVChain(int minBIOSDev, int maxBIOSDev, unsigned int allowFlags
   struct DiskBVMap * map = NULL;
   int bvCount = 0;
 
-  const char *val;
-  char devsw[12];
+  const char *raw = 0;
+  char* val = 0;
   int len;
+    
+  getValueForKey(kHidePartition, &raw, &len, &bootInfo->bootConfig);
+  if(raw)
+  {
+      val = XMLDecode(raw);  
+  }
 
   /*
    * Traverse gDISKBVmap to get references for
@@ -1587,18 +1597,14 @@ BVRef newFilteredBVChain(int minBIOSDev, int maxBIOSDev, unsigned int allowFlags
          )
         newBVR->visible = true;
       
-      /*
-       * Looking for "Hide Partition" entries in "hd(x,y) hd(n,m)" format
+      /* Looking for "Hide Partition" entries in 'hd(x,y)|uuid|"label" hd(m,n)|uuid|"label"' format
        * to be able to hide foreign partitions from the boot menu.
        */
-			if ( (newBVR->flags & kBVFlagForeignBoot)
-					&& getValueForKey(kHidePartition, &val, &len, &bootInfo->bootConfig)
-				 )
-    	{
-    	  sprintf(devsw, "hd(%d,%d)", BIOS_DEV_UNIT(newBVR), newBVR->part_no);
-    	  if (strstr(val, devsw) != NULL)
-          newBVR->visible = false;
-    	}
+      if ( (newBVR->flags & kBVFlagForeignBoot) )
+      {
+        if(val && matchVolumeToString(newBVR, val, true))
+	      newBVR->visible = false;
+      }
 
       /*
        * Use the first bvr entry as the starting chain pointer.
@@ -1627,6 +1633,8 @@ BVRef newFilteredBVChain(int minBIOSDev, int maxBIOSDev, unsigned int allowFlags
 #endif
 
   *count = bvCount;
+  
+  free(val);  
   return chain;
 }
 
@@ -1677,75 +1685,204 @@ static const struct NamedValue fdiskTypes[] =
 
 //==========================================================================
 
-/* If Rename Partition has defined an alias, then extract it  for description purpose */
-static const char * getVolumeLabelAlias( BVRef bvr, const char * str, long strMaxLen)
+char* matchVolumeToString( BVRef bvr, const char* match, bool matchParcial)
 {
-  const int MAX_ALIAS_SIZE=31;
-  static char szAlias[MAX_ALIAS_SIZE+1];
-  char *q=szAlias;
-  const char * szAliases = getStringForKey(kRenamePartition, &bootInfo->bootConfig);
-
-  if (!str || !*str || !szAliases) return 0; // no renaming wanted
-
-  const char * p = strstr(szAliases, str);
-  if(!p || !(*p)) return 0; // this volume must not be renamed, or option is malformed
-
-  p+= strlen(str); // skip the "hd(n,m) " field
-  // multiple aliases can be found separated by a semi-column
-  while(*p && *p != ';' && q<(szAlias+MAX_ALIAS_SIZE)) *q++=*p++;
-  *q='\0';
-
-  return szAlias;
+	char testStr[64];
+    char *ret = 0;
+    int len = 0;
+	 
+	if ( !bvr || !match || !*match)
+		return 0;
+	
+	if ( bvr->biosdev < 0x80 || bvr->biosdev >= 0x100
+         || !(bvr->flags & (kBVFlagSystemVolume|kBVFlagForeignBoot)) )
+        return 0;
+        
+    // Try to match hd(x,y) first.
+    len = snprintf(testStr, sizeof(testStr)-1, "hd(%d,%d)", BIOS_DEV_UNIT(bvr), bvr->part_no);
+    if ( matchParcial )
+        ret = strstr(match, testStr);
+    else if ( !strcmp(match, testStr) )
+        ret = (char*) match;
+    if(ret)
+        return ret+len;
+    
+    
+    // Try to match volume UUID.
+    if ( bvr->fs_getuuid && bvr->fs_getuuid(bvr, testStr) == 0 )
+    {
+        {
+            char* temp = malloc(64);
+            if(temp && bvr->description) {
+                bvr->description(bvr, temp, 63);
+                printf("Volume: UUID=%s, Label=%s\n", testStr, temp);
+            }
+        }
+        
+        len = strlen(testStr);
+        if ( matchParcial )
+            ret = strstr(match, testStr);
+        else if ( !strcmp(match, testStr) )
+            ret = (char*) match;
+        if(ret)
+            return ret+len;
+    }
+    
+    // Try to match volume label (always quoted).
+    if ( bvr->description )
+    {   
+        char *temp = 0;
+        
+        bvr->description(bvr, testStr, sizeof(testStr)-1); 
+        len = strlen(testStr);
+        if ( !len )
+             return 0;
+        
+        len += 2; /* quoted */
+        temp = malloc(len+1);
+        
+        if(temp)
+        {
+            len = snprintf(temp, len, "\"%s\"", testStr);
+            if ( matchParcial )
+                ret = strstr(match, temp);
+            else if ( !strcmp(match, temp) )
+                ret = (char*) match;
+            
+            free(temp);
+            if (ret)
+                return ret+len;
+        }
+	}
+	
+	return 0;
 }
 
-void getBootVolumeDescription( BVRef bvr, char * str, long strMaxLen, bool verbose )
+/* If Rename Partition has defined an alias, then extract it  for description purpose */
+bool getVolumeLabelAlias( BVRef bvr, char* str, long strMaxLen)
 {
-    unsigned char type = (unsigned char) bvr->part_type;
-    char *p;
-	
-    p = str;
-    if (verbose) {
-      getDeviceDescription(bvr, str);
-      strcat(str, " ");
-      for (; strMaxLen > 0 && *p != '\0'; p++, strMaxLen--);
-    }
-
-    // See if we should get the renamed alias name for this partion:
-    const char * szAliasName = getVolumeLabelAlias(bvr, str, strMaxLen);
-    if (szAliasName && *szAliasName)
+    /* The format for the rename string is the following:
+     * hd(x,y)|uuid|"label" "alias";hd(m,n)|uuid|"label" etc; ...
+     */
+    char *aliasList, *next;
+    
+    if ( !str || strMaxLen <= 0)
+        return false;
+    
+    aliasList = XMLDecode(getStringForKey(kRenamePartition, &bootInfo->bootConfig));
+    if ( !aliasList )
+        return false;
+        
+    next = aliasList;
+    while ( next && *next )
     {
-	strncpy(bvr->label, szAliasName, strMaxLen);
-	return; // we're done here no need to seek for real name
+        char *start, *aliasStart, *aliasEnd;
+        char *ret;
+        
+        start = aliasStart = (char*)matchVolumeToString(bvr, next, true);
+        if ( !start || !*start )
+            break;
+        
+        /* Find and delimit the current entry's end */
+        next = strstr(start, ";");
+        if ( next )
+        {
+            /* Not enough characters for a successful match: we'd need at least
+             * one space and another char. before the semicolon
+             */
+            if ( next-start < 2 ) {
+                next++;
+                continue;
+            }
+            
+            *next = '\0';
+            next++;
+        }
+        
+        /* Check for at least one space, but ignore the rest of them */
+        while ( isspace(*aliasStart) )
+            aliasStart++;
+        if ( start == aliasStart )
+            continue;
+
+		switch ( *aliasStart )
+        {
+            case '\0':
+				break;
+            case '"':
+                /* If a starting quote is found, skip it, then find the ending one,
+                 * and replace it for a string terminator.
+                 */
+                aliasStart++;
+				aliasEnd = strstr(aliasStart, "\"");
+				if ( !aliasEnd || aliasStart == aliasEnd )
+					break;
+                
+				*aliasEnd = '\0';
+            default:
+                ret = strncpy(str, aliasStart, strMaxLen); 
+                free(aliasList);
+                
+                return ret != 0;
+        }
+    }
+        
+    free(aliasList);
+    return false;
+}
+
+void getBootVolumeDescription( BVRef bvr, char * str, long strMaxLen, bool useDeviceDescription )
+{
+    unsigned char type;
+    char *p = str;
+    
+    if(!bvr || !p || strMaxLen <= 0)
+        return;
+    
+    type = (unsigned char) bvr->part_type;
+    	
+    if (useDeviceDescription)
+    {
+        int len = getDeviceDescription(bvr, str);
+        if(len >= strMaxLen)
+            return;
+        
+        len++;
+        strcpy(str + len, " ");
+        strMaxLen -= len;
+        p += len;
+    }
+	
+    /* See if a partition rename is preferred */
+    if(getVolumeLabelAlias(bvr, p, strMaxLen)) {
+        verbose("Renamed: %s\n", p);
+        strncpy(bvr->label, p, sizeof(bvr->label) - 1); 
+        return; // we're done here no need to seek for real name
     }
       
     //
     // Get the volume label using filesystem specific functions
     // or use the alternate volume label if available.
     //
-	  if (*bvr->altlabel == '\0')
-	  {
-      if (bvr->description)
+	if (*bvr->altlabel != '\0')
+        strncpy(p, bvr->altlabel, strMaxLen);
+	else if (bvr->description)
         bvr->description(bvr, p, strMaxLen);
-    }
-    else
-	    strncpy(p, bvr->altlabel, strMaxLen);
 
     if (*p == '\0') {
-      const char * name = getNameForValue( fdiskTypes, type );
-      if (name == NULL) {
-          name = bvr->type_name;
-      }
-      if (name == NULL) {
-          sprintf(p, "TYPE %02x", type);
-      } else {
-          strncpy(p, name, strMaxLen);
-      }
+        const char * name = getNameForValue( fdiskTypes, type );
+        if (name == NULL) {
+            name = bvr->type_name;
+        }
+        if (name == NULL) {
+            sprintf(p, "TYPE %02x", type);
+        } else {
+            strncpy(p, name, strMaxLen);
+        }
     }
-
-    /* See if a partion rename is wanted: */
-
+    
     // Set the devices label
-    sprintf(bvr->label, p);
+    strncpy(bvr->label, p, sizeof(bvr->label)-1);
 }
 
 //==========================================================================

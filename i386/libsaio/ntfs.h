@@ -22,4 +22,4 @@
 
 extern void NTFSGetDescription(CICell ih, char *str, long strMaxLen);
 extern bool NTFSProbe (const void *buf);
-
+extern long NTFSGetUUID(CICell ih, char *uuidStr);

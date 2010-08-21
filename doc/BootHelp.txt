@@ -48,13 +48,17 @@ Options useful in the com.apple.Boot.plist file:
   "Instant Menu"=Yes      Force displaying the partition selection menu. 
 
   "Default Partition"     Sets the default boot partition,
-    =hd(x,y)|             where 'x' & 'y' are the disk and partition numbers
-    =<UUID>                 or specify the selected volume UUID string.
+    =hd(x,y)|UUID|"Label"    Specified as a disk/partition pair, an UUID, or a 
+                             label enclosed in quotes.
+                             
   "Hide Partition"        Remove unwanted partition(s) from the boot menu.
-    =hd(x,y) [hd(m,n)]      only non mac osx boot partitions can be hidden.
-
-  "Rename Partition"        Rename partition(s) for the boot menu.
-    =hd(x,y) <alias> [;hd(m,n) <alias2> ...]
+    =partition               Specified, possibly multiple times, as hd(x,y), an
+     [;partition2 ...]       UUID or label enclosed in quotes.
+    
+  "Rename Partition"      Rename partition(s) for the boot menu.
+    =partition <alias>       Where partition is hd(x,y), UUID or label enclosed
+     [;partition2 <alias2>   in quotes. The alias can optionally be quoted too. 
+     ...]
 
   GUI=No                  Disable the GUI (enabled by default).
   "Boot Banner"=Yes|No    Show boot banner in GUI mode (enabled by default).

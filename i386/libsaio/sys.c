@@ -63,7 +63,9 @@
 #include "libsaio.h"
 #include "boot.h"
 #include "bootstruct.h"
+#include "disk.h"
 #include "ramdisk.h"
+#include "xml.h"
 #if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
 # include <Kernel/libkern/crypto/md5.h>
 #else
@@ -819,32 +821,20 @@ BVRef selectBootVolume( BVRef chain )
 				return bvr;
 	
 	/*
-	 * Checking "Default Partition" key in system configuration - use format: hd(x,y) or the volume UUID -
+	 * Checking "Default Partition" key in system configuration - use format: hd(x,y), the volume UUID or label -
 	 * to override the default selection.
 	 * We accept only kBVFlagSystemVolume or kBVFlagForeignBoot volumes.
 	 */
-	const char * val;
-	char testStr[64];
-	int cnt;
-	
-	if (getValueForKey(kDefaultPartition, &val, &cnt, &bootInfo->bootConfig) && cnt >= 7 && filteredChain)
-	{
-		for ( bvr = chain; bvr; bvr = bvr->next )
-		{
-			if ( bvr->biosdev >= 0x80 && bvr->biosdev < 0x100
-				&& ( bvr->flags & ( kBVFlagSystemVolume|kBVFlagForeignBoot ) ) )
-			{
-				// Trying to match hd(x,y) format.
-				sprintf(testStr, "hd(%d,%d)", bvr->biosdev - 0x80, bvr->part_no);
-				if (strcmp(testStr, val) == 0)
-					return bvr;
-				
-				// Trying to match volume UUID.
-				if (bvr->fs_getuuid && bvr->fs_getuuid(bvr, testStr) == 0 && strcmp(testStr, val) == 0)
-					return bvr;
-			}
-		}
-	}
+	char *val = XMLDecode(getStringForKey(kDefaultPartition, &bootInfo->bootConfig));
+    if (val) {
+        for ( bvr = chain; bvr; bvr = bvr->next ) {
+            if (matchVolumeToString(bvr, val, false)) {
+                free(val);
+                return bvr;
+            }
+        }
+        free(val);
+    }
 	
 	/*
 	 * Scannig the volume chain backwards and trying to find 
@@ -1075,20 +1065,24 @@ static BVRef newBootVolumeRef( int biosdev, int partno )
 //==========================================================================
 // getDeviceDescription() - Extracts unit number and partition number
 // from bvr structure into "dw(u,p)" format.
+// Returns length of the out string
 int getDeviceDescription(BVRef bvr, char *str)
 {
-	const struct devsw *dp;
-	
+    if(!str)
+        return 0;
+    
 	*str = '\0';
 
 	if (bvr)
 	{
-		for (dp = devsw; dp->name && bvr->biosdev >= dp->biosdev; dp++);
+        const struct devsw *dp = devsw;
+		while(dp->name && bvr->biosdev >= dp->biosdev)
+            dp++;
+        
 		dp--;
-		if (dp->name) sprintf(str, "%s(%d,%d)", dp->name, bvr->biosdev - dp->biosdev, bvr->part_no);
-		
-		return true;
+		if (dp->name)
+            return sprintf(str, "%s(%d,%d)", dp->name, bvr->biosdev - dp->biosdev, bvr->part_no);
 	}
 	
-	return false;
+	return 0;
 }

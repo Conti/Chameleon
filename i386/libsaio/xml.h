@@ -73,6 +73,7 @@ extern long  gImageLastKernelAddr;
 TagPtr XMLGetProperty( TagPtr dict, const char * key );
 long XMLParseNextTag(char *buffer, TagPtr *tag);
 void XMLFreeTag(TagPtr tag);
+char* XMLDecode(const char *in);
 //==========================================================================
 // XMLParseFile
 // Expects to see one dictionary in the XML file.

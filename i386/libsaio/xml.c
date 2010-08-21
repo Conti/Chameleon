@@ -110,6 +110,63 @@ XMLGetProperty( TagPtr dict, const char * key )
     return 0;
 }
 
+/* Function for basic XML character entities parsing */
+
+char*
+XMLDecode(const char* src)
+{
+    typedef const struct XMLEntity {
+        const char* name;
+        size_t nameLen;
+        char value;
+    } XMLEntity;
+    
+    /* This is ugly, but better than specifying the lengths by hand */
+    #define _e(str,c) {str,sizeof(str)-1,c}
+    const XMLEntity ents[] = {
+        _e("quot;",'"'), _e("apos;",'\''),
+        _e("lt;",  '<'), _e("gt;",  '>'),
+        _e("amp;", '&')
+    };
+    
+    size_t len;
+    const char *s;
+    char *out, *o;
+    
+    if ( !src || !(len = strlen(src)) || !(out = malloc(len+1)) )
+        return 0;
+    
+    o = out;
+    s = src;
+    while (s <= src+len) /* Make sure the terminator is also copied */
+    {
+        if ( *s == '&' )
+        {
+            bool entFound = false;
+            int i;
+            
+            s++;
+            for ( i = 0; i < sizeof(ents); i++)
+            {
+                if ( strncmp(s, ents[i].name, ents[i].nameLen) == 0 )
+                {
+                    entFound = true;
+                    break;
+                }
+            }
+            if ( entFound )
+            {
+                *o++ = ents[i].value;
+                s += ents[i].nameLen;
+                continue;
+            }
+        }
+        
+        *o++ = *s++;
+    }
+
+    return out;
+}                    
 
 #if UNUSED
 //==========================================================================

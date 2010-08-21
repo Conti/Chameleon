@@ -10,6 +10,7 @@
 		0172D0DC11FB66820030222E /* dram_controllers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dram_controllers.h; sourceTree = "<group>"; };
 		0172D0DD11FB66820030222E /* dram_controllers.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dram_controllers.c; sourceTree = "<group>"; };
 		019DFBAF11FB94090013E8CC /* MEMTEST86_LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MEMTEST86_LICENSE; sourceTree = "<group>"; };
+		65ED53931204B83200B22507 /* disk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = disk.h; sourceTree = "<group>"; };
 		B0056CD611F3868000754B65 /* boot */ = {isa = PBXFileReference; lastKnownFileType = text; path = boot; sourceTree = "<group>"; };
 		B0056CD711F3868000754B65 /* boot.sys */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.preload"; path = boot.sys; sourceTree = "<group>"; };
 		B0056CD811F3868000754B65 /* boot0 */ = {isa = PBXFileReference; lastKnownFileType = text; path = boot0; sourceTree = "<group>"; };
@@ -497,6 +498,7 @@
 				B0056D3911F3868000754B65 /* device_tree.c */,
 				B0056D3A11F3868000754B65 /* device_tree.h */,
 				B0056D3B11F3868000754B65 /* disk.c */,
+				65ED53931204B83200B22507 /* disk.h */,
 				0172D0DC11FB66820030222E /* dram_controllers.h */,
 				0172D0DD11FB66820030222E /* dram_controllers.c */,
 				B0056D3C11F3868000754B65 /* efi.h */,
