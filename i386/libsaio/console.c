@@ -97,9 +97,8 @@ void msglog(const char * fmt, ...)
 	pi.str = cursor;
 	pi.last_str = 0;
 	prf(fmt, ap, sputc, &pi);
-	*pi.str = '\0';
 	va_end(ap);
-	cursor += (pi.str - cursor);
+	cursor += strlen((char *)cursor);
 }
 
 void setupBooterLog(void)
@@ -178,8 +177,7 @@ int printf(const char * fmt, ...)
 		pi.str = cursor;
 		pi.last_str = 0;
 		prf(fmt, ap, sputc, &pi);
-		*pi.str = '\0';
-		cursor += (pi.str - cursor);
+		cursor +=  strlen((char *)cursor);
 	}
 
 	va_end(ap);
@@ -211,8 +209,7 @@ int verbose(const char * fmt, ...)
 		pi.str = cursor;
 		pi.last_str = 0;
 		prf(fmt, ap, sputc, &pi);
-		*pi.str = '\0';
-		cursor += (pi.str - cursor);
+		cursor +=  strlen((char *)cursor);
 	}
 
     va_end(ap);
