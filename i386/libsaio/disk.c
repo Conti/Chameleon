@@ -1715,7 +1715,7 @@ char* matchVolumeToString( BVRef bvr, const char* match, bool matchParcial)
             char* temp = malloc(64);
             if(temp && bvr->description) {
                 bvr->description(bvr, temp, 63);
-                printf("Volume: UUID=%s, Label=%s\n", testStr, temp);
+                verbose("Volume: UUID=%s, Label=%s\n", testStr, temp);
             }
         }
         
@@ -1847,8 +1847,8 @@ void getBootVolumeDescription( BVRef bvr, char * str, long strMaxLen, bool useDe
         if(len >= strMaxLen)
             return;
         
-        len++;
         strcpy(str + len, " ");
+        len++;
         strMaxLen -= len;
         p += len;
     }
