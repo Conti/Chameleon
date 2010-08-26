@@ -111,7 +111,7 @@ static int countdown( const char * msg, int row, int timeout )
 		position_t p = pos( gui.screen.width / 2 + 1 , ( gui.devicelist.pos.y + 3 ) + ( ( gui.devicelist.height - gui.devicelist.iconspacing ) / 2 ) );
 	
 		char dummy[80];
-		getBootVolumeDescription( gBootVolume, dummy, sizeof(dummy) - 1, true );
+		getBootVolumeDescription( gBootVolume, dummy, 80, true );
 		drawDeviceIcon( gBootVolume, gui.screen.pixmap, p, true );
 		drawStrCenteredAt( (char *) msg, &font_small, gui.screen.pixmap, gui.countdown.pos );
 		
@@ -781,7 +781,7 @@ int getBootOptions(bool firstRun)
 			strlcpy(prompt, val, cnt);
 		} else {
 			name = malloc(80);
-			getBootVolumeDescription(gBootVolume, name, sizeof(name) - 1, false);
+			getBootVolumeDescription(gBootVolume, name, 80, false);
 			prompt = malloc(256);
 			sprintf(prompt, "Press any key to start up from %s, or press F8 to enter startup options.", name);
 			free(name);
@@ -858,7 +858,7 @@ int getBootOptions(bool firstRun)
 		// Associate a menu item for each BVRef.
 		for (bvr=bvChain, i=gDeviceCount-1, selectIndex=0; bvr; bvr=bvr->next) {
 			if (bvr->visible) {
-				getBootVolumeDescription(bvr, menuItems[i].name, sizeof(menuItems[0].name) - 1, true);
+				getBootVolumeDescription(bvr, menuItems[i].name, 80, true);
 				menuItems[i].param = (void *) bvr;
 				if (bvr == menuBVR) {
 					selectIndex = i;

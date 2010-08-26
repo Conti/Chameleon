@@ -1602,8 +1602,15 @@ BVRef newFilteredBVChain(int minBIOSDev, int maxBIOSDev, unsigned int allowFlags
        */
       if ( (newBVR->flags & kBVFlagForeignBoot) )
       {
-        if(val && matchVolumeToString(newBVR, val, true))
-	      newBVR->visible = false;
+        char *start, *next = val;
+        long len = 0;  
+        do
+        {
+          start = strbreak(next, &next, &len);
+          if(len && matchVolumeToString(newBVR, start, len) )
+	        newBVR->visible = false;
+        }
+        while ( next && *next );
       }
 
       /*
@@ -1685,73 +1692,47 @@ static const struct NamedValue fdiskTypes[] =
 
 //==========================================================================
 
-static char * matchStrings(const char * str1, const char * str2, bool matchPartial)
-{
-	char * ret = NULL;
-
-	if (matchPartial)
-		ret = strstr(str1, str2);
-	else if (!strcmp(str1, str2))
-		ret = (char *)str1;
-
-	if(ret)
-		ret += strlen(str2);
-
-	return ret;
-}
-
-char * matchVolumeToString(BVRef bvr, const char * match, bool matchPartial)
+bool matchVolumeToString( BVRef bvr, const char* match, long matchLen)
 {
 	char testStr[128];
-	char tempStr[128];
-	char * ret = NULL;
-	int len = 0;
-
-	*tempStr = '\0';
-
+	 
 	if ( !bvr || !match || !*match)
-		return NULL;
-
-	if ( bvr->biosdev < 0x80 || bvr->biosdev >= 0x100
-		 || !(bvr->flags & (kBVFlagSystemVolume|kBVFlagForeignBoot)) )
-		return NULL;
-
-	// Try to match hd(x,y) first.
-	sprintf(testStr, "hd(%d,%d)", BIOS_DEV_UNIT(bvr), bvr->part_no);
-	if (ret = matchStrings(match, testStr, matchPartial))
-		return ret;
-
-	// Try to match volume UUID.
-	if ( bvr->fs_getuuid && !(bvr->fs_getuuid(bvr, testStr)) )
-	{
-		if (ret = matchStrings(match, testStr, matchPartial))
-			return ret;
-	}
-
-	// Try to match volume label (always quoted).
-	if (bvr->description)
-	{
-		// Gather volume label into tempStr.
-		bvr->description(bvr, tempStr, sizeof(tempStr) - 1);
-		len = strlen(tempStr);
-		if (len == 0)
-			return NULL;
-			
-		sprintf(testStr, "\"%s\"", tempStr);
-		if (ret = matchStrings(match, testStr, matchPartial))
-			return ret;
-	}
-
-	return NULL;
+		return 0;
+	
+	if ( bvr->biosdev < 0x80 || bvr->biosdev >= 0x100 )
+        return 0;
+    
+    // Try to match hd(x,y) first.
+    sprintf(testStr, "hd(%d,%d)", BIOS_DEV_UNIT(bvr), bvr->part_no);
+    if ( matchLen ? !strncmp(match, testStr, matchLen) : !strcmp(match, testStr) )
+        return true;
+    
+    // Try to match volume UUID.
+    if ( bvr->fs_getuuid && bvr->fs_getuuid(bvr, testStr) == 0)
+    {
+        if( matchLen ? !strncmp(match, testStr, matchLen) : !strcmp(match, testStr) )
+            return true;
+    }
+    
+    // Try to match volume label (always quoted).
+    if ( bvr->description )
+    {
+        bvr->description(bvr, testStr, sizeof(testStr)-1);
+        if( matchLen ? !strncmp(match, testStr, matchLen) : !strcmp(match, testStr) )
+            return true;
+    }
+    
+    return false;
 }
 
-/* If Rename Partition has defined an alias, then extract it  for description purpose */
-bool getVolumeLabelAlias( BVRef bvr, char* str, long strMaxLen)
+/* If Rename Partition has defined an alias, then extract it  for description purpose
+ * The format for the rename string is the following:
+ * hd(x,y)|uuid|"label" "alias";hd(m,n)|uuid|"label" etc; ...
+ */
+
+bool getVolumeLabelAlias(BVRef bvr, char* str, long strMaxLen)
 {
-    /* The format for the rename string is the following:
-     * hd(x,y)|uuid|"label" "alias";hd(m,n)|uuid|"label" etc; ...
-     */
-    char *aliasList, *next;
+    char *aliasList, *entryStart, *entryNext;
     
     if ( !str || strMaxLen <= 0)
         return false;
@@ -1759,61 +1740,39 @@ bool getVolumeLabelAlias( BVRef bvr, char* str, long strMaxLen)
     aliasList = XMLDecode(getStringForKey(kRenamePartition, &bootInfo->bootConfig));
     if ( !aliasList )
         return false;
-        
-    next = aliasList;
-    while ( next && *next )
+    
+    for ( entryStart = entryNext = aliasList;
+          entryNext && *entryNext;
+          entryStart = entryNext )
     {
-        char *start, *aliasStart, *aliasEnd;
-        char *ret;
+        char *volStart, *volEnd, *aliasStart;
+        long volLen, aliasLen;
         
-        start = aliasStart = (char*)matchVolumeToString(bvr, next, true);
-        if ( !start || !*start )
-            break;
-        
-        /* Find and delimit the current entry's end */
-        next = strstr(start, ";");
-        if ( next )
+        // Delimit current entry
+        entryNext = strchr(entryStart, ';');
+        if ( entryNext )
         {
-            /* Not enough characters for a successful match: we'd need at least
-             * one space and another char. before the semicolon
-             */
-            if ( next-start < 2 ) {
-                next++;
-                continue;
-            }
-            
-            *next = '\0';
-            next++;
+            *entryNext = '\0';
+            entryNext++;
         }
         
-        /* Check for at least one space, but ignore the rest of them */
-        while ( isspace(*aliasStart) )
-            aliasStart++;
-        if ( start == aliasStart )
+        volStart = strbreak(entryStart, &volEnd, &volLen);
+        if(!volLen)
             continue;
-
-		switch ( *aliasStart )
-        {
-            case '\0':
-				break;
-            case '"':
-                /* If a starting quote is found, skip it, then find the ending one,
-                 * and replace it for a string terminator.
-                 */
-                aliasStart++;
-				aliasEnd = strstr(aliasStart, "\"");
-				if ( !aliasEnd || aliasStart == aliasEnd )
-					break;
-                
-				*aliasEnd = '\0';
-            default:
-                ret = strncpy(str, aliasStart, strMaxLen); 
-                free(aliasList);
-                
-                return ret != 0;
+        
+        aliasStart = strbreak(volEnd, 0, &aliasLen);
+        if(!aliasLen)
+            continue;
+        
+        if ( matchVolumeToString(bvr, volStart, volLen) )
+        {   
+            strncpy(str, aliasStart, min(strMaxLen, aliasLen));
+            free(aliasList);
+        
+            return true;
         }
     }
-        
+    
     free(aliasList);
     return false;
 }
@@ -1842,8 +1801,7 @@ void getBootVolumeDescription( BVRef bvr, char * str, long strMaxLen, bool useDe
 	
     /* See if a partition rename is preferred */
     if(getVolumeLabelAlias(bvr, p, strMaxLen)) {
-        verbose("Renamed: %s\n", p);
-        strncpy(bvr->label, p, sizeof(bvr->label) - 1); 
+        strncpy(bvr->label, p, strMaxLen); 
         return; // we're done here no need to seek for real name
     }
       
@@ -1869,7 +1827,7 @@ void getBootVolumeDescription( BVRef bvr, char * str, long strMaxLen, bool useDe
     }
     
     // Set the devices label
-    strncpy(bvr->label, p, sizeof(bvr->label)-1);
+    sprintf(bvr->label, p);
 }
 
 //==========================================================================

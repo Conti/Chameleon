@@ -107,6 +107,9 @@ extern char * strdup(const char *s1);
 extern int    strncasecmp(const char * s1, const char * s2, size_t n);
 #endif
 
+extern char * strchr(const char *str, int c);
+extern char * strbreak(const char *str, char **next, long *len);
+
 extern uint8_t checksum8( void * start, unsigned int length );
 
 /*
