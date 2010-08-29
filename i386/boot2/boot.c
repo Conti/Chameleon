@@ -401,8 +401,7 @@ void common_boot(int biosdev)
 			if (getValueForKey(kProductVersion, &val, &len, &systemVersion)) {	
 				// getValueForKey uses const char for val
 				// so copy it and trim
-				strncpy(gMacOSVersion, val, MIN(len, 4));
-				gMacOSVersion[MIN(len, 4)] = '\0';
+				strncat(gMacOSVersion, val, MIN(len, 4));
 			}
 		}
 

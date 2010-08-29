@@ -111,7 +111,7 @@ static int countdown( const char * msg, int row, int timeout )
 		position_t p = pos( gui.screen.width / 2 + 1 , ( gui.devicelist.pos.y + 3 ) + ( ( gui.devicelist.height - gui.devicelist.iconspacing ) / 2 ) );
 	
 		char dummy[80];
-		getBootVolumeDescription( gBootVolume, dummy, 80, true );
+		getBootVolumeDescription( gBootVolume, dummy, sizeof(dummy) - 1, true );
 		drawDeviceIcon( gBootVolume, gui.screen.pixmap, p, true );
 		drawStrCenteredAt( (char *) msg, &font_small, gui.screen.pixmap, gui.countdown.pos );
 		
@@ -770,28 +770,24 @@ int getBootOptions(bool firstRun)
 	// When booting from CD, default to hard drive boot when possible. 
 	if (isCDROM && firstRun) {
 		const char *val;
-		char *prompt;
-		char *name;
+		char *prompt = NULL;
+		char *name = NULL; 
 		int cnt;
 		int optionKey;
 
 		if (getValueForKey(kCDROMPromptKey, &val, &cnt, &bootInfo->bootConfig)) {
-			cnt += 1;
-			prompt = malloc(cnt);
-			strlcpy(prompt, val, cnt);
+			prompt = malloc(cnt + 1);
+			strncat(prompt, val, cnt);
 		} else {
 			name = malloc(80);
-			getBootVolumeDescription(gBootVolume, name, 80, false);
+			getBootVolumeDescription(gBootVolume, name, 79, false);
 			prompt = malloc(256);
 			sprintf(prompt, "Press any key to start up from %s, or press F8 to enter startup options.", name);
 			free(name);
-			cnt = 0;
 		}
 
 		if (getIntForKey( kCDROMOptionKey, &optionKey, &bootInfo->bootConfig )) {
 			// The key specified is a special key.
-		} else if (getValueForKey( kCDROMOptionKey, &val, &cnt, &bootInfo->bootConfig ) && cnt >= 1) {
-			optionKey = val[0];
 		} else {
 			// Default to F8.
 			optionKey = 0x4200;
@@ -806,7 +802,7 @@ int getBootOptions(bool firstRun)
 			key = optionKey;
 		}
 
-		if (cnt) {
+		if (prompt != NULL) {
 			free(prompt);
 		}
 
@@ -858,7 +854,7 @@ int getBootOptions(bool firstRun)
 		// Associate a menu item for each BVRef.
 		for (bvr=bvChain, i=gDeviceCount-1, selectIndex=0; bvr; bvr=bvr->next) {
 			if (bvr->visible) {
-				getBootVolumeDescription(bvr, menuItems[i].name, 80, true);
+				getBootVolumeDescription(bvr, menuItems[i].name, sizeof(menuItems[i].name) - 1, true);
 				menuItems[i].param = (void *) bvr;
 				if (bvr == menuBVR) {
 					selectIndex = i;

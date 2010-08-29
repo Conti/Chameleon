@@ -1695,7 +1695,7 @@ static const struct NamedValue fdiskTypes[] =
 bool matchVolumeToString( BVRef bvr, const char* match, long matchLen)
 {
 	char testStr[128];
-	 
+
 	if ( !bvr || !match || !*match)
 		return 0;
 	
@@ -1766,8 +1766,7 @@ bool getVolumeLabelAlias(BVRef bvr, char* str, long strMaxLen)
         
         if ( matchVolumeToString(bvr, volStart, volLen) )
         {   
-            strncpy(str, aliasStart, min(strMaxLen, aliasLen));
-            str[min(strMaxLen, aliasLen)] = '\0';
+            strncat(str, aliasStart, min(strMaxLen, aliasLen));
             free(aliasList);
         
             return true;
