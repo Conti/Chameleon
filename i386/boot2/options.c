@@ -771,7 +771,7 @@ int getBootOptions(bool firstRun)
 	if (isCDROM && firstRun) {
 		const char *val;
 		char *prompt = NULL;
-		char *name = NULL; 
+		char *name = NULL;
 		int cnt;
 		int optionKey;
 

@@ -81,7 +81,7 @@ bool    useGUI;
 
 //static void selectBiosDevice(void);
 static unsigned long Adler32(unsigned char *buffer, long length);
-
+static bool getOSVersion(char *str);
 
 static bool gUnloadPXEOnExit = false;
 
@@ -347,8 +347,6 @@ void common_boot(int biosdev)
         bool tryresumedefault;
         bool forceresume;
 
-        config_file_t    systemVersion;		// system.plist of booting partition
-
         // additional variable for testing alternate kernel image locations on boot helper partitions.
         char     bootFileSpec[512];
 		
@@ -397,13 +395,7 @@ void common_boot(int biosdev)
 		}
 		
 		// Find out which version mac os we're booting.
-		if (!loadConfigFile("System/Library/CoreServices/SystemVersion.plist", &systemVersion)) {
-			if (getValueForKey(kProductVersion, &val, &len, &systemVersion)) {	
-				// getValueForKey uses const char for val
-				// so copy it and trim
-				strncat(gMacOSVersion, val, MIN(len, 4));
-			}
-		}
+		getOSVersion(gMacOSVersion);
 
 		if (platformCPUFeature(CPU_FEATURE_EM64T)) {
 			archCpuType = CPU_TYPE_X86_64;
@@ -606,6 +598,38 @@ static void selectBiosDevice(void)
     gBIOSDev = dev;
 }
 */
+
+static bool getOSVersion(char *str)
+{
+	bool valid = false;
+	config_file_t systemVersion;
+	const char *val;
+	int len;
+
+	if (!loadConfigFile("System/Library/CoreServices/SystemVersion.plist", &systemVersion))
+	{
+		valid = true;
+	}
+	else if (!loadConfigFile("System/Library/CoreServices/ServerVersion.plist", &systemVersion))
+	{
+		valid = true;
+	}
+
+	if (valid)
+	{
+		if  (getValueForKey(kProductVersion, &val, &len, &systemVersion))
+		{
+			// getValueForKey uses const char for val
+			// so copy it and trim
+			*str = '\0';
+			strncat(str, val, MIN(len, 4));
+		}
+		else
+			valid = false;
+	}
+
+	return valid;
+}
 
 #define BASE 65521L /* largest prime smaller than 65536 */
 #define NMAX 5000
