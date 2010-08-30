@@ -315,7 +315,9 @@ EFI_GUID gEfiAcpi20TableGuid = EFI_ACPI_20_TABLE_GUID;
 static const char const FIRMWARE_REVISION_PROP[] = "firmware-revision";
 static const char const FIRMWARE_ABI_PROP[] = "firmware-abi";
 static const char const FIRMWARE_VENDOR_PROP[] = "firmware-vendor";
-static const char const FIRMWARE_ABI_PROP_VALUE[] = "EFI64";
+static const char const FIRMWARE_ABI_32_PROP_VALUE[] = "EFI32";
+static const char const FIRMWARE_ABI_64_PROP_VALUE[] = "EFI64";
+
 static const char const SYSTEM_ID_PROP[] = "system-id";
 static const char const SYSTEM_SERIAL_PROP[] = "SystemSerialNumber";
 static const char const SYSTEM_TYPE_PROP[] = "system-type";
@@ -419,7 +421,16 @@ void setupEfiDeviceTree(void)
     node = DT__AddChild(node, "efi");
 
     DT__AddProperty(node, FIRMWARE_REVISION_PROP, sizeof(FIRMWARE_REVISION), (EFI_UINT32*)&FIRMWARE_REVISION);
-    DT__AddProperty(node, FIRMWARE_ABI_PROP, sizeof(FIRMWARE_ABI_PROP_VALUE), (char*)FIRMWARE_ABI_PROP_VALUE);
+	
+	if(platformCPUFeature(CPU_FEATURE_EM64T))
+	{
+		DT__AddProperty(node, FIRMWARE_ABI_PROP, sizeof(FIRMWARE_ABI_64_PROP_VALUE), (char*)FIRMWARE_ABI_64_PROP_VALUE);
+	}
+	else
+	{
+		DT__AddProperty(node, FIRMWARE_ABI_PROP, sizeof(FIRMWARE_ABI_32_PROP_VALUE), (char*)FIRMWARE_ABI_32_PROP_VALUE);
+	}
+
     DT__AddProperty(node, FIRMWARE_VENDOR_PROP, sizeof(FIRMWARE_VENDOR), (EFI_CHAR16*)FIRMWARE_VENDOR);
 
     /* TODO: Fill in other efi properties if necessary */
