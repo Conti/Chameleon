@@ -628,37 +628,36 @@ static void setupSmbiosConfigFile(const char *filename)
 {
 	char		dirSpecSMBIOS[128] = "";
 	const char *override_pathname = NULL;
-	int			len = 0, fd = 0;
+	int			len = 0, err = 0;
 	extern void scan_mem();
 	
 	// Take in account user overriding
-	if (getValueForKey(kSMBIOSKey, &override_pathname, &len, &bootInfo->bootConfig))
+	if (getValueForKey(kSMBIOSKey, &override_pathname, &len, &bootInfo->bootConfig) && len > 0)
 	{
 		// Specify a path to a file, e.g. SMBIOS=/Extra/macProXY.plist
 		sprintf(dirSpecSMBIOS, override_pathname);
-		fd = loadConfigFile(dirSpecSMBIOS, &bootInfo->smbiosConfig);
-		if (fd >= 0) goto success_fd;
+		err = loadConfigFile(dirSpecSMBIOS, &bootInfo->smbiosConfig);
 	}
-	
-	// Check selected volume's Extra.
-	sprintf(dirSpecSMBIOS, "/Extra/%s", filename);
-	fd = loadConfigFile(dirSpecSMBIOS, &bootInfo->smbiosConfig);
-	if (fd >= 0) goto success_fd;
-	
-	// Check booter volume/rdbt Extra.
-	sprintf(dirSpecSMBIOS, "bt(0,0)/Extra/%s", filename);
-	fd = loadConfigFile(dirSpecSMBIOS, &bootInfo->smbiosConfig);
-	if (fd >= 0) goto success_fd;
-	
-	if (loadConfigFile(dirSpecSMBIOS, &bootInfo->smbiosConfig) == -1)
+	else
 	{
-		verbose("No SMBIOS replacement provided.\n");
+		// Check selected volume's Extra.
+		sprintf(dirSpecSMBIOS, "/Extra/%s", filename);
+		if (err = loadConfigFile(dirSpecSMBIOS, &bootInfo->smbiosConfig))
+		{
+			// Check booter volume/rdbt Extra.
+			sprintf(dirSpecSMBIOS, "bt(0,0)/Extra/%s", filename);
+			err = loadConfigFile(dirSpecSMBIOS, &bootInfo->smbiosConfig);
+		}
 	}
-	
+
+	if (err)
+	{
+		verbose("No SMBIOS replacement found.\n");
+	}
+
 	// get a chance to scan mem dynamically if user asks for it while having the config options loaded as well,
 	// as opposed to when it was in scan_platform(); also load the orig. smbios so that we can access dmi info without
 	// patching the smbios yet
-success_fd:
 	getSmbios(SMBIOS_ORIGINAL);
 	scan_mem(); 
 	smbios_p = (EFI_PTR32)getSmbios(SMBIOS_PATCHED);	// process smbios asap

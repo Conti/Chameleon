@@ -89,71 +89,35 @@ static struct acpi_2_rsdp* getAddressOfAcpi20Table()
 /** The folowing ACPI Table search algo. should be reused anywhere needed:*/
 int search_and_get_acpi_fd(const char * filename, const char ** outDirspec)
 {
-	int fd=0;
-	const char * overriden_pathname=NULL;
-	static char dirspec[512]="";
-	static bool first_time =true; 
-	int len=0;
+	int fd = 0;
+	char dirSpec[512] = "";
 	
-	/// Take in accound user overriding if it's DSDT only
-	if (strstr(filename, "DSDT") && 
-		getValueForKey(kDSDT, &overriden_pathname, &len,  
-					   &bootInfo->bootConfig))
-    {
-		sprintf(dirspec, "%s", overriden_pathname);
-		fd=open (dirspec,0);
-		if (fd>=0) goto success_fd;
-    }
-	// Check that dirspec is not already assigned with a path
-	if (!first_time && *dirspec) 
-	{ // it is so start searching this cached patch first
-		//extract path
-		for (len=strlen(dirspec)-1; len; len--)
-			if (dirspec[len]=='/' || len==0)
-			{
-				dirspec[len]='\0';
-				break;
-			}
-		// now concat with the filename
-		strncat(dirspec, "/", sizeof(dirspec));
-		strncat(dirspec, filename, sizeof(dirspec));
-		// and test to see if we don't have our big boy here:
-		fd=open (dirspec,0);
-		if (fd>=0) 
+	// Try finding 'filename' in the usual places
+	// Start searching any potential location for ACPI Table
+	sprintf(dirSpec, "%s", filename); 
+	fd = open(dirSpec, 0);
+	if (fd < 0)
+	{	
+		sprintf(dirSpec, "/Extra/%s", filename); 
+		fd = open(dirSpec, 0);
+		if (fd < 0)
 		{
-			// printf("ACPI file search cache hit: file found at %s\n", dirspec);
-			goto success_fd;
+			sprintf(dirSpec, "bt(0,0)/Extra/%s", filename);
+			fd = open(dirSpec, 0);
 		}
 	}
-	// Start searching any potential location for ACPI Table
-	// search the Extra folders first
-	sprintf(dirspec,"/Extra/%s",filename); 
-	fd=open (dirspec,0);
-	if (fd>=0) goto success_fd;
-	
-	sprintf(dirspec,"bt(0,0)/Extra/%s",filename);
-	fd=open (dirspec,0);
-	if (fd>=0) goto success_fd;
-	
-	sprintf(dirspec, "%s", filename); // search current dir
-	fd=open (dirspec,0);
-	if (fd>=0) goto success_fd;
-	
-	sprintf(dirspec, "/%s", filename); // search root
-	fd=open (dirspec,0);
-	if (fd>=0) goto success_fd;
-	
-	// NOT FOUND:
-	//verbose("ACPI Table not found: %s\n", filename);
-	if (outDirspec) *outDirspec = "";
-	first_time = false;
-	return -1;
-	// FOUND
-success_fd:
-	first_time = false;
-	if (outDirspec) *outDirspec = dirspec; 
+
+	if (fd < 0)
+	{
+		// NOT FOUND:
+		verbose("ACPI table not found: %s\n", filename);
+		*dirSpec = '\0';
+	}
+
+	if (outDirspec) *outDirspec = dirSpec; 
 	return fd;
 }
+
 
 void *loadACPITable (const char * filename)
 {
@@ -706,9 +670,23 @@ int setupAcpi(void)
 {
 	int version;
 	void *new_dsdt;
+
+	const char *filename;
+	char dirSpec[128];
+	int len = 0;
+
+	// Try using the file specified with the DSDT option
+	if (getValueForKey(kDSDT, &filename, &len, &bootInfo->bootConfig))
+	{
+		sprintf(dirSpec, filename);
+	}
+	else
+	{
+		sprintf(dirSpec, "DSDT.aml");
+	}
 	
 	// Load replacement DSDT
-	new_dsdt=loadACPITable("DSDT.aml");
+	new_dsdt = loadACPITable(dirSpec);
 	// Mozodojo: going to patch FACP and load SSDT's even if DSDT.aml is not present
 	/*if (!new_dsdt)
 	 {

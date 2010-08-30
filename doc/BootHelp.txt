@@ -90,11 +90,10 @@ Options useful in the com.apple.Boot.plist file:
 
   DropSSDT=Yes            Skip the SSDT tables while relocating the ACPI tables.
   DSDT=<file>             Use an alternate DSDT.aml file 
-                            (default path: /DSDT.aml /Extra/DSDT.aml).
+                            (default path: /DSDT.aml /Extra/DSDT.aml bt(0,0)/Extra/DSDT.aml).
 
-  SMBIOS=<file>           Use an alternate smbios.plist file 
-                            (default path: /smbios.plist /Extra/smbios.plist
-                             bt(0,0)/Extra/smbios.plist).
+  SMBIOS=<file>           Use an alternate SMBIOS.plist file 
+                            (default path: /Extra/SMBIOS.plist bt(0,0)/Extra/SMBIOS.plist).
 
   SMBIOSdefaults=No       Don't use the Default values for SMBIOS overriding
                             if smbios.plist doesn't exist, factory
