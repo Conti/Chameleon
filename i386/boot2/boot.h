@@ -75,7 +75,7 @@
 #define kDeviceProperties	"device-properties"	/* device_inject.c */
 #define kHidePartition		"Hide Partition"	/* disk.c */
 #define kRenamePartition	"Rename Partition"	/* disk.c */
-#define kSMBIOS				"SMBIOS"			/* fake_efi.c */
+#define kSMBIOSKey			"SMBIOS"			/* fake_efi.c */
 #define kSystemID			"SystemId"			/* fake_efi.c */
 #define kSystemType			"SystemType"		/* fake_efi.c */
 #define kUseNvidiaROM		"UseNvidiaROM"		/* nvidia.c */
