@@ -470,11 +470,11 @@ static void get_timings_nhm(pci_dt_t *dram_dev)
 	// RAS-To-CAS (tRCD)
 	Platform.RAM.TRC = (mc_channel_bank_timing >> 9) & 0xF; 
 	
-	// RAS Precharge (tRP)
-	Platform.RAM.CAS = (mc_channel_bank_timing >> 4) & 0x1F; 
-	
 	// RAS Active to precharge (tRAS)
-	Platform.RAM.RAS = mc_channel_bank_timing & 0xF;
+	Platform.RAM.RAS = (mc_channel_bank_timing >> 4) & 0x1F; 
+	
+	// RAS Precharge (tRP)
+	Platform.RAM.TRP = mc_channel_bank_timing & 0xF;
 	
 	// Single , Dual or Triple Channels
 	if (mc_control == 1 || mc_control == 2 || mc_control == 4 )
@@ -551,12 +551,14 @@ void scan_dram_controller(pci_dt_t *dram_dev)
 			if (dram_controllers[i].poll_speed != NULL)
 				dram_controllers[i].poll_speed(dram_dev);
 
-			verbose("Frequency detected: %d MHz (%d) %s Channel %d-%d-%d-%d\n", 
+			verbose("Frequency detected: %d MHz (%d) %s Channel \n\tCAS:%d tRC:%d tRP:%d RAS:%d (%d-%d-%d-%d)\n", 
 						(uint32_t)Platform.RAM.Frequency / 1000000,
 						(uint32_t)Platform.RAM.Frequency / 500000,
-						memory_channel_types[Platform.RAM.Channels],
-						Platform.RAM.CAS, Platform.RAM.TRC, Platform.RAM.TRP, Platform.RAM.RAS
+						memory_channel_types[Platform.RAM.Channels]
+					,Platform.RAM.CAS, Platform.RAM.TRC, Platform.RAM.TRP, Platform.RAM.RAS
+					,Platform.RAM.CAS, Platform.RAM.TRC, Platform.RAM.TRP, Platform.RAM.RAS
 				   );
-			
+			/* getc();
+			 */			
 		}	
 }	
