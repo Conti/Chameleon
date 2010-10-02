@@ -68,7 +68,6 @@
 #define kDSDT				"DSDT"				/* acpi_patcher.c */
 #define kDropSSDT			"DropSSDT"			/* acpi_patcher.c */
 #define kRestartFix			"RestartFix"		/* acpi_patcher.c */
-#define kRestartFix			"RestartFix"        /* acpi_patcher.c */
 #define kGeneratePStates	"GeneratePStates"	/* acpi_patcher.c */
 #define kGenerateCStates	"GenerateCStates"	/* acpi_patcher.c */
 #define kEnableC4States		"EnableC4State"		/* acpi_patcher.c */
