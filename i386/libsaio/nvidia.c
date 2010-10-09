@@ -57,7 +57,7 @@
 #include "nvidia.h"
 
 #ifndef DEBUG_NVIDIA
-#define DEBUG_NVIDIA 0
+#define DEBUG_NVIDIA 1
 #endif
 
 #if DEBUG_NVIDIA
@@ -347,6 +347,7 @@ static struct nv_chipsets_t NVKnownChipsets[] = {
 	{ 0x10DE0A20, "GeForce GT220" },
 	{ 0x10DE0A23, "GeForce 210" },
 	{ 0x10DE0A28, "GeForce GT 230M" },
+	{ 0x10DE0A29, "GeForce GT 330M" },
 	{ 0x10DE0A2A, "GeForce GT 230M" },
 	{ 0x10DE0A34, "GeForce GT 240M" },
 	{ 0x10DE0A60, "GeForce G210" },
@@ -355,10 +356,12 @@ static struct nv_chipsets_t NVKnownChipsets[] = {
 	{ 0x10DE0A65, "GeForce 210" },
 	{ 0x10DE0A66, "GeForce 310" },
 	{ 0x10DE0A74, "GeForce G210M" },
+	{ 0x10DE0A75, "GeForce G310M" },
 	{ 0x10DE0A78, "Quadro FX 380 LP" },
 	{ 0x10DE0CA3, "GeForce GT 240" },
 	{ 0x10DE0CA8, "GeForce GTS 260M" },
 	{ 0x10DE0CA9, "GeForce GTS 250M" },
+	{ 0x10DE0CB1, "GeForce GTS 360M" },
 	{ 0x10DE0CA3, "GeForce GT240" },
 	{ 0x10DE0E22, "GeForce GTX 460" },
 	{ 0x10DE0E24, "GeForce GTX 460" },
@@ -449,6 +452,7 @@ static int patch_nvidia_rom(uint8_t *rom)
 			return PATCH_ROM_FAILED;
 		}
 	} else {
+		printf("ERROR: dcbtable_version is 0x%X\n", dcbtable_version);
 		return PATCH_ROM_FAILED;
 	}
 	
