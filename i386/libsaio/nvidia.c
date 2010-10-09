@@ -57,7 +57,7 @@
 #include "nvidia.h"
 
 #ifndef DEBUG_NVIDIA
-#define DEBUG_NVIDIA 1
+#define DEBUG_NVIDIA 0
 #endif
 
 #if DEBUG_NVIDIA
