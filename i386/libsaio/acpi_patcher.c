@@ -233,11 +233,16 @@ struct acpi_2_ssdt *generate_cst_ssdt(struct acpi_2_fadt* fadt)
 	
 	if (acpi_cpu_count > 0) 
 	{
-		bool c2_enabled = fadt->C2_Latency < 100;
-		bool c3_enabled = fadt->C3_Latency < 1000;
+		bool c2_enabled = false;
+		bool c3_enabled = false;
 		bool c4_enabled = false;
 		
+		getBoolForKey(kEnableC2States, &c2_enabled, &bootInfo->bootConfig);
+		getBoolForKey(kEnableC3States, &c3_enabled, &bootInfo->bootConfig);
 		getBoolForKey(kEnableC4States, &c4_enabled, &bootInfo->bootConfig);
+		
+		c2_enabled = c2_enabled | (fadt->C2_Latency < 100);
+		c3_enabled = c3_enabled | (fadt->C3_Latency < 1000);
 
 		unsigned char cstates_count = 1 + (c2_enabled ? 1 : 0) + (c3_enabled ? 1 : 0);
 		
@@ -429,7 +434,7 @@ struct acpi_2_ssdt *generate_pss_ssdt(struct acpi_2_dsdt* dsdt)
 						if (maximum.CID < minimum.CID) 
 						{
 							DBG("Insane FID values!");
-							p_states_count = 1;
+							p_states_count = 0;
 						}
 						else
 						{
@@ -479,7 +484,9 @@ struct acpi_2_ssdt *generate_pss_ssdt(struct acpi_2_dsdt* dsdt)
 							
 							p_states_count -= invalid;
 						}
-					} break;
+						
+						break;
+					} 
 					case CPU_MODEL_FIELDS:
 					case CPU_MODEL_DALES:
 					case CPU_MODEL_DALES_32NM:
@@ -487,6 +494,36 @@ struct acpi_2_ssdt *generate_pss_ssdt(struct acpi_2_dsdt* dsdt)
 					case CPU_MODEL_NEHALEM_EX:
 					case CPU_MODEL_WESTMERE:
 					case CPU_MODEL_WESTMERE_EX:
+					{
+						uint8_t i;
+						
+						maximum.Control = rdmsr64(MSR_IA32_PERF_STATUS) & 0xff; // Is it allways the maximum multiplier?
+						
+						// fix me: dirty method to get lowest multiplier... Hardcoded value!
+						minimum.Control = 0x09;
+						
+						// Sanity check
+						if (maximum.Control < minimum.Control) 
+						{
+							DBG("Insane control values!");
+							p_states_count = 0;
+						}
+						else
+						{
+							uint8_t i;
+							p_states_count = 0;
+							
+							for (i = maximum.Control; i >= minimum.Control; i--) 
+							{
+								p_states[p_states_count].Control = i;
+								p_states[p_states_count].CID = p_states[p_states_count].Control << 1;
+								p_states[p_states_count].Frequency = (Platform.CPU.FSBFrequency / 1000000) * i;
+								p_states_count++;
+							}
+						}
+						
+						break;
+					}	
 					default:
 						verbose ("Unsupported CPU: P-States not generated !!!\n");
 						break;

@@ -70,6 +70,8 @@
 #define kRestartFix			"RestartFix"		/* acpi_patcher.c */
 #define kGeneratePStates	"GeneratePStates"	/* acpi_patcher.c */
 #define kGenerateCStates	"GenerateCStates"	/* acpi_patcher.c */
+#define kEnableC2States		"EnableC2State"		/* acpi_patcher.c */
+#define kEnableC3States		"EnableC3State"		/* acpi_patcher.c */
 #define kEnableC4States		"EnableC4State"		/* acpi_patcher.c */
 #define kDeviceProperties	"device-properties"	/* device_inject.c */
 #define kHidePartition		"Hide Partition"	/* disk.c */
