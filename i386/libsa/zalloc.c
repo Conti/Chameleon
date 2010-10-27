@@ -30,9 +30,10 @@
  */
 
 #include "libsa.h"
+//#include "saio_internal.h" - Azi: needed for ZDEBUG (printf)
 #include "memory.h"
 
-#define ZDEBUG 0
+#define ZDEBUG 0 //Azi: booter doesn't load with this enabled; instant reboot at "boot1: ..."
 
 #if ZDEBUG
 int zout;
