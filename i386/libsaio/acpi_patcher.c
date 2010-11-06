@@ -495,12 +495,28 @@ struct acpi_2_ssdt *generate_pss_ssdt(struct acpi_2_dsdt* dsdt)
 					case CPU_MODEL_WESTMERE:
 					case CPU_MODEL_WESTMERE_EX:
 					{
-						uint8_t i;
+						maximum.Control = rdmsr64(MSR_IA32_PERF_STATUS) & 0xff; // Seems it always contains maximum multiplier value (with turbo, that's we need)...
 						
-						maximum.Control = rdmsr64(MSR_IA32_PERF_STATUS) & 0xff; // Is it allways the maximum multiplier?
+						/*uint8_t i;
+						// Probe for lowest fid
+						for (i = maximum.Control; i >= 0x7; i--) 
+						{
+							wrmsr64(MSR_IA32_PERF_CONTROL, i);
+							delay(1);
+							minimum.Control = rdmsr64(MSR_IA32_PERF_STATUS);
+							delay(1);
+						}*/
 						
-						// fix me: dirty method to get lowest multiplier... Hardcoded value!
-						minimum.Control = 0x09;
+						if (!minimum.Control)
+						{
+							// fix me: dirty method to get lowest multiplier... Hardcoded value!
+							if (strstr(Platform.CPU.BrandString, "Core(TM) i7"))
+								minimum.Control = 0x07;
+							else
+								minimum.Control = 0x09;
+						}
+						
+						verbose("P-States: min 0x%x, max 0x%x\n", minimum.Control, maximum.Control);			
 						
 						// Sanity check
 						if (maximum.Control < minimum.Control) 
