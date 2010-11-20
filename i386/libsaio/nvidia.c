@@ -368,7 +368,11 @@ static struct nv_chipsets_t NVKnownChipsets[] = {
 	{ 0x10DE06D1, "Tesla C2050" },	// TODO: sub-device id: 0x0771
 	{ 0x10DE06D1, "Tesla C2070" },	// TODO: sub-device id: 0x0772
 	{ 0x10DE06DE, "Tesla M2050" },	// TODO: sub-device id: 0x0846
-	{ 0x10DE06DE, "Tesla M2070" }	// TODO: sub-device id: ?
+	{ 0x10DE06DE, "Tesla M2070" },	// TODO: sub-device id: ?
+	{ 0x10DE06DD, "Quadro 4000" },
+	{ 0x10DE0DC4, "GeForce GTS 450" },
+	{ 0x10DE0DE1, "GeForce GT 430" },
+	{ 0x10DE1080, "GeForce GTX 580" }
 };
 
 static uint16_t swap16(uint16_t x)
