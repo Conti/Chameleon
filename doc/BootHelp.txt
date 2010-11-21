@@ -92,6 +92,13 @@ Options useful in the com.apple.Boot.plist file:
   DSDT=<file>             Use an alternate DSDT.aml file 
                             (default path: /DSDT.aml /Extra/DSDT.aml bt(0,0)/Extra/DSDT.aml).
 
+  GenerateCStates=Yes     Enable auto generation of Processor (C-States) and/or
+  GeneratePStates=Yes       Performance (P-States) power states.
+
+  EnableC2State=Yes       Enable specific Processor power states,
+  EnableC3State=Yes         C2, C3, C4.
+  EnableC4State=Yes
+
   SMBIOS=<file>           Use an alternate SMBIOS.plist file 
                             (default path: /Extra/SMBIOS.plist bt(0,0)/Extra/SMBIOS.plist).
 

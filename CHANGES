@@ -1,6 +1,6 @@
+- Added automatic P-States & C-States generation for native power management.
 - Added Booter Log Dump Tool
 - Added Booter message Logging (":/boot-log" ioreg property)
-- Removed obsolete -f option, use -x instead
 - Removed -x32 option, use arch=i386 instead
 - Added automatic SMBusspeed detection for lga1156 core i5/7 cpus
 - Added new iMac11,1 sbios default model for lga1156 core i5/17 mobos
@@ -21,12 +21,12 @@
 - Optimized cursor spinout in textmode if no verbose mode is set
 - Added ram table structures definitions
 - Added getSmbios() a param permitting to select between orig and new smbios entries
-- Changed "Default Partition" behaviour to accept only native system volumes or foreign partitions.
+- Changed "Default Partition" behavior to accept only native system volumes or foreign partitions.
 - Added NVIDIA new NVCAP customization support and support for ION gfx cards from aserebln
 - Added ATI new framebuffers support and new cards from PCEFI10.6
 - improved ACPI file search algo by implementing a cache.
 - Nvidia injection fix
-- pciroot would not always return correct uuid in autodection mode
+- pciroot would not always return correct uid in autodection mode
 - Fixed the hibernation problem in boot2/resume.c
 - Fixed all new booter versions with SystemType would override the facp value even if correct,
   now keeps the facp value if correct and no override has been done, implemented a best effort algo.
@@ -35,14 +35,14 @@
   conversions api, to be completed by function that we should reuse.
   
 - Fixed SystemType would be always forced to a value, now optionally changed
-  only if ovveriden
+  only if overriden
 - Kept SystemID as the only option to change manually the system-id 
-  For theses reasons, SystemId from bootConfig and SMUUID from smbiosConfig aer now DEPRECATED.
+  For theses reasons, SystemId from bootConfig and SMUUID from smbiosConfig are now DEPRECATED.
 
-- Integrated JrCs fadt patch (kept for RC5 the existing DSDT.aml  retry algo that disapeared in his patch, should be more discussed for RC6)
+- Integrated JrCs fadt patch (kept for RC5 the existing DSDT.aml  retry algo that disappeared in his patch, should be more discussed for RC6)
 - Added JrCs modified convention name change to coding_standards
 - Now malloc (ex. MALLOC in Asere patch) is renamed malloc(size) and is an alias 
-  to safe_malloc(size, file, line) with _FILE_ and _LINE_ prerocessor definitions
+  to safe_malloc(size, file, line) with _FILE_ and _LINE_ preprocessor definitions
 - Added a new 'Rename Partition Feature', now permitting to rename partition 
   like 'System reserved' to a more meaningful name
 - Added SystemID option permitting to change the System UUID to a fixed value.
