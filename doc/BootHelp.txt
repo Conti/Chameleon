@@ -90,17 +90,19 @@ Options useful in the com.apple.Boot.plist file:
 
   DropSSDT=Yes            Skip the SSDT tables while relocating the ACPI tables.
   DSDT=<file>             Use an alternate DSDT.aml file 
-                            (default path: /DSDT.aml /Extra/DSDT.aml bt(0,0)/Extra/DSDT.aml).
+                            (default paths:
+                              /DSDT.aml /Extra/DSDT.aml bt(0,0)/Extra/DSDT.aml).
 
   GenerateCStates=Yes     Enable auto generation of Processor (C-States) and/or
   GeneratePStates=Yes       Performance (P-States) power states.
 
-  EnableC2State=Yes       Enable specific Processor power states,
-  EnableC3State=Yes         C2, C3, C4.
-  EnableC4State=Yes
+  EnableC2State=Yes       Enable specific Processor power states, C2,
+  EnableC3State=Yes         C3
+  EnableC4State=Yes         and C4.
 
   SMBIOS=<file>           Use an alternate SMBIOS.plist file 
-                            (default path: /Extra/SMBIOS.plist bt(0,0)/Extra/SMBIOS.plist).
+                            (default paths:
+                              /Extra/SMBIOS.plist bt(0,0)/Extra/SMBIOS.plist).
 
   SMBIOSdefaults=No       Don't use the Default values for SMBIOS overriding
                             if smbios.plist doesn't exist, factory
