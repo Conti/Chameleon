@@ -37,7 +37,17 @@ install_i386:: all
 
 installhdrs::
 
-.SUFFIXES: .s .i .c .o
+.SUFFIXES: .s .i .c .o .o32 .o64
+
+.c.o32:
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(DEFINES) -c $(INC) -arch i386 $< -o $(OBJROOT)/$*.o32 \
+	    -MD -dependency-file $(OBJROOT)/$*.d
+	md -u $(OBJROOT)/Makedep -f -d $(OBJROOT)/$*.d
+
+.c.o64:
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(DEFINES) -c $(INC) -arch x86_64 $< -o $(OBJROOT)/$*.o64 \
+	    -MD -dependency-file $(OBJROOT)/$*.d
+	md -u $(OBJROOT)/Makedep -f -d $(OBJROOT)/$*.d
 
 .c.o .m.o:
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(DEFINES) -c $(INC) $< -o $(OBJROOT)/$*.o \
@@ -48,6 +58,17 @@ $(OBJROOT)/%.o: %.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(DEFINES) -c $(INC) $< -o $(OBJROOT)/$*.o \
 	    -MD -dependency-file $(OBJROOT)/$*.d
 	md -u $(OBJROOT)/Makedep -f -d $(OBJROOT)/$*.d
+
+$(OBJROOT)/%.o32: %.c
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(DEFINES) -c $(INC) -arch i386 $< -o $(OBJROOT)/$*.o32 \
+	    -MD -dependency-file $(OBJROOT)/$*.d
+	md -u $(OBJROOT)/Makedep -f -d $(OBJROOT)/$*.d
+
+$(OBJROOT)/%.o64: %.c
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(DEFINES) -c $(INC) -arch x86_64 $< -o $(OBJROOT)/$*.o64 \
+	    -MD -dependency-file $(OBJROOT)/$*.d
+	md -u $(OBJROOT)/Makedep -f -d $(OBJROOT)/$*.d
+
 
 $(OBJROOT)/%.o: %.m
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(DEFINES) -c $(INC) $< -o $(OBJROOT)/$*.o \
