@@ -122,7 +122,7 @@ kPartActive	     EQU  0x80
 ;--------------------------------------------------------------------------
 ; Boot code is loaded at 0:7C00h.
 ;
-start
+start:
     ;
     ; Set up the stack to grow down from kBoot0Segment:kBoot0Stack.
     ; Interrupts should be off while the stack is being manipulated.
@@ -278,7 +278,7 @@ find_boot:
         
     jmp     .continue
 
-.found
+.found:
     DebugChar('*')
 
     ;
@@ -432,7 +432,7 @@ load:
     jnc     .exit
     loop    .chs_loop
 
-.exit
+.exit:
     DebugChar('R')
     pop     cx
     ret
@@ -583,17 +583,17 @@ read_lba:
 ; Clobber list:
 ;   AX, BX, SI
 ;
-print_string
+print_string:
     mov     bx, 1                   ; BH=0, BL=1 (blue)
     cld                             ; increment SI after each lodsb call
-.loop
+.loop:
     lodsb                           ; load a byte from DS:SI into AL
     cmp     al, 0                   ; Is it a NULL?
     je      .exit                   ; yes, all done
     mov     ah, 0xE                 ; INT10 Func 0xE
     int     0x10                    ; display byte in tty mode
     jmp     short .loop
-.exit
+.exit:
     ret
 
 
@@ -690,11 +690,11 @@ boot_error_str   db  10, 13, 'Chain booting error', 0
 ebios_lba       dd   0   ; starting LBA of the intial extended partition.
 ebios_present   db   0   ; 1 if EBIOS is supported, 0 otherwise.
 
-pad_boot
+pad_boot:
     times 446-($-$$) db 0
 
-pad_table_and_sig
+pad_table_and_sig:
     times 510-($-$$) db 0
     dw    kBootSignature
 
-    END
+;END

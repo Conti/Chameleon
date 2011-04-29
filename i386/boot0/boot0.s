@@ -371,7 +371,7 @@ find_boot:
     jnz     .switchPass2					; didn't find Protective MBR before
     call    checkGPT						
 
-.switchPass2
+.switchPass2:
     ;
     ; Switching to Pass 2 
     ; try to find a boot1h aware HFS+ MBR partition
