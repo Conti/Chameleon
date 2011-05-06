@@ -440,8 +440,6 @@ static const char const SYSTEM_SERIAL_PROP[] = "SystemSerialNumber";
 static const char const SYSTEM_TYPE_PROP[] = "system-type";
 static const char const MODEL_PROP[] = "Model";
 static const char const BOARDID_PROP[] = "board-id";
-static const char const DEV_PATH_SUP[]    = "DevicePathsSupported";
-static uint32_t DevPathSup = 1;
 
 /*
  * Get an smbios option string option to convert to EFI_CHAR16 string
@@ -607,8 +605,6 @@ void setupEfiDeviceTree(void)
 	
 	if (Platform.CPU.CPUFrequency != 0)
 		DT__AddProperty(efiPlatformNode, CPU_Frequency_prop, sizeof(uint64_t), &Platform.CPU.CPUFrequency);
-	
-	DT__AddProperty(efiPlatformNode,DEV_PATH_SUP, sizeof(uint32_t), &DevPathSup);
 	
 	// Export system-id. Can be disabled with SystemId=No in com.apple.Boot.plist
 	if ((ret=getSystemID()))
