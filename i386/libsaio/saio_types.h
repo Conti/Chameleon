@@ -30,7 +30,7 @@
 #include <sys/types.h>
 #include "bios.h"
 #include "nbp_cmd.h"
-#include <pexpert/i386/boot.h>
+#include "bootargs.h"
 
 #if DEBUG
 #define DEBUG_DISK(x)    printf x

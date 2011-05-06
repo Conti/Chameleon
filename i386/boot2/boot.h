@@ -177,6 +177,7 @@ extern void loadImageScale (void *input, int iw, int ih, int ip, void *output, i
 /*
  * drivers.c
  */
+extern long LoadExtraDrivers(char * dirSpec);
 extern long LoadDrivers(char * dirSpec);
 extern long DecodeKernel(void *binary, entry_t *rentry, char **raddr, int *rsize);
 

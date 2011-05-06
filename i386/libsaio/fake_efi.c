@@ -76,8 +76,10 @@ static uint64_t ptov64(uint32_t addr)
  */
 
 /* Identify ourselves as the EFI firmware vendor */
-static EFI_CHAR16 const FIRMWARE_VENDOR[] = {'C','h','a','m','e','l','e','o','n','_','2','.','0', 0};
-static EFI_UINT32 const FIRMWARE_REVISION = 132; /* FIXME: Find a constant for this. */
+static EFI_CHAR16 const FIRMWARE_VENDOR[] = {'A','p','p','l','e'};
+static EFI_UINT32 const FIRMWARE_REVISION = 0x0001000a;
+//static EFI_CHAR16 const FIRMWARE_VENDOR[] = {'C','h','a','m','e','l','e','o','n','_','2','.','0', 0};
+//static EFI_UINT32 const FIRMWARE_REVISION = 132; /* FIXME: Find a constant for this. */
 
 /* Default platform system_id (fix by IntVar) */
 static EFI_CHAR8 const SYSTEM_ID[] = "0123456789ABCDEF"; //random value gen by uuidgen
@@ -437,7 +439,9 @@ static const char const SYSTEM_ID_PROP[] = "system-id";
 static const char const SYSTEM_SERIAL_PROP[] = "SystemSerialNumber";
 static const char const SYSTEM_TYPE_PROP[] = "system-type";
 static const char const MODEL_PROP[] = "Model";
-
+static const char const BOARDID_PROP[] = "board-id";
+static const char const DEV_PATH_SUP[]    = "DevicePathsSupported";
+static uint32_t DevPathSup = 1;
 
 /*
  * Get an smbios option string option to convert to EFI_CHAR16 string
@@ -604,6 +608,8 @@ void setupEfiDeviceTree(void)
 	if (Platform.CPU.CPUFrequency != 0)
 		DT__AddProperty(efiPlatformNode, CPU_Frequency_prop, sizeof(uint64_t), &Platform.CPU.CPUFrequency);
 	
+	DT__AddProperty(efiPlatformNode,DEV_PATH_SUP, sizeof(uint32_t), &DevPathSup);
+	
 	// Export system-id. Can be disabled with SystemId=No in com.apple.Boot.plist
 	if ((ret=getSystemID()))
 		DT__AddProperty(efiPlatformNode, SYSTEM_ID_PROP, UUID_LEN, (EFI_UINT32*) ret);
@@ -615,9 +621,25 @@ void setupEfiDeviceTree(void)
 	// Export Model if present
 	if ((ret16=getSmbiosChar16("SMproductname", &len)))
 		DT__AddProperty(efiPlatformNode, MODEL_PROP, len, ret16);
-	
+		
 	// Fill /efi/device-properties node.
 	setupDeviceProperties(node);
+}
+
+/*
+ * Must be called AFTER getSmbios
+ */
+
+void setupBoardId()
+{
+    Node *node;
+    node = DT__FindNode("/", false);
+    if (node == 0) {
+        stop("Couldn't get root node");
+    }
+    const char *boardid = getStringForKey("SMboardproduct", &bootInfo->smbiosConfig);
+    if (boardid)
+        DT__AddProperty(node, BOARDID_PROP, strlen(boardid)+1, (EFI_CHAR16*)boardid);
 }
 
 /*
@@ -671,6 +693,8 @@ static void setupEfiConfigurationTable()
 {
 	smbios_p = (EFI_PTR32)getSmbios(SMBIOS_PATCHED);
 	addConfigurationTable(&gEfiSmbiosTableGuid, &smbios_p, NULL);
+	
+	setupBoardId(); //need to be called after getSmbios
 	
 	// Setup ACPI with DSDT overrides (mackerintel's patch)
 	setupAcpi();

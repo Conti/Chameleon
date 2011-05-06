@@ -25,7 +25,7 @@
 #ifndef __BOOTSTRUCT_H
 #define __BOOTSTRUCT_H
 
-#include <pexpert/i386/boot.h>
+#include "bootargs.h"
 #include "saio_types.h"
 #include "bios.h"
 #include "device_tree.h"
@@ -34,6 +34,7 @@
     Kernel boot args global also used by booter for its own data.
  */
 extern boot_args *bootArgs;
+extern boot_args_pre_lion *bootArgsPreLion;
 extern Node *gMemoryMapNode;
 
 #define VGA_TEXT_MODE 0

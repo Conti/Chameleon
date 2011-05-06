@@ -248,9 +248,9 @@ static long DecodeSegment(long cmdBase, unsigned int *load_addr, unsigned int *l
           (vmaddr + vmsize) <= (HIB_ADDR + HIB_LEN)))) {
       stop("Kernel overflows available space");
   }
-
-  if (vmsize && (strcmp(segname, "__PRELINK") == 0))
-    gHaveKernelCache = true;
+	
+  if (vmsize && ((strcmp(segname, "__PRELINK_INFO") == 0) || (strcmp(segname, "__PRELINK") == 0)))
+	  gHaveKernelCache = true;
   
   // Copy from file load area.
   if (vmsize>0 && filesize>0)

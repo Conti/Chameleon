@@ -34,11 +34,17 @@
  * the kernel by the booter.
  */
 
-boot_args         *bootArgs;
-PrivateBootInfo_t *bootInfo;
-Node              *gMemoryMapNode;
+boot_args			*bootArgs;
+boot_args_pre_lion	*bootArgsPreLion;
+PrivateBootInfo_t	*bootInfo;
+Node				*gMemoryMapNode;
 
 static char platformName[64];
+
+bool checkOSVersion(const char * version) 
+{
+	return ((gMacOSVersion[0] == version[0]) && (gMacOSVersion[1] == version[1]) && (gMacOSVersion[2] == version[2]) && (gMacOSVersion[3] == version[3]));
+}
 
 void initKernBootStruct( void )
 {
@@ -49,11 +55,13 @@ void initKernBootStruct( void )
     if ( !init_done )
     {
         bootArgs = (boot_args *)malloc(sizeof(boot_args));
+		bootArgsPreLion = (boot_args_pre_lion *)malloc(sizeof(boot_args_pre_lion));
         bootInfo = (PrivateBootInfo_t *)malloc(sizeof(PrivateBootInfo_t));
         if (bootArgs == 0 || bootInfo == 0)
             stop("Couldn't allocate boot info\n");
 
         bzero(bootArgs, sizeof(boot_args));
+		bzero(bootArgsPreLion, sizeof(boot_args_pre_lion));
         bzero(bootInfo, sizeof(PrivateBootInfo_t));
 
         // Get system memory map. Also update the size of the
@@ -91,8 +99,11 @@ void initKernBootStruct( void )
         gMemoryMapNode = DT__FindNode("/chosen/memory-map", true);
 
         bootArgs->Version  = kBootArgsVersion;
-        bootArgs->Revision = 5;
-
+        bootArgs->Revision = kBootArgsRevision;
+		
+		bootArgsPreLion->Version  = kBootArgsPreLionVersion;
+        bootArgsPreLion->Revision = kBootArgsPreLionRevision;
+		
         init_done = 1;
     }
 
@@ -104,9 +115,18 @@ void initKernBootStruct( void )
 void
 reserveKernBootStruct(void)
 {
-    void *oldAddr = bootArgs;
-    bootArgs = (boot_args *)AllocateKernelMemory(sizeof(boot_args));
-    bcopy(oldAddr, bootArgs, sizeof(boot_args));
+	if (checkOSVersion("10.7"))
+    {
+		void *oldAddr = bootArgs;
+		bootArgs = (boot_args *)AllocateKernelMemory(sizeof(boot_args));
+		bcopy(oldAddr, bootArgs, sizeof(boot_args));
+	}
+	else {
+		void *oldAddr = bootArgsPreLion;
+		bootArgsPreLion = (boot_args_pre_lion *)AllocateKernelMemory(sizeof(boot_args_pre_lion));
+		bcopy(oldAddr, bootArgsPreLion, sizeof(boot_args_pre_lion));
+	}
+
 }
 
 void
@@ -170,4 +190,31 @@ finalizeBootStruct(void)
     DT__FlattenDeviceTree((void **)&addr, &size);
     bootArgs->deviceTreeP = (uint32_t)addr;
     bootArgs->deviceTreeLength = size;
+	
+	// Copy BootArgs values to older structure
+	
+	memcpy(&bootArgsPreLion->CommandLine, &bootArgs->CommandLine, BOOT_LINE_LENGTH);
+	memcpy(&bootArgsPreLion->Video, &bootArgs->Video, sizeof(Boot_Video));
+	
+	bootArgsPreLion->MemoryMap = bootArgs->MemoryMap;
+	bootArgsPreLion->MemoryMapSize = bootArgs->MemoryMapSize;
+	bootArgsPreLion->MemoryMapDescriptorSize = bootArgs->MemoryMapDescriptorSize;
+	bootArgsPreLion->MemoryMapDescriptorVersion = bootArgs->MemoryMapDescriptorVersion;
+	
+	bootArgsPreLion->deviceTreeP = bootArgs->deviceTreeP;	  
+	bootArgsPreLion->deviceTreeLength = bootArgs->deviceTreeLength;
+	
+	bootArgsPreLion->kaddr = bootArgs->kaddr;
+	bootArgsPreLion->ksize = bootArgs->ksize;
+	
+	bootArgsPreLion->efiRuntimeServicesPageStart = bootArgs->efiRuntimeServicesPageStart;
+	bootArgsPreLion->efiRuntimeServicesPageCount = bootArgs->efiRuntimeServicesPageCount;
+	bootArgsPreLion->efiSystemTable = bootArgs->efiSystemTable;
+	
+	bootArgsPreLion->efiMode = bootArgs->efiMode;
+	
+	bootArgsPreLion->performanceDataStart = bootArgs->performanceDataStart;
+	bootArgsPreLion->performanceDataSize = bootArgs->performanceDataSize;
+	bootArgsPreLion->efiRuntimeServicesVirtualPageStart = bootArgs->efiRuntimeServicesVirtualPageStart;
+	
 }
