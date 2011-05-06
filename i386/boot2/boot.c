@@ -81,7 +81,8 @@ bool    useGUI;
 
 //static void selectBiosDevice(void);
 static unsigned long Adler32(unsigned char *buffer, long length);
-static bool getOSVersion(char *str);
+static bool checkOSVersion(const char * version);
+static bool getOSVersion();
 
 static bool gUnloadPXEOnExit = false;
 
@@ -149,7 +150,6 @@ static int ExecKernel(void *binary)
     reserveKernBootStruct();
 
     // Load boot drivers from the specifed root path.
-
     if (!gHaveKernelCache)
 		LoadDrivers("/");
 
@@ -362,6 +362,7 @@ void common_boot(int biosdev)
         bool tryresume;
         bool tryresumedefault;
         bool forceresume;
+		bool usecache;
 
         // additional variable for testing alternate kernel image locations on boot helper partitions.
         char     bootFileSpec[512];
@@ -411,7 +412,7 @@ void common_boot(int biosdev)
 		}
 		
 		// Find out which version mac os we're booting.
-		getOSVersion(gMacOSVersion);
+		getOSVersion();
 
 		if (platformCPUFeature(CPU_FEATURE_EM64T)) {
 			archCpuType = CPU_TYPE_X86_64;
@@ -467,51 +468,56 @@ void common_boot(int biosdev)
 			HibernateBoot((char *)val);
 			break;
 		}
-
-        // Reset cache name.
-        bzero(gCacheNameAdler + 64, sizeof(gCacheNameAdler) - 64);
-
-        sprintf(gCacheNameAdler + 64, "%s,%s", gRootDevice, bootInfo->bootFile);
-
-        adler32 = Adler32((unsigned char *)gCacheNameAdler, sizeof(gCacheNameAdler));
-
-        if (getValueForKey(kKernelCacheKey, &val, &len, &bootInfo->bootConfig)) {
-            strlcpy(gBootKernelCacheFile, val, len+1);
-        }
-		else {
-			//Lion
-			if (checkOSVersion("10.7")) {
-				sprintf(gBootKernelCacheFile, "%skernelcache", kDefaultCachePathSnow);
+		
+		if(getBoolForKey(kUseKernelCache, &usecache, &bootInfo->bootConfig)) {
+			if (getValueForKey(kKernelCacheKey, &val, &len, &bootInfo->bootConfig)) {
+				strlcpy(gBootKernelCacheFile, val, len+1);
 			}
-			// Snow Leopard
-			else if (checkOSVersion("10.6")) {
-				sprintf(gBootKernelCacheFile, "kernelcache_%s", (archCpuType == CPU_TYPE_I386) ? "i386" : "x86_64"); //, adler32);
-				int lnam = sizeof(gBootKernelCacheFile) + 9; //with adler32
-				//Slice - TODO
-				/*
-				 - but the name is longer .adler32 and more...
-				 kernelcache_i386.E102928C.qSs0
-				 so will opendir and scan for some files
-				 */ 
-				char* name;
-				long prev_time = 0;
-				
-				struct dirstuff* cacheDir = opendir(kDefaultCachePathSnow);
-				
-				while(readdir(cacheDir, (const char**)&name, &flags, &time) >= 0)
-				{
-					if(((flags & kFileTypeMask) != kFileTypeDirectory) && time > prev_time && strstr(name, gBootKernelCacheFile) && (name[lnam] != '.'))
+			else {
+				//Lion
+				if (checkOSVersion("10.7")) {
+					sprintf(gBootKernelCacheFile, "%skernelcache", kDefaultCachePathSnow);
+				}
+				// Snow Leopard
+				else if (checkOSVersion("10.6")) {
+					sprintf(gBootKernelCacheFile, "kernelcache_%s", (archCpuType == CPU_TYPE_I386) ? "i386" : "x86_64");
+					int lnam = sizeof(gBootKernelCacheFile) + 9; //with adler32
+					//Slice - TODO
+					/*
+					 - but the name is longer .adler32 and more...
+					 kernelcache_i386.E102928C.qSs0
+					 so will opendir and scan for some files
+					 */ 
+					char* name;
+					long prev_time = 0;
+					
+					struct dirstuff* cacheDir = opendir(kDefaultCachePathSnow);
+					
+					while(readdir(cacheDir, (const char**)&name, &flags, &time) >= 0)
 					{
-						sprintf(gBootKernelCacheFile, "%s%s", kDefaultCachePathSnow, name);
-						prev_time = time;
+						if(((flags & kFileTypeMask) != kFileTypeDirectory) && time > prev_time && strstr(name, gBootKernelCacheFile) && (name[lnam] != '.'))
+						{
+							sprintf(gBootKernelCacheFile, "%s%s", kDefaultCachePathSnow, name);
+							prev_time = time;
+						}
 					}
 				}
+				else {
+					// Reset cache name.
+					bzero(gCacheNameAdler + 64, sizeof(gCacheNameAdler) - 64);
+					
+					sprintf(gCacheNameAdler + 64, "%s,%s", gRootDevice, bootInfo->bootFile);
+					
+					adler32 = Adler32((unsigned char *)gCacheNameAdler, sizeof(gCacheNameAdler));
+					
+					sprintf(gBootKernelCacheFile, "%s.%08lX", kDefaultCachePathLeo, adler32);
+				}
 			}
-			else sprintf(gBootKernelCacheFile, "%s.%08lX", kDefaultCachePathLeo, adler32);
 		}
-
+			
         // Check for cache file.
-        trycache = (((gBootMode & kBootModeSafe) == 0) &&
+        trycache = (usecache && 
+					((gBootMode & kBootModeSafe) == 0) &&
                     !gOverrideKernel &&
                     (gBootFileType == kBlockDeviceType) &&
                     (gMKextName[0] == '\0') &&
@@ -547,9 +553,6 @@ void common_boot(int biosdev)
                 break;
             }
         } while (0);
-		
-		if (getValueForKey("-usecache", &val, &len, &bootInfo->bootConfig)) 
-			trycache=1;
 
         do {
             if (trycache) {
@@ -673,13 +676,18 @@ static void selectBiosDevice(void)
 }
 */
 
-static bool getOSVersion(char *str)
+bool checkOSVersion(const char * version) 
+{
+	return ((gMacOSVersion[0] == version[0]) && (gMacOSVersion[1] == version[1]) && (gMacOSVersion[2] == version[2]) && (gMacOSVersion[3] == version[3]));
+}
+
+bool getOSVersion()
 {
 	bool valid = false;
 	config_file_t systemVersion;
 	const char *val;
 	int len;
-
+	
 	if (!loadConfigFile("System/Library/CoreServices/SystemVersion.plist", &systemVersion))
 	{
 		valid = true;
@@ -688,20 +696,20 @@ static bool getOSVersion(char *str)
 	{
 		valid = true;
 	}
-
+	
 	if (valid)
 	{
 		if  (getValueForKey(kProductVersion, &val, &len, &systemVersion))
 		{
 			// getValueForKey uses const char for val
 			// so copy it and trim
-			*str = '\0';
-			strncat(str, val, MIN(len, 4));
+			*gMacOSVersion = '\0';
+			strncat(gMacOSVersion, val, MIN(len, 4));
 		}
 		else
 			valid = false;
 	}
-
+	
 	return valid;
 }
 

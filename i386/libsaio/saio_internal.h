@@ -75,7 +75,6 @@ extern unsigned long getConventionalMemorySize();
 extern void   sleep(int n);
 
 /* bootstruct.c */
-extern bool   checkOSVersion(const char * version);
 extern void   initKernBootStruct(void);
 extern void   reserveKernBootStruct(void);
 extern void   copyKernBootStruct(void);
