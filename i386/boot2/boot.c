@@ -138,6 +138,7 @@ static int ExecKernel(void *binary)
     int                       ret;
 
     bootArgs->kaddr = bootArgs->ksize = 0;
+	execute_hook("ExecKernel", (void*)binary, NULL, NULL, NULL);
 
     ret = DecodeKernel(binary,
                        &kernelEntry,
@@ -150,6 +151,9 @@ static int ExecKernel(void *binary)
     // Reserve space for boot args
     reserveKernBootStruct();
 
+	// Notify modules that the kernel has been decoded
+	execute_hook("DecodedKernel", (void*)binary, NULL, NULL, NULL);
+	
     // Load boot drivers from the specifed root path.
     if (!gHaveKernelCache)
 		LoadDrivers("/");
@@ -187,6 +191,8 @@ static int ExecKernel(void *binary)
 
 	usb_loop();
 
+	
+	execute_hook("Kernel Start", (void*)kernelEntry, (void*)bootArgs, NULL, NULL);	// Notify modules that the kernel is about to be started
     // If we were in text mode, switch to graphics mode.
     // This will draw the boot graphics unless we are in
     // verbose mode.
@@ -335,6 +341,9 @@ void common_boot(int biosdev)
 
     gBootVolume = selectBootVolume(bvChain);
 
+	// Intialize module system 
+	init_module_system();
+	
 #if DEBUG
     printf(" Default: %d, ->biosdev: %d, ->part_no: %d ->flags: %d\n", gBootVolume, gBootVolume->biosdev, gBootVolume->part_no, gBootVolume->flags);
     printf(" bt(0,0): %d, ->biosdev: %d, ->part_no: %d ->flags: %d\n", gBIOSBootVolume, gBIOSBootVolume->biosdev, gBIOSBootVolume->part_no, gBIOSBootVolume->flags);
@@ -425,6 +434,9 @@ void common_boot(int biosdev)
 				archCpuType = CPU_TYPE_I386;
 			}
 		}
+
+		// Notify moduals that we are attempting to boot
+		execute_hook("PreBoot", NULL, NULL, NULL, NULL);
 
 		if (!getBoolForKey (kWake, &tryresume, &bootInfo->bootConfig)) {
 			tryresume = true;
