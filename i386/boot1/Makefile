@@ -21,10 +21,14 @@ endif
 all embedtheme: $(DIRS_NEEDED) $(VERSIONED_FILES)
 
 boot1h: boot1.s Makefile
-	$(NASM) boot1.s -o $(SYMROOT)/boot1h
-	$(NASM) boot1hp.s -o $(SYMROOT)/boot1hp
-	$(NASM) boot1he.s -o $(SYMROOT)/boot1he
-	$(NASM) boot1f32.s -o $(SYMROOT)/boot1f32
+	@echo "\t[NASM] boot1.s"
+	@$(NASM) boot1.s -o $(SYMROOT)/boot1h
+	@echo "\t[NASM] boot1hp.s"
+	@$(NASM) boot1hp.s -o $(SYMROOT)/boot1hp
+	@echo "\t[NASM] boot1he.s"
+	@$(NASM) boot1he.s -o $(SYMROOT)/boot1he
+	@echo "\t[NASM] boot1f32.s"
+	@$(NASM) boot1f32.s -o $(SYMROOT)/boot1f32
 
 install_i386:: all $(INSTALLDIR)
 	cp $(SYMROOT)/boot1h $(INSTALLDIR)/

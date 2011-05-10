@@ -58,6 +58,7 @@
 #include "ramdisk.h"
 #include "gui.h"
 #include "platform.h"
+#include "modules.h"
 
 long gBootMode; /* defaults to 0 == kBootModeNormal */
 bool gOverrideKernel;

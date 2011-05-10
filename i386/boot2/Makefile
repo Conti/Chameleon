@@ -42,13 +42,13 @@ VPATH = $(OBJROOT):$(SYMROOT)
 # The ordering is important;
 # boot2.o must be first.
 OBJS = boot2.o boot.o graphics.o drivers.o prompt.o options.o lzss.o mboot.o \
-	ramdisk.o picopng.o resume.o bmdecompress.o graphic_utils.o gui.o
+	ramdisk.o picopng.o resume.o bmdecompress.o graphic_utils.o gui.o modules.o modules_support.o
 # button.o browser.o scrollbar.o == NOTYET	
 
 UTILDIR = ../util
 SFILES = boot2.s
-CFILES = boot.c graphics.c drivers.c prompt.c options.c mboot.c picopng.c
-HFILES = boot.h appleClut8.h appleboot.h mboot.h multiboot.h picopng.h
+CFILES = boot.c graphics.c drivers.c prompt.c options.c mboot.c picopng.c modules.c
+HFILES = boot.h appleClut8.h appleboot.h mboot.h multiboot.h picopng.h modules.h
 OTHERFILES = Makefile
 ALLSRC = $(FOREIGNSRC) $(FOREIGNBIN) $(SFILES) $(CFILES) \
 	$(HFILES) $(OTHERFILES)
@@ -62,12 +62,16 @@ embedtheme: CFLAGS += -DEMBED_THEME
 embedtheme: art.h all
 
 boot: machOconv embedded.h $(OBJS) $(LIBDEP)
-	$(LD) -static -Wl,-preload -Wl,-segaddr,__INIT,$(BOOT2ADDR) \
+	@echo "\t[LD] boot.sys"
+	@$(LD) -static -Wl,-preload -Wl,-segaddr,__INIT,$(BOOT2ADDR) \
 	        -nostdlib -arch i386 -Wl,-segalign,20 \
 		-o $(SYMROOT)/boot.sys $(filter %.o,$^) $(LIBS) -lcc_kext
-	machOconv $(SYMROOT)/boot.sys $(SYMROOT)/boot
-	size $(SYMROOT)/boot.sys
-	ls -l $(SYMROOT)/boot
+	
+	@echo "\t[MACHOCONV] boot"
+	@$(SYMROOT)/machOconv $(SYMROOT)/boot.sys $(SYMROOT)/boot
+	
+	@#size $(SYMROOT)/boot.sys
+	@#ls -l $(SYMROOT)/boot
 	@( size=`ls -l $(SYMROOT)/boot | awk '{ print $$5}'` ; \
 	  if expr "$$size" ">" "$(MAXBOOTSIZE)" > /dev/null ;\
 	  then \

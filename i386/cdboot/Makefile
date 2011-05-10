@@ -7,16 +7,17 @@ NASM = $(shell which nasm)
 INSTALLDIR = $(DSTROOT)/usr/standalone/i386
 DIRS_NEEDED = $(SYMROOT)
 
-all embedtheme: $(DIRS_NEEDED) cdboot
+all embedtheme optionrom: $(DIRS_NEEDED) cdboot
 
 cdboot: cdboot.s $(SYMROOT)/boot Makefile $(NASM)
-	$(NASM) cdboot.s -o $(SYMROOT)/cdboot
-	dd if=$(SYMROOT)/boot of=$(SYMROOT)/cdboot conv=sync bs=2k seek=1
+	@echo "\t[NASM] cdboot.s"	
+	@$(NASM) cdboot.s -o $(SYMROOT)/cdboot
+	@dd if=$(SYMROOT)/boot of=$(SYMROOT)/cdboot conv=sync bs=2k seek=1 &> /dev/null
 
-	# Update cdboot with boot file size info
-	stat -f%z $(SYMROOT)/boot \
+	@# Update cdboot with boot file size info
+	@stat -f%z $(SYMROOT)/boot \
 		| perl -ane "print pack('V',@F[0]);" \
-		| dd of=$(SYMROOT)/cdboot bs=1 count=4 seek=2044 conv=notrunc
+		| dd of=$(SYMROOT)/cdboot bs=1 count=4 seek=2044 conv=notrunc &> /dev/null
 
 install_i386:: all $(INSTALLDIR)
 	cp $(SYMROOT)/cdboot $(INSTALLDIR)
