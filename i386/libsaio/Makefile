@@ -73,10 +73,13 @@ all embedtheme: $(DIRS_NEEDED) libsaio.h $(LIBS)
 #	ranlib $(SYMROOT)/$@
 
 libsaio.a: $(SAIO_EXTERN_OBJS) $(SAIO_OBJS)
-	rm -f $(SYMROOT)/$(@F)
-	ar q $(SYMROOT)/$(@F) $^
-	ranlib $(SYMROOT)/$(@F)
-
+	@echo "\t[RM] $(SYMROOT)/$(@F)"
+	@rm -f $(SYMROOT)/$(@F)
+	@echo "\t[AR] $@"
+	@ar q $(SYMROOT)/$(@F) $^ &> /dev/null
+	@echo "\t[RANLIB] $@"
+	@ranlib $(SYMROOT)/$(@F)
+	
 #saio_internal.h: saio_external.h
 #saio_table.c: saio_external.h
 #saio_defs.h: saio_external.h
