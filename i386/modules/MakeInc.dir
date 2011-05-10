@@ -1,0 +1,55 @@
+include ../../MakePaths.dir
+include ../../MakeInc.dir
+
+OBJROOT=../../../obj/i386/$(DIR)
+SYMROOT=../../../sym/i386/
+DSTROOT=../../../dst/i386/
+
+
+UTILDIR = ../../util
+LIBSADIR = ../../libsa
+LIBSAIODIR = ../../libsaio
+BOOT2DIR = ../../boot2
+
+MODULE_DEPENDENCIES := $(foreach x,$(MODULE_DEPENDENCIES),-weak_library $(SYMROOT)/modules/$(x).dylib)
+
+
+INSTALLDIR = $(DSTROOT)/System/Library/Frameworks/System.framework/Versions/B/PrivateHeaders/standalone
+
+dylib: ${MODULE_OBJS} dylib_final
+
+dylib_final: 
+	@rm -rf $(SYMROOT)/$(MODULE_NAME).dylib	#ensure module doesn't link with old version of self
+	@echo "\t[LD] $(MODULE_NAME).dylib"
+	
+	@ld -arch i386 \
+	-alias $(MODULE_START) start \
+	-dylib -read_only_relocs suppress \
+	-S -x -Z -dead_strip_dylibs \
+	-no_uuid \
+	-current_version $(MODULE_VERSION) -compatibility_version $(MODULE_COMPAT_VERSION) \
+	-final_output $(MODULE_NAME) \
+	-L$(OBJROOT)/ \
+	-L$(OBJROOT)/../ \
+	-L$(SYMROOT)/ \
+	$(OBJROOT)/*.o \
+	-weak_library $(OBJROOT)/../../boot2/Symbols_LINKER_ONLY.dylib \
+	$(MODULE_DEPENDENCIES) \
+	-macosx_version_min 10.6 \
+	-o $(SYMROOT)/modules/$(MODULE_NAME).dylib
+	
+	@cp -rf include/* ../module_includes/ &> /dev/null || true
+	
+%.o: %.c
+	@echo "\t[CC] $<"
+	@$(CC) $(CPPFLAGS) $(CFLAGS) -I../include/ -Iinclude/ -I../module_includes/ -D__KLIBC__ $(DEFINES) -c "$<" $(INC) -o "$(OBJROOT)/$@"
+
+%.o: %.cpp
+	@echo "\t[CPP] $<"
+	@$(CPP) $(CPPFLAGS) $(CFLAGS) -I../include/ -Iinclude/ -I../module_includes/ -D__KLIBC__ $(DEFINES) -c "$<" $(INC) -o "$(OBJROOT)/$@"
+
+
+
+
+# dependencies
+#-include $(OBJROOT)/Makedep
