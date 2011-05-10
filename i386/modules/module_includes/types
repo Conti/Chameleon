@@ -1,3 +1,0 @@
-extern "C" {
-	#include "types.h"
-}
