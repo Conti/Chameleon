@@ -5,7 +5,8 @@ include ../MakePaths.dir
 INSTALLDIR = $(DSTROOT)/usr/standalone/i386
 DIRS_NEEDED = $(OBJROOT) $(SYMROOT)
 
-NASM = /Developer/usr/bin/nasm
+#NASM = /Developer/usr/bin/nasm
+NASM = $(shell which nasm)
 
 VERSIONED_FILES = boot1h
 

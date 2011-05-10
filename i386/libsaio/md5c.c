@@ -28,13 +28,7 @@
  * edited for clarity and style only.
  */
 
-#include <sys/types.h>
-
-#ifdef KERNEL
-#include <sys/systm.h>
-#else
-#include <string.h>
-#endif
+#include "libsaio.h"
 
 #if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
 # include <Kernel/libkern/crypto/md5.h>
@@ -43,56 +37,8 @@
 #endif
 
 
-#ifdef KERNEL
-#define memset(x,y,z)	bzero(x,z);
-#define memcpy(x,y,z)	bcopy(y, x, z)
-#endif
-
-#if defined(__i386__) || defined(__alpha__)
 #define Encode memcpy
 #define Decode memcpy
-#else /* __i386__ */
-
-/*
- * Encodes input (u_int32_t) into output (unsigned char). Assumes len is
- * a multiple of 4.
- */
-
-/* XXX not prototyped, and not compatible with memcpy(). */
-static void
-Encode (output, input, len)
-	unsigned char *output;
-	u_int32_t *input;
-	unsigned int len;
-{
-	unsigned int i, j;
-
-	for (i = 0, j = 0; j < len; i++, j += 4) {
-		output[j] = (unsigned char)(input[i] & 0xff);
-		output[j+1] = (unsigned char)((input[i] >> 8) & 0xff);
-		output[j+2] = (unsigned char)((input[i] >> 16) & 0xff);
-		output[j+3] = (unsigned char)((input[i] >> 24) & 0xff);
-	}
-}
-
-/*
- * Decodes input (unsigned char) into output (u_int32_t). Assumes len is
- * a multiple of 4.
- */
-
-static void
-Decode (output, input, len)
-	u_int32_t *output;
-	const unsigned char *input;
-	unsigned int len;
-{
-	unsigned int i, j;
-
-	for (i = 0, j = 0; j < len; i++, j += 4)
-		output[i] = ((u_int32_t)input[j]) | (((u_int32_t)input[j+1]) << 8) |
-		    (((u_int32_t)input[j+2]) << 16) | (((u_int32_t)input[j+3]) << 24);
-}
-#endif /* i386 */
 
 static unsigned char PADDING[64] = {
   0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
