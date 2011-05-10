@@ -76,7 +76,8 @@ struct seg_desc __attribute__ ((section("__INIT,__data"))) Gdt[ NGDTENT ] = {
 
     /*  0x8 : boot protected mode 32-bit code segment
               byte granularity, 1MB limit, MEMBASE offset */
-    {0xFFFF, MEMBASE, 0x00, 0x9E, 0x4F, 0x00},    
+    //{0xFFFF, MEMBASE, 0x00, 0x9E, 0x4F, 0x00},    
+	{0xFFFF, 0x0000,  0x00, 0x9E, 0xCF, 0x00},
     
     /* 0x10 : boot protected mode data segment
               page granularity, 4GB limit, MEMBASE offset */
