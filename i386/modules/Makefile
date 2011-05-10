@@ -21,9 +21,9 @@ LD = ld
 #
 # these paths are only valid in subdirectories of this directory
 #
-OBJROOT=`pwd`/../../obj/i386/
-SYMROOT=`pwd`/../../sym/i386/
-DSTROOT=`pwd`/../../dst/i386/
+OBJROOT=`pwd`/../../obj/i386/modules/
+SYMROOT=`pwd`/../../sym/i386/modules/
+DSTROOT=`pwd`/../../dst/i386/modules/
 SRCROOT=/tmp
 
 VPATH = $(OBJROOT):$(SYMROOT)
@@ -35,8 +35,8 @@ all embedtheme optionrom tags debug install installhdrs: objroot_dirs
 		echo ================= make $@ for $$i =================; \
 		( cd $$i; $(MKDIRS) $(OBJROOT)/$$i; ${MAKE}					  \
 			"OBJROOT=$(OBJROOT)/$$i"			  \
-		  	"SYMROOT=$(SYMROOT)"				  \
-			"DSTROOT=$(DSTROOT)"				  \
+		  	"SYMROOT=$(SYMROOT)/"				  \
+			"DSTROOT=$(DSTROOT)/"				  \
 			"SRCROOT=$(SRCROOT)"				  \
 			"RC_ARCHS=$(RC_ARCHS)"				  \
 			"RC_KANJI=$(RC_KANJI)"				  \
