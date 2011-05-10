@@ -12,6 +12,8 @@ else
   MKDIRS = /bin/mkdir -p
 endif
 
+CPP = g++ -fno-exceptions -fno-rtti
+
 # Toggle this as to whether you want a frame pointer (%ebp) to be used. It is
 # invaluable for debugging the booter. For example using GDB attached to VMware.
 # In fact, it's so invaluable that it's now the default.  Not only that but the
@@ -40,53 +42,63 @@ installhdrs::
 .SUFFIXES: .s .i .c .o .o32 .o64
 
 .c.o32:
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(DEFINES) -c $(INC) -arch i386 $< -o $(OBJROOT)/$*.o32 \
+	@echo "\t[CC32] $<"
+	@$(CC) $(CPPFLAGS) $(CFLAGS) $(DEFINES) -c $(INC) -arch i386 $< -o $(OBJROOT)/$*.o32 \
 	    -MD -dependency-file $(OBJROOT)/$*.d
-	md -u $(OBJROOT)/Makedep -f -d $(OBJROOT)/$*.d
+	@md -u $(OBJROOT)/Makedep -f -d $(OBJROOT)/$*.d
 
 .c.o64:
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(DEFINES) -c $(INC) -arch x86_64 $< -o $(OBJROOT)/$*.o64 \
+	@echo "\t[CC64] $<"
+	@$(CC) $(CPPFLAGS) $(CFLAGS) $(DEFINES) -c $(INC) -arch x86_64 $< -o $(OBJROOT)/$*.o64 \
 	    -MD -dependency-file $(OBJROOT)/$*.d
-	md -u $(OBJROOT)/Makedep -f -d $(OBJROOT)/$*.d
+	@md -u $(OBJROOT)/Makedep -f -d $(OBJROOT)/$*.d
 
 .c.o .m.o:
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(DEFINES) -c $(INC) $< -o $(OBJROOT)/$*.o \
+	@echo "\t[CC] $<"
+	@$(CC) $(CPPFLAGS) $(CFLAGS) $(DEFINES) -c $(INC) $< -o $(OBJROOT)/$*.o \
 	    -MD -dependency-file $(OBJROOT)/$*.d
-	md -u $(OBJROOT)/Makedep -f -d $(OBJROOT)/$*.d
+	@md -u $(OBJROOT)/Makedep -f -d $(OBJROOT)/$*.d
 
 $(OBJROOT)/%.o: %.c
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(DEFINES) -c $(INC) $< -o $(OBJROOT)/$*.o \
+	@echo "\t[CC] $<"
+	@$(CC) $(CPPFLAGS) $(CFLAGS) $(DEFINES) -c $(INC) $< -o $(OBJROOT)/$*.o \
 	    -MD -dependency-file $(OBJROOT)/$*.d
-	md -u $(OBJROOT)/Makedep -f -d $(OBJROOT)/$*.d
+	@md -u $(OBJROOT)/Makedep -f -d $(OBJROOT)/$*.d
 
 $(OBJROOT)/%.o32: %.c
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(DEFINES) -c $(INC) -arch i386 $< -o $(OBJROOT)/$*.o32 \
+	@echo "\t[CC32] $<"
+	@$(CC) $(CPPFLAGS) $(CFLAGS) $(DEFINES) -c $(INC) -arch i386 $< -o $(OBJROOT)/$*.o32 \
 	    -MD -dependency-file $(OBJROOT)/$*.d
-	md -u $(OBJROOT)/Makedep -f -d $(OBJROOT)/$*.d
+	@md -u $(OBJROOT)/Makedep -f -d $(OBJROOT)/$*.d
 
 $(OBJROOT)/%.o64: %.c
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(DEFINES) -c $(INC) -arch x86_64 $< -o $(OBJROOT)/$*.o64 \
+	@echo "\t[CC64] $<"
+	@$(CC) $(CPPFLAGS) $(CFLAGS) $(DEFINES) -c $(INC) -arch x86_64 $< -o $(OBJROOT)/$*.o64 \
 	    -MD -dependency-file $(OBJROOT)/$*.d
-	md -u $(OBJROOT)/Makedep -f -d $(OBJROOT)/$*.d
-
+	@md -u $(OBJROOT)/Makedep -f -d $(OBJROOT)/$*.d
 
 $(OBJROOT)/%.o: %.m
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(DEFINES) -c $(INC) $< -o $(OBJROOT)/$*.o \
+	@echo "\t[CC] $<"
+	@$(CC) $(CPPFLAGS) $(CFLAGS) $(DEFINES) -c $(INC) $< -o $(OBJROOT)/$*.o \
 	    -MD -dependency-file $(OBJROOT)/$*.d
-	md -u $(OBJROOT)/Makedep -f -d $(OBJROOT)/$*.d
+	@md -u $(OBJROOT)/Makedep -f -d $(OBJROOT)/$*.d
 
 #.s.o:
 #	cc $(INC) -E $< > $(OBJROOT)/$*.o2
 #	$(AS) -o $(OBJROOT)/$@ $(OBJROOT)/$*.o2
 
 .s.o:
-	cc $(CPPFLAGS) -c $(INC) -arch i386 -o $(OBJROOT)/$(@F) $<
+	@echo "\t[AS] $<"
+	@cc $(CPPFLAGS) -c $(INC) -arch i386 -o $(OBJROOT)/$(@F) $<
 
 boot2.o:
-	cc $(CPPFLAGS) -Wa,-n -c $(INC) -arch i386 -o $(OBJROOT)/$(@F) boot2.s
+	@echo "\t[AS] boot2.s"
+	@cc $(CPPFLAGS) -Wa,-n -c $(INC) -arch i386 -o $(OBJROOT)/$(@F) boot2.s
 	
 $(OBJROOT)/%.o: %.s
-	cc $(CPPFLAGS) -c $(INC) -arch i386 -o $(OBJROOT)/$(@F) $<
+	@echo "\t[CC] $<"
+	@cc $(CPPFLAGS) -c $(INC) -arch i386 -o $(OBJROOT)/$(@F) $<
 
 $(DIRS_NEEDED) $(INSTALLDIR) $(SRCROOT):
-	$(MKDIRS) $@
+	@echo "\t[MKDIR] $@"
+	@$(MKDIRS) $@
