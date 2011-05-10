@@ -65,7 +65,7 @@
 	to skip the memory hole between 521K/640K and 1MB.  After the kernel
 	is loaded, the boot loader stores the information in the stack and
 	then passes control to kernel.  Currently, the three information passed
-	fromm the boot loader to the kernel are type of the boot device, size
+	from the boot loader to the kernel are type of the boot device, size
 	of the base memory and size of the extended memory.
 
 
@@ -76,7 +76,7 @@
 	1MB, the kernel has to start as protected mode.  In addition, the
 	link editor description file (vuifile) has to indicate that
 	the text and data segments start above 1MB.  Also, the boot loader
-	passes the infomation to the kernel through the stack.
+	passes the information to the kernel through the stack.
 
 
 5. Disk Layout and Bad Block Handling
