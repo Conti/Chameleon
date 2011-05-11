@@ -297,9 +297,9 @@ uint32_t hi_multiboot(int multiboot_magic, struct multiboot_info *mi_orig)
 
     // Get us in to low memory so we can run everything
 
-    // We cannot possibly be more than 383.5k and copying extra won't really hurt anything
+    // We cannot possibly be more than 447k and copying extra won't really hurt anything
     // We use the address of the assembly entrypoint to get our starting location.
-    memcpy(&boot2_sym, (char*)&boot2_sym + OFFSET_1MEG, 0x5fe00 /* 383.5k */);
+    memcpy(&boot2_sym, (char*)&boot2_sym + OFFSET_1MEG, BOOT2_MAX_LENGTH /* 447k */);
 
     // This is a little assembler routine that returns to us in the correct selector
     // instead of the kernel selector we're running in now and at the correct

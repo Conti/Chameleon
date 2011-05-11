@@ -57,6 +57,8 @@
 #define BOOT2_SEG         0x2000
 #define BOOT2_OFS         0x0200      // 512 byte disk sector offset
 
+#define BOOT2_MAX_LENGTH  0x6FE00     // Maximum size for boot2 is currentl 447kb
+
 #define BIOS_ADDR         0x8000      // BIOS disk I/O buffer
 #define BIOS_LEN          0x8000      // 32K - divisible by 512 and 2048
 
