@@ -1,3 +1,4 @@
+- Added module system.
 - Added automatic P-States & C-States generation for native power management.
 - Added Booter Log Dump Tool
 - Added Booter message Logging (":/boot-log" ioreg property)

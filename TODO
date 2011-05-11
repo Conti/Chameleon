@@ -1,5 +1,7 @@
 TODO List for Chameleon Boot Loader
 ====================================
+- Fix module system w/ xcode 4 so that it doesn't error out at runtime
+
 - Integrate Prasys current work on options and quick shortcut modified version of 18seven
 
 - Add autodetection of efistring algorythm to enabke graphics enabler to beanbled by default while not conflicting whith other efi string overriden content

@@ -120,7 +120,6 @@ boot: machOconv embedded.h $(OBJS) $(LIBDEP)
 
 	@${RM} $(SYMROOT)/boot2.sys
 
-	@${RM} $(SYMROOT)/${SYMBOLS_MODULE}
 
 	@##size $(SYMROOT)/boot.sys
 	@ls -l $(SYMROOT)/boot

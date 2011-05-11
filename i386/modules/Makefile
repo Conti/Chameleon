@@ -1,8 +1,8 @@
 #	Makefile for i386 modules
 
 # The order of building is important.
-SUBDIRS = klibc uClibc++
-#SUBDIRS = klibc uClibc++ HelloWorld
+SUBDIRS = klibc uClibc++ Resolution
+#SUBDIRS = klibc uClibc++ Resolution HelloWorld
 
 
 CFLAGS= -O $(MORECPP) -arch i386 -g -static
