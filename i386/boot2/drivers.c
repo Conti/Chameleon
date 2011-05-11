@@ -70,7 +70,7 @@ struct DriversPackage {
   unsigned long signature1;
   unsigned long signature2;
   unsigned long length;
-  unsigned long alder32;
+  unsigned long adler32;
   unsigned long version;
   unsigned long numDrivers;
   unsigned long reserved1;
@@ -85,7 +85,7 @@ enum {
 
 long (*LoadExtraDrivers_p)(FileLoadDrivers_t FileLoadDrivers_p);
 
-static unsigned long Alder32( unsigned char * buffer, long length );
+/*static*/ unsigned long Adler32( unsigned char * buffer, long length );
 
 static long FileLoadDrivers(char *dirSpec, long plugin);
 static long NetLoadDrivers(char *dirSpec);
@@ -109,8 +109,8 @@ static char *    gFileSpec;
 static char *    gTempSpec;
 static char *    gFileName;
 
-static unsigned long
-Alder32( unsigned char * buffer, long length )
+/*static*/ unsigned long
+Adler32( unsigned char * buffer, long length )
 {
     long          cnt;
     unsigned long result, lowHalf, highHalf;
@@ -397,8 +397,8 @@ LoadDriverMKext( char * fileSpec )
     if (( GetPackageElement(signature1) != kDriverPackageSignature1) ||
         ( GetPackageElement(signature2) != kDriverPackageSignature2) ||
         ( GetPackageElement(length)      > kLoadSize )               ||
-        ( GetPackageElement(alder32)    !=
-          Alder32((unsigned char *)&package->version, GetPackageElement(length) - 0x10) ) )
+        ( GetPackageElement(adler32)    !=
+          Adler32((unsigned char *)&package->version, GetPackageElement(length) - 0x10) ) )
     {
         return -1;
     }
@@ -798,7 +798,7 @@ DecodeKernel(void *binary, entry_t *rentry, char **raddr, int *rsize)
             return -1;
         }
         if (OSSwapBigToHostInt32(kernel_header->adler32) !=
-            Alder32(binary, uncompressed_size)) {
+            Adler32(binary, uncompressed_size)) {
             printf("adler mismatch\n");
             return -1;
         }

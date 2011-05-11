@@ -25,7 +25,7 @@
 #ifndef __LIBSAIO_XML_H
 #define __LIBSAIO_XML_H
 
-enum {
+enum xmltype {
   kTagTypeNone = 0,
   kTagTypeDict,
   kTagTypeKey,
@@ -38,6 +38,17 @@ enum {
   kTagTypeArray
 };
 
+
+struct string_ref
+{
+	char* string;
+	int id;
+	struct string_ref* next;
+};
+typedef struct string_ref string_ref;
+
+extern string_ref* ref_strings;
+
 #define kXMLTagPList   "plist "
 #define kXMLTagDict    "dict"
 #define kXMLTagKey     "key"
@@ -48,6 +59,9 @@ enum {
 #define kXMLTagFalse   "false/"
 #define kXMLTagTrue    "true/"
 #define kXMLTagArray   "array"
+
+#define kXMLStringID	"ID="
+#define kXMLStringIDRef "IDREF="
 
 
 #define kPropCFBundleIdentifier ("CFBundleIdentifier")
@@ -71,6 +85,18 @@ extern long  gImageFirstBootXAddr;
 extern long  gImageLastKernelAddr;
 
 TagPtr XMLGetProperty( TagPtr dict, const char * key );
+TagPtr XMLGetElement( TagPtr dict, int id );
+int XMLTagCount( TagPtr dict );
+
+bool XMLIsType(TagPtr dict, enum xmltype type);
+
+bool XMLCastBoolean( TagPtr dict );
+char* XMLCastString( TagPtr dict );
+long XMLCastStringOffset(TagPtr dict);
+int XMLCastInteger ( TagPtr dict );
+TagPtr XMLCastDict ( TagPtr dict );
+TagPtr XMLCastArray( TagPtr dict );
+
 long XMLParseNextTag(char *buffer, TagPtr *tag);
 void XMLFreeTag(TagPtr tag);
 char* XMLDecode(const char *in);

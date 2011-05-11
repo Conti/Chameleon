@@ -56,6 +56,7 @@ struct driveParameters {
 struct Tag {
 	long       type;
 	char       *string;
+	long	   offset;
 	struct Tag *tag;
 	struct Tag *tagNext;
 };
