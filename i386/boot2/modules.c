@@ -62,8 +62,25 @@ int init_module_system()
 		}
 		else
 		{
-			// The module does not have a valid start function
-			printf("Unable to start %s\n", SYMBOLS_MODULE); getc();
+            module_data -= 0x10;    // XCODE 4 HACK
+            module_start = parse_mach(module_data, &load_module, &add_symbol);
+            
+            if(module_start && module_start != (void*)0xFFFFFFFF)
+            {
+                // Notify the system that it was laoded
+                module_loaded(SYMBOLS_MODULE /*moduleName, moduleVersion, moduleCompat*/);
+                
+                (*module_start)();	// Start the module. This will point to load_all_modules due to the way the dylib was constructed.
+                execute_hook("ModulesLoaded", NULL, NULL, NULL, NULL);
+                DBG("Module %s Loaded.\n", SYMBOLS_MODULE);
+                retVal = 1;
+                
+            }
+            else
+            {
+                // The module does not have a valid start function
+                printf("Unable to start %s\n", SYMBOLS_MODULE); getc();
+            }		
 		}		
 	}
 	return retVal;
@@ -318,8 +335,8 @@ void* parse_mach(void* binary, int(*dylib_loader)(char*), long long(*symbol_hand
 	}
 	else
 	{
-		printf("Invalid mach magic 0x%X\n", ((struct mach_header*)binary)->magic);
-		getc();
+		verbose("Invalid mach magic 0x%X\n", ((struct mach_header*)binary)->magic);
+		//getc();
 		return NULL;
 	}
 	
