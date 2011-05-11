@@ -10,7 +10,6 @@
 #include "pci.h"
 #include "platform.h"
 #include "cpu.h"
-#include "mem.h"
 #include "spd.h"
 #include "dram_controllers.h"
 
@@ -49,9 +48,7 @@ void scan_mem() {
 		if (dram_controller_dev!=NULL) {
 			scan_dram_controller(dram_controller_dev); // Rek: pci dev ram controller direct and fully informative scan ...
 		}
-        scan_memory(&Platform); // unfortunately still necesary for some comp where spd cant read correct speed
         scan_spd(&Platform);
-		//getc();
     }
     done = true;
 }

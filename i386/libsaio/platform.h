@@ -144,6 +144,7 @@ typedef struct _PlatformInfo_t {
 		int			DIMM[MAX_RAM_SLOTS];	// Information and SPD mapping for each slot
 	} DMI;
 	uint8_t				Type;			// System Type: 1=Desktop, 2=Portable... according ACPI2.0 (FACP: PM_Profile)
+	uint8_t				*UUID;
 } PlatformInfo_t;
 
 extern PlatformInfo_t Platform;

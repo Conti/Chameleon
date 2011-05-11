@@ -10,6 +10,7 @@
 #include "pci.h"
 #include "platform.h"
 #include "spd.h"
+#include "cpu.h"
 #include "saio_internal.h"
 #include "bootstruct.h"
 #include "memvendors.h"
@@ -21,7 +22,7 @@
 #if DEBUG_SPD
 #define DBG(x...)	printf(x)
 #else
-#define DBG(x...)
+#define DBG(x...)	msglog(x)
 #endif
 
 static const char *spd_memory_types[] =
@@ -77,7 +78,14 @@ unsigned char smb_read_byte_intel(uint32_t base, uint8_t adr, uint8_t cmd)
     outb(base + SMBHSTSTS, 0x1f);					// reset SMBus Controller
     outb(base + SMBHSTDAT, 0xff);
 	
-    while( inb(base + SMBHSTSTS) & 0x01);			// wait until ready
+    rdtsc(l1, h1);
+    while ( inb(base + SMBHSTSTS) & 0x01)    // wait until read
+    {  
+     rdtsc(l2, h2);
+     t = ((h2 - h1) * 0xffffffff + (l2 - l1)) / (Platform.CPU.TSCFrequency / 100);
+     if (t > 5)
+      return 0xFF;                  // break
+    }
 	
     outb(base + SMBHSTCMD, cmd);
     outb(base + SMBHSTADD, (adr << 1) | 0x01 );
@@ -247,24 +255,33 @@ static void read_smb_intel(pci_dt_t *smbus_dev)
 { 
     int        i, speed;
     uint8_t    spd_size, spd_type;
-    uint32_t   base;
+    uint32_t   base, mmio, hostc;
     bool       dump = false;
     RamSlotInfo_t*  slot;
 
+	uint16_t cmd = pci_config_read16(smbus_dev->dev.addr, 0x04);
+	DBG("SMBus CmdReg: 0x%x\n", cmd);
+	pci_config_write16(smbus_dev->dev.addr, 0x04, cmd | 1);
+
+	mmio = pci_config_read32(smbus_dev->dev.addr, 0x10);// & ~0x0f;
     base = pci_config_read16(smbus_dev->dev.addr, 0x20) & 0xFFFE;
-    DBG("Scanning smbus_dev <%04x, %04x> ...\n",smbus_dev->vendor_id, smbus_dev->device_id);
+	hostc = pci_config_read8(smbus_dev->dev.addr, 0x40);
+    verbose("Scanning SMBus [%04x:%04x], mmio: 0x%x, ioport: 0x%x, hostc: 0x%x\n", 
+		smbus_dev->vendor_id, smbus_dev->device_id, mmio, base, hostc);
 
     getBoolForKey("DumpSPD", &dump, &bootInfo->bootConfig);
-    bool fullBanks =  // needed at least for laptops
-        Platform.DMI.MemoryModules ==  Platform.DMI.MaxMemorySlots;
-   // Search MAX_RAM_SLOTS slots
-	char spdbuf[256];
+	// needed at least for laptops
+    bool fullBanks = Platform.DMI.MemoryModules == Platform.DMI.CntMemorySlots;
 
+	char spdbuf[MAX_SPD_SIZE];
+    // Search MAX_RAM_SLOTS slots
     for (i = 0; i <  MAX_RAM_SLOTS; i++){
         slot = &Platform.RAM.DIMM[i];
         spd_size = smb_read_byte_intel(base, 0x50 + i, 0);
+		DBG("SPD[0] (size): %d @0x%x\n", spd_size, 0x50 + i);
         // Check spd is present
-        if (spd_size && (spd_size != 0xff) ) {
+        if (spd_size && (spd_size != 0xff))
+        {
 
 			slot->spd = spdbuf;
             slot->InUse = true;
@@ -275,7 +292,7 @@ static void read_smb_intel(pci_dt_t *smbus_dev)
             
 			//for (x = 0; x < spd_size; x++) slot->spd[x] = smb_read_byte_intel(base, 0x50 + i, x);
             init_spd(slot->spd, base, i);
-			
+		
             switch (slot->spd[SPD_MEMORY_TYPE])  {
             case SPD_MEMORY_TYPE_SDRAM_DDR2:
                 
@@ -316,7 +333,7 @@ static void read_smb_intel(pci_dt_t *smbus_dev)
 				}
 				slot->Frequency = freq;
 			}
-			
+
 			verbose("Slot: %d Type %d %dMB (%s) %dMHz Vendor=%s\n      PartNo=%s SerialNo=%s\n", 
                        i, 
                        (int)slot->Type,
@@ -326,15 +343,16 @@ static void read_smb_intel(pci_dt_t *smbus_dev)
                        slot->Vendor,
                        slot->PartNo,
                        slot->SerialNo); 
-			if(DEBUG_SPD) {
-                  dumpPhysAddr("spd content: ",slot->spd, spd_size);
+
+#if DEBUG_SPD
+                  dumpPhysAddr("spd content: ", slot->spd, spd_size);
                     getc();
-            }
+#endif
         }
 
         // laptops sometimes show slot 0 and 2 with slot 1 empty when only 2 slots are presents so:
         Platform.DMI.DIMM[i]= 
-            i>0 && Platform.RAM.DIMM[1].InUse==false && fullBanks && Platform.DMI.MaxMemorySlots==2 ? 
+            i>0 && Platform.RAM.DIMM[1].InUse==false && fullBanks && Platform.DMI.CntMemorySlots == 2 ? 
             mapping[i] : i; // for laptops case, mapping setup would need to be more generic than this
         
 		slot->spd = NULL;
@@ -392,3 +410,4 @@ void scan_spd(PlatformInfo_t *p)
 {
     find_and_read_smbus_controller(root_pci_dev);
 }
+
