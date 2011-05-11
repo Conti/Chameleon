@@ -116,7 +116,7 @@ release: $(SYMROOT)
 	@tar -cjf $(SYMROOT)/$(PRODUCT)-src.tar.bz2 ${EXCLUDE} .
 
 clean:
-	rm -rf sym obj dst i386/modules/modules_includes
+	rm -rf sym obj dst revision i386/modules/module_includes
 
 #distclean: clean
 #	@rm -f $(SYMROOT)/$(PRODUCT)-src.*

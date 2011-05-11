@@ -18,21 +18,6 @@
 		1D145307137073F40050C0CD /* bootargs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bootargs.h; sourceTree = "<group>"; };
 		1D2A1AF513743A2600787720 /* bootargs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bootargs.h; sourceTree = "<group>"; };
 		65ED53931204B83200B22507 /* disk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = disk.h; sourceTree = "<group>"; };
-		B0056CD611F3868000754B65 /* boot */ = {isa = PBXFileReference; lastKnownFileType = text; path = boot; sourceTree = "<group>"; };
-		B0056CD711F3868000754B65 /* boot.sys */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.preload"; path = boot.sys; sourceTree = "<group>"; };
-		B0056CD811F3868000754B65 /* boot0 */ = {isa = PBXFileReference; lastKnownFileType = text; path = boot0; sourceTree = "<group>"; };
-		B0056CD911F3868000754B65 /* boot0hfs */ = {isa = PBXFileReference; lastKnownFileType = text; path = boot0hfs; sourceTree = "<group>"; };
-		B0056CDA11F3868000754B65 /* boot1f32 */ = {isa = PBXFileReference; lastKnownFileType = text; path = boot1f32; sourceTree = "<group>"; };
-		B0056CDB11F3868000754B65 /* boot1h */ = {isa = PBXFileReference; lastKnownFileType = text; path = boot1h; sourceTree = "<group>"; };
-		B0056CDC11F3868000754B65 /* boot1he */ = {isa = PBXFileReference; lastKnownFileType = text; path = boot1he; sourceTree = "<group>"; };
-		B0056CDD11F3868000754B65 /* boot1hp */ = {isa = PBXFileReference; lastKnownFileType = text; path = boot1hp; sourceTree = "<group>"; };
-		B0056CDE11F3868000754B65 /* cdboot */ = {isa = PBXFileReference; lastKnownFileType = text; path = cdboot; sourceTree = "<group>"; };
-		B0056CDF11F3868000754B65 /* chain0 */ = {isa = PBXFileReference; lastKnownFileType = text; path = chain0; sourceTree = "<group>"; };
-		B0056CE011F3868000754B65 /* embedded.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = embedded.h; sourceTree = "<group>"; };
-		B0056CE111F3868000754B65 /* libsa.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libsa.a; sourceTree = "<group>"; };
-		B0056CE211F3868000754B65 /* libsaio.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libsaio.a; sourceTree = "<group>"; };
-		B0056CE311F3868000754B65 /* machOconv */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = machOconv; sourceTree = "<group>"; };
-		B0056CE411F3868000754B65 /* vers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vers.h; sourceTree = "<group>"; };
 		B0056CE711F3868000754B65 /* boot0.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = boot0.s; sourceTree = "<group>"; };
 		B0056CE811F3868000754B65 /* chain0.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = chain0.s; sourceTree = "<group>"; };
 		B0056CE911F3868000754B65 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
@@ -314,7 +299,6 @@
 				B0056E0611F3868000754B65 /* doc */,
 				B0056CE511F3868000754B65 /* i386 */,
 				B0056D8311F3868000754B65 /* package */,
-				B0056CD411F3868000754B65 /* sym */,
 				B0056D8211F3868000754B65 /* APPLE_LICENSE */,
 				B0056D7F11F3868000754B65 /* CREDITS */,
 				B0056D8111F3868000754B65 /* CHANGES */,
@@ -326,36 +310,6 @@
 				B0056D8011F3868000754B65 /* coding_standards.txt */,
 			);
 			name = Chameleon;
-			sourceTree = "<group>";
-		};
-		B0056CD411F3868000754B65 /* sym */ = {
-			isa = PBXGroup;
-			children = (
-				B0056CD511F3868000754B65 /* i386 */,
-			);
-			path = sym;
-			sourceTree = "<group>";
-		};
-		B0056CD511F3868000754B65 /* i386 */ = {
-			isa = PBXGroup;
-			children = (
-				B0056CD611F3868000754B65 /* boot */,
-				B0056CD711F3868000754B65 /* boot.sys */,
-				B0056CD811F3868000754B65 /* boot0 */,
-				B0056CD911F3868000754B65 /* boot0hfs */,
-				B0056CDA11F3868000754B65 /* boot1f32 */,
-				B0056CDB11F3868000754B65 /* boot1h */,
-				B0056CDC11F3868000754B65 /* boot1he */,
-				B0056CDD11F3868000754B65 /* boot1hp */,
-				B0056CDE11F3868000754B65 /* cdboot */,
-				B0056CDF11F3868000754B65 /* chain0 */,
-				B0056CE011F3868000754B65 /* embedded.h */,
-				B0056CE111F3868000754B65 /* libsa.a */,
-				B0056CE211F3868000754B65 /* libsaio.a */,
-				B0056CE311F3868000754B65 /* machOconv */,
-				B0056CE411F3868000754B65 /* vers.h */,
-			);
-			path = i386;
 			sourceTree = "<group>";
 		};
 		B0056CE511F3868000754B65 /* i386 */ = {
@@ -477,11 +431,6 @@
 		B0056D2411F3868000754B65 /* libsaio */ = {
 			isa = PBXGroup;
 			children = (
-				012E60F7137AC68F00E35218 /* ati_reg.h */,
-				012E60F8137AC68F00E35218 /* smbios_decode.c */,
-				012E60F9137AC68F00E35218 /* smbios_getters.c */,
-				012E60FA137AC68F00E35218 /* smbios_getters.h */,
-				012E60FB137AC68F00E35218 /* smbios.c */,
 				B0056D2511F3868000754B65 /* acpi.h */,
 				B0056D2611F3868000754B65 /* acpi_patcher.c */,
 				B0056D2711F3868000754B65 /* acpi_patcher.h */,
@@ -489,6 +438,7 @@
 				B00F494A11F6089500B1D7C5 /* aml_generator.c */,
 				B00F494911F6089500B1D7C5 /* aml_generator.h */,
 				B0056D2911F3868000754B65 /* asm.s */,
+				012E60F7137AC68F00E35218 /* ati_reg.h */,
 				B0056D2A11F3868000754B65 /* ati.c */,
 				B0056D2C11F3868000754B65 /* bios.h */,
 				B0056D2D11F3868000754B65 /* bios.s */,
@@ -552,6 +502,10 @@
 				B0056D6311F3868000754B65 /* saio_types.h */,
 				B0056D6411F3868000754B65 /* sl.h */,
 				B0056D6511F3868000754B65 /* SMBIOS.h */,
+				012E60F8137AC68F00E35218 /* smbios_decode.c */,
+				012E60F9137AC68F00E35218 /* smbios_getters.c */,
+				012E60FA137AC68F00E35218 /* smbios_getters.h */,
+				012E60FB137AC68F00E35218 /* smbios.c */,
 				B0056D6811F3868000754B65 /* spd.c */,
 				B0056D6911F3868000754B65 /* spd.h */,
 				B0056D6A11F3868000754B65 /* stringTable.c */,
