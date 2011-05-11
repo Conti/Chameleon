@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXFileReference section */
+		012E60F7137AC68F00E35218 /* ati_reg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ati_reg.h; sourceTree = "<group>"; };
+		012E60F8137AC68F00E35218 /* smbios_decode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = smbios_decode.c; sourceTree = "<group>"; };
+		012E60F9137AC68F00E35218 /* smbios_getters.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = smbios_getters.c; sourceTree = "<group>"; };
+		012E60FA137AC68F00E35218 /* smbios_getters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smbios_getters.h; sourceTree = "<group>"; };
+		012E60FB137AC68F00E35218 /* smbios.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = smbios.c; sourceTree = "<group>"; };
 		0172D0DC11FB66820030222E /* dram_controllers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dram_controllers.h; sourceTree = "<group>"; };
 		0172D0DD11FB66820030222E /* dram_controllers.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dram_controllers.c; sourceTree = "<group>"; };
 		019DFBAF11FB94090013E8CC /* MEMTEST86_LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MEMTEST86_LICENSE; sourceTree = "<group>"; };
@@ -90,7 +95,6 @@
 		B0056D2811F3868000754B65 /* allocate.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = allocate.c; sourceTree = "<group>"; };
 		B0056D2911F3868000754B65 /* asm.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = asm.s; sourceTree = "<group>"; };
 		B0056D2A11F3868000754B65 /* ati.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ati.c; sourceTree = "<group>"; };
-		B0056D2B11F3868000754B65 /* ati.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ati.h; sourceTree = "<group>"; };
 		B0056D2C11F3868000754B65 /* bios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bios.h; sourceTree = "<group>"; };
 		B0056D2D11F3868000754B65 /* bios.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = bios.s; sourceTree = "<group>"; };
 		B0056D2E11F3868000754B65 /* biosfn.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = biosfn.c; sourceTree = "<group>"; };
@@ -149,8 +153,6 @@
 		B0056D6311F3868000754B65 /* saio_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = saio_types.h; sourceTree = "<group>"; };
 		B0056D6411F3868000754B65 /* sl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sl.h; sourceTree = "<group>"; };
 		B0056D6511F3868000754B65 /* SMBIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMBIOS.h; sourceTree = "<group>"; };
-		B0056D6611F3868000754B65 /* smbios_patcher.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = smbios_patcher.c; sourceTree = "<group>"; };
-		B0056D6711F3868000754B65 /* smbios_patcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smbios_patcher.h; sourceTree = "<group>"; };
 		B0056D6811F3868000754B65 /* spd.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = spd.c; sourceTree = "<group>"; };
 		B0056D6911F3868000754B65 /* spd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spd.h; sourceTree = "<group>"; };
 		B0056D6A11F3868000754B65 /* stringTable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = stringTable.c; sourceTree = "<group>"; };
@@ -475,6 +477,11 @@
 		B0056D2411F3868000754B65 /* libsaio */ = {
 			isa = PBXGroup;
 			children = (
+				012E60F7137AC68F00E35218 /* ati_reg.h */,
+				012E60F8137AC68F00E35218 /* smbios_decode.c */,
+				012E60F9137AC68F00E35218 /* smbios_getters.c */,
+				012E60FA137AC68F00E35218 /* smbios_getters.h */,
+				012E60FB137AC68F00E35218 /* smbios.c */,
 				B0056D2511F3868000754B65 /* acpi.h */,
 				B0056D2611F3868000754B65 /* acpi_patcher.c */,
 				B0056D2711F3868000754B65 /* acpi_patcher.h */,
@@ -483,7 +490,6 @@
 				B00F494911F6089500B1D7C5 /* aml_generator.h */,
 				B0056D2911F3868000754B65 /* asm.s */,
 				B0056D2A11F3868000754B65 /* ati.c */,
-				B0056D2B11F3868000754B65 /* ati.h */,
 				B0056D2C11F3868000754B65 /* bios.h */,
 				B0056D2D11F3868000754B65 /* bios.s */,
 				B0056D2E11F3868000754B65 /* biosfn.c */,
@@ -546,8 +552,6 @@
 				B0056D6311F3868000754B65 /* saio_types.h */,
 				B0056D6411F3868000754B65 /* sl.h */,
 				B0056D6511F3868000754B65 /* SMBIOS.h */,
-				B0056D6611F3868000754B65 /* smbios_patcher.c */,
-				B0056D6711F3868000754B65 /* smbios_patcher.h */,
 				B0056D6811F3868000754B65 /* spd.c */,
 				B0056D6911F3868000754B65 /* spd.h */,
 				B0056D6A11F3868000754B65 /* stringTable.c */,
