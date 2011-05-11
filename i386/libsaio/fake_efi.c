@@ -140,10 +140,10 @@ extern EFI_STATUS addConfigurationTable(EFI_GUID const *pGuid, void *table, char
 
 //Azi: crc32 done in place, on the cases were it wasn't.
 /*static inline void fixupEfiSystemTableCRC32(EFI_SYSTEM_TABLE_64 *efiSystemTable)
-{
-	efiSystemTable->Hdr.CRC32 = 0;
-	efiSystemTable->Hdr.CRC32 = crc32(0L, efiSystemTable, efiSystemTable->Hdr.HeaderSize);
-}*/
+ {
+ efiSystemTable->Hdr.CRC32 = 0;
+ efiSystemTable->Hdr.CRC32 = crc32(0L, efiSystemTable, efiSystemTable->Hdr.HeaderSize);
+ }*/
 
 /*
  * What we do here is simply allocate a fake EFI system table and a fake EFI
@@ -409,14 +409,14 @@ EFI_GUID const	gEfiSmbiosTableGuid = EFI_SMBIOS_TABLE_GUID;
 #define SMBIOS_ANCHOR_UINT32_LE 0x5f4d535f
 
 #define EFI_ACPI_TABLE_GUID \
-  { \
-	0xeb9d2d30, 0x2d88, 0x11d3, { 0x9a, 0x16, 0x0, 0x90, 0x27, 0x3f, 0xc1, 0x4d } \
-  }
+{ \
+0xeb9d2d30, 0x2d88, 0x11d3, { 0x9a, 0x16, 0x0, 0x90, 0x27, 0x3f, 0xc1, 0x4d } \
+}
 
 #define EFI_ACPI_20_TABLE_GUID \
-  { \
-	0x8868e871, 0xe4f1, 0x11d3, { 0xbc, 0x22, 0x0, 0x80, 0xc7, 0x3c, 0x88, 0x81 } \
-  }
+{ \
+0x8868e871, 0xe4f1, 0x11d3, { 0xbc, 0x22, 0x0, 0x80, 0xc7, 0x3c, 0x88, 0x81 } \
+}
 
 EFI_GUID gEfiAcpiTableGuid = EFI_ACPI_TABLE_GUID;
 EFI_GUID gEfiAcpi20TableGuid = EFI_ACPI_20_TABLE_GUID;
@@ -436,6 +436,7 @@ static const char const SYSTEM_ID_PROP[] = "system-id";
 static const char const SYSTEM_SERIAL_PROP[] = "SystemSerialNumber";
 static const char const SYSTEM_TYPE_PROP[] = "system-type";
 static const char const MODEL_PROP[] = "Model";
+static const char const BOARDID_PROP[] = "board-id";
 
 
 /*
@@ -498,7 +499,7 @@ static EFI_CHAR8* getSystemID()
 	// belong to smbios config only ...
 	const char *sysId = getStringForKey(kSystemID, &bootInfo->bootConfig);
 	EFI_CHAR8*	ret = getUUIDFromString(sysId);
-
+	
 	if (!sysId || !ret) // try bios dmi info UUID extraction
 	{
 		ret = getSmbiosUUID();
@@ -573,7 +574,7 @@ void setupEfiDeviceTree(void)
 	{
 		DT__AddProperty(runtimeServicesNode, "table", sizeof(uint64_t), &gST64->RuntimeServices);
 	}
-
+	
 	// Set up the /efi/configuration-table node which will eventually have several child nodes for
 	// all of the configuration tables needed by various kernel extensions.
 	gEfiConfigurationTableNode = DT__AddChild(node, "configuration-table");
@@ -598,8 +599,8 @@ void setupEfiDeviceTree(void)
 	// Export system-id. Can be disabled with SystemId=No in com.apple.Boot.plist
 	if ((ret=getSystemID()))
 		DT__AddProperty(efiPlatformNode, SYSTEM_ID_PROP, UUID_LEN, (EFI_UINT32*) ret);
-
-	 // Export SystemSerialNumber if present
+	
+	// Export SystemSerialNumber if present
 	if ((ret16=getSmbiosChar16("SMserial", &len)))
 		DT__AddProperty(efiPlatformNode, SYSTEM_SERIAL_PROP, len, ret16);
 	
@@ -610,6 +611,22 @@ void setupEfiDeviceTree(void)
 	// Fill /efi/device-properties node.
 	setupDeviceProperties(node);
 }
+
+/*
+ * Must be called AFTER getSmbios
+ */
+
+void setupBoardId()
+{
+	Node *node;
+	node = DT__FindNode("/", false);
+	if (node == 0) {
+		stop("Couldn't get root node");
+	}
+	const char *boardid = getStringForKey("SMboardproduct", &bootInfo->smbiosConfig);
+	if (boardid)
+		DT__AddProperty(node, BOARDID_PROP, strlen(boardid)+1, (EFI_CHAR16*)boardid);
+}		
 
 /*
  * Load the smbios.plist override config file if any
@@ -640,16 +657,16 @@ static void setupSmbiosConfigFile(const char *filename)
 			err = loadConfigFile(dirSpecSMBIOS, &bootInfo->smbiosConfig);
 		}
 	}
-
+	
 	if (err)
 	{
 		verbose("No SMBIOS replacement found.\n");
 	}
-
+	
 	// get a chance to scan mem dynamically if user asks for it while having the config options loaded as well,
 	// as opposed to when it was in scan_platform(); also load the orig. smbios so that we can access dmi info without
 	// patching the smbios yet
-
+	
 	scan_mem(); 
 }
 
@@ -661,6 +678,8 @@ static void setupEfiConfigurationTable()
 {
 	smbios_p = (EFI_PTR32)getSmbios(SMBIOS_PATCHED);
 	addConfigurationTable(&gEfiSmbiosTableGuid, &smbios_p, NULL);
+	
+	setupBoardId(); //need to be called after getSmbios
 	
 	// Setup ACPI with DSDT overrides (mackerintel's patch)
 	setupAcpi();
@@ -686,14 +705,14 @@ void setupFakeEfi(void)
 {
 	// Generate efi device strings 
 	setup_pci_devs(root_pci_dev);
-
+	
 	readSMBIOSInfo(getSmbios(SMBIOS_ORIGINAL));
-
+	
 	// load smbios.plist file if any
 	setupSmbiosConfigFile("smbios.plist");
 	
 	setupSMBIOSTable();
-
+	
 	// Initialize the base table
 	if (archCpuType == CPU_TYPE_I386)
 	{
