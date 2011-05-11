@@ -90,7 +90,8 @@ static const char *chip_family_name[] = {
 	"Barts",
 	"Caicos",
 	"Cayman",
-	"Turks"
+	"Turks",
+	""
 };
 
 typedef struct {
