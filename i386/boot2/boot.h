@@ -58,14 +58,18 @@
 #define kGUIKey				"GUI"
 #define kBootBannerKey		"Boot Banner"
 #define kWaitForKeypressKey	"Wait"
-/* AsereBLN: added the other keys */
+
 #define kUseAtiROM			"UseAtiROM"			/* ati.c */
+#define kAtiConfig			"AtiConfig"			/* ati.c */
+#define kATYbinimage		"ATYbinimage"		/* ati.c */
+
 #define kWake				"Wake"				/* boot.c */
 #define kForceWake			"ForceWake"			/* boot.c */
 #define kWakeImage			"WakeImage"			/* boot.c */
 #define kProductVersion		"ProductVersion"	/* boot.c */
 #define karch				"arch"				/* boot.c */
 #define kUseKernelCache		"UseKernelCache"	/* boot.c */
+
 #define kDSDT				"DSDT"				/* acpi_patcher.c */
 #define kDropSSDT			"DropSSDT"			/* acpi_patcher.c */
 #define kRestartFix			"RestartFix"		/* acpi_patcher.c */
@@ -74,26 +78,36 @@
 #define kEnableC2States		"EnableC2State"		/* acpi_patcher.c */
 #define kEnableC3States		"EnableC3State"		/* acpi_patcher.c */
 #define kEnableC4States		"EnableC4State"		/* acpi_patcher.c */
+
 #define kDeviceProperties	"device-properties"	/* device_inject.c */
+
 #define kHidePartition		"Hide Partition"	/* disk.c */
 #define kRenamePartition	"Rename Partition"	/* disk.c */
+
 #define kSMBIOSKey			"SMBIOS"			/* fake_efi.c */
 #define kSystemID			"SystemId"			/* fake_efi.c */
 #define kSystemType			"SystemType"		/* fake_efi.c */
+
 #define kUseNvidiaROM		"UseNvidiaROM"		/* nvidia.c */
 #define kVBIOS				"VBIOS"				/* nvidia.c */
+
 #define kPCIRootUID			"PCIRootUID"		/* pci_root.c */
+
 #define kEthernetBuiltIn	"EthernetBuiltIn"	/* pci_setup.c */
 #define kGraphicsEnabler	"GraphicsEnabler"	/* pci_setup.c */
 #define kForceHPET			"ForceHPET"			/* pci_setup.c */
+
 #define kUseMemDetect		"UseMemDetect"	    /* platform.c */
+
 #define kSMBIOSdefaults		"SMBIOSdefaults"	/* smbios_patcher.c */
+
 #define kUSBBusFix			"USBBusFix"			/* usb.c */
 #define kEHCIacquire		"EHCIacquire"		/* usb.c */
 #define kUHCIreset			"UHCIreset"			/* usb.c */
 #define kLegacyOff			"USBLegacyOff"		/* usb.c */
 #define kEHCIhard			"EHCIhard"			/* usb.c */
 #define kDefaultPartition	"Default Partition"	/* sys.c */
+
 #define kMD0Image			"md0"				/* ramdisk.h */
 
 /*

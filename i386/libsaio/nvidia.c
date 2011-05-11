@@ -752,7 +752,7 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 {
 	struct DevPropDevice		*device;
 	char						*devicepath;
-	struct pci_rom_pci_header_t	*rom_pci_header;	
+	option_rom_pci_header_t		*rom_pci_header;	
 	volatile uint8_t	*regs;
 	uint8_t				*rom;
 	uint8_t				*nvRom;
@@ -842,16 +842,16 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 
 	if ((nvPatch = patch_nvidia_rom(rom)) == PATCH_ROM_FAILED) {
 		printf("ERROR: nVidia ROM Patching Failed!\n");
-		return false;
+		//return false;
 	}
 
-	rom_pci_header = (struct pci_rom_pci_header_t*)(rom + *(uint16_t *)&rom[24]);
+	rom_pci_header = (option_rom_pci_header_t*)(rom + *(uint16_t *)&rom[24]);
 
 	// check for 'PCIR' sig
 	if (rom_pci_header->signature == 0x50434952) {
-		if (rom_pci_header->device != nvda_dev->device_id) {
+		if (rom_pci_header->device_id != nvda_dev->device_id) {
 			// Get Model from the OpROM
-			model = get_nvidia_model((rom_pci_header->vendor << 16) | rom_pci_header->device);
+			model = get_nvidia_model((rom_pci_header->vendor_id << 16) | rom_pci_header->device_id);
 		} else {
 			printf("nVidia incorrect PCI ROM signature: 0x%x\n", rom_pci_header->signature);
 		}
