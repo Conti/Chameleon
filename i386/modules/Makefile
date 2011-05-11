@@ -1,7 +1,7 @@
 #	Makefile for i386 modules
 
 # The order of building is important.
-SUBDIRS = klibc uClibc++ Resolution KernelPatcher KextPatcher
+SUBDIRS = klibc uClibc++ Resolution
 #SUBDIRS = klibc uClibc++ Resolution HelloWorld
 
 
@@ -21,23 +21,22 @@ LD = ld
 #
 # these paths are only valid in subdirectories of this directory
 #
-OBJROOT=../../obj/i386/modules/
-SYMROOT=../../sym/i386/modules/
-DSTROOT=../../dst/i386/modules/
+OBJROOT=`pwd`/../../obj/i386/modules/
+SYMROOT=`pwd`/../../sym/i386/modules/
+DSTROOT=`pwd`/../../dst/i386/modules/
 SRCROOT=/tmp
 
 VPATH = $(OBJROOT):$(SYMROOT)
 
-DIRS_NEEDED = $(OBJROOT) $(SYMROOT) module_includes
 
-all embedtheme optionrom tags debug: $(DIRS_NEEDED)
+all embedtheme optionrom tags debug install installhdrs: objroot_dirs
 	@for i in ${SUBDIRS}; \
 	do \
 		echo ================= make $@ for $$i =================; \
 		( cd $$i; $(MKDIRS) $(OBJROOT)/$$i; ${MAKE}					  \
-			"OBJROOT=../$(OBJROOT)/$$i"			  \
-		  	"SYMROOT=../$(SYMROOT)/"				  \
-			"DSTROOT=../$(DSTROOT)/"				  \
+			"OBJROOT=$(OBJROOT)/$$i"			  \
+		  	"SYMROOT=$(SYMROOT)/"				  \
+			"DSTROOT=$(DSTROOT)/"				  \
 			"SRCROOT=$(SRCROOT)"				  \
 			"RC_ARCHS=$(RC_ARCHS)"				  \
 			"RC_KANJI=$(RC_KANJI)"				  \
@@ -46,17 +45,13 @@ all embedtheme optionrom tags debug: $(DIRS_NEEDED)
 		) || exit $$?; 						  \
 	done
 
-	
-clean:
-	@echo "\t[RM] $(OBJROOT)"
-	@rm -rf ${OBJROOT}
-	@echo "\t[RM] $(SYMROOT)"
-	@rm -rf ${SYMROOT}
-	@echo "\t[RM] module_includes"
-	@rm -rf module_includes &> /dev/null
+objroot_dirs:
+	@rm -rf "$(OBJROOT)" 
+	@mkdir "$(OBJROOT)" &> /dev/null
+	@rm -rf module_includes
+	@mkdir module_includes
+	@rm -rf "$(SYMROOT)/modules/"
+	@mkdir "$(SYMROOT)/modules/"
 
-
-
-include ../MakeInc.dir
-
-
+installsrc:
+	tar cf - . | (cd ${SRCROOT}; tar xfBp -)
