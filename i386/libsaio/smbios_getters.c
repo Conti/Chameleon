@@ -135,14 +135,18 @@ bool getSMBOemProcessorType(returnType *value)
 						return true;
 
 					case CPU_MODEL_NEHALEM:				// Intel Core i7 LGA1366 (45nm)
-						value->word = 0x0701;			// Core i7
+						if (strstr(Platform.CPU.BrandString, "Xeon(R)"))
+							value->word = 0x0501;			// Xeon 
+						else
+							value->word = 0x0701;			// Core i7
+
 						return true;
 
 					case CPU_MODEL_FIELDS:				// Lynnfield, Clarksfield, Jasper
 						if (strstr(Platform.CPU.BrandString, "Core(TM) i5"))
 							value->word = 0x601;		// Core i5
 						else
-							value->word = 0x701;		// Core i7
+							value->word = 0x0701;		// Core i7
 						return true;
 
 					case CPU_MODEL_DALES:				// Intel Core i5, i7 LGA1156 (45nm) (Havendale, Auburndale)
