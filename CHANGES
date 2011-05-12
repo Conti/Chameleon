@@ -1,4 +1,6 @@
 - Added the BOOT2_MAX_LENGTH constant in memory.h. This is now used in moot.c to relocate the correct number of bytes for boot2.
+- Added new ATi/AMD Graphics Card Enabler.
+- Added new SMBIOS patcher.
 - Added module system.
 - Added automatic P-States & C-States generation for native power management.
 - Added Booter Log Dump Tool
