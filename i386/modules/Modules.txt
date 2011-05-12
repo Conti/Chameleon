@@ -1,0 +1,61 @@
+NOTE: This is a work in progress
+
+Table Of Contents
+	1) Introduction
+	2) How to use a module
+	3) How modules work
+	4) How to create a module
+
+------------- 1 - Introduction -------------
+	The modules system incorporated in chameleon allows for a user or developer to extend the core functionality of chameleon without replacing the main boot file. 
+
+
+------------- 2 - How to use a module -------------
+	In order for a user to install and use a module, they simply have to ensure that the main boot partition contains the /Extra/modules/ folder. Any file ending in the .dylib extension will be loaded up and started by chameleon automatically.
+
+
+------------- 3 - How modules work -------------
+	The module system in chameleon works by loading up a dynamic library at runtime, rebasing it to the loaded address, and binding any missing symbols with ones that chameleon already knows about. When the module system first starts up, it reads in the Symbols.dylib module which was embedded into the boot file as a means of initializing known symbols for boot. This allows modules to link with and modify the core boot file. Every time a new module is loaded, the symbols exported by that module are added to the internal list to allow for modules to link with each other. Additionally, modules may export a property that states if they have any other module dependencies. In the event that a module dependency is not already loaded, the module system will suspend loading of the current module and load the dependency.
+
+The module system initialization routine follows this flow:
+	1) Module system determines if Symbols.dylib was embedded. If not, it exits out
+	2) The module system begins by loading the Symbol.dylib file as if it were a standard module. 
+	3) The module system runs the Symbols.dylib's start function. This function has been specially crafted by the Symbols.dylib generator (dyldsymboltool) to point to an internal symbol, load_all_modules, which causes any module in /Extra/modules/ to be loaded.
+
+The module system runs through the following routine to load a module by name.
+	1)  The module system looks for the module in it's internal list. If found, it exits early
+	2)  The module system looks for the module in the /Extra/modules folder. If nonexistent, it exits early.
+	3)  The module system allocates a mock of memory equal to the size of the <module>.dylib file
+	4)  The <module>.dylib file is read into the allocated memory
+	5)  the <module>.dylib is passed to the macho parser.
+	6)  The macho parser verifies the integrity of the macho file. 
+	7)  The macho parser reads through the dependency list and calls the load_module function (this one) to ensure that all dependencies are loaded
+	8)  the macho parser scans the symbol table and adds symbols to the internal list.
+	9)  The macho parser uses the modules rebase info to modify the executable for the new load address
+	10) The macho parser uses the modules bind information, as well as the list of known symbols, to bind unknown symbol addresses in the binary.
+	11) If all dependencies were satisfied, the macho parser returns the address of the start function. If errors were encounter, 0xFFFFFFFF is returned instead.
+	12) If a valid start function was returned, the module system calls the start routine.
+	13) The module system records in the internal list that the given module was loaded.
+
+
+------------- 4 - How to create a module -------------
+The simplest way to create a module is to begin with the HelloWorld template. This template shows an example of creating a c++ module, however you may also create a c module instead.
+
+The standard directory structure for a module is as follows:
+<module>/		The main container directory
+<module>/Makefile	The makefile script. Contains information about how to compile the module, as well as versioning + naming
+<module>/include	Global include files that will by copied to ./module_includes. These files may be used by other modules
+<module>/*.c		C Source files.
+<module>/*.cpp		C++ Source files.
+<module>/*.h		Private Headers.
+Do note that additional subdirectories can be created as needed, however this document does not go over the needed changes needed to ensure that any subdirectories are compiled.
+
+In order to setup the setting for the module, the Makefile needs to be updated. The makefile contains various properties, the important ones will be listed and described here:
+MODULE_NAME = HelloWorld			This is the name of the module. 
+MODULE_VERSION = "1.0.0"			This is the version if the module. It is currently unused by chameleon, however it may be used in the future.
+MODULE_COMPAT_VERSION = "1.0.0"			This is the compatibility version of the module. As above, it is unused at the moment.
+MODULE_START = _$(MODULE_NAME)_start		This is the symbol name of the start function. The In this case "void HelloWorld_start()" is the function. If this is a c++ file, it shoal deb wrapped in extern "C" to ensure that the compiler generates the proper symbol name.
+MODULE_DEPENDENCIES = uClibc++			A list of all module dependencies used. These must be located in the sym/modules/ folder at compile time to ensure proper linking
+MODULE_OBJS = HelloWorld.o			A list of object files to generate. In this case, either HellowWorld.c or HelloWorld.cpp file satisfy the dependencies. This will be compiled automatically and linked together by the build system.
+
+
