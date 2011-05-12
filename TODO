@@ -1,6 +1,6 @@
 TODO List for Chameleon Boot Loader
 ====================================
-- Fix module system w/ xcode 4 so that it doesn't error out at runtime
+- Fix the module system when booting chameleon with multiboot. Cleanup the xcode 4 fix.
 
 - Integrate Prasys current work on options and quick shortcut modified version of 18seven
 
