@@ -92,7 +92,7 @@ struct boot_drive_info {
 	unsigned char  dev_path[8];
 	unsigned char  reserved3;
 	unsigned char  checksum;
-    } params __attribute__((packed));
+    } params;
     struct drive_dpte {
 	unsigned short io_port_base;
 	unsigned short control_port_base;
@@ -109,7 +109,7 @@ struct boot_drive_info {
 	unsigned short reserved;
 	unsigned char  revision;
 	unsigned char  checksum;
-    } dpte __attribute__((packed));
+    } dpte;
 } __attribute__((packed));
 typedef struct boot_drive_info boot_drive_info_t;
 
