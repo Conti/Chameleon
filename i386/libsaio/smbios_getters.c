@@ -168,7 +168,7 @@ bool getSMBOemProcessorType(returnType *value)
 
 					case CPU_MODEL_WESTMERE:			// Intel Core i7 LGA1366 (32nm) 6 Core (Gulftown, Westmere-EP, Westmere-WS)
 					case CPU_MODEL_WESTMERE_EX:			// Intel Core i7 LGA1366 (45nm) 6 Core ???
-						value->word = 0x0701;			// Core i7
+						value->word = 0x0501;			// Core i7
 						return true;
 
 					case 0x19:							// Intel Core i5 650 @3.20 Ghz
