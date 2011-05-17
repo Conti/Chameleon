@@ -245,9 +245,9 @@ bool getSMBMemoryDeviceManufacturer(returnType *value)
 		}
 	}
 
-	return false;
-//	value->string = "N/A";
-//	return true;
+//	return false;
+	value->string = NOT_AVAILABLE;
+	return true;
 }
 	
 bool getSMBMemoryDeviceSerialNumber(returnType *value)
@@ -261,16 +261,15 @@ bool getSMBMemoryDeviceSerialNumber(returnType *value)
 		map = Platform.DMI.DIMM[idx];
 		if (Platform.RAM.DIMM[map].InUse && strlen(Platform.RAM.DIMM[map].SerialNo) > 0)
 		{
-			DBG("name = %s, map=%d,  RAM Detected SerialNo[%d]='%s'\n", name ? name : "", 
-				map, idx, Platform.RAM.DIMM[map].SerialNo);
+			DBG("map=%d,  RAM Detected SerialNo[%d]='%s'\n", map, idx, Platform.RAM.DIMM[map].SerialNo);
 			value->string = Platform.RAM.DIMM[map].SerialNo;
 			return true;
 		}
 	}
 
-	return false;
-//	value->string = "N/A";
-//	return true;
+//	return false;
+	value->string = NOT_AVAILABLE;
+	return true;
 }
 
 bool getSMBMemoryDevicePartNumber(returnType *value)
@@ -284,15 +283,15 @@ bool getSMBMemoryDevicePartNumber(returnType *value)
 		map = Platform.DMI.DIMM[idx];
 		if (Platform.RAM.DIMM[map].InUse && strlen(Platform.RAM.DIMM[map].PartNo) > 0)
 		{
-			DBG("Ram Detected PartNo[%d]='%s'\n", idx, Platform.RAM.DIMM[map].PartNo);
+			DBG("map=%d,  RAM Detected PartNo[%d]='%s'\n", map, idx, Platform.RAM.DIMM[map].PartNo);
 			value->string = Platform.RAM.DIMM[map].PartNo;
 			return true;
 		}
 	}
 
-	return false;
-//	value->string = "N/A";
-//	return true;
+//	return false;
+	value->string = NOT_AVAILABLE;
+	return true;
 }
 
 

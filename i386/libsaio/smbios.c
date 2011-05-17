@@ -374,7 +374,7 @@ void setDefaultSMBData(void)
 	}
 }
 
-/* Used for SM*_N smbios.plist keys */
+/* Used for SM*n smbios.plist keys */
 bool getSMBValueForKey(SMBStructHeader *structHeader, const char *keyString, const char **string, returnType *value)
 {
 	static int idx = -1;
@@ -427,8 +427,14 @@ void setSMBStringForField(SMBStructHeader *structHeader, const char *string, uin
 	strSize = strlen(string);
 
 	// remove any spaces found at the end
-	while (string[strSize - 1] == ' ')
+	while ((string[strSize - 1] == ' ') && strSize != 0)
 		strSize--;
+
+	if (strSize == 0)
+	{
+		*field = 0;
+		return;
+	}
 
 	memcpy((uint8_t *)structHeader + structHeader->length + stringsSize, string, strSize);
 	*field = stringIndex;

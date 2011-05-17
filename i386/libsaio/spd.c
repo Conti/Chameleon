@@ -244,7 +244,6 @@ const char * getDDRPartNum(char* spd, uint32_t base, int slot)
 	}
 	
 	return strdup(asciiPartNo);
-    return NULL;
 }
 
 int mapping []= {0,2,1,3,4,6,5,7,8,10,9,11};
