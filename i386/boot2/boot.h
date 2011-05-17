@@ -109,6 +109,7 @@
 #define kDefaultPartition	"Default Partition"	/* sys.c */
 
 #define kMD0Image			"md0"				/* ramdisk.h */
+#define kbusratio		"busratio"			/* cpu.c */
 
 /*
  * Flags to the booter or kernel

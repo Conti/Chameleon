@@ -94,6 +94,9 @@
 // defaults for an iMac11,1 core i3/i5/i7
 #define kDefaultiMacNehalem							"iMac11,1"
 #define kDefaultiMacNehalemBIOSVersion				"    IM111.88Z.0034.B00.0903051113"
+// defaults for an iMac12,1
+#define kDefaultiMacSandy							"iMac12,1"
+#define kDefaultiMacSandyBIOSVersion				"    IM121.88Z.0047.B00.1102091756"
 
 // defaults for a Mac Pro
 #define kDefaultMacProFamily						"MacPro"
@@ -331,6 +334,11 @@ void setDefaultSMBData(void)
 								defaultSystemInfo.family		= kDefaultiMacFamily;
 								break;
 
+							case CPU_MODEL_SANDY:
+								defaultBIOSInfo.version			= kDefaultiMacSandyBIOSVersion;
+								defaultSystemInfo.productName	= kDefaultiMacSandy;
+								defaultSystemInfo.family		= kDefaultiMacFamily;
+								break;
 							case CPU_MODEL_NEHALEM: 
 							case CPU_MODEL_NEHALEM_EX:
 								defaultBIOSInfo.version			= kDefaultMacProNehalemBIOSVersion;

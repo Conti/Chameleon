@@ -48,6 +48,7 @@ bool getSMBOemProcessorBusSpeed(returnType *value)
 						return false;
 
 					case 0x19:					// Intel Core i5 650 @3.20 Ghz
+					case CPU_MODEL_SANDY:		// Intel Core i5, i7 LGA1155 sandy bridge
 					case CPU_MODEL_NEHALEM:		// Intel Core i7 LGA1366 (45nm)
 					case CPU_MODEL_FIELDS:		// Intel Core i5, i7 LGA1156 (45nm)
 					case CPU_MODEL_DALES:		// Intel Core i5, i7 LGA1156 (45nm) ???
@@ -156,6 +157,7 @@ bool getSMBOemProcessorType(returnType *value)
 							value->word = 0x0701;		// Core i7
 						return true;
 
+					case CPU_MODEL_SANDY:				// Intel Core i3, i5, i7 LGA1155 sandy bridge
 					case CPU_MODEL_DALES_32NM:			// Intel Core i3, i5, i7 LGA1156 (32nm) (Clarkdale, Arrandale)
 						if (strstr(Platform.CPU.BrandString, "Core(TM) i3"))
 							value->word = 0x901;		// Core i3

@@ -20,6 +20,7 @@ extern void scan_cpu(PlatformInfo_t *);
 #define MSR_IA32_PERF_CONTROL	0x199
 #define MSR_IA32_EXT_CONFIG		0x00EE
 #define MSR_FLEX_RATIO			0x194
+#define MSR_TURBO_RATIO_LIMIT		0x1AD
 #define	MSR_PLATFORM_INFO		0xCE
 #define K8_FIDVID_STATUS		0xC0010042
 #define K10_COFVID_STATUS		0xC0010071
