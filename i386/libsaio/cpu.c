@@ -133,10 +133,17 @@ void scan_cpu(PlatformInfo_t *p)
 	p->CPU.Family		= bitfield(p->CPU.CPUID[CPUID_1][0], 11, 8);
 	p->CPU.ExtModel		= bitfield(p->CPU.CPUID[CPUID_1][0], 19, 16);
 	p->CPU.ExtFamily	= bitfield(p->CPU.CPUID[CPUID_1][0], 27, 20);
-	p->CPU.NoThreads	= bitfield(p->CPU.CPUID[CPUID_1][1], 23, 16);
-	p->CPU.NoCores		= bitfield(p->CPU.CPUID[CPUID_4][0], 31, 26) + 1;
-
-	p->CPU.Model += (p->CPU.ExtModel << 4);
+	
+    p->CPU.Model += (p->CPU.ExtModel << 4);
+    
+    if (p->CPU.Vendor == 0x756E6547 /* Intel */ && p->CPU.Family == 0x06 && p->CPU.Model >= 0x1a){
+        msr = rdmsr64(MSR_CORE_THREAD_COUNT);									// Undocumented MSR in Nehalem and newer CPUs
+        p->CPU.NoCores		= bitfield((uint32_t)msr, 31, 16);					// Using undocumented MSR to get actual values
+        p->CPU.NoThreads	= bitfield((uint32_t)msr, 15,  0);					// Using undocumented MSR to get actual values
+	} else {
+        p->CPU.NoThreads	= bitfield(p->CPU.CPUID[CPUID_1][1], 23, 16);		// Use previous method for Cores and Threads
+        p->CPU.NoCores		= bitfield(p->CPU.CPUID[CPUID_4][0], 31, 26) + 1;
+	}
 	
 	/* get brand string (if supported) */
 	/* Copyright: from Apple's XNU cpuid.c */
@@ -206,8 +213,15 @@ void scan_cpu(PlatformInfo_t *p)
 		int intelCPU = p->CPU.Model;
 		if ((p->CPU.Family == 0x06 && p->CPU.Model >= 0x0c) || (p->CPU.Family == 0x0f && p->CPU.Model >= 0x03)) {
 			/* Nehalem CPU model */
-			if (p->CPU.Family == 0x06 && (p->CPU.Model == 0x1a || p->CPU.Model == 0x1e
-			 || p->CPU.Model == 0x1f || p->CPU.Model == 0x25 || p->CPU.Model == 0x2c || p->CPU.Model == CPU_MODEL_SANDY)) {
+			if (p->CPU.Family == 0x06 && (p->CPU.Model == CPU_MODEL_NEHALEM || 
+                                          p->CPU.Model == CPU_MODEL_FIELDS || 
+                                          p->CPU.Model == CPU_MODEL_DALES || 
+                                          p->CPU.Model == CPU_MODEL_DALES_32NM || 
+                                          p->CPU.Model == CPU_MODEL_WESTMERE ||
+                                          p->CPU.Model == CPU_MODEL_NEHALEM_EX ||
+                                          p->CPU.Model == CPU_MODEL_WESTMERE_EX ||
+                                          p->CPU.Model == CPU_MODEL_SANDY ||
+                                          p->CPU.Model == CPU_MODEL_SANDY_XEON)) {
 				msr = rdmsr64(MSR_PLATFORM_INFO);
 				DBG("msr(%d): platform_info %08x\n", __LINE__, msr & 0xffffffff);
 				bus_ratio_max = (msr >> 8) & 0xff;

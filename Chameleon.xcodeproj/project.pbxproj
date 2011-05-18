@@ -113,8 +113,6 @@
 		B0056D4A11F3868000754B65 /* load.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = load.c; sourceTree = "<group>"; };
 		B0056D4B11F3868000754B65 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		B0056D4C11F3868000754B65 /* md5c.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = md5c.c; sourceTree = "<group>"; };
-		B0056D4D11F3868000754B65 /* mem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mem.c; sourceTree = "<group>"; };
-		B0056D4E11F3868000754B65 /* mem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mem.h; sourceTree = "<group>"; };
 		B0056D4F11F3868000754B65 /* memvendors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = memvendors.h; sourceTree = "<group>"; };
 		B0056D5011F3868000754B65 /* misc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = misc.c; sourceTree = "<group>"; };
 		B0056D5111F3868000754B65 /* msdos.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = msdos.c; sourceTree = "<group>"; };
@@ -477,8 +475,6 @@
 				B0056D4A11F3868000754B65 /* load.c */,
 				B0056D4B11F3868000754B65 /* Makefile */,
 				B0056D4C11F3868000754B65 /* md5c.c */,
-				B0056D4D11F3868000754B65 /* mem.c */,
-				B0056D4E11F3868000754B65 /* mem.h */,
 				B0056D4F11F3868000754B65 /* memvendors.h */,
 				B0056D5011F3868000754B65 /* misc.c */,
 				B0056D5111F3868000754B65 /* msdos.c */,

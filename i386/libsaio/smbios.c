@@ -335,6 +335,7 @@ void setDefaultSMBData(void)
 								break;
 
 							case CPU_MODEL_SANDY:
+                            case CPU_MODEL_SANDY_XEON:
 								defaultBIOSInfo.version			= kDefaultiMacSandyBIOSVersion;
 								defaultSystemInfo.productName	= kDefaultiMacSandy;
 								defaultSystemInfo.family		= kDefaultiMacFamily;

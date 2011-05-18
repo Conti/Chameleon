@@ -494,7 +494,8 @@ struct acpi_2_ssdt *generate_pss_ssdt(struct acpi_2_dsdt* dsdt)
 					case CPU_MODEL_NEHALEM_EX:
 					case CPU_MODEL_WESTMERE:
 					case CPU_MODEL_WESTMERE_EX:
-					case CPU_MODEL_SANDY:
+                    case CPU_MODEL_SANDY:
+                    case CPU_MODEL_SANDY_XEON:    
 					{
 						maximum.Control = rdmsr64(MSR_IA32_PERF_STATUS) & 0xff; // Seems it always contains maximum multiplier value (with turbo, that's we need)...
 						minimum.Control = (rdmsr64(MSR_PLATFORM_INFO) >> 40) & 0xff;
