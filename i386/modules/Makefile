@@ -46,8 +46,6 @@ all embedtheme optionrom tags debug install installhdrs: objroot_dirs
 	done
 
 objroot_dirs:
-	@rm -rf "$(OBJROOT)" 
-	@mkdir "$(OBJROOT)" &> /dev/null
 	@rm -rf module_includes
 	@mkdir module_includes
 	@rm -rf "$(SYMROOT)/modules/"
