@@ -25,11 +25,14 @@ OBJROOT=`pwd`/../../obj/i386/modules/
 SYMROOT=`pwd`/../../sym/i386/modules/
 DSTROOT=`pwd`/../../dst/i386/modules/
 SRCROOT=/tmp
+MODINCROOT=`pwd`/module_includes
+
+DIRS_NEEDED = $(OBJROOT) $(SYMROOT) $(MODINCROOT)
 
 VPATH = $(OBJROOT):$(SYMROOT)
 
 
-all embedtheme optionrom tags debug install installhdrs: objroot_dirs
+all embedtheme optionrom tags debug install installhdrs: $(DIRS_NEEDED)
 	@for i in ${SUBDIRS}; \
 	do \
 		echo ================= make $@ for $$i =================; \
@@ -55,3 +58,7 @@ objroot_dirs:
 
 installsrc:
 	tar cf - . | (cd ${SRCROOT}; tar xfBp -)
+
+$(DIRS_NEEDED) $(INSTALLDIR) $(SRCROOT):
+	@echo "\t[MKDIR] $@"
+	@$(MKDIRS) $@
