@@ -540,6 +540,28 @@ void addSMBOemProcessorBusSpeed(SMBStructPtrs *structPtr)
 {
 	SMBOemProcessorBusSpeed *p = (SMBOemProcessorBusSpeed *)structPtr->new;
 
+	switch (Platform.CPU.Family) 
+	{
+		case 0x06:
+		{
+			switch (Platform.CPU.Model)
+			{
+				case 0x19:					// Intel Core i5 650 @3.20 Ghz
+				case CPU_MODEL_FIELDS:		// Intel Core i5, i7 LGA1156 (45nm)
+				case CPU_MODEL_DALES:		// Intel Core i5, i7 LGA1156 (45nm) ???
+				case CPU_MODEL_DALES_32NM:	// Intel Core i3, i5, i7 LGA1156 (32nm)
+				case CPU_MODEL_NEHALEM:		// Intel Core i7 LGA1366 (45nm)
+				case CPU_MODEL_NEHALEM_EX:	// Intel Core i7 LGA1366 (45nm) 6 Core ???
+				case CPU_MODEL_WESTMERE:	// Intel Core i7 LGA1366 (32nm) 6 Core
+				case CPU_MODEL_WESTMERE_EX:	// Intel Core i7 LGA1366 (45nm) 6 Core ???
+					break;
+
+				default:
+					return;
+			}
+		}
+	}
+
 	p->header.type		= kSMBTypeOemProcessorBusSpeed;
 	p->header.length	= sizeof(SMBOemProcessorBusSpeed);
 	p->header.handle	= handle++;
