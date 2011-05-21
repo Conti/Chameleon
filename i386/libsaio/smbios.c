@@ -148,8 +148,8 @@ typedef struct {
 	char			**defaultValue;
 } SMBValueSetter;
 
-SMBValueSetter SMBSetters[] =                           
-{                                                           
+SMBValueSetter SMBSetters[] = 
+{
 	//-------------------------------------------------------------------------------------------------------------------------
 	// BIOSInformation
 	//-------------------------------------------------------------------------------------------------------------------------
@@ -193,13 +193,13 @@ SMBValueSetter SMBSetters[] =
 	{kSMBTypeBaseBoard,	kSMBString,	getFieldOffset(SMBBaseBoard, product),				kSMBBaseBoardProductKey,		
 		NULL,	&defaultBaseBoard.product		},
 
-    {kSMBTypeBaseBoard,	kSMBString,	getFieldOffset(SMBBaseBoard, version),				NULL,	NULL,	NULL},
+	{kSMBTypeBaseBoard,	kSMBString,	getFieldOffset(SMBBaseBoard, version),				NULL,	NULL,	NULL},
 
-    {kSMBTypeBaseBoard,	kSMBString,	getFieldOffset(SMBBaseBoard, serialNumber),			NULL,	NULL,	NULL},
+	{kSMBTypeBaseBoard,	kSMBString,	getFieldOffset(SMBBaseBoard, serialNumber),			NULL,	NULL,	NULL},
 
-    {kSMBTypeBaseBoard,	kSMBString,	getFieldOffset(SMBBaseBoard, assetTagNumber),		NULL,	NULL,	NULL},
+	{kSMBTypeBaseBoard,	kSMBString,	getFieldOffset(SMBBaseBoard, assetTagNumber),		NULL,	NULL,	NULL},
 
-    {kSMBTypeBaseBoard,	kSMBString,	getFieldOffset(SMBBaseBoard, locationInChassis),	NULL,	NULL,	NULL},
+	{kSMBTypeBaseBoard,	kSMBString,	getFieldOffset(SMBBaseBoard, locationInChassis),	NULL,	NULL,	NULL},
 
 
 	//-------------------------------------------------------------------------------------------------------------------------
@@ -335,7 +335,7 @@ void setDefaultSMBData(void)
 								break;
 
 							case CPU_MODEL_SANDY:
-                            case CPU_MODEL_SANDY_XEON:
+							case CPU_MODEL_SANDY_XEON:
 								defaultBIOSInfo.version			= kDefaultiMacSandyBIOSVersion;
 								defaultSystemInfo.productName	= kDefaultiMacSandy;
 								defaultSystemInfo.family		= kDefaultiMacFamily;
@@ -606,6 +606,8 @@ void setSMBStruct(SMBStructPtrs *structPtr)
 	for (i = 0; i < numOfSetters; i++)
 		if (structPtr->orig->type == SMBSetters[i].type)
 		{
+			if (SMBSetters[i].fieldOffset > structPtr->orig->length)
+				continue;
 			setterFound = true;
 			setSMBValue(structPtr, i, (returnType *)((uint8_t *)structPtr->new + SMBSetters[i].fieldOffset));
 		}
@@ -636,7 +638,7 @@ void setSMBStruct(SMBStructPtrs *structPtr)
 
 	tableLength += structSize;
 
-	if (structSize >  maxStructSize)
+	if (structSize > maxStructSize)
 		maxStructSize = structSize;
 
 	structureCount++;
@@ -791,9 +793,9 @@ void readSMBIOSInfo(SMBEntryPoint *eps)
 
 			case kSMBTypeMemoryDevice:
 				Platform.DMI.CntMemorySlots++;
-        		if (((SMBMemoryDevice *)structHeader)->memorySize != 0)
+				if (((SMBMemoryDevice *)structHeader)->memorySize != 0)
 					Platform.DMI.MemoryModules++;
-        		if (((SMBMemoryDevice *)structHeader)->memorySpeed > 0)
+				if (((SMBMemoryDevice *)structHeader)->memorySpeed > 0)
 					Platform.RAM.DIMM[dimmnbr].Frequency = ((SMBMemoryDevice *)structHeader)->memorySpeed;
 				dimmnbr++;
 				break;
