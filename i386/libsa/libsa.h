@@ -35,43 +35,43 @@
 /*
  * ctype stuff (aserebln)
  */
-static inline int isupper(char c)
+static inline int isupper(int c)
 {
     return (c >= 'A' && c <= 'Z');
 }
 
-static inline int islower(char c)
+static inline int islower(int c)
 {
     return (c >= 'a' && c <= 'z');
 }
 
-static inline int isalpha(char c)
+static inline int isalpha(int c)
 {
     return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
 }
 
-static inline int isascii(char c)
+static inline int isascii(int c)
 {
     return ( (c >= 0x20) && (c < 0x7f) );
 }
 
-static inline int isspace(char c)
+static inline int isspace(int c)
 {
     return (c == ' ' || c == '\t' || c == '\n' || c == '\12');
 }
 
-static inline int isdigit(char c)
+static inline int isdigit(int c)
 {
     return (c >= '0' && c <= '9');
 }
 
-static inline int isxdigit(char c)
+static inline int isxdigit(int c)
 {
     return ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f'));
 }
 
 //Azi: TODO - add more ponctuation characters as needed; at least these two, i need for PartNo.
-static inline int ispunct(char c)
+static inline int ispunct(int c)
 {
     return (c == '.' || c == '-');
 }
@@ -89,7 +89,7 @@ extern void   bzero(void * dst, size_t len);
 
 extern void * memset(void * dst, int c, size_t n);
 extern void * memcpy(void * dst, const void * src, size_t len);
-extern int    memcmp(const void * p1, const void * p2, int len);
+extern int    memcmp(const void * p1, const void * p2, size_t len);
 extern int    strcmp(const char * s1, const char * s2);
 extern int    strncmp(const char * s1, const char * s2, size_t n);
 extern char * strcpy(char * s1, const char * s2);
