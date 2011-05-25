@@ -31,7 +31,8 @@ void setup_pci_devs(pci_dt_t *pci_dt)
 		switch (current->class_id)
 		{
 			case PCI_CLASS_BRIDGE_HOST:
-					dram_controller_dev = current;
+					if (current->dev.addr == PCIADDR(0, 0, 0))
+						dram_controller_dev = current;
 				break;
 				
 			case PCI_CLASS_NETWORK_ETHERNET: 
