@@ -7,7 +7,7 @@
 #ifndef __LIBSAIO_PLATFORM_H
 #define __LIBSAIO_PLATFORM_H
 
-#include "libsaio.h"
+//#include "libsaio.h"
 
 extern bool platformCPUFeature(uint32_t);
 extern void scan_platform(void);

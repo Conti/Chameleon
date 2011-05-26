@@ -3,6 +3,7 @@
 #include "bootstruct.h"
 #include "pci.h"
 #include "nvidia.h"
+#include "modules.h"
 
 
 extern bool setup_ati_devprop(pci_dt_t *ati_dev);
@@ -69,6 +70,8 @@ void setup_pci_devs(pci_dt_t *pci_dt)
 					force_enable_hpet(current);
 				break;
 		}
+		
+		execute_hook("PCIDevice", current, NULL, NULL, NULL);
 		
 		setup_pci_devs(current->children);
 		current = current->next;

@@ -36,13 +36,12 @@
 #ifndef __LIBSAIO_UFS_BYTEORDER_H
 #define __LIBSAIO_UFS_BYTEORDER_H
 
-#include <sys/vnode.h>
+//#include <sys/vnode.h>
+#include <ufs/ffs/fs.h>
 #include <sys/buf.h>
 #include <sys/disk.h>
-#include <ufs/ufs/quota.h>
 #include <ufs/ufs/dinode.h>
 #include <ufs/ufs/dir.h>
-#include <ufs/ffs/fs.h>
 
 void byte_swap_ints(unsigned int *array, int count);
 void byte_swap_shorts(unsigned short *array, int count);

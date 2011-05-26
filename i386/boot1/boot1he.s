@@ -45,7 +45,7 @@
 ;
 ; Set to 1 to enable obscure debug messages.
 ;
-DEBUG				EQU		1
+DEBUG				EQU		CONFIG_BOOT1_HFS_ACTIVE_DEBUG
 
 ;
 ; Set to 1 to enable unused code.
@@ -55,7 +55,7 @@ UNUSED				EQU		0
 ;
 ; Set to 1 to enable verbose mode.
 ;
-VERBOSE				EQU		1
+VERBOSE				EQU		CONFIG_BOOT1_HFS_ACTIVE_VERBOSE
 
 ;
 ; Various constants.
@@ -1280,7 +1280,7 @@ getBTreeRecord:
 .exit:
 	pop		di									; restore address of trialKey
 
-;%if UNUSED	
+%if DEBUG	
 ;
 ; Print catalog trial key
 ;
@@ -1302,7 +1302,7 @@ getBTreeRecord:
 ;
 ;
 ;
-;%endif ; UNUSED
+%endif ; DEBUG
 	
 %if UNUSED	
 ;

@@ -52,12 +52,12 @@
 ;
 ; Set to 1 to enable obscure debug messages.
 ;
-DEBUG				EQU  0
+DEBUG				EQU  CONFIG_BOOT0_DEBUG
 
 ;
 ; Set to 1 to enable verbose mode
 ;
-VERBOSE				EQU  1
+VERBOSE				EQU  CONFIG_BOOT0_VERBOSE
 
 ;
 ; Various constants.
@@ -315,7 +315,7 @@ find_boot:
     jne	    .Pass2
 
 .Pass1:
-%ifdef HFSFIRST
+%if CONFIG_BOOT0_HFSFIRST
     cmp	    BYTE [si + part.type], kPartTypeHFS		; In pass 1 we're going to find a HFS+ partition
                                                   ; equipped with boot1h in its boot record
                                                   ; regardless if it's active or not.
@@ -332,7 +332,7 @@ find_boot:
     jmp    .tryToBoot
 
 .Pass2:    
-%ifdef HFSFIRST
+%if CONFIG_BOOT0_HFSFIRST
     cmp     BYTE [si + part.bootid], kPartActive	; In pass 2 we are walking on the standard path
                                                   ; by trying to hop on the active partition.
     jne     .continue

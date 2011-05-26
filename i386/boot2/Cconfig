@@ -1,0 +1,29 @@
+config MODULES
+	bool "Module System"
+	default y
+	---help---
+	  Say Y here if you want to enable to use of modules.
+
+config MODULE_DEBUG
+	bool "debug support"
+	default n
+	depends on MODULES
+	---help---
+	  Say Y here if you want to enable debug mode for the
+	  module system.
+
+source "i386/modules/Cconfig"
+
+config EMBED_THEME
+	bool "Embed Theme"
+	default n
+	---help---
+	  Say Y here if you want compile in a default theme.
+	
+config EMBEDED_THEME
+	string "Theme name"
+	default "embed"
+	depends on EMBED_THEME
+	---help---
+	  Specify the name of the theme to compile in.
+	

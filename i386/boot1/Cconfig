@@ -1,0 +1,47 @@
+#
+#	boot1
+#
+config BOOT1_HFS
+	bool "boot1 second stage booter"
+	default y
+	help
+	  Say Y here if you want to compile the default boot1
+	  bootloader stage.
+
+config BOOT1_HFS_DEBUG
+	bool "debug support"
+	default n
+	depends on BOOT1_HFS
+	help
+	  Say Y here if you want to compile in debug support.
+		
+config BOOT1_HFS_VERBOSE
+	bool "verbose support"
+	default y
+	depends on BOOT1_HFS
+	help
+	  Say Y here if you want to compile in verbose support.
+
+#
+#	boot1h
+#
+config BOOT1_HFS_ACTIVE
+	bool "boot1h second stage boater"
+	default y
+	help
+	  Say Y here if you want to compile the default boot1
+	  bootloader stage.
+
+config BOOT1_HFS_ACTIVE_DEBUG
+	bool "debug support"
+	default n
+	depends on BOOT1_HFS_ACTIVE
+	help
+	  Say Y here if you want to compile in debug support.
+		
+config BOOT1_HFS_ACTIVE_VERBOSE
+	bool "verbose support"
+	default y
+	depends on BOOT1_HFS_ACTIVE
+	help
+	  Say Y here if you want to compile in debug support.

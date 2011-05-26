@@ -29,12 +29,7 @@
  */
 
 #include "libsaio.h"
-
-#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
-# include <Kernel/libkern/crypto/md5.h>
-#else
-# include <sys/md5.h>
-#endif
+#include <libkern/crypto/md5.h>
 
 
 #define Encode memcpy

@@ -1,0 +1,10 @@
+#
+# Chameleon Modules
+#
+
+menu "Modules"
+source "i386/modules/Resolution/Cconfig"
+source "i386/modules/klibc/Cconfig"
+source "i386/modules/uClibc++/Cconfig"
+source "i386/modules/HelloWorld/Cconfig"
+endmenu

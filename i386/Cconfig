@@ -1,0 +1,21 @@
+#
+# Chameleon Utilities
+#
+
+config OPTIMIZATION_LEVEL
+	string "Optimization Level"
+	default "-Oz"
+	---help---
+	  Specify the level to compile chameleon with.
+
+source "i386/util/Cconfig"
+
+source "i386/boot0/Cconfig"
+
+source "i386/boot1/Cconfig"
+
+source "i386/boot2/Cconfig"
+
+source "i386/libsa/Cconfig"
+
+source "i386/libsaio/Cconfig"

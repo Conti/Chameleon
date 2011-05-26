@@ -45,7 +45,6 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
  * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 #define tolower(c)     (((c)>='A' && c<='Z')?((c) | 0x20):(c))
 #include "libsaio.h"
 #include "sl.h"
@@ -60,10 +59,6 @@
 #define	CLUST_RSRVD32	0x0ffffff8	/* reserved cluster range */
 #define	CLUST_RSRVD16	0xfff8	/* reserved cluster range */
 #define	CLUST_RSRVD12	0xff8	/* reserved cluster range */
-
-
-#define false 0
-#define true 1
 
 static int msdosressector=0;
 static int msdosnfats = 0;

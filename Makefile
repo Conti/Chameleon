@@ -1,29 +1,16 @@
-export USE_APPLE_PB_SUPPORT = all
-
 #	Makefile for kernel booter
-
-# CFLAGS	= -O $(MORECPP) -arch i386 -g 
-DEFINES=
-CONFIG = hd
-LIBDIR = libsa
-INC = -I. -I$(LIBDIR)
-ifneq "" "$(wildcard /bin/mkdirs)"
-  MKDIRS = /bin/mkdirs
-else
-  MKDIRS = /bin/mkdir -p
-endif
-AS = as
-LD = ld
-PAX = /bin/pax
-
-OBJROOT = `pwd`/obj
-SYMROOT = `pwd`/sym
-DSTROOT = `pwd`/dst
-SRCROOT = /tmp
-DOCROOT = `pwd`/doc
-IMGROOT = `pwd`/sym/cache
-IMGSKELROOT = `pwd`/imgskel
+SRCROOT = $(shell pwd)
+OBJROOT = $(SRCROOT)/obj
+SYMROOT = $(SRCROOT)/sym
+DSTROOT = $(SRCROOT)/dst
+DOCROOT = $(SRCROOT)/doc
+IMGROOT = $(SRCROOT)/sym/cache
+IMGSKELROOT = $(SRCROOT)/imgskel
 CDBOOT = ${IMGROOT}/usr/standalone/i386/cdboot
+
+
+include Make.rules
+
 
 THEME = default
 
@@ -38,15 +25,32 @@ EXCLUDE = --exclude=.svn --exclude=.DS_Store --exclude=sym --exclude=obj \
 
 ARCHLESS_RC_CFLAGS=`echo $(RC_CFLAGS) | sed 's/-arch [a-z0-9]*//g'`
 
-VPATH = $(OBJROOT):$(SYMROOT)
-
 GENERIC_SUBDIRS =
 
 #
 # Currently builds for i386
 #
+clean config:
+	@if [ -e ".svn" ]; then svnversion -n | tr -d [:alpha:] > revision; fi
+	@echo ================= make config for i386 =================;
+	@( OBJROOT=$(OBJROOT)/i386;				  \
+	  SYMROOT=$(SYMROOT)/i386;				  \
+	  DSTROOT=$(DSTROOT);					  \
+	  SRCROOT=$(SRCROOT);					  \
+	    cd i386; ${MAKE}					  \
+		"OBJROOT=$$OBJROOT"		 	  	  \
+	  	"SYMROOT=$$SYMROOT"				  \
+		"DSTROOT=$$DSTROOT"				  \
+		"SRCROOT=$$SRCROOT"				  \
+		"RC_ARCHS=$$RC_ARCHS"				  \
+		"TARGET=$$i"					  \
+		"RC_KANJI=$(RC_KANJI)"				  \
+		"JAPANESE=$(JAPANESE)"				  \
+		"RC_CFLAGS=$$XCFLAGS" $@			  \
+	) || exit $$?; 						  \
+	
 
-all embedtheme tags debug install installhdrs: $(SYMROOT) $(OBJROOT)
+all: $(SYMROOT) $(OBJROOT) $(SRCROOT)/auto.conf $(SRCROOT)/autoconf.h $(SRCROOT)/autoconf.inc $(SRCROOT)/.config
 	@if [ -e ".svn" ]; then svnversion -n | tr -d [:alpha:] > revision; fi
 	@if [ -z "$(RC_ARCHS)" ]; then					  \
 		RC_ARCHS="i386";					  \
@@ -59,6 +63,7 @@ all embedtheme tags debug install installhdrs: $(SYMROOT) $(OBJROOT)
 		( OBJROOT=$(OBJROOT)/$${i};				  \
 		  SYMROOT=$(SYMROOT)/$${i};				  \
 		  DSTROOT=$(DSTROOT);					  \
+		  SRCROOT=$(SRCROOT);					  \
 	          XCFLAGS=$(ARCHLESS_RC_CFLAGS);			  \
 	          GENSUBDIRS="$(GENERIC_SUBDIRS)";			  \
 	          for x in $$GENSUBDIRS;				  \
@@ -68,7 +73,6 @@ all embedtheme tags debug install installhdrs: $(SYMROOT) $(OBJROOT)
 	                  break;					  \
 	              fi						  \
 	          done;							  \
-		  echo "$$OBJROOT $$SYMROOT $$DSTROOT"; \
 		    cd $$i; ${MAKE}					  \
 			"OBJROOT=$$OBJROOT"		 	  	  \
 		  	"SYMROOT=$$SYMROOT"				  \
@@ -85,45 +89,8 @@ all embedtheme tags debug install installhdrs: $(SYMROOT) $(OBJROOT)
 	    fi;								  \
 	done
 
-image:
-	@if [ -e "$(SYMROOT)" ]; then					  \
-	    rm -r -f ${IMGROOT};				  	  \
-	    mkdir -p ${IMGROOT}/usr/standalone/i386;		  	  \
-	    if [ -e "$(IMGSKELROOT)" ]; then				  \
-		cp -R -f "${IMGSKELROOT}"/* "${IMGROOT}";		  \
-	    fi;								  \
-	    cp -f ${SYMROOT}/i386/cdboot ${CDBOOT};		  	  \
-	    cp -f ${SYMROOT}/i386/boot ${IMGROOT}/usr/standalone/i386; 	  \
-	    cp -f ${SYMROOT}/i386/boot0 ${IMGROOT}/usr/standalone/i386;	  \
-	    cp -f ${SYMROOT}/i386/boot1h ${IMGROOT}/usr/standalone/i386;  \
-	    cp -f ${SYMROOT}/i386/boot1f32 ${IMGROOT}/usr/standalone/i386;\
-	    $(shell hdiutil makehybrid -iso -joliet -hfs -hfs-volume-name \
-	       ${CDLABEL} -eltorito-boot ${CDBOOT} -no-emul-boot -ov -o   \
-	       "${ISOIMAGE}" ${IMGROOT} -quiet) 		  	  \
-	fi;
 
-pkg installer: embedtheme
-	@if [ -e "$(SYMROOT)" ]; then					  \
-	    sudo `pwd`/package/buildpkg `pwd`/sym/package;		  \
-	fi;
 
-release: $(SYMROOT)
-	@if [ -e ".svn" ]; then svnversion -n | tr -d [:alpha:] > revision; fi
-	@if [ -e "$(SYMROOT)" ]; then					  \
-	    sudo `pwd`/package/buildpkg `pwd`/sym/package;		  \
-	fi;
-	@tar -czf $(SYMROOT)/$(PRODUCT)-src.tar.gz ${EXCLUDE} .
-	@tar -cjf $(SYMROOT)/$(PRODUCT)-src.tar.bz2 ${EXCLUDE} .
-
-clean:
-	rm -rf sym obj dst revision i386/modules/module_includes
-
-#distclean: clean
-#	@rm -f $(SYMROOT)/$(PRODUCT)-src.*
-#	@rm -f $(SYMROOT)/$(PRODUCT).pkg
-
-installsrc:
-	gnutar cf - . | (cd ${SRCROOT}; gnutar xpf -)
-
-$(SYMROOT) $(OBJROOT) $(DSTROOT):
-	@$(MKDIRS) $@
+.PHONY: config
+.PHONY: clean
+.DEFAULT_GOAL := all

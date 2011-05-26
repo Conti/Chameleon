@@ -1,31 +1,26 @@
+SRCROOT = $(shell pwd)/../../
+OBJROOT = $(SRCROOT)/obj/i386/boot0
+SYMROOT = $(SRCROOT)/sym/i386
+DSTROOT = $(SRCROOT)/dst/i386
+DOCROOT = $(SRCROOT)/doc
+IMGROOT = $(SRCROOT)/sym/cache
+IMGSKELROOT = $(SRCROOT)/imgskel
+CDBOOT = ${IMGROOT}/usr/standalone/i386/cdboot
 
 DIR = boot0
-include ../MakePaths.dir
+include ${SRCROOT}/Make.rules
 
-#NASM = /Developer/usr/bin/nasm
-NASM =	$(shell which nasm)
-INSTALLDIR = $(DSTROOT)/usr/standalone/i386
 DIRS_NEEDED = $(SYMROOT)
 
-all embedtheme: $(DIRS_NEEDED) boot0 boot0hfs chain0
 
-boot0: boot0.s
-	@echo "\t[NASM] $@"
-	@$(NASM) boot0.s -o $(SYMROOT)/$@
+OBJECTS  = boot0 chain0
+OBJECTS := $(addprefix $(SYMROOT)/, $(OBJECTS))
 
-boot0hfs: boot0.s Makefile $(NASM)
-	@echo "\t[NASM] $@"
-	@$(NASM) boot0.s -DHFSFIRST -o $(SYMROOT)/$@
+all: $(DIRS_NEEDED) $(OBJECTS)
 
-chain0: chain0.s Makefile $(NASM)
-	@echo "\t[NASM] $@"
-	@$(NASM) chain0.s -o $(SYMROOT)/$@
-
-install_i386:: all $(INSTALLDIR)
-	cp $(SYMROOT)/boot0 $(SYMROOT)/chain0 $(INSTALLDIR)
-	cd $(INSTALLDIR); chmod u+w boot0
-
-include ../MakeInc.dir
+$(OBJECTS): $(SRCROOT)/autoconf.inc
+	@echo "\t[NASM] $(@F)"
+	@$(NASM) $(@F).s -o $@
 
 #dependencies
 

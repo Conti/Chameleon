@@ -1,0 +1,6 @@
+#
+# Chameleon Configuration
+#
+mainmenu "Chameleon Configuration"
+
+source "i386/Cconfig"

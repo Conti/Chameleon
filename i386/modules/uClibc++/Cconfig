@@ -1,0 +1,11 @@
+#
+# Chameleon Modules
+#
+
+config UCLIBCXX_MODULE
+	tristate "uClibc++ Module"
+	default m
+	depends on KLIBC_MODULE
+	---help---
+	  Say Y here if you want to enable to use of this module.
+

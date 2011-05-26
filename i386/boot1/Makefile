@@ -1,37 +1,43 @@
+SRCROOT = $(shell pwd)/../../
+OBJROOT = $(SRCROOT)/obj/i386/boot1
+SYMROOT = $(SRCROOT)/sym/i386
+DSTROOT = $(SRCROOT)/dst/i386
+DOCROOT = $(SRCROOT)/doc
+IMGROOT = $(SRCROOT)/sym/cache
+IMGSKELROOT = $(SRCROOT)/imgskel
+CDBOOT = ${IMGROOT}/usr/standalone/i386/cdboot
+
+include ${SRCROOT}/Make.rules
 
 DIR = boot1
-include ../MakePaths.dir
 
-INSTALLDIR = $(DSTROOT)/usr/standalone/i386
-DIRS_NEEDED = $(OBJROOT) $(SYMROOT)
-
-#NASM = /Developer/usr/bin/nasm
-NASM = $(shell which nasm)
-
-VERSIONED_FILES = boot1h
+DIRS_NEEDED = $(SYMROOT)
 
 VERS = `vers_string -f 5.0 | tr - .`
 NEW_VERS = Darwin boot1h v$(VERS)
-ifneq "" "$(wildcard /bin/mkdirs)"
-  MKDIRS = /bin/mkdirs
-else
-  MKDIRS = /bin/mkdir -p
+
+
+
+PROGRAMS  =  boot1hp boot1f32
+
+ifeq (${CONFIG_BOOT1_HFS}, y)
+PROGRAMS += boot1h
 endif
 
-all embedtheme: $(DIRS_NEEDED) $(VERSIONED_FILES)
+ifeq (${CONFIG_BOOT1_HFS_ACTIVE}, y)
+PROGRAMS += boot1he
+endif
 
-boot1h: boot1.s Makefile
-	@echo "\t[NASM] boot1.s"
-	@$(NASM) boot1.s -o $(SYMROOT)/boot1h
-	@echo "\t[NASM] boot1hp.s"
-	@$(NASM) boot1hp.s -o $(SYMROOT)/boot1hp
-	@echo "\t[NASM] boot1he.s"
-	@$(NASM) boot1he.s -o $(SYMROOT)/boot1he
-	@echo "\t[NASM] boot1f32.s"
-	@$(NASM) boot1f32.s -o $(SYMROOT)/boot1f32
+
+PROGRAMS := $(addprefix $(SYMROOT)/, $(PROGRAMS))
+
+all: $(DIRS_NEEDED) $(PROGRAMS)
+
+
+$(PROGRAMS): $(SRCROOT)/autoconf.inc
+	@echo "\t[NASM] $(@F)" 
+	@$(NASM) $(@F).s -o $@
 
 install_i386:: all $(INSTALLDIR)
 	cp $(SYMROOT)/boot1h $(INSTALLDIR)/
 	cd $(INSTALLDIR); chmod u+w $(VERSIONED_FILES) 
-
-include ../MakeInc.dir

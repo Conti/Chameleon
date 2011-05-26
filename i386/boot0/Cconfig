@@ -1,0 +1,30 @@
+config BOOT0_HFSFIRST
+	bool "boot0 HFS prefered"
+	default y
+	help
+	  Say Y here if you want boot0 to attempt to boot the first
+	  hfs partition found, instead of the active partition.
+
+config BOOT0_DEBUG
+	bool "boot0 debug support"
+	default n
+	help
+	  Say Y here if you want to compile in boot0
+	  debug messages. On an error, boot0 will print
+	  one of thefollowing:
+		>	start_reloc was called
+		*	Boot partition found
+		J	Jumping to partition booter
+		<	read_lba
+		R	INT13/F42 error
+		
+
+
+config BOOT0_VERBOSE
+	bool "boot0 verbose support"
+	default y
+	help
+	  Say Y here if you want to enable boot0 verbose messages.
+	  boot0 will pronto out status updates as it executes to
+	  notify the user of progress in the initial boot sequence.
+	  When in doubt, say "Y".

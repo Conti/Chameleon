@@ -2,8 +2,9 @@
  * Copyright 2010 Evan Lojewski. All rights reserved.
  *
  */
-#ifndef DEBUG_MODULES
-#define DEBUG_MODULES 0
+#ifdef CONFIG_MODULES
+#ifndef CONFIG_MODULE_DEBUG
+#define CONFIG_MODULE_DEBUG 0
 #endif
 
 #include "boot.h"
@@ -11,7 +12,7 @@
 #include "modules.h"
 
 
-#if DEBUG_MODULES
+#if CONFIG_MODULE_DEBUG
 #define DBG(x...)	printf(x);
 #define DBGPAUSE()	getc()
 #else
@@ -162,7 +163,7 @@ int load_module(char* module)
 			(*module_start)();	// Start the module
 			DBG("Module %s Loaded.\n", module); DBGPAUSE();
 		}
-#if DEBUG_MODULES
+#if CONFIG_MODULE_DEBUG
 		else // The module does not have a valid start function. This may be a library.
 		{
 			printf("WARNING: Unable to start %s\n", module);
@@ -272,7 +273,7 @@ unsigned int lookup_all_symbols(const char* name)
 		}
 	}
 	
-#if DEBUG_MODULES
+#if CONFIG_MODULE_DEBUG
 	verbose("Unable to locate symbol %s\n", name);
 	getc();
 #endif
@@ -1087,7 +1088,7 @@ void register_hook_callback(const char* name, void(*callback)(void*, void*, void
 		
 	}
 	
-#if DEBUG_MODULES
+#if CONFIG_MODULE_DEBUG
 	//print_hook_list();
 	//getc();
 #endif
@@ -1115,7 +1116,7 @@ moduleHook_t* hook_exists(const char* name)
 	
 }
 
-#if DEBUG_MODULES
+#if CONFIG_MODULE_DEBUG
 void print_hook_list()
 {
 	printf("---Hook Table---\n");
@@ -1138,3 +1139,21 @@ void dyld_stub_binder()
 	printf("ERROR: dyld_stub_binder was called, should have been take care of by the linker.\n");
 	getc();
 }
+
+#else /* CONFIG_MODULES */
+
+int init_module_system()
+{
+    return 0;
+}
+
+void load_all_modules()
+{
+    
+}
+
+int execute_hook(const char* name, void* arg1, void* arg2, void* arg3, void* arg4)
+{
+    return 0;
+}
+#endif

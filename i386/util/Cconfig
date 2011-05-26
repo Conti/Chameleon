@@ -1,0 +1,8 @@
+config BDMESG
+	bool "bdmesg utility"
+	default y
+	help
+	  Say Y here if you want to compile the bdmesg utility.
+	  bdmesg is used to dump any messages thrown during the
+	  chameleon boot sequence.
+	  When in doubt, say "Y".

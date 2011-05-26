@@ -1,21 +1,43 @@
-OBJROOT = ../../../obj/i386/modules/$(DIR)
-SYMROOT = ../../../sym/i386/
-DSTROOT = ../../../dst/i386/
+SRCROOT = $(shell pwd)/../../../
+OBJROOT = $(SRCROOT)/obj/i386/modules/$(DIR)
+SYMROOT = $(SRCROOT)/sym/i386/modules/
+DSTROOT = $(SRCROOT)/dst/i386
+DOCROOT = $(SRCROOT)/doc
+IMGROOT = $(SRCROOT)/sym/cache
+IMGSKELROOT = $(SRCROOT)/imgskel
+CDBOOT = ${IMGROOT}/usr/standalone/i386/cdboot
+
+include ${SRCROOT}/Make.rules
+
 
 UTILDIR = ../../util
 LIBSADIR = ../../libsa
 LIBSAIODIR = ../../libsaio
 BOOT2DIR = ../../boot2
 
+INC = -I$(SRCROOT)/i386/modules/include/ -Iinclude/ -I$(SRCROOT)/i386/modules/module_includes/ -I$(SRCROOT)/i386/libsaio/ -I$(SRCROOT)/i386/libsa/ -I$(SRCROOT)/i386/include/ -I$(SRCROOT)/i386/boot2/
+DEFINES := -D__KLIBC__ $(DEFINES)
+
+CFLAGS := $(CLFAGS) -nostdinc -Wmost -Werror \
+	-fno-builtin -mpreferred-stack-boundary=2 \
+	-fno-align-functions -fno-stack-protector \
+	-march=pentium4 -msse2 -mfpmath=sse -msoft-float \
+	-arch i386 -include $(SRCROOT)/autoconf.h
+	
+CPPFLAGS := $(CPPFLAGS) -nostdinc++ -Wmost -Werror \
+	-fno-builtin -mpreferred-stack-boundary=2 \
+	-fno-align-functions -fno-stack-protector \
+	-march=pentium4 -msse2 -mfpmath=sse -msoft-float \
+	-arch i386 -include $(SRCROOT)/autoconf.h
+
 MODULE_DEPENDENCIES := $(foreach x,$(MODULE_DEPENDENCIES),-weak_library $(SYMROOT)/modules/$(x).dylib)
 
 
 INSTALLDIR = $(DSTROOT)/System/Library/Frameworks/System.framework/Versions/B/PrivateHeaders/standalone
 
-dylib: ${OBJROOT} ${MODULE_OBJS} dylib_final
+dylib: ${SYMROOT}/modules/ ${OBJROOT} $(addprefix $(OBJROOT)/, ${MODULE_OBJS}) $(SYMROOT)/modules/$(MODULE_NAME).dylib
 
-dylib_final: 
-	@rm -rf $(SYMROOT)/$(MODULE_NAME).dylib	#ensure module doesn't link with old version of self
+$(SYMROOT)/modules/$(MODULE_NAME).dylib: 
 	@echo "\t[LD] $(MODULE_NAME).dylib"
 	
 	@ld -arch i386 \
@@ -36,26 +58,24 @@ dylib_final:
 	
 	@cp -rf include/* ../module_includes/ &> /dev/null || true
 	
-%.o: %.c
-	@echo "\t[CC] $<"
-	@$(CC) $(CPPFLAGS) $(CFLAGS) -I../include/ -Iinclude/ -I../module_includes/ -D__KLIBC__ $(DEFINES) -c "$<" $(INC) -o "$(OBJROOT)/$@"
-
-%.o: %.cpp
-	@echo "\t[CPP] $<"
-	@$(CPP) $(CPPFLAGS) $(CFLAGS) -I../include/ -Iinclude/ -I../module_includes/ -D__KLIBC__ $(DEFINES) -c "$<" $(INC) -o "$(OBJROOT)/$@"
 
 clean:
-	@echo "\t[RM] $(OBJROOT)"
-	@rm -rf ${OBJROOT}
 	@echo "\t[RM] $(SYMROOT)/modules/$(MODULE_NAME).dylib"
+	@echo "\t[RM] $(OBJROOT)"
+	@echo "\t[RM] $(DSTROOT)"
+	@echo "\t[RM] $(SRCROOT)/revision"
+	@echo "\t[RM] $(SRCROOT)/i386/modules/module_includes"
 	@rm -rf $(SYMROOT)/modules/$(MODULE_NAME).dylib &> /dev/null
-	
+	@rm -rf $(OBJROOT) $(DSTROOT) $(SRCROOT)/revision $(SRCROOT)/i386/modules/module_includes
 
 	
+${SYMROOT}/modules/:
+	@echo "\t[MKDIR] $@"
+	@$(MKDIRS) $@
+
+	
 
 
-# dependencies
+#dependencies
 #-include $(OBJROOT)/Makedep
-
-include ../../MakeInc.dir
 

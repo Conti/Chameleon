@@ -1,3 +1,11 @@
+SRCROOT = $(shell pwd)/../../
+OBJROOT = $(SRCROOT)/obj/i386/boot2
+SYMROOT = $(SRCROOT)/sym/i386
+DSTROOT = $(SRCROOT)/dst/i386
+DOCROOT = $(SRCROOT)/doc
+IMGROOT = $(SRCROOT)/sym/cache
+IMGSKELROOT = $(SRCROOT)/imgskel
+CDBOOT = ${IMGROOT}/usr/standalone/i386/cdboot
 
 #	Makefile for i386 boot program
 #	define FLOPPY and SMALL using DEFINES macro as necessary
@@ -6,38 +14,29 @@ PNGCRUSH = `which pngcrush`
 PNGOPTIONS = -rem cHRM -rem gAMA -rem iCCP -rem sRGB
 
 DIR = boot2
-include ../MakePaths.dir
+include ${SRCROOT}/Make.rules
 
 OPTIM = -Os -Oz
 CFLAGS	= $(RC_CFLAGS) $(OPTIM) $(MORECPP) -arch i386 -g -Wmost -Werror \
 		-fno-builtin -DSAIO_INTERNAL_USER -static $(OMIT_FRAME_POINTER_CFLAG) \
 		-mpreferred-stack-boundary=2 -fno-align-functions -fno-stack-protector \
-		-march=pentium4 -msse2 -mfpmath=sse -msoft-float
+		-march=pentium4 -msse2 -mfpmath=sse -msoft-float -nostdinc -include $(SRCROOT)/autoconf.h
+	      
+CPPFLAGS := $(CPPFLAGS) -nostdinc++ -include $(SRCROOT)/autoconf.h
 
 DEFINES=
 CONFIG = hd
 SYMDIR = $(SYMROOT)
 LIBSADIR = ../libsa
 LIBSAIODIR = ../libsaio
-UTILDIR = ../util
-THEME = embed
+THEME = $(CONFIG_EMBEDED_THEME)
 THEMEDIR = ../../artwork/themes/$(THEME)
-INC = -I. -I.. -I$(SYMDIR) -I$(LIBSADIR) -I$(LIBSAIODIR) -I$(UTILDIR)
-ifneq "" "$(wildcard /bin/mkdirs)"
-  MKDIRS = /bin/mkdirs
-else
-  MKDIRS = /bin/mkdir -p
-endif
-AS = as
-LD = gcc
-# LIBS= -lc_static
+INC = -I. -I$(SYMDIR) -I$(LIBSADIR) -I$(LIBSAIODIR) -I${SRCROOT}/i386/include
+
 LIBS= -L$(SYMDIR) -lsaio -lsa
-LIBDEP= $(SYMDIR)/libsaio.a $(SYMDIR)/libsa.a
+LIBDEP= libsaio.a libsa.a
 
 OTHER_FILES =
-
-INSTALLDIR = $(DSTROOT)/usr/standalone/i386
-VPATH = $(OBJROOT):$(SYMROOT)
 
 # The ordering is important;
 # boot2.o must be first.
@@ -46,12 +45,6 @@ OBJS = boot2.o boot.o graphics.o drivers.o prompt.o options.o lzss.o mboot.o \
 # button.o browser.o scrollbar.o == NOTYET	
 
 UTILDIR = ../util
-SFILES = boot2.s
-CFILES = boot.c graphics.c drivers.c prompt.c options.c mboot.c picopng.c modules.c
-HFILES = boot.h appleClut8.h appleboot.h mboot.h multiboot.h picopng.h modules.h
-OTHERFILES = Makefile
-ALLSRC = $(FOREIGNSRC) $(FOREIGNBIN) $(SFILES) $(CFILES) \
-	$(HFILES) $(OTHERFILES)
 DIRS_NEEDED = $(OBJROOT) $(SYMROOT)
 BOOT2ADDR = 20200
 MAXBOOTSIZE = 458240
@@ -68,16 +61,26 @@ DATA_ADDR   = $(shell printf "%d" `otool -l $(SYMROOT)/boot.sys | grep __data -A
 PATCH_ADDR  = $(shell echo ${SYMBOL_ADDR}-${DATA_ADDR}+${DATA_OFFSET} | bc)
 
 
-all: $(DIRS_NEEDED) boot
 
-embedtheme: CFLAGS += -DEMBED_THEME
-embedtheme: art.h all
+all: $(DIRS_NEEDED) boot 
 
-boot: machOconv embedded.h $(OBJS) $(LIBDEP)
+ifeq (${CONFIG_EMBED_THEME}, y)
+
+boot: $(SYMROOT)/art.h $(SYMROOT)/vers.h $(SYMROOT)/embedded.h $(addprefix $(OBJROOT)/, $(OBJS)) $(addprefix $(SYMROOT)/, $(LIBDEP))
+
+else
+
+boot: $(SYMROOT)/vers.h $(SYMROOT)/embedded.h $(addprefix $(OBJROOT)/, $(OBJS)) $(addprefix $(SYMROOT)/, $(LIBDEP))
+
+
+endif
+
 	@echo "\t[LD] boot.sys"
-	@$(LD) -static -Wl,-preload -Wl,-segaddr,__INIT,$(BOOT2ADDR) \
+	@$(CC) -static -Wl,-preload -Wl,-segaddr,__INIT,$(BOOT2ADDR) \
 	        -nostdlib -arch i386 -Wl,-segalign,20 \
 		-o $(SYMROOT)/boot.sys $(filter %.o,$^) $(LIBS) -lcc_kext
+
+ifeq (${CONFIG_MODULES}, y)
 
 	@cp  $(SYMROOT)/boot.sys  $(SYMROOT)/boot2.sys
 
@@ -86,7 +89,7 @@ boot: machOconv embedded.h $(OBJS) $(LIBDEP)
 	@$(SYMROOT)/dyldsymboltool $(SYMROOT)/boot.sys $(SYMROOT)/${SYMBOLS_MODULE}
 
 	@echo "\t[LD] boot.sys"
-	@$(LD) -static -Wl,-preload -Wl,-segaddr,__INIT,$(BOOT2ADDR) \
+	@$(CC) -static -Wl,-preload -Wl,-segaddr,__INIT,$(BOOT2ADDR) \
 	        -nostdlib -arch i386 -Wl,-segalign,20 \
 		-Wl,-sectcreate,__DATA,__Symbols,$(SYMROOT)/Symbols.dylib \
 		-o $(SYMROOT)/boot.sys $(filter %.o,$^) $(LIBS)  -lcc_kext
@@ -100,26 +103,31 @@ boot: machOconv embedded.h $(OBJS) $(LIBDEP)
 
 	@${RM} $(SYMROOT)/boot.sys
 	@echo "\t[LD] boot.sys"
-	@$(LD) -static -Wl,-preload -Wl,-segaddr,__INIT,$(BOOT2ADDR) \
+	@$(CC) -static -Wl,-preload -Wl,-segaddr,__INIT,$(BOOT2ADDR) \
 	        -nostdlib -arch i386 -Wl,-segalign,20 \
 		-Wl,-sectcreate,__DATA,__Symbols,$(SYMROOT)/Symbols.dylib \
 		-o $(SYMROOT)/boot.sys $(filter %.o,$^) $(LIBS)  -lcc_kext
 
-	@ld -arch i386 \
+	@$(LD) -arch i386 \
 	-undefined dynamic_lookup \
 	-dylib -read_only_relocs suppress \
 	-S -x -Z -dead_strip_dylibs \
 	-no_uuid \
-	-final_output Symbols \
 	$(filter %.o,$^) $(LIBS) \
+	-final_output Symbols \
+	-macosx_version_min 10.6 \
 	-o $(OBJROOT)/Symbols_LINKER_ONLY.dylib
+	
 
 
+
+
+endif
 
 	@make embed_symbols		# this is done in a sub process after boot.sys exists so the strings are populated correctly
 
 	@${RM} $(SYMROOT)/boot2.sys
-
+	
 
 	@##size $(SYMROOT)/boot.sys
 	@ls -l $(SYMROOT)/boot
@@ -132,26 +140,26 @@ boot: machOconv embedded.h $(OBJS) $(LIBDEP)
 	  fi)
 
 	
-embed_symbols: machOconv
+embed_symbols:
+ifeq (${CONFIG_MODULES}, y)
 	@echo ================= Embedding Symbols.dylib =================
 	@echo "\t[MACHOCONV] boot"
 	@$(SYMROOT)/machOconv $(SYMROOT)/boot2.sys $(SYMROOT)/boot &> /dev/null
 
 	@echo "\t******* Patching at $(PATCH_ADDR) ******"
 	@stat -f%z $(SYMROOT)/boot | perl -ane "print pack('V',@F[0]);" | dd conv=notrunc of=${SYMROOT}/boot.sys bs=1 count=4 seek=$(PATCH_ADDR)	 &> /dev/null
+endif
 	@echo "\t[MACHOCONV] boot"
 	@$(SYMROOT)/machOconv $(SYMROOT)/boot.sys $(SYMROOT)/boot
 
 	
-
-prompt.o: vers.h
-vers.h:
+$(SYMROOT)/vers.h:
 	@echo "#define I386BOOT_VERSION \"5.0.132\"" > $(SYMROOT)/vers.h
 	@echo "#define I386BOOT_BUILDDATE \"`date \"+%Y-%m-%d %H:%M:%S\"`\"" >> $(SYMROOT)/vers.h
 	@echo "#define I386BOOT_CHAMELEONVERSION \"`cat ../../version`\"" >> $(SYMROOT)/vers.h
 	@echo "#define I386BOOT_CHAMELEONREVISION \"`svnversion -n | tr -d [:alpha:]`\"" >> $(SYMROOT)/vers.h
 
-art.h:
+$(SYMROOT)/art.h:
 	@if [ "$(PNGCRUSH)" ]; then	\
 		echo "optimizing art files ...\n$(PNGCRUSH) $(PNGOPTIONS) artwork/$(THEME)"; \
 		cd $(THEMEDIR) && find . -name '*.png' -exec $(PNGCRUSH) -q $(PNGOPTIONS) -d $(SYMROOT)/embed {} \;; \
@@ -177,14 +185,11 @@ art.h:
 
 	@echo "#endif /* !__BOOT2_ART_H */"  >> $(SYMROOT)/art.h ;\
 
-embedded.h:
+$(SYMROOT)/embedded.h:
 	@cd $(SYMROOT)/../../doc && xxd -i BootHelp.txt > $(SYMROOT)/embedded.h
 
-install_i386:: all $(INSTALLDIR)
-	cp $(SYMROOT)/boot $(OTHER_FILES) $(INSTALLDIR)
-	cd $(INSTALLDIR); chmod u+w boot $(OTHER_FILES)
 
-include ../MakeInc.dir
+.PHONY: $(SYMROOT)/vers.h
 
 #dependencies
 -include $(OBJROOT)/Makedep

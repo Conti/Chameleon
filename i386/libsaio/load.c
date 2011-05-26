@@ -277,11 +277,7 @@ static long DecodeUnixThread(long cmdBase, unsigned int *entry)
 			i386ThreadState = (i386_thread_state_t *)
 				(cmdBase + sizeof(struct thread_command) + 8);
   
-		#if defined(__DARWIN_UNIX03) && __DARWIN_UNIX03
-			*entry = i386ThreadState->__eip;
-		#else
 			*entry = i386ThreadState->eip;
-		#endif
 			return 0;
 		}
 			
@@ -292,11 +288,7 @@ static long DecodeUnixThread(long cmdBase, unsigned int *entry)
 			x86_64ThreadState = (x86_thread_state64_t *)
 			(cmdBase + sizeof(struct thread_command) + 8);
 			
-		#if defined(__DARWIN_UNIX03) && __DARWIN_UNIX03
-			*entry = x86_64ThreadState->__rip;
-		#else
 			*entry = x86_64ThreadState->rip;
-		#endif
 			return 0;
 		}
 			

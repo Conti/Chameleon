@@ -38,6 +38,7 @@
 #include "bootstruct.h"
 #include "xml.h"
 #include "ramdisk.h"
+#include "modules.h"
 
 //extern char gMacOSVersion[8];
 
@@ -393,6 +394,10 @@ LoadDriverMKext( char * fileSpec )
     length = LoadThinFatFile(fileSpec, (void **)&package);
     if (length < sizeof (DriversPackage)) return -1;
 
+	// call hook to notify modules that the mkext has been loaded
+	execute_hook("LoadDriverMKext", (void*)fileSpec, (void*)package, (void*) &length, NULL);
+
+	
     // Verify the MKext.
     if (( GetPackageElement(signature1) != kDriverPackageSignature1) ||
         ( GetPackageElement(signature2) != kDriverPackageSignature2) ||

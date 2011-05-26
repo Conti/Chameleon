@@ -58,7 +58,6 @@
     "Preboot" ramdisk support added by David Elliott
  */
 
-#include <AvailabilityMacros.h>
 
 #include "libsaio.h"
 #include "boot.h"
@@ -66,17 +65,15 @@
 #include "disk.h"
 #include "ramdisk.h"
 #include "xml.h"
-#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
-# include <Kernel/libkern/crypto/md5.h>
-#else
-# include <sys/md5.h>
-#endif
-#include <uuid/uuid.h>
+
+#include <libkern/crypto/md5.h>
+//#include <uuid/uuid.h>
+
 #if 0 /* No OS X release has ever included this. */
 #include <Kernel/uuid/namespace.h>
 #else
-/* copied from uuid/namespace.h, just like BootX's fs.c does. */
-UUID_DEFINE( kFSUUIDNamespaceSHA1, 0xB3, 0xE2, 0x0F, 0x39, 0xF2, 0x92, 0x11, 0xD6, 0x97, 0xA4, 0x00, 0x30, 0x65, 0x43, 0xEC, 0xAC );
+// from our uuid/namespace.h (UFS and HFS uuids can live in the same space?)
+static unsigned char kFSUUIDNamespaceSHA1[] = {0xB3,0xE2,0x0F,0x39,0xF2,0x92,0x11,0xD6,0x97,0xA4,0x00,0x30,0x65,0x43,0xEC,0xAC};
 #endif
 
 extern int multiboot_partition;

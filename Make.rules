@@ -1,0 +1,125 @@
+-include $(SRCROOT)/auto.conf
+
+export USE_APPLE_PB_SUPPORT = all
+	
+
+ifneq "" "$(wildcard /bin/mkdirs)"
+  MKDIRS = /bin/mkdirs
+else
+  MKDIRS = /bin/mkdir -p
+endif
+AS = as
+LD = ld
+CC = cc
+CPP = g++
+PAX = /bin/pax
+NASM = $(shell which nasm) -p $(SRCROOT)/autoconf.inc
+
+
+# CFLAGS	= -O $(MORECPP) -arch i386 -g 
+CFLAGS	= $(CONFIG_OPTIMIZATION_LEVEL) $(MORECPP) -g -Wmost -Werror
+CPPFLAGS = -fno-exceptions -fno-rtti
+DEFINES=
+
+CONFIG = hd
+#LIBDIR = libsa
+#INC = -I. -I$(LIBDIR)
+
+
+
+
+#
+# Common makefile targets.
+#
+# Define these variables (if desired) in directory makefiles:
+#	DIRS_NEEDED
+#	INSTALLDIR
+#	SRCROOT
+#
+
+# Toggle this as to whether you want a frame pointer (%ebp) to be used. It is
+# invaluable for debugging the booter. For example using GDB attached to VMware.
+# In fact, it's so invaluable that it's now the default.  Not only that but the
+# compiler seems to generate slightly smaller code and the real<->prot code
+# clearly handles it appropriately so I have no idea why Apple omitted it.
+#OMIT_FRAME_POINTER_CFLAG=-fomit-frame-pointer
+OMIT_FRAME_POINTER_CFLAG=
+
+
+$(OBJROOT)/%.o: %.c
+	@echo "\t[CC] $<"
+	@$(CC) $(CFLAGS) $(DEFINES) -c $(INC) $< -o $@ \
+	    -MD -dependency-file $(OBJROOT)/$*.d
+	@md -u $(OBJROOT)/Makedep -f -d $(OBJROOT)/$*.d
+
+$(OBJROOT)/%.o32: %.c
+	@echo "\t[CC32] $<"
+	@$(CC) $(CFLAGS) $(DEFINES) -c $(INC) -arch i386 $< -o $@ \
+	    -MD -dependency-file $(OBJROOT)/$*.d
+	@md -u $(OBJROOT)/Makedep -f -d $(OBJROOT)/$*.d
+
+$(OBJROOT)/%.o64: %.c
+	@echo "\t[CC64] $<"
+	@$(CC) $(CFLAGS) $(DEFINES) -c $(INC) -arch x86_64 $< -o $@ \
+	    -MD -dependency-file $(OBJROOT)/$*.d
+	@md -u $(OBJROOT)/Makedep -f -d $(OBJROOT)/$*.d
+
+$(OBJROOT)/%.o: %.m
+	@echo "\t[M] $<"
+	@$(CC) $(CFLAGS) $(DEFINES) -c $(INC) $< -o $@ \
+	    -MD -dependency-file $(OBJROOT)/$*.d
+	@md -u $(OBJROOT)/Makedep -f -d $(OBJROOT)/$*.d
+
+$(OBJROOT)/%.o: %.cpp
+	@echo "\t[CPP] $<"
+	@$(CPP) $(CPPFLAGS) $(CFLAGS) -c "$<" $(INC) -o $@ \
+	    -MD -dependency-file $(OBJROOT)/$*.d
+	@md -u $(OBJROOT)/Makedep -f -d $(OBJROOT)/$*.d
+
+
+#$(OBJROOT)/.s.o:
+#	@echo "\t[AS] $<"
+#	@cc $(CPPFLAGS) -c $(INC) -arch i386 -o $(OBJROOT)/$(@F) $<
+
+# This breaks make, must use make all (FIXME)
+$(OBJROOT)/boot2.o:
+	@echo "\t[AS] boot2.s"
+	@cc $(CPPFLAGS) -Wa,-n -c $(INC) -arch i386 -o $(OBJROOT)/$(@F) boot2.s \
+		    -MD -dependency-file $*.d
+	@md -u $(OBJROOT)/Makedep -f -d $*.d
+
+	
+$(OBJROOT)/%.o: %.s
+	@echo "\t[AS] $<"
+	@$(CC) $(CPPFLAGS) -c $(INC) -arch i386 -o $@ $< \
+		    -MD -dependency-file $*.d
+	@md -u $(OBJROOT)/Makedep -f -d $*.d
+
+
+
+# This breaks make, must use make all (FIXME)
+$(DIRS_NEEDED) $(INSTALLDIR) $(OBJROOT) $(SYMROOT):
+	@echo "\t[MKDIR] $@"
+	@$(MKDIRS) $@
+	
+$(SRCROOT)/auto.conf $(SRCROOT)/autoconf.h $(SRCROOT)/.config:
+	@echo "\t[MAKE] config"
+	@cd $(SRCROOT) && make config
+
+.PHONY: clean
+clean:
+	@echo "\t[RM] $(OBJROOT)"
+	@echo "\t[RM] $(SYMROOT)"
+	@echo "\t[RM] $(DSTROOT)"
+	@echo "\t[RM] $(SRCROOT)/revision"
+	@echo "\t[RM] $(SRCROOT)/i386/modules/module_includes"
+	@echo "\t[RM] $(SRCROOT)/auto.conf"
+	@echo "\t[RM] $(SRCROOT)/autoconf.h"
+	@echo "\t[RM] $(SRCROOT)/autoconf.inc"
+
+	@rm -rf $(OBJROOT) $(SYMROOT) $(DSTROOT) $(SRCROOT)/revision \
+			$(SRCROOT)/i386/modules/module_includes \
+			$(SRCROOT)/auto.conf \
+			$(SRCROOT)/autoconf.h \
+			$(SRCROOT)/autoconf.inc
+
