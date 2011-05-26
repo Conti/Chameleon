@@ -1,4 +1,5 @@
-- Added the BOOT2_MAX_LENGTH constant in memory.h. This is now used in moot.c to relocate the correct number of bytes for boot2.
+- New makefile + configuration system.
+- Added the BOOT2_MAX_LENGTH constant in memory.h. This is now used in mboot.c to relocate the correct number of bytes for boot2.
 - Added new ATi/AMD Graphics Card Enabler.
 - Added new SMBIOS patcher.
 - Added module system.

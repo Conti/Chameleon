@@ -1,5 +1,6 @@
 TODO List for Chameleon Boot Loader
 ====================================
+- Setup makefile to use module config for determining which modules to compile in and which to compile as modules
 - Fix the module system when booting chameleon with multiboot. Cleanup the xcode 4 fix.
 
 - Integrate Prasys current work on options and quick shortcut modified version of 18seven
