@@ -30,7 +30,7 @@ GENERIC_SUBDIRS =
 #
 # Currently builds for i386
 #
-clean config rebuild_config:
+config rebuild_config:
 	@if [ -e ".svn" ]; then svnversion -n | tr -d [:alpha:] > revision; fi
 	@echo ================= make config for i386 =================;
 	@( OBJROOT=$(OBJROOT)/i386;				  \
@@ -93,4 +93,3 @@ all: $(SYMROOT) $(OBJROOT) $(SRCROOT)/auto.conf $(SRCROOT)/autoconf.h $(SRCROOT)
 
 .PHONY: config
 .PHONY: clean
-.DEFAULT_GOAL := all

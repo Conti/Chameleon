@@ -123,3 +123,5 @@ clean:
 			$(SRCROOT)/autoconf.h \
 			$(SRCROOT)/autoconf.inc
 
+
+.DEFAULT_GOAL := all
