@@ -37,7 +37,7 @@ all:
 		) || exit $$?; 						  \
 	done
 	
-config:
+config rebuild_config:
 	@for i in config; \
 	do \
 		echo ================= make $@ for $$i =================; \

@@ -47,6 +47,10 @@ $(SYMPROG): $(addprefix $(OBJROOT)/, $(OBJECTS))
 
 config: $(DIRS_NEEDED) $(SYMPROG)
 	@cd ${SRCROOT} && $(SYMPROG) $(SRCROOT)/Cconfig
+	
+rebuild_config: $(DIRS_NEEDED) $(SYMPROG)
+	@cd ${SRCROOT} && $(SYMPROG) $(SRCROOT)/Cconfig rebuild
+
 
 .PHONY: config
 

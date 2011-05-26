@@ -30,7 +30,7 @@ GENERIC_SUBDIRS =
 #
 # Currently builds for i386
 #
-clean config:
+clean config rebuild_config:
 	@if [ -e ".svn" ]; then svnversion -n | tr -d [:alpha:] > revision; fi
 	@echo ================= make config for i386 =================;
 	@( OBJROOT=$(OBJROOT)/i386;				  \

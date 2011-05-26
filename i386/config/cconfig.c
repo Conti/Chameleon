@@ -523,6 +523,7 @@ static void conf(struct menu *menu)
 	int s_scroll = 0;
     
 	while (1) {
+        
 		item_reset();
 		current_menu = menu;
 		build_conf(menu);
@@ -799,9 +800,14 @@ int main(int ac, char **av)
 	int saved_x, saved_y;
 	char *mode;
 	int res;
+    int rebuild = 0;
+    
+    if(ac > 2 && (strcmp(av[2], "rebuild") == 0)) rebuild = 1;
+
     
 	setlocale(LC_ALL, "");
 	bindtextdomain(PACKAGE, LOCALEDIR);
+
 	textdomain(PACKAGE);
     
 	conf_parse(av[1]);
@@ -813,29 +819,39 @@ int main(int ac, char **av)
 			single_menu_mode = 1;
 	}
     
-	initscr();
-    
-	getyx(stdscr, saved_y, saved_x);
-	if (init_dialog(NULL)) {
-		fprintf(stderr, N_("Your display is too small to run Menuconfig!\n"));
-		fprintf(stderr, N_("It must be at least 19 lines by 80 columns.\n"));
-		return 1;
-	}
-    
+    if(!rebuild)
+    {
+        initscr();
+        
+        getyx(stdscr, saved_y, saved_x);
+        if (init_dialog(NULL)) {
+            fprintf(stderr, N_("Your display is too small to run Menuconfig!\n"));
+            fprintf(stderr, N_("It must be at least 19 lines by 80 columns.\n"));
+            return 1;
+        }
+    }    
 	set_config_filename(conf_get_configname());
-	do {
-		conf(&rootmenu);
-		dialog_clear();
-		if (conf_get_changed())
-			res = dialog_yesno(NULL,
-                               _("Do you wish to save your "
-                                 "new configuration?\n"
-                                 "<ESC><ESC> to continue."),
-                               6, 60);
-		else
-			res = -1;
-	} while (res == KEY_ESC);
-	end_dialog(saved_x, saved_y);
+    if(rebuild)
+    {
+        res = 0;
+    }
+    else
+    {
+        do {
+            conf(&rootmenu);
+            dialog_clear();
+            if (conf_get_changed())
+                res = dialog_yesno(NULL,
+                                   _("Do you wish to save your "
+                                     "new configuration?\n"
+                                     "<ESC><ESC> to continue."),
+                                   6, 60);
+            else
+                res = -1;
+        } while (res == KEY_ESC);
+        end_dialog(saved_x, saved_y);
+    }
+
     
 	switch (res) {
         case 0:
@@ -847,7 +863,8 @@ int main(int ac, char **av)
                 return 1;
             }
         case -1:
-            printf(_("\n\n"
+            if(!rebuild)
+                printf(_("\n\n"
                      "*** End of the configuration.\n"
                      "*** Execute 'make' to start the build or try 'make help'."
                      "\n\n"));
