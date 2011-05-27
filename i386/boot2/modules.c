@@ -92,6 +92,13 @@ int init_module_system()
 	return retVal;
 }
 
+void start_built_in_module(char* name, void(*start_function)(void))
+{
+    start_function();
+    // Notify the module system that this module really exists, specificaly, let other module link with it
+    module_loaded(name /*, moduleName, moduleVersion, moduleCompat*/);
+}
+
 
 /*
  * Load all modules in the /Extra/modules/ directory

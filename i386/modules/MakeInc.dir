@@ -141,7 +141,7 @@ ${SYMROOT}/modules/:
 .PHONY: $(SYMROOT)/boot_modules.c
 
 $(SYMROOT)/boot_modules.c: 
-	@echo "\t$(MODULE_START)(); // $(MODULE_NAME)" >> $@
+	@echo "\tstart_built_in_module(\"$(MODULE_NAME)\", &$(MODULE_START));" >> $@
 	
 $(SYMROOT)/boot_modules.h:
 	@echo "void $(MODULE_START)(); // $(MODULE_NAME)" >> $@

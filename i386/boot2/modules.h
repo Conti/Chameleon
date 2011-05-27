@@ -4,6 +4,7 @@
  *
  */
 
+#include <saio_types.h>
 #include <mach-o/loader.h>
 #include <mach-o/nlist.h>
 
@@ -53,6 +54,7 @@ typedef struct modulesList_t
 int init_module_system();
 void load_all_modules();
 
+void start_built_in_module(char* name, void(*start_function)(void));
 
 
 int load_module(char* module);

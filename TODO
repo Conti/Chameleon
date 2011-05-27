@@ -1,5 +1,6 @@
 TODO List for Chameleon Boot Loader
 ====================================
+- Create a dummy module for any modules that are compiled in. This is needed for linking modules with dependencies that are not compiled in.
 - Fix the module system when booting chameleon with multiboot. Cleanup the xcode 4 fix.
 
 - Integrate Prasys current work on options and quick shortcut modified version of 18seven
