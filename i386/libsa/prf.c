@@ -60,7 +60,7 @@ static void
 printn(n, b, flag, minwidth, putfn_p, putfn_arg)
 	u_long n;
 	int b, flag, minwidth;
-	void (*putfn_p)();
+	int (*putfn_p)();
 	void *putfn_arg;
 {
 	char prbuf[11];
