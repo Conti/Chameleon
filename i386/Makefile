@@ -1,5 +1,4 @@
 #	Makefile for i386 boot program
-#	define FLOPPY and SMALL using DEFINES macro as necessary
 
 #
 # these paths are only valid in subdirectories of this directory
@@ -15,13 +14,11 @@ CDBOOT = ${IMGROOT}/usr/standalone/i386/cdboot
 
 include ${SRCROOT}/Make.rules
 
-
-VPATH = $(OBJROOT):$(SYMROOT)
-
 # The order of building is important.
 SUBDIRS = util libsa libsaio boot0 boot1 boot2 cdboot modules
 
 all:
+	@cd modules; ${MAKE} BUILT_IN=yes all
 	@for i in ${SUBDIRS}; \
 	do \
 		echo ================= make $@ for $$i =================; \

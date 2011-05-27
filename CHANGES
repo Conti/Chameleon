@@ -1,3 +1,4 @@
+- Modules can now be selected between not compiled, compiled into chameleon, or compiled as modules.
 - New makefile + configuration system.
 - Added the BOOT2_MAX_LENGTH constant in memory.h. This is now used in mboot.c to relocate the correct number of bytes for boot2.
 - Added new ATi/AMD Graphics Card Enabler.

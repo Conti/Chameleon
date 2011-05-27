@@ -1032,15 +1032,16 @@ struct putc_info {
     char * last_str;
 };
 
-static void
+static int
 sputc(int c, struct putc_info * pi)
 {
     if (pi->last_str)
         if (pi->str == pi->last_str) {
             *(pi->str) = '\0';
-            return;
+            return 0;
         }
     *(pi->str)++ = c;
+    return c;
 }
 
 int gprintf( window_t * window, const char * fmt, ...)

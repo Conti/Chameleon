@@ -7,6 +7,8 @@ IMGROOT = $(SRCROOT)/sym/cache
 IMGSKELROOT = $(SRCROOT)/imgskel
 CDBOOT = ${IMGROOT}/usr/standalone/i386/cdboot
 
+VPATH = $(SYMROOT)
+
 #	Makefile for i386 boot program
 #	define FLOPPY and SMALL using DEFINES macro as necessary
 
@@ -41,7 +43,7 @@ OTHER_FILES =
 # The ordering is important;
 # boot2.o must be first.
 OBJS = boot2.o boot.o graphics.o drivers.o prompt.o options.o lzss.o mboot.o \
-	ramdisk.o picopng.o resume.o bmdecompress.o graphic_utils.o gui.o modules.o modules_support.o
+	ramdisk.o picopng.o resume.o bmdecompress.o graphic_utils.o gui.o modules.o modules_support.o boot_modules.o
 # button.o browser.o scrollbar.o == NOTYET	
 
 UTILDIR = ../util
@@ -61,7 +63,6 @@ DATA_ADDR   = $(shell printf "%d" `otool -l $(SYMROOT)/boot.sys | grep __data -A
 PATCH_ADDR  = $(shell echo ${SYMBOL_ADDR}-${DATA_ADDR}+${DATA_OFFSET} | bc)
 
 
-
 all: $(DIRS_NEEDED) boot 
 
 ifeq (${CONFIG_EMBED_THEME}, y)
@@ -76,9 +77,9 @@ boot: $(SYMROOT)/vers.h $(SYMROOT)/embedded.h $(addprefix $(OBJROOT)/, $(OBJS)) 
 endif
 
 	@echo "\t[LD] boot.sys"
-	@$(CC) -static -Wl,-preload -Wl,-segaddr,__INIT,$(BOOT2ADDR) \
-	        -nostdlib -arch i386 -Wl,-segalign,20 \
-		-o $(SYMROOT)/boot.sys $(filter %.o,$^) $(LIBS) -lcc_kext
+	@$(CC) -Wl,-segaddr,__INIT,$(BOOT2ADDR) -Wl,-segalign,20 -Wl,-preload \
+			-nostdlib -arch i386 -static \
+			-o $(SYMROOT)/boot.sys $(filter %.o,$^) `find $(OBJROOT)/../boot2_modules/ -name \*.o`  $(LIBS) -lcc_kext
 
 ifeq (${CONFIG_MODULES}, y)
 
@@ -92,7 +93,7 @@ ifeq (${CONFIG_MODULES}, y)
 	@$(CC) -static -Wl,-preload -Wl,-segaddr,__INIT,$(BOOT2ADDR) \
 	        -nostdlib -arch i386 -Wl,-segalign,20 \
 		-Wl,-sectcreate,__DATA,__Symbols,$(SYMROOT)/Symbols.dylib \
-		-o $(SYMROOT)/boot.sys $(filter %.o,$^) $(LIBS)  -lcc_kext
+		-o $(SYMROOT)/boot.sys $(filter %.o,$^) `find $(OBJROOT)/../boot2_modules/ -name \*.o` $(LIBS)  -lcc_kext
 
 	@# Second pass, fixup global var locations
 	@${RM} $(SYMROOT)/${SYMBOLS_MODULE}
@@ -106,7 +107,7 @@ ifeq (${CONFIG_MODULES}, y)
 	@$(CC) -static -Wl,-preload -Wl,-segaddr,__INIT,$(BOOT2ADDR) \
 	        -nostdlib -arch i386 -Wl,-segalign,20 \
 		-Wl,-sectcreate,__DATA,__Symbols,$(SYMROOT)/Symbols.dylib \
-		-o $(SYMROOT)/boot.sys $(filter %.o,$^) $(LIBS)  -lcc_kext
+		-o $(SYMROOT)/boot.sys $(filter %.o,$^) `find $(OBJROOT)/../boot2_modules/ -name \*.o` $(LIBS)  -lcc_kext
 
 	@$(LD) -arch i386 \
 	-undefined dynamic_lookup \

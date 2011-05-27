@@ -71,15 +71,16 @@ struct putc_info {
     char * last_str;
 };
 
-static void sputc(int c, struct putc_info * pi)
+static int sputc(int c, struct putc_info * pi)
 {
 	if (pi->last_str)
 	if (pi->str == pi->last_str)
 	{
 		*(pi->str) = '\0';
-		return;
+		return 0;
 	}
 	*(pi->str)++ = c;
+    return c;
 }
 
 void initBooterLog(void)
@@ -123,20 +124,22 @@ void setupBooterLog(void)
 /*
  * write one character to console
  */
-void putchar(int c)
+int putchar(int c)
 {
 	if ( c == '\t' )
 	{
-		for (c = 0; c < 8; c++) putc(' ');
-		return;
+		for (c = 0; c < 8; c++) bios_putchar(' ');
+		return c;
 	}
 
 	if ( c == '\n' )
     {
-		putc('\r');
+		bios_putchar('\r');
     }
 
-	putc(c);
+	bios_putchar(c);
+    
+    return c;
 }
 
 int getc()

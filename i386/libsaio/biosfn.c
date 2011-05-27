@@ -446,7 +446,7 @@ int ebioswrite(int dev, long sec, int count)
     return bb.eax.r.h;
 }
 
-void putc(int ch)
+void bios_putchar(int ch)
 {
     bb.intno = 0x10;
     bb.ebx.r.h = 0x00;  /* background black */

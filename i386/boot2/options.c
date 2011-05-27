@@ -1486,7 +1486,7 @@ int selectAlternateBootDevice(int bootdevice)
 
 		default:
 			if (isxdigit(key & kASCIIKeyMask) && digitsI < 2) {
-				putc(key & kASCIIKeyMask);
+				putchar(key & kASCIIKeyMask);
 				digits[digitsI++] = key & kASCIIKeyMask;
 			} else {
 				// TODO: Beep or something

@@ -12,8 +12,10 @@ void klibc_start()
 {
 }
 
-void _exit()
+void _exit(int status)
 {
+    stop("exit() called\n");
+    while(1) halt(); // this is never reached
 }
 
 char __toupper(char c)

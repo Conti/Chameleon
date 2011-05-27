@@ -88,6 +88,12 @@ $(OBJROOT)/boot2.o:
 		    -MD -dependency-file $*.d
 	@md -u $(OBJROOT)/Makedep -f -d $*.d
 
+#$(OBJROOT)/boot_modules.o:
+#	@echo "\t[AS] boot_modules.s"
+#	@cc $(CPPFLAGS) -Wa,-n -c $(INC) -arch i386 -o $(OBJROOT)/$(@F) $(SYMROOT)/boot_modules.s \
+#		    -MD -dependency-file $*.d
+#	@md -u $(OBJROOT)/Makedep -f -d $*.d
+
 	
 $(OBJROOT)/%.o: %.s
 	@echo "\t[AS] $<"

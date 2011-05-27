@@ -7,16 +7,29 @@ IMGROOT = $(SRCROOT)/sym/cache
 IMGSKELROOT = $(SRCROOT)/imgskel
 CDBOOT = ${IMGROOT}/usr/standalone/i386/cdboot
 
+
+ifeq ($(BUILT_IN),yes)
+override OBJROOT = $(SRCROOT)/obj/i386/boot2_modules/$(DIR)
+override SYMROOT = $(SRCROOT)/sym/i386/
+endif
+
 include ${SRCROOT}/Make.rules
 
 
-UTILDIR = ../../util
-LIBSADIR = ../../libsa
-LIBSAIODIR = ../../libsaio
-BOOT2DIR = ../../boot2
+ifeq ($(BUILT_IN),yes)
 
-INC = -I$(SRCROOT)/i386/modules/include/ -Iinclude/ -I$(SRCROOT)/i386/modules/module_includes/ -I$(SRCROOT)/i386/libsaio/ -I$(SRCROOT)/i386/libsa/ -I$(SRCROOT)/i386/include/ -I$(SRCROOT)/i386/boot2/
-DEFINES := -D__KLIBC__ $(DEFINES)
+CFLAGS	:= $(RC_CFLAGS) $(OPTIM) $(MORECPP) -arch i386 -g -Wmost -Werror \
+		-fno-builtin -DSAIO_INTERNAL_USER -static $(OMIT_FRAME_POINTER_CFLAG) \
+		-mpreferred-stack-boundary=2 -fno-align-functions -fno-stack-protector \
+		-march=pentium4 -msse2 -mfpmath=sse -msoft-float -nostdinc -include $(SRCROOT)/autoconf.h
+	      
+CPPFLAGS := $(CPPFLAGS) -arch i386 -static -nostdinc++ -Wmost -Werror \
+	-fno-builtin -mpreferred-stack-boundary=2 \
+	-fno-align-functions -fno-stack-protector \
+	-march=pentium4 -msse2 -mfpmath=sse -msoft-float \
+	-arch i386 -include $(SRCROOT)/autoconf.h
+
+else
 
 CFLAGS := $(CLFAGS) -nostdinc -Wmost -Werror \
 	-fno-builtin -mpreferred-stack-boundary=2 \
@@ -30,10 +43,59 @@ CPPFLAGS := $(CPPFLAGS) -nostdinc++ -Wmost -Werror \
 	-march=pentium4 -msse2 -mfpmath=sse -msoft-float \
 	-arch i386 -include $(SRCROOT)/autoconf.h
 
+endif
+
+
+UTILDIR = ../../util
+LIBSADIR = ../../libsa
+LIBSAIODIR = ../../libsaio
+BOOT2DIR = ../../boot2
+
+INC = -I$(SRCROOT)/i386/modules/include/ -Iinclude/ -I$(SRCROOT)/i386/modules/module_includes/ -I$(SRCROOT)/i386/libsaio/ -I$(SRCROOT)/i386/libsa/ -I$(SRCROOT)/i386/include/ -I$(SRCROOT)/i386/boot2/
+DEFINES := -D__KLIBC__ $(DEFINES)
+
 MODULE_DEPENDENCIES := $(foreach x,$(MODULE_DEPENDENCIES),-weak_library $(SYMROOT)/modules/$(x).dylib)
 
 
 INSTALLDIR = $(DSTROOT)/System/Library/Frameworks/System.framework/Versions/B/PrivateHeaders/standalone
+
+##$(error DEFINED AS $(MODULE_DEFINITION))
+
+MODULE_DEFINITION := $(CONFIG_$(shell echo $(MODULE_NAME) | tr '[:lower:]' '[:upper:]')_MODULE)
+
+
+ifeq  ($(MODULE_DEFINITION),m)
+ifneq ($(BUILT_IN),yes)
+
+# Make this as a *MODULE*
+all: dylib
+
+else
+# Module not selected to be compiled as a module
+all:
+
+endif
+
+else
+
+ifeq ($(MODULE_DEFINITION),y)
+ifeq ($(BUILT_IN),yes)
+
+# Make this *BUILT IN*
+all: ${OBJROOT} ${SYMROOT}/modules/ ${OBJROOT} $(addprefix $(OBJROOT)/, ${MODULE_OBJS}) $(SYMROOT)/boot_modules.h $(SYMROOT)/boot_modules.c
+
+else
+# Module not selected to be built in
+all:
+
+endif
+else
+
+# Don't compile this module
+all:
+
+endif
+endif
 
 dylib: ${SYMROOT}/modules/ ${OBJROOT} $(addprefix $(OBJROOT)/, ${MODULE_OBJS}) $(SYMROOT)/modules/$(MODULE_NAME).dylib
 
@@ -41,7 +103,7 @@ $(SYMROOT)/modules/$(MODULE_NAME).dylib:
 	@echo "\t[LD] $(MODULE_NAME).dylib"
 	
 	@ld -arch i386 \
-	-alias $(MODULE_START) start \
+	-alias _$(MODULE_START) start \
 	-dylib -read_only_relocs suppress \
 	-S -x -Z -dead_strip_dylibs \
 	-no_uuid \
@@ -75,7 +137,15 @@ ${SYMROOT}/modules/:
 
 	
 
+.PHONY: $(SYMROOT)/boot_modules.h
+.PHONY: $(SYMROOT)/boot_modules.c
+
+$(SYMROOT)/boot_modules.c: 
+	@echo "\t$(MODULE_START)(); // $(MODULE_NAME)" >> $@
+	
+$(SYMROOT)/boot_modules.h:
+	@echo "void $(MODULE_START)(); // $(MODULE_NAME)" >> $@
+
 
 #dependencies
-#-include $(OBJROOT)/Makedep
-
+-include $(OBJROOT)/Makedep

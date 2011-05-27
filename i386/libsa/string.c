@@ -108,7 +108,7 @@ void bzero(void * dst, size_t len)
 #define tolower(c)     ((int)((c) & ~0x20))
 #define toupper(c)     ((int)((c) | 0x20))
 
-int strlen(const char * s)
+size_t strlen(const char * s)
 {
 	int n = 0;
 	while (*s++) n++;

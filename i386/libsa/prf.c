@@ -93,7 +93,7 @@ printn(n, b, flag, minwidth, putfn_p, putfn_arg)
 void prf(
 	char *fmt,
 	unsigned int *adx,
-	void (*putfn_p)(),
+	int (*putfn_p)(),
 	void *putfn_arg
 )
 {

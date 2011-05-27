@@ -1209,8 +1209,8 @@ spinActivityIndicator(int sectors)
 		{
 			currentIndicator = 0;
 		}
-		putc(indicator[currentIndicator++]);
-		putc('\b');
+		putchar(indicator[currentIndicator++]);
+		putchar('\b');
 	}
 }
 
@@ -1219,8 +1219,8 @@ clearActivityIndicator( void )
 {
     if ( getVideoMode() == VGA_TEXT_MODE )
     {
-		putc(' ');
-		putc('\b');
+		putchar(' ');
+		putchar('\b');
     }
 }
 
