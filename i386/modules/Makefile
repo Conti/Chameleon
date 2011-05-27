@@ -22,7 +22,7 @@ INC = -I$(LIBSAIODIR)
 
 
 ifeq (${CONFIG_MODULES}, y)
-all install: $(SYMROOT) $(OBJROOT) objroot_dirs $(SYMROOT)/boot_modules.c $(SYMROOT)/boot_modules.h
+all: $(SYMROOT) $(OBJROOT) objroot_dirs $(SYMROOT)/boot_modules.c $(SYMROOT)/boot_modules.h
 	@for i in ${SUBDIRS}; \
 	do \
 		echo ================= make $@ for $$i =================; \
@@ -43,7 +43,10 @@ all install: $(SYMROOT) $(OBJROOT) objroot_dirs $(SYMROOT)/boot_modules.c $(SYMR
 
 	
 else
-all:
+all: $(SYMROOT) $(OBJROOT) objroot_dirs $(SYMROOT)/boot_modules.c $(SYMROOT)/boot_modules.h
+	@# Finish up boot_modules.c
+	@echo "}" >> $(SYMROOT)/boot_modules.c
+
 endif
 
 .PHONY: objroot_dirs

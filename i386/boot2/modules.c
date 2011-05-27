@@ -10,6 +10,7 @@
 #include "boot.h"
 #include "bootstruct.h"
 #include "modules.h"
+#include "boot_modules.h"
 
 
 #if CONFIG_MODULE_DEBUG
@@ -40,6 +41,10 @@ unsigned int (*lookup_symbol)(const char*) = NULL;
  */
 int init_module_system()
 {
+    // Start any modules that were compiled in first.
+    start_built_in_modules();
+    
+    
 	int retVal = 0;
 	void (*module_start)(void) = NULL;
 	char* module_data = symbols_module_start + BOOT2_ADDR;

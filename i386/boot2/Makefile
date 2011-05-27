@@ -76,6 +76,7 @@ boot: $(SYMROOT)/vers.h $(SYMROOT)/embedded.h $(addprefix $(OBJROOT)/, $(OBJS)) 
 
 endif
 
+	@${MKDIRS} $(OBJROOT)/../boot2_modules/
 	@echo "\t[LD] boot.sys"
 	@$(CC) -Wl,-segaddr,__INIT,$(BOOT2ADDR) -Wl,-segalign,20 -Wl,-preload \
 			-nostdlib -arch i386 -static \
