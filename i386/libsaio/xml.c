@@ -67,8 +67,7 @@ char* GetRefString(int id)
 	return "";
 }
 
-
-struct Module {  
+struct Module {
   struct Module *nextModule;
   long          willLoad;
   TagPtr        dict;
@@ -150,7 +149,6 @@ XMLGetProperty( TagPtr dict, const char * key )
     
     return 0;
 }
-
 
 // XMLGetTag(int index)
 
@@ -305,41 +303,41 @@ XMLParseNextTag( char * buffer, TagPtr * tag )
 {
 	long   length, pos;
 	char * tagName;
-
-    length = GetNextTag(buffer, &tagName, 0);
-    if (length == -1) return -1;
+	
+	length = GetNextTag(buffer, &tagName, 0);
+	if (length == -1) return -1;
 	
 	pos = length;
-    if (!strncmp(tagName, kXMLTagPList, 6))
-    {
-        length = 0;
-    }
+	if (!strncmp(tagName, kXMLTagPList, 6))
+	{
+		length = 0;
+	}
 	/***** dict ****/
-    else if (!strcmp(tagName, kXMLTagDict))
-    {
-        length = ParseTagList(buffer + pos, tag, kTagTypeDict, 0);
-    }
-    else if (!strncmp(tagName, kXMLTagDict, strlen(kXMLTagDict)) && tagName[strlen(tagName)-1] == '/')
-    {
-        length = ParseTagList(buffer + pos, tag, kTagTypeDict, 1);
-    }
-    else if (!strncmp(tagName, kXMLTagDict " ", strlen(kXMLTagDict " ")))
-    {
-        length = ParseTagList(buffer + pos, tag, kTagTypeDict, 0);
-    }
+	else if (!strcmp(tagName, kXMLTagDict))
+	{
+		length = ParseTagList(buffer + pos, tag, kTagTypeDict, 0);
+	}
+	else if (!strncmp(tagName, kXMLTagDict, strlen(kXMLTagDict)) && tagName[strlen(tagName)-1] == '/')
+	{
+		length = ParseTagList(buffer + pos, tag, kTagTypeDict, 1);
+	}
+	else if (!strncmp(tagName, kXMLTagDict " ", strlen(kXMLTagDict " ")))
+	{
+		length = ParseTagList(buffer + pos, tag, kTagTypeDict, 0);
+	}
 	/***** key ****/
-    else if (!strcmp(tagName, kXMLTagKey))
-    {
-        length = ParseTagKey(buffer + pos, tag);
-    }
+	else if (!strcmp(tagName, kXMLTagKey))
+	{
+		length = ParseTagKey(buffer + pos, tag);
+	}
 	
 	/***** string ****/
-    else if (!strcmp(tagName, kXMLTagString))
-    {
-        length = ParseTagString(buffer + pos, tag);
-    }
-    else if (!strncmp(tagName, kXMLTagString " ", strlen(kXMLTagString " ")))
-    {
+	else if (!strcmp(tagName, kXMLTagString))
+	{
+		length = ParseTagString(buffer + pos, tag);
+	}
+	else if (!strncmp(tagName, kXMLTagString " ", strlen(kXMLTagString " ")))
+	{
 		// TODO: save tag if if found
 		if(!strncmp(tagName + strlen(kXMLTagString " "), kXMLStringID, strlen(kXMLStringID)))
 		{
@@ -350,7 +348,7 @@ XMLParseNextTag( char * buffer, TagPtr * tag )
 			tagName[cnt] = 0;
 			char* val = tagName + strlen(kXMLTagString " " kXMLStringID "\"");
 			while(*val)
-			{			
+			{
 				if ((*val >= '0' && *val <= '9'))	// 0 - 9
 				{
 					id = (id * 10) + (*val++ - '0');
@@ -360,12 +358,10 @@ XMLParseNextTag( char * buffer, TagPtr * tag )
 					printf("ParseStringID error (0x%x)\n", *val);
 					getc();
 					return -1;
-					
 				}
-				
 			}
 			length = ParseTagString(buffer + pos, tag);
-
+			
 			SaveRefString(buffer + pos, id);
 		}
 		else if(!strncmp(tagName + strlen(kXMLTagString " "), kXMLStringIDRef, strlen(kXMLStringIDRef)))
@@ -377,7 +373,7 @@ XMLParseNextTag( char * buffer, TagPtr * tag )
 			tagName[cnt] = 0;
 			char* val = tagName + strlen(kXMLTagString " " kXMLStringIDRef "\"");
 			while(*val)
-			{			
+			{
 				if ((*val >= '0' && *val <= '9'))	// 0 - 9
 				{
 					id = (id * 10) + (*val++ - '0');
@@ -387,9 +383,7 @@ XMLParseNextTag( char * buffer, TagPtr * tag )
 					printf("ParseStringIDREF error (0x%x)\n", *val);
 					getc();
 					return -1;
-					
 				}
-				
 			}
 			char* str = GetRefString(id);
 
@@ -404,16 +398,15 @@ XMLParseNextTag( char * buffer, TagPtr * tag )
 			length = 0;
 			//printf("Located IDREF, id = %d, string = %s\n", id, str);
 		}
-
-    }
+	}
 	
 	/***** integer ****/
-    else if (!strcmp(tagName, kXMLTagInteger))
-    {
-        length = ParseTagInteger(buffer + pos, tag);
-    }
-    else if (!strncmp(tagName, kXMLTagInteger " ", strlen(kXMLTagInteger " ")))
-    {
+	else if (!strcmp(tagName, kXMLTagInteger))
+	{
+		length = ParseTagInteger(buffer + pos, tag);
+	}
+	else if (!strncmp(tagName, kXMLTagInteger " ", strlen(kXMLTagInteger " ")))
+	{
 		if(!strncmp(tagName + strlen(kXMLTagInteger " "), kXMLStringID, strlen(kXMLStringID)))
 		{
 			// ID=
@@ -423,7 +416,7 @@ XMLParseNextTag( char * buffer, TagPtr * tag )
 			tagName[cnt] = 0;
 			char* val = tagName + strlen(kXMLTagInteger " " kXMLStringID "\"");
 			while(*val)
-			{			
+			{
 				if ((*val >= '0' && *val <= '9'))	// 0 - 9
 				{
 					id = (id * 10) + (*val++ - '0');
@@ -433,9 +426,7 @@ XMLParseNextTag( char * buffer, TagPtr * tag )
 					printf("ParseIntegerID error (0x%x)\n", *val);
 					getc();
 					return -1;
-					
 				}
-				
 			}
 			length = ParseTagInteger(buffer + pos, tag);
 			
@@ -450,7 +441,7 @@ XMLParseNextTag( char * buffer, TagPtr * tag )
 			tagName[cnt] = 0;
 			char* val = tagName + strlen(kXMLTagInteger " " kXMLStringIDRef "\"");
 			while(*val)
-			{			
+			{
 				if ((*val >= '0' && *val <= '9'))	// 0 - 9
 				{
 					id = (id * 10) + (*val++ - '0');
@@ -460,9 +451,7 @@ XMLParseNextTag( char * buffer, TagPtr * tag )
 					printf("ParseStringIDREF error (0x%x)\n", *val);
 					getc();
 					return -1;
-					
 				}
-				
 			}
 			int integer = (int)GetRefString(id);
 			
@@ -472,74 +461,73 @@ XMLParseNextTag( char * buffer, TagPtr * tag )
 			tmpTag->tag = 0;
 			tmpTag->tagNext = 0;
 			tmpTag->offset = buffer_start ? buffer - buffer_start + pos : 0;
-
+			
 			*tag = tmpTag;
 			
 			length = 0;
 			//printf("Located IDREF, id = %d, string = %s\n", id, str);
-		}		
- 		else 
+		}
+		else
 		{
 			length = ParseTagInteger(buffer + pos, tag);
 		}
 	}
 	
 	/***** data ****/
-    else if (!strcmp(tagName, kXMLTagData))
-    {
-        length = ParseTagData(buffer + pos, tag);
-    }
+	else if (!strcmp(tagName, kXMLTagData))
+	{
+		length = ParseTagData(buffer + pos, tag);
+	}
 	else if (!strncmp(tagName, kXMLTagData " ", strlen(kXMLTagData " ")))
-    {
-        length = ParseTagData(buffer + pos, tag);
-    }	
-    else if (!strcmp(tagName, kXMLTagDate))
-    {
-        length = ParseTagDate(buffer + pos, tag);
-    }
+	{
+		length = ParseTagData(buffer + pos, tag);
+	}
+	else if (!strcmp(tagName, kXMLTagDate))
+	{
+		length = ParseTagDate(buffer + pos, tag);
+	}
 	
 	/***** date ****/
 	else if (!strncmp(tagName, kXMLTagDate " ", strlen(kXMLTagDate " ")))
-    {
-        length = ParseTagDate(buffer + pos, tag);
-    }	
+	{
+		length = ParseTagDate(buffer + pos, tag);
+	}
 	
 	/***** false ****/
-    else if (!strcmp(tagName, kXMLTagFalse))
-    {
-        length = ParseTagBoolean(buffer + pos, tag, kTagTypeFalse);
-    }
+	else if (!strcmp(tagName, kXMLTagFalse))
+	{
+		length = ParseTagBoolean(buffer + pos, tag, kTagTypeFalse);
+	}
 	/***** true ****/
-    else if (!strcmp(tagName, kXMLTagTrue))
-    {
-        length = ParseTagBoolean(buffer + pos, tag, kTagTypeTrue);
-    }
+	else if (!strcmp(tagName, kXMLTagTrue))
+	{
+		length = ParseTagBoolean(buffer + pos, tag, kTagTypeTrue);
+	}
 	
 	/***** array ****/
-    else if (!strcmp(tagName, kXMLTagArray))
-    {
-        length = ParseTagList(buffer + pos, tag, kTagTypeArray, 0);
-    }
+	else if (!strcmp(tagName, kXMLTagArray))
+	{
+		length = ParseTagList(buffer + pos, tag, kTagTypeArray, 0);
+	}
 	else if (!strncmp(tagName, kXMLTagArray " ", strlen(kXMLTagArray " ")))
-    {
-        length = ParseTagList(buffer + pos, tag, kTagTypeArray, 0);
-    }		
-    else if (!strcmp(tagName, kXMLTagArray "/"))
-    {
-        length = ParseTagList(buffer + pos, tag, kTagTypeArray, 1);
-    }
+	{
+		length = ParseTagList(buffer + pos, tag, kTagTypeArray, 0);
+	}
+	else if (!strcmp(tagName, kXMLTagArray "/"))
+	{
+		length = ParseTagList(buffer + pos, tag, kTagTypeArray, 1);
+	}
 	
 	/***** unknown ****/
-    else
-    {
-        *tag = 0;
-        length = 0;
-    }
-  
-		
-    if (length == -1) return -1;
-  
-    return pos + length;
+	else
+	{
+		*tag = 0;
+		length = 0;
+	}
+	
+	if (length == -1) return -1;
+	
+	return pos + length;
 }
 
 //==========================================================================
@@ -679,8 +667,7 @@ ParseTagInteger( char * buffer, TagPtr * tag )
 	char* val = buffer;
     int size;
 	
-	
-	if(buffer[0] == '<') 
+	if(buffer[0] == '<')
 	{
 		printf("Warning integer is non existant\n");
 		getc();
@@ -708,7 +695,7 @@ ParseTagInteger( char * buffer, TagPtr * tag )
 	{
 		val += 2;
 		while(*val)
-		{			
+		{
 			if ((*val >= '0' && *val <= '9'))	// 0 - 9
 			{
 				integer = (integer * 16) + (*val++ - '0');
@@ -726,9 +713,7 @@ ParseTagInteger( char * buffer, TagPtr * tag )
 				printf("ParseTagInteger hex error (0x%x) in buffer %s\n", *val, buffer);
 				getc();
 				return -1;
-				
 			}
-
 		}
 	}
 	else if ( size )	// Decimal value
@@ -766,7 +751,7 @@ ParseTagInteger( char * buffer, TagPtr * tag )
     tmpTag->tagNext = 0;
     
     *tag = tmpTag;
-    	
+    
     return length;
 }
 
@@ -1036,7 +1021,7 @@ static SymbolPtr lastGuy = 0;
 #if DOFREE
 static void
 FreeSymbol( char * string )
-{ 
+{
     SymbolPtr symbol, prev;
 	prev = 0;
   
@@ -1081,14 +1066,11 @@ FindSymbol( char * string, SymbolPtr * prevSymbol )
     return symbol;
 }
 
-
-
 bool XMLIsType(TagPtr dict, enum xmltype type)
 {
 	if(!dict) return (type == kTagTypeNone);
 	return (dict->type == type);
 }
-
 
 /*** Cast functions ***/
 TagPtr XMLCastArray(TagPtr dict)
@@ -1097,7 +1079,6 @@ TagPtr XMLCastArray(TagPtr dict)
 	if(dict->type == kTagTypeArray) return dict;
 	else return NULL;
 }
-
 
 TagPtr XMLCastDict(TagPtr dict)
 {
@@ -1129,7 +1110,6 @@ long XMLCastStringOffset(TagPtr dict)
 		return -1;
 	}
 }
-
 
 bool XMLCastBoolean(TagPtr dict)
 {

@@ -34,7 +34,7 @@ struct putc_info {
 };
 
 static int
-sputc(int c, struct putc_info * pi)
+sputc(int c, struct putc_info * pi) //Azi: exists on console.c & gui.c
 {
     if (pi->last_str)
         if (pi->str == pi->last_str) {

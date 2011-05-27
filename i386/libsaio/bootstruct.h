@@ -30,7 +30,7 @@
 #include "bios.h"
 #include "device_tree.h"
 
-/*!
+/*!  <--- Azi: check these! against these /**
     Kernel boot args global also used by booter for its own data.
  */
 extern boot_args *bootArgs;
@@ -47,7 +47,7 @@ extern Node *gMemoryMapNode;
 #define CONFIG_SIZE (40 * 4096)
 
 /*
- * Max size fo config data array, in bytes.
+ * Max size for config data array, in bytes.
  */
 #define IO_CONFIG_DATA_SIZE		163840
 
@@ -125,10 +125,10 @@ typedef struct PrivateBootInfo {
     char *           configEnd;                    // pointer to end of config files
     char             config[CONFIG_SIZE];
 
-    config_file_t    bootConfig;		               // boot.plist
+    config_file_t    bootConfig;		           // boot.plist
     config_file_t    overrideConfig;               // additional boot.plist which can override bootConfig keys
-    config_file_t    themeConfig;				           // theme.plist
-    config_file_t    smbiosConfig;				         // smbios.plist
+    config_file_t    themeConfig;				   // theme.plist
+    config_file_t    smbiosConfig;				   // smbios.plist
     config_file_t    helperConfig;                 // boot helper partition's boot.plist
     config_file_t    ramdiskConfig;                // RAMDisk.plist
 } PrivateBootInfo_t;

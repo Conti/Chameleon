@@ -48,7 +48,7 @@ config rebuild_config:
 		"JAPANESE=$(JAPANESE)"				  \
 		"RC_CFLAGS=$$XCFLAGS" $@			  \
 	) || exit $$?; 						  \
-	
+
 
 all: $(SYMROOT) $(OBJROOT) $(SRCROOT)/auto.conf $(SRCROOT)/autoconf.h $(SRCROOT)/autoconf.inc $(SRCROOT)/.config
 	@if [ -e ".svn" ]; then svnversion -n | tr -d [:alpha:] > revision; fi

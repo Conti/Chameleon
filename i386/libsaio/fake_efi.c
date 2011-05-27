@@ -22,19 +22,19 @@ extern void setup_pci_devs(pci_dt_t *pci_dt);
 
 /*
  * Modern Darwin kernels require some amount of EFI because Apple machines all
- * have EFI.  Modifying the kernel source to not require EFI is of course
+ * have EFI. Modifying the kernel source to not require EFI is of course
  * possible but would have to be maintained as a separate patch because it is
  * unlikely that Apple wishes to add legacy support to their kernel.
  *
  * As you can see from the Apple-supplied code in bootstruct.c, it seems that
  * the intention was clearly to modify this booter to provide EFI-like structures
- * to the kernel rather than modifying the kernel to handle non-EFI stuff.	 This
+ * to the kernel rather than modifying the kernel to handle non-EFI stuff. This
  * makes a lot of sense from an engineering point of view as it means the kernel
  * for the as yet unreleased EFI-only Macs could still be booted by the non-EFI
  * DTK systems so long as the kernel checked to ensure the boot tables were
- * filled in appropriately.	 Modern xnu requires a system table and a runtime
+ * filled in appropriately.	Modern xnu requires a system table and a runtime
  * services table and performs no checks whatsoever to ensure the pointers to
- * these tables are non-NULL.	Therefore, any modern xnu kernel will page fault
+ * these tables are non-NULL. Therefore, any modern xnu kernel will page fault
  * early on in the boot process if the system table pointer is zero.
  *
  * Even before that happens, the tsc_init function in modern xnu requires the FSB
@@ -43,7 +43,7 @@ extern void setup_pci_devs(pci_dt_t *pci_dt);
  *
  * As of this writing, the current implementation found here is good enough
  * to make the currently available xnu kernel boot without modification on a
- * system with an appropriate processor.  With a minor source modification to
+ * system with an appropriate processor. With a minor source modification to
  * the tsc_init function to remove the explicit check for Core or Core 2
  * processors the kernel can be made to boot on other processors so long as
  * the code can be executed by the processor and the machine contains the
@@ -53,7 +53,6 @@ extern void setup_pci_devs(pci_dt_t *pci_dt);
 /*==========================================================================
  * Utility function to make a device tree string from an EFI_GUID
  */
-
 static inline char * mallocStringForGuid(EFI_GUID const *pGuid)
 {
 	char *string = malloc(37);
@@ -64,7 +63,6 @@ static inline char * mallocStringForGuid(EFI_GUID const *pGuid)
 /*==========================================================================
  * Function to map 32 bit physical address to 64 bit virtual address
  */
-
 static uint64_t ptov64(uint32_t addr)
 {
 	return ((uint64_t)addr | 0xFFFFFF8000000000ULL);
@@ -140,10 +138,10 @@ extern EFI_STATUS addConfigurationTable(EFI_GUID const *pGuid, void *table, char
 
 //Azi: crc32 done in place, on the cases were it wasn't.
 /*static inline void fixupEfiSystemTableCRC32(EFI_SYSTEM_TABLE_64 *efiSystemTable)
- {
- efiSystemTable->Hdr.CRC32 = 0;
- efiSystemTable->Hdr.CRC32 = crc32(0L, efiSystemTable, efiSystemTable->Hdr.HeaderSize);
- }*/
+{
+	efiSystemTable->Hdr.CRC32 = 0;
+	efiSystemTable->Hdr.CRC32 = crc32(0L, efiSystemTable, efiSystemTable->Hdr.HeaderSize);
+}*/
 
 /*
  * What we do here is simply allocate a fake EFI system table and a fake EFI
@@ -152,7 +150,6 @@ extern EFI_STATUS addConfigurationTable(EFI_GUID const *pGuid, void *table, char
  * Because we build against modern headers with kBootArgsRevision 4 we
  * also take care to set efiMode = 32.
  */
-
 void setupEfiTables32(void)
 {
 	// We use the fake_efi_pages struct so that we only need to do one kernel
@@ -410,12 +407,12 @@ EFI_GUID const	gEfiSmbiosTableGuid = EFI_SMBIOS_TABLE_GUID;
 
 #define EFI_ACPI_TABLE_GUID \
 { \
-0xeb9d2d30, 0x2d88, 0x11d3, { 0x9a, 0x16, 0x0, 0x90, 0x27, 0x3f, 0xc1, 0x4d } \
+	0xeb9d2d30, 0x2d88, 0x11d3, { 0x9a, 0x16, 0x0, 0x90, 0x27, 0x3f, 0xc1, 0x4d } \
 }
 
 #define EFI_ACPI_20_TABLE_GUID \
 { \
-0x8868e871, 0xe4f1, 0x11d3, { 0xbc, 0x22, 0x0, 0x80, 0xc7, 0x3c, 0x88, 0x81 } \
+	0x8868e871, 0xe4f1, 0x11d3, { 0xbc, 0x22, 0x0, 0x80, 0xc7, 0x3c, 0x88, 0x81 } \
 }
 
 EFI_GUID gEfiAcpiTableGuid = EFI_ACPI_TABLE_GUID;
@@ -438,11 +435,9 @@ static const char const SYSTEM_TYPE_PROP[] = "system-type";
 static const char const MODEL_PROP[] = "Model";
 static const char const BOARDID_PROP[] = "board-id";
 
-
 /*
  * Get an smbios option string option to convert to EFI_CHAR16 string
  */
-
 static EFI_CHAR16* getSmbiosChar16(const char * key, size_t* len)
 {
 	const char	*src = getStringForKey(key, &bootInfo->smbiosConfig);
@@ -462,7 +457,6 @@ static EFI_CHAR16* getSmbiosChar16(const char * key, size_t* len)
 /*
  * Get the SystemID from the bios dmi info
  */
-
 static	EFI_CHAR8* getSmbiosUUID()
 {
 	static EFI_CHAR8		 uuid[UUID_LEN];
@@ -491,7 +485,6 @@ static	EFI_CHAR8* getSmbiosUUID()
  * return a binary UUID value from the overriden SystemID and SMUUID if found, 
  * or from the bios if not, or from a fixed value if no bios value is found 
  */
-
 static EFI_CHAR8* getSystemID()
 {
 	// unable to determine UUID for host. Error: 35 fix
@@ -517,7 +510,6 @@ static EFI_CHAR8* getSystemID()
  * Must be called AFTER setup Acpi because we need to take care of correct
  * facp content to reflect in ioregs
  */
-
 void setupSystemType()
 {
 	Node *node = DT__FindNode("/", false);
@@ -615,7 +607,6 @@ void setupEfiDeviceTree(void)
 /*
  * Must be called AFTER getSmbios
  */
-
 void setupBoardId()
 {
 	Node *node;
@@ -631,7 +622,6 @@ void setupBoardId()
 /*
  * Load the smbios.plist override config file if any
  */
-
 static void setupSmbiosConfigFile(const char *filename)
 {
 	char		dirSpecSMBIOS[128] = "";
@@ -663,17 +653,15 @@ static void setupSmbiosConfigFile(const char *filename)
 		verbose("No SMBIOS replacement found.\n");
 	}
 	
-	// get a chance to scan mem dynamically if user asks for it while having the config options loaded as well,
-	// as opposed to when it was in scan_platform(); also load the orig. smbios so that we can access dmi info without
-	// patching the smbios yet
-	
+	// get a chance to scan mem dynamically if user asks for it while having the config options
+	// loaded as well, as opposed to when it was in scan_platform(); also load the orig. smbios
+	// so that we can access dmi info, without patching the smbios yet.
 	scan_mem(); 
 }
 
 /*
  * Installs all the needed configuration table entries
  */
-
 static void setupEfiConfigurationTable()
 {
 	smbios_p = (EFI_PTR32)getSmbios(SMBIOS_PATCHED);
@@ -729,7 +717,6 @@ void saveOriginalSMBIOS(void)
 /*
  * Entrypoint from boot.c
  */
-
 void setupFakeEfi(void)
 {
 	// Generate efi device strings 

@@ -47,7 +47,7 @@ extern int    ebiosread(int dev, unsigned long long sec, int count);
 extern int    ebioswrite(int dev, long sec, int count);
 extern int    get_drive_info(int drive, struct driveInfo *dp);
 extern int    ebiosEjectMedia(int biosdev);
-extern void bios_putchar(int ch);
+extern void	  bios_putchar(int ch);
 extern void   putca(int ch, int attr, int repeat);
 extern int    getc(void);
 extern void   pause();
@@ -81,7 +81,7 @@ extern void   copyKernBootStruct(void);
 extern void   finalizeBootStruct(void);
 
 /* cache.c */
-extern void CacheReset();
+extern void   CacheReset();
 extern void   CacheInit(CICell ih, long blockSize);
 extern long   CacheRead(CICell ih, char *buffer, long long offset,
                         long length, long cache);
@@ -100,9 +100,9 @@ extern int    verbose(const char *format, ...);
 extern void   stop(const char *format, ...);
 
 /* disk.c */
-extern void rescanBIOSDevice(int biosdev);
+extern void   rescanBIOSDevice(int biosdev);
 extern struct DiskBVMap* diskResetBootVolumes(int biosdev);
-extern void diskFreeMap(struct DiskBVMap *map);
+extern void   diskFreeMap(struct DiskBVMap *map);
 extern int    testBiosread( int biosdev, unsigned long long secno );
 extern BVRef  diskScanBootVolumes(int biosdev, int *count);
 extern void   diskSeek(BVRef bvr, long long position);
@@ -127,7 +127,7 @@ extern void utf_decodestr(const u_int8_t *utf8p, u_int16_t *ucsp,
                 u_int16_t *ucslen, u_int32_t bufsize, int byte_order );
 
 /* load.c */
-extern bool   gHaveKernelCache;
+extern bool gHaveKernelCache;
 extern long ThinFatFile(void **binary, unsigned long *length);
 extern long DecodeMachO(void *binary, entry_t *rentry, char **raddr, int *rsize);
 
@@ -168,7 +168,7 @@ extern char * getNextArg(char ** ptr, char * val);
 extern int	  ParseXMLFile( char * buffer, TagPtr * dict );
 
 /* sys.c */
-extern BVRef getBootVolumeRef( const char * path, const char ** outPath );
+extern BVRef  getBootVolumeRef( const char * path, const char ** outPath );
 extern long   LoadVolumeFile(BVRef bvr, const char *fileSpec);
 extern long   LoadFile(const char *fileSpec);
 extern long   ReadFileAtOffset(const char * fileSpec, void *buffer, uint64_t offset, uint64_t length);

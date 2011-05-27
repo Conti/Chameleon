@@ -134,83 +134,82 @@ void initialize_runtime(void)
 
 static int ExecKernel(void *binary)
 {
-    entry_t                   kernelEntry;
-    int                       ret;
-
-    bootArgs->kaddr = bootArgs->ksize = 0;
+	entry_t					  kernelEntry;
+	int						  ret;
+	
+	bootArgs->kaddr = bootArgs->ksize = 0;
 	execute_hook("ExecKernel", (void*)binary, NULL, NULL, NULL);
-
-    ret = DecodeKernel(binary,
-                       &kernelEntry,
-                       (char **) &bootArgs->kaddr,
-                       (int *)&bootArgs->ksize );
-
-    if ( ret != 0 )
-        return ret;
-
-    // Reserve space for boot args
-    reserveKernBootStruct();
-
+	
+	ret = DecodeKernel(binary,
+					   &kernelEntry,
+					   (char **) &bootArgs->kaddr,
+					   (int *)&bootArgs->ksize );
+	
+	if ( ret != 0 )
+		return ret;
+	
+	// Reserve space for boot args
+	reserveKernBootStruct();
+	
 	// Notify modules that the kernel has been decoded
 	execute_hook("DecodedKernel", (void*)binary, NULL, NULL, NULL);
 	
-    // Load boot drivers from the specifed root path.
-    if (!gHaveKernelCache)
+	// Load boot drivers from the specifed root path.
+	if (!gHaveKernelCache)
 		LoadDrivers("/");
-
-
-    clearActivityIndicator();
-
-    if (gErrors) {
-        printf("Errors encountered while starting up the computer.\n");
-        printf("Pausing %d seconds...\n", kBootErrorTimeout);
-        sleep(kBootErrorTimeout);
-    }
-
-    setupFakeEfi();
-
-    md0Ramdisk();
-
-    verbose("Starting Darwin %s\n",( archCpuType == CPU_TYPE_I386 ) ? "x86" : "x86_64");
-
-    // Cleanup the PXE base code.
-
-    if ( (gBootFileType == kNetworkDeviceType) && gUnloadPXEOnExit ) {
+	
+	
+	clearActivityIndicator();
+	
+	if (gErrors) {
+		printf("Errors encountered while starting up the computer.\n");
+		printf("Pausing %d seconds...\n", kBootErrorTimeout);
+		sleep(kBootErrorTimeout);
+	}
+	
+	setupFakeEfi();
+	
+	md0Ramdisk();
+	
+	verbose("Starting Darwin %s\n",( archCpuType == CPU_TYPE_I386 ) ? "x86" : "x86_64");
+	
+	// Cleanup the PXE base code.
+	
+	if ( (gBootFileType == kNetworkDeviceType) && gUnloadPXEOnExit ) {
 		if ( (ret = nbpUnloadBaseCode()) != nbpStatusSuccess )
-        {
-        	printf("nbpUnloadBaseCode error %d\n", (int) ret);
-            sleep(2);
-        }
-    }
-
-    bool dummyVal;
+		{
+			printf("nbpUnloadBaseCode error %d\n", (int) ret);
+			sleep(2);
+		}
+	}
+	
+	bool dummyVal;
 	if (getBoolForKey(kWaitForKeypressKey, &dummyVal, &bootInfo->bootConfig) && dummyVal) {
 		printf("Press any key to continue...");
 		getc();
 	}
-
+	
 	usb_loop();
-
 	
 	execute_hook("Kernel Start", (void*)kernelEntry, (void*)bootArgs, NULL, NULL);	// Notify modules that the kernel is about to be started
-    // If we were in text mode, switch to graphics mode.
-    // This will draw the boot graphics unless we are in
-    // verbose mode.
-
-    if(gVerboseMode)
-      setVideoMode( GRAPHICS_MODE, 0 );
-    else
-      drawBootGraphics();
+	// If we were in text mode, switch to graphics mode.
+	// This will draw the boot graphics unless we are in
+	// verbose mode.
+	
+	if(gVerboseMode)
+	  setVideoMode( GRAPHICS_MODE, 0 );
+	else
+	  drawBootGraphics();
 	
 	setupBooterLog();
 	
-    finalizeBootStruct();
+	finalizeBootStruct();
 	
 	if (checkOSVersion("10.7")) {
 		
 		// Masking out so that Lion doesn't doublefault
-		outb(0x21, 0xff);   /* Maskout all interrupts Pic1 */
-		outb(0xa1, 0xff);   /* Maskout all interrupts Pic2 */
+		outb(0x21, 0xff);	/* Maskout all interrupts Pic1 */
+		outb(0xa1, 0xff);	/* Maskout all interrupts Pic2 */
 		
 		// Jump to kernel's entry point. There's no going back now.
 		
@@ -221,12 +220,9 @@ static int ExecKernel(void *binary)
 		
 		startprog( kernelEntry, bootArgsPreLion );
 	}
-
-    
-    
-    // Not reached
-
-    return 0;
+	
+	// Not reached
+	return 0;
 }
 
 //==========================================================================
@@ -495,12 +491,16 @@ void common_boot(int biosdev)
 				else if (checkOSVersion("10.6")) {
 					sprintf(gBootKernelCacheFile, "kernelcache_%s", (archCpuType == CPU_TYPE_I386) ? "i386" : "x86_64");
 					int lnam = sizeof(gBootKernelCacheFile) + 9; //with adler32
-					//Slice - TODO
-					/*
-					 - but the name is longer .adler32 and more...
-					 kernelcache_i386.E102928C.qSs0
-					 so will opendir and scan for some files
-					 */ 
+					//Slice - TODO ???
+					// e.g. kernelcache_i386.E102928C.qSs0 = "unsaved" cache file.
+					//
+					// See kext_tools-180.2.1/kextcache_main.c:
+					// "Source directory has changed since starting; "
+	                // "not saving cache file %s."
+					// or
+					// "Source kernel has changed since starting; "
+	                // "not saving cache file %s."
+					
 					char* name;
 					long prev_time = 0;
 					
@@ -602,7 +602,7 @@ void common_boot(int biosdev)
                 ret = GetFileInfo(NULL, bootFileSpec, &flags, &time); 
                 if (ret == -1)
                 {
-                  // Not found any alternate locations, using the original kernel image path.
+                  // No alternate location found, using the original kernel image path.
                   strcpy(bootFileSpec, bootFile);
                 }
               }
@@ -622,7 +622,7 @@ void common_boot(int biosdev)
 				else ret = 1;
             } 
 			else {
-                //Snow leopard or older
+                //Snow Leopard or older
                 verbose("Loading kernel %s\n", bootFileSpec);
                 ret = LoadThinFatFile(bootFileSpec, &binary);
                 if (ret <= 0 && archCpuType == CPU_TYPE_X86_64) {
@@ -630,8 +630,6 @@ void common_boot(int biosdev)
                     ret = LoadThinFatFile(bootFileSpec, &binary);				
                 }
             }
-			
-			
         } while (0);
 
         clearActivityIndicator();
@@ -658,13 +656,13 @@ void common_boot(int biosdev)
     
     // chainboot
     if (status==1) {
-	if (getVideoMode() == GRAPHICS_MODE) {	// if we are already in graphics-mode,
-		setVideoMode(VGA_TEXT_MODE, 0);	// switch back to text mode
-	}
+		if (getVideoMode() == GRAPHICS_MODE) {	// if we are already in graphics-mode,
+			setVideoMode(VGA_TEXT_MODE, 0);	// switch back to text mode
+		}
     }
 	
     if ((gBootFileType == kNetworkDeviceType) && gUnloadPXEOnExit) {
-	nbpUnloadBaseCode();
+		nbpUnloadBaseCode();
     }
 }
 

@@ -20,7 +20,7 @@
 	
 	For DOS compatibility reason, one extra stage of boot is required if
 	the boot device is a hard disk.  The first sector of the hard disk will
-	contain the MOS-DOS boot code and a boot record partition table.
+	contain the MS-DOS boot code and a boot record partition table.
 	When this sector is loaded into 0000:7C00H, it will relocate itself
 	to somewhere else and then load the first sector of the active
 	partition into 0000:7C00H.  Both UNIX and DOS use the command "fdisk"
@@ -51,7 +51,7 @@
 	stage bootstrap loader "boot2()".  In order to be able to load the
 	big kernel image (bigger than 512K or 640K, depends on the memory
 	configuration), the second stage boot loader will run on the protected
-	mode.  This bootstarp loader does not have any stand alone device
+	mode.  This bootstrap loader does not have any stand alone device
 	drivers, all the I/O's are through the BIOS calls.  Since the first
 	stage boot code will no longer be used at this moment, the memory
 	location of the first stage boot code (0000:1000H to 0000:1200H) will
@@ -62,7 +62,7 @@
 	and boot data segments must not be greater than 64K.
 	
 	The boot loader loads the kernel image at memory location above 1 MB
-	to skip the memory hole between 521K/640K and 1MB.  After the kernel
+	to skip the memory hole between 512K/640K and 1MB.  After the kernel
 	is loaded, the boot loader stores the information in the stack and
 	then passes control to kernel.  Currently, the three information passed
 	from the boot loader to the kernel are type of the boot device, size

@@ -38,7 +38,6 @@ int uhci_reset (pci_dt_t *pci_dev);
 // Add usb device to the list
 void notify_usb_dev(pci_dt_t *pci_dev)
 {
-	
 	struct pciList* current = usbList;
 	if(!usbList)
 	{

@@ -32,8 +32,8 @@ typedef struct pci_dt_t {
 		struct {
 			uint16_t	vendor_id;
 			uint16_t	device_id;
-		}			subsys;
-		uint32_t	subsys_id;
+		} subsys;
+		uint32_t subsys_id;
 	}						subsys_id;
 
 	uint16_t				class_id;	
@@ -431,9 +431,11 @@ typedef struct {
 #define PCI_PCIX_STATUS_DESIGNED_MAX_OUTSTANDING_SPLIT_TRANS   0x03800000
 #define PCI_PCIX_STATUS_DESIGNED_MAX_CUMULATIVE_READ_SIZE      0x1c000000
 #define PCI_PCIX_STATUS_RCVD_SC_ERR_MESS                       0x20000000 /* Received Split Completion Error Message */
-#define PCI_PCIX_STATUS_266MHZ									0x40000000 /* 266 MHz capable */
-#define PCI_PCIX_STATUS_533MHZ				       0x80000000 /* 533 MHz capable */
+#define PCI_PCIX_STATUS_266MHZ								   0x40000000 /* 266 MHz capable */
+#define PCI_PCIX_STATUS_533MHZ				       			   0x80000000 /* 533 MHz capable */
 #define PCI_PCIX_SIZEOF		4
+
+//Azi: check this gui top to bottom!!
 
 /* PCI-X Bridges */
 #define PCI_PCIX_BRIDGE_SEC_STATUS                                      2 /* Secondary bus status register offset */
@@ -463,166 +465,166 @@ typedef struct {
 #define PCI_PCIX_BRIDGE_SIZEOF 12
 
 /* PCI Express */
-#define PCI_EXP_FLAGS		0x2	/* Capabilities register */
-#define PCI_EXP_FLAGS_VERS	0x000f	/* Capability version */
-#define PCI_EXP_FLAGS_TYPE	0x00f0	/* Device/Port type */
-#define PCI_EXP_TYPE_ENDPOINT	0x0	/* Express Endpoint */
-#define PCI_EXP_TYPE_LEG_END	0x1	/* Legacy Endpoint */
-#define PCI_EXP_TYPE_ROOT_PORT 0x4	/* Root Port */
-#define PCI_EXP_TYPE_UPSTREAM	0x5	/* Upstream Port */
-#define PCI_EXP_TYPE_DOWNSTREAM 0x6	/* Downstream Port */
-#define PCI_EXP_TYPE_PCI_BRIDGE 0x7	/* PCI/PCI-X Bridge */
-#define PCI_EXP_TYPE_PCIE_BRIDGE 0x8	/* PCI/PCI-X to PCIE Bridge */
-#define PCI_EXP_TYPE_ROOT_INT_EP 0x9	/* Root Complex Integrated Endpoint */
-#define PCI_EXP_TYPE_ROOT_EC 0xa	/* Root Complex Event Collector */
-#define PCI_EXP_FLAGS_SLOT	0x0100	/* Slot implemented */
-#define PCI_EXP_FLAGS_IRQ	0x3e00	/* Interrupt message number */
-#define PCI_EXP_DEVCAP		0x4	/* Device capabilities */
-#define PCI_EXP_DEVCAP_PAYLOAD	0x07	/* Max_Payload_Size */
-#define PCI_EXP_DEVCAP_PHANTOM	0x18	/* Phantom functions */
-#define PCI_EXP_DEVCAP_EXT_TAG	0x20	/* Extended tags */
-#define PCI_EXP_DEVCAP_L0S	0x1c0	/* L0s Acceptable Latency */
-#define PCI_EXP_DEVCAP_L1	0xe00	/* L1 Acceptable Latency */
-#define PCI_EXP_DEVCAP_ATN_BUT	0x1000	/* Attention Button Present */
-#define PCI_EXP_DEVCAP_ATN_IND	0x2000	/* Attention Indicator Present */
-#define PCI_EXP_DEVCAP_PWR_IND	0x4000	/* Power Indicator Present */
-#define PCI_EXP_DEVCAP_RBE	0x8000	/* Role-Based Error Reporting */
-#define PCI_EXP_DEVCAP_PWR_VAL	0x3fc0000 /* Slot Power Limit Value */
-#define PCI_EXP_DEVCAP_PWR_SCL	0xc000000 /* Slot Power Limit Scale */
-#define PCI_EXP_DEVCAP_FLRESET	0x10000000 /* Function-Level Reset */
-#define PCI_EXP_DEVCTL		0x8	/* Device Control */
-#define PCI_EXP_DEVCTL_CERE	0x0001	/* Correctable Error Reporting En. */
-#define PCI_EXP_DEVCTL_NFERE	0x0002	/* Non-Fatal Error Reporting Enable */
-#define PCI_EXP_DEVCTL_FERE	0x0004	/* Fatal Error Reporting Enable */
-#define PCI_EXP_DEVCTL_URRE	0x0008	/* Unsupported Request Reporting En. */
-#define PCI_EXP_DEVCTL_RELAXED	0x0010	/* Enable Relaxed Ordering */
-#define PCI_EXP_DEVCTL_PAYLOAD	0x00e0	/* Max_Payload_Size */
-#define PCI_EXP_DEVCTL_EXT_TAG	0x0100	/* Extended Tag Field Enable */
-#define PCI_EXP_DEVCTL_PHANTOM	0x0200	/* Phantom Functions Enable */
-#define PCI_EXP_DEVCTL_AUX_PME	0x0400	/* Auxiliary Power PM Enable */
-#define PCI_EXP_DEVCTL_NOSNOOP	0x0800	/* Enable No Snoop */
-#define PCI_EXP_DEVCTL_READRQ	0x7000	/* Max_Read_Request_Size */
-#define PCI_EXP_DEVCTL_BCRE	0x8000	/* Bridge Configuration Retry Enable */
-#define PCI_EXP_DEVCTL_FLRESET	0x8000	/* Function-Level Reset [bit shared with BCRE] */
-#define PCI_EXP_DEVSTA		0xa	/* Device Status */
-#define PCI_EXP_DEVSTA_CED	0x01	/* Correctable Error Detected */
-#define PCI_EXP_DEVSTA_NFED	0x02	/* Non-Fatal Error Detected */
-#define PCI_EXP_DEVSTA_FED	0x04	/* Fatal Error Detected */
-#define PCI_EXP_DEVSTA_URD	0x08	/* Unsupported Request Detected */
-#define PCI_EXP_DEVSTA_AUXPD	0x10	/* AUX Power Detected */
-#define PCI_EXP_DEVSTA_TRPND	0x20	/* Transactions Pending */
-#define PCI_EXP_LNKCAP		0xc	/* Link Capabilities */
-#define PCI_EXP_LNKCAP_SPEED	0x0000f	/* Maximum Link Speed */
-#define PCI_EXP_LNKCAP_WIDTH	0x003f0	/* Maximum Link Width */
-#define PCI_EXP_LNKCAP_ASPM	0x00c00	/* Active State Power Management */
-#define PCI_EXP_LNKCAP_L0S	0x07000	/* L0s Acceptable Latency */
-#define PCI_EXP_LNKCAP_L1	0x38000	/* L1 Acceptable Latency */
-#define PCI_EXP_LNKCAP_CLOCKPM	0x40000	/* Clock Power Management */
-#define PCI_EXP_LNKCAP_SURPRISE 0x80000 /* Surprise Down Error Reporting */
-#define PCI_EXP_LNKCAP_DLLA	0x100000 /* Data Link Layer Active Reporting */
-#define PCI_EXP_LNKCAP_LBNC	0x200000 /* Link Bandwidth Notification Capability */
-#define PCI_EXP_LNKCAP_PORT	0xff000000 /* Port Number */
-#define PCI_EXP_LNKCTL		0x10	/* Link Control */
-#define PCI_EXP_LNKCTL_ASPM	0x0003	/* ASPM Control */
-#define PCI_EXP_LNKCTL_RCB	0x0008	/* Read Completion Boundary */
-#define PCI_EXP_LNKCTL_DISABLE	0x0010	/* Link Disable */
-#define PCI_EXP_LNKCTL_RETRAIN	0x0020	/* Retrain Link */
-#define PCI_EXP_LNKCTL_CLOCK	0x0040	/* Common Clock Configuration */
-#define PCI_EXP_LNKCTL_XSYNCH	0x0080	/* Extended Synch */
-#define PCI_EXP_LNKCTL_CLOCKPM	0x0100	/* Clock Power Management */
-#define PCI_EXP_LNKCTL_HWAUTWD	0x0200	/* Hardware Autonomous Width Disable */
-#define PCI_EXP_LNKCTL_BWMIE	0x0400	/* Bandwidth Mgmt Interrupt Enable */
-#define PCI_EXP_LNKCTL_AUTBWIE	0x0800	/* Autonomous Bandwidth Mgmt Interrupt Enable */
-#define PCI_EXP_LNKSTA		0x12	/* Link Status */
-#define PCI_EXP_LNKSTA_SPEED	0x000f	/* Negotiated Link Speed */
-#define PCI_EXP_LNKSTA_WIDTH	0x03f0	/* Negotiated Link Width */
-#define PCI_EXP_LNKSTA_TR_ERR	0x0400	/* Training Error (obsolete) */
-#define PCI_EXP_LNKSTA_TRAIN	0x0800	/* Link Training */
-#define PCI_EXP_LNKSTA_SL_CLK	0x1000	/* Slot Clock Configuration */
-#define PCI_EXP_LNKSTA_DL_ACT	0x2000	/* Data Link Layer in DL_Active State */
-#define PCI_EXP_LNKSTA_BWMGMT	0x4000	/* Bandwidth Mgmt Status */
-#define PCI_EXP_LNKSTA_AUTBW	0x8000	/* Autonomous Bandwidth Mgmt Status */
-#define PCI_EXP_SLTCAP		0x14	/* Slot Capabilities */
-#define PCI_EXP_SLTCAP_ATNB	0x0001	/* Attention Button Present */
-#define PCI_EXP_SLTCAP_PWRC	0x0002	/* Power Controller Present */
-#define PCI_EXP_SLTCAP_MRL	0x0004	/* MRL Sensor Present */
-#define PCI_EXP_SLTCAP_ATNI	0x0008	/* Attention Indicator Present */
-#define PCI_EXP_SLTCAP_PWRI	0x0010	/* Power Indicator Present */
-#define PCI_EXP_SLTCAP_HPS	0x0020	/* Hot-Plug Surprise */
-#define PCI_EXP_SLTCAP_HPC	0x0040	/* Hot-Plug Capable */
-#define PCI_EXP_SLTCAP_PWR_VAL	0x00007f80 /* Slot Power Limit Value */
-#define PCI_EXP_SLTCAP_PWR_SCL	0x00018000 /* Slot Power Limit Scale */
-#define PCI_EXP_SLTCAP_INTERLOCK 0x020000 /* Electromechanical Interlock Present */
-#define PCI_EXP_SLTCAP_NOCMDCOMP 0x040000 /* No Command Completed Support */
-#define PCI_EXP_SLTCAP_PSN	0xfff80000 /* Physical Slot Number */
-#define PCI_EXP_SLTCTL		0x18	/* Slot Control */
-#define PCI_EXP_SLTCTL_ATNB	0x0001	/* Attention Button Pressed Enable */
-#define PCI_EXP_SLTCTL_PWRF	0x0002	/* Power Fault Detected Enable */
-#define PCI_EXP_SLTCTL_MRLS	0x0004	/* MRL Sensor Changed Enable */
-#define PCI_EXP_SLTCTL_PRSD	0x0008	/* Presence Detect Changed Enable */
-#define PCI_EXP_SLTCTL_CMDC	0x0010	/* Command Completed Interrupt Enable */
-#define PCI_EXP_SLTCTL_HPIE	0x0020	/* Hot-Plug Interrupt Enable */
-#define PCI_EXP_SLTCTL_ATNI	0x00c0	/* Attention Indicator Control */
-#define PCI_EXP_SLTCTL_PWRI	0x0300	/* Power Indicator Control */
-#define PCI_EXP_SLTCTL_PWRC	0x0400	/* Power Controller Control */
-#define PCI_EXP_SLTCTL_INTERLOCK 0x0800 /* Electromechanical Interlock Control */
-#define PCI_EXP_SLTCTL_LLCHG	0x1000	/* Data Link Layer State Changed Enable */
-#define PCI_EXP_SLTSTA		0x1a	/* Slot Status */
-#define PCI_EXP_SLTSTA_ATNB	0x0001	/* Attention Button Pressed */
-#define PCI_EXP_SLTSTA_PWRF	0x0002	/* Power Fault Detected */
-#define PCI_EXP_SLTSTA_MRLS	0x0004	/* MRL Sensor Changed */
-#define PCI_EXP_SLTSTA_PRSD	0x0008	/* Presence Detect Changed */
-#define PCI_EXP_SLTSTA_CMDC	0x0010	/* Command Completed */
-#define PCI_EXP_SLTSTA_MRL_ST	0x0020	/* MRL Sensor State */
-#define PCI_EXP_SLTSTA_PRES	0x0040	/* Presence Detect State */
-#define PCI_EXP_SLTSTA_INTERLOCK 0x0080 /* Electromechanical Interlock Status */
-#define PCI_EXP_SLTSTA_LLCHG	0x0100	/* Data Link Layer State Changed */
-#define PCI_EXP_RTCTL		0x1c	/* Root Control */
-#define PCI_EXP_RTCTL_SECEE	0x0001	/* System Error on Correctable Error */
-#define PCI_EXP_RTCTL_SENFEE	0x0002	/* System Error on Non-Fatal Error */
-#define PCI_EXP_RTCTL_SEFEE	0x0004	/* System Error on Fatal Error */
-#define PCI_EXP_RTCTL_PMEIE	0x0008	/* PME Interrupt Enable */
-#define PCI_EXP_RTCTL_CRSVIS	0x0010	/* Configuration Request Retry Status Visible to SW */
-#define PCI_EXP_RTCAP		0x1e	/* Root Capabilities */
-#define PCI_EXP_RTCAP_CRSVIS	0x0010	/* Configuration Request Retry Status Visible to SW */
-#define PCI_EXP_RTSTA		0x20	/* Root Status */
-#define PCI_EXP_RTSTA_PME_REQID   0x0000ffff /* PME Requester ID */
-#define PCI_EXP_RTSTA_PME_STATUS  0x00010000 /* PME Status */
-#define PCI_EXP_RTSTA_PME_PENDING 0x00020000 /* PME is Pending */
-#define PCI_EXP_DEVCAP2			0x24	/* Device capabilities 2 */
-#define PCI_EXP_DEVCTL2			0x28	/* Device Control */
-#define PCI_EXP_DEV2_TIMEOUT_RANGE(x)	((x) & 0xf) /* Completion Timeout Ranges Supported */
-#define PCI_EXP_DEV2_TIMEOUT_VALUE(x)	((x) & 0xf) /* Completion Timeout Value */
-#define PCI_EXP_DEV2_TIMEOUT_DIS	0x0010	/* Completion Timeout Disable Supported */
-#define PCI_EXP_DEV2_ARI		0x0020	/* ARI Forwarding */
-#define PCI_EXP_DEVSTA2			0x2a	/* Device Status */
-#define PCI_EXP_LNKCAP2			0x2c	/* Link Capabilities */
-#define PCI_EXP_LNKCTL2			0x30	/* Link Control */
-#define PCI_EXP_LNKCTL2_SPEED(x)	((x) & 0xf) /* Target Link Speed */
-#define PCI_EXP_LNKCTL2_CMPLNC		0x0010	/* Enter Compliance */
-#define PCI_EXP_LNKCTL2_SPEED_DIS	0x0020	/* Hardware Autonomous Speed Disable */
-#define PCI_EXP_LNKCTL2_DEEMPHASIS(x)	(((x) >> 6) & 1) /* Selectable De-emphasis */
-#define PCI_EXP_LNKCTL2_MARGIN(x)	(((x) >> 7) & 7) /* Transmit Margin */
-#define PCI_EXP_LNKCTL2_MOD_CMPLNC	0x0400	/* Enter Modified Compliance */
-#define PCI_EXP_LNKCTL2_CMPLNC_SOS	0x0800	/* Compliance SOS */
-#define PCI_EXP_LNKCTL2_COM_DEEMPHASIS(x) (((x) >> 12) & 1) /* Compliance De-emphasis */
-#define PCI_EXP_LNKSTA2			0x32	/* Link Status */
-#define PCI_EXP_LINKSTA2_DEEMPHASIS(x)	((x) & 1)	/* Current De-emphasis Level */
-#define PCI_EXP_SLTCAP2			0x34	/* Slot Capabilities */
-#define PCI_EXP_SLTCTL2			0x38	/* Slot Control */
-#define PCI_EXP_SLTSTA2			0x3a	/* Slot Status */
+#define PCI_EXP_FLAGS						0x2	/* Capabilities register */
+#define PCI_EXP_FLAGS_VERS					0x000f	/* Capability version */
+#define PCI_EXP_FLAGS_TYPE					0x00f0	/* Device/Port type */
+#define PCI_EXP_TYPE_ENDPOINT				0x0	/* Express Endpoint */
+#define PCI_EXP_TYPE_LEG_END				0x1	/* Legacy Endpoint */
+#define PCI_EXP_TYPE_ROOT_PORT 				0x4	/* Root Port */
+#define PCI_EXP_TYPE_UPSTREAM				0x5	/* Upstream Port */
+#define PCI_EXP_TYPE_DOWNSTREAM 			0x6	/* Downstream Port */
+#define PCI_EXP_TYPE_PCI_BRIDGE 			0x7	/* PCI/PCI-X Bridge */
+#define PCI_EXP_TYPE_PCIE_BRIDGE 			0x8	/* PCI/PCI-X to PCIE Bridge */
+#define PCI_EXP_TYPE_ROOT_INT_EP 			0x9	/* Root Complex Integrated Endpoint */
+#define PCI_EXP_TYPE_ROOT_EC 				0xa	/* Root Complex Event Collector */
+#define PCI_EXP_FLAGS_SLOT					0x0100	/* Slot implemented */
+#define PCI_EXP_FLAGS_IRQ					0x3e00	/* Interrupt message number */
+#define PCI_EXP_DEVCAP						0x4	/* Device capabilities */
+#define PCI_EXP_DEVCAP_PAYLOAD				0x07	/* Max_Payload_Size */
+#define PCI_EXP_DEVCAP_PHANTOM				0x18	/* Phantom functions */
+#define PCI_EXP_DEVCAP_EXT_TAG				0x20	/* Extended tags */
+#define PCI_EXP_DEVCAP_L0S					0x1c0	/* L0s Acceptable Latency */
+#define PCI_EXP_DEVCAP_L1					0xe00	/* L1 Acceptable Latency */
+#define PCI_EXP_DEVCAP_ATN_BUT				0x1000	/* Attention Button Present */
+#define PCI_EXP_DEVCAP_ATN_IND				0x2000	/* Attention Indicator Present */
+#define PCI_EXP_DEVCAP_PWR_IND				0x4000	/* Power Indicator Present */
+#define PCI_EXP_DEVCAP_RBE					0x8000	/* Role-Based Error Reporting */
+#define PCI_EXP_DEVCAP_PWR_VAL				0x3fc0000 /* Slot Power Limit Value */
+#define PCI_EXP_DEVCAP_PWR_SCL				0xc000000 /* Slot Power Limit Scale */
+#define PCI_EXP_DEVCAP_FLRESET				0x10000000 /* Function-Level Reset */
+#define PCI_EXP_DEVCTL						0x8	/* Device Control */
+#define PCI_EXP_DEVCTL_CERE					0x0001	/* Correctable Error Reporting En. */
+#define PCI_EXP_DEVCTL_NFERE				0x0002	/* Non-Fatal Error Reporting Enable */
+#define PCI_EXP_DEVCTL_FERE					0x0004	/* Fatal Error Reporting Enable */
+#define PCI_EXP_DEVCTL_URRE					0x0008	/* Unsupported Request Reporting En. */
+#define PCI_EXP_DEVCTL_RELAXED				0x0010	/* Enable Relaxed Ordering */
+#define PCI_EXP_DEVCTL_PAYLOAD				0x00e0	/* Max_Payload_Size */
+#define PCI_EXP_DEVCTL_EXT_TAG				0x0100	/* Extended Tag Field Enable */
+#define PCI_EXP_DEVCTL_PHANTOM				0x0200	/* Phantom Functions Enable */
+#define PCI_EXP_DEVCTL_AUX_PME				0x0400	/* Auxiliary Power PM Enable */
+#define PCI_EXP_DEVCTL_NOSNOOP				0x0800	/* Enable No Snoop */
+#define PCI_EXP_DEVCTL_READRQ				0x7000	/* Max_Read_Request_Size */
+#define PCI_EXP_DEVCTL_BCRE					0x8000	/* Bridge Configuration Retry Enable */
+#define PCI_EXP_DEVCTL_FLRESET				0x8000	/* Function-Level Reset [bit shared with BCRE] */
+#define PCI_EXP_DEVSTA						0xa	/* Device Status */
+#define PCI_EXP_DEVSTA_CED					0x01	/* Correctable Error Detected */
+#define PCI_EXP_DEVSTA_NFED					0x02	/* Non-Fatal Error Detected */
+#define PCI_EXP_DEVSTA_FED					0x04	/* Fatal Error Detected */
+#define PCI_EXP_DEVSTA_URD					0x08	/* Unsupported Request Detected */
+#define PCI_EXP_DEVSTA_AUXPD				0x10	/* AUX Power Detected */
+#define PCI_EXP_DEVSTA_TRPND				0x20	/* Transactions Pending */
+#define PCI_EXP_LNKCAP						0xc	/* Link Capabilities */
+#define PCI_EXP_LNKCAP_SPEED				0x0000f	/* Maximum Link Speed */
+#define PCI_EXP_LNKCAP_WIDTH				0x003f0	/* Maximum Link Width */
+#define PCI_EXP_LNKCAP_ASPM					0x00c00	/* Active State Power Management */
+#define PCI_EXP_LNKCAP_L0S					0x07000	/* L0s Acceptable Latency */
+#define PCI_EXP_LNKCAP_L1					0x38000	/* L1 Acceptable Latency */
+#define PCI_EXP_LNKCAP_CLOCKPM				0x40000	/* Clock Power Management */
+#define PCI_EXP_LNKCAP_SURPRISE				0x80000 /* Surprise Down Error Reporting */
+#define PCI_EXP_LNKCAP_DLLA					0x100000 /* Data Link Layer Active Reporting */
+#define PCI_EXP_LNKCAP_LBNC					0x200000 /* Link Bandwidth Notification Capability */
+#define PCI_EXP_LNKCAP_PORT					0xff000000 /* Port Number */
+#define PCI_EXP_LNKCTL						0x10	/* Link Control */
+#define PCI_EXP_LNKCTL_ASPM					0x0003	/* ASPM Control */
+#define PCI_EXP_LNKCTL_RCB					0x0008	/* Read Completion Boundary */
+#define PCI_EXP_LNKCTL_DISABLE				0x0010	/* Link Disable */
+#define PCI_EXP_LNKCTL_RETRAIN				0x0020	/* Retrain Link */
+#define PCI_EXP_LNKCTL_CLOCK				0x0040	/* Common Clock Configuration */
+#define PCI_EXP_LNKCTL_XSYNCH				0x0080	/* Extended Synch */
+#define PCI_EXP_LNKCTL_CLOCKPM				0x0100	/* Clock Power Management */
+#define PCI_EXP_LNKCTL_HWAUTWD				0x0200	/* Hardware Autonomous Width Disable */
+#define PCI_EXP_LNKCTL_BWMIE				0x0400	/* Bandwidth Mgmt Interrupt Enable */
+#define PCI_EXP_LNKCTL_AUTBWIE				0x0800	/* Autonomous Bandwidth Mgmt Interrupt Enable */
+#define PCI_EXP_LNKSTA						0x12	/* Link Status */
+#define PCI_EXP_LNKSTA_SPEED				0x000f	/* Negotiated Link Speed */
+#define PCI_EXP_LNKSTA_WIDTH				0x03f0	/* Negotiated Link Width */
+#define PCI_EXP_LNKSTA_TR_ERR				0x0400	/* Training Error (obsolete) */
+#define PCI_EXP_LNKSTA_TRAIN				0x0800	/* Link Training */
+#define PCI_EXP_LNKSTA_SL_CLK				0x1000	/* Slot Clock Configuration */
+#define PCI_EXP_LNKSTA_DL_ACT				0x2000	/* Data Link Layer in DL_Active State */
+#define PCI_EXP_LNKSTA_BWMGMT				0x4000	/* Bandwidth Mgmt Status */
+#define PCI_EXP_LNKSTA_AUTBW				0x8000	/* Autonomous Bandwidth Mgmt Status */
+#define PCI_EXP_SLTCAP						0x14	/* Slot Capabilities */
+#define PCI_EXP_SLTCAP_ATNB					0x0001	/* Attention Button Present */
+#define PCI_EXP_SLTCAP_PWRC					0x0002	/* Power Controller Present */
+#define PCI_EXP_SLTCAP_MRL					0x0004	/* MRL Sensor Present */
+#define PCI_EXP_SLTCAP_ATNI					0x0008	/* Attention Indicator Present */
+#define PCI_EXP_SLTCAP_PWRI					0x0010	/* Power Indicator Present */
+#define PCI_EXP_SLTCAP_HPS					0x0020	/* Hot-Plug Surprise */
+#define PCI_EXP_SLTCAP_HPC					0x0040	/* Hot-Plug Capable */
+#define PCI_EXP_SLTCAP_PWR_VAL				0x00007f80 /* Slot Power Limit Value */
+#define PCI_EXP_SLTCAP_PWR_SCL				0x00018000 /* Slot Power Limit Scale */
+#define PCI_EXP_SLTCAP_INTERLOCK 			0x020000 /* Electromechanical Interlock Present */
+#define PCI_EXP_SLTCAP_NOCMDCOMP 			0x040000 /* No Command Completed Support */
+#define PCI_EXP_SLTCAP_PSN					0xfff80000 /* Physical Slot Number */
+#define PCI_EXP_SLTCTL						0x18	/* Slot Control */
+#define PCI_EXP_SLTCTL_ATNB					0x0001	/* Attention Button Pressed Enable */
+#define PCI_EXP_SLTCTL_PWRF					0x0002	/* Power Fault Detected Enable */
+#define PCI_EXP_SLTCTL_MRLS					0x0004	/* MRL Sensor Changed Enable */
+#define PCI_EXP_SLTCTL_PRSD					0x0008	/* Presence Detect Changed Enable */
+#define PCI_EXP_SLTCTL_CMDC					0x0010	/* Command Completed Interrupt Enable */
+#define PCI_EXP_SLTCTL_HPIE					0x0020	/* Hot-Plug Interrupt Enable */
+#define PCI_EXP_SLTCTL_ATNI					0x00c0	/* Attention Indicator Control */
+#define PCI_EXP_SLTCTL_PWRI					0x0300	/* Power Indicator Control */
+#define PCI_EXP_SLTCTL_PWRC					0x0400	/* Power Controller Control */
+#define PCI_EXP_SLTCTL_INTERLOCK 			0x0800 /* Electromechanical Interlock Control */
+#define PCI_EXP_SLTCTL_LLCHG				0x1000	/* Data Link Layer State Changed Enable */
+#define PCI_EXP_SLTSTA						0x1a	/* Slot Status */
+#define PCI_EXP_SLTSTA_ATNB					0x0001	/* Attention Button Pressed */
+#define PCI_EXP_SLTSTA_PWRF					0x0002	/* Power Fault Detected */
+#define PCI_EXP_SLTSTA_MRLS					0x0004	/* MRL Sensor Changed */
+#define PCI_EXP_SLTSTA_PRSD					0x0008	/* Presence Detect Changed */
+#define PCI_EXP_SLTSTA_CMDC					0x0010	/* Command Completed */
+#define PCI_EXP_SLTSTA_MRL_ST				0x0020	/* MRL Sensor State */
+#define PCI_EXP_SLTSTA_PRES					0x0040	/* Presence Detect State */
+#define PCI_EXP_SLTSTA_INTERLOCK			0x0080 /* Electromechanical Interlock Status */
+#define PCI_EXP_SLTSTA_LLCHG				0x0100	/* Data Link Layer State Changed */
+#define PCI_EXP_RTCTL						0x1c	/* Root Control */
+#define PCI_EXP_RTCTL_SECEE					0x0001	/* System Error on Correctable Error */
+#define PCI_EXP_RTCTL_SENFEE				0x0002	/* System Error on Non-Fatal Error */
+#define PCI_EXP_RTCTL_SEFEE					0x0004	/* System Error on Fatal Error */
+#define PCI_EXP_RTCTL_PMEIE					0x0008	/* PME Interrupt Enable */
+#define PCI_EXP_RTCTL_CRSVIS				0x0010	/* Configuration Request Retry Status Visible to SW */
+#define PCI_EXP_RTCAP						0x1e	/* Root Capabilities */
+#define PCI_EXP_RTCAP_CRSVIS				0x0010	/* Configuration Request Retry Status Visible to SW */
+#define PCI_EXP_RTSTA						0x20	/* Root Status */
+#define PCI_EXP_RTSTA_PME_REQID   			0x0000ffff /* PME Requester ID */
+#define PCI_EXP_RTSTA_PME_STATUS  			0x00010000 /* PME Status */
+#define PCI_EXP_RTSTA_PME_PENDING 			0x00020000 /* PME is Pending */
+#define PCI_EXP_DEVCAP2						0x24	/* Device capabilities 2 */
+#define PCI_EXP_DEVCTL2						0x28	/* Device Control */
+#define PCI_EXP_DEV2_TIMEOUT_RANGE(x)		((x) & 0xf) /* Completion Timeout Ranges Supported */
+#define PCI_EXP_DEV2_TIMEOUT_VALUE(x)		((x) & 0xf) /* Completion Timeout Value */
+#define PCI_EXP_DEV2_TIMEOUT_DIS			0x0010	/* Completion Timeout Disable Supported */
+#define PCI_EXP_DEV2_ARI					0x0020	/* ARI Forwarding */
+#define PCI_EXP_DEVSTA2						0x2a	/* Device Status */
+#define PCI_EXP_LNKCAP2						0x2c	/* Link Capabilities */
+#define PCI_EXP_LNKCTL2						0x30	/* Link Control */
+#define PCI_EXP_LNKCTL2_SPEED(x)			((x) & 0xf) /* Target Link Speed */
+#define PCI_EXP_LNKCTL2_CMPLNC				0x0010	/* Enter Compliance */
+#define PCI_EXP_LNKCTL2_SPEED_DIS			0x0020	/* Hardware Autonomous Speed Disable */
+#define PCI_EXP_LNKCTL2_DEEMPHASIS(x)		(((x) >> 6) & 1) /* Selectable De-emphasis */
+#define PCI_EXP_LNKCTL2_MARGIN(x)			(((x) >> 7) & 7) /* Transmit Margin */
+#define PCI_EXP_LNKCTL2_MOD_CMPLNC			0x0400	/* Enter Modified Compliance */
+#define PCI_EXP_LNKCTL2_CMPLNC_SOS			0x0800	/* Compliance SOS */
+#define PCI_EXP_LNKCTL2_COM_DEEMPHASIS(x)	(((x) >> 12) & 1) /* Compliance De-emphasis */
+#define PCI_EXP_LNKSTA2						0x32	/* Link Status */
+#define PCI_EXP_LINKSTA2_DEEMPHASIS(x)		((x) & 1)	/* Current De-emphasis Level */
+#define PCI_EXP_SLTCAP2						0x34	/* Slot Capabilities */
+#define PCI_EXP_SLTCTL2						0x38	/* Slot Control */
+#define PCI_EXP_SLTSTA2						0x3a	/* Slot Status */
 
 /* MSI-X */
-#define PCI_MSIX_ENABLE		0x8000
-#define PCI_MSIX_MASK		0x4000
-#define PCI_MSIX_TABSIZE	0x03ff
-#define PCI_MSIX_TABLE		4
-#define PCI_MSIX_PBA		8
-#define PCI_MSIX_BIR		0x7
+#define PCI_MSIX_ENABLE			0x8000
+#define PCI_MSIX_MASK			0x4000
+#define PCI_MSIX_TABSIZE		0x03ff
+#define PCI_MSIX_TABLE			4
+#define PCI_MSIX_PBA			8
+#define PCI_MSIX_BIR			0x7
 
 /* Subsystem vendor/device ID for PCI bridges */
-#define PCI_SSVID_VENDOR	4
-#define PCI_SSVID_DEVICE	6
+#define PCI_SSVID_VENDOR		4
+#define PCI_SSVID_DEVICE		6
 
 /* Advanced Error Reporting */
 #define PCI_ERR_UNCOR_STATUS	4			/* Uncorrectable Error Status */
@@ -665,24 +667,24 @@ typedef struct {
 #define PCI_ERR_ROOT_SRC		54
 
 /* Virtual Channel */
-#define PCI_VC_PORT_REG1	4
-#define PCI_VC_PORT_REG2	8
-#define PCI_VC_PORT_CTRL	12
-#define PCI_VC_PORT_STATUS	14
-#define PCI_VC_RES_CAP		16
-#define PCI_VC_RES_CTRL		20
-#define PCI_VC_RES_STATUS	26
+#define PCI_VC_PORT_REG1		4
+#define PCI_VC_PORT_REG2		8
+#define PCI_VC_PORT_CTRL		12
+#define PCI_VC_PORT_STATUS		14
+#define PCI_VC_RES_CAP			16
+#define PCI_VC_RES_CTRL			20
+#define PCI_VC_RES_STATUS		26
 
 /* Power Budgeting */
-#define PCI_PWR_DSR		4	/* Data Select Register */
-#define PCI_PWR_DATA		8	/* Data Register */
+#define PCI_PWR_DSR				4	/* Data Select Register */
+#define PCI_PWR_DATA			8	/* Data Register */
 #define PCI_PWR_DATA_BASE(x)	((x) & 0xff)	    /* Base Power */
 #define PCI_PWR_DATA_SCALE(x)	(((x) >> 8) & 3)    /* Data Scale */
 #define PCI_PWR_DATA_PM_SUB(x)	(((x) >> 10) & 7)   /* PM Sub State */
 #define PCI_PWR_DATA_PM_STATE(x) (((x) >> 13) & 3) /* PM State */
 #define PCI_PWR_DATA_TYPE(x)	(((x) >> 15) & 7)   /* Type */
 #define PCI_PWR_DATA_RAIL(x)	(((x) >> 18) & 7)   /* Power Rail */
-#define PCI_PWR_CAP		12	/* Capability */
+#define PCI_PWR_CAP				12	/* Capability */
 #define PCI_PWR_CAP_BUDGET(x)	((x) & 1)	/* Included in system budget */
 
 /* Access Control Services */
@@ -713,40 +715,40 @@ typedef struct {
 #define PCI_ARI_CTRL			0x06	/* ARI Control Register */
 #define PCI_ARI_CTRL_MFVC		0x0001	/* MFVC Function Groups Enable */
 #define PCI_ARI_CTRL_ACS		0x0002	/* ACS Function Groups Enable */
-#define PCI_ARI_CTRL_FG(x)	(((x) >> 4) & 7) /* Function Group */
+#define PCI_ARI_CTRL_FG(x)		(((x) >> 4) & 7) /* Function Group */
 
 /* Address Translation Service */
 #define PCI_ATS_CAP				0x04	/* ATS Capability Register */
-#define PCI_ATS_CAP_IQD(x)	((x) & 0x1f) /* Invalidate Queue Depth */
+#define PCI_ATS_CAP_IQD(x)		((x) & 0x1f) /* Invalidate Queue Depth */
 #define PCI_ATS_CTRL			0x06	/* ATS Control Register */
-#define PCI_ATS_CTRL_STU(x)	((x) & 0x1f) /* Smallest Translation Unit */
-#define PCI_ATS_CTRL_ENABLE	0x8000	/* ATS Enable */
+#define PCI_ATS_CTRL_STU(x)		((x) & 0x1f) /* Smallest Translation Unit */
+#define PCI_ATS_CTRL_ENABLE		0x8000	/* ATS Enable */
 
 /* Single Root I/O Virtualization */
-#define PCI_IOV_CAP		0x04	/* SR-IOV Capability Register */
-#define PCI_IOV_CAP_VFM	0x00000001 /* VF Migration Capable */
-#define PCI_IOV_CAP_IMN(x)	((x) >> 21) /* VF Migration Interrupt Message Number */
-#define PCI_IOV_CTRL		0x08	/* SR-IOV Control Register */
-#define PCI_IOV_CTRL_VFE	0x0001	/* VF Enable */
-#define PCI_IOV_CTRL_VFME	0x0002	/* VF Migration Enable */
-#define PCI_IOV_CTRL_VFMIE	0x0004	/* VF Migration Interrupt Enable */
-#define PCI_IOV_CTRL_MSE	0x0008	/* VF MSE */
-#define PCI_IOV_CTRL_ARI	0x0010	/* ARI Capable Hierarchy */
-#define PCI_IOV_STATUS		0x0a	/* SR-IOV Status Register */
-#define PCI_IOV_STATUS_MS	0x0001	/* VF Migration Status */
-#define PCI_IOV_INITIALVF	0x0c	/* Number of VFs that are initially associated */
-#define PCI_IOV_TOTALVF		0x0e	/* Maximum number of VFs that could be associated */
-#define PCI_IOV_NUMVF		0x10	/* Number of VFs that are available */
-#define PCI_IOV_FDL		0x12	/* Function Dependency Link */
-#define PCI_IOV_OFFSET		0x14	/* First VF Offset */
-#define PCI_IOV_STRIDE		0x16	/* Routing ID offset from one VF to the next one */
-#define PCI_IOV_DID		0x1a	/* VF Device ID */
-#define PCI_IOV_SUPPS		0x1c	/* Supported Page Sizes */
-#define PCI_IOV_SYSPS		0x20	/* System Page Size */
-#define PCI_IOV_BAR_BASE	0x24	/* VF BAR0, VF BAR1, ... VF BAR5 */
-#define PCI_IOV_NUM_BAR		6	/* Number of VF BARs */
-#define PCI_IOV_MSAO		0x3c	/* VF Migration State Array Offset */
-#define PCI_IOV_MSA_BIR(x)	((x) & 7) /* VF Migration State BIR */
+#define PCI_IOV_CAP				0x04	/* SR-IOV Capability Register */
+#define PCI_IOV_CAP_VFM			0x00000001 /* VF Migration Capable */
+#define PCI_IOV_CAP_IMN(x)		((x) >> 21) /* VF Migration Interrupt Message Number */
+#define PCI_IOV_CTRL			0x08	/* SR-IOV Control Register */
+#define PCI_IOV_CTRL_VFE		0x0001	/* VF Enable */
+#define PCI_IOV_CTRL_VFME		0x0002	/* VF Migration Enable */
+#define PCI_IOV_CTRL_VFMIE		0x0004	/* VF Migration Interrupt Enable */
+#define PCI_IOV_CTRL_MSE		0x0008	/* VF MSE */
+#define PCI_IOV_CTRL_ARI		0x0010	/* ARI Capable Hierarchy */
+#define PCI_IOV_STATUS			0x0a	/* SR-IOV Status Register */
+#define PCI_IOV_STATUS_MS		0x0001	/* VF Migration Status */
+#define PCI_IOV_INITIALVF		0x0c	/* Number of VFs that are initially associated */
+#define PCI_IOV_TOTALVF			0x0e	/* Maximum number of VFs that could be associated */
+#define PCI_IOV_NUMVF			0x10	/* Number of VFs that are available */
+#define PCI_IOV_FDL				0x12	/* Function Dependency Link */
+#define PCI_IOV_OFFSET			0x14	/* First VF Offset */
+#define PCI_IOV_STRIDE			0x16	/* Routing ID offset from one VF to the next one */
+#define PCI_IOV_DID				0x1a	/* VF Device ID */
+#define PCI_IOV_SUPPS			0x1c	/* Supported Page Sizes */
+#define PCI_IOV_SYSPS			0x20	/* System Page Size */
+#define PCI_IOV_BAR_BASE		0x24	/* VF BAR0, VF BAR1, ... VF BAR5 */
+#define PCI_IOV_NUM_BAR			6	/* Number of VF BARs */
+#define PCI_IOV_MSAO			0x3c	/* VF Migration State Array Offset */
+#define PCI_IOV_MSA_BIR(x)		((x) & 7) /* VF Migration State BIR */
 #define PCI_IOV_MSA_OFFSET(x)	((x) & 0xfffffff8) /* VF Migration State Offset */
 
 /*
@@ -758,64 +760,64 @@ typedef struct {
  *	2:0 = function
  */
 #define PCI_DEVFN(slot,func)	((((slot) & 0x1f) << 3) | ((func) & 0x07))
-#define PCI_SLOT(devfn)		(((devfn) >> 3) & 0x1f)
-#define PCI_FUNC(devfn)		((devfn) & 0x07)
+#define PCI_SLOT(devfn)			(((devfn) >> 3) & 0x1f)
+#define PCI_FUNC(devfn)			((devfn) & 0x07)
 
 /* Device classes and subclasses */
 
-#define PCI_CLASS_NOT_DEFINED		0x0000
-#define PCI_CLASS_NOT_DEFINED_VGA	0x0001
+#define PCI_CLASS_NOT_DEFINED			0x0000
+#define PCI_CLASS_NOT_DEFINED_VGA		0x0001
+	
+#define PCI_BASE_CLASS_STORAGE			0x01
+#define PCI_CLASS_STORAGE_SCSI			0x0100
+#define PCI_CLASS_STORAGE_IDE			0x0101
+#define PCI_CLASS_STORAGE_FLOPPY		0x0102
+#define PCI_CLASS_STORAGE_IPI			0x0103
+#define PCI_CLASS_STORAGE_RAID			0x0104
+#define PCI_CLASS_STORAGE_ATA			0x0105
+#define PCI_CLASS_STORAGE_SATA			0x0106
+#define PCI_CLASS_STORAGE_SAS			0x0107
+#define PCI_CLASS_STORAGE_OTHER			0x0180
 
-#define PCI_BASE_CLASS_STORAGE		0x01
-#define PCI_CLASS_STORAGE_SCSI		0x0100
-#define PCI_CLASS_STORAGE_IDE		0x0101
-#define PCI_CLASS_STORAGE_FLOPPY	0x0102
-#define PCI_CLASS_STORAGE_IPI		0x0103
-#define PCI_CLASS_STORAGE_RAID		0x0104
-#define PCI_CLASS_STORAGE_ATA		0x0105
-#define PCI_CLASS_STORAGE_SATA		0x0106
-#define PCI_CLASS_STORAGE_SAS		0x0107
-#define PCI_CLASS_STORAGE_OTHER		0x0180
-
-#define PCI_BASE_CLASS_NETWORK		0x02
-#define PCI_CLASS_NETWORK_ETHERNET	0x0200
+#define PCI_BASE_CLASS_NETWORK			0x02
+#define PCI_CLASS_NETWORK_ETHERNET		0x0200
 #define PCI_CLASS_NETWORK_TOKEN_RING	0x0201
-#define PCI_CLASS_NETWORK_FDDI		0x0202
-#define PCI_CLASS_NETWORK_ATM		0x0203
-#define PCI_CLASS_NETWORK_ISDN		0x0204
-#define PCI_CLASS_NETWORK_OTHER		0x0280
+#define PCI_CLASS_NETWORK_FDDI			0x0202
+#define PCI_CLASS_NETWORK_ATM			0x0203
+#define PCI_CLASS_NETWORK_ISDN			0x0204
+#define PCI_CLASS_NETWORK_OTHER			0x0280
 
-#define PCI_BASE_CLASS_DISPLAY		0x03
-#define PCI_CLASS_DISPLAY_VGA		0x0300
-#define PCI_CLASS_DISPLAY_XGA		0x0301
-#define PCI_CLASS_DISPLAY_3D		0x0302
-#define PCI_CLASS_DISPLAY_OTHER		0x0380
+#define PCI_BASE_CLASS_DISPLAY			0x03
+#define PCI_CLASS_DISPLAY_VGA			0x0300
+#define PCI_CLASS_DISPLAY_XGA			0x0301
+#define PCI_CLASS_DISPLAY_3D			0x0302
+#define PCI_CLASS_DISPLAY_OTHER			0x0380
 
-#define PCI_BASE_CLASS_MULTIMEDIA	0x04
-#define PCI_CLASS_MULTIMEDIA_VIDEO	0x0400
-#define PCI_CLASS_MULTIMEDIA_AUDIO	0x0401
-#define PCI_CLASS_MULTIMEDIA_PHONE	0x0402
+#define PCI_BASE_CLASS_MULTIMEDIA		0x04
+#define PCI_CLASS_MULTIMEDIA_VIDEO		0x0400
+#define PCI_CLASS_MULTIMEDIA_AUDIO		0x0401
+#define PCI_CLASS_MULTIMEDIA_PHONE		0x0402
 #define PCI_CLASS_MULTIMEDIA_AUDIO_DEV	0x0403
-#define PCI_CLASS_MULTIMEDIA_OTHER	0x0480
+#define PCI_CLASS_MULTIMEDIA_OTHER		0x0480
 
-#define PCI_BASE_CLASS_MEMORY		0x05
-#define PCI_CLASS_MEMORY_RAM		0x0500
-#define PCI_CLASS_MEMORY_FLASH		0x0501
-#define PCI_CLASS_MEMORY_OTHER		0x0580
+#define PCI_BASE_CLASS_MEMORY			0x05
+#define PCI_CLASS_MEMORY_RAM			0x0500
+#define PCI_CLASS_MEMORY_FLASH			0x0501
+#define PCI_CLASS_MEMORY_OTHER			0x0580
 
-#define PCI_BASE_CLASS_BRIDGE		0x06
-#define PCI_CLASS_BRIDGE_HOST		0x0600
-#define PCI_CLASS_BRIDGE_ISA		0x0601
-#define PCI_CLASS_BRIDGE_EISA		0x0602
-#define PCI_CLASS_BRIDGE_MC		0x0603
-#define PCI_CLASS_BRIDGE_PCI		0x0604
-#define PCI_CLASS_BRIDGE_PCMCIA		0x0605
-#define PCI_CLASS_BRIDGE_NUBUS		0x0606
-#define PCI_CLASS_BRIDGE_CARDBUS	0x0607
-#define PCI_CLASS_BRIDGE_RACEWAY	0x0608
-#define PCI_CLASS_BRIDGE_PCI_SEMI	0x0609
-#define PCI_CLASS_BRIDGE_IB_TO_PCI	0x060a
-#define PCI_CLASS_BRIDGE_OTHER		0x0680
+#define PCI_BASE_CLASS_BRIDGE			0x06
+#define PCI_CLASS_BRIDGE_HOST			0x0600
+#define PCI_CLASS_BRIDGE_ISA			0x0601
+#define PCI_CLASS_BRIDGE_EISA			0x0602
+#define PCI_CLASS_BRIDGE_MC				0x0603
+#define PCI_CLASS_BRIDGE_PCI			0x0604
+#define PCI_CLASS_BRIDGE_PCMCIA			0x0605
+#define PCI_CLASS_BRIDGE_NUBUS			0x0606
+#define PCI_CLASS_BRIDGE_CARDBUS		0x0607
+#define PCI_CLASS_BRIDGE_RACEWAY		0x0608
+#define PCI_CLASS_BRIDGE_PCI_SEMI		0x0609
+#define PCI_CLASS_BRIDGE_IB_TO_PCI		0x060a
+#define PCI_CLASS_BRIDGE_OTHER			0x0680
 
 #define PCI_BASE_CLASS_COMMUNICATION	0x07
 #define PCI_CLASS_COMMUNICATION_SERIAL	0x0700
@@ -824,11 +826,11 @@ typedef struct {
 #define PCI_CLASS_COMMUNICATION_MODEM	0x0703
 #define PCI_CLASS_COMMUNICATION_OTHER	0x0780
 
-#define PCI_BASE_CLASS_SYSTEM		0x08
-#define PCI_CLASS_SYSTEM_PIC		0x0800
-#define PCI_CLASS_SYSTEM_DMA		0x0801
-#define PCI_CLASS_SYSTEM_TIMER		0x0802
-#define PCI_CLASS_SYSTEM_RTC		0x0803
+#define PCI_BASE_CLASS_SYSTEM			0x08
+#define PCI_CLASS_SYSTEM_PIC			0x0800
+#define PCI_CLASS_SYSTEM_DMA			0x0801
+#define PCI_CLASS_SYSTEM_TIMER			0x0802
+#define PCI_CLASS_SYSTEM_RTC			0x0803
 #define PCI_CLASS_SYSTEM_PCI_HOTPLUG	0x0804
 #define PCI_CLASS_SYSTEM_OTHER			0x0880
 

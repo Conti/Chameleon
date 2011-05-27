@@ -38,7 +38,6 @@ enum xmltype {
   kTagTypeArray
 };
 
-
 struct string_ref
 {
 	char* string;
@@ -62,7 +61,6 @@ extern string_ref* ref_strings;
 
 #define kXMLStringID	"ID="
 #define kXMLStringIDRef "IDREF="
-
 
 #define kPropCFBundleIdentifier ("CFBundleIdentifier")
 #define kPropCFBundleExecutable ("CFBundleExecutable")

@@ -168,7 +168,8 @@ static int infoMenuItemsCount = sizeof(infoMenuItems)/sizeof(infoMenuItems[0]);
 
 static bool infoMenuNativeBoot = false;
 
-static unsigned long screen_params[4] = {DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT, 32, 0};	// here we store the used screen resolution
+// here we store the used screen resolution
+static unsigned long screen_params[4] = {DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT, 32, 0};
 
 static int getImageIndexByName(const char *name)
 {
@@ -189,14 +190,14 @@ static int getEmbeddedImageIndexByName(const char *name)
 	int compareIndex = (upperLimit - lowerLimit) >> 1; // Midpoint
 	int result;
 	
-	// NOTE: This algorithm assumes that the embeddedImages is sorted.
-	// This is currently done using the make file. If the array is every 
-	// manualy generated, this *will* fail to work properly.
+	// NOTE: This algorithm assumes that the embedded images are sorted.
+	// This is currently done using the make file. If the array is
+	// generated manualy, this *will* fail to work properly.
 	while((result = strcmp(name, embeddedImages[compareIndex].name)) != 0)
 	{
-		if(result > 0)	// We need to search a HIGHER index
+		if (result > 0)	// We need to search a HIGHER index
 		{
-			if(compareIndex != lowerLimit)
+			if (compareIndex != lowerLimit)
 			{
 				lowerLimit = compareIndex;
 			}
@@ -208,7 +209,7 @@ static int getEmbeddedImageIndexByName(const char *name)
 		}
 		else  // We Need to search a LOWER index
 		{
-			if(compareIndex != upperLimit)
+			if (compareIndex != upperLimit)
 			{
 				upperLimit = compareIndex;
 			}
@@ -1033,7 +1034,7 @@ struct putc_info {
 };
 
 static int
-sputc(int c, struct putc_info * pi)
+sputc(int c, struct putc_info * pi) //Azi: exists on console.c & printf.c
 {
     if (pi->last_str)
         if (pi->str == pi->last_str) {

@@ -19,8 +19,8 @@
 /*
  * Alternatively you can choose to comply with APSL
  */
- 
- 
+
+
 /*
  * DCB-Table parsing is based on software (nouveau driver) originally distributed under following license:
  *
@@ -707,12 +707,12 @@ int hex2bin(const char *hex, uint8_t *bin, int len)
 	char	*p;
 	int	i;
 	char	buf[3];
- 
+	
 	if (hex == NULL || bin == NULL || len <= 0 || strlen(hex) != len * 2) {
 		printf("[ERROR] bin2hex input error\n");
 		return -1;
 	}
- 
+	
 	buf[2] = '\0';
 	p = (char *) hex;
 	for (i=0; i<len; i++) {
@@ -730,7 +730,7 @@ int hex2bin(const char *hex, uint8_t *bin, int len)
 unsigned long long mem_detect(volatile uint8_t *regs, uint8_t nvCardType, pci_dt_t *nvda_dev)
 {
 	unsigned long long vram_size = 0;
-
+	
 	if (nvCardType < NV_ARCH_50) {
 		vram_size  = REG32(NV04_PFB_FIFO_DATA);
 		vram_size &= NV10_PFB_FIFO_DATA_RAM_AMOUNT_MB_MASK;
@@ -744,7 +744,7 @@ unsigned long long mem_detect(volatile uint8_t *regs, uint8_t nvCardType, pci_dt
 		vram_size = REG32(NVC0_MEM_CTRLR_RAM_AMOUNT) << 20;
 		vram_size *= REG32(NVC0_MEM_CTRLR_COUNT);
 	}
-		
+	
 	return vram_size;
 }
 
@@ -773,7 +773,7 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 	devicepath = get_pci_dev_path(nvda_dev);
 	bar[0] = pci_config_read32(nvda_dev->dev.addr, 0x10 );
 	regs = (uint8_t *) (bar[0] & ~0x0f);
-		
+	
 	// get card type
 	nvCardType = (REG32(0) >> 20) & 0x1ff;
 
@@ -923,7 +923,6 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 		default_NVCAP[12], default_NVCAP[13], default_NVCAP[14], default_NVCAP[15],
 		default_NVCAP[16], default_NVCAP[17], default_NVCAP[18], default_NVCAP[19]);
 #endif
- 
 	
 	devprop_add_nvidia_template(device);
 	devprop_add_value(device, "NVCAP", default_NVCAP, NVCAP_LEN);

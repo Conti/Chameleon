@@ -52,14 +52,14 @@ extern int	vprf(const char * fmt, va_list ap);
 bool gVerboseMode;
 bool gErrors;
 
-/* Kabyl: BooterLog */
-//Azi: Doubled log available size.
-// 64kb are not enough to hold the full log while booting with -f argument (ignore caches).
-// It also seems to fix some reported problems while booting with the mentioned argument.
-// Note: 96kb are enough to hold full log, booting with -f; even so, this depends on how much
-// we "play" at the boot prompt, with what patches we're playing and how much they print to the log,
-// kexts loaded, etc...
-// Please remove this comment when this gets checked by a "true" dev.
+/** Kabyl: BooterLog
+
+Azi: Doubled available log size; this seems to fix some hangs and instant reboots caused by
+booting with -f (ignore caches). 96kb are enough to hold full log, booting with -f; even so,
+this depends on how much we "play" at the boot prompt and with what patches we're playing,
+depending on how much they print to the log.
+**/  //Azi: closing **/ alows colapse/expand... is this desirable?? colapsing an entire page
+	 // will also colapse comments....
 #define BOOTER_LOG_SIZE	(128 * 1024)
 #define SAFE_LOG_SIZE	134
 
@@ -71,7 +71,8 @@ struct putc_info {
     char * last_str;
 };
 
-static int sputc(int c, struct putc_info * pi)
+static int
+sputc(int c, struct putc_info * pi) //Azi: exists on printf.c & gui.c
 {
 	if (pi->last_str)
 	if (pi->str == pi->last_str)
@@ -119,7 +120,6 @@ void setupBooterLog(void)
 		DT__AddProperty(node, "boot-log", strlen((char *)msgbuf) + 1, msgbuf);
 }
 /* Kabyl: !BooterLog */
-
 
 /*
  * write one character to console
@@ -176,7 +176,7 @@ int printf(const char * fmt, ...)
 		vprf(fmt, ap);
 
 	{
-	/* Kabyl: BooterLog */
+		// Kabyl: BooterLog
 		struct putc_info pi;
 
 		if (!msgbuf)
@@ -197,7 +197,7 @@ int printf(const char * fmt, ...)
 int verbose(const char * fmt, ...)
 {
     va_list ap;
-    
+
 	va_start(ap, fmt);
     if (gVerboseMode)
     {
@@ -208,7 +208,7 @@ int verbose(const char * fmt, ...)
     }
 
 	{
-	/* Kabyl: BooterLog */
+		// Kabyl: BooterLog
 		struct putc_info pi;
 
 		if (!msgbuf)
@@ -259,6 +259,6 @@ void stop(const char * fmt, ...)
 /** Print a "Press a key to continue..." message and wait for a key press. */
 void pause() 
 {
-    printf("Press a key to continue...");
+    printf("Press a key to continue...\n");
     getc();
 }

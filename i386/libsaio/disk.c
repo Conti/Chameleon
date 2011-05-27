@@ -1675,19 +1675,19 @@ int freeFilteredBVChain(const BVRef chain)
 
 static const struct NamedValue fdiskTypes[] =
 {
-    { FDISK_NTFS,   "Windows NTFS"   },
-	{ FDISK_DOS12,  "Windows FAT12"  },
-	{ FDISK_DOS16B, "Windows FAT16"  },
-	{ FDISK_DOS16S, "Windows FAT16"  },
-	{ FDISK_DOS16SLBA, "Windows FAT16"  },
-	{ FDISK_SMALLFAT32,  "Windows FAT32"  },
-	{ FDISK_FAT32,  "Windows FAT32"  },
-    { FDISK_LINUX,  "Linux"          },
-    { FDISK_UFS,    "Apple UFS"      },
-    { FDISK_HFS,    "Apple HFS"      },
-    { FDISK_BOOTER, "Apple Boot/UFS" },
-    { 0xCD,         "CD-ROM"         },
-    { 0x00,         0                }  /* must be last */
+	{ FDISK_NTFS,		"Windows NTFS"	 },
+	{ FDISK_DOS12,		"Windows FAT12"	 },
+	{ FDISK_DOS16B, 	"Windows FAT16"	 },
+	{ FDISK_DOS16S, 	"Windows FAT16"	 },
+	{ FDISK_DOS16SLBA,	"Windows FAT16"	 },
+	{ FDISK_SMALLFAT32,	"Windows FAT32"	 },
+	{ FDISK_FAT32,		"Windows FAT32"	 },
+	{ FDISK_LINUX,		"Linux"			 },
+	{ FDISK_UFS,		"Apple UFS"		 },
+	{ FDISK_HFS,		"Apple HFS"		 },
+	{ FDISK_BOOTER,		"Apple Boot/UFS" },
+	{ 0xCD,				"CD-ROM"		 },
+	{ 0x00,				0				 }	/* must be last */
 };
 
 //==========================================================================

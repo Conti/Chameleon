@@ -6,7 +6,7 @@ DOCROOT = $(SRCROOT)/doc
 IMGROOT = $(SRCROOT)/sym/cache
 IMGSKELROOT = $(SRCROOT)/imgskel
 CDBOOT = ${IMGROOT}/usr/standalone/i386/cdboot
-	
+
 DIR = cdboot
 include ${SRCROOT}/Make.rules
 

@@ -21,12 +21,12 @@ bool aml_add_to_parent(struct aml_chunk* parent, struct aml_chunk* node)
 			case AML_CHUNK_DWORD:
 			case AML_CHUNK_QWORD:
 			case AML_CHUNK_ALIAS:
-				verbose("aml_add_to_parent: node doesn't support child nodes!");
+				verbose("aml_add_to_parent: node doesn't support child nodes!\n");
 				return false;
 			case AML_CHUNK_NAME:
 				if (parent->First) 
 				{
-					verbose("aml_add_to_parent: name node supports only one child node!");
+					verbose("aml_add_to_parent: name node supports only one child node!\n");
 					return false;
 				}
 				break;
@@ -173,7 +173,7 @@ unsigned int aml_fill_simple_name(char* buffer, const char* name)
 {
 	if (strlen(name) < 4) 
 	{
-		verbose("aml_fill_simple_name: simple name %s has incorrect lengh! Must be 4.", name);
+		verbose("aml_fill_simple_name: simple name %s has incorrect lengh! Must be 4.\n", name);
 		return 0;
 	}
 	
@@ -190,7 +190,7 @@ unsigned int aml_fill_name(struct aml_chunk* node, const char* name)
 	
 	if ((len % 4) > 1 || count == 0) 
 	{
-		verbose("aml_fill_name: pathname %s has incorrect length! Must be 4, 8, 12, 16, etc...", name);
+		verbose("aml_fill_name: pathname %s has incorrect length! Must be 4, 8, 12, 16, etc...\n", name);
 		return 0;
 	}
 	

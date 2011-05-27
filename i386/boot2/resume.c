@@ -106,7 +106,7 @@ void HibernateBoot(char *image_filename)
 	
 	size = ReadFileAtOffset (image_filename, header, 0, sizeof(IOHibernateImageHeader));
 	printf("header read size %x\n", size);
-		
+	
 	imageSize = header->image1Size;
 	codeSize  = header->restore1PageCount << 12;
 	if (kIOHibernateHeaderSignature != header->signature)
@@ -126,18 +126,18 @@ void HibernateBoot(char *image_filename)
 #if 0
 	{
 		uint32_t machineSignature;
-		size = GetProp(gChosenPH, kIOHibernateMachineSignatureKey, 
+		size = GetProp(gChosenPH, kIOHibernateMachineSignatureKey,
 					   (char *)&machineSignature, sizeof(machineSignature));
 		if (size != sizeof(machineSignature)) machineSignature = 0;
 		if (machineSignature != header->machineSignature)
 			break;
 	}
 #endif
-		
+	
 	allocSize = imageSize + ((4095 + sizeof(hibernate_graphics_t)) & ~4095);
-
+	
 	mem_base = getmemorylimit() - allocSize;//TODO: lower this
-		
+	
 	printf("mem_base %x\n", mem_base);
 	// Rek : hibernate fix 
 	if (!((long long)mem_base+allocSize<1024*bootInfo->extmem+0x100000))
@@ -146,10 +146,10 @@ void HibernateBoot(char *image_filename)
 		getc ();
 		return;
 	}
-		
+	
 	bcopy(header, (void *) mem_base, sizeof(IOHibernateImageHeader));
 	header = (IOHibernateImageHeader *) mem_base;
-		
+	
 	imageSize -= sizeof(IOHibernateImageHeader);
 	buffer = (long)(header + 1);
 	
@@ -157,19 +157,19 @@ void HibernateBoot(char *image_filename)
 	{
 		uint64_t preview_offset = header->fileExtentMapSize - sizeof(header->fileExtentMap) + codeSize;
 		uint8_t progressSaveUnder[kIOHibernateProgressCount][kIOHibernateProgressSaveUnderSize];
-			
+		
 		ReadFileAtOffset (image_filename, (char *)buffer, sizeof(IOHibernateImageHeader), preview_offset+header->previewSize);
 		drawPreview ((void *)(long)(buffer+preview_offset + header->previewPageListSize), &(progressSaveUnder[0][0]));
 		previewTotalSectors = (imageSize-(preview_offset+header->previewSize))/512;
 		previewLoadedSectors = 0;
 		previewSaveunder = &(progressSaveUnder[0][0]);
 		if (preview_offset+header->previewSize<imageSize)
-			ReadFileAtOffset (image_filename, (char *)(long)(buffer+preview_offset+header->previewSize), 
+			ReadFileAtOffset (image_filename, (char *)(long)(buffer+preview_offset+header->previewSize),
 							  sizeof(IOHibernateImageHeader)+preview_offset+header->previewSize,
 							  imageSize-(preview_offset+header->previewSize));
 		previewTotalSectors = 0;
 		previewLoadedSectors = 0;
-		previewSaveunder = 0;		
+		previewSaveunder = 0;
 #if 0
 		AsereBLN:
 		check_vga_nvidia() didn't work as expected (recursion level > 0 & return value).
@@ -197,9 +197,9 @@ void HibernateBoot(char *image_filename)
 						&cryptvars->ctx.decrypt);
 			
 		// set the vector for the following decryptions
-		bcopy(((uint8_t *) header) + header->image1Size - AES_BLOCK_SIZE, 
+		bcopy(((uint8_t *) header) + header->image1Size - AES_BLOCK_SIZE,
 				&cryptvars->aes_iv[0], AES_BLOCK_SIZE);
-			
+		
 		// decrypt the buffer
 		uint32_t len = (uint32_t)(header->image1Size - header->encryptStart);
 		aes_decrypt_cbc(((uint8_t *) header) + header->encryptStart,

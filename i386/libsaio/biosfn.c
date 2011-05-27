@@ -470,56 +470,55 @@ void putca(int ch, int attr, int repeat)
 /* Check to see if the passed-in drive is in El Torito no-emulation mode. */
 int is_no_emulation(int drive)
 {
-    struct packet {
-	unsigned char packet_size;
-	unsigned char media_type;
-	unsigned char drive_num;
-	unsigned char ctrlr_index;
-	unsigned long lba;
-	unsigned short device_spec;
-	unsigned short buffer_segment;
-	unsigned short load_segment;
-	unsigned short sector_count;
-	unsigned char cyl_count;
-	unsigned char sec_count;
-	unsigned char head_count;
-	unsigned char reseved;
-    } __attribute__((packed));
-    static struct packet pkt;
-
-    bzero(&pkt, sizeof(pkt));
-    pkt.packet_size = 0x13;
-
-    bb.intno   = 0x13;
-    bb.eax.r.h = 0x4b;
-    bb.eax.r.l = 0x01;     // subfunc: get info
-    bb.edx.r.l = drive;
-    bb.esi.rr = NORMALIZED_OFFSET((unsigned)&pkt);
-    bb.ds     = NORMALIZED_SEGMENT((unsigned)&pkt);
-
-    bios(&bb);
+	struct packet {
+		unsigned char packet_size;
+		unsigned char media_type;
+		unsigned char drive_num;
+		unsigned char ctrlr_index;
+		unsigned long lba;
+		unsigned short device_spec;
+		unsigned short buffer_segment;
+		unsigned short load_segment;
+		unsigned short sector_count;
+		unsigned char cyl_count;
+		unsigned char sec_count;
+		unsigned char head_count;
+		unsigned char reseved;
+	} __attribute__((packed));
+	static struct packet pkt;
+	
+	bzero(&pkt, sizeof(pkt));
+	pkt.packet_size = 0x13;
+	
+	bb.intno		= 0x13;
+	bb.eax.r.h		= 0x4b;
+	bb.eax.r.l		= 0x01; // subfunc: get info
+	bb.edx.r.l		= drive;
+	bb.esi.rr		= NORMALIZED_OFFSET((unsigned)&pkt);
+	bb.ds			= NORMALIZED_SEGMENT((unsigned)&pkt);
+	
+	bios(&bb);
 #if DEBUG
-    printf("el_torito info drive %x\n", drive);
-
-    printf("--> cf %x, eax %x\n", bb.flags.cf, bb.eax.rr);
-
-    printf("pkt_size: %x\n", pkt.packet_size);
-    printf("media_type: %x\n", pkt.media_type);
-    printf("drive_num: %x\n", pkt.drive_num);
-    printf("device_spec: %x\n", pkt.device_spec);
-    printf("press a key->\n");getc();
+	printf("el_torito info drive %x\n", drive);
+	
+	printf("--> cf %x, eax %x\n", bb.flags.cf, bb.eax.rr);
+	
+	printf("pkt_size: %x\n", pkt.packet_size);
+	printf("media_type: %x\n", pkt.media_type);
+	printf("drive_num: %x\n", pkt.drive_num);
+	printf("device_spec: %x\n", pkt.device_spec);
+	printf("press a key->\n");getc();
 #endif
-
-    /* Some BIOSes erroneously return cf = 1 */
-    /* Just check to see if the drive number is the same. */
-    if (pkt.drive_num == drive) {
-	if ((pkt.media_type & 0x0F) == 0) {
-	    /* We are in no-emulation mode. */
-	    return 1;
+	
+	/* Some BIOSes erroneously return cf = 1 */
+	/* Just check to see if the drive number is the same. */
+	if (pkt.drive_num == drive) {
+		if ((pkt.media_type & 0x0F) == 0) {
+			/* We are in no-emulation mode. */
+			return 1;
+		}
 	}
-    }
-    
-    return 0;
+	return 0;
 }
 
 #if DEBUG
@@ -528,157 +527,159 @@ int is_no_emulation(int drive)
  */
 void print_drive_info(boot_drive_info_t *dp)
 {
-    //    printf("buf_size = %x\n", dp->params.buf_size);
-    printf("info_flags = %x\n", dp->params.info_flags);
-    printf(" phys_cyls = %lx\n", dp->params. phys_cyls);
-    printf(" phys_heads = %lx\n", dp->params. phys_heads);
-    printf(" phys_spt = %lx\n", dp->params. phys_spt);
-    printf("phys_sectors = %lx%lx\n", ((unsigned long *)(&dp->params.phys_sectors))[1],
-				      ((unsigned long *)(&dp->params.phys_sectors))[0]);
-    printf("phys_nbps = %x\n", dp->params.phys_nbps);
-    //    printf("dpte_offset = %x\n", dp->params.dpte_offset);
-    //    printf("dpte_segment = %x\n", dp->params.dpte_segment);
-    //    printf("key = %x\n", dp->params.key);
-    //    printf("path_len = %x\n", dp->params. path_len);
-    //    printf("reserved1 = %x\n", dp->params. reserved1);
-    //    printf("reserved2 = %x\n", dp->params.reserved2);
-    //printf("bus_type[4] = %x\n", dp->params. bus_type[4]);
-    //printf("interface_type[8] = %x\n", dp->params. interface_type[8]);
-    //printf("interface_path[8] = %x\n", dp->params. interface_path[8]);
-    //printf("dev_path[8] = %x\n", dp->params. dev_path[8]);
-    //    printf("reserved3 = %x\n", dp->params. reserved3);
-    //    printf("checksum = %x\n", dp->params. checksum);
-
-    printf(" io_port_base = %x\n", dp->dpte.io_port_base);
-    printf(" control_port_base = %x\n", dp->dpte.control_port_base);
-    printf("  head_flags = %x\n", dp->dpte. head_flags);
-    printf("  vendor_info = %x\n", dp->dpte. vendor_info);
-    printf("  irq = %x\n", dp->dpte. irq);
-    //    printf("  irq_unused = %x\n", dp->dpte. irq_unused);
-    printf("  block_count = %x\n", dp->dpte. block_count);
-    printf("  dma_channe = %x\n", dp->dpte. dma_channel);
-    printf("  dma_type = %x\n", dp->dpte. dma_type);
-    printf("  pio_type = %x\n", dp->dpte. pio_type);
-    printf("  pio_unused = %x\n", dp->dpte. pio_unused);
-    printf(" option_flags = %x\n", dp->dpte.option_flags);
-    //    printf(" reserved = %x\n", dp->dpte.reserved);
-    printf("  revision = %x\n", dp->dpte. revision);
-    //    printf("  checksum = %x\n", dp->dpte. checksum);
+//	printf("buf_size = %x\n", dp->params.buf_size);
+	printf("info_flags = %x\n", dp->params.info_flags);
+	printf("phys_cyls = %lx\n", dp->params. phys_cyls);
+	printf("phys_heads = %lx\n", dp->params. phys_heads);
+	printf("phys_spt = %lx\n", dp->params. phys_spt);
+	printf("phys_sectors = %lx%lx\n", ((unsigned long *)(&dp->params.phys_sectors))[1],
+		   ((unsigned long *)(&dp->params.phys_sectors))[0]);
+	printf("phys_nbps = %x\n", dp->params.phys_nbps);
+//	printf("dpte_offset = %x\n", dp->params.dpte_offset);
+//	printf("dpte_segment = %x\n", dp->params.dpte_segment);
+//	printf("key = %x\n", dp->params.key);
+//	printf("path_len = %x\n", dp->params. path_len);
+//	printf("reserved1 = %x\n", dp->params. reserved1);
+//	printf("reserved2 = %x\n", dp->params.reserved2);
+//	printf("bus_type[4] = %x\n", dp->params. bus_type[4]);
+//	printf("interface_type[8] = %x\n", dp->params. interface_type[8]);
+//	printf("interface_path[8] = %x\n", dp->params. interface_path[8]);
+//	printf("dev_path[8] = %x\n", dp->params. dev_path[8]);
+//	printf("reserved3 = %x\n", dp->params. reserved3);
+//	printf("checksum = %x\n", dp->params. checksum);
+	printf("io_port_base = %x\n", dp->dpte.io_port_base);
+	printf("control_port_base = %x\n", dp->dpte.control_port_base);
+	printf("head_flags = %x\n", dp->dpte. head_flags);
+	printf("vendor_info = %x\n", dp->dpte. vendor_info);
+	printf("irq = %x\n", dp->dpte. irq);
+//	printf("irq_unused = %x\n", dp->dpte. irq_unused);
+	printf("block_count = %x\n", dp->dpte. block_count);
+	printf("dma_channe = %x\n", dp->dpte. dma_channel);
+	printf("dma_type = %x\n", dp->dpte. dma_type);
+	printf("pio_type = %x\n", dp->dpte. pio_type);
+	printf("pio_unused = %x\n", dp->dpte. pio_unused);
+	printf("option_flags = %x\n", dp->dpte.option_flags);
+//	printf("reserved = %x\n", dp->dpte.reserved);
+	printf("revision = %x\n", dp->dpte. revision);
+//	printf("checksum = %x\n", dp->dpte. checksum);
 }
 
 #endif
 
 int get_drive_info(int drive, struct driveInfo *dp)
 {
-    boot_drive_info_t *di = &dp->di;
-    int ret = 0;
-
+	boot_drive_info_t *di = &dp->di;
+	int ret = 0;
+	
 #if UNUSED
-    if (maxhd == 0) {
-        bb.intno = 0x13;
-        bb.eax.r.h = 0x08;
-        bb.edx.r.l = 0x80;
-        bios(&bb);
-        if (bb.flags.cf == 0)
-            maxhd = 0x7f + bb.edx.r.l;
-    };
-
-    if (drive > maxhd)
-        return 0;
+	if (maxhd == 0) {
+		bb.intno = 0x13;
+		bb.eax.r.h = 0x08;
+		bb.edx.r.l = 0x80;
+		bios(&bb);
+		if (bb.flags.cf == 0)
+			maxhd = 0x7f + bb.edx.r.l;
+	};
+	
+	if (drive > maxhd)
+		return 0;
 #endif
+	
+	bzero(dp, sizeof(struct driveInfo));
+	dp->biosdev = drive;
+	
+	/* Check for El Torito no-emulation mode. */
+	dp->no_emulation = is_no_emulation(drive);
 
-    bzero(dp, sizeof(struct driveInfo));
-    dp->biosdev = drive;
-
-    /* Check for El Torito no-emulation mode. */
-    dp->no_emulation = is_no_emulation(drive);
-
-    /* Check drive for EBIOS support. */
-    bb.intno = 0x13;
-    bb.eax.r.h = 0x41;
-    bb.edx.r.l = drive;
-    bb.ebx.rr = 0x55aa;
-    bios(&bb);
-    if((bb.ebx.rr == 0xaa55) && (bb.flags.cf == 0)) {
-        /* Get flags for supported operations. */
-        dp->uses_ebios = bb.ecx.r.l;
-    }
-
-    if (dp->uses_ebios & (EBIOS_ENHANCED_DRIVE_INFO | EBIOS_LOCKING_ACCESS | EBIOS_FIXED_DISK_ACCESS)) {
-        /* Get EBIOS drive info. */
-	static struct drive_params params;
-
-        params.buf_size = sizeof(params);
-        bb.intno = 0x13;
-        bb.eax.r.h = 0x48;
-        bb.edx.r.l = drive;
-        bb.esi.rr = NORMALIZED_OFFSET((unsigned)&params);
-        bb.ds     = NORMALIZED_SEGMENT((unsigned)&params);
-        bios(&bb);
-        if(bb.flags.cf != 0 /* || params.phys_sectors < 2097152 */) {
-            dp->uses_ebios = 0;
-	    di->params.buf_size = 1;
-        } else {
-	    bcopy(&params, &di->params, sizeof(params));
-
-	    if (drive >= BASE_HD_DRIVE &&
-		   (dp->uses_ebios & EBIOS_ENHANCED_DRIVE_INFO) &&
-		   di->params.buf_size >= 30 &&
-		   !(di->params.dpte_offset == 0xFFFF && di->params.dpte_segment == 0xFFFF)) {
-		void *ptr = (void *)(di->params.dpte_offset + ((unsigned int)di->params.dpte_segment << 4));
-		bcopy(ptr, &di->dpte, sizeof(di->dpte));
-	    }
+	/* Check drive for EBIOS support. */
+	bb.intno = 0x13;
+	bb.eax.r.h = 0x41;
+	bb.edx.r.l = drive;
+	bb.ebx.rr = 0x55aa;
+	bios(&bb);
+	
+	if ((bb.ebx.rr == 0xaa55) && (bb.flags.cf == 0)) {
+		/* Get flags for supported operations. */
+		dp->uses_ebios = bb.ecx.r.l;
 	}
-    }
+	
+	if (dp->uses_ebios & (EBIOS_ENHANCED_DRIVE_INFO | EBIOS_LOCKING_ACCESS | EBIOS_FIXED_DISK_ACCESS)) {
+		/* Get EBIOS drive info. */
+		static struct drive_params params;
+		
+		params.buf_size = sizeof(params);
+		bb.intno = 0x13;
+		bb.eax.r.h = 0x48;
+		bb.edx.r.l = drive;
+		bb.esi.rr = NORMALIZED_OFFSET((unsigned)&params);
+		bb.ds	  = NORMALIZED_SEGMENT((unsigned)&params);
+		bios(&bb);
+		
+		if (bb.flags.cf != 0 /* || params.phys_sectors < 2097152 */) {
+			dp->uses_ebios = 0;
+			di->params.buf_size = 1;
+		}
+		else
+		{
+			bcopy(&params, &di->params, sizeof(params));
+			
+			if (drive >= BASE_HD_DRIVE &&
+				(dp->uses_ebios & EBIOS_ENHANCED_DRIVE_INFO) &&
+				di->params.buf_size >= 30 &&
+				!(di->params.dpte_offset == 0xFFFF && di->params.dpte_segment == 0xFFFF)) {
+					void *ptr = (void *)(di->params.dpte_offset + ((unsigned int)di->params.dpte_segment << 4));
+					bcopy(ptr, &di->dpte, sizeof(di->dpte));
+			}
+		}
+	}
 
 /*
  * zef: This code will fail on recent JMicron and Intel option ROMs
  */ 
-//    if (di->params.phys_heads == 0 || di->params.phys_spt == 0) {
-//	/* Either it's not EBIOS, or EBIOS didn't tell us. */
-//	bb.intno = 0x13;
-//	bb.eax.r.h = 0x08;
-//	bb.edx.r.l = drive;
-//	bios(&bb);
-//	if (bb.flags.cf == 0 && bb.eax.r.h == 0) {
-//	    unsigned long cyl;
-//	    unsigned long sec;
-//	    unsigned long hds;
-//
-//	    hds = bb.edx.r.h;
-//	    sec = bb.ecx.r.l & 0x3F;
-//	    if((dp->uses_ebios & EBIOS_ENHANCED_DRIVE_INFO) && (sec != 0)) {
-//		cyl = (di->params.phys_sectors / ((hds + 1) * sec)) - 1;
-//	    }
-//	    else {
-//		cyl = bb.ecx.r.h | ((bb.ecx.r.l & 0xC0) << 2);
-//	    }
-//	    di->params.phys_heads = hds; 
-//	    di->params.phys_spt = sec;
-//	    di->params.phys_cyls = cyl;
-//	} else {
-//	    ret = -1;
+//	if (di->params.phys_heads == 0 || di->params.phys_spt == 0) {
+//		/* Either it's not EBIOS, or EBIOS didn't tell us. */
+//		bb.intno = 0x13;
+//		bb.eax.r.h = 0x08;
+//		bb.edx.r.l = drive;
+//		bios(&bb);
+//		if (bb.flags.cf == 0 && bb.eax.r.h == 0) {
+//			unsigned long cyl;
+//			unsigned long sec;
+//			unsigned long hds;
+//		
+//			hds = bb.edx.r.h;
+//			sec = bb.ecx.r.l & 0x3F;
+//			if ((dp->uses_ebios & EBIOS_ENHANCED_DRIVE_INFO) && (sec != 0)) {
+//				cyl = (di->params.phys_sectors / ((hds + 1) * sec)) - 1;
+//			} else {
+//				cyl = bb.ecx.r.h | ((bb.ecx.r.l & 0xC0) << 2);
+//			}
+//			di->params.phys_heads = hds; 
+//			di->params.phys_spt = sec;
+//			di->params.phys_cyls = cyl;
+//		} else {
+//			ret = -1;
+//		}
 //	}
-//  }
 
-    if (dp->no_emulation) {
-        /* Some BIOSes give us erroneous EBIOS support information.
-	 * Assume that if you're on a CD, then you can use
-	 * EBIOS disk calls.
-	 */
-        dp->uses_ebios |= EBIOS_FIXED_DISK_ACCESS;
-    }
+	if (dp->no_emulation) {
+		/* Some BIOSes give us erroneous EBIOS support information.
+	 	 * Assume that if you're on a CD, then you can use
+	 	 * EBIOS disk calls.
+	 	 */
+		dp->uses_ebios |= EBIOS_FIXED_DISK_ACCESS;
+	}
 #if DEBUG
-    print_drive_info(di);
-    printf("uses_ebios = 0x%x\n", dp->uses_ebios);
-    printf("result %d\n", ret);
-    printf("press a key->\n");getc();
+	print_drive_info(di);
+	printf("uses_ebios = 0x%x\n", dp->uses_ebios);
+	printf("result %d\n", ret);
+	printf("press a key->\n");getc();
 #endif
 
-    if (ret == 0) {
-	 dp->valid = 1;
-    }
-    return ret;
+	if (ret == 0) {
+		dp->valid = 1;
+	}
+	return ret;
 }
 
 int ebiosEjectMedia(int biosdev)

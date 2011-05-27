@@ -23,7 +23,7 @@ CFLAGS	:= $(CFLAGS) $(RC_CFLAGS) $(MORECPP) -arch i386 \
     -fno-builtin -static $(OMIT_FRAME_POINTER_CFLAG) \
     -mpreferred-stack-boundary=2 -fno-align-functions -fno-stack-protector \
     -march=pentium4 -msse2 -mfpmath=sse -msoft-float -nostdinc -include $(SRCROOT)/autoconf.h
-	      
+
 CPPFLAGS := $(CPPFLAGS) -nostdinc++
 
 INC = -I. -I$(SYMROOT) -I$(LIBSADIR) -I$(BOOT2DIR) -I${SRCROOT}/i386/include
@@ -56,7 +56,7 @@ $(LIBS): $(addprefix $(OBJROOT)/, $(SAIO_OBJS))
 	@ar q $@ $^ &> /dev/null
 	@echo "\t[RANLIB] $(@F)"
 	@ranlib $(SYMROOT)/$(@F)
-	
+
 
 # dependencies
 -include $(OBJROOT)/Makedep
