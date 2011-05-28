@@ -10,7 +10,7 @@ CDBOOT = ${IMGROOT}/usr/standalone/i386/cdboot
 
 ifeq ($(BUILT_IN),yes)
 override OBJROOT = $(SRCROOT)/obj/i386/boot2_modules/$(DIR)
-override SYMROOT = $(SRCROOT)/sym/i386/
+override SYMROOT = $(SRCROOT)/obj/i386/
 endif
 
 include ${SRCROOT}/Make.rules
@@ -54,12 +54,12 @@ BOOT2DIR = ../../boot2
 INC = -I$(SRCROOT)/i386/modules/include/ -Iinclude/ -I$(SRCROOT)/i386/modules/module_includes/ -I$(SRCROOT)/i386/libsaio/ -I$(SRCROOT)/i386/libsa/ -I$(SRCROOT)/i386/include/ -I$(SRCROOT)/i386/boot2/
 DEFINES := -D__KLIBC__ $(DEFINES)
 
-MODULE_DEPENDENCIES := $(foreach x,$(MODULE_DEPENDENCIES),-weak_library $(SYMROOT)/modules/$(x).dylib)
+MODULE_DEPENDENCIES :=  $(wildcard $(foreach x,$(MODULE_DEPENDENCIES),$(SYMROOT)/modules/$(x).dylib)) \
+						$(wildcard $(foreach x,$(MODULE_DEPENDENCIES),$(OBJROOT)/../$(x).dylib))
 
+MODULE_DEPENDENCIES_CMD := $(foreach x,$(MODULE_DEPENDENCIES), -weak_library $(x))
 
 INSTALLDIR = $(DSTROOT)/System/Library/Frameworks/System.framework/Versions/B/PrivateHeaders/standalone
-
-##$(error DEFINED AS $(MODULE_DEFINITION))
 
 MODULE_DEFINITION := $(CONFIG_$(shell echo $(MODULE_NAME) | tr '[:lower:]' '[:upper:]')_MODULE)
 
@@ -82,7 +82,7 @@ ifeq ($(MODULE_DEFINITION),y)
 ifeq ($(BUILT_IN),yes)
 
 # Make this *BUILT IN*
-all: ${OBJROOT} ${SYMROOT}/modules/ ${OBJROOT} $(addprefix $(OBJROOT)/, ${MODULE_OBJS}) $(SYMROOT)/boot_modules.h $(SYMROOT)/boot_modules.c
+all: dylib_LINKER
 
 else
 # Module not selected to be built in
@@ -97,9 +97,30 @@ all:
 endif
 endif
 
-dylib: ${SYMROOT}/modules/ ${OBJROOT} $(addprefix $(OBJROOT)/, ${MODULE_OBJS}) $(SYMROOT)/modules/$(MODULE_NAME).dylib
 
-$(SYMROOT)/modules/$(MODULE_NAME).dylib: 
+dylib_LINKER:  $(SYMROOT)/boot_modules.h $(SYMROOT)/boot_modules.c dylib 
+
+dylib: ${SYMROOT}/modules/ ${OBJROOT} $(SYMROOT)/modules/$(MODULE_NAME).dylib
+
+
+ifeq ($(BUILT_IN),yes)
+
+$(SYMROOT)/modules/$(MODULE_NAME).dylib: $(addprefix $(OBJROOT)/, ${MODULE_OBJS}) $(MODULE_DEPENDENCIES)
+	@echo "\t[LD] $(MODULE_NAME).dylib"
+	@ld -arch i386 -undefined dynamic_lookup \
+	-dylib -read_only_relocs suppress \
+	-S -x -Z -dead_strip_dylibs \
+	-no_uuid \
+	-current_version $(MODULE_VERSION) -compatibility_version $(MODULE_COMPAT_VERSION) \
+	-final_output $(MODULE_NAME) \
+	$(filter %.o,$^) \
+	-macosx_version_min 10.6 \
+	-o $(SYMROOT)/modules/$(MODULE_NAME).dylib
+
+
+else
+
+$(SYMROOT)/modules/$(MODULE_NAME).dylib: $(addprefix $(OBJROOT)/, ${MODULE_OBJS}) $(MODULE_DEPENDENCIES) $(SRCROOT)/obj/i386/boot2/Symbols_LINKER_ONLY.dylib
 	@echo "\t[LD] $(MODULE_NAME).dylib"
 	
 	@ld -arch i386 \
@@ -109,17 +130,15 @@ $(SYMROOT)/modules/$(MODULE_NAME).dylib:
 	-no_uuid \
 	-current_version $(MODULE_VERSION) -compatibility_version $(MODULE_COMPAT_VERSION) \
 	-final_output $(MODULE_NAME) \
-	-L$(OBJROOT)/ \
-	-L$(OBJROOT)/../ \
-	-L$(SYMROOT)/ \
-	$(OBJROOT)/*.o \
-	-weak_library $(OBJROOT)/../../boot2/Symbols_LINKER_ONLY.dylib \
-	$(MODULE_DEPENDENCIES) \
+	$(filter %.o,$^) \
+	-weak_library $(SRCROOT)/obj/i386/boot2/Symbols_LINKER_ONLY.dylib \
+	$(MODULE_DEPENDENCIES_CMD) \
 	-macosx_version_min 10.6 \
-	-o $(SYMROOT)/modules/$(MODULE_NAME).dylib
+	-o $@
 	
 	@cp -rf include/* ../module_includes/ &> /dev/null || true
 	
+endif
 
 clean:
 	@echo "\t[RM] $(SYMROOT)/modules/$(MODULE_NAME).dylib"

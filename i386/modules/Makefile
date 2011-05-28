@@ -56,8 +56,7 @@ endif
 objroot_dirs:
 	@rm -rf module_includes
 	@mkdir module_includes
-	@rm -rf "$(SYMROOT)/modules/"
-	@mkdir "$(SYMROOT)/modules/"
+	@${MKDIRS} "$(SYMROOT)/modules/"
 
 
 $(SYMROOT)/boot_modules.c: ${OBJROOT} ${SYMROOT}/modules/ ${OBJROOT} $(addprefix $(OBJROOT)/, ${MODULE_OBJS})

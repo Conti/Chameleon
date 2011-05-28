@@ -45,17 +45,14 @@ void add_symbol(symbolList_t** list, char* name, uint32_t addr);
 
 int main(int argc, char *argv[])
 {
-	if(argc != 3) 
+	if(argc < 3) 
 	{
-		fprintf(stderr, "usage: dyldsymboltool bootFile loadAddr outfile\n");
+		fprintf(stderr, "usage: dyldsymboltool obj1 [obj2 ...] outfile\n");
 
 		exit(-1);
 	}
 
 	
-	char line[256];
-	char* command = malloc(strlen(argv[1]) + sizeof("nm -g "));
-	FILE *fpipe;
 
 	symbols_dylib_t dylib;
 	symbolList_t*	symbols = NULL;
@@ -65,40 +62,57 @@ int main(int argc, char *argv[])
 	
 	
 	
+    int i;
+	for(i = 1; i < argc-1; i++)
+    {
+        char line[256];
+        char* command = malloc(strlen(argv[1]) + sizeof("nm -g "));
+        FILE *fpipe;
 
-	
-	// Parse boot.sys (arg1) to get symtab
-	sprintf(command, "nm -g %s", argv[1]);	// TODO: read boot.sym directly, no need for nm
-
-	if ( !(fpipe = (FILE*)popen(command,"r")) )
-	{  // If fpipe is NULL
-		perror("Problems with pipe");
-		exit(1);
-	}
-	
-	while ( fgets( line, sizeof line, fpipe))
-	{
-		uint32_t address = 0;
-		char* addr = strtok(line, " ");
-		strtok(NULL, " ");
-		char* name = strtok(NULL, " ");
-		name[strlen(name)-1] = 0;	// remove newline
-		sscanf(addr, "%x", &address);
-		if(strcmp(name, VOID_SYMBOL) == 0) start_addr = address;
-		add_symbol(&symbols, name, address);
-	}
-	
-	
-	pclose(fpipe);
+        // Parse boot.sys (arg1) to get symtab
+        sprintf(command, "nm -g %s", argv[i]);	// TODO: read boot.sym directly, no need for nm
+        
+        if ( !(fpipe = (FILE*)popen(command,"r")) )
+        {  // If fpipe is NULL
+            perror("Problems with pipe");
+            exit(1);
+        }
+        
+        
+        while ( fgets( line, sizeof line, fpipe))
+        {
+            if((strlen(line) < strlen(argv[i]) ||
+               strncmp(line, argv[i], strlen(argv[i])) != 0)
+                && line[0] != ' ')
+            {
+                uint32_t address = 0;
+                char* addr = strtok(line, " ");
+                strtok(NULL, " ");
+                char* name = strtok(NULL, " ");
+                name[strlen(name)-1] = 0;	// remove newline
+                sscanf(addr, "%x", &address);
+                if(strcmp(name, VOID_SYMBOL) == 0) start_addr = address;
+                add_symbol(&symbols, name, address);
+            }
+        }        
+        
+        pclose(fpipe);
+        
+        free(command);
+    }
+    
+    
 	
 	if(start_addr == 0)
 	{
 		fprintf(stderr, "Unable to locate Symbol.dylib start function\n");
-		exit(1);
+        
+        //exit(1);
 	}
-	
-	add_symbol(&symbols, START_SYMBOL, start_addr);
-	
+    else
+    {
+        add_symbol(&symbols, START_SYMBOL, start_addr);
+	}
 	
 	/* Header command info */
 	dylib.header.ncmds = 2;
@@ -135,7 +149,7 @@ int main(int argc, char *argv[])
 	
 	
     
-	FILE* outfile = fopen(argv[2], "w");
+	FILE* outfile = fopen(argv[argc-1], "w");
 	fwrite(&dylib,	sizeof(dylib)	/* Sizeof header + module name */
 					, 1, outfile);
 	

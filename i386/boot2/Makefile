@@ -23,7 +23,7 @@ CFLAGS	= $(RC_CFLAGS) $(OPTIM) $(MORECPP) -arch i386 -g -Wmost -Werror \
 		-fno-builtin -DSAIO_INTERNAL_USER -static $(OMIT_FRAME_POINTER_CFLAG) \
 		-mpreferred-stack-boundary=2 -fno-align-functions -fno-stack-protector \
 		-march=pentium4 -msse2 -mfpmath=sse -msoft-float -nostdinc -include $(SRCROOT)/autoconf.h
-
+	      
 CPPFLAGS := $(CPPFLAGS) -nostdinc++ -include $(SRCROOT)/autoconf.h
 
 DEFINES=
@@ -119,12 +119,17 @@ ifeq (${CONFIG_MODULES}, y)
 	-final_output Symbols \
 	-macosx_version_min 10.6 \
 	-o $(OBJROOT)/Symbols_LINKER_ONLY.dylib
+	
+
+
+
 
 endif
 
 	@make embed_symbols		# this is done in a sub process after boot.sys exists so the strings are populated correctly
 
 	@${RM} $(SYMROOT)/boot2.sys
+	
 
 	@##size $(SYMROOT)/boot.sys
 	@ls -l $(SYMROOT)/boot
@@ -136,7 +141,7 @@ endif
 	    exit 1;\
 	  fi)
 
-
+	
 embed_symbols:
 ifeq (${CONFIG_MODULES}, y)
 	@echo ================= Embedding Symbols.dylib =================
@@ -149,7 +154,7 @@ endif
 	@echo "\t[MACHOCONV] boot"
 	@$(SYMROOT)/machOconv $(SYMROOT)/boot.sys $(SYMROOT)/boot
 
-
+	
 $(SYMROOT)/vers.h:
 	@echo "#define I386BOOT_VERSION \"5.0.132\"" > $(SYMROOT)/vers.h
 	@echo "#define I386BOOT_BUILDDATE \"`date \"+%Y-%m-%d %H:%M:%S\"`\"" >> $(SYMROOT)/vers.h

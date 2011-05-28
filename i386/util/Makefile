@@ -4,7 +4,7 @@
 # and install them directly, rather than generating them again.
 #
 SRCROOT = $(shell pwd)/../../
-OBJROOT = $(SRCROOT)/obj/i386
+OBJROOT = $(SRCROOT)/obj/i386/util
 SYMROOT = $(SRCROOT)/sym/i386
 DSTROOT = $(SRCROOT)/dst/i386
 DOCROOT = $(SRCROOT)/doc
