@@ -542,8 +542,6 @@ hang:
     hlt
     jmp     hang
 
-%if VERBOSE
-
 ;--------------------------------------------------------------------------
 ; readLBA - Read sectors from a partition using LBA addressing.
 ;
@@ -636,6 +634,8 @@ readLBA:
     pop     es								; restore ES
     popad
     ret
+
+%if VERBOSE
 
 ;--------------------------------------------------------------------------
 ; Write a string with 'boot1: ' prefix to the console.
