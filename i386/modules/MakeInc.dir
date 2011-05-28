@@ -117,6 +117,7 @@ $(SYMROOT)/modules/$(MODULE_NAME).dylib: $(addprefix $(OBJROOT)/, ${MODULE_OBJS}
 	-macosx_version_min 10.6 \
 	-o $(SYMROOT)/modules/$(MODULE_NAME).dylib
 
+	@cp -rf include/* ../module_includes/ &> /dev/null || true
 
 else
 
@@ -135,10 +136,11 @@ $(SYMROOT)/modules/$(MODULE_NAME).dylib: $(addprefix $(OBJROOT)/, ${MODULE_OBJS}
 	$(MODULE_DEPENDENCIES_CMD) \
 	-macosx_version_min 10.6 \
 	-o $@
-	
-	@cp -rf include/* ../module_includes/ &> /dev/null || true
-	
+		
 endif
+
+	@cp -rf include/* ../module_includes/ &> /dev/null || true
+
 
 clean:
 	@echo "\t[RM] $(SYMROOT)/modules/$(MODULE_NAME).dylib"
