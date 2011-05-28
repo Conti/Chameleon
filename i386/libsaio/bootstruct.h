@@ -30,7 +30,7 @@
 #include "bios.h"
 #include "device_tree.h"
 
-/*!  <--- Azi: check these! against these /**
+/*!
     Kernel boot args global also used by booter for its own data.
  */
 extern boot_args *bootArgs;
