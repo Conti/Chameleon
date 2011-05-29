@@ -1028,7 +1028,8 @@ void updateVRAM()
 	}
 }
 
-struct putc_info {
+struct putc_info //Azi: same as below
+{
     char * str;
     char * last_str;
 };

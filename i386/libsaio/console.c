@@ -66,7 +66,8 @@ depending on how much they print to the log.
 char *msgbuf = 0;
 char *cursor = 0;
 
-struct putc_info {
+struct putc_info //Azi: same as below
+{
     char * str;
     char * last_str;
 };
