@@ -136,7 +136,11 @@ void scan_cpu(PlatformInfo_t *p)
 	
     p->CPU.Model += (p->CPU.ExtModel << 4);
     
-    if (p->CPU.Vendor == 0x756E6547 /* Intel */ && p->CPU.Family == 0x06 && p->CPU.Model >= 0x1a){
+    if (p->CPU.Vendor == 0x756E6547 /* Intel */ && 
+        p->CPU.Family == 0x06 && 
+        p->CPU.Model >= CPUID_MODEL_PENRYN && 
+        p->CPU.Model != CPUID_MODEL_ATOM        // MSR is *NOT* available on the Intel Atom CPU
+        ){
         msr = rdmsr64(MSR_CORE_THREAD_COUNT);									// Undocumented MSR in Nehalem and newer CPUs
         p->CPU.NoCores		= bitfield((uint32_t)msr, 31, 16);					// Using undocumented MSR to get actual values
         p->CPU.NoThreads	= bitfield((uint32_t)msr, 15,  0);					// Using undocumented MSR to get actual values

@@ -36,6 +36,20 @@ extern void scan_cpu(PlatformInfo_t *);
 #define CALIBRATE_TIME_MSEC	30		/* 30 msecs */
 #define CALIBRATE_LATCH		((CLKNUM * CALIBRATE_TIME_MSEC + 1000/2)/1000)
 
+// CPUID Values
+#define CPUID_MODEL_YONAH	14
+#define CPUID_MODEL_MEROM	15
+#define CPUID_MODEL_PENRYN	23
+#define CPUID_MODEL_NEHALEM	26
+#define CPUID_MODEL_ATOM    28
+#define CPUID_MODEL_FIELDS	30	/* Lynnfield, Clarksfield, Jasper */
+#define CPUID_MODEL_DALES	31	/* Havendale, Auburndale */
+#define CPUID_MODEL_NEHALEM_EX	46
+#define CPUID_MODEL_DALES_32NM	37	/* Clarkdale, Arrandale */
+#define CPUID_MODEL_WESTMERE	44	/* Gulftown, Westmere-EP, Westmere-WS */
+#define CPUID_MODEL_WESTMERE_EX	47
+
+
 static inline uint64_t rdtsc64(void)
 {
 	uint64_t ret;
