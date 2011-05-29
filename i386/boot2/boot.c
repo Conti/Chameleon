@@ -198,8 +198,8 @@ static int ExecKernel(void *binary)
     else
     {
         execute_hook("Kernel Start", (void*)kernelEntry, (void*)bootArgsPreLion, NULL, NULL);	// Notify modules that the kernel is about to be started
-
     }
+    
 	// If we were in text mode, switch to graphics mode.
 	// This will draw the boot graphics unless we are in
 	// verbose mode.
