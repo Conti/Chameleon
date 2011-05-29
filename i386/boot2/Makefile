@@ -156,12 +156,6 @@ endif
 	@$(SYMROOT)/machOconv $(SYMROOT)/boot.sys $(SYMROOT)/boot
 
 	
-$(SYMROOT)/vers.h:
-	@echo "#define I386BOOT_VERSION \"5.0.132\"" > $(SYMROOT)/vers.h
-	@echo "#define I386BOOT_BUILDDATE \"`date \"+%Y-%m-%d %H:%M:%S\"`\"" >> $(SYMROOT)/vers.h
-	@echo "#define I386BOOT_CHAMELEONVERSION \"`cat ../../version`\"" >> $(SYMROOT)/vers.h
-	@echo "#define I386BOOT_CHAMELEONREVISION \"`svnversion -n | tr -d [:alpha:]`\"" >> $(SYMROOT)/vers.h
-
 $(SYMROOT)/art.h:
 	@if [ "$(PNGCRUSH)" ]; then	\
 		echo "optimizing art files ...\n$(PNGCRUSH) $(PNGOPTIONS) artwork/$(THEME)"; \

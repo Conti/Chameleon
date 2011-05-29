@@ -539,6 +539,7 @@ typedef struct {
 	uint8_t					*rom;
 	uint32_t				rom_size;
 	uint32_t				vram_size;
+	const char				*cfg_name;
 	uint8_t					ports;
 	uint32_t				flags;
 	bool					posted;
@@ -1100,7 +1101,6 @@ bool devprop_add_pci_config_space(void)
 
 static bool init_card(pci_dt_t *pci_dev)
 {
-	const char *fb_name;
 	char name[24];
 	char name_parent[24];
 	int i;
@@ -1164,25 +1164,25 @@ static bool init_card(pci_dt_t *pci_dev)
 
 	atN = 0;
 
-	fb_name = getStringForKey(kAtiConfig, &bootInfo->bootConfig);
-	if (!fb_name)
+	card->cfg_name = getStringForKey(kAtiConfig, &bootInfo->bootConfig);
+	if (!card->cfg_name)
 	{
-		fb_name = card_configs[card->info->cfg_name].name;
+		card->cfg_name = card_configs[card->info->cfg_name].name;
 		card->ports = card_configs[card->info->cfg_name].ports;
 	}
 	else
 	{
 		for (i = 0; i < kCfgEnd; i++)
-			if (strcmp(fb_name, card_configs[i].name) == 0)
+			if (strcmp(card->cfg_name, card_configs[i].name) == 0)
 				card->ports = card_configs[i].ports;
 	}
 
-	sprintf(name, "ATY,%s", fb_name);
+	sprintf(name, "ATY,%s", card->cfg_name);
 	aty_name.type = kStr;
 	aty_name.size = strlen(name) + 1;
 	aty_name.data = (uint8_t *)name;
 
-	sprintf(name_parent, "ATY,%sParent", fb_name);
+	sprintf(name_parent, "ATY,%sParent", card->cfg_name);
 	aty_nameparent.type = kStr;
 	aty_nameparent.size = strlen(name_parent) + 1;
 	aty_nameparent.data = (uint8_t *)name_parent;
@@ -1228,7 +1228,7 @@ bool setup_ati_devprop(pci_dt_t *ati_dev)
 
 	verbose("ATI %s %s %dMB (%s) [%04x:%04x] (subsys [%04x:%04x]):: %s\n",  
 			chip_family_name[card->info->chip_family], card->info->model_name, 
-			(uint32_t)(card->vram_size / (1024 * 1024)), card_configs[card->info->cfg_name].name, 
+			(uint32_t)(card->vram_size / (1024 * 1024)), card->cfg_name, 
 			ati_dev->vendor_id, ati_dev->device_id,
 			ati_dev->subsys_id.subsys.vendor_id, ati_dev->subsys_id.subsys.device_id, 
 			devicepath);

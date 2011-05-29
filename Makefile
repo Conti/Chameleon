@@ -50,7 +50,7 @@ config rebuild_config:
 	) || exit $$?; 						  \
 
 
-all: $(SYMROOT) $(OBJROOT) $(SRCROOT)/auto.conf $(SRCROOT)/autoconf.h $(SRCROOT)/autoconf.inc $(SRCROOT)/.config
+all: $(SYMROOT) $(OBJROOT) $(SRCROOT)/auto.conf $(SRCROOT)/autoconf.h $(SRCROOT)/autoconf.inc $(SRCROOT)/.config vers.h
 	@if [ -e ".svn" ]; then svnversion -n | tr -d [:alpha:] > revision; fi
 	@if [ -z "$(RC_ARCHS)" ]; then					  \
 		RC_ARCHS="i386";					  \
@@ -88,6 +88,12 @@ all: $(SYMROOT) $(OBJROOT) $(SRCROOT)/auto.conf $(SRCROOT)/autoconf.h $(SRCROOT)
 	    	echo "========= nothing to build for $$i =========";	  \
 	    fi;								  \
 	done
+
+vers.h:
+	@echo "#define I386BOOT_VERSION \"5.0.132\"" > $(SYMROOT)/i386/vers.h
+	@echo "#define I386BOOT_BUILDDATE \"`date \"+%Y-%m-%d %H:%M:%S\"`\"" >> $(SYMROOT)/i386/vers.h
+	@echo "#define I386BOOT_CHAMELEONVERSION \"`cat version`\"" >> $(SYMROOT)/i386/vers.h
+	@echo "#define I386BOOT_CHAMELEONREVISION \"`svnversion -n | tr -d [:alpha:]`\"" >> $(SYMROOT)/i386/vers.h
 
 
 
