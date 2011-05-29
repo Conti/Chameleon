@@ -6,6 +6,12 @@
 #include <iostream>
 #include <modules>
 
+extern "C"
+{
+    void HelloWorld_start();
+}
+
+
 using namespace std;
 
 class HW {

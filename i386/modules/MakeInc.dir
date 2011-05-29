@@ -51,7 +51,10 @@ LIBSADIR = ../../libsa
 LIBSAIODIR = ../../libsaio
 BOOT2DIR = ../../boot2
 
-INC = -I$(SRCROOT)/i386/modules/include/ -Iinclude/ -I$(SRCROOT)/i386/modules/module_includes/ -I$(SRCROOT)/i386/libsaio/ -I$(SRCROOT)/i386/libsa/ -I$(SRCROOT)/i386/include/ -I$(SRCROOT)/i386/boot2/
+MODULE_INCLUDES :=  $(foreach x,$(MODULE_DEPENDENCIES),-I$(SRCROOT)/i386/modules/$(x)/include/)
+
+
+INC = -I$(SRCROOT)/i386/modules/include/ -Iinclude/ -I$(SRCROOT)/i386/libsaio/ -I$(SRCROOT)/i386/libsa/ -I$(SRCROOT)/i386/include/ -I$(SRCROOT)/i386/boot2/ $(MODULE_INCLUDES)
 DEFINES := -D__KLIBC__ $(DEFINES)
 
 MODULE_DEPENDENCIES :=  $(wildcard $(foreach x,$(MODULE_DEPENDENCIES),$(SYMROOT)/modules/$(x).dylib)) \
@@ -98,7 +101,7 @@ endif
 endif
 
 
-dylib_LINKER:  $(SYMROOT)/boot_modules.h $(SYMROOT)/boot_modules.c dylib 
+dylib_LINKER: $(SRCROOT)/sym/i386/boot_modules.c $(SRCROOT)/sym/i386/boot_modules.h dylib 
 
 dylib: ${SYMROOT}/modules/ ${OBJROOT} $(SYMROOT)/modules/$(MODULE_NAME).dylib
 
@@ -116,8 +119,6 @@ $(SYMROOT)/modules/$(MODULE_NAME).dylib: $(addprefix $(OBJROOT)/, ${MODULE_OBJS}
 	$(filter %.o,$^) \
 	-macosx_version_min 10.6 \
 	-o $(SYMROOT)/modules/$(MODULE_NAME).dylib
-
-	@cp -rf include/* ../module_includes/ &> /dev/null || true
 
 else
 
@@ -139,8 +140,6 @@ $(SYMROOT)/modules/$(MODULE_NAME).dylib: $(addprefix $(OBJROOT)/, ${MODULE_OBJS}
 		
 endif
 
-	@cp -rf include/* ../module_includes/ &> /dev/null || true
-
 
 clean:
 	@echo "\t[RM] $(SYMROOT)/modules/$(MODULE_NAME).dylib"
@@ -158,14 +157,14 @@ ${SYMROOT}/modules/:
 
 	
 
-.PHONY: $(SYMROOT)/boot_modules.h
-.PHONY: $(SYMROOT)/boot_modules.c
+.PHONY: $(SRCROOT)/sym/i386/boot_modules.h
+.PHONY: $(SRCROOT)/sym/i386/boot_modules.c
 
-$(SYMROOT)/boot_modules.c: 
-	@echo "\tstart_built_in_module(\"$(MODULE_NAME)\", &$(MODULE_START));" >> $@
+$(SRCROOT)/sym/i386/boot_modules.c: 
+	echo "\tstart_built_in_module(\"$(MODULE_NAME)\", &$(MODULE_START));" >> $@
 	
-$(SYMROOT)/boot_modules.h:
-	@echo "void $(MODULE_START)(); // $(MODULE_NAME)" >> $@
+$(SRCROOT)/sym/i386/boot_modules.h:
+	echo "void $(MODULE_START)(); // $(MODULE_NAME)" >> $@
 
 
 #dependencies
