@@ -191,7 +191,15 @@ static int ExecKernel(void *binary)
 	
 	usb_loop();
 	
-	execute_hook("Kernel Start", (void*)kernelEntry, (void*)bootArgs, NULL, NULL);	// Notify modules that the kernel is about to be started
+    if (checkOSVersion("10.7"))
+    {
+        execute_hook("Kernel Start", (void*)kernelEntry, (void*)bootArgs, NULL, NULL);	// Notify modules that the kernel is about to be started
+    }
+    else
+    {
+        execute_hook("Kernel Start", (void*)kernelEntry, (void*)bootArgsPreLion, NULL, NULL);	// Notify modules that the kernel is about to be started
+
+    }
 	// If we were in text mode, switch to graphics mode.
 	// This will draw the boot graphics unless we are in
 	// verbose mode.
@@ -205,7 +213,7 @@ static int ExecKernel(void *binary)
 	
 	finalizeBootStruct();
 	
-	if (checkOSVersion("10.7")) {
+    if (checkOSVersion("10.7")) {
 		
 		// Masking out so that Lion doesn't doublefault
 		outb(0x21, 0xff);	/* Maskout all interrupts Pic1 */
