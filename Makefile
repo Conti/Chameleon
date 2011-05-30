@@ -89,13 +89,13 @@ all: $(SYMROOT) $(OBJROOT) $(SRCROOT)/auto.conf $(SRCROOT)/autoconf.h $(SRCROOT)
 	    fi;								  \
 	done
 
-$(SYMROOT)/i386/vers.h:
+$(SYMROOT)/i386/vers.h: version
 	@echo "#define I386BOOT_VERSION \"5.0.132\"" > $@
 	@echo "#define I386BOOT_BUILDDATE \"`date \"+%Y-%m-%d %H:%M:%S\"`\"" >> $@
 	@echo "#define I386BOOT_CHAMELEONVERSION \"`cat version`\"" >> $@
 	@echo "#define I386BOOT_CHAMELEONREVISION \"`svnversion -n | tr -d [:alpha:]`\"" >> $@
 
 
-
+.PHONY: $(SYMROOT)/i386/vers.h
 .PHONY: config
 .PHONY: clean
