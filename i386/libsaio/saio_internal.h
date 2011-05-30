@@ -49,7 +49,6 @@ extern int    get_drive_info(int drive, struct driveInfo *dp);
 extern int    ebiosEjectMedia(int biosdev);
 extern void	  bios_putchar(int ch);
 extern void   putca(int ch, int attr, int repeat);
-extern int    getc(void);
 extern void   pause();
 extern int    readKeyboardStatus(void);
 extern int    readKeyboardShiftFlags(void);

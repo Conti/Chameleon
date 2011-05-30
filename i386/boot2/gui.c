@@ -1579,7 +1579,7 @@ void showInfoBox(char *title, char *text)
 		
 		updateVRAM();
 		
-		key = getc();
+		key = getchar();
 			
 		if( key == kUpArrowkey )
 			if( currentline > 0 )

@@ -356,7 +356,7 @@ XMLParseNextTag( char * buffer, TagPtr * tag )
 				else
 				{
 					printf("ParseStringID error (0x%x)\n", *val);
-					getc();
+					getchar();
 					return -1;
 				}
 			}
@@ -381,7 +381,7 @@ XMLParseNextTag( char * buffer, TagPtr * tag )
 				else
 				{
 					printf("ParseStringIDREF error (0x%x)\n", *val);
-					getc();
+					getchar();
 					return -1;
 				}
 			}
@@ -424,7 +424,7 @@ XMLParseNextTag( char * buffer, TagPtr * tag )
 				else
 				{
 					printf("ParseIntegerID error (0x%x)\n", *val);
-					getc();
+					getchar();
 					return -1;
 				}
 			}
@@ -449,7 +449,7 @@ XMLParseNextTag( char * buffer, TagPtr * tag )
 				else
 				{
 					printf("ParseStringIDREF error (0x%x)\n", *val);
-					getc();
+					getchar();
 					return -1;
 				}
 			}
@@ -670,7 +670,7 @@ ParseTagInteger( char * buffer, TagPtr * tag )
 	if(buffer[0] == '<')
 	{
 		printf("Warning integer is non existant\n");
-		getc();
+		getchar();
 		tmpTag = NewTag();
 		tmpTag->type = kTagTypeInteger;
 		tmpTag->string = 0;
@@ -711,7 +711,7 @@ ParseTagInteger( char * buffer, TagPtr * tag )
 			else
 			{
 				printf("ParseTagInteger hex error (0x%x) in buffer %s\n", *val, buffer);
-				getc();
+				getchar();
 				return -1;
 			}
 		}
@@ -732,7 +732,7 @@ ParseTagInteger( char * buffer, TagPtr * tag )
 				if (*val < '0' || *val > '9')
 				{
 					printf("ParseTagInteger decimal error (0x%x) in buffer %s\n", *val, buffer);
-					getc();
+					getchar();
 					return -1;
 				}
 				
@@ -772,7 +772,7 @@ ParseTagData( char * buffer, TagPtr * tag )
     
 	//printf("ParseTagData unimplimented\n");
 	//printf("Data: %s\n", buffer);
-	//	getc();
+	//	getchar();
 	
 	// TODO: base64 decode
 	
@@ -804,7 +804,7 @@ ParseTagDate( char * buffer, TagPtr * tag )
     if (tmpTag == 0) return -1;
     
 	printf("ParseTagDate unimplimented\n");
-	getc();
+	getchar();
 	
     tmpTag->type = kTagTypeDate;
     tmpTag->string = 0;
