@@ -345,13 +345,6 @@ uint32_t hi_multiboot(int multiboot_magic, struct multiboot_info *mi_orig)
     return bootdevice;
 }
 
-enum {
-    kReturnKey     = 0x0d,
-    kEscapeKey     = 0x1b,
-    kBackspaceKey  = 0x08,
-    kASCIIKeyMask  = 0x7f
-};
-
 // This is the meat of our implementation.  It grabs the boot device from
 // the multiboot_info and returns it as is.  If it fails it returns
 // BAD_BOOT_DEVICE.  We can call an awful lot of libsa and libsaio but

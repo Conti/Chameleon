@@ -41,7 +41,7 @@ enum {
 enum {
 	kBackspaceKey		= 0x08,
 	kTabKey			= 0x09,
-	kReturnKey		= 0x0d,
+	kReturnKey		= '\n',
 	kEscapeKey		= 0x1b,
 	kUpArrowkey		= 0x4800, 
 	kDownArrowkey		= 0x5000,
