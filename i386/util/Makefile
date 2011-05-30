@@ -17,13 +17,19 @@ DIR = util
 include ${SRCROOT}/Make.rules
 
 PROGRAMS = machOconv dyldsymboltool
-OBJECTS = dyldsymboltool.o32 dyldsymboltool.o64 machOconv.o32 machOconv.o64 
+OBJECTS = dyldsymboltool.o32 dyldsymboltool.o64 machOconv.o32 machOconv.o64
 
 
 ifeq (${CONFIG_BDMESG}, y)
 PROGRAMS += bdmesg
 OBJECTS += bdmesg.o32 bdmesg.o64
 endif
+
+ifeq (${CONFIG_OPENUP}, y)
+PROGRAMS += openUp
+OBJECTS += openUp.o64 openUp.o32
+endif
+
 
 LDFLAGS := $(LDFALGS) -framework IOKit -framework CoreFoundation -mmacosx-version-min=10.5
 

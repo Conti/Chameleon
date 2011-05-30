@@ -8,3 +8,11 @@ config BDMESG
 	  When in doubt, say "Y".
 
 source "i386/util/fdisk/Cconfig"
+
+config OPENUP
+	bool "openUp utility"
+	default n
+	help
+	  Say Y here if you want to compile the openUp utility.
+	  openUp is used to set the "first-open-window" field of a volume.
+	  When in doubt, say "N".
