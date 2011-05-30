@@ -44,3 +44,6 @@ all:
 endif
 
 
+#dependencies
+-include $(OBJROOT)/Makedep
+
