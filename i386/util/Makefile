@@ -31,7 +31,7 @@ SYMPROG = $(addprefix $(SYMROOT)/, $(PROGRAMS))
 
 DIRS_NEEDED = $(OBJROOT) $(SYMROOT)
 
-all: $(DIRS_NEEDED) $(SYMPROG)
+all: $(DIRS_NEEDED) $(SYMPROG) fdisk440
 
 $(SYMPROG): $(addprefix $(OBJROOT)/, $(OBJECTS))
 	@echo "\t[LD32] $(@F)_32"
@@ -41,6 +41,14 @@ $(SYMPROG): $(addprefix $(OBJROOT)/, $(OBJECTS))
 	@echo "\t[LIPO] $(@F)"
 	@lipo -create -arch i386 $(SYMROOT)/$(@F)_32 -arch x86_64 $(SYMROOT)/$(@F)_64 -output $(SYMROOT)/$(@F)
 	@$(RM) $(SYMROOT)/$(@F)_32 $(SYMROOT)/$(@F)_64
+
+
+
+.PHONY: fdisk440
+fdisk440:
+	@echo ================= make all for fdisk =================;
+	@$(MAKE) -C fdisk
+
 
 #dependencies
 -include $(OBJROOT)/Makedep

@@ -6,3 +6,5 @@ config BDMESG
 	  bdmesg is used to dump any messages thrown during the
 	  chameleon boot sequence.
 	  When in doubt, say "Y".
+
+source "i386/util/fdisk/Cconfig"
