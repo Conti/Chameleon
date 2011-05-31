@@ -110,6 +110,9 @@ ifeq (${CONFIG_MODULES}, y)
 		-Wl,-sectcreate,__DATA,__Symbols,$(SYMROOT)/Symbols.dylib \
 		-o $(SYMROOT)/boot.sys $(filter %.o,$^) `find $(OBJROOT)/../boot2_modules/ -name \*.o` $(LIBS)  -lcc_kext
 
+	@${RM} $(SYMROOT)/${SYMBOLS_MODULE}
+
+
 	@$(LD) -arch i386 \
 	-undefined dynamic_lookup \
 	-dylib -read_only_relocs suppress \
