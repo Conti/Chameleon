@@ -53,7 +53,7 @@ int init_module_system()
 	if(symbols_module_start != (void*)0xFFFFFFFF)
 	{
 		// Module system  was compiled in (Symbols.dylib addr known)
-		module_start = parse_mach(module_data, &load_module, &add_symbol);
+		module_start = parse_mach(module_data, &load_module, &add_symbol, NULL);
 		
 		if(module_start && module_start != (void*)0xFFFFFFFF)
 		{
@@ -69,7 +69,7 @@ int init_module_system()
 		else
 		{
             module_data -= 0x10;    // XCODE 4 HACK
-            module_start = parse_mach(module_data, &load_module, &add_symbol);
+            module_start = parse_mach(module_data, &load_module, &add_symbol, NULL);
             
             if(module_start && module_start != (void*)0xFFFFFFFF)
             {
@@ -166,7 +166,7 @@ int load_module(char* module)
 	if (moduleSize && read(fh, module_base, moduleSize) == moduleSize)
 	{
 		// Module loaded into memory, parse it
-		module_start = parse_mach(module_base, &load_module, &add_symbol);
+		module_start = parse_mach(module_base, &load_module, &add_symbol, NULL);
 
 		if(module_start && module_start != (void*)0xFFFFFFFF)
 		{
@@ -308,7 +308,11 @@ unsigned int lookup_all_symbols(const char* name)
  * NOTE: If the module is unable to load ot completeion, the modules
  * symbols will still be available.
  */
-void* parse_mach(void* binary, int(*dylib_loader)(char*), long long(*symbol_handler)(char*, long long, char))
+void* parse_mach(void* binary, 
+                 int(*dylib_loader)(char*), 
+                 long long(*symbol_handler)(char*, long long, char),
+                 void (*section_handler)(char* section, char* segment, long long offset, long long address)
+)
 {	
 	char is64 = false;
 	void (*module_start)(void) = NULL;
@@ -377,62 +381,60 @@ void* parse_mach(void* binary, int(*dylib_loader)(char*), long long(*symbol_hand
 				break;
 				
 			case LC_SEGMENT: // 32bit macho
-				segCommand = binary + binaryIndex;
-				
-				if(strcmp("__TEXT", segCommand->segname) == 0)
-				{
-					UInt32 sectionIndex;
-					
-					sectionIndex = sizeof(struct segment_command);
-					
-					struct section *sect;
-					
-					while(sectionIndex < segCommand->cmdsize)
-					{
-						sect = binary + binaryIndex + sectionIndex;
-						
-						sectionIndex += sizeof(struct section);
-						
-						
-						if(strcmp("__text", sect->sectname) == 0)
-						{
-							// __TEXT,__text found, save the offset and address for when looking for the calls.
-							textSection = sect->offset;
-							textAddress = sect->addr;
-							break;
-						}					
-					}
-				}
-				
+                {
+                    segCommand = binary + binaryIndex;
+                    
+                    UInt32 sectionIndex;
+                    
+                    sectionIndex = sizeof(struct segment_command);
+                    
+                    struct section *sect;
+                    
+                    while(sectionIndex < segCommand->cmdsize)
+                    {
+                        sect = binary + binaryIndex + sectionIndex;
+                        
+                        sectionIndex += sizeof(struct section);
+                        
+                        if(section_handler) section_handler(sect->sectname, segCommand->segname, sect->offset, sect->addr);
+                        
+                        
+                        
+                        if((strcmp("__TEXT", segCommand->segname) == 0) && (strcmp("__text", sect->sectname) == 0))
+                        {
+                            // __TEXT,__text found, save the offset and address for when looking for the calls.
+                            textSection = sect->offset;
+                            textAddress = sect->addr;
+                        }					
+                    }
+                }
 				break;
 			case LC_SEGMENT_64:	// 64bit macho's
-				segCommand64 = binary + binaryIndex;				
-				if(strcmp("__TEXT", segCommand64->segname) == 0)
-				{
-					UInt32 sectionIndex;
-					
-					sectionIndex = sizeof(struct segment_command_64);
-					
-					struct section_64 *sect;
-					
-					while(sectionIndex < segCommand64->cmdsize)
-					{
-						sect = binary + binaryIndex + sectionIndex;
-						
-						sectionIndex += sizeof(struct section_64);
-						
-						
-						if(strcmp("__text", sect->sectname) == 0)
-						{
-							// __TEXT,__text found, save the offset and address for when looking for the calls.
-							textSection = sect->offset;
-							textAddress = sect->addr;
-							
-							break;
-						}					
-					}
-				}				
-				
+                {
+                    segCommand64 = binary + binaryIndex;				
+                    UInt32 sectionIndex;
+                    
+                    sectionIndex = sizeof(struct segment_command_64);
+                    
+                    struct section_64 *sect;
+                    
+                    while(sectionIndex < segCommand64->cmdsize)
+                    {
+                        sect = binary + binaryIndex + sectionIndex;
+                        
+                        sectionIndex += sizeof(struct section_64);
+                        
+                        if(section_handler) section_handler(sect->sectname, segCommand->segname, sect->offset, sect->addr);
+                        
+                        
+                        if((strcmp("__TEXT", segCommand->segname) == 0) && (strcmp("__text", sect->sectname) == 0))
+                        {
+                            // __TEXT,__text found, save the offset and address for when looking for the calls.
+                            textSection = sect->offset;
+                            textAddress = sect->addr;
+                        }					
+                    }	
+				}			
 				break;
 				
 				

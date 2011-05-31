@@ -77,7 +77,9 @@ unsigned int	lookup_all_symbols(const char* name);
 /********************************************************************************/
 void*			parse_mach(void* binary, 
 							int(*dylib_loader)(char*),
-							long long(*symbol_handler)(char*, long long, char));
+							long long(*symbol_handler)(char*, long long, char),
+                            void (*section_handler)(char* section, char* segment, long long offset, long long address)
+                           );
 unsigned int	handle_symtable(UInt32 base,
 							 struct symtab_command* symtabCommand,
 							 long long(*symbol_handler)(char*, long long, char),
