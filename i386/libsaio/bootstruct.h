@@ -38,6 +38,12 @@ extern boot_args_pre_lion *bootArgsPreLion;
 extern Node *gMemoryMapNode;
 
 #define VGA_TEXT_MODE 0
+//defined in /usr/../boot.h
+
+//#define GRAPHICS_MODE         1
+//#define FB_TEXT_MODE          2
+
+
 
 /*
  * Maximum number of boot drivers that can be loaded.
