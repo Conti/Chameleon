@@ -210,35 +210,45 @@ long LoadDrivers( char * dirSpec )
           }
         }
 
-        // Also try to load Extensions from boot helper partitions.
-        if (gBootVolume->flags & kBVFlagBooter)
+        
+        if(!gHaveKernelCache)   
         {
-          strcpy(dirSpecExtra, "/com.apple.boot.P/System/Library/");
-          if (FileLoadDrivers(dirSpecExtra, 0) != 0)
-          {
-            strcpy(dirSpecExtra, "/com.apple.boot.R/System/Library/");
-            if (FileLoadDrivers(dirSpecExtra, 0) != 0)
+            // Non-prelinked kernel, load system mkext. 
+            // NOTE: In it's default state, XNU cannot be both prelinked, and load additional drivers
+            //          from the bootloader. There is, however, a patch that changes this and allows
+            //          for both to occure.
+            
+            // Also try to load Extensions from boot helper partitions.
+            if (gBootVolume->flags & kBVFlagBooter)
             {
-              strcpy(dirSpecExtra, "/com.apple.boot.S/System/Library/");
-              FileLoadDrivers(dirSpecExtra, 0);
+                strcpy(dirSpecExtra, "/com.apple.boot.P/System/Library/");
+                if (FileLoadDrivers(dirSpecExtra, 0) != 0)
+                {
+                    strcpy(dirSpecExtra, "/com.apple.boot.R/System/Library/");
+                    if (FileLoadDrivers(dirSpecExtra, 0) != 0)
+                    {
+                        strcpy(dirSpecExtra, "/com.apple.boot.S/System/Library/");
+                        FileLoadDrivers(dirSpecExtra, 0);
+                    }
+                }
             }
-          }
-        }
+            
+            if (gMKextName[0] != '\0')
+            {
+                verbose("LoadDrivers: Loading from [%s]\n", gMKextName);
+                if ( LoadDriverMKext(gMKextName) != 0 )
+                {
+                    error("Could not load %s\n", gMKextName);
+                    return -1;
+                }
+            }
+            else
+            {
+                strcpy(gExtensionsSpec, dirSpec);
+                strcat(gExtensionsSpec, "System/Library/");
+                FileLoadDrivers(gExtensionsSpec, 0);
+            }
 
-        if (gMKextName[0] != '\0')
-        {
-            verbose("LoadDrivers: Loading from [%s]\n", gMKextName);
-            if ( LoadDriverMKext(gMKextName) != 0 )
-            {
-                error("Could not load %s\n", gMKextName);
-                return -1;
-            }
-        }
-        else
-        {
-            strcpy(gExtensionsSpec, dirSpec);
-            strcat(gExtensionsSpec, "System/Library/");
-            FileLoadDrivers(gExtensionsSpec, 0);
         }
     }
     else
@@ -792,10 +802,10 @@ DecodeKernel(void *binary, entry_t *rentry, char **raddr, int *rsize)
         if (kernel_header->root_path[0] && strcmp(gBootFile, kernel_header->root_path))
             return -1;
 #endif
-    
+        
         uncompressed_size = OSSwapBigToHostInt32(kernel_header->uncompressed_size);
         binary = buffer = malloc(uncompressed_size);
-    
+        
         size = decompress_lzss((u_int8_t *) binary, &kernel_header->data[0],
                                OSSwapBigToHostInt32(kernel_header->compressed_size));
         if (uncompressed_size != size) {
@@ -808,6 +818,9 @@ DecodeKernel(void *binary, entry_t *rentry, char **raddr, int *rsize)
             return -1;
         }
     }
+    
+    // Notify modules that the kernel has been decompressed, is about to be decoded
+	execute_hook("DecodeKernel", (void*)binary, NULL, NULL, NULL);
   
   ret = ThinFatFile(&binary, &len);
   if (ret == 0 && len == 0 && archCpuType==CPU_TYPE_X86_64)
