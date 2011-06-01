@@ -1,5 +1,5 @@
 MODULE_NAME = klibc
-MODULE_DESCRIPTION: This module provides a standard c library for modules to link to if the library provided by chameleon is insufficient. This is currently only used by the uClibc++ library.
+MODULE_DESCRIPTION = This module provides a standard c library for modules to link to if the library provided by chameleon is insufficient. This is currently only used by the uClibc++ library.
 MODULE_AUTHOR = 
 MODULE_VERSION = "1.5.20"
 MODULE_COMPAT_VERSION = "1.5.20"
