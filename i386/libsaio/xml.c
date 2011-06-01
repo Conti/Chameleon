@@ -909,11 +909,7 @@ NewTag( void )
   
     if (gTagsFree == 0)
     {
-#if USEMALLOC
         tag = (TagPtr)malloc(kTagsPerBlock * sizeof(Tag));
-#else
-        tag = (TagPtr)AllocateBootXMemory(kTagsPerBlock * sizeof(Tag));
-#endif
         if (tag == 0) return 0;
         
         // Initalize the new tags.
@@ -991,11 +987,7 @@ static SymbolPtr lastGuy = 0;
     // Add the new symbol.
     if (symbol == 0)
     {
-#if USEMALLOC
         symbol = (SymbolPtr)malloc(sizeof(Symbol) + 1 + strlen(string));
-#else
-        symbol = (SymbolPtr)AllocateBootXMemory(sizeof(Symbol) + 1 + strlen(string));
-#endif
         if (symbol == 0) //return 0;
             stop("NULL symbol!");
     
