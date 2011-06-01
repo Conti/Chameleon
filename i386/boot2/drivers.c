@@ -183,34 +183,6 @@ long LoadDrivers( char * dirSpec )
     }
     else if ( gBootFileType == kBlockDeviceType )
     {
-        // First try to load Extra extensions from the ramdisk if isn't aliased as bt(0,0).
-        if (gRAMDiskVolume && !gRAMDiskBTAliased)
-        {
-          strcpy(dirSpecExtra, "rd(0,0)/Extra/");
-          FileLoadDrivers(dirSpecExtra, 0);
-        }
-
-        // Next try to load Extra extensions from the selected root partition.
-        strcpy(dirSpecExtra, "/Extra/");
-        if (FileLoadDrivers(dirSpecExtra, 0) != 0)
-        {
-          // If failed, then try to load Extra extensions from the boot partition
-          // in case we have a separate booter partition or a bt(0,0) aliased ramdisk.
-          if ( !(gBIOSBootVolume->biosdev == gBootVolume->biosdev  && gBIOSBootVolume->part_no == gBootVolume->part_no)
-               || (gRAMDiskVolume && gRAMDiskBTAliased) )
-          {
-            // Next try a specfic OS version folder ie 10.5
-            sprintf(dirSpecExtra, "bt(0,0)/Extra/%s/", &gMacOSVersion);
-            if (FileLoadDrivers(dirSpecExtra, 0) != 0)
-            {	
-              // Next we'll try the base
-              strcpy(dirSpecExtra, "bt(0,0)/Extra/");
-              FileLoadDrivers(dirSpecExtra, 0);
-            }
-          }
-        }
-
-        
         if(!gHaveKernelCache)   
         {
             // Non-prelinked kernel, load system mkext. 
@@ -248,7 +220,35 @@ long LoadDrivers( char * dirSpec )
                 strcat(gExtensionsSpec, "System/Library/");
                 FileLoadDrivers(gExtensionsSpec, 0);
             }
+            
+        }
 
+        
+        // First try to load Extra extensions from the ramdisk if isn't aliased as bt(0,0).
+        if (gRAMDiskVolume && !gRAMDiskBTAliased)
+        {
+          strcpy(dirSpecExtra, "rd(0,0)/Extra/");
+          FileLoadDrivers(dirSpecExtra, 0);
+        }
+
+        // Next try to load Extra extensions from the selected root partition.
+        strcpy(dirSpecExtra, "/Extra/");
+        if (FileLoadDrivers(dirSpecExtra, 0) != 0)
+        {
+          // If failed, then try to load Extra extensions from the boot partition
+          // in case we have a separate booter partition or a bt(0,0) aliased ramdisk.
+          if ( !(gBIOSBootVolume->biosdev == gBootVolume->biosdev  && gBIOSBootVolume->part_no == gBootVolume->part_no)
+               || (gRAMDiskVolume && gRAMDiskBTAliased) )
+          {
+            // Next try a specfic OS version folder ie 10.5
+            sprintf(dirSpecExtra, "bt(0,0)/Extra/%s/", &gMacOSVersion);
+            if (FileLoadDrivers(dirSpecExtra, 0) != 0)
+            {	
+              // Next we'll try the base
+              strcpy(dirSpecExtra, "bt(0,0)/Extra/");
+              FileLoadDrivers(dirSpecExtra, 0);
+            }
+          }
         }
     }
     else
