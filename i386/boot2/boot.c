@@ -155,8 +155,7 @@ static int ExecKernel(void *binary)
 	execute_hook("DecodedKernel", (void*)binary, NULL, NULL, NULL);
 	
 	// Load boot drivers from the specifed root path.
-	if (!gHaveKernelCache)
-		LoadDrivers("/");
+	LoadDrivers("/");
 	
 	
 	clearActivityIndicator();
@@ -486,7 +485,7 @@ void common_boot(int biosdev)
 			break;
 		}
 		
-		if(getBoolForKey(kUseKernelCache, &usecache, &bootInfo->bootConfig)) {
+		if(getBoolForKey(kUseKernelCache, &usecache, &bootInfo->bootConfig) && usecache) {
 			if (getValueForKey(kKernelCacheKey, &val, &len, &bootInfo->bootConfig)) {
 				strlcpy(gBootKernelCacheFile, val, len+1);
 			}
