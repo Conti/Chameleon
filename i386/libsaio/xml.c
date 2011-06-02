@@ -106,7 +106,6 @@ enum {
 };
 
 
-#define USEMALLOC 1
 #define DOFREE 1
 
 static long ParseTagList(char *buffer, TagPtr *tag, long type, long empty);
