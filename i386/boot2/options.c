@@ -172,7 +172,7 @@ static int countdown( const char * msg, int row, int timeout )
 
 //==========================================================================
 
-static char   gBootArgs[BOOT_STRING_LEN];
+char   gBootArgs[BOOT_STRING_LEN];
 static char * gBootArgsPtr = gBootArgs;
 static char * gBootArgsEnd = gBootArgs + BOOT_STRING_LEN - 1;
 static char   booterCommand[BOOT_STRING_LEN];
@@ -206,11 +206,11 @@ static void showBootPrompt(int row, bool visible)
 	extern char bootRescanPrompt[];
 
 	if( bootArgs->Video.v_display == VGA_TEXT_MODE ) {
-		changeCursor( 0, row, kCursorTypeUnderline, 0 );    
-		clearScreenRows( row, kScreenLastRow );
+		changeCursor( strlen(gBootArgs), row, kCursorTypeUnderline, 0 );    
+		//clearScreenRows( row, kScreenLastRow );
 	}
 
-	clearBootArgs();
+	//clearBootArgs();
 
 	if (visible) {
 		if (bootArgs->Video.v_display == VGA_TEXT_MODE) {
@@ -218,11 +218,12 @@ static void showBootPrompt(int row, bool visible)
 				printf( bootRescanPrompt );
 			} else {
 				printf( bootPrompt );
+                printf( gBootArgs );
 			}
 		}
 	} else {
 		if (bootArgs->Video.v_display == GRAPHICS_MODE) {
-			clearGraphicBootPrompt();
+//			clearGraphicBootPrompt();
 		} else {
 			printf("Press Enter to start up the foreign OS. ");
 		}
@@ -252,22 +253,25 @@ static void updateBootArgs( int key )
 				{
 					setCursorPosition( x, y, 0 );
 					putca(' ', 0x07, 1);
-				} else
-					updateGraphicBootPrompt(kBackspaceKey);
-			
-				*gBootArgsPtr-- = '\0';
-			}
+				}
+    
+                *gBootArgsPtr-- = '\0';
+                updateGraphicBootPrompt(kBackspaceKey);
+            }
+            else
+            {
+                *gBootArgsPtr = '\0';
+                if( bootArgs->Video.v_display == VGA_TEXT_MODE ) putca(' ', 0x07, 1);
+                updateGraphicBootPrompt(kBackspaceKey);
+            }
             
 			break;
 
         default:
             if ( key >= ' ' && gBootArgsPtr < gBootArgsEnd)
             {
-				if( bootArgs->Video.v_display == VGA_TEXT_MODE )
-					putchar(key);  // echo to screen
-				else
-					updateGraphicBootPrompt(key);
-			*gBootArgsPtr++ = key;
+                *gBootArgsPtr++ = key;
+                updateGraphicBootPrompt(key);
 			}
             
 			break;
