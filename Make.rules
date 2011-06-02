@@ -71,7 +71,7 @@ $(OBJROOT)/%.o: %.cpp
 
 $(OBJROOT)/boot2.o:
 	@echo "\t[AS] boot2.s"
-	@cc $(CPPFLAGS) -Wa,-n -c $(INC) -arch i386 -o $(OBJROOT)/$(@F) boot2.s \
+	@$(CC) -Wa,-n -c $(INC) -arch i386 -o $(OBJROOT)/$(@F) boot2.s \
 		    -MD -dependency-file $*.d
 	@md -u $(OBJROOT)/Makedep -f -d $*.d
 	
