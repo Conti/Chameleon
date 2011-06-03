@@ -8,12 +8,14 @@
  */
 
 
-#include "shortatombios.h"
-#include "edid.h"
-
 #ifndef __RESOLUTION_H
 #define __RESOLUTION_H
 
+#include "shortatombios.h"
+#include "edid.h"
+
+//Slice - moved to edid.h
+/*
 typedef struct _edid_mode {
 	unsigned short pixel_clock;
 	unsigned short h_active;
@@ -25,7 +27,7 @@ typedef struct _edid_mode {
 	unsigned short v_sync_offset;
 	unsigned short v_sync_width;
 } edid_mode;
-
+*/
 
 
 void patchVideoBios();
@@ -116,7 +118,7 @@ typedef enum {
 
 
 typedef enum {
-	BT_UNKNOWN, BT_1, BT_2, BT_3, BT_ATI_1, BT_ATI_2, BT_NVDA
+	BT_UNKNOWN, BT_1, BT_2, BT_3, BT_ATI_1, BT_ATI_2, BT_NVDA, BT_INTEL
 } bios_type;
 
 
