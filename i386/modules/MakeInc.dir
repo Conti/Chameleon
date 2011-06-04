@@ -170,10 +170,10 @@ $(SRCROOT)/sym/i386/boot_modules.c:
 $(SRCROOT)/sym/i386/boot_modules.h:
 	@echo "void $(MODULE_START)(); // $(MODULE_NAME)" >> $@
 	
-$(OBJROOT)/$(MODULE_NAME).desc: Makefile
+$(OBJROOT)/$(MODULE_NAME).author: Makefile
 	@echo "$(MODULE_AUTHOR)" > $@
 	
-$(OBJROOT)/$(MODULE_NAME).author: Makefile
+$(OBJROOT)/$(MODULE_NAME).desc: Makefile
 	@echo "$(MODULE_DESCRIPTION)" > $@
 
 #dependencies
