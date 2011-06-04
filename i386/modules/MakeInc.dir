@@ -165,7 +165,7 @@ ${SYMROOT}/modules/:
 .PHONY: $(SRCROOT)/sym/i386/boot_modules.c
 
 $(SRCROOT)/sym/i386/boot_modules.c: 
-	@echo "\tstart_built_in_module(\"$(MODULE_NAME)\", &$(MODULE_START));" >> $@
+	@echo "\tstart_built_in_module(\"$(MODULE_NAME)\", \"$(MODULE_AUTHOR)\", \"$(MODULE_DESCRIPTION)\", 0, 0, &$(MODULE_START));" >> $@
 	
 $(SRCROOT)/sym/i386/boot_modules.h:
 	@echo "void $(MODULE_START)(); // $(MODULE_NAME)" >> $@

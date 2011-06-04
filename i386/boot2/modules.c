@@ -11,6 +11,7 @@
 #include "bootstruct.h"
 #include "modules.h"
 #include "boot_modules.h"
+#include <vers.h>
 
 
 #if CONFIG_MODULE_DEBUG
@@ -58,7 +59,7 @@ int init_module_system()
 		if(module_start && module_start != (void*)0xFFFFFFFF)
 		{
 			// Notify the system that it was laoded
-			module_loaded(SYMBOLS_MODULE /*moduleName, moduleVersion, moduleCompat*/);
+			module_loaded(SYMBOLS_MODULE, SYMBOLS_AUTHOR, SYMBOLS_DESCRIPTION, SYMBOLS_VERSION, SYMBOLS_COMPAT);
 			
 			(*module_start)();	// Start the module. This will point to load_all_modules due to the way the dylib was constructed.
 			execute_hook("ModulesLoaded", NULL, NULL, NULL, NULL);
@@ -74,7 +75,7 @@ int init_module_system()
             if(module_start && module_start != (void*)0xFFFFFFFF)
             {
                 // Notify the system that it was laoded
-                module_loaded(SYMBOLS_MODULE /*moduleName, moduleVersion, moduleCompat*/);
+                module_loaded(SYMBOLS_MODULE, SYMBOLS_AUTHOR, SYMBOLS_DESCRIPTION, SYMBOLS_VERSION, SYMBOLS_COMPAT);
                 
                 (*module_start)();	// Start the module. This will point to load_all_modules due to the way the dylib was constructed.
                 execute_hook("ModulesLoaded", NULL, NULL, NULL, NULL);
@@ -92,11 +93,16 @@ int init_module_system()
 	return retVal;
 }
 
-void start_built_in_module(char* name, void(*start_function)(void))
+void start_built_in_module(const char* name, 
+                           const char* author, 
+                           const char* description,
+                           UInt32 version,
+                           UInt32 compat,
+                           void(*start_function)(void))
 {
     start_function();
     // Notify the module system that this module really exists, specificaly, let other module link with it
-    module_loaded(name /*, moduleName, moduleVersion, moduleCompat*/);
+    module_loaded(name, author, description, version, compat);
 }
 
 
@@ -171,7 +177,7 @@ int load_module(char* module)
 		if(module_start && module_start != (void*)0xFFFFFFFF)
 		{
 			// Notify the system that it was laoded
-			module_loaded(module/*moduleName, moduleVersion, moduleCompat*/);
+			module_loaded(module, NULL, NULL, 0, 0 /*moduleName, moduleVersion, moduleCompat*/);
 			(*module_start)();	// Start the module
 			DBG("Module %s Loaded.\n", module); DBGPAUSE();
 		}
@@ -231,16 +237,27 @@ long long add_symbol(char* symbol, long long addr, char is64)
 /*
  * print out the information about the loaded module
  */
-void module_loaded(const char* name/*, UInt32 version, UInt32 compat*/)
+void module_loaded(const char* name, const char* author, const char* description, UInt32 version, UInt32 compat)
 {
 	moduleList_t* new_entry = malloc(sizeof(moduleList_t));
 	new_entry->next = loadedModules;
 
 	loadedModules = new_entry;
 	
-	new_entry->name = (char*)name;
-//	new_entry->version = version;
-//	new_entry->compat = compat;
+    if(!name) name = "Unknown";
+    if(!author) author = "Unknown";
+    if(!description) description = "";
+    
+	new_entry->name = name;
+    new_entry->author = author;
+    new_entry->description = description;
+	new_entry->version = version;
+    new_entry->compat = compat;
+    
+    msglog("Module '%s' by '%s' Loaded.\n", name, author);
+    msglog("\tDescription: %d\n", description);
+    msglog("\tVersion: %d\n", version); // todo: sperate to major.minor.bugfix
+    msglog("\tCompat:  %d\n", compat);  // todo: ^^^ major.minor.bugfix
 }
 
 int is_module_loaded(const char* name)

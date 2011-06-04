@@ -13,7 +13,13 @@
 #define __BOOT_MODULES_H
 
 #define MODULE_PATH		"/Extra/modules/"
+
 #define SYMBOLS_MODULE "Symbols.dylib"
+#define SYMBOLS_AUTHOR "Chameloen"
+#define SYMBOLS_DESCRIPTION "Chameleon symbols for linking"
+#define SYMBOLS_VERSION     0
+#define SYMBOLS_COMPAT      0
+
 #define VOID_SYMBOL		"dyld_void_start"
 extern UInt64 textAddress;
 extern UInt64 textSection;
@@ -43,9 +49,11 @@ typedef struct moduleHook_t
 
 typedef struct modulesList_t
 {
-	char*					name;
-//	UInt32					version;
-//	UInt32					compat;
+	const char*				name;
+    const char*             author;
+    const char*             description;
+	UInt32					version;
+	UInt32					compat;
 	struct modulesList_t* next;
 } moduleList_t;
 
@@ -54,12 +62,16 @@ typedef struct modulesList_t
 int init_module_system();
 void load_all_modules();
 
-void start_built_in_module(char* name, void(*start_function)(void));
-
+void start_built_in_module(const char* name, 
+                           const char* author, 
+                           const char* description,
+                           UInt32 version,
+                           UInt32 compat,
+                           void(*start_function)(void));
 
 int load_module(char* module);
 int is_module_loaded(const char* name);
-void module_loaded(const char* name/*, UInt32 version, UInt32 compat*/);
+void module_loaded(const char* name, const char* author, const char* description, UInt32 version, UInt32 compat);
 
 
 
