@@ -108,7 +108,7 @@ dylib: ${SYMROOT}/modules/ ${OBJROOT} $(SYMROOT)/modules/$(MODULE_NAME).dylib
 
 ifeq ($(BUILT_IN),yes)
 
-$(SYMROOT)/modules/$(MODULE_NAME).dylib: $(addprefix $(OBJROOT)/, ${MODULE_OBJS}) $(MODULE_DEPENDENCIES)
+$(SYMROOT)/modules/$(MODULE_NAME).dylib: $(addprefix $(OBJROOT)/, ${MODULE_OBJS}) $(MODULE_DEPENDENCIES) $(OBJROOT)/$(MODULE_NAME).desc $(OBJROOT)/$(MODULE_NAME).author Makefile
 	@echo "\t[LD] $(MODULE_NAME).dylib"
 	@ld -arch i386 -undefined dynamic_lookup \
 	-dylib -read_only_relocs suppress \
@@ -118,11 +118,13 @@ $(SYMROOT)/modules/$(MODULE_NAME).dylib: $(addprefix $(OBJROOT)/, ${MODULE_OBJS}
 	-final_output $(MODULE_NAME) \
 	$(filter %.o,$^) \
 	-macosx_version_min 10.6 \
+	-sectcreate __INFO __author $(OBJROOT)/$(MODULE_NAME).author \
+	-sectcreate __INFO __description $(OBJROOT)/$(MODULE_NAME).desc \
 	-o $(SYMROOT)/modules/$(MODULE_NAME).dylib
 
 else
 
-$(SYMROOT)/modules/$(MODULE_NAME).dylib: $(addprefix $(OBJROOT)/, ${MODULE_OBJS}) $(MODULE_DEPENDENCIES) $(SRCROOT)/obj/i386/boot2/Symbols_LINKER_ONLY.dylib
+$(SYMROOT)/modules/$(MODULE_NAME).dylib: $(addprefix $(OBJROOT)/, ${MODULE_OBJS}) $(MODULE_DEPENDENCIES) $(OBJROOT)/$(MODULE_NAME).desc $(OBJROOT)/$(MODULE_NAME).author $(SRCROOT)/obj/i386/boot2/Symbols_LINKER_ONLY.dylib Makefile
 	@echo "\t[LD] $(MODULE_NAME).dylib"
 	
 	@ld -arch i386 \
@@ -135,9 +137,11 @@ $(SYMROOT)/modules/$(MODULE_NAME).dylib: $(addprefix $(OBJROOT)/, ${MODULE_OBJS}
 	$(filter %.o,$^) \
 	-weak_library $(SRCROOT)/obj/i386/boot2/Symbols_LINKER_ONLY.dylib \
 	$(MODULE_DEPENDENCIES_CMD) \
+	-sectcreate __INFO __author $(OBJROOT)/$(MODULE_NAME).author \
+	-sectcreate __INFO __description $(OBJROOT)/$(MODULE_NAME).desc \
 	-macosx_version_min 10.6 \
 	-o $@
-		
+	
 endif
 
 
@@ -165,7 +169,12 @@ $(SRCROOT)/sym/i386/boot_modules.c:
 	
 $(SRCROOT)/sym/i386/boot_modules.h:
 	@echo "void $(MODULE_START)(); // $(MODULE_NAME)" >> $@
-
+	
+$(OBJROOT)/$(MODULE_NAME).desc: Makefile
+	@echo "$(MODULE_AUTHOR)" > $@
+	
+$(OBJROOT)/$(MODULE_NAME).author: Makefile
+	@echo "$(MODULE_DESCRIPTION)" > $@
 
 #dependencies
 -include $(OBJROOT)/Makedep
