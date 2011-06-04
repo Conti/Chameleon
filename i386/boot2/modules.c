@@ -255,7 +255,7 @@ void module_loaded(const char* name, const char* author, const char* description
     new_entry->compat = compat;
     
     msglog("Module '%s' by '%s' Loaded.\n", name, author);
-    msglog("\tDescription: %d\n", description);
+    msglog("\tDescription: %s\n", description);
     msglog("\tVersion: %d\n", version); // todo: sperate to major.minor.bugfix
     msglog("\tCompat:  %d\n", compat);  // todo: ^^^ major.minor.bugfix
 }
