@@ -14,7 +14,7 @@ typedef struct _vidTag {
 } VenIdName;
 
 VenIdName vendorMap[] = {
-                { 0, 0x01, "AMD"},
+		{ 0, 0x01, "AMD"},
 		{ 0, 0x02, "AMI"},
 		{ 0, 0x83, "Fairchild"},
 		{ 0, 0x04, "Fujitsu"},

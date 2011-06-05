@@ -325,30 +325,30 @@ void setDefaultSMBData(void)
 					{
 						switch (Platform.CPU.Model)
 						{
-							case CPU_MODEL_FIELDS:		// Intel Core i5, i7 LGA1156 (45nm)
-							case CPU_MODEL_DALES:		// Intel Core i5, i7 LGA1156 (45nm) ???
-							case CPU_MODEL_DALES_32NM:	// Intel Core i3, i5, i7 LGA1156 (32nm) (Clarkdale, Arrandale)
-							case 0x19:					// Intel Core i5 650 @3.20 Ghz 
+							case CPU_MODEL_FIELDS:				// Intel Core i5, i7, Xeon X34xx LGA1156 (45nm)
+							case CPU_MODEL_DALES:
+							case CPU_MODEL_DALES_32NM:			// Intel Core i3, i5 LGA1156 (32nm)
+							case 0x19:							// ??? Intel Core i5 650 @3.20 GHz 
 								defaultBIOSInfo.version			= kDefaultiMacNehalemBIOSVersion;
 								defaultSystemInfo.productName	= kDefaultiMacNehalem;
 								defaultSystemInfo.family		= kDefaultiMacFamily;
 								break;
 
-							case CPU_MODEL_SANDY:
-							case CPU_MODEL_SANDY_XEON:
+							case CPU_MODEL_SANDY:				// Intel Core i3, i5, i7 LGA1155 (32nm)
+							case CPU_MODEL_SANDY_XEON:			// Intel Xeon E3
 								defaultBIOSInfo.version			= kDefaultiMacSandyBIOSVersion;
 								defaultSystemInfo.productName	= kDefaultiMacSandy;
 								defaultSystemInfo.family		= kDefaultiMacFamily;
 								break;
-							case CPU_MODEL_NEHALEM: 
-							case CPU_MODEL_NEHALEM_EX:
+							case CPU_MODEL_NEHALEM:				// Intel Core i7, Xeon W35xx, Xeon X55xx, Xeon E55xx LGA1366 (45nm)
+							case CPU_MODEL_NEHALEM_EX:			// Intel Xeon X75xx, Xeon X65xx, Xeon E75xx, Xeon E65x
 								defaultBIOSInfo.version			= kDefaultMacProNehalemBIOSVersion;
 								defaultSystemInfo.productName	= kDefaultMacProNehalem;
 								defaultSystemInfo.family		= kDefaultMacProFamily;
 								break;
 
-							case CPU_MODEL_WESTMERE: 
-							case CPU_MODEL_WESTMERE_EX:
+							case CPU_MODEL_WESTMERE:			// Intel Core i7, Xeon X56xx, Xeon E56xx, Xeon W36xx LGA1366 (32nm) 6 Core
+							case CPU_MODEL_WESTMERE_EX:			// Intel Xeon E7
 								defaultBIOSInfo.version			= kDefaultMacProWestmereBIOSVersion;
 								defaultBIOSInfo.releaseDate		= kDefaulMacProWestmereBIOSReleaseDate;
 								defaultSystemInfo.productName	= kDefaultMacProWestmere;
@@ -546,14 +546,14 @@ void addSMBOemProcessorBusSpeed(SMBStructPtrs *structPtr)
 		{
 			switch (Platform.CPU.Model)
 			{
-				case 0x19:					// Intel Core i5 650 @3.20 Ghz
-				case CPU_MODEL_FIELDS:		// Intel Core i5, i7 LGA1156 (45nm)
-				case CPU_MODEL_DALES:		// Intel Core i5, i7 LGA1156 (45nm) ???
-				case CPU_MODEL_DALES_32NM:	// Intel Core i3, i5, i7 LGA1156 (32nm)
-				case CPU_MODEL_NEHALEM:		// Intel Core i7 LGA1366 (45nm)
-				case CPU_MODEL_NEHALEM_EX:	// Intel Core i7 LGA1366 (45nm) 6 Core ???
-				case CPU_MODEL_WESTMERE:	// Intel Core i7 LGA1366 (32nm) 6 Core
-				case CPU_MODEL_WESTMERE_EX:	// Intel Core i7 LGA1366 (45nm) 6 Core ???
+				case 0x19:					// ??? Intel Core i5 650 @3.20 GHz
+				case CPU_MODEL_FIELDS:		// Intel Core i5, i7, Xeon X34xx LGA1156 (45nm)
+				case CPU_MODEL_DALES:
+				case CPU_MODEL_DALES_32NM:	// Intel Core i3, i5 LGA1156 (32nm)
+				case CPU_MODEL_NEHALEM:		// Intel Core i7, Xeon W35xx, Xeon X55xx, Xeon E55xx LGA1366 (45nm)
+				case CPU_MODEL_NEHALEM_EX:	// Intel Xeon X75xx, Xeon X65xx, Xeon E75xx, Xeon E65x
+				case CPU_MODEL_WESTMERE:	// Intel Core i7, Xeon X56xx, Xeon E56xx, Xeon W36xx LGA1366 (32nm) 6 Core
+				case CPU_MODEL_WESTMERE_EX:	// Intel Xeon E7
 					break;
 
 				default:

@@ -365,11 +365,11 @@ struct acpi_2_ssdt *generate_pss_ssdt(struct acpi_2_dsdt* dsdt)
 			{
 				switch (Platform.CPU.Model) 
 				{
-					case 0x0D: // ?
-					case CPU_MODEL_YONAH: // Yonah
-					case CPU_MODEL_MEROM: // Merom
-					case CPU_MODEL_PENRYN: // Penryn
-					case CPU_MODEL_ATOM: // Intel Atom (45nm)
+					case 0x0D:				// ???
+					case CPU_MODEL_YONAH:	// Intel Mobile Core Solo, Duo
+					case CPU_MODEL_MEROM:	// Intel Mobile Core 2 Solo, Duo, Xeon 30xx, Xeon 51xx, Xeon X53xx, Xeon E53xx, Xeon X32xx
+					case CPU_MODEL_PENRYN:	// Intel Core 2 Solo, Duo, Quad, Extreme, Xeon X54xx, Xeon X33xx
+					case CPU_MODEL_ATOM:	// Intel Atom (45nm)
 					{
 						bool cpu_dynamic_fsb = false;
 						
@@ -487,15 +487,15 @@ struct acpi_2_ssdt *generate_pss_ssdt(struct acpi_2_dsdt* dsdt)
 						
 						break;
 					} 
-					case CPU_MODEL_FIELDS:
-					case CPU_MODEL_DALES:
-					case CPU_MODEL_DALES_32NM:
-					case CPU_MODEL_NEHALEM:
-					case CPU_MODEL_NEHALEM_EX:
-					case CPU_MODEL_WESTMERE:
-					case CPU_MODEL_WESTMERE_EX:
-                    case CPU_MODEL_SANDY:
-                    case CPU_MODEL_SANDY_XEON:
+					case CPU_MODEL_FIELDS:		// Intel Core i5, i7, Xeon X34xx LGA1156 (45nm)
+					case CPU_MODEL_DALES:		
+					case CPU_MODEL_DALES_32NM:	// Intel Core i3, i5 LGA1156 (32nm)
+					case CPU_MODEL_NEHALEM:		// Intel Core i7, Xeon W35xx, Xeon X55xx, Xeon E55xx LGA1366 (45nm)
+					case CPU_MODEL_NEHALEM_EX:	// Intel Xeon X75xx, Xeon X65xx, Xeon E75xx, Xeon E65x
+					case CPU_MODEL_WESTMERE:	// Intel Core i7, Xeon X56xx, Xeon E56xx, Xeon W36xx LGA1366 (32nm) 6 Core
+					case CPU_MODEL_WESTMERE_EX:	// Intel Xeon E7
+                    case CPU_MODEL_SANDY:		// Intel Core i3, i5, i7 LGA1155 (32nm)
+                    case CPU_MODEL_SANDY_XEON:	// Intel Xeon E3
 					{
 						maximum.Control = rdmsr64(MSR_IA32_PERF_STATUS) & 0xff; // Seems it always contains maximum multiplier value (with turbo, that's we need)...
 						minimum.Control = (rdmsr64(MSR_PLATFORM_INFO) >> 40) & 0xff;

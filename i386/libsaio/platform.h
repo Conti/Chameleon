@@ -23,18 +23,18 @@ extern void dumpPhysAddr(const char * title, void * a, int len);
 #define CPUID_81			6
 #define CPUID_MAX			7
 
-#define CPU_MODEL_YONAH			0x0E
-#define CPU_MODEL_MEROM			0x0F
-#define CPU_MODEL_PENRYN		0x17
-#define CPU_MODEL_NEHALEM		0x1A
-#define CPU_MODEL_ATOM			0x1C
-#define CPU_MODEL_FIELDS		0x1E			/* Lynnfield, Clarksfield, Jasper */
-#define CPU_MODEL_DALES			0x1F			/* Havendale, Auburndale */
-#define CPU_MODEL_DALES_32NM	0x25			/* Clarkdale, Arrandale */
-#define CPU_MODEL_SANDY			0x2a			/* Sandy bridge */
-#define CPU_MODEL_WESTMERE		0x2C			/* Gulftown, Westmere-EP, Westmere-WS */
-#define CPU_MODEL_SANDY_XEON	0x2D
-#define CPU_MODEL_NEHALEM_EX	0x2E
+#define CPU_MODEL_YONAH			0x0E			// Sossaman, Yonah
+#define CPU_MODEL_MEROM			0x0F			// Allendale, Conroe, Kentsfield, Woodcrest, Clovertown, Tigerton, Merom
+#define CPU_MODEL_PENRYN		0x17			// Wolfdale, Yorkfield, Harpertown, Penryn
+#define CPU_MODEL_NEHALEM		0x1A			// Bloomfield. Nehalem-EP, Nehalem-WS, Gainestown
+#define CPU_MODEL_ATOM			0x1C			// Atom
+#define CPU_MODEL_FIELDS		0x1E			// Lynnfield, Clarksfield, Jasper Forest
+#define CPU_MODEL_DALES			0x1F			// Havendale, Auburndale
+#define CPU_MODEL_DALES_32NM	0x25			// Clarkdale, Arrandale
+#define CPU_MODEL_SANDY			0x2A			// Sandy Bridge
+#define CPU_MODEL_WESTMERE		0x2C			// Gulftown, Westmere-EP, Westmere-WS
+#define CPU_MODEL_SANDY_XEON	0x2D			// Sandy Bridge Xeon
+#define CPU_MODEL_NEHALEM_EX	0x2E			// Beckton
 #define CPU_MODEL_WESTMERE_EX	0x2F
 
 /* CPU Features */
