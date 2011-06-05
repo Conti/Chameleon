@@ -1,7 +1,6 @@
 TODO List for Chameleon Boot Loader
 ====================================
-- Bring code closer to coding_standards.txt:
-  - will change spaces to tabs! If someone opposes to this, please come forward :)
+- Bring code closer to coding_standards.txt.
 
 - Create a dummy module for any modules that are compiled in. This is needed for linking modules with
   dependencies that are not compiled in.
@@ -14,7 +13,14 @@ TODO List for Chameleon Boot Loader
   conflicting with other efi string overridden content
   (original idea of Galaxy)
 
-Azi: done?
+ - Case insensitive parsing for the bootConfig options:
+   should help the common/novice user to setup more easily.
+
+
+====================================
+
+DONE
+
 - Add a more sophisticated acpi loading mechanism to enable loading custom acpi tables when dsdtdrop=y
     Here's a specification to think about:
     First we must care about if a forced DSDT full path has been specified
@@ -23,19 +29,18 @@ Azi: done?
     find this file.
     In the latter case, the file has to be named DSDT.aml and be in one of the / /Extra or bt(0,0)/Extra
     directory.
-    
+
     Now a first idea to implement correctly the acpi tables loading would be:
-    
+
     Whether the path was hardcoded in the DSDT option or was automatically found, we extract the path part
     of the DSDT file that has been successfully found and we run a loop to enumerate all other acpi
     files in the same directory.
     Now for each acpi file found, we should compare the name with an existing acpi table found in
     the system that we would normally load and replace this usual injection by the content of the file.
-    
+
     Once DropDSDT=y is set, no other acpi table than dsdt is loaded, then it is the responsibility of the
     user to provide any other acpi table.
 
-Azi: done?
 - Add a new module capable of writing proprietary Chameleon data to ioreg:
   Using the DT__xxx() API, we will create a set of functions to write
   to log info, chameleon boot info to be retrieved by helper applications...
@@ -47,7 +52,7 @@ Azi: done?
   would be to store the messages in a consolidated buffer then only write once,
  this buffer (i.e just before call the kernel) with flushLogToIOREG();
   The other public function for writing chameleon boot info data would be:
-   
+
   verbose() should incorporate a call to logMessageToIOREG() 
   to permit helper applications to extract
   this log info (i.e: the chameleon system pref pane)
@@ -78,6 +83,3 @@ Azi: done?
        display_and_log("ERROR",s); 
        getc();
     }
-
- - Case insensitive parsing for the bootConfig options:
-   should help the common/novice user to setup more easily.

@@ -156,7 +156,7 @@ void scan_cpu(PlatformInfo_t *p)
         char        str[128], *s;
 		/*
 		 * The brand string 48 bytes (max), guaranteed to
-		 * be NUL terminated.
+		 * be NULL terminated.
 		 */
 		do_cpuid(0x80000002, reg);
 		bcopy((char *)reg, &str[0], 16);
