@@ -296,7 +296,6 @@ static radeon_card_info_t radeon_cards[] = {
 	{ 0x94C3,	0x22471787,	CHIP_FAMILY_RV610,		"ATI Radeon HD 2400 LE",			kNull		},
 	{ 0x94C3,	0x01011A93,	CHIP_FAMILY_RV610,		"Qimonda Radeon HD 2400 PRO",		kNull		},
 
-
 	{ 0x9501,	0x30001002,	CHIP_FAMILY_RV670,		"ATI Radeon HD 3690",				kNull		},
 	{ 0x9501,	0x25421002,	CHIP_FAMILY_RV670,		"ATI Radeon HD 3870",				kNull		},
 	{ 0x9501,	0x4750174B,	CHIP_FAMILY_RV670,		"ATI Radeon HD 4750",				kNull		},
@@ -444,7 +443,8 @@ static radeon_card_info_t radeon_cards[] = {
 
 	{ 0x6738,	0x67381002,	CHIP_FAMILY_BARTS,		"AMD Radeon HD 6870",				kDuckweed	},
 	{ 0x6739,	0x67391002,	CHIP_FAMILY_BARTS,		"AMD Radeon HD 6850",				kDuckweed	},
-
+	{ 0x6739,	0x21F81458,	CHIP_FAMILY_BARTS,		"AMD Radeon HD 6850",				kDuckweed	},
+	
 	{ 0x6759,	0xE193174B,	CHIP_FAMILY_TURKS,		"AMD Radeon HD 6570",				kNull		},
 	
 	/* standard/default models */
@@ -495,7 +495,6 @@ static radeon_card_info_t radeon_cards[] = {
 	{ 0x9715,	0x00000000,	CHIP_FAMILY_RS880,		"ATI Radeon HD 4250",				kNull		},
 	{ 0x9714,	0x00000000,	CHIP_FAMILY_RS880,		"ATI Radeon HD 4290",				kNull		},
 
-
 	/* Evergreen */
 	{ 0x688D,	0x00000000,	CHIP_FAMILY_CYPRESS,	"AMD FireStream 9350",				kUakari		},
 
@@ -514,17 +513,19 @@ static radeon_card_info_t radeon_cards[] = {
 
 	{ 0x68F9,	0x00000000,	CHIP_FAMILY_CEDAR,		"ATI Radeon HD 5400 Series",		kNull		},
 
-	{ 0x6718,	0x00000000,	CHIP_FAMILY_CAYMAN,		"AMD Radeon HD 6900 Series",		kNull		},
-
 	/* Northen Islands */
-	{ 0x6758,	0x00000000,	CHIP_FAMILY_TURKS,		"AMD Radeon HD 6670",				kNull		},
+	{ 0x6718,	0x00000000,	CHIP_FAMILY_CAYMAN,		"AMD Radeon HD 6970 Series",		kNull		},
+
+	{ 0x6738,	0x00000000,	CHIP_FAMILY_BARTS,		"AMD Radeon HD 6870 Series",		kDuckweed	},
+	{ 0x6739,	0x00000000,	CHIP_FAMILY_BARTS,		"AMD Radeon HD 6850 Series",		kDuckweed	},
+	{ 0x673E,	0x00000000,	CHIP_FAMILY_BARTS,		"AMD Radeon HD 6790 Series",		kNull		},
+	
+	{ 0x6758,	0x00000000,	CHIP_FAMILY_TURKS,		"AMD Radeon HD 6670 Series",		kNull		},
 	{ 0x6759,	0x00000000,	CHIP_FAMILY_TURKS,		"AMD Radeon HD 6500 Series",		kNull		},
 
 	{ 0x6770,	0x00000000,	CHIP_FAMILY_CAICOS,		"AMD Radeon HD 6400 Series",		kNull		},
 	{ 0x6779,	0x00000000,	CHIP_FAMILY_CAICOS,		"AMD Radeon HD 6450 Series",		kNull		},
 	
-	{ 0x68F9,	0x00000000,	CHIP_FAMILY_CEDAR,		"ATI Radeon HD 5400 Series",		kNull		},
-
 	{ 0x0000,	0x00000000,	CHIP_FAMILY_UNKNOW,		NULL,								kNull		}
 };
 
