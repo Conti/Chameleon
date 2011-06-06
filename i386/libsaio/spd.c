@@ -38,24 +38,24 @@ static const char *spd_memory_types[] =
 	"DDR2 SDRAM",   /* 08h  SDRAM DDR 2 */
 	"",				/* 09h  Undefined */
 	"",				/* 0Ah  Undefined */
-	"DDR3 SDRAM"   /* 0Bh  SDRAM DDR 3 */
+	"DDR3 SDRAM"	/* 0Bh  SDRAM DDR 3 */
 };
 
 #define UNKNOWN_MEM_TYPE 2
 static uint8_t spd_mem_to_smbios[] =
 {
-	UNKNOWN_MEM_TYPE,          /* 00h  Undefined */
-	UNKNOWN_MEM_TYPE,          /* 01h  FPM */
-	UNKNOWN_MEM_TYPE,          /* 02h  EDO */
-	UNKNOWN_MEM_TYPE,	   /* 03h  PIPELINE NIBBLE */
-	SMB_MEM_TYPE_SDRAM,        /* 04h  SDRAM */
-	SMB_MEM_TYPE_ROM,	   /* 05h  MULTIPLEXED ROM */
-	SMB_MEM_TYPE_SGRAM,        /* 06h  SGRAM DDR */
-	SMB_MEM_TYPE_DDR,          /* 07h  SDRAM DDR */
-	SMB_MEM_TYPE_DDR2,         /* 08h  SDRAM DDR 2 */
-	UNKNOWN_MEM_TYPE,  	   /* 09h  Undefined */
-	UNKNOWN_MEM_TYPE,	   /* 0Ah  Undefined */
-	SMB_MEM_TYPE_DDR3          /* 0Bh  SDRAM DDR 3 */
+	UNKNOWN_MEM_TYPE,		/* 00h  Undefined */
+	UNKNOWN_MEM_TYPE,		/* 01h  FPM */
+	UNKNOWN_MEM_TYPE,		/* 02h  EDO */
+	UNKNOWN_MEM_TYPE,		/* 03h  PIPELINE NIBBLE */
+	SMB_MEM_TYPE_SDRAM,		/* 04h  SDRAM */
+	SMB_MEM_TYPE_ROM,		/* 05h  MULTIPLEXED ROM */
+	SMB_MEM_TYPE_SGRAM,		/* 06h  SGRAM DDR */
+	SMB_MEM_TYPE_DDR,		/* 07h  SDRAM DDR */
+	SMB_MEM_TYPE_DDR2,		/* 08h  SDRAM DDR 2 */
+	UNKNOWN_MEM_TYPE,		/* 09h  Undefined */
+	UNKNOWN_MEM_TYPE,		/* 0Ah  Undefined */
+	SMB_MEM_TYPE_DDR3		/* 0Bh  SDRAM DDR 3 */
 };
 #define SPD_TO_SMBIOS_SIZE (sizeof(spd_mem_to_smbios)/sizeof(uint8_t))
 

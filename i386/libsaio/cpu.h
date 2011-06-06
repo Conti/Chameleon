@@ -23,6 +23,7 @@ extern void scan_cpu(PlatformInfo_t *);
 #define MSR_TURBO_RATIO_LIMIT	0x1AD
 #define	MSR_PLATFORM_INFO		0xCE
 #define MSR_CORE_THREAD_COUNT	0x35			// Undocumented
+#define MSR_IA32_PLATFORM_ID	0x17
 
 #define K8_FIDVID_STATUS		0xC0010042
 #define K10_COFVID_STATUS		0xC0010071
@@ -44,9 +45,10 @@ extern void scan_cpu(PlatformInfo_t *);
 #define CPUID_MODEL_ATOM		28	// Intel Atom (45nm)
 #define CPUID_MODEL_FIELDS		30	// Intel Core i5, i7, Xeon X34xx LGA1156 (45nm)
 #define CPUID_MODEL_DALES		31	// Havendale, Auburndale
-#define CPUID_MODEL_NEHALEM_EX	46	// Intel Xeon X75xx, Xeon X65xx, Xeon E75xx, Xeon E65x
 #define CPUID_MODEL_DALES_32NM	37	// Intel Core i3, i5 LGA1156 (32nm)
+#define CPUID_MODEL_SANDY		42	// Intel Core i3, i5, i7 LGA1155 (32nm)
 #define CPUID_MODEL_WESTMERE	44	// Intel Core i7, Xeon X56xx, Xeon E56xx, Xeon W36xx LGA1366 (32nm) 6 Core
+#define CPUID_MODEL_NEHALEM_EX	46	// Intel Xeon X75xx, Xeon X65xx, Xeon E75xx, Xeon E65x
 #define CPUID_MODEL_WESTMERE_EX	47	// Intel Xeon E7
 
 
