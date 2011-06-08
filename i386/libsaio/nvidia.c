@@ -1326,13 +1326,11 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
         {
             verbose("Using user supplied @0,display-cfg\n");
             memcpy(default_dcfg_0, new_dcfg0, DCFG0_LEN);
-        }
+            devprop_add_value(device, "@0,display-cfg", default_dcfg_0, DCFG0_LEN);
+            printf("@0,display-cfg: %02x%02x%02x%02x\n",
+                   default_dcfg_0[0], default_dcfg_0[1], default_dcfg_0[2], default_dcfg_0[3]);        }
     }
     
-    //#if DEBUG_dcfg0
-    printf("@0,display-cfg: %02x%02x%02x%02x\n",
-           default_dcfg_0[0], default_dcfg_0[1], default_dcfg_0[2], default_dcfg_0[3]);
-    //#endif
     
     if (getValueForKey(kdcfg1, &value, &len, &bootInfo->bootConfig) && len == DCFG1_LEN * 2)
     {
@@ -1342,13 +1340,14 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
         {
             verbose("Using user supplied @1,display-cfg\n");
             memcpy(default_dcfg_1, new_dcfg1, DCFG1_LEN);
+            devprop_add_value(device, "@1,display-cfg", default_dcfg_1, DCFG1_LEN);
+            
+            printf("@1,display-cfg: %02x%02x%02x%02x\n",
+                   default_dcfg_1[0], default_dcfg_1[1], default_dcfg_1[2], default_dcfg_1[3]);
         }
     }
     
-    //#if DEBUG_dcfg1
-    printf("@1,display-cfg: %02x%02x%02x%02x\n",
-           default_dcfg_1[0], default_dcfg_1[1], default_dcfg_1[2], default_dcfg_1[3]);
-    //#endif
+
 
 
  #if DEBUG_NVCAP
@@ -1365,8 +1364,8 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 	devprop_add_value(device, "VRAM,totalsize", (uint8_t*)&videoRam, 4);
 	devprop_add_value(device, "model", (uint8_t*)model, strlen(model) + 1);
 	devprop_add_value(device, "rom-revision", (uint8_t*)biosVersion, strlen(biosVersion) + 1);
-    devprop_add_value(device, "@0,display-cfg", default_dcfg_0, DCFG0_LEN);
-    devprop_add_value(device, "@1,display-cfg", default_dcfg_1, DCFG1_LEN);
+
+
 
 	if (getBoolForKey(kVBIOS, &doit, &bootInfo->bootConfig) && doit) {
 		devprop_add_value(device, "vbios", rom, (nvBiosOveride > 0) ? nvBiosOveride : (rom[2] * 512));
