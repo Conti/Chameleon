@@ -1321,14 +1321,19 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
     if (getValueForKey(kdcfg0, &value, &len, &bootInfo->bootConfig) && len == DCFG0_LEN * 2)
     {
         uint8_t new_dcfg0[DCFG0_LEN];
-        
+    
         if (hex2bin(value, new_dcfg0, DCFG0_LEN) == 0)
         {
             verbose("Using user supplied @0,display-cfg\n");
             memcpy(default_dcfg_0, new_dcfg0, DCFG0_LEN);
-            devprop_add_value(device, "@0,display-cfg", default_dcfg_0, DCFG0_LEN);
             printf("@0,display-cfg: %02x%02x%02x%02x\n",
-                   default_dcfg_0[0], default_dcfg_0[1], default_dcfg_0[2], default_dcfg_0[3]);        }
+                   default_dcfg_0[0], default_dcfg_0[1], default_dcfg_0[2], default_dcfg_0[3]);        
+            
+           devprop_add_value(device, "@0,display-cfg", default_dcfg_0, DCFG0_LEN);
+        }
+            
+
+
     }
     
     
@@ -1340,10 +1345,11 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
         {
             verbose("Using user supplied @1,display-cfg\n");
             memcpy(default_dcfg_1, new_dcfg1, DCFG1_LEN);
-            devprop_add_value(device, "@1,display-cfg", default_dcfg_1, DCFG1_LEN);
-            
             printf("@1,display-cfg: %02x%02x%02x%02x\n",
                    default_dcfg_1[0], default_dcfg_1[1], default_dcfg_1[2], default_dcfg_1[3]);
+            
+            
+            devprop_add_value(device, "@1,display-cfg", default_dcfg_1, DCFG1_LEN);
         }
     }
     
