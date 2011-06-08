@@ -19,7 +19,9 @@
  * 
  * @APPLE_LICENSE_HEADER_END@
  */
+
 #include "boot.h"
+
 
 static void 
 PreviewDecompress16(uint32_t * compressBuffer, 

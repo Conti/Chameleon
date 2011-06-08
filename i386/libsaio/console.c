@@ -53,28 +53,28 @@ extern int	vprf(const char * fmt, va_list ap);
 bool gVerboseMode;
 bool gErrors;
 
-/** Kabyl: BooterLog
-
-Azi: Doubled available log size; this seems to fix some hangs and instant reboots caused by
-booting with -f (ignore caches). 96kb are enough to hold full log, booting with -f; even so,
-this depends on how much we "play" at the boot prompt and with what patches we're playing,
-depending on how much they print to the log.
-**/  //Azi: closing **/ alows colapse/expand... is this desirable?? colapsing an entire page
-	 // will also colapse comments....
+/*
+ *  Azi: Doubled available log size; this seems to fix some hangs and instant reboots caused by
+ *  booting with -f (ignore caches). 96kb are enough to hold full log, booting with -f; even so,
+ *  this depends on how much we "play" at the boot prompt and with what patches we're playing,
+ *  depending on how much they print to the log.
+ *	
+ *  Kabyl: BooterLog
+ */
 #define BOOTER_LOG_SIZE	(128 * 1024)
 #define SAFE_LOG_SIZE	134
 
 char *msgbuf = 0;
 char *cursor = 0;
 
-struct putc_info //Azi: same as below
+struct putc_info
 {
     char * str;
     char * last_str;
 };
 
 static int
-sputc(int c, struct putc_info * pi) //Azi: exists on printf.c & gui.c
+sputc(int c, struct putc_info * pi)
 {
 	if (pi->last_str)
 	if (pi->str == pi->last_str)
@@ -263,5 +263,5 @@ void stop(const char * fmt, ...)
 void pause() 
 {
     printf("Press a key to continue...\n");
-    getc();
+    getc(); //Azi: this works here because the function is up above... change??
 }

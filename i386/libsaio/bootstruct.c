@@ -116,7 +116,8 @@ reserveKernBootStruct(void)
 		bootArgs = (boot_args *)AllocateKernelMemory(sizeof(boot_args));
 		bcopy(oldAddr, bootArgs, sizeof(boot_args));
 	}
-	else {
+	else
+	{
 		void *oldAddr = bootArgsPreLion;
 		bootArgsPreLion = (boot_args_pre_lion *)AllocateKernelMemory(sizeof(boot_args_pre_lion));
 		bcopy(oldAddr, bootArgsPreLion, sizeof(boot_args_pre_lion));

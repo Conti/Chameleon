@@ -26,6 +26,8 @@
  *
  */
 
+//#define DEBUG 1
+
 #include <mach-o/fat.h>
 #include <mach-o/loader.h>
 #include <mach/machine/thread_status.h>
@@ -135,7 +137,7 @@ long DecodeMachO(void *binary, entry_t *rentry, char **raddr, int *rsize)
   printf("ncmds:      %x\n", (unsigned)mH->ncmds);
   printf("sizeofcmds: %x\n", (unsigned)mH->sizeofcmds);
   printf("flags:      %x\n", (unsigned)mH->flags);
-  getc();
+  getchar(); //getc(); Azi: getc stuff
 #endif
   
   ncmds = mH->ncmds;
@@ -213,7 +215,14 @@ static long DecodeSegment(long cmdBase, unsigned int *load_addr, unsigned int *l
 	  fileaddr = (gBinaryAddress + segCmd->fileoff);
 	  filesize = segCmd->filesize;
 
-	  segname=segCmd->segname;	  
+	  segname=segCmd->segname;
+
+#ifdef DEBUG
+  printf("segname: %s, vmaddr: %x, vmsize: %x, fileoff: %x, filesize: %x, nsects: %d, flags: %x.\n",
+	 segCmd->segname, (unsigned)vmaddr, (unsigned)vmsize, (unsigned)fileaddr, (unsigned)filesize,
+         (unsigned) segCmd->nsects, (unsigned)segCmd->flags);
+  getchar(); //getc(); Azi: getc stuff
+#endif	  
   }
   else
   {
@@ -226,7 +235,14 @@ static long DecodeSegment(long cmdBase, unsigned int *load_addr, unsigned int *l
 	  fileaddr = (gBinaryAddress + segCmd->fileoff);
 	  filesize = segCmd->filesize;
 	  
-	  segname=segCmd->segname;	  
+	  segname=segCmd->segname;
+
+#ifdef DEBUG
+  printf("segname: %s, vmaddr: %x, vmsize: %x, fileoff: %x, filesize: %x, nsects: %d, flags: %x.\n",
+	 segCmd->segname, (unsigned)vmaddr, (unsigned)vmsize, (unsigned)fileaddr, (unsigned)filesize,
+         (unsigned) segCmd->nsects, (unsigned)segCmd->flags);
+  getchar(); //getc(); Azi: getc stuff
+#endif	  
   }
 
   if (vmsize == 0 || filesize == 0) {
@@ -235,12 +251,12 @@ static long DecodeSegment(long cmdBase, unsigned int *load_addr, unsigned int *l
       return 0;
   }
   
-#if DEBUG
+/*#if DEBUG
   printf("segname: %s, vmaddr: %x, vmsize: %x, fileoff: %x, filesize: %x, nsects: %d, flags: %x.\n",
 	 segCmd->segname, (unsigned)vmaddr, (unsigned)vmsize, (unsigned)fileaddr, (unsigned)filesize,
          (unsigned) segCmd->nsects, (unsigned)segCmd->flags);
   getc();
-#endif
+#endif*/
   
   if (! ((vmaddr >= KERNEL_ADDR &&
           (vmaddr + vmsize) <= (KERNEL_ADDR + KERNEL_LEN)) ||
@@ -310,7 +326,7 @@ static long DecodeSymbolTable(long cmdBase)
 #if DEBUG
   printf("symoff: %x, nsyms: %x, stroff: %x, strsize: %x\n",
 	 symTab->symoff, symTab->nsyms, symTab->stroff, symTab->strsize);
-	getc ();
+	getchar(); //getc(); Azi: getc stuff
 #endif
   
   symsSize = symTab->stroff - symTab->symoff;

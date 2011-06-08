@@ -55,6 +55,8 @@
 #define UFS_SUPPORT 0
 #endif
 
+//#define DEBUG 1
+
 #include "libsaio.h"
 #include "boot.h"
 #include "bootstruct.h"
@@ -1636,7 +1638,7 @@ BVRef newFilteredBVChain(int minBIOSDev, int maxBIOSDev, unsigned int allowFlags
     printf(" bvr: %d, dev: %d, part: %d, flags: %d, vis: %d\n", bvr, bvr->biosdev, bvr->part_no, bvr->flags, bvr->visible);
   }
   printf("count: %d\n", bvCount);
-  getc();
+  getchar(); //getc(); Azi: getc stuff
 #endif
 
   *count = bvCount;

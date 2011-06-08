@@ -1,4 +1,4 @@
-/** <-- JavaDoc style (doxygen) //Azi
+/*
  * Copyright (c) 2002-2003 Apple Computer, Inc. All rights reserved.
  *
  * @APPLE_LICENSE_HEADER_START@
@@ -30,7 +30,7 @@
 #include "bios.h"
 #include "device_tree.h"
 
-/*! <-- QT style (doxygen) //Azi
+/*!
     Kernel boot args global also used by booter for its own data.
  */
 extern boot_args *bootArgs;

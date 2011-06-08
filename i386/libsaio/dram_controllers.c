@@ -557,7 +557,7 @@ void scan_dram_controller(pci_dt_t *dram_dev)
 					,Platform.RAM.CAS, Platform.RAM.TRC, Platform.RAM.TRP, Platform.RAM.RAS
 					,Platform.RAM.CAS, Platform.RAM.TRC, Platform.RAM.TRP, Platform.RAM.RAS
 					);
-			/* getc();
+			/* getc(); Azi: getc stuff
 			 */			
 		}	
 }	

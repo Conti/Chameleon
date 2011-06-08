@@ -107,7 +107,7 @@ int legacy_off (pci_dt_t *pci_dev)
 {
 	// Set usb legacy off modification by Signal64
 	// NOTE: This *must* be called after the last file is loaded from the drive in the event that we are booting form usb.
-	// NOTE2: This should be called after any getc() call. (aka, after the Wait=y keyworkd is used)
+	// NOTE2: This should be called after any getc()/getchar() call. (aka, after the Wait=y keyworkd is used)
 	// AKA: Make this run immediatly before the kernel is called
 	uint32_t	capaddr, opaddr;  		
 	uint8_t		eecp;			
