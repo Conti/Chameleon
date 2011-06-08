@@ -72,6 +72,8 @@
 #define PATCH_ROM_FAILED 0
 #define MAX_NUM_DCB_ENTRIES 16
 
+
+
 #define TYPE_GROUPED 0xff
 
 extern uint32_t devices_number;
@@ -84,6 +86,7 @@ const char *nvidia_device_type[]	=	{ "device_type",	"NVDA,Parent" };
 const char *nvidia_name_0[]		=	{ "@0,name",		"NVDA,Display-A" };
 const char *nvidia_name_1[]		=	{ "@1,name",		"NVDA,Display-B" };
 const char *nvidia_slot_name[]		=	{ "AAPL,slot-name",	"Slot-1" };
+//const char *nvidia_display_cfg_0[] = { "@0,display-cfg
 
 static uint8_t default_NVCAP[]= {
 	0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0d, 0x00,
@@ -92,6 +95,12 @@ static uint8_t default_NVCAP[]= {
 };
 
 #define NVCAP_LEN ( sizeof(default_NVCAP) / sizeof(uint8_t) )
+
+static uint8_t default_dcfg_0[]		=	{0xff, 0xff, 0xff, 0xff};
+static uint8_t default_dcfg_1[]		=	{0xff, 0xff, 0xff, 0xff};
+
+#define DCFG0_LEN ( sizeof(default_dcfg_0) / sizeof(uint8_t) )
+#define DCFG1_LEN ( sizeof(default_dcfg_1) / sizeof(uint8_t) )
 
 static struct nv_chipsets_t NVKnownChipsets[] = {
 	{ 0x00000000, "Unknown" },
@@ -1163,6 +1172,7 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 	const char			*value;
 	bool				doit;
 
+
 	devicepath = get_pci_dev_path(nvda_dev);
 	bar[0] = pci_config_read32(nvda_dev->dev.addr, 0x10 );
 	regs = (uint8_t *) (bar[0] & ~0x0f);
@@ -1307,6 +1317,39 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 			memcpy(default_NVCAP, new_NVCAP, NVCAP_LEN);
 		}
 	}
+    
+    if (getValueForKey(kdcfg0, &value, &len, &bootInfo->bootConfig) && len == DCFG0_LEN * 2)
+    {
+        uint8_t new_dcfg0[DCFG0_LEN];
+        
+        if (hex2bin(value, new_dcfg0, DCFG0_LEN) == 0)
+        {
+            verbose("Using user supplied @0,display-cfg\n");
+            memcpy(default_dcfg_0, new_dcfg0, DCFG0_LEN);
+        }
+    }
+    
+    //#if DEBUG_dcfg0
+    printf("@0,display-cfg: %02x%02x%02x%02x\n",
+           default_dcfg_0[0], default_dcfg_0[1], default_dcfg_0[2], default_dcfg_0[3], default_dcfg_0[4]);
+    //#endif
+    
+    if (getValueForKey(kdcfg1, &value, &len, &bootInfo->bootConfig) && len == DCFG1_LEN * 2)
+    {
+        uint8_t new_dcfg1[DCFG1_LEN];
+        
+        if (hex2bin(value, new_dcfg1, DCFG1_LEN) == 0)
+        {
+            verbose("Using user supplied @1,display-cfg\n");
+            memcpy(default_dcfg_1, new_dcfg1, DCFG1_LEN);
+        }
+    }
+    
+    //#if DEBUG_dcfg1
+    printf("@1,display-cfg: %02x%02x%02x%02x\n",
+           default_dcfg_1[0], default_dcfg_1[1], default_dcfg_1[2], default_dcfg_1[3], default_dcfg_1[4]);
+    //#endif
+
 
  #if DEBUG_NVCAP
         printf("NVCAP: %02x%02x%02x%02x-%02x%02x%02x%02x-%02x%02x%02x%02x-%02x%02x%02x%02x-%02x%02x%02x%02x\n",
@@ -1322,6 +1365,9 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 	devprop_add_value(device, "VRAM,totalsize", (uint8_t*)&videoRam, 4);
 	devprop_add_value(device, "model", (uint8_t*)model, strlen(model) + 1);
 	devprop_add_value(device, "rom-revision", (uint8_t*)biosVersion, strlen(biosVersion) + 1);
+    devprop_add_value(device, "@0,display-cfg", default_dcfg_0, DCFG0_LEN);
+    devprop_add_value(device, "@1,display-cfg", default_dcfg_1, DCFG1_LEN);
+
 	if (getBoolForKey(kVBIOS, &doit, &bootInfo->bootConfig) && doit) {
 		devprop_add_value(device, "vbios", rom, (nvBiosOveride > 0) ? nvBiosOveride : (rom[2] * 512));
 	}

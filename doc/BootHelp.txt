@@ -76,6 +76,9 @@ Options useful in the com.apple.Boot.plist file:
     UseNvidiaROM=Yes|No   Use an alternate Nvidia ROM image 
                            (path:  /Extra/<vendorid>_<devid>.rom)
     VBIOS=Yes|No          Inject NVIDIA VBIOS into device-properties.
+    display_0=<value>      Inject alternate value of display-cfg into NVDA,Display-A@0, MUST BE 8 Chars in length (HEX)
+    display_1=<value>      Inject alternate value of display-cfg into NVDA,Display-B@1, MUST BE 8 Chars in length (HEX)
+
     
   EthernetBuiltIn=Yes|No  Automatic "built-in"=yes device-properties generation
                           for ethernet interfaces.

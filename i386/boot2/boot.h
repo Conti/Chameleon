@@ -92,6 +92,9 @@
 
 #define kUseNvidiaROM		"UseNvidiaROM"		/* nvidia.c */
 #define kVBIOS				"VBIOS"				/* nvidia.c */
+#define kdcfg0              "display_0"			/* nvidia.c */
+#define kdcfg1              "display_1"			/* nvidia.c */
+
 
 #define kPCIRootUID			"PCIRootUID"		/* pci_root.c */
 
