@@ -1331,7 +1331,7 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
     
     //#if DEBUG_dcfg0
     printf("@0,display-cfg: %02x%02x%02x%02x\n",
-           default_dcfg_0[0], default_dcfg_0[1], default_dcfg_0[2], default_dcfg_0[3], default_dcfg_0[4]);
+           default_dcfg_0[0], default_dcfg_0[1], default_dcfg_0[2], default_dcfg_0[3]);
     //#endif
     
     if (getValueForKey(kdcfg1, &value, &len, &bootInfo->bootConfig) && len == DCFG1_LEN * 2)
@@ -1347,7 +1347,7 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
     
     //#if DEBUG_dcfg1
     printf("@1,display-cfg: %02x%02x%02x%02x\n",
-           default_dcfg_1[0], default_dcfg_1[1], default_dcfg_1[2], default_dcfg_1[3], default_dcfg_1[4]);
+           default_dcfg_1[0], default_dcfg_1[1], default_dcfg_1[2], default_dcfg_1[3]);
     //#endif
 
 
