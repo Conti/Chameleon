@@ -67,14 +67,14 @@ bool gErrors;
 char *msgbuf = 0;
 char *cursor = 0;
 
-struct putc_info
+struct putc_info //Azi: exists on gui.c & printf.c
 {
     char * str;
     char * last_str;
 };
 
 static int
-sputc(int c, struct putc_info * pi)
+sputc(int c, struct putc_info * pi) //Azi: same as above
 {
 	if (pi->last_str)
 	if (pi->str == pi->last_str)
@@ -263,5 +263,6 @@ void stop(const char * fmt, ...)
 void pause() 
 {
     printf("Press a key to continue...\n");
-    getc(); //Azi: this works here because the function is up above... change??
+	getchar(); //getc(); //Azi: getc works here because the function is up above; changed for now.
+	// replace getchar() by pause() ??
 }

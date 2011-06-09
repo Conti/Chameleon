@@ -28,14 +28,14 @@
 
 #include "libsa.h"
 
-struct putc_info //Azi: same as below
+struct putc_info //Azi: exists on console.c & gui.c
 {
     char * str;
     char * last_str;
 };
 
 static int
-sputc(int c, struct putc_info * pi) //Azi: exists on console.c & gui.c
+sputc(int c, struct putc_info * pi) //Azi: same as above
 {
     if (pi->last_str)
         if (pi->str == pi->last_str) {
