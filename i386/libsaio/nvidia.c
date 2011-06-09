@@ -1373,8 +1373,8 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 
     //add HDMI Audio back to nvidia
     //http://forge.voodooprojects.org/p/chameleon/issues/67/
-    uint8_t connector_type_1[]= {0x00, 0x08, 0x00, 0x00};
-    devprop_add_value(device, "@1,connector-type",connector_type_1, 4);
+//    uint8_t connector_type_1[]= {0x00, 0x08, 0x00, 0x00};
+//    devprop_add_value(device, "@1,connector-type",connector_type_1, 4);
     //end Nvidia HDMI Audio
     
 	if (getBoolForKey(kVBIOS, &doit, &bootInfo->bootConfig) && doit) {
