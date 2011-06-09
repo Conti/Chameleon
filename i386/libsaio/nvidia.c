@@ -1371,7 +1371,12 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
     devprop_add_value(device, "@0,display-cfg", default_dcfg_0, DCFG0_LEN);
     devprop_add_value(device, "@1,display-cfg", default_dcfg_1, DCFG1_LEN);
 
-
+    //add HDMI Audio back to nvidia
+    //http://forge.voodooprojects.org/p/chameleon/issues/67/
+    uint8_t connector_type_1[]= {0x00, 0x08, 0x00, 0x00};
+    devprop_add_value(device, "@1,connector-type",connector_type_1, 4);
+    //end Nvidia HDMI Audio
+    
 	if (getBoolForKey(kVBIOS, &doit, &bootInfo->bootConfig) && doit) {
 		devprop_add_value(device, "vbios", rom, (nvBiosOveride > 0) ? nvBiosOveride : (rom[2] * 512));
 	}
