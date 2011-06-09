@@ -40,8 +40,6 @@
     - Added ebiosEjectMedia
  */
 
-//#define DEBUG 1
-
 #include "bootstruct.h"
 #include "libsaio.h"
 

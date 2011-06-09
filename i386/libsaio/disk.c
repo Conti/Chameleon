@@ -55,8 +55,6 @@
 #define UFS_SUPPORT 0
 #endif
 
-//#define DEBUG 1
-
 #include "libsaio.h"
 #include "boot.h"
 #include "bootstruct.h"

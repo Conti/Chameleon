@@ -7,7 +7,7 @@
 #include "hpet.h"
 
 #ifndef DEBUG_HPET
-#define DEBUG_HPET 1
+#define DEBUG_HPET 0
 #endif
 
 #if DEBUG_HPET

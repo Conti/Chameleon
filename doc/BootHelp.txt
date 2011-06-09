@@ -1,7 +1,7 @@
 The boot: prompt waits for you to type advanced startup options.
 If you don't type anything, the computer continues starting up normally. It
 uses the kernel and configuration files on the startup device, which it also
-uses as the root device. 
+uses as the root device.
 
 Advanced startup options use the following syntax:
 
@@ -17,7 +17,7 @@ Example arguments include
  flags: -v (verbose)                -s (single user mode)
         -x (safe mode)              -f (ignore caches)
         -F (ignore "Kernel Flags" specified in boot configuration file)
-    
+
  "Graphics Mode"="WIDTHxHEIGHTxDEPTH" (e.g. "1024x768x32")
 
  kernel flags                       (e.g. debug=0x144)
@@ -25,8 +25,8 @@ Example arguments include
 
 Example: mach_kernel rd=disk0s1 -v "Graphics Mode"="1920x1200x32"
 
-If the computer won't start up properly, you may be able to start it up 
-using safe mode.  Type -x to start up in safe mode, which ignores all 
+If the computer won't start up properly, you may be able to start it up
+using safe mode.  Type -x to start up in safe mode, which ignores all
 cached driver files.
 
 Special booter hotkeys:
@@ -45,10 +45,10 @@ Options useful in the com.apple.Boot.plist file:
   Wait=Yes|No             Prompt for a key press before starting the kernel.
   "Quiet Boot"=Yes|No     Use quiet boot mode (no messages or prompt).
   Timeout=8               Number of seconds to pause at the boot: prompt.
-  "Instant Menu"=Yes      Force displaying the partition selection menu. 
+  "Instant Menu"=Yes      Force displaying the partition selection menu.
 
   "Default Partition"     Sets the default boot partition,
-    =hd(x,y)|UUID|"Label"    Specified as a disk/partition pair, an UUID, or a 
+    =hd(x,y)|UUID|"Label"    Specified as a disk/partition pair, an UUID, or a
                              label enclosed in quotes.
 
   "Hide Partition"        Remove unwanted partition(s) from the boot menu.
@@ -57,7 +57,7 @@ Options useful in the com.apple.Boot.plist file:
 
   "Rename Partition"      Rename partition(s) for the boot menu.
     =partition <alias>       Where partition is hd(x,y), UUID or label enclosed
-     [;partition2 <alias2>   in quotes. The alias can optionally be quoted too. 
+     [;partition2 <alias2>   in quotes. The alias can optionally be quoted too.
      ...]
 
   GUI=No                  Disable the GUI (enabled by default).
@@ -66,14 +66,14 @@ Options useful in the com.apple.Boot.plist file:
 
   PciRoot=<value>         Use an alternate value for PciRoot (default value 0).
 
-  UseKernelCache=Yes|No   Default is No. Yes will load pre-linked kernel and will 
+  UseKernelCache=Yes|No   Default is No. Yes will load pre-linked kernel and will
                             ignore /E/E and /S/L/E/Extensions.mkext.
 
   GraphicsEnabler=Yes|No  Automatic device-properties generation for gfx cards.
     AtiConfig=<cardcfg>   Use a different card config
-    UseAtiROM=Yes|No      Use an alternate Ati ROM image 
+    UseAtiROM=Yes|No      Use an alternate Ati ROM image
                             (path: /Extra/<vendorid>_<devid>_<subsysid>.rom)
-    UseNvidiaROM=Yes|No   Use an alternate Nvidia ROM image 
+    UseNvidiaROM=Yes|No   Use an alternate Nvidia ROM image
                             (path:  /Extra/<vendorid>_<devid>.rom)
     VBIOS=Yes|No          Inject NVIDIA VBIOS into device-properties.
     display_0=<value>     Inject alternate value of display-cfg into NVDA,Display-A@0 (HEX).
@@ -91,11 +91,11 @@ Options useful in the com.apple.Boot.plist file:
 
   Wake=No                 Disable wake up after hibernation (default: enabled).
   ForceWake=Yes           Force using the sleepimage (disabled by default).
-  WakeImage=<file>        Use an alternate sleepimage file. 
+  WakeImage=<file>        Use an alternate sleepimage file.
                             (default path is /private/var/vm/sleepimage).
 
   DropSSDT=Yes            Skip the SSDT tables while relocating the ACPI tables.
-  DSDT=<file>             Use an alternate DSDT.aml file 
+  DSDT=<file>             Use an alternate DSDT.aml file
                             (default paths:
                               /DSDT.aml /Extra/DSDT.aml bt(0,0)/Extra/DSDT.aml).
 
@@ -108,7 +108,7 @@ Options useful in the com.apple.Boot.plist file:
   EnableC3State=Yes       Enable specific Processor power state, C3.
   EnableC4State=Yes       Enable specific Processor power state, C4.
 
-  SMBIOS=<file>           Use an alternate SMBIOS.plist file 
+  SMBIOS=<file>           Use an alternate SMBIOS.plist file
                             (default paths:
                               /Extra/SMBIOS.plist bt(0,0)/Extra/SMBIOS.plist).
 
@@ -116,7 +116,7 @@ Options useful in the com.apple.Boot.plist file:
                            smbios.plist doesn't exist, factory values are kept.
 
   "Scan Single Drive"     Scan the drive only where the booter got loaded from.
-    =Yes|No               Fix rescan pbs when using a DVD reader in AHCI mode. 
+    =Yes|No               Fix rescan pbs when using a DVD reader in AHCI mode.
   Rescan=Yes              Enable CD-ROM rescan mode.
   "Rescan Prompt"=Yes     Prompts for enable CD-ROM rescan mode.
   SystemId=<UUID>         Set manually the system id UUID,
