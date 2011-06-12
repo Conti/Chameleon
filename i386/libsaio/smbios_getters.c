@@ -6,6 +6,7 @@
  */
 
 #include "smbios_getters.h"
+#include "bootstruct.h"
 
 #ifndef DEBUG_SMBIOS
 #define DEBUG_SMBIOS 0
@@ -245,9 +246,10 @@ bool getSMBMemoryDeviceManufacturer(returnType *value)
 		}
 	}
 
-	return false;
-//	value->string = NOT_AVAILABLE;
-//	return true;
+	if (!bootInfo->memDetect)
+		return false;
+	value->string = NOT_AVAILABLE;
+	return true;
 }
 	
 bool getSMBMemoryDeviceSerialNumber(returnType *value)
@@ -267,9 +269,10 @@ bool getSMBMemoryDeviceSerialNumber(returnType *value)
 		}
 	}
 
-	return false;
-//	value->string = NOT_AVAILABLE;
-//	return true;
+	if (!bootInfo->memDetect)
+		return false;
+	value->string = NOT_AVAILABLE;
+	return true;
 }
 
 bool getSMBMemoryDevicePartNumber(returnType *value)
@@ -289,9 +292,10 @@ bool getSMBMemoryDevicePartNumber(returnType *value)
 		}
 	}
 
-	return false;
-//	value->string = NOT_AVAILABLE;
-//	return true;
+	if (!bootInfo->memDetect)
+		return false;
+	value->string = NOT_AVAILABLE;
+	return true;
 }
 
 

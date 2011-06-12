@@ -41,11 +41,16 @@ void scan_mem() {
     static bool done = false;
     if (done) return;
 
-    bool useAutodetection = true;
-    getBoolForKey(kUseMemDetect, &useAutodetection, &bootInfo->bootConfig);
+	/* our code only works on Intel chipsets so make sure here */
+	if (pci_config_read16(PCIADDR(0, 0x00, 0), 0x00) != 0x8086)
+		bootInfo->memDetect = false;
+    else
+		bootInfo->memDetect = true;
+	/* manually */
+    getBoolForKey(kUseMemDetect, &bootInfo->memDetect, &bootInfo->bootConfig);
 
-    if (useAutodetection) {
-		if (dram_controller_dev!=NULL) {
+    if (bootInfo->memDetect) {
+		if (dram_controller_dev != NULL) {
 			scan_dram_controller(dram_controller_dev); // Rek: pci dev ram controller direct and fully informative scan ...
 		}
         scan_spd(&Platform);
