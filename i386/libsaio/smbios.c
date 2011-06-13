@@ -448,6 +448,8 @@ bool setSMBValue(SMBStructPtrs *structPtr, int idx, returnType *value)
 {
 	const char *string = 0;
 	int len;
+	bool parsed;
+	int val;
 
 	if (numOfSetters <= idx)
 		return false;
@@ -481,13 +483,29 @@ bool setSMBValue(SMBStructPtrs *structPtr, int idx, returnType *value)
 		//case kSMBQWord:
 			if (SMBSetters[idx].keyString)
 			{
-				if (getIntForKey(SMBSetters[idx].keyString, (int *)&(value->dword), SMBPlist))
-					return true;
-				else
+				parsed = getIntForKey(SMBSetters[idx].keyString, &val, SMBPlist);
+				if (!parsed)
 					if (structPtr->orig->type == kSMBTypeMemoryDevice)	// MemoryDevice only
-						if (getSMBValueForKey(structPtr->orig, SMBSetters[idx].keyString, NULL, value))
-							return true;
+						parsed = getSMBValueForKey(structPtr->orig, SMBSetters[idx].keyString, NULL, (returnType *)&val);
+				if (parsed)
+				{
+					switch (SMBSetters[idx].valueType)
+					{
+						case kSMBByte:
+							value->byte = (uint8_t)val;
+							break;
+						case kSMBWord:
+							value->byte = (uint16_t)val;
+							break;
+						case kSMBDWord:
+						default:
+							value->byte = (uint32_t)val;
+							break;
+					}
+					return true;
+				}
 			}
+
 			if (SMBSetters[idx].getSMBValue)
 				if (SMBSetters[idx].getSMBValue(value))
 					return true;
