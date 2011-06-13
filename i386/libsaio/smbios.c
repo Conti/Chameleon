@@ -495,11 +495,11 @@ bool setSMBValue(SMBStructPtrs *structPtr, int idx, returnType *value)
 							value->byte = (uint8_t)val;
 							break;
 						case kSMBWord:
-							value->byte = (uint16_t)val;
+							value->word = (uint16_t)val;
 							break;
 						case kSMBDWord:
 						default:
-							value->byte = (uint32_t)val;
+							value->dword = (uint32_t)val;
 							break;
 					}
 					return true;
