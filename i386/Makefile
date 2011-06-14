@@ -51,7 +51,7 @@ all:
 			"RC_CFLAGS=$(RC_CFLAGS)" $@ 			  \
 		) || exit $$?; 						  \
 	done
-	
+
 config rebuild_config:
 	@for i in config; \
 	do \

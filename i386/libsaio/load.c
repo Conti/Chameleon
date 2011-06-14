@@ -249,13 +249,6 @@ static long DecodeSegment(long cmdBase, unsigned int *load_addr, unsigned int *l
       return 0;
   }
   
-/*#if DEBUG
-  printf("segname: %s, vmaddr: %x, vmsize: %x, fileoff: %x, filesize: %x, nsects: %d, flags: %x.\n",
-	 segCmd->segname, (unsigned)vmaddr, (unsigned)vmsize, (unsigned)fileaddr, (unsigned)filesize,
-         (unsigned) segCmd->nsects, (unsigned)segCmd->flags);
-  getc();
-#endif*/
-  
   if (! ((vmaddr >= KERNEL_ADDR &&
           (vmaddr + vmsize) <= (KERNEL_ADDR + KERNEL_LEN)) ||
          (vmaddr >= HIB_ADDR &&

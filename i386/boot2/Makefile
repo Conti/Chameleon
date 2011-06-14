@@ -23,7 +23,7 @@ CFLAGS	= $(RC_CFLAGS) $(OPTIM) $(MORECPP) -arch i386 -g -Wmost -Werror \
 		-fno-builtin -DSAIO_INTERNAL_USER -static $(OMIT_FRAME_POINTER_CFLAG) \
 		-mpreferred-stack-boundary=2 -fno-align-functions -fno-stack-protector \
 		-march=pentium4 -msse2 -mfpmath=sse -msoft-float -nostdinc -include $(SRCROOT)/autoconf.h
-	      
+
 CPPFLAGS := $(CPPFLAGS) -nostdinc++ -include $(SRCROOT)/autoconf.h
 
 DEFINES=
@@ -43,7 +43,8 @@ OTHER_FILES =
 # The ordering is important;
 # boot2.o must be first.
 OBJS = boot2.o boot.o graphics.o drivers.o prompt.o options.o lzss.o mboot.o \
-	ramdisk.o picopng.o resume.o bmdecompress.o graphic_utils.o gui.o modules.o modules_support.o boot_modules.o
+	   ramdisk.o picopng.o resume.o bmdecompress.o graphic_utils.o gui.o modules.o \
+	   modules_support.o boot_modules.o
 # button.o browser.o scrollbar.o == NOTYET	
 
 UTILDIR = ../util
@@ -112,7 +113,6 @@ ifeq (${CONFIG_MODULES}, y)
 
 	@${RM} $(SYMROOT)/${SYMBOLS_MODULE}
 
-
 	@$(LD) -arch i386 \
 	-undefined dynamic_lookup \
 	-dylib -read_only_relocs suppress \
@@ -122,17 +122,13 @@ ifeq (${CONFIG_MODULES}, y)
 	-final_output Symbols \
 	-macosx_version_min 10.6 \
 	-o $(OBJROOT)/Symbols_LINKER_ONLY.dylib
-	
-
-
-
 
 endif
 
-	@make embed_symbols		# this is done in a sub process after boot.sys exists so the strings are populated correctly
+	# this is done in a sub process after boot.sys exists so the strings are populated correctly
+	@make embed_symbols
 
 	@${RM} $(SYMROOT)/boot2.sys
-	
 
 	@( size=`ls -l $(SYMROOT)/boot | awk '{ print $$5}'` ; \
 	  if expr "$$size" ">" "$(MAXBOOTSIZE)" > /dev/null ;\
@@ -145,7 +141,6 @@ endif
 	  	echo "\t******* boot is $$size bytes *******"; \
 	  fi)
 
-	
 embed_symbols:
 ifeq (${CONFIG_MODULES}, y)
 	@echo ================= Embedding Symbols.dylib =================
@@ -153,12 +148,11 @@ ifeq (${CONFIG_MODULES}, y)
 	@$(SYMROOT)/machOconv $(SYMROOT)/boot2.sys $(SYMROOT)/boot &> /dev/null
 
 	@echo "\t******* Patching at $(PATCH_ADDR) ******"
-	@stat -f%z $(SYMROOT)/boot | perl -ane "print pack('V',@F[0]);" | dd conv=notrunc of=${SYMROOT}/boot.sys bs=1 count=4 seek=$(PATCH_ADDR)	 &> /dev/null
+	@stat -f%z $(SYMROOT)/boot | perl -ane "print pack('V',@F[0]);" | dd conv=notrunc of=${SYMROOT}/boot.sys bs=1 count=4 seek=$(PATCH_ADDR) &> /dev/null
 endif
 	@echo "\t[MACHOCONV] boot"
 	@$(SYMROOT)/machOconv $(SYMROOT)/boot.sys $(SYMROOT)/boot
 
-	
 $(SYMROOT)/art.h:
 	@if [ "$(PNGCRUSH)" ]; then	\
 		echo "optimizing art files ...\n$(PNGCRUSH) $(PNGOPTIONS) artwork/$(THEME)"; \
