@@ -141,7 +141,7 @@ typedef struct _PlatformInfo_t {
 	} RAM;
 	
 	struct DMI {
-		int			MaxMemorySlots;				// number of memory slots polulated by SMBIOS
+		int			MaxMemorySlots;				// number of memory slots populated by SMBIOS
 		int			CntMemorySlots;				// number of memory slots counted
 		int			MemoryModules;				// number of memory modules installed
 		int			DIMM[MAX_RAM_SLOTS];		// Information and SPD mapping for each slot

@@ -342,18 +342,17 @@ static void read_smb_intel(pci_dt_t *smbus_dev)
                        slot->Vendor,
                        slot->PartNo,
                        slot->SerialNo); 
-
-#if DEBUG_SPD
-             //Azi: this was gone with mem.c... remove??
-             dumpPhysAddr("spd content: ", slot->spd, spd_size);
-             getchar();
-#endif
-        }
-
-        // laptops sometimes show slot 0 and 2 with slot 1 empty when only 2 slots are presents so:
-        Platform.DMI.DIMM[i]= 
+            
+            //This should probably be inside the if...
+            // laptops sometimes show slot 0 and 2 with slot 1 empty when only 2 slots are presents so:
+            Platform.DMI.DIMM[i]= 
             i>0 && Platform.RAM.DIMM[1].InUse==false && fullBanks && Platform.DMI.CntMemorySlots == 2 ? 
             mapping[i] : i; // for laptops case, mapping setup would need to be more generic than this
+
+
+        }
+
+
         
 		slot->spd = NULL;
 

@@ -258,6 +258,9 @@ bool getSMBMemoryDeviceSerialNumber(returnType *value)
 	int	map;
 
 	idx++;
+
+    DBG("getSMBMemoryDeviceSerialNumber index: %d, MAX_RAM_SLOTS: %d\n",idx,MAX_RAM_SLOTS);
+
 	if (idx < MAX_RAM_SLOTS)
 	{
 		map = Platform.DMI.DIMM[idx];
