@@ -158,13 +158,13 @@ int getc()
 // Read and echo a character from console.  This doesn't echo backspace
 // since that screws up higher level handling
 
-int getchar()
+int getchar() //Azi: study!!!
 {
 	register int c = getc();
 
-	if ( c == '\r' ) c = '\n';
+	if ( c == '\r' ) c = '\n'; //Azi: CR/LF ?? 
 
-	if ( c >= ' ' && c < 0x7f) putchar(c);
+	if ( c >= ' ' && c < 0x7f) putchar(c); //Azi: check gui.h - kReturnKey, etc...
 	
 	return (c);
 }
@@ -263,6 +263,6 @@ void stop(const char * fmt, ...)
 void pause() 
 {
     printf("Press a key to continue...\n");
-	getchar(); //getc(); //Azi: getc works here because the function is up above; changed for now.
-	// replace getchar() by pause() ??
+	getc(); //getchar(); //Azi: getc works here because the function is up above.
+	// replace get/getchar by pause() ??
 }

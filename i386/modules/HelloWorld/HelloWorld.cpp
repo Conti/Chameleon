@@ -35,10 +35,7 @@ void helloWorld(void* binary, void* arg2, void* arg3, void* arg4)
 	delete obj2;
 
 	printf("Hello world from ExecKernel hook. Binary located at 0x%X\n", binary);
-	getchar();
-	
-	//
-	
+	getc(); //Azi: getchar(); ??
 }
 
 void HelloWorld_start()
@@ -46,7 +43,6 @@ void HelloWorld_start()
 	//printf("Hooking 'ExecKernel'\n");
 	register_hook_callback("ExecKernel", &helloWorld);
 	register_hook_callback("Kernel Start", &helloWorld);
-
 }
 
 void HW::printHello()

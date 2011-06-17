@@ -290,7 +290,7 @@ void processRAMDiskCommand(char ** argPtr, const char * cmd)
 		setCursorPosition(0, 0, 1);
 		showInfoRAMDisk();
 		printf("\n\nPress any key to continue.\n");
-		getchar();
+		getc(); //Azi: getchar();
 		setActiveDisplayPage(0);
 	}
 	else
@@ -303,7 +303,7 @@ void processRAMDiskCommand(char ** argPtr, const char * cmd)
 		printf("\n?rd m <filename> - mount ramdisk image\n?rd u - unmount ramdisk image");
 		printf("\n?rd e - enable bt(0,0) alias\n?rd d - disable bt(0,0) alias");
 		printf("\n\nPress any key to continue.\n");
-		getchar();
+		getc(); //Azi: getchar();
 		setActiveDisplayPage(0);
 	}
 }

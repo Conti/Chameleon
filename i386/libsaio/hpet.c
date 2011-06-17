@@ -98,6 +98,6 @@ void force_enable_hpet(pci_dt_t *lpc_dev)
 
 #if DEBUG_HPET
 	printf("Press [Enter] to continue...\n");
-	getchar();
+	getc(); //Azi: getchar();
 #endif
 }

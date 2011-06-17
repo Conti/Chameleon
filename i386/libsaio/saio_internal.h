@@ -49,7 +49,8 @@ extern int    get_drive_info(int drive, struct driveInfo *dp);
 extern int    ebiosEjectMedia(int biosdev);
 extern void	  bios_putchar(int ch);
 extern void   putca(int ch, int attr, int repeat);
-extern void   pause();
+extern int    getc(void); //Azi: getchar();
+extern void   pause(); //Azi: replace getc/getchar with ? console.c - btw, what is it doing here ?? there's a console.c section below...
 extern int    readKeyboardStatus(void);
 extern int    readKeyboardShiftFlags(void);
 extern unsigned int time18(void);

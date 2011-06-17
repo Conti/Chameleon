@@ -142,8 +142,10 @@ extern int	selectIndex;
 
 extern MenuItem *menuItems;
 
-//char prompt[BOOT_STRING_LEN];
-extern char   gBootArgs[BOOT_STRING_LEN];
+char prompt[BOOT_STRING_LEN];
+//extern char   gBootArgs[BOOT_STRING_LEN]; //Azi: getchar/prompt stuff
+
+int prompt_pos = 0;
 
 char prompt_text[] = "boot: ";
  
@@ -910,8 +912,8 @@ void drawDeviceList (int start, int end, int selection)
 void clearGraphicBootPrompt()
 {
 	// clear text buffer
-	//prompt[0] = '\0';
-	//prompt_pos=0;
+	prompt[0] = '\0'; //Azi: getchar/prompt stuff
+	prompt_pos=0;
 
 	
 	if(	gui.bootprompt.draw == true )
@@ -927,6 +929,15 @@ void clearGraphicBootPrompt()
 
 void updateGraphicBootPrompt(int key)
 {
+	if ( key == kBackspaceKey ) //Azi: getchar/prompt stuff
+		prompt[--prompt_pos] = '\0';
+	else 
+	{
+		prompt[prompt_pos] = key;
+		prompt_pos++;
+		prompt[prompt_pos] = '\0';
+	}
+	
 	fillPixmapWithColor( gui.bootprompt.pixmap, gui.bootprompt.bgcolor);
 
 	makeRoundedCorners( gui.bootprompt.pixmap);
@@ -938,14 +949,16 @@ void updateGraphicBootPrompt(int key)
 	
 	// get the position of the end of the boot prompt text to display user input
 	position_t p_prompt = pos( p_text.x + ( ( strlen(prompt_text) ) * font_console.chars[0]->width ), p_text.y );
-
+//Azi: getchar/prompt stuff
 	// calculate the position of the cursor
-	int	offset = (  strlen(gBootArgs) - ( ( gui.bootprompt.width / font_console.chars[0]->width ) - strlen(prompt_text) - 2 ) );	
-
+	int	offset = (  prompt_pos - ( ( gui.bootprompt.width / font_console.chars[0]->width ) - strlen(prompt_text) - 2 ) );	
+	
 	if ( offset < 0)
 		offset = 0;
 	
-	drawStr( gBootArgs, &font_console, gui.bootprompt.pixmap, p_prompt);
+	drawStr( prompt+offset, &font_console, gui.bootprompt.pixmap, p_prompt);
+// end
+	drawStr( prompt + offset, &font_console, gui.bootprompt.pixmap, p_prompt);
 
 	gui.menu.draw = false;
 	gui.bootprompt.draw = true;
@@ -1569,7 +1582,7 @@ void showInfoBox(char *title, char *text)
 		
 		updateVRAM();
 		
-		key = getchar();
+		key = getc(); //Azi: getchar();
 			
 		if( key == kUpArrowkey )
 			if( currentline > 0 )

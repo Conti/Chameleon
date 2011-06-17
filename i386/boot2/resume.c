@@ -119,7 +119,7 @@ void HibernateBoot(char *image_filename)
 		printf ("Resuming from Encrypted image is unsupported.\n"
 				"Uncheck \"Use secure virtual memory\" in \"Security\" pane on system preferences.\n"
 				"Press any key to proceed with normal boot.\n");
-		getchar ();
+		getc(); //Azi: getchar();
 		return;
 	}
 // depends on NVRAM
@@ -143,7 +143,7 @@ void HibernateBoot(char *image_filename)
 	if (!((long long)mem_base+allocSize<1024*bootInfo->extmem+0x100000))
 	{
 		printf ("Not enough space to restore image. Press any key to proceed with normal boot.\n");
-		getchar ();
+		getc(); //Azi: getchar();
 		return;
 	}
 	
