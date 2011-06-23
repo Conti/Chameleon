@@ -286,7 +286,7 @@ void scan_cpu(PlatformInfo_t *p)
 				/*if(bus_ratio_max > 0) bus_ratio = flex_ratio;*/
 				p->CPU.MaxRatio = max_ratio;
 				p->CPU.MinRatio = min_ratio;
-						
+
 				myfsb = fsbFrequency / 1000000;
 				verbose("Sticking with [BCLK: %dMhz, Bus-Ratio: %d]\n", myfsb, max_ratio);
 				currcoef = bus_ratio_max;

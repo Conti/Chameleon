@@ -675,7 +675,7 @@ int get_drive_info(int drive, struct driveInfo *dp)
 	print_drive_info(di);
 	printf("uses_ebios = 0x%x\n", dp->uses_ebios);
 	printf("result %d\n", ret);
-	printf("press a key->\n"); getchar();
+	pause();
 #endif
 
 	if (ret == 0) {

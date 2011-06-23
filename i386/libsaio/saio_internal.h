@@ -49,7 +49,6 @@ extern int    get_drive_info(int drive, struct driveInfo *dp);
 extern int    ebiosEjectMedia(int biosdev);
 extern void	  bios_putchar(int ch);
 extern void   putca(int ch, int attr, int repeat);
-extern void   pause();
 extern int    readKeyboardStatus(void);
 extern int    readKeyboardShiftFlags(void);
 extern unsigned int time18(void);
@@ -89,14 +88,16 @@ extern long   CacheRead(CICell ih, char *buffer, long long offset,
 extern bool   gVerboseMode;
 extern bool   gErrors;
 extern void   initBooterLog(void);
+extern void   msglog(const char * format, ...);
 extern void   setupBooterLog(void);
 extern int    putchar(int ch);
 extern int    getchar(void);
-extern void   msglog(const char * format, ...);
 extern int    printf(const char *format, ...);
 extern int    error(const char *format, ...);
 extern int    verbose(const char *format, ...);
 extern void   stop(const char *format, ...);
+//Azi: replace getc/getchar with ? console.c
+extern void   pause();
 
 /* disk.c */
 extern void   rescanBIOSDevice(int biosdev);
