@@ -125,7 +125,7 @@ ifeq (${CONFIG_MODULES}, y)
 
 endif
 
-	# this is done in a sub process after boot.sys exists so the strings are populated correctly
+	@# this is done in a sub process after boot.sys exists so the strings are populated correctly
 	@make embed_symbols
 
 	@${RM} $(SYMROOT)/boot2.sys
