@@ -4,6 +4,7 @@
   number of bytes for boot2.
 - Added new ATi/AMD Graphics Card Enabler.
 - Added new SMBIOS patcher.
+	Includes changes to "manufacter" keys, from SM*manufacter to SM*manufacturer.
 - Added module system.
 - Added automatic P-States & C-States generation for native power management.
 - Added Booter Log Dump Tool
