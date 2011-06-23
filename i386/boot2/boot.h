@@ -98,8 +98,8 @@
 
 #define kUseNvidiaROM		"UseNvidiaROM"		/* nvidia.c */
 #define kVBIOS				"VBIOS"				/* nvidia.c */
-#define kdcfg0				"display_0"			/* nvidia.c */
-#define kdcfg1				"display_1"			/* nvidia.c */
+#define kdcfg0              "display_0"			/* nvidia.c */
+#define kdcfg1              "display_1"			/* nvidia.c */
 
 #define kEthernetBuiltIn	"EthernetBuiltIn"	/* pci_setup.c */
 #define kGraphicsEnabler	"GraphicsEnabler"	/* pci_setup.c */

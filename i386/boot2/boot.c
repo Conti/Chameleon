@@ -185,7 +185,7 @@ static int ExecKernel(void *binary)
 	bool dummyVal;
 	if (getBoolForKey(kWaitForKeypressKey, &dummyVal, &bootInfo->bootConfig) && dummyVal) {
 		printf("Press any key to continue...");
-		getc(); //Azi: getchar();
+		getchar();
 	}
 	
 	usb_loop();
@@ -350,7 +350,7 @@ void common_boot(int biosdev)
 #if DEBUG
     printf(" Default: %d, ->biosdev: %d, ->part_no: %d ->flags: %d\n", gBootVolume, gBootVolume->biosdev, gBootVolume->part_no, gBootVolume->flags);
     printf(" bt(0,0): %d, ->biosdev: %d, ->part_no: %d ->flags: %d\n", gBIOSBootVolume, gBIOSBootVolume->biosdev, gBIOSBootVolume->part_no, gBIOSBootVolume->flags);
-    getc(); //Azi: getchar();
+    getchar();
 #endif
 
 	useGUI = true;

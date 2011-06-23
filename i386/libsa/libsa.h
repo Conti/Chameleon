@@ -93,7 +93,7 @@ extern int    strcmp(const char * s1, const char * s2);
 extern int    strncmp(const char * s1, const char * s2, size_t n);
 extern char * strcpy(char * s1, const char * s2);
 extern char * strncpy(char * s1, const char * s2, size_t n);
-extern size_t strlcpy(char * s1, const char * s2, size_t n); //Azi: ?? check!
+extern size_t strlcpy(char * s1, const char * s2, size_t n);
 extern char * strstr(const char *in, const char *str);
 extern int    atoi(const char * str);
 extern int    ptol(const char * str);

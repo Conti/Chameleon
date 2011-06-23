@@ -142,9 +142,9 @@ ask_yn(str, default_answer)
 	printf("%s [%c] ", str, default_answer ? 'y' : 'n');
 	fflush(stdout);
 
-	first = ch = getchar(); //Azi: what about these ?
+	first = ch = getchar();
 	while (ch != '\n' && ch != EOF)
-		ch = getchar(); //Azi: not messing them :P
+		ch = getchar();
 
 	if (ch == EOF || first == EOF)
 		errx(1, "eof");

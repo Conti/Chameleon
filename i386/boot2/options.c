@@ -156,7 +156,7 @@ static int countdown( const char * msg, int row, int timeout )
 			}
         }
 	
-		if( bootArgs->Video.v_display == GRAPHICS_MODE )
+		if( bootArgs->Video.v_display != VGA_TEXT_MODE )
 		{
 			drawProgressBar( gui.screen.pixmap, 100, gui.progressbar.pos , ( multi * 100 / multi_buff ) );
 			gui.redraw = true;
@@ -172,8 +172,7 @@ static int countdown( const char * msg, int row, int timeout )
 
 //==========================================================================
 
-//char   gBootArgs[BOOT_STRING_LEN];
-static char   gBootArgs[BOOT_STRING_LEN];
+char   gBootArgs[BOOT_STRING_LEN];
 static char * gBootArgsPtr = gBootArgs;
 static char * gBootArgsEnd = gBootArgs + BOOT_STRING_LEN - 1;
 static char   booterCommand[BOOT_STRING_LEN];
@@ -184,7 +183,7 @@ static void clearBootArgs(void)
 	gBootArgsPtr = gBootArgs;
 	memset(gBootArgs, '\0', BOOT_STRING_LEN);
 
-	if (bootArgs->Video.v_display == GRAPHICS_MODE) {
+	if (bootArgs->Video.v_display != VGA_TEXT_MODE) {
 		clearGraphicBootPrompt();
 	}
 }
@@ -206,13 +205,12 @@ static void showBootPrompt(int row, bool visible)
 	extern char bootPrompt[];
 	extern char bootRescanPrompt[];
 
-	if ( bootArgs->Video.v_display == VGA_TEXT_MODE ) {
-//Azi: getchar/prompt stuff
+	if( bootArgs->Video.v_display == VGA_TEXT_MODE ) {
 		changeCursor( 0, row, kCursorTypeUnderline, 0 );    
 		clearScreenRows( row, kScreenLastRow );
 	}
 
-	clearBootArgs();
+	//clearBootArgs();
 
 	if (visible) {
 		if (bootArgs->Video.v_display == VGA_TEXT_MODE) {
@@ -220,13 +218,12 @@ static void showBootPrompt(int row, bool visible)
 				printf( bootRescanPrompt );
 			} else {
 				printf( bootPrompt );
-//                printf( gBootArgs );
+                printf( gBootArgs );
 			}
 		}
 	} else {
-		if (bootArgs->Video.v_display == GRAPHICS_MODE) {
-			clearGraphicBootPrompt();
-// End
+		if (bootArgs->Video.v_display != VGA_TEXT_MODE) {
+//			clearGraphicBootPrompt();
 		} else {
 			printf("Press Enter to start up the foreign OS. ");
 		}
@@ -240,42 +237,41 @@ static void updateBootArgs( int key )
     key &= kASCIIKeyMask;
 
     switch ( key )
-	{
+    {
         case kBackspaceKey:
             if ( gBootArgsPtr > gBootArgs )
             {
+                *--gBootArgsPtr = '\0';
+
                 int x, y, t;
                 getCursorPositionAndType( &x, &y, &t );
                 if ( x == 0 && y )
                 {
                     x = 80; y--;
                 }
-                if (x)
-					x--;
+                if (x) x--;
+                
 				if( bootArgs->Video.v_display == VGA_TEXT_MODE )
 				{
 					setCursorPosition( x, y, 0 );
 					putca(' ', 0x07, 1);
-//Azi: getchar/prompt stuff
-				} else
-					updateGraphicBootPrompt(kBackspaceKey);
-
-				*gBootArgsPtr-- = '\0';
-			}
-
+				}
+                else
+                {
+                    updateGraphicBootPrompt();
+                }
+            }            
 			break;
 
         default:
             if ( key >= ' ' && gBootArgsPtr < gBootArgsEnd)
             {
-				if( bootArgs->Video.v_display == VGA_TEXT_MODE )
-					putchar(key);  // echo to screen
-				else
-					updateGraphicBootPrompt(key);
-			*gBootArgsPtr++ = key;
-// end
+                *gBootArgsPtr++ = key;
+                
+                if( bootArgs->Video.v_display != VGA_TEXT_MODE ) updateGraphicBootPrompt();
+                else if ( key >= ' ' && key < 0x7f) putchar(key);
 			}
-
+            
 			break;
     }
 }
@@ -348,7 +344,7 @@ static void showMenu( const MenuItem * items, int count,
 	
 	// Draw the visible items.
 
-	if( bootArgs->Video.v_display == GRAPHICS_MODE )
+	if( bootArgs->Video.v_display != VGA_TEXT_MODE )
 	
 		drawDeviceList(gMenuStart, gMenuEnd, gMenuSelection);
 
@@ -385,7 +381,7 @@ static int updateMenu( int key, void ** paramPtr )
     if ( gMenuItems == NULL )
 		return 0;
 
-	if( bootArgs->Video.v_display == GRAPHICS_MODE )
+	if( bootArgs->Video.v_display != VGA_TEXT_MODE )
 	{
 		int res;
 		
@@ -702,7 +698,7 @@ int getBootOptions(bool firstRun)
 	}
 
 	// ensure we're in graphics mode if gui is setup
-	if (gui.initialised && bootArgs->Video.v_display == VGA_TEXT_MODE)
+	if (firstRun && gui.initialised && bootArgs->Video.v_display == VGA_TEXT_MODE)
 	{
 		setVideoMode(GRAPHICS_MODE, 0);
 	}
@@ -870,7 +866,7 @@ int getBootOptions(bool firstRun)
 		}
 	}
 
-	if (bootArgs->Video.v_display == GRAPHICS_MODE) {
+	if (bootArgs->Video.v_display != VGA_TEXT_MODE) {
 		// redraw the background buffer
 		gui.logo.draw = true;
 		drawBackground();
@@ -911,13 +907,13 @@ int getBootOptions(bool firstRun)
 	showBootPrompt( nextRow, showPrompt );
 	
 	do {
-		if (bootArgs->Video.v_display == GRAPHICS_MODE) {
+		if (bootArgs->Video.v_display != VGA_TEXT_MODE) {
 			// redraw background
 			memcpy( gui.backbuffer->pixels, gui.screen.pixmap->pixels, gui.backbuffer->width * gui.backbuffer->height * 4 );
 			// reset cursor co-ords
 			gui.debug.cursor = pos( gui.screen.width - 160 , 10 );
 		}
-		key = getc(); //Azi: getchar();
+		key = getchar();
 		updateMenu( key, (void **) &menuBVR );
 		newShowPrompt = (gDeviceCount == 0) || (menuBVR->flags & kBVFlagNativeBoot);
 
@@ -948,13 +944,13 @@ int getBootOptions(bool firstRun)
 				* TODO: this needs to be refactored.
 				*/
 				if (strcmp( booterCommand, "video" ) == 0) {
-					if (bootArgs->Video.v_display == GRAPHICS_MODE) {
+					if (bootArgs->Video.v_display != VGA_TEXT_MODE) {
 						showInfoBox(getVBEInfoString(), getVBEModeInfoString());
 					} else {
 						printVBEModeInfo();
 					}
 				} else if ( strcmp( booterCommand, "memory" ) == 0) {
-					if (bootArgs->Video.v_display == GRAPHICS_MODE ) {
+					if (bootArgs->Video.v_display != VGA_TEXT_MODE ) {
 						showInfoBox("Memory Map", getMemoryInfoString());
 					} else {
 						printMemoryInfo();
@@ -1009,7 +1005,7 @@ int getBootOptions(bool firstRun)
 			// Switch between text & graphic interfaces
 			// Only Permitted if started in graphics interface
 			if (useGUI) {
-				if (bootArgs->Video.v_display == GRAPHICS_MODE) {
+				if (bootArgs->Video.v_display != VGA_TEXT_MODE) {
 					setVideoMode(VGA_TEXT_MODE, 0);
 
 					setCursorPosition(0, 0, 0);
@@ -1038,6 +1034,7 @@ int getBootOptions(bool firstRun)
 					gui.redraw = true;
 					setVideoMode(GRAPHICS_MODE, 0);
 					updateVRAM();
+                    updateGraphicBootPrompt();
 				}
 			}
 			key = 0;
@@ -1346,7 +1343,7 @@ static void showTextBuffer(char *buf, int size)
 	int	line_offset;
 	int	c;
 
-	if (bootArgs->Video.v_display == GRAPHICS_MODE) {
+	if (bootArgs->Video.v_display != VGA_TEXT_MODE) {
 		showInfoBox( "Press q to quit\n",buf );
 		return;
 	}
@@ -1389,7 +1386,7 @@ static void showTextBuffer(char *buf, int size)
 			printf("[Type %s%sq to quit viewer]", (line_offset > 0) ? "p for previous page, " : "", (*bp != '\1') ? "space for next page, " : "");
 		}
 
-		c = getc(); //Azi: getchar();
+		c = getchar();
 		if (c == 'q' || c == 'Q') {
 			break;
 		}
@@ -1409,7 +1406,7 @@ static void showTextBuffer(char *buf, int size)
 
 void showHelp(void)
 {
-	if (bootArgs->Video.v_display == GRAPHICS_MODE) {
+	if (bootArgs->Video.v_display != VGA_TEXT_MODE) {
 		showInfoBox("Help. Press q to quit.\n", (char *)BootHelp_txt);
 	} else {
 		showTextBuffer((char *)BootHelp_txt, BootHelp_txt_len);
@@ -1456,7 +1453,7 @@ int selectAlternateBootDevice(int bootdevice)
 	printf("Typical boot devices are 80 (First HD), 81 (Second HD)\n");
 	printf("Enter two-digit hexadecimal boot device [%02x]: ", bootdevice);
 	do {
-		key = getc(); //Azi: getchar();
+		key = getchar();
 		switch (key & kASCIIKeyMask) {
 		case kBackspaceKey:
 			if (digitsI > 0) {
@@ -1507,7 +1504,7 @@ int selectAlternateBootDevice(int bootdevice)
 bool promptForRescanOption(void)
 {
 	printf("\nWould you like to enable media rescan option?\nPress ENTER to enable or any key to skip.\n");
-	if (getc() == kReturnKey) { //Azi: getchar();
+	if (getchar() == kReturnKey) {
 		return true;
 	} else {
 		return false;
