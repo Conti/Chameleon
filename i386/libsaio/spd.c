@@ -255,7 +255,7 @@ static void read_smb_intel(pci_dt_t *smbus_dev)
     int        i, speed;
     uint8_t    spd_size, spd_type;
     uint32_t   base, mmio, hostc;
-    bool       dump = false;
+//  bool       dump = false;
     RamSlotInfo_t*  slot;
 
 	uint16_t cmd = pci_config_read16(smbus_dev->dev.addr, 0x04);
@@ -268,7 +268,8 @@ static void read_smb_intel(pci_dt_t *smbus_dev)
     verbose("Scanning SMBus [%04x:%04x], mmio: 0x%x, ioport: 0x%x, hostc: 0x%x\n", 
 		smbus_dev->vendor_id, smbus_dev->device_id, mmio, base, hostc);
 
-    getBoolForKey("DumpSPD", &dump, &bootInfo->bootConfig);
+//Azi: no use for this!
+//  getBoolForKey("DumpSPD", &dump, &bootInfo->bootConfig);
 	// needed at least for laptops
     bool fullBanks = Platform.DMI.MemoryModules == Platform.DMI.CntMemorySlots;
 
