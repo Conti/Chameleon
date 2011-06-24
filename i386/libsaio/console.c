@@ -263,6 +263,5 @@ void stop(const char * fmt, ...)
 void pause() 
 {
     printf("Press a key to continue...\n");
-	getchar(); //getc(); //Azi: getc works here because the function is up above; changed for now.
-	// replace getchar() by pause() ??
+	getchar(); // replace getchar() by pause() ?? were useful...?
 }
