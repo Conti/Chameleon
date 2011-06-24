@@ -509,7 +509,7 @@ int is_no_emulation(int drive)
 	printf("media_type: %x\n", pkt.media_type);
 	printf("drive_num: %x\n", pkt.drive_num);
 	printf("device_spec: %x\n", pkt.device_spec);
-	printf("press a key->\n"); getchar();
+	pause();
 #endif
 	
 	/* Some BIOSes erroneously return cf = 1 */
