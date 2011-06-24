@@ -22,9 +22,6 @@ static const char *theme_name = THEME_NAME_DEFAULT;
 
 #define LOADPNG(img, alt_img) if (loadThemeImage(#img, alt_img) != 0) { return 1; }
 
-#define MIN(x, y) ((x) < (y) ? (x) : (y))
-#define MAX(x, y) ((x) > (y) ? (x) : (y))
-
 #define VIDEO(x) (bootArgs->Video.v_ ## x)
 
 #define vram VIDEO(baseAddr)

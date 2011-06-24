@@ -1766,7 +1766,7 @@ bool getVolumeLabelAlias(BVRef bvr, char* str, long strMaxLen)
         
         if ( matchVolumeToString(bvr, volStart, volLen) )
         {   
-            strncat(str, aliasStart, min(strMaxLen, aliasLen));
+            strncat(str, aliasStart, MIN(strMaxLen, aliasLen));
             free(aliasList);
         
             return true;

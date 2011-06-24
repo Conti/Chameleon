@@ -42,8 +42,6 @@ int previewLoadedSectors = 0;
 uint8_t *previewSaveunder = 0;
 
 #define VIDEO(x) (bootArgs->Video.v_ ## x)
-
-#define MIN(x, y) ((x) < (y) ? (x) : (y))
  
 //==========================================================================
 // getVBEInfoString

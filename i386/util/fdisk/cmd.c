@@ -65,6 +65,7 @@
 #include "part.h"
 #include "cmd.h"
 #include "auto.h"
+
 #define MAX(a, b) ((a) >= (b) ? (a) : (b))
 
 int

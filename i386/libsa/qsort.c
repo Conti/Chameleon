@@ -57,11 +57,10 @@
 
 #include <sys/types.h>
 #include <stdlib.h>
+#include "saio_types.h" //Azi: MIN/MAX
 
 static inline char	*med3 __P((char *, char *, char *, int (*)()));
 static inline void	 swapfunc __P((char *, char *, int, int));
-
-#define min(a, b)	(a) < (b) ? a : b
 
 /*
  * Qsort routine from Bentley & McIlroy's "Engineering a Sort Function".
@@ -178,9 +177,9 @@ loop:	SWAPINIT(a, es);
 	}
 
 	pn = a + n * es;
-	r = min(pa - (char *)a, pb - pa);
+	r = MIN(pa - (char *)a, pb - pa);
 	vecswap(a, pb - r, r);
-	r = min(pd - pc, (pn - pd) - (int)es);
+	r = MIN(pd - pc, (pn - pd) - (int)es);
 	vecswap(pb, pn - r, r);
 	if ((r = pb - pa) > (int)es)
 		qsort(a, r / es, es, cmp);

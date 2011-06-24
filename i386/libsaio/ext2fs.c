@@ -37,6 +37,6 @@ void EX2GetDescription(CICell ih, char *str, long strMaxLen)
 		return;
 	}
 	str[strMaxLen]=0;
-	strncpy (str, buf+0x478, min (strMaxLen, 16));
+	strncpy (str, buf+0x478, MIN(strMaxLen, 16));
 	free (buf);
 }

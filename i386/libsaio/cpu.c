@@ -56,7 +56,7 @@ static uint64_t measure_tsc_frequency(void)
          */
         if((tscEnd - tscStart) <= CALIBRATE_TIME_MSEC)
             continue;
-        // tscDelta = min(tscDelta, (tscEnd - tscStart))
+        // tscDelta = MIN(tscDelta, (tscEnd - tscStart))
         if( (tscEnd - tscStart) < tscDelta )
             tscDelta = tscEnd - tscStart;
     }
@@ -170,7 +170,7 @@ void scan_cpu(PlatformInfo_t *p)
 		
 		strlcpy(p->CPU.BrandString,	s, sizeof(p->CPU.BrandString));
 		
-		if (!strncmp(p->CPU.BrandString, CPU_STRING_UNKNOWN, min(sizeof(p->CPU.BrandString), strlen(CPU_STRING_UNKNOWN) + 1))) {
+		if (!strncmp(p->CPU.BrandString, CPU_STRING_UNKNOWN, MIN(sizeof(p->CPU.BrandString), strlen(CPU_STRING_UNKNOWN) + 1))) {
 			 /*
 			  * This string means we have a firmware-programmable brand string,
 			  * and the firmware couldn't figure out what sort of CPU we have.

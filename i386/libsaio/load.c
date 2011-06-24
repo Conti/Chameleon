@@ -151,8 +151,8 @@ long DecodeMachO(void *binary, entry_t *rentry, char **raddr, int *rsize)
     case LC_SEGMENT:
       ret = DecodeSegment(cmdBase, &load_addr, &load_size);
       if (ret == 0 && load_size != 0 && load_addr >= KERNEL_ADDR) {
-          vmaddr = min(vmaddr, load_addr);
-          vmend = max(vmend, load_addr + load_size);
+          vmaddr = MIN(vmaddr, load_addr);
+          vmend = MAX(vmend, load_addr + load_size);
       }
       break;
       

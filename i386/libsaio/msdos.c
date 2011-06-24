@@ -45,10 +45,9 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
  * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#define tolower(c)     (((c)>='A' && c<='Z')?((c) | 0x20):(c))
+
 #include "libsaio.h"
 #include "sl.h"
-
 #include "msdos_private.h"
 #include "msdos.h"
 
@@ -59,6 +58,8 @@
 #define	CLUST_RSRVD32	0x0ffffff8	/* reserved cluster range */
 #define	CLUST_RSRVD16	0xfff8	/* reserved cluster range */
 #define	CLUST_RSRVD12	0xff8	/* reserved cluster range */
+
+#define tolower(c)     (((c)>='A' && c<='Z')?((c) | 0x20):(c))
 
 static int msdosressector=0;
 static int msdosnfats = 0;
@@ -767,10 +768,10 @@ MSDOSReadFile(CICell ih, char * filePath, void *base, uint64_t offset, uint64_t 
 	if (length==0 || length>size-offset)
 		toread=size-offset;
 	wastoread=toread;
-	bcopy (buf+(offset%msdosclustersize),ptr,min(msdosclustersize-(offset%msdosclustersize), toread));
+	bcopy (buf+(offset%msdosclustersize),ptr,MIN(msdosclustersize-(offset%msdosclustersize), toread));
 	ptr+=msdosclustersize-(offset%msdosclustersize);
 	toread-=msdosclustersize-(offset%msdosclustersize);
-	while (toread>0 && msdosreadcluster (ih, (uint8_t *)ptr, min(msdosclustersize,toread), &cluster))
+	while (toread>0 && msdosreadcluster (ih, (uint8_t *)ptr, MIN(msdosclustersize,toread), &cluster))
 	{
 		ptr+=msdosclustersize;
 		toread-=msdosclustersize;

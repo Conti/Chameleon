@@ -233,18 +233,23 @@ enum {
     DEV_EN = 3
 };
 
-#ifndef max
-#define max(a,b) ((a) > (b) ? (a) : (b))
+/*
+ * min/max Macros.
+ *
+ * Azi: defined on <sys/param.h>, i386/include/IOKit/IOLib.h (min/max, lower case), and others...
+ */
+#ifndef MIN
+#define	MIN(a,b) ( ((a) < (b)) ? (a) : (b) )
+#endif
+#ifndef MAX
+#define	MAX(a,b) ( ((a) > (b)) ? (a) : (b) )
 #endif
 
-#ifndef min
-#define min(a,b) ((a) < (b) ? (a) : (b))
-#endif
-
+/*Azi: not used
 #define	round2(x, m)	(((x) + (m / 2)) & ~(m - 1))
 #define roundup2(x, m)  (((x) + m - 1) & ~(m - 1))
 
-#define MAKEKERNDEV(t, u, p)  MAKEBOOTDEV(t, 0, 0, u, p)
+#define MAKEKERNDEV(t, u, p)  MAKEBOOTDEV(t, 0, 0, u, p)*/
 
 enum {
     kNetworkDeviceType = kBIOSDevTypeNetwork,
