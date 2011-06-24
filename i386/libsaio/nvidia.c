@@ -891,7 +891,8 @@ static int patch_nvidia_rom(uint8_t *rom)
 			headerlength = 8;
 		}
 		if (sig != 0x4edcbdcb) {
-			printf("bad display config block signature (0x%8x)\n", sig);
+			//Azi: match this with one below and add line number ?
+			printf("Bad display config block signature (0x%8x)\n", sig);
 			return PATCH_ROM_FAILED;
 		}
 	} else if (dcbtable_version >= 0x14) { /* some NV15/16, and NV11+ */
