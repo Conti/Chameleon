@@ -317,33 +317,33 @@ find_boot:
 .Pass1:
 %if CONFIG_BOOT0_HFSFIRST
     cmp	    BYTE [si + part.type], kPartTypeHFS		; In pass 1 we're going to find a HFS+ partition
-                                                  ; equipped with boot1h in its boot record
-                                                  ; regardless if it's active or not.
+                                                    ; equipped with boot1h in its boot record
+                                                    ; regardless if it's active or not.
     jne     .continue
-  	mov		  dh, 1                									; Argument for loadBootSector to check HFS+ partition signature.
+  	mov		dh, 1                					; Argument for loadBootSector to check HFS+ partition signature.
 %else
     cmp     BYTE [si + part.bootid], kPartActive	; In pass 1 we are walking on the standard path
-                                                  ; by trying to hop on the active partition.
+                                                    ; by trying to hop on the active partition.
     jne     .continue
-    xor	  	dh, dh               									; Argument for loadBootSector to skip HFS+ partition
-											                        		; signature check.
+    xor	  	dh, dh               					; Argument for loadBootSector to skip HFS+ partition
+											        ; signature check.
 %endif
 
-    jmp    .tryToBoot
+    jmp     .tryToBoot
 
 .Pass2:    
 %if CONFIG_BOOT0_HFSFIRST
     cmp     BYTE [si + part.bootid], kPartActive	; In pass 2 we are walking on the standard path
-                                                  ; by trying to hop on the active partition.
+                                                    ; by trying to hop on the active partition.
     jne     .continue
-    xor		  dh, dh               									; Argument for loadBootSector to skip HFS+ partition
-											                        		; signature check.
+    xor		dh, dh               					; Argument for loadBootSector to skip HFS+ partition
+											        ; signature check.
 %else
     cmp	    BYTE [si + part.type], kPartTypeHFS		; In pass 2 we're going to find a HFS+ partition
-                                                  ; equipped with boot1h in its boot record
-                                                  ; regardless if it's active or not.
+                                                    ; equipped with boot1h in its boot record
+                                                    ; regardless if it's active or not.
     jne     .continue
-  	mov 		dh, 1                									; Argument for loadBootSector to check HFS+ partition signature.
+  	mov 	dh, 1                					; Argument for loadBootSector to check HFS+ partition signature.
 %endif
 
     DebugChar('*')
@@ -359,7 +359,7 @@ find_boot:
     jmp	    SHORT initBootLoader
 
 .continue:
-    add     si, BYTE part_size				; advance SI to next partition entry
+    add     si, BYTE part_size     			; advance SI to next partition entry
     loop    .loop                 		 	; loop through all partition entries
 
     ;
@@ -369,7 +369,7 @@ find_boot:
     ;    
     dec	    bl
     jnz     .switchPass2					; didn't find Protective MBR before
-    call    checkGPT						
+    call    checkGPT
 
 .switchPass2:
     ;
@@ -406,7 +406,7 @@ DebugChar('J')
     ;
 checkGPT:
     push    bx
-	
+
     mov	    di, kLBA1Buffer						; address of GUID Partition Table Header
     cmp	    DWORD [di], kGPTSignatureLow		; looking for 'EFI '
     jne	    .exit								; not found. Giving up.
@@ -496,7 +496,7 @@ checkGPT:
 .exit:
     pop     bx
     ret												; no more GUID partitions. Giving up.
-    
+
 
 ;--------------------------------------------------------------------------
 ; loadBootSector - Load boot sector

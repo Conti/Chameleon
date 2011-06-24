@@ -697,4 +697,4 @@ pad_table_and_sig:
     times 510-($-$$) db 0
     dw    kBootSignature
 
-;END
+; END

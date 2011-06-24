@@ -31,8 +31,6 @@ static const char *theme_name = THEME_NAME_DEFAULT;
 
 int lasttime = 0; // we need this for animating maybe
 
-extern int gDeviceCount;
-
 
 /*
  * ATTENTION: the enum and the following array images[] MUST match !!!
