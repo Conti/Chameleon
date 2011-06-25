@@ -276,6 +276,7 @@ FileLoadMKext( const char * dirSpec, const char * extDirSpec )
 			|| (((gBootMode & kBootModeSafe) == 0) && (time == (time2 + 1))))
 		{
 			sprintf(gDriverSpec, "%sExtensions.mkext", altDirSpec);
+			verbose("LoadDrivers: Loading from [%s]\n", gDriverSpec);
 			
 			if (LoadDriverMKext(gDriverSpec) == 0)
 				return 0;
