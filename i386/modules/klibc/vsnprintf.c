@@ -5,8 +5,11 @@
  * family is built
  */
 
-#include "libsaio.h"
+//#include "libsaio.h"
+//Azi: "UCHAR_MAX" & "UINT_MAX" redefined error - limits.h is also present in i386/include.
+#include "libsa.h"
 #include "limits.h"
+
 enum flags {
 	FL_ZERO		= 0x01,	/* Zero modifier */
 	FL_MINUS	= 0x02,	/* Minus modifier */

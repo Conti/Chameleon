@@ -5,8 +5,11 @@
  * family is built
  */
 
-#include "libsaio.h"
+//#include "libsaio.h"
+//Azi: "UCHAR_MAX" & "UINT_MAX" redefined error - limits.h is also present in i386/include.
+#include "libsa.h"
 #include "limits.h"
+
 extern uintmax_t strntoumax(const char *nptr, char **endptr, int base, size_t n);
 
 #ifndef LONG_BIT

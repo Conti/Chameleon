@@ -44,10 +44,13 @@
  * All rights reserved.
  */
 
-/*  Copyright 2007 VMware Inc.
-    "Preboot" ramdisk support added by David Elliott
-    GPT support added by David Elliott.  Based on IOGUIDPartitionScheme.cpp.
+/*
+ * Copyright 2007 VMware Inc.
+ * "Preboot" ramdisk support added by David Elliott
+ * GPT support added by David Elliott.  Based on IOGUIDPartitionScheme.cpp.
  */
+
+//Azi: style the rest later...
 
 // Allow UFS_SUPPORT to be overridden with preprocessor option.
 #ifndef UFS_SUPPORT
@@ -55,30 +58,29 @@
 #define UFS_SUPPORT 0
 #endif
 
-#include "libsaio.h"
-#include "boot.h"
-#include "bootstruct.h"
-#include "fdisk.h"
 #if UFS_SUPPORT
 #include "ufs.h"
 #endif
+#include <limits.h>
+#include <IOKit/storage/IOApplePartitionScheme.h>
+#include <IOKit/storage/IOGUIDPartitionScheme.h>
+#include "libsaio.h"
+#include "boot.h"
+#include "bootstruct.h"
+#include "memory.h"
+#include "fdisk.h"
 #include "hfs.h"
 #include "ntfs.h"
 #include "msdos.h"
 #include "ext2fs.h"
-
 #include "xml.h"
 #include "disk.h"
-
-#include <limits.h>
-#include <IOKit/storage/IOApplePartitionScheme.h>
-#include <IOKit/storage/IOGUIDPartitionScheme.h>
-typedef struct gpt_hdr gpt_hdr;
-typedef struct gpt_ent gpt_ent;
-
 // For EFI_GUID
 #include "efi.h"
 #include "efi_tables.h"
+
+typedef struct gpt_hdr gpt_hdr;
+typedef struct gpt_ent gpt_ent;
 
 #define PROBEFS_SIZE     BPS * 4 /* buffer size for filesystem probe */
 #define CD_BPS           2048    /* CD-ROM block size */
@@ -631,14 +633,20 @@ BVRef newAPMBVRef( int biosdev, int partno, unsigned int blkoff,
 
 //==========================================================================
 
-// HFS+ GUID in LE form
-EFI_GUID const GPT_HFS_GUID	= { 0x48465300, 0x0000, 0x11AA, { 0xAA, 0x11, 0x00, 0x30, 0x65, 0x43, 0xEC, 0xAC } };
-// turbo - also our booter partition
-EFI_GUID const GPT_BOOT_GUID	= { 0x426F6F74, 0x0000, 0x11AA, { 0xAA, 0x11, 0x00, 0x30, 0x65, 0x43, 0xEC, 0xAC } };
-// turbo - or an efi system partition
-EFI_GUID const GPT_EFISYS_GUID	= { 0xC12A7328, 0xF81F, 0x11D2, { 0xBA, 0x4B, 0x00, 0xA0, 0xC9, 0x3E, 0xC9, 0x3B } };
-// zef - basic data partition EBD0A0A2-B9E5-4433-87C0-68B6B72699C7 for foreign OS support
-EFI_GUID const GPT_BASICDATA_GUID = { 0xEBD0A0A2, 0xB9E5, 0x4433, { 0x87, 0xC0, 0x68, 0xB6, 0xB7, 0x26, 0x99, 0xC7 } };
+// GUID's in LE form:
+// HFS+ partition - 48465300-0000-11AA-AA11-00306543ECAC
+EFI_GUID const GPT_HFS_GUID		   = { 0x48465300, 0x0000, 0x11AA, { 0xAA, 0x11, 0x00, 0x30, 0x65, 0x43, 0xEC, 0xAC } };
+
+// turbo - Apple Boot Partition - 426F6F74-0000-11AA-AA11-00306543ECAC
+EFI_GUID const GPT_BOOT_GUID	   = { 0x426F6F74, 0x0000, 0x11AA, { 0xAA, 0x11, 0x00, 0x30, 0x65, 0x43, 0xEC, 0xAC } };
+
+// turbo - or an EFI System Partition - C12A7328-F81F-11D2-BA4B-00A0C93EC93B
+EFI_GUID const GPT_EFISYS_GUID	   = { 0xC12A7328, 0xF81F, 0x11D2, { 0xBA, 0x4B, 0x00, 0xA0, 0xC9, 0x3E, 0xC9, 0x3B } };
+
+// zef - Basic Data Partition - EBD0A0A2-B9E5-4433-87C0-68B6B72699C7 for foreign OS support
+EFI_GUID const GPT_BASICDATA_GUID  = { 0xEBD0A0A2, 0xB9E5, 0x4433, { 0x87, 0xC0, 0x68, 0xB6, 0xB7, 0x26, 0x99, 0xC7 } };
+
+// Microsoft Reserved Partition - E3C9E316-0B5C-4DB8-817DF92DF00215AE
 EFI_GUID const GPT_BASICDATA2_GUID = { 0xE3C9E316, 0x0B5C, 0x4DB8, { 0x81, 0x7D, 0xF9, 0x2D, 0xF0, 0x02, 0x15, 0xAE } };
 
 
@@ -1256,7 +1264,7 @@ static BVRef diskScanGPTBootVolumes( int biosdev, int * countPtr )
         // NOTE: EFI_GUID's are in LE and we know we're on an x86.
         // The IOGUIDPartitionScheme.cpp code uses byte-based UUIDs, we don't.
 
-        if(isPartitionUsed(gptMap))
+        if (isPartitionUsed(gptMap))
         {
             char stringuuid[100];
             efi_guid_unparse_upper((EFI_GUID*)gptMap->ent_type, stringuuid);
@@ -1285,7 +1293,7 @@ static BVRef diskScanGPTBootVolumes( int biosdev, int * countPtr )
                                       kBIOSDevTypeHardDrive, bvrFlags);
             }
 
-						// zef - foreign OS support
+			// zef - foreign OS support
             if ( (efi_guid_compare(&GPT_BASICDATA_GUID, (EFI_GUID const*)gptMap->ent_type) == 0) ||
                  (efi_guid_compare(&GPT_BASICDATA2_GUID, (EFI_GUID const*)gptMap->ent_type) == 0) )
             {
@@ -1597,8 +1605,10 @@ BVRef newFilteredBVChain(int minBIOSDev, int maxBIOSDev, unsigned int allowFlags
          )
         newBVR->visible = true;
       
-      /* Looking for "Hide Partition" entries in 'hd(x,y)|uuid|"label" hd(m,n)|uuid|"label"' format
+      /*
+       * Looking for "Hide Partition" entries in 'hd(x,y)|uuid|"label" hd(m,n)|uuid|"label"' format,
        * to be able to hide foreign partitions from the boot menu.
+       *
        */
       if ( (newBVR->flags & kBVFlagForeignBoot) )
       {
@@ -1630,7 +1640,7 @@ BVRef newFilteredBVChain(int minBIOSDev, int maxBIOSDev, unsigned int allowFlags
     }
   }
 
-#if DEBUG
+#if DEBUG //Azi: warning - too big for boot-log.. far too big.. i mean HUGE!! :P
   for (bvr = chain; bvr; bvr = bvr->next)
   {
     printf(" bvr: %d, dev: %d, part: %d, flags: %d, vis: %d\n", bvr, bvr->biosdev, bvr->part_no, bvr->flags, bvr->visible);
@@ -1675,19 +1685,19 @@ int freeFilteredBVChain(const BVRef chain)
 
 static const struct NamedValue fdiskTypes[] =
 {
-	{ FDISK_NTFS,		"Windows NTFS"	 },
-	{ FDISK_DOS12,		"Windows FAT12"	 },
-	{ FDISK_DOS16B, 	"Windows FAT16"	 },
-	{ FDISK_DOS16S, 	"Windows FAT16"	 },
-	{ FDISK_DOS16SLBA,	"Windows FAT16"	 },
-	{ FDISK_SMALLFAT32,	"Windows FAT32"	 },
-	{ FDISK_FAT32,		"Windows FAT32"	 },
-	{ FDISK_LINUX,		"Linux"			 },
-	{ FDISK_UFS,		"Apple UFS"		 },
-	{ FDISK_HFS,		"Apple HFS"		 },
-	{ FDISK_BOOTER,		"Apple Boot/UFS" },
-	{ 0xCD,				"CD-ROM"		 },
-	{ 0x00,				0				 }	/* must be last */
+    { FDISK_NTFS,   "Windows NTFS"   },
+	{ FDISK_DOS12,  "Windows FAT12"  },
+	{ FDISK_DOS16B, "Windows FAT16"  },
+	{ FDISK_DOS16S, "Windows FAT16"  },
+	{ FDISK_DOS16SLBA, "Windows FAT16"  },
+	{ FDISK_SMALLFAT32,  "Windows FAT32"  },
+	{ FDISK_FAT32,  "Windows FAT32"  },
+    { FDISK_LINUX,  "Linux"          },
+    { FDISK_UFS,    "Apple UFS"      },
+    { FDISK_HFS,    "Apple HFS"      },
+    { FDISK_BOOTER, "Apple Boot/UFS" },
+    { 0xCD,         "CD-ROM"         },
+    { 0x00,         0                }  /* must be last */
 };
 
 //==========================================================================
@@ -1725,9 +1735,9 @@ bool matchVolumeToString( BVRef bvr, const char* match, long matchLen)
     return false;
 }
 
-/* If Rename Partition has defined an alias, then extract it  for description purpose
+/* If Rename Partition has defined an alias, then extract it for description purpose.
  * The format for the rename string is the following:
- * hd(x,y)|uuid|"label" "alias";hd(m,n)|uuid|"label" etc; ...
+ * hd(x,y)|uuid|"label" "alias";hd(m,n)|uuid|"label" "alias"; etc...
  */
 
 bool getVolumeLabelAlias(BVRef bvr, char* str, long strMaxLen)
@@ -1986,7 +1996,6 @@ int rawDiskWrite( BVRef bvr, unsigned int secno, void *buffer, unsigned int len 
 
     return 0;
 }
-
 
 int diskIsCDROM(BVRef bvr)
 {
