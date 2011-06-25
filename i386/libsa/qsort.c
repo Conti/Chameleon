@@ -57,7 +57,7 @@
 
 #include <sys/types.h>
 #include <stdlib.h>
-#include "saio_types.h" //Azi: MIN/MAX
+#include <sys/param.h>
 
 static inline char	*med3 __P((char *, char *, char *, int (*)()));
 static inline void	 swapfunc __P((char *, char *, int, int));
