@@ -1,3 +1,6 @@
+- Added "ShowInfo" key (enabled by default for now), which enables/disables the display of
+  partition and resolution related info, on the Gui.
+  This info may not play well with some custom themes.
 - Modules can now be selected between not compiled, compiled into chameleon, or compiled as modules.
 - New makefile + configuration system.
 - Added the BOOT2_MAX_LENGTH constant in memory.h. This is now used in mboot.c to relocate the correct

@@ -800,8 +800,10 @@ void drawDeviceIcon(BVRef device, pixmap_t *buffer, position_t p, bool isSelecte
 
 void drawDeviceList (int start, int end, int selection)
 {
-	int i;
-	position_t p, p_prev, p_next;
+	int			i;
+	bool		shoWinfo = true; //Azi:showinfo
+	extern bool showBootBanner; //
+	position_t	p, p_prev, p_next;
 
 	//uint8_t	maxDevices = MIN( gui.maxdevices, menucount );
 		
@@ -857,23 +859,29 @@ void drawDeviceList (int start, int end, int selection)
 			 
 			if(gui.menu.draw)
 				drawInfoMenuItems();
-			 
-#if DEBUG
-            gui.debug.cursor = pos( 10, 100);
-            dprintf( &gui.screen, "label     %s\n",   param->label );
-            dprintf( &gui.screen, "biosdev   0x%x\n", param->biosdev );
-            dprintf(&gui.screen,  "width     %d\n",  gui.screen.width);
-            dprintf(&gui.screen,  "height    %d\n",  gui.screen.height);
-            dprintf( &gui.screen, "type      0x%x\n", param->type );
-            dprintf( &gui.screen, "flags     0x%x\n", param->flags );
-            dprintf( &gui.screen, "part_no   %d\n",   param->part_no );
-            dprintf( &gui.screen, "part_boff 0x%x\n", param->part_boff );
-            dprintf( &gui.screen, "part_type 0x%x\n", param->part_type );
-            dprintf( &gui.screen, "bps       0x%x\n", param->bps );
-            dprintf( &gui.screen, "name      %s\n",   param->name );
-            dprintf( &gui.screen, "type_name %s\n",   param->type_name );
-            dprintf( &gui.screen, "modtime   %d\n",   param->modTime );
-#endif
+			
+			//Azi: make this info more accessible.
+			getBoolForKey(kShowInfoKey, &shoWinfo, &bootInfo->bootConfig);
+			
+			if (shoWinfo && showBootBanner) // no boot banner, no showinfo.
+			{
+				gui.debug.cursor = pos( 10, 100);
+				dprintf( &gui.screen, "label:     %s\n",   param->label );
+				dprintf( &gui.screen, "biosdev:   0x%x\n", param->biosdev );
+				dprintf( &gui.screen, "type:      0x%x\n", param->type );
+				dprintf( &gui.screen, "flags:     0x%x\n", param->flags );
+				dprintf( &gui.screen, "part_no:   %d\n",   param->part_no );
+				dprintf( &gui.screen, "part_boff: 0x%x\n", param->part_boff );
+				dprintf( &gui.screen, "part_type: 0x%x\n", param->part_type );
+				dprintf( &gui.screen, "bps:       0x%x\n", param->bps );
+				dprintf( &gui.screen, "name:      %s\n",   param->name );
+				dprintf( &gui.screen, "type_name: %s\n",   param->type_name );
+				dprintf( &gui.screen, "modtime:   %d\n",   param->modTime );
+				dprintf( &gui.screen, "width:     %d\n",   gui.screen.width );
+				dprintf( &gui.screen, "height:    %d\n",   gui.screen.height );
+//				dprintf( &gui.screen, "attr:      0x%x\n", gui.screen.attr ); //Azi: reminder
+//				dprintf( &gui.screen, "mm:        %d\n",   gui.screen.mm );
+			}
 		}
 		
 		drawDeviceIcon( param, gui.devicelist.pixmap, p, isSelected);

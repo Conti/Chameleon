@@ -62,6 +62,8 @@ Options useful in the com.apple.Boot.plist file:
 
   GUI=No                  Disable the GUI (enabled by default).
   "Boot Banner"=Yes|No    Show boot banner in GUI mode (enabled by default).
+  ShowInfo=No             Disables display of partition and resolution details.
+                            "Boot Banner"=No will also disable this info.
   "Legacy Logo"=Yes|No    Use the legacy grey apple logo (disabled by default).
 
   PciRoot=<value>         Use an alternate value for PciRoot (default value 0).

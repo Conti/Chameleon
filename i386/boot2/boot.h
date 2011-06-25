@@ -60,6 +60,7 @@
 #define kDefaultKernel		"mach_kernel"
 #define kGUIKey				"GUI"
 #define kBootBannerKey		"Boot Banner"
+#define kShowInfoKey		"ShowInfo"			// gui.c
 #define kWaitForKeypressKey	"Wait"
 
 #define kDSDT				"DSDT"				/* acpi_patcher.c */
