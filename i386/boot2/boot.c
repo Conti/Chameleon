@@ -486,7 +486,7 @@ void common_boot(int biosdev)
 			break;
 		}
 		
-		if(getBoolForKey(kUseKernelCache, &usecache, &bootInfo->bootConfig)) {
+		if(getBoolForKey(kUseKernelCache, &usecache, &bootInfo->bootConfig) && usecache) {
 			if (getValueForKey(kKernelCacheKey, &val, &len, &bootInfo->bootConfig)) {
 				strlcpy(gBootKernelCacheFile, val, len+1);
 			}
