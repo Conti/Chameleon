@@ -1113,7 +1113,7 @@ int XMLCastInteger(TagPtr dict)
 {
 	if(!dict)
 	{
-		printf("XMLCastInteger: null dict\n");
+		//printf("XMLCastInteger: null dict\n");
 		return 0;
 	}
 	if(dict->type == kTagTypeInteger) return (int)(dict->string);
