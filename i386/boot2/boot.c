@@ -376,7 +376,7 @@ void common_boot(int biosdev)
         bool tryresume;
         bool tryresumedefault;
         bool forceresume;
-		bool usecache;
+		bool usecache = false; //true;
 
         // additional variable for testing alternate kernel image locations on boot helper partitions.
         char     bootFileSpec[512];
@@ -485,10 +485,13 @@ void common_boot(int biosdev)
 			HibernateBoot((char *)val);
 			break;
 		}
-		
-		if(getBoolForKey(kUseKernelCache, &usecache, &bootInfo->bootConfig) && usecache) {
+        
+		getBoolForKey(kUseKernelCache, &usecache, &bootInfo->bootConfig);
+		if(usecache) {
 			if (getValueForKey(kKernelCacheKey, &val, &len, &bootInfo->bootConfig)) {
-				strlcpy(gBootKernelCacheFile, val, len+1);
+                //ugly hack. FIX THIS
+                if(strcmp(val, "\\kernelcache") == 0) strlcpy(gBootKernelCacheFile, "kernelcache", sizeof("kernelcache"));
+				else strlcpy(gBootKernelCacheFile, val, len+1);
 			}
 			else {
 				//Lion
@@ -566,10 +569,10 @@ void common_boot(int biosdev)
                 trycache = 0;
                 break;
             }
-            if (kerneltime > exttime) {
+            if (ret == 0 && kerneltime > exttime) {
                 exttime = kerneltime;
             }
-            if (cachetime != (exttime + 1)) {
+            if (ret == 0 && cachetime != (exttime + 1)) {
                 trycache = 0;
                 break;
             }
