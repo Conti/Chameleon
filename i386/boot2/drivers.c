@@ -816,24 +816,24 @@ DecodeKernel(void *binary, entry_t *rentry, char **raddr, int *rsize)
 			return -1;
 		}
 	}
-	
-	// Notify modules that the kernel has been decompressed, is about to be decoded
-	execute_hook("DecodeKernel", (void*)binary, NULL, NULL, NULL);
-	
+		
 	ret = ThinFatFile(&binary, &len);
-	  if (ret == 0 && len == 0 && archCpuType==CPU_TYPE_X86_64)
-	  {
-		  archCpuType=CPU_TYPE_I386;
-		  ret = ThinFatFile(&binary, &len);
-	  }
-
-	  ret = DecodeMachO(binary, rentry, raddr, rsize);
-
-	  if (ret<0 && archCpuType==CPU_TYPE_X86_64)
-	  {
-		  archCpuType=CPU_TYPE_I386;
-		  ret = DecodeMachO(binary, rentry, raddr, rsize);
-	  }
-
-	  return ret;
+    if (ret == 0 && len == 0 && archCpuType==CPU_TYPE_X86_64)
+    {
+        archCpuType=CPU_TYPE_I386;
+        ret = ThinFatFile(&binary, &len);
+    }
+    
+    // Notify modules that the kernel has been decompressed and thinned, is about to be decoded
+	execute_hook("DecodeKernel", (void*)binary, NULL, NULL, NULL);
+    
+    
+    ret = DecodeMachO(binary, rentry, raddr, rsize);
+    if (ret<0 && archCpuType==CPU_TYPE_X86_64)
+    {
+        archCpuType=CPU_TYPE_I386;
+        ret = DecodeMachO(binary, rentry, raddr, rsize);
+    }
+    
+    return ret;
 }
