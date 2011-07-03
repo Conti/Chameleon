@@ -46,7 +46,7 @@ typedef struct {
 
 static zmem * zalloced;
 static zmem * zavailable;
-static short  availableNodes, allocedNodes, totalNodes;
+static unsigned short  availableNodes, allocedNodes, totalNodes;
 static char * zalloc_base;
 static char * zalloc_end;
 static void   (*zerror)(char *, size_t, const char *, int);
@@ -60,7 +60,7 @@ static void   zcoalesce(void);
 size_t zalloced_size;
 #endif
 
-#define ZALLOC_NODES	16384
+#define ZALLOC_NODES	32768 /* was 16385 */
 
 static void malloc_error(char *addr, size_t size, const char *file, int line)
 {
