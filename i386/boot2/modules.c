@@ -210,8 +210,6 @@ int load_module(char* module)
  */
 long long add_symbol(char* symbol, long long addr, char is64)
 {
-	if(is64) return  0xFFFFFFFF; // Fixme
-
 	// This only can handle 32bit symbols 
 	symbolList_t* entry;
 	//DBG("Adding symbol %s at 0x%X\n", symbol, addr);
@@ -223,7 +221,7 @@ long long add_symbol(char* symbol, long long addr, char is64)
 	entry->addr = (UInt32)addr;
 	entry->symbol = symbol;
 	
-	if(strcmp(symbol, "start") == 0)
+	if(!is64 && strcmp(symbol, "start") == 0)
 	{
 		return addr;
 	}
