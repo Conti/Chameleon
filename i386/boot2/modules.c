@@ -177,7 +177,7 @@ int load_module(char* module)
 		if(module_start && module_start != (void*)0xFFFFFFFF)
 		{
 			// Notify the system that it was laoded
-			module_loaded(module, NULL, NULL, 0, 0 /*moduleName, moduleVersion, moduleCompat*/);
+			module_loaded(module, NULL, NULL, 0, 0 /*moduleName, NULL, moduleVersion, moduleCompat*/);
 			(*module_start)();	// Start the module
 			DBG("Module %s Loaded.\n", module); DBGPAUSE();
 		}
@@ -455,6 +455,7 @@ void* parse_mach(void* binary,
 				
 			case LC_LOAD_DYLIB:
 			case LC_LOAD_WEAK_DYLIB ^ LC_REQ_DYLD:
+                // Required modules
 				dylibCommand  = binary + binaryIndex;
 				char* module  = binary + binaryIndex + ((UInt32)*((UInt32*)&dylibCommand->dylib.name));
 				// Possible enhancments: verify version
@@ -475,7 +476,7 @@ void* parse_mach(void* binary,
 				break;
 				
 			case LC_ID_DYLIB:
-				dylibCommand = binary + binaryIndex;
+				//dylibCommand = binary + binaryIndex;
 				/*moduleName =	binary + binaryIndex + ((UInt32)*((UInt32*)&dylibCommand->dylib.name));
 				 moduleVersion =	dylibCommand->dylib.current_version;
 				 moduleCompat =	dylibCommand->dylib.compatibility_version;

@@ -1183,9 +1183,8 @@ processBootOptions()
 
     // Load com.apple.Boot.plist from the selected volume
     // and use its contents to override default bootConfig.
-    // This is not a mandatory opeartion anymore.
 
-    loadOverrideConfig(&bootInfo->overrideConfig);
+    loadSystemConfig(&bootInfo->overrideConfig);
 
     // Use the kernel name specified by the user, or fetch the name
     // in the config table, or use the default if not specified.
@@ -1240,12 +1239,13 @@ processBootOptions()
             uuidSet = true;
         	}
         }
-
+        
         if (!uuidSet && gBootVolume->fs_getuuid && gBootVolume->fs_getuuid (gBootVolume, uuidStr) == 0) {
             verbose("Setting boot-uuid to: %s\n", uuidStr);
             copyArgument(kBootUUIDKey, uuidStr, strlen(uuidStr), &argP, &cntRemaining);
             uuidSet = true;
         }
+         
     }
 
     if (!processBootArgument(kRootDeviceKey, cp, configKernelFlags, bootInfo->config, &argP, &cntRemaining, gRootDevice)) {

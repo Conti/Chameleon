@@ -30,6 +30,17 @@
 #define __BOOT2_BOOT_H
 
 #include "libsaio.h"
+/*
+ * Paths used by chameleon
+ */
+
+//kernel cache
+#define kDefaultCachePathLeo "/System/Library/Caches/com.apple.kernelcaches/"
+#define kDefaultCachePathSnow "/System/Library/Caches/com.apple.kext.caches/Startup/"
+
+// Lion installer
+#define kLionInstallerDataFolder      "/Mac OS X Install Data/"
+#define kLionInstallerPlist           kLionInstallerDataFolder "com.apple.Boot.plist"
 
 /*
  * Keys used in system Boot.plist

@@ -335,6 +335,7 @@ long GetFileInfo(const char * dirSpec, const char * name,
 
         for (idx = len; idx && (name[idx] != '/' && name[idx] != '\\'); idx--) {}
         if (idx == 0) {
+            if(name[idx] == '/' || name[idx] == '\\') ++name;   // todo: ensure other functions handel \ properly
             gMakeDirSpec[0] = '/';
             gMakeDirSpec[1] = '\0';
         } else {

@@ -28,6 +28,7 @@
 
 #include "bootstruct.h"
 #include "libsaio.h"
+#include "boot.h"
 #include "xml.h"
 
 extern char *Language;
@@ -607,12 +608,7 @@ int loadConfigFile (const char *configFile, config_file_t *config)
 int loadSystemConfig(config_file_t *config)
 {
 	char *dirspec[] = {
-		"/Extra/com.apple.Boot.plist",
-		"bt(0,0)/Extra/com.apple.Boot.plist",
 		"/Library/Preferences/SystemConfiguration/com.apple.Boot.plist",
-		"/com.apple.boot.P/Library/Preferences/SystemConfiguration/com.apple.Boot.plist",
-		"/com.apple.boot.R/Library/Preferences/SystemConfiguration/com.apple.Boot.plist",
-		"/com.apple.boot.S/Library/Preferences/SystemConfiguration/com.apple.Boot.plist"
 	};
 
 	int i, fd, count, ret=-1;
@@ -639,20 +635,16 @@ int loadSystemConfig(config_file_t *config)
 	return ret;
 }
 
-/* loadOverrideConfig
+/* loadChameleonConfig
  *
  * Returns 0 - successful.
  *		  -1 - unsuccesful.
  */
-int loadOverrideConfig(config_file_t *config)
+int loadChameleonConfig(config_file_t *config)
 {
 	char *dirspec[] = {
 		"rd(0,0)/Extra/com.apple.Boot.plist",
 		"/Extra/com.apple.Boot.plist",
-		"/Library/Preferences/SystemConfiguration/com.apple.Boot.plist",
-		"/com.apple.boot.P/Library/Preferences/SystemConfiguration/com.apple.Boot.plist",
-		"/com.apple.boot.R/Library/Preferences/SystemConfiguration/com.apple.Boot.plist",
-		"/com.apple.boot.S/Library/Preferences/SystemConfiguration/com.apple.Boot.plist"
 	};
 
 	int i, fd, count, ret=-1;

@@ -93,12 +93,6 @@ static bool gUnloadPXEOnExit = false;
  */
 #define kBootErrorTimeout 5
 
-/*
- * Default path to kernel cache file
- */
-//Slice - first one for Leopard
-#define kDefaultCachePathLeo "/System/Library/Caches/com.apple.kernelcaches/"
-#define kDefaultCachePathSnow "/System/Library/Caches/com.apple.kext.caches/Startup/"
 
 //==========================================================================
 // Zero the BSS.
@@ -155,8 +149,8 @@ static int ExecKernel(void *binary)
 	execute_hook("DecodedKernel", (void*)binary, NULL, NULL, NULL);
 	
 	// Load boot drivers from the specifed root path.
-	if (!gHaveKernelCache)
-		LoadDrivers("/");
+    //if (!gHaveKernelCache)
+    LoadDrivers("/");
 	
 	
 	clearActivityIndicator();
@@ -265,7 +259,7 @@ void common_boot(int biosdev)
     bool     firstRun = true;
     bool     instantMenu;
     bool     rescanPrompt;
-    unsigned int allowBVFlags = kBVFlagSystemVolume|kBVFlagForeignBoot;
+    unsigned int allowBVFlags = kBVFlagSystemVolume | kBVFlagForeignBoot;
     unsigned int denyBVFlags = kBVFlagEFISystem;
 
     // Set reminder to unload the PXE base code. Neglect to unload
@@ -300,7 +294,7 @@ void common_boot(int biosdev)
     setBootGlobals(bvChain);
     
     // Load boot.plist config file
-    status = loadSystemConfig(&bootInfo->bootConfig);
+    status = loadChameleonConfig(&bootInfo->overrideConfig);
 
     if (getBoolForKey(kQuietBootKey, &quiet, &bootInfo->bootConfig) && quiet) {
         gBootMode |= kBootModeQuiet;
@@ -438,7 +432,8 @@ void common_boot(int biosdev)
 				archCpuType = CPU_TYPE_I386;
 			}
 		}
-
+        //archCpuType = CPU_TYPE_I386;
+        
 		// Notify moduals that we are attempting to boot
 		execute_hook("PreBoot", NULL, NULL, NULL, NULL);
 
@@ -489,9 +484,12 @@ void common_boot(int biosdev)
 		getBoolForKey(kUseKernelCache, &usecache, &bootInfo->bootConfig);
 		if(usecache) {
 			if (getValueForKey(kKernelCacheKey, &val, &len, &bootInfo->bootConfig)) {
-                //ugly hack. FIX THIS
-                if(strcmp(val, "\\kernelcache") == 0) strlcpy(gBootKernelCacheFile, "kernelcache", sizeof("kernelcache"));
-				else strlcpy(gBootKernelCacheFile, val, len+1);
+                if(val[0] == '\\')
+                {
+                    len--;
+                    val++;
+                }
+                strlcpy(gBootKernelCacheFile, val, len+1);
 			}
 			else {
 				//Lion
@@ -550,13 +548,13 @@ void common_boot(int biosdev)
 		verbose("Loading Darwin %s\n", gMacOSVersion);
 		
         if (trycache) do {
-      
-            // if we haven't found the kernel yet, don't use the cache
             ret = GetFileInfo(NULL, bootInfo->bootFile, &flags, &kerneltime);
-            if ((ret != 0) || ((flags & kFileTypeMask) != kFileTypeFlat)) {
+            if(ret != 0) kerneltime = 0;
+            else if ((flags & kFileTypeMask) != kFileTypeFlat) {
                 trycache = 0;
                 break;
             }
+
             ret = GetFileInfo(NULL, gBootKernelCacheFile, &flags, &cachetime);
             if ((ret != 0) || ((flags & kFileTypeMask) != kFileTypeFlat)
                 || (cachetime < kerneltime)) {
@@ -595,7 +593,7 @@ void common_boot(int biosdev)
                 if (ret >= 0)
                     break;
 				
-				verbose("Kernel cache did not loaded %s\n ", bootFile);
+				verbose("Kernel cache did not load %s\n ", bootFile);
             }
 			
             bootFile = bootInfo->bootFile;

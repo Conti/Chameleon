@@ -162,7 +162,7 @@ extern bool	  getDimensionForKey( const char *key, unsigned int *value, config_f
 extern int    loadConfigFile(const char *configFile, config_file_t *configBuff);
 extern int    loadSystemConfig(config_file_t *configBuff);
 extern int    loadHelperConfig(config_file_t *configBuff);
-extern int    loadOverrideConfig(config_file_t *configBuff);
+extern int    loadChameleonConfig(config_file_t *configBuff);
 extern char * newString(const char *oldString);
 extern char * getNextArg(char ** ptr, char * val);
 extern int	  ParseXMLFile( char * buffer, TagPtr * dict );

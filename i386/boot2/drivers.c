@@ -209,36 +209,44 @@ long LoadDrivers( char * dirSpec )
 	            }
 	        }
         }
-
-        // Also try to load Extensions from boot helper partitions.
-        if (gBootVolume->flags & kBVFlagBooter)
+        if(!gHaveKernelCache)
         {
-            strcpy(dirSpecExtra, "/com.apple.boot.P/System/Library/");
-            if (FileLoadDrivers(dirSpecExtra, 0) != 0)
+            // Don't load main driver (from /System/Library/Extentions) if gHaveKernelCache is set.
+            // since these drivers will already be in the kernel cache.
+            // NOTE: when gHaveKernelCache, xnu cannot (by default) load *any* extra kexts from the bootloader.
+            // The /Extra code is not disabled in this case due to a kernel patch that allows for this to happen.
+            
+            // Also try to load Extensions from boot helper partitions.
+            if (gBootVolume->flags & kBVFlagBooter)
             {
-                strcpy(dirSpecExtra, "/com.apple.boot.R/System/Library/");
+                strcpy(dirSpecExtra, "/com.apple.boot.P/System/Library/");
                 if (FileLoadDrivers(dirSpecExtra, 0) != 0)
                 {
-                    strcpy(dirSpecExtra, "/com.apple.boot.S/System/Library/");
-                    FileLoadDrivers(dirSpecExtra, 0);
+                    strcpy(dirSpecExtra, "/com.apple.boot.R/System/Library/");
+                    if (FileLoadDrivers(dirSpecExtra, 0) != 0)
+                    {
+                        strcpy(dirSpecExtra, "/com.apple.boot.S/System/Library/");
+                        FileLoadDrivers(dirSpecExtra, 0);
+                    }
                 }
             }
-        }
-
-        if (gMKextName[0] != '\0')
-        {
-            verbose("LoadDrivers: Loading from [%s]\n", gMKextName);
-            if ( LoadDriverMKext(gMKextName) != 0 )
+            
+            if (gMKextName[0] != '\0')
             {
-                error("Could not load %s\n", gMKextName);
-                return -1;
+                verbose("LoadDrivers: Loading from [%s]\n", gMKextName);
+                if ( LoadDriverMKext(gMKextName) != 0 )
+                {
+                    error("Could not load %s\n", gMKextName);
+                    return -1;
+                }
             }
-        }
-        else
-        {
-            strcpy(gExtensionsSpec, dirSpec);
-            strcat(gExtensionsSpec, "System/Library/");
-            FileLoadDrivers(gExtensionsSpec, 0);
+            else
+            {
+                strcpy(gExtensionsSpec, dirSpec);
+                strcat(gExtensionsSpec, "System/Library/");
+                FileLoadDrivers(gExtensionsSpec, 0);
+            }
+
         }
     }
     else
