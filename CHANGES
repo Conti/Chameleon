@@ -1,3 +1,4 @@
+- Renamed com.apple.Boot.plist to org.chameleon.Boot.plist.
 - Added "ShowInfo" key (enabled by default for now), which enables/disables the display of
   partition and resolution related info, on the Gui.
   This info may not play well with some custom themes.

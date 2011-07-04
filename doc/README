@@ -13,7 +13,7 @@
   Features
   --------
   
-   - Device Property Injection via device-properties string in com.apple.Boot.plist
+   - Device Property Injection via device-properties string in org.chameleon.Boot.plist
    - hybrid boot0+boot1h loaders for both MBR and GPT partitioned disks.
    - automatic FSB detection code even for recent AMD CPUs.
    - Apple Software RAID support.
