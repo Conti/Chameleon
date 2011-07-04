@@ -41,7 +41,7 @@ Special booter commands:
 Additional useful command-line options:
   config=<file>             Use an alternate Boot.plist file.
 
-Options useful in the com.apple.Boot.plist file:
+Options useful in the org.chameleon.Boot.plist file:
   Wait=Yes|No             Prompt for a key press before starting the kernel.
   "Quiet Boot"=Yes|No     Use quiet boot mode (no messages or prompt).
   Timeout=8               Number of seconds to pause at the boot: prompt.
