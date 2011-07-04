@@ -643,8 +643,10 @@ int loadSystemConfig(config_file_t *config)
 int loadChameleonConfig(config_file_t *config)
 {
 	char *dirspec[] = {
-		"rd(0,0)/Extra/com.apple.Boot.plist",
-		"/Extra/com.apple.Boot.plist",
+		"rd(0,0)/Extra/org.chameleon.Boot.plist",
+		"/Extra/org.chameleon.Boot.plist",
+		"rd(0,0)/Extra/com.apple.Boot.plist",   /* DEPRECIATED */
+		"/Extra/com.apple.Boot.plist",          /* DEPRECIATED */
 	};
 
 	int i, fd, count, ret=-1;
@@ -653,6 +655,14 @@ int loadChameleonConfig(config_file_t *config)
 	{
 		if ((fd = open(dirspec[i], 0)) >= 0)
 		{
+            // Check for depreciated file names and annoy the user about it.
+            if(strstr(dirspec[i], "com.apple.Boot.plist"))
+            {
+                printf("%s is depreciated.\n", dirspec[i]);
+                dirspec[i][strlen(dirspec[i]) - strlen("com.apple.Boot.plist")] = 0;
+                printf("Please us the file %sorg.chameleon.Boot.plist instead\n", dirspec[i]);
+                pause();
+            }
 			// read file
 			count = read(fd, config->plist, IO_CONFIG_DATA_SIZE);
 			close(fd);
