@@ -1125,8 +1125,8 @@ TagPtr XMLCastDict(TagPtr dict)
 bool XMLIsString(TagPtr entry)
 {
     return entry && 
-    ((dict->type == kTagTypeString) ||
-     (dict->type == kTagTypeKey));
+    ((entry->type == kTagTypeString) ||
+     (entry->type == kTagTypeKey));
 }
 
 char* XMLCastString(TagPtr dict)
