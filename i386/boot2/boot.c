@@ -371,7 +371,7 @@ void common_boot(int biosdev)
         bool tryresume;
         bool tryresumedefault;
         bool forceresume;
-		bool usecache = false;// true;
+		bool usecache = true;
 
         // additional variable for testing alternate kernel image locations on boot helper partitions.
         char     bootFileSpec[512];
@@ -433,7 +433,7 @@ void common_boot(int biosdev)
 				archCpuType = CPU_TYPE_I386;
 			}
 		}
-        archCpuType = CPU_TYPE_I386;
+        //archCpuType = CPU_TYPE_I386;
         
 		// Notify moduals that we are attempting to boot
 		execute_hook("PreBoot", NULL, NULL, NULL, NULL);
