@@ -355,64 +355,6 @@ FileLoadDrivers( char * dirSpec, long plugin )
     return result;
 }
 
-long
-FileLoadDriver( char * dirSpec, long plugin )
-{
-    long         ret, length, flags, time, bundleType;
-    long long	 index;
-    long         result = -1;
-    const char * name;
-    
-    if ( !plugin )
-    {
-        // First try 10.6's path for loading Extensions.mkext.
-        if (FileLoadMKext(dirSpec, "Caches/com.apple.kext.caches/Startup/") == 0)
-            return 0;
-        
-        // Next try the legacy path.
-        else if (FileLoadMKext(dirSpec, "") == 0)
-            return 0;
-        
-        strcat(dirSpec, "Extensions");
-    }
-    
-    index = 0;
-    while (1) {
-        ret = GetDirEntry(dirSpec, &index, &name, &flags, &time);
-        if (ret == -1) break;
-        
-        // Make sure this is a directory.
-        if ((flags & kFileTypeMask) != kFileTypeDirectory) continue;
-        
-        // Make sure this is a kext.
-        length = strlen(name);
-        if (strcmp(name + length - 5, ".kext")) continue;
-        
-        // Save the file name.
-        strcpy(gFileName, name);
-        
-        // Determine the bundle type.
-        sprintf(gTempSpec, "%s/%s", dirSpec, gFileName);
-        ret = GetFileInfo(gTempSpec, "Contents", &flags, &time);
-        if (ret == 0) bundleType = kCFBundleType2;
-        else bundleType = kCFBundleType3;
-        
-        if (!plugin)
-            sprintf(gDriverSpec, "%s/%s/%sPlugIns", dirSpec, gFileName,
-                    (bundleType == kCFBundleType2) ? "Contents/" : "");
-        
-        ret = LoadDriverPList(dirSpec, gFileName, bundleType);
-        
-        if (result != 0)
-            result = ret;
-        
-        if (!plugin) 
-            FileLoadDrivers(gDriverSpec, 1);
-    }
-    
-    return result;
-}
-
 
 //==========================================================================
 // 
