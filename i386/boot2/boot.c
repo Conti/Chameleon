@@ -148,11 +148,14 @@ static int ExecKernel(void *binary)
 	// Notify modules that the kernel has been decoded
 	execute_hook("DecodedKernel", (void*)binary, NULL, NULL, NULL);
 	
+    setupFakeEfi();
+
 	// Load boot drivers from the specifed root path.
     //if (!gHaveKernelCache)
     LoadDrivers("/");
 	
-	
+    execute_hook("DriversLoaded", (void*)binary, NULL, NULL, NULL);
+
 	clearActivityIndicator();
 	
 	if (gErrors) {
@@ -160,9 +163,7 @@ static int ExecKernel(void *binary)
 		printf("Pausing %d seconds...\n", kBootErrorTimeout);
 		sleep(kBootErrorTimeout);
 	}
-	
-	setupFakeEfi();
-	
+		
 	md0Ramdisk();
 	
 	verbose("Starting Darwin %s\n",( archCpuType == CPU_TYPE_I386 ) ? "x86" : "x86_64");
@@ -370,7 +371,7 @@ void common_boot(int biosdev)
         bool tryresume;
         bool tryresumedefault;
         bool forceresume;
-		bool usecache = false; //true;
+		bool usecache = false;// true;
 
         // additional variable for testing alternate kernel image locations on boot helper partitions.
         char     bootFileSpec[512];
@@ -432,7 +433,7 @@ void common_boot(int biosdev)
 				archCpuType = CPU_TYPE_I386;
 			}
 		}
-        //archCpuType = CPU_TYPE_I386;
+        archCpuType = CPU_TYPE_I386;
         
 		// Notify moduals that we are attempting to boot
 		execute_hook("PreBoot", NULL, NULL, NULL, NULL);
