@@ -371,7 +371,7 @@ void common_boot(int biosdev)
         bool tryresume;
         bool tryresumedefault;
         bool forceresume;
-		bool usecache = true;
+		bool usecache = false;//true;
 
         // additional variable for testing alternate kernel image locations on boot helper partitions.
         char     bootFileSpec[512];
