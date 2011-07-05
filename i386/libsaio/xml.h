@@ -98,6 +98,13 @@ int XMLCastInteger ( TagPtr dict );
 TagPtr XMLCastDict ( TagPtr dict );
 TagPtr XMLCastArray( TagPtr dict );
 
+bool XMLIsBoolean(TagPtr entry);
+bool XMLIsString (TagPtr entry);
+bool XMLIsInteger(TagPtr entry);
+bool XMLIsDict   (TagPtr entry);
+bool XMLIsArray  (TagPtr entry);
+
+
 bool XMLAddTagToDictionary(TagPtr dict, char* key, TagPtr value);
 
 long XMLParseNextTag(char *buffer, TagPtr *tag);

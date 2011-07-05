@@ -1097,6 +1097,11 @@ bool XMLIsType(TagPtr dict, enum xmltype type)
 }
 
 /*** Cast functions ***/
+bool XMLIsArray(TagPtr entry)
+{
+    return entry && (entry->type == kTagTypeArray);
+}
+
 TagPtr XMLCastArray(TagPtr dict)
 {
 	if(!dict) return NULL;
@@ -1104,11 +1109,24 @@ TagPtr XMLCastArray(TagPtr dict)
 	else return NULL;
 }
 
+bool XMLIsDict(TagPtr entry)
+{
+    return entry && (entry->type == kTagTypeDict);
+}
+
+
 TagPtr XMLCastDict(TagPtr dict)
 {
 	if(!dict) return NULL;
 	if(dict->type == kTagTypeDict) return dict;
 	else return NULL;
+}
+
+bool XMLIsString(TagPtr entry)
+{
+    return entry && 
+    ((dict->type == kTagTypeString) ||
+     (dict->type == kTagTypeKey));
 }
 
 char* XMLCastString(TagPtr dict)
@@ -1135,11 +1153,23 @@ long XMLCastStringOffset(TagPtr dict)
 	}
 }
 
+bool XMLIsBoolean(TagPtr entry)
+{
+    return entry && 
+            ((entry->type == kTagTypeTrue) ||
+             (entry->type == kTagTypeFalse));
+}
+
 bool XMLCastBoolean(TagPtr dict)
 {
 	if(!dict) return false;
 	if(dict->type == kTagTypeTrue) return true;
 	return false;
+}
+
+bool XMLIsInteger(TagPtr entry)
+{
+    return entry && (entry->type == kTagTypeInteger);
 }
 
 int XMLCastInteger(TagPtr dict)
