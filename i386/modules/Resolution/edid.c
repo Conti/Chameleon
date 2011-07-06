@@ -239,12 +239,12 @@ void getResolution(UInt32* x, UInt32* y, UInt32* bp)
 //	int val;
 	static UInt32 xResolution, yResolution, bpResolution;
 /*
-	if(getIntForKey(kScreenWidth, &val, &bootInfo->bootConfig))
+	if(getIntForKey(kScreenWidth, &val, &bootInfo->chameleonConfig))
 	{
 		xResolution = val;
 	}
 	
-	if(getIntForKey(kScreenHeight, &val, &bootInfo->bootConfig))
+	if(getIntForKey(kScreenHeight, &val, &bootInfo->chameleonConfig))
 	{
 		yResolution = val;
 	}

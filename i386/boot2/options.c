@@ -1199,7 +1199,7 @@ processBootOptions()
         strcpy( bootInfo->bootFile, kernel );
         gOverrideKernel = true;
     } else {
-        if ( getValueForKey( kKernelNameKey, &val, &cnt, &bootInfo->bootConfig ) ) {
+        if ( getValueForKey( kKernelNameKey, &val, &cnt, &bootInfo->chameleonConfig ) ) {
             strlcpy( bootInfo->bootFile, val, cnt+1 );
             if (strcmp( bootInfo->bootFile, kDefaultKernel ) != 0) {
                 gOverrideKernel = true;
@@ -1251,7 +1251,7 @@ processBootOptions()
 
     if (!processBootArgument(kRootDeviceKey, cp, configKernelFlags, bootInfo->config, &argP, &cntRemaining, gRootDevice)) {
         cnt = 0;
-        if ( getValueForKey( kBootDeviceKey, &val, &cnt, &bootInfo->bootConfig)) {
+        if ( getValueForKey( kBootDeviceKey, &val, &cnt, &bootInfo->chameleonConfig)) {
             valueBuffer[0] = '*';
             cnt++;
             strlcpy(valueBuffer + 1, val, cnt);
@@ -1312,7 +1312,7 @@ processBootOptions()
 	if(!shouldboot)
 	{
 		gVerboseMode = getValueForKey( kVerboseModeFlag, &val, &cnt, &bootInfo->chameleonConfig ) ||
-			getValueForKey( kSingleUserModeFlag, &val, &cnt, &bootInfo->bootConfig );
+			getValueForKey( kSingleUserModeFlag, &val, &cnt, &bootInfo->chameleonConfig );
 		
 		gBootMode = ( getValueForKey( kSafeModeFlag, &val, &cnt, &bootInfo->chameleonConfig ) ) ?
 			kBootModeSafe : kBootModeNormal;
