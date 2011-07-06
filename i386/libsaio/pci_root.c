@@ -54,21 +54,21 @@ int getPciRootUID(void)
 	if (rootuid < 10) return rootuid;
 	rootuid = 0;	/* default uid = 0 */
 
-	if (getValueForKey(kPCIRootUID, &val, &len, &bootInfo->bootConfig)) {
+	if (getValueForKey(kPCIRootUID, &val, &len, &bootInfo->chameleonConfig)) {
 		if (isdigit(val[0])) rootuid = val[0] - '0';
 		goto out;
 	}
 	/* Chameleon compatibility */
-	else if (getValueForKey("PciRoot", &val, &len, &bootInfo->bootConfig)) {
+	else if (getValueForKey("PciRoot", &val, &len, &bootInfo->chameleonConfig)) {
 		if (isdigit(val[0])) rootuid = val[0] - '0';
 		goto out;
 	}
 	/* PCEFI compatibility */
-	else if (getValueForKey("-pci0", &val, &len, &bootInfo->bootConfig)) {
+	else if (getValueForKey("-pci0", &val, &len, &bootInfo->chameleonConfig)) {
 		rootuid = 0;
 		goto out;
 	}
-	else if (getValueForKey("-pci1", &val, &len, &bootInfo->bootConfig)) {
+	else if (getValueForKey("-pci1", &val, &len, &bootInfo->chameleonConfig)) {
 		rootuid = 1;
 		goto out;
 	}

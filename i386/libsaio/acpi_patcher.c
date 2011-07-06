@@ -237,9 +237,9 @@ struct acpi_2_ssdt *generate_cst_ssdt(struct acpi_2_fadt* fadt)
 		bool c3_enabled = false;
 		bool c4_enabled = false;
 		
-		getBoolForKey(kEnableC2States, &c2_enabled, &bootInfo->bootConfig);
-		getBoolForKey(kEnableC3States, &c3_enabled, &bootInfo->bootConfig);
-		getBoolForKey(kEnableC4States, &c4_enabled, &bootInfo->bootConfig);
+		getBoolForKey(kEnableC2States, &c2_enabled, &bootInfo->chameleonConfig);
+		getBoolForKey(kEnableC3States, &c3_enabled, &bootInfo->chameleonConfig);
+		getBoolForKey(kEnableC4States, &c4_enabled, &bootInfo->chameleonConfig);
 		
 		c2_enabled = c2_enabled | (fadt->C2_Latency < 100);
 		c3_enabled = c3_enabled | (fadt->C3_Latency < 1000);
@@ -603,7 +603,7 @@ struct acpi_2_fadt *patch_fadt(struct acpi_2_fadt *fadt, struct acpi_2_dsdt *new
 	// Restart Fix
 	if (Platform.CPU.Vendor == 0x756E6547) {	/* Intel */
 		fix_restart = true;
-		getBoolForKey(kRestartFix, &fix_restart, &bootInfo->bootConfig);
+		getBoolForKey(kRestartFix, &fix_restart, &bootInfo->chameleonConfig);
 	} else {
 		verbose ("Not an Intel platform: Restart Fix not applied !!!\n");
 		fix_restart = false;
@@ -625,7 +625,7 @@ struct acpi_2_fadt *patch_fadt(struct acpi_2_fadt *fadt, struct acpi_2_dsdt *new
 		memcpy(fadt_mod, fadt, fadt->Length);
 	}
 	// Determine system type / PM_Model
-	if ( (value=getStringForKey(kSystemType, &bootInfo->bootConfig))!=NULL)
+	if ( (value=getStringForKey(kSystemType, &bootInfo->chameleonConfig))!=NULL)
 	{
 		if (Platform.Type > 6)  
 		{
@@ -713,7 +713,7 @@ int setupAcpi(void)
 	int len = 0;
 
 	// Try using the file specified with the DSDT option
-	if (getValueForKey(kDSDT, &filename, &len, &bootInfo->bootConfig))
+	if (getValueForKey(kDSDT, &filename, &len, &bootInfo->chameleonConfig))
 	{
 		sprintf(dirSpec, filename);
 	}
@@ -737,9 +737,9 @@ int setupAcpi(void)
 	// SSDT Options
 	bool drop_ssdt=false, generate_pstates=false, generate_cstates=false; 
 	
-	getBoolForKey(kDropSSDT, &drop_ssdt, &bootInfo->bootConfig);
-	getBoolForKey(kGeneratePStates, &generate_pstates, &bootInfo->bootConfig);
-	getBoolForKey(kGenerateCStates, &generate_cstates, &bootInfo->bootConfig);
+	getBoolForKey(kDropSSDT, &drop_ssdt, &bootInfo->chameleonConfig);
+	getBoolForKey(kGeneratePStates, &generate_pstates, &bootInfo->chameleonConfig);
+	getBoolForKey(kGenerateCStates, &generate_cstates, &bootInfo->chameleonConfig);
 	
 	{
 		int i;

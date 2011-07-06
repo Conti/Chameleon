@@ -266,7 +266,7 @@ void scan_cpu(PlatformInfo_t *p)
 				} else {
 					cpuFrequency = tscFrequency;
 				}
-				if ((getValueForKey(kbusratio, &newratio, &len, &bootInfo->bootConfig)) && (len <= 4)) {
+				if ((getValueForKey(kbusratio, &newratio, &len, &bootInfo->chameleonConfig)) && (len <= 4)) {
 					max_ratio = atoi(newratio);
 					max_ratio = (max_ratio * 10);
 					if (len >= 3) max_ratio = (max_ratio + 5);

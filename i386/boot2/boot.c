@@ -179,7 +179,7 @@ static int ExecKernel(void *binary)
 	}
 	
 	bool dummyVal;
-	if (getBoolForKey(kWaitForKeypressKey, &dummyVal, &bootInfo->bootConfig) && dummyVal) {
+	if (getBoolForKey(kWaitForKeypressKey, &dummyVal, &bootInfo->chameleonConfig) && dummyVal) {
 		printf("Press any key to continue...");
 		getchar();
 	}
@@ -295,14 +295,14 @@ void common_boot(int biosdev)
     setBootGlobals(bvChain);
     
     // Load boot.plist config file
-    status = loadChameleonConfig(&bootInfo->overrideConfig);
+    status = loadChameleonConfig(&bootInfo->chameleonConfig);
 
-    if (getBoolForKey(kQuietBootKey, &quiet, &bootInfo->bootConfig) && quiet) {
+    if (getBoolForKey(kQuietBootKey, &quiet, &bootInfo->chameleonConfig) && quiet) {
         gBootMode |= kBootModeQuiet;
     }
 
     // Override firstRun to get to the boot menu instantly by setting "Instant Menu"=y in system config
-    if (getBoolForKey(kInsantMenuKey, &instantMenu, &bootInfo->bootConfig) && instantMenu) {
+    if (getBoolForKey(kInsantMenuKey, &instantMenu, &bootInfo->chameleonConfig) && instantMenu) {
         firstRun = false;
     }
 
@@ -313,18 +313,18 @@ void common_boot(int biosdev)
     gEnableCDROMRescan = false;
 
     // Enable it with Rescan=y in system config
-    if (getBoolForKey(kRescanKey, &gEnableCDROMRescan, &bootInfo->bootConfig) && gEnableCDROMRescan) {
+    if (getBoolForKey(kRescanKey, &gEnableCDROMRescan, &bootInfo->chameleonConfig) && gEnableCDROMRescan) {
         gEnableCDROMRescan = true;
     }
 
     // Ask the user for Rescan option by setting "Rescan Prompt"=y in system config.
     rescanPrompt = false;
-    if (getBoolForKey(kRescanPromptKey, &rescanPrompt , &bootInfo->bootConfig) && rescanPrompt && biosDevIsCDROM(gBIOSDev)) {
+    if (getBoolForKey(kRescanPromptKey, &rescanPrompt , &bootInfo->chameleonConfig) && rescanPrompt && biosDevIsCDROM(gBIOSDev)) {
         gEnableCDROMRescan = promptForRescanOption();
     }
 
     // Enable touching a single BIOS device only if "Scan Single Drive"=y is set in system config.
-    if (getBoolForKey(kScanSingleDriveKey, &gScanSingleDrive, &bootInfo->bootConfig) && gScanSingleDrive) {
+    if (getBoolForKey(kScanSingleDriveKey, &gScanSingleDrive, &bootInfo->chameleonConfig) && gScanSingleDrive) {
         gScanSingleDrive = true;
     }
 
@@ -351,7 +351,7 @@ void common_boot(int biosdev)
 
 	useGUI = true;
 	// Override useGUI default
-	getBoolForKey(kGUIKey, &useGUI, &bootInfo->bootConfig);
+	getBoolForKey(kGUIKey, &useGUI, &bootInfo->chameleonConfig);
 	if (useGUI && initGUI())
 	{
 		// initGUI() returned with an error, disabling GUI.
@@ -428,7 +428,7 @@ void common_boot(int biosdev)
 		} else {
 			archCpuType = CPU_TYPE_I386;
 		}
-		if (getValueForKey(karch, &val, &len, &bootInfo->bootConfig)) {
+		if (getValueForKey(karch, &val, &len, &bootInfo->chameleonConfig)) {
 			if (strncmp(val, "i386", 4) == 0) {
 				archCpuType = CPU_TYPE_I386;
 			}
@@ -438,14 +438,14 @@ void common_boot(int biosdev)
 		// Notify moduals that we are attempting to boot
 		execute_hook("PreBoot", NULL, NULL, NULL, NULL);
 
-		if (!getBoolForKey (kWake, &tryresume, &bootInfo->bootConfig)) {
+		if (!getBoolForKey (kWake, &tryresume, &bootInfo->chameleonConfig)) {
 			tryresume = true;
 			tryresumedefault = true;
 		} else {
 			tryresumedefault = false;
 		}
 
-		if (!getBoolForKey (kForceWake, &forceresume, &bootInfo->bootConfig)) {
+		if (!getBoolForKey (kForceWake, &forceresume, &bootInfo->chameleonConfig)) {
 			forceresume = false;
 		}
 		
@@ -457,7 +457,7 @@ void common_boot(int biosdev)
 		while (tryresume) {
 			const char *tmp;
 			BVRef bvr;
-			if (!getValueForKey(kWakeImage, &val, &len, &bootInfo->bootConfig))
+			if (!getValueForKey(kWakeImage, &val, &len, &bootInfo->chameleonConfig))
 				val="/private/var/vm/sleepimage";
 			
 			// Do this first to be sure that root volume is mounted
@@ -482,9 +482,9 @@ void common_boot(int biosdev)
 			break;
 		}
         
-		getBoolForKey(kUseKernelCache, &usecache, &bootInfo->bootConfig);
+		getBoolForKey(kUseKernelCache, &usecache, &bootInfo->chameleonConfig);
 		if(usecache) {
-			if (getValueForKey(kKernelCacheKey, &val, &len, &bootInfo->bootConfig)) {
+			if (getValueForKey(kKernelCacheKey, &val, &len, &bootInfo->chameleonConfig)) {
                 if(val[0] == '\\')
                 {
                     len--;
@@ -529,7 +529,7 @@ void common_boot(int biosdev)
 					// Reset cache name.
 					bzero(gCacheNameAdler + 64, sizeof(gCacheNameAdler) - 64);
 					
-					sprintf(gCacheNameAdler + 64, "%s,%s", gRootDevice, bootInfo->bootFile);
+					sprintf(gCacheNameAdler + 64, "%s,%s", gRootDevice, bootInfo->chameleonConfig);
 					
 					adler32 = Adler32((unsigned char *)gCacheNameAdler, sizeof(gCacheNameAdler));
 					

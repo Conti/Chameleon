@@ -710,7 +710,7 @@ int getBootOptions(bool firstRun)
 	// Allow user to override default timeout.
 	if (multiboot_timeout_set) {
 		timeout = multiboot_timeout;
-	} else if (!getIntForKey(kTimeoutKey, &timeout, &bootInfo->bootConfig)) {
+	} else if (!getIntForKey(kTimeoutKey, &timeout, &bootInfo->chameleonConfig)) {
 		/*  If there is no timeout key in the file use the default timeout
 		    which is different for CDs vs. hard disks.  However, if not booting
 		    a CD and no config file could be loaded set the timeout
@@ -778,7 +778,7 @@ int getBootOptions(bool firstRun)
 		int cnt;
 		int optionKey;
 
-		if (getValueForKey(kCDROMPromptKey, &val, &cnt, &bootInfo->bootConfig)) {
+		if (getValueForKey(kCDROMPromptKey, &val, &cnt, &bootInfo->chameleonConfig)) {
 			prompt = malloc(cnt + 1);
 			strncat(prompt, val, cnt);
 		} else {
@@ -789,7 +789,7 @@ int getBootOptions(bool firstRun)
 			free(name);
 		}
 
-		if (getIntForKey( kCDROMOptionKey, &optionKey, &bootInfo->bootConfig )) {
+		if (getIntForKey( kCDROMOptionKey, &optionKey, &bootInfo->chameleonConfig )) {
 			// The key specified is a special key.
 		} else {
 			// Default to F8.
@@ -876,7 +876,7 @@ int getBootOptions(bool firstRun)
 		if (!(gBootMode & kBootModeQuiet)) {
  
 			// Check if "Boot Banner"=N switch is present in config file.
-			getBoolForKey(kBootBannerKey, &showBootBanner, &bootInfo->bootConfig); 
+			getBoolForKey(kBootBannerKey, &showBootBanner, &bootInfo->chameleonConfig); 
 			if (showBootBanner) {
 				// Display banner and show hardware info.
 				gprintf(&gui.screen, bootBanner + 1, (bootInfo->convmem + bootInfo->extmem) / 1024);
@@ -1114,7 +1114,7 @@ processBootArgument(
     } else if (getValueForBootKey(kernelFlags, argName, &val, &cnt)) {
         // Don't copy; these values will be copied at the end of argument processing.
         found = true;
-    } else if (getValueForKey(argName, &val, &cnt, &bootInfo->bootConfig)) {
+    } else if (getValueForKey(argName, &val, &cnt, &bootInfo->chameleonConfig)) {
         copyArgument(argName, val, cnt, argP, cntRemainingP);
         found = true;
     }
@@ -1213,7 +1213,7 @@ processBootOptions()
 
     // Get config table kernel flags, if not ignored.
     if (getValueForBootKey(cp, kIgnoreBootFileFlag, &val, &cnt) ||
-            !getValueForKey( kKernelFlagsKey, &val, &cnt, &bootInfo->bootConfig )) {
+            !getValueForKey( kKernelFlagsKey, &val, &cnt, &bootInfo->chameleonConfig )) {
         val = "";
         cnt = 0;
     }
@@ -1310,18 +1310,18 @@ processBootOptions()
 
 	if(!shouldboot)
 	{
-		gVerboseMode = getValueForKey( kVerboseModeFlag, &val, &cnt, &bootInfo->bootConfig ) ||
+		gVerboseMode = getValueForKey( kVerboseModeFlag, &val, &cnt, &bootInfo->chameleonConfig ) ||
 			getValueForKey( kSingleUserModeFlag, &val, &cnt, &bootInfo->bootConfig );
 		
-		gBootMode = ( getValueForKey( kSafeModeFlag, &val, &cnt, &bootInfo->bootConfig ) ) ?
+		gBootMode = ( getValueForKey( kSafeModeFlag, &val, &cnt, &bootInfo->chameleonConfig ) ) ?
 			kBootModeSafe : kBootModeNormal;
 
-        if ( getValueForKey( kIgnoreCachesFlag, &val, &cnt, &bootInfo->bootConfig ) ) {
+        if ( getValueForKey( kIgnoreCachesFlag, &val, &cnt, &bootInfo->chameleonConfig ) ) {
             gBootMode = kBootModeSafe;
        }
 	}
 
-	if ( getValueForKey( kMKextCacheKey, &val, &cnt, &bootInfo->bootConfig ) )
+	if ( getValueForKey( kMKextCacheKey, &val, &cnt, &bootInfo->chameleonConfig ) )
 	{
 		strlcpy(gMKextName, val, cnt + 1);
 	}

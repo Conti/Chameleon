@@ -1192,7 +1192,7 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 
 	rom = malloc(NVIDIA_ROM_SIZE);
 	sprintf(nvFilename, "/Extra/%04x_%04x.rom", (uint16_t)nvda_dev->vendor_id, (uint16_t)nvda_dev->device_id);
-	if (getBoolForKey(kUseNvidiaROM, &doit, &bootInfo->bootConfig) && doit) {
+	if (getBoolForKey(kUseNvidiaROM, &doit, &bootInfo->chameleonConfig) && doit) {
 		verbose("Looking for nvidia video bios file %s\n", nvFilename);
 		nvBiosOveride = load_nvidia_bios_file(nvFilename, rom, NVIDIA_ROM_SIZE);
 		if (nvBiosOveride > 0) {
@@ -1310,7 +1310,7 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 	sprintf(biosVersion, "%s", (nvBiosOveride > 0) ? nvFilename : version_str);
 
 	sprintf(kNVCAP, "NVCAP_%04x", nvda_dev->device_id);
-	if (getValueForKey(kNVCAP, &value, &len, &bootInfo->bootConfig) && len == NVCAP_LEN * 2) {
+	if (getValueForKey(kNVCAP, &value, &len, &bootInfo->chameleonConfig) && len == NVCAP_LEN * 2) {
 		uint8_t	new_NVCAP[NVCAP_LEN];
  
 		if (hex2bin(value, new_NVCAP, NVCAP_LEN) == 0) {
@@ -1319,7 +1319,7 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 		}
 	}
     
-    if (getValueForKey(kdcfg0, &value, &len, &bootInfo->bootConfig) && len == DCFG0_LEN * 2){
+    if (getValueForKey(kdcfg0, &value, &len, &bootInfo->chameleonConfig) && len == DCFG0_LEN * 2){
         
         uint8_t new_dcfg0[DCFG0_LEN];
         
@@ -1337,7 +1337,7 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
     }
     
     
-    if (getValueForKey(kdcfg1, &value, &len, &bootInfo->bootConfig) && len == DCFG1_LEN * 2){
+    if (getValueForKey(kdcfg1, &value, &len, &bootInfo->chameleonConfig) && len == DCFG1_LEN * 2){
 
         uint8_t new_dcfg1[DCFG1_LEN];
     
@@ -1378,7 +1378,7 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 //    devprop_add_value(device, "@1,connector-type",connector_type_1, 4);
     //end Nvidia HDMI Audio
     
-	if (getBoolForKey(kVBIOS, &doit, &bootInfo->bootConfig) && doit) {
+	if (getBoolForKey(kVBIOS, &doit, &bootInfo->chameleonConfig) && doit) {
 		devprop_add_value(device, "vbios", rom, (nvBiosOveride > 0) ? nvBiosOveride : (rom[2] * 512));
 	}
 

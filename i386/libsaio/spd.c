@@ -269,7 +269,7 @@ static void read_smb_intel(pci_dt_t *smbus_dev)
 		smbus_dev->vendor_id, smbus_dev->device_id, mmio, base, hostc);
 
 //Azi: no use for this!
-//  getBoolForKey("DumpSPD", &dump, &bootInfo->bootConfig);
+//  getBoolForKey("DumpSPD", &dump, &bootInfo->chameleonConfig);
 	// needed at least for laptops
     bool fullBanks = Platform.DMI.MemoryModules == Platform.DMI.CntMemorySlots;
 

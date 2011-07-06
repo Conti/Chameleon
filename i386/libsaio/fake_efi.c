@@ -490,7 +490,7 @@ static EFI_CHAR8* getSystemID()
 	// unable to determine UUID for host. Error: 35 fix
 	// Rek: new SMsystemid option conforming to smbios notation standards, this option should
 	// belong to smbios config only ...
-	const char *sysId = getStringForKey(kSystemID, &bootInfo->bootConfig);
+	const char *sysId = getStringForKey(kSystemID, &bootInfo->chameleonConfig);
 	EFI_CHAR8*	ret = getUUIDFromString(sysId);
 	
 	if (!sysId || !ret) // try bios dmi info UUID extraction
@@ -630,7 +630,7 @@ static void setupSmbiosConfigFile(const char *filename)
 	extern void scan_mem();
 	
 	// Take in account user overriding
-	if (getValueForKey(kSMBIOSKey, &override_pathname, &len, &bootInfo->bootConfig) && len > 0)
+	if (getValueForKey(kSMBIOSKey, &override_pathname, &len, &bootInfo->chameleonConfig) && len > 0)
 	{
 		// Specify a path to a file, e.g. SMBIOS=/Extra/macProXY.plist
 		sprintf(dirSpecSMBIOS, override_pathname);

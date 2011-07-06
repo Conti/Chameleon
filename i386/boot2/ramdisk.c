@@ -26,7 +26,7 @@ void md0Ramdisk()
 	int len;
 	
 	if(getValueForKey(kMD0Image, &override_filename, &len,  
-				   &bootInfo->bootConfig))
+				   &bootInfo->chameleonConfig))
 	{
 		// Use user specified md0 file
 		sprintf(filename, "%s", override_filename);

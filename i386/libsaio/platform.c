@@ -47,7 +47,7 @@ void scan_mem() {
     else
 		bootInfo->memDetect = true;
 	/* manually */
-    getBoolForKey(kUseMemDetect, &bootInfo->memDetect, &bootInfo->bootConfig);
+    getBoolForKey(kUseMemDetect, &bootInfo->memDetect, &bootInfo->chameleonConfig);
 
     if (bootInfo->memDetect) {
 		if (dram_controller_dev != NULL) {

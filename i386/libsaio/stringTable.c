@@ -497,14 +497,14 @@ bool getValueForKey( const char *key, const char **val, int *size, config_file_t
 
   if (config->canOverride)
   {
-    if (getValueForConfigTableKey(&bootInfo->overrideConfig, key, &overrideVal, &overrideSize))
+    if (getValueForConfigTableKey(&bootInfo->chameleonConfig, key, &overrideVal, &overrideSize))
     {
       override = true;
 
-      if (ret && (strcmp(key, "Kernel") == 0) && (strcmp(overrideVal, "mach_kernel") == 0))
+      if (ret && (strcmp(key, kKernelNameKey) == 0) && (strcmp(overrideVal, "mach_kernel") == 0))
         override = false;
 
-      if (ret && (strcmp(key, "Kernel Flags") == 0) && (overrideSize == 0))
+      if (ret && (strcmp(key, kKernelFlagsKey) == 0) && (overrideSize == 0))
         override = false;
 
       if (override)

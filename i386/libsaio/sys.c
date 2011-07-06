@@ -823,7 +823,7 @@ BVRef selectBootVolume( BVRef chain )
 	 * to override the default selection.
 	 * We accept only kBVFlagSystemVolume or kBVFlagForeignBoot volumes.
 	 */
-	char *val = XMLDecode(getStringForKey(kDefaultPartition, &bootInfo->bootConfig));
+	char *val = XMLDecode(getStringForKey(kDefaultPartition, &bootInfo->chameleonConfig));
     if (val) {
         for ( bvr = chain; bvr; bvr = bvr->next ) {
             if (matchVolumeToString(bvr, val, false)) {

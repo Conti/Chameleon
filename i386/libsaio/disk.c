@@ -1568,7 +1568,7 @@ BVRef newFilteredBVChain(int minBIOSDev, int maxBIOSDev, unsigned int allowFlags
   char* val = 0;
   int len;
     
-  getValueForKey(kHidePartition, &raw, &len, &bootInfo->bootConfig);
+  getValueForKey(kHidePartition, &raw, &len, &bootInfo->chameleonConfig);
   if(raw)
   {
       val = XMLDecode(raw);  
@@ -1747,7 +1747,7 @@ bool getVolumeLabelAlias(BVRef bvr, char* str, long strMaxLen)
     if ( !str || strMaxLen <= 0)
         return false;
     
-    aliasList = XMLDecode(getStringForKey(kRenamePartition, &bootInfo->bootConfig));
+    aliasList = XMLDecode(getStringForKey(kRenamePartition, &bootInfo->chameleonConfig));
     if ( !aliasList )
         return false;
     

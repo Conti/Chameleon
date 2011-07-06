@@ -1036,7 +1036,7 @@ getNumberArrayFromProperty( const char *  propKey,
     char * propStr;
     unsigned long    count = 0;
 
-    propStr = newStringForKey( (char *) propKey , &bootInfo->bootConfig );
+    propStr = newStringForKey( (char *) propKey , &bootInfo->chameleonConfig );
     if ( propStr )
     {
         char * delimiter = propStr;

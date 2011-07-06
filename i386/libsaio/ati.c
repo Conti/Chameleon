@@ -875,7 +875,7 @@ bool load_vbios_file(const char *key, uint16_t vendor_id, uint16_t device_id, ui
 	char file_name[24];
 	bool do_load = false;
 
-	getBoolForKey(key, &do_load, &bootInfo->bootConfig);
+	getBoolForKey(key, &do_load, &bootInfo->chameleonConfig);
 	if (!do_load)
 		return false;
 
@@ -1141,7 +1141,7 @@ static bool init_card(pci_dt_t *pci_dev)
 	
 	get_vram_size();
 
-	getBoolForKey(kATYbinimage, &add_vbios, &bootInfo->bootConfig);
+	getBoolForKey(kATYbinimage, &add_vbios, &bootInfo->chameleonConfig);
 
 	if (add_vbios)
 		if (!load_vbios_file(kUseAtiROM, pci_dev->vendor_id, pci_dev->device_id, pci_dev->subsys_id.subsys_id))
@@ -1164,7 +1164,7 @@ static bool init_card(pci_dt_t *pci_dev)
 
 	atN = 0;
 
-	card->cfg_name = getStringForKey(kAtiConfig, &bootInfo->bootConfig);
+	card->cfg_name = getStringForKey(kAtiConfig, &bootInfo->chameleonConfig);
 	if (!card->cfg_name)
 	{
 		card->cfg_name = card_configs[card->info->cfg_name].name;

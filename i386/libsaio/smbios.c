@@ -723,7 +723,7 @@ void setupSMBIOSTable(void)
 	bzero(buffer, SMB_ALLOC_SIZE);
 	structPtr->new = (SMBStructHeader *)buffer;
 
-	getBoolForKey(kSMBIOSdefaults, &setSMB, &bootInfo->bootConfig);
+	getBoolForKey(kSMBIOSdefaults, &setSMB, &bootInfo->chameleonConfig);
 	if (setSMB)
 		setDefaultSMBData();
 

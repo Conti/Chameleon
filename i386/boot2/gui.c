@@ -678,7 +678,7 @@ int initGUI(void)
 	int	len;
 	char	dirspec[256];
 
-	getValueForKey( "Theme", &theme_name, &len, &bootInfo->bootConfig );
+	getValueForKey( "Theme", &theme_name, &len, &bootInfo->chameleonConfig );
 	if ((strlen(theme_name) + 27) > sizeof(dirspec)) {
 		return 1;
 	}
@@ -861,7 +861,7 @@ void drawDeviceList (int start, int end, int selection)
 				drawInfoMenuItems();
 			
 			//Azi: make this info more accessible.
-			getBoolForKey(kShowInfoKey, &shoWinfo, &bootInfo->bootConfig);
+			getBoolForKey(kShowInfoKey, &shoWinfo, &bootInfo->chameleonConfig);
 			
 			if (shoWinfo && showBootBanner) // no boot banner, no showinfo.
 			{
@@ -1812,7 +1812,7 @@ void drawBootGraphics(void)
 	bool legacy_logo;
 	uint16_t x, y; 
 	
-	if (getBoolForKey("Legacy Logo", &legacy_logo, &bootInfo->bootConfig) && legacy_logo) {
+	if (getBoolForKey("Legacy Logo", &legacy_logo, &bootInfo->chameleonConfig) && legacy_logo) {
 		usePngImage = false; 
 	} else if (bootImageData == NULL) {
 		loadBootGraphics();
@@ -1847,7 +1847,7 @@ void drawBootGraphics(void)
 		setVideoMode(GRAPHICS_MODE, 0);
 	}
 
-	if (getValueForKey("-checkers", &dummyVal, &length, &bootInfo->bootConfig)) {
+	if (getValueForKey("-checkers", &dummyVal, &length, &bootInfo->chameleonConfig)) {
 		drawCheckerBoard();
 	} else {
 		// Fill the background to 75% grey (same as BootX). 
