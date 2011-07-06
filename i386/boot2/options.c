@@ -1184,7 +1184,8 @@ processBootOptions()
     // Load com.apple.Boot.plist from the selected volume
     // and use its contents to override default bootConfig.
 
-    loadSystemConfig(&bootInfo->bootConfig);
+//    loadSystemConfig(&bootInfo->bootConfig);
+    loadChameleonConfig(&bootInfo->chameleonConfig);
 
     // Use the kernel name specified by the user, or fetch the name
     // in the config table, or use the default if not specified.
