@@ -1,5 +1,7 @@
 TODO List for Chameleon Boot Loader
 ====================================
+- Fix boot prompt parsing.
+
 - Bring code closer to coding_standards.txt.
 
 - Fix the module system when booting chameleon with multiboot. Cleanup the xcode 4 fix.
@@ -50,7 +52,7 @@ DONE
 
   The preferred internal behavior of the log info ioreg buffer
   would be to store the messages in a consolidated buffer then only write once,
- this buffer (i.e just before call the kernel) with flushLogToIOREG();
+  this buffer (i.e just before call the kernel) with flushLogToIOREG();
   The other public function for writing chameleon boot info data would be:
 
   verbose() should incorporate a call to logMessageToIOREG() 
