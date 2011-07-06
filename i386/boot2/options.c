@@ -1184,7 +1184,7 @@ processBootOptions()
     // Load com.apple.Boot.plist from the selected volume
     // and use its contents to override default bootConfig.
 
-//    loadSystemConfig(&bootInfo->bootConfig);
+    loadSystemConfig(&bootInfo->bootConfig);    
     loadChameleonConfig(&bootInfo->chameleonConfig);
 
     // Use the kernel name specified by the user, or fetch the name
@@ -1199,7 +1199,7 @@ processBootOptions()
         strcpy( bootInfo->bootFile, kernel );
         gOverrideKernel = true;
     } else {
-        if ( getValueForKey( kKernelNameKey, &val, &cnt, &bootInfo->chameleonConfig ) ) {
+        if ( getValueForKey( kKernelNameKey, &val, &cnt, &bootInfo->bootConfig ) ) {
             strlcpy( bootInfo->bootFile, val, cnt+1 );
             if (strcmp( bootInfo->bootFile, kDefaultKernel ) != 0) {
                 gOverrideKernel = true;
@@ -1214,7 +1214,7 @@ processBootOptions()
 
     // Get config table kernel flags, if not ignored.
     if (getValueForBootKey(cp, kIgnoreBootFileFlag, &val, &cnt) ||
-            !getValueForKey( kKernelFlagsKey, &val, &cnt, &bootInfo->chameleonConfig )) {
+            !getValueForKey( kKernelFlagsKey, &val, &cnt, &bootInfo->bootConfig )) {
         val = "";
         cnt = 0;
     }
