@@ -46,7 +46,7 @@ typedef struct {
 
 static zmem * zalloced;
 static zmem * zavailable;
-static unsigned short  availableNodes, allocedNodes, totalNodes;
+static int  availableNodes, allocedNodes, totalNodes;
 static char * zalloc_base;
 static char * zalloc_end;
 static void   (*zerror)(char *, size_t, const char *, int);
