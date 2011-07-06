@@ -1,0 +1,10 @@
+ Memory Allocation Error on boot1 loading /boot: http://forge.voodooprojects.org/p/chameleon/issues/101/ 
+ Nvidia GT 540M && 310M : can't find rom to patch : http://forge.voodooprojects.org/p/chameleon/issues/99/
+      ** This is also http://forge.voodooprojects.org/p/chameleon/issues/48/
+      ** GT 440 --> http://forge.voodooprojects.org/p/chameleon/issues/98/
+ Extra Kext Loading dependency error: http://forge.voodooprojects.org/p/chameleon/issues/94/
+ AMD reported issues in cpu.c http://forge.voodooprojects.org/p/chameleon/issues/92/
+ Multi Booting: http://forge.voodooprojects.org/p/chameleon/issues/62/
+ Make Package: http://forge.voodooprojects.org/p/chameleon/issues/82/
+ SMBus : http://forge.voodooprojects.org/p/chameleon/issues/10/
+
