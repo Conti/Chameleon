@@ -491,7 +491,7 @@ void common_boot(int biosdev)
         
 		getBoolForKey(kUseKernelCache, &usecache, &bootInfo->chameleonConfig);
 		if(usecache) {
-			if (getValueForKey(kKernelCacheKey, &val, &len, &bootInfo->chameleonConfig)) {
+			if (getValueForKey(kKernelCacheKey, &val, &len, &bootInfo->bootConfig)) {
                 if(val[0] == '\\')
                 {
                     len--;

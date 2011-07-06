@@ -1322,7 +1322,7 @@ processBootOptions()
        }
 	}
 
-	if ( getValueForKey( kMKextCacheKey, &val, &cnt, &bootInfo->chameleonConfig ) )
+	if ( getValueForKey( kMKextCacheKey, &val, &cnt, &bootInfo->bootConfig ) )
 	{
 		strlcpy(gMKextName, val, cnt + 1);
 	}
