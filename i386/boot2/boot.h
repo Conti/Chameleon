@@ -49,6 +49,7 @@
 #define kTextModeKey		"Text Mode"
 #define kQuietBootKey		"Quiet Boot"
 #define kKernelFlagsKey		"Kernel Flags"
+#define kKernelArchKey      "Kernel Architecture"
 #define karch				"arch"				/* boot.c */
 #define kProductVersion		"ProductVersion"	/* boot.c */
 #define kMKextCacheKey		"MKext Cache"
