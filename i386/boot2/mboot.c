@@ -12,6 +12,8 @@ int multiboot_timeout=0;
 int multiboot_timeout_set=0;
 int multiboot_partition=0;
 int multiboot_partition_set=0;
+int multiboot_skip_partition=0;
+int multiboot_skip_partition_set=0;
 
 // Global multiboot info, if using multiboot.
 struct multiboot_info *gMI;
@@ -414,9 +416,20 @@ static inline uint32_t multiboot(int multiboot_magic, struct multiboot_info *mi)
             int intVal = strtol(val, &endptr, 0);
             if(*val != '\0' && (*endptr == '\0' || *endptr == ' ' || *endptr == '\t'))
             {
-                printf("Default partition overridden to %d with timeout=%s\n", intVal, val);
+                printf("Default partition overridden to %d with partno=%s\n", intVal, val);
                 multiboot_partition = intVal;
                 multiboot_partition_set = 1;
+            }
+        }
+        if(getValueForBootKey(mi->mi_cmdline, "skip_partno", &val, &size))
+        {
+            char *endptr;
+            int intVal = strtol(val, &endptr, 0);
+            if(*val != '\0' && (*endptr == '\0' || *endptr == ' ' || *endptr == '\t'))
+            {
+                printf("Skipping partition %d with skip_partno=%s\n", intVal, val);
+                multiboot_skip_partition = intVal;
+                multiboot_skip_partition_set = 1;
             }
         }				
     }
