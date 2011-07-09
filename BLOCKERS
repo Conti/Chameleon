@@ -4,7 +4,8 @@
       ** GT 440 --> http://forge.voodooprojects.org/p/chameleon/issues/98/
  Extra Kext Loading dependency error: http://forge.voodooprojects.org/p/chameleon/issues/94/
  AMD reported issues in cpu.c http://forge.voodooprojects.org/p/chameleon/issues/92/
- Multi Booting: http://forge.voodooprojects.org/p/chameleon/issues/62/
  Make Package: http://forge.voodooprojects.org/p/chameleon/issues/82/
  SMBus : http://forge.voodooprojects.org/p/chameleon/issues/10/
 
+=== Done ===
+ Multi Booting: http://forge.voodooprojects.org/p/chameleon/issues/62/
