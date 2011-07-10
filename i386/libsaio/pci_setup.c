@@ -2,6 +2,7 @@
 #include "boot.h"
 #include "bootstruct.h"
 #include "pci.h"
+#include "gma.h"
 #include "nvidia.h"
 #include "modules.h"
 
@@ -50,10 +51,8 @@ void setup_pci_devs(pci_dt_t *pci_dt)
 							break;
 					
 						case PCI_VENDOR_ID_INTEL: 
-							/* message to be removed once support for these cards is added */
-							verbose("Intel VGA Controller [%04x:%04x] :: %s (currently NOT SUPPORTED)\n", 
-								current->vendor_id, current->device_id, devicepath);
-							break;
+                            setup_gma_devprop(current);
+                            break;
 					
 						case PCI_VENDOR_ID_NVIDIA: 
 							setup_nvidia_devprop(current);
