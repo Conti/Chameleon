@@ -799,6 +799,11 @@ done_str		db  'done', 0
 ; According to EFI specification, maximum boot code size is 440 bytes 
 ;
 
+;
+; XXX - compilation errors with debug enabled (see comment above about nasm)
+; Azi: boot0.s:808: error: TIMES value -111 is negative
+;      boot0.s:811: error: TIMES value -41 is negative
+;
 pad_boot:
     times 440-($-$$) db 0
 

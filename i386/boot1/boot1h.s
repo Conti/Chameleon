@@ -986,6 +986,10 @@ root_str			db		'/boot', NULL
 ; If the booter code becomes too large, then nasm will complain
 ; that the 'times' argument is negative.
 
+;
+; XXX - compilation errors with debug enabled (see comment above about nasm)
+; Azi: boot1h.s:994: error: TIMES value -67 is negative
+;
 pad_table_and_sig:
 	times			510-($-$$) db 0
 	dw				kBootSignature
@@ -1438,6 +1442,11 @@ searchCatKeyNameLen	EQU		($ - searchCatKeyName) / 2
 ;--------------------------------------------------------------------------
 ; Pad the rest of the 512 byte sized sector with zeroes. The last
 ; two bytes is the mandatory boot sector signature.
+;
+
+;
+; XXX - compilation errors with debug enabled
+; Azi: boot1h.s:1452: error: TIMES value -64 is negative
 ;
 pad_sector_1:
 	times			1022-($-$$) db 0
