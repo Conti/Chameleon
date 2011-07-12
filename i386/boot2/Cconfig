@@ -2,7 +2,7 @@ config MODULES
 	bool "Module System"
 	default y
 	---help---
-	  Say Y here if you want to enable to use of modules.
+	  Say Y here if you want to enable the use of modules.
 
 config MODULE_DEBUG
 	bool "debug support"
@@ -18,7 +18,7 @@ config EMBED_THEME
 	bool "Embed Theme"
 	default n
 	---help---
-	  Say Y here if you want compile in a default theme.
+	  Say Y here if you want compile in the default theme (Embed).
 	
 config EMBEDED_THEME
 	string "Theme name"

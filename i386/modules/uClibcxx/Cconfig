@@ -7,5 +7,5 @@ config UCLIBCXX_MODULE
 	default m
 	depends on KLIBC_MODULE
 	---help---
-	  Say Y here if you want to enable to use of this module.
+	  Say Y here if you want to enable the use of this module.
 

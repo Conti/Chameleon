@@ -1,47 +1,47 @@
 #
-#	boot1
+#	boot1h
 #
 config BOOT1_HFS
-	bool "boot1 second stage booter"
+	bool "boot1h second stage booter"
 	default y
 	help
-	  Say Y here if you want to compile the default boot1
-	  bootloader stage.
+	  Say Y here if you want to compile the default second
+	  stage bootloader.
 
 config BOOT1_HFS_DEBUG
 	bool "debug support"
 	default n
 	depends on BOOT1_HFS
 	help
-	  Say Y here if you want to compile in debug support.
+	  Say Y here if you want to enable boot1h debug messages.
 		
 config BOOT1_HFS_VERBOSE
 	bool "verbose support"
 	default y
 	depends on BOOT1_HFS
 	help
-	  Say Y here if you want to compile in verbose support.
+	  Say Y here if you want to enable boot1h verbose messages.
 
 #
-#	boot1h
+#	boot1he
 #
 config BOOT1_HFS_ACTIVE
-	bool "boot1h second stage boater"
+	bool "boot1he second stage booter"
 	default y
 	help
-	  Say Y here if you want to compile the default boot1
-	  bootloader stage.
+	  Say Y here if you want to compile the boot1he second
+	  stage bootloader.
 
 config BOOT1_HFS_ACTIVE_DEBUG
 	bool "debug support"
 	default n
 	depends on BOOT1_HFS_ACTIVE
 	help
-	  Say Y here if you want to compile in debug support.
+	  Say Y here if you want to enable boot1he debug messages.
 		
 config BOOT1_HFS_ACTIVE_VERBOSE
 	bool "verbose support"
 	default y
 	depends on BOOT1_HFS_ACTIVE
 	help
-	  Say Y here if you want to compile in debug support.
+	  Say Y here if you want to enable boot1he verbose messages.
