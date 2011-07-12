@@ -299,11 +299,11 @@ XMLParseFile( char * buffer, TagPtr * dict )
     pos = 0;
 	char       *configBuffer;
 	
-	
-	
-    configBuffer = malloc(strlen(buffer)+1);
-    strcpy(configBuffer, buffer);
-	
+    int strlength = strlen(buffer);
+    configBuffer = malloc(strlength+1);
+    bcopy(buffer, configBuffer, strlength);
+    configBuffer[strlength] = 0;
+
 	buffer_start = configBuffer;
 
     while (1)
