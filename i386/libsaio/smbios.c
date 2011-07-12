@@ -74,7 +74,7 @@
 
 // defaults for a Mac mini 
 #define kDefaultMacminiFamily						"Macmini"
-#define kDefaultMacmini								"Macmini2,1"
+#define kDefaultMacmini								"Macmini1,1"
 #define kDefaultMacminiBIOSVersion					"    MM21.88Z.009A.B00.0903051113"
 
 // defaults for a MacBook
