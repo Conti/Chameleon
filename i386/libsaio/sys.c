@@ -481,13 +481,13 @@ int open(const char *path, int flags)
 
 int open_bvdev(const char *bvd, const char *path, int flags)
 {
-        const struct devsw	*dp;
-	const char		*cp;
-	BVRef			bvr;
-	int			i;
-	int			len;
-	int			unit;
-	int			partition;
+    const struct devsw	*dp;
+	const char			*cp;
+	BVRef				bvr;
+	int					i;
+	int					len;
+	int					unit;
+	int					partition;
 
 	if ((i = open(path, flags)) >= 0) {
 		return i;
@@ -520,7 +520,7 @@ int open_bvdev(const char *bvd, const char *path, int flags)
 			bvr = newBootVolumeRef(dp->biosdev + unit, partition);
 			return open_bvr(bvr, path, flags);
 		}
-        }
+    }
 	return -1;
 }
 

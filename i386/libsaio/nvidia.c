@@ -1319,7 +1319,7 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 		}
 	}
     
-    if (getValueForKey(kdcfg0, &value, &len, &bootInfo->chameleonConfig) && len == DCFG0_LEN * 2){
+    if (getValueForKey(kDcfg0, &value, &len, &bootInfo->chameleonConfig) && len == DCFG0_LEN * 2){
         
         uint8_t new_dcfg0[DCFG0_LEN];
         
@@ -1337,7 +1337,7 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
     }
     
     
-    if (getValueForKey(kdcfg1, &value, &len, &bootInfo->chameleonConfig) && len == DCFG1_LEN * 2){
+    if (getValueForKey(kDcfg1, &value, &len, &bootInfo->chameleonConfig) && len == DCFG1_LEN * 2){
 
         uint8_t new_dcfg1[DCFG1_LEN];
     

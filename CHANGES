@@ -1,3 +1,5 @@
+- Added NVidia ION AHCI controllers dev id to AHCIPortInjector kext.
+  Forgot to mention source on the commit: http://forum.voodooprojects.org/index.php/topic,1170.0.html
 - Renamed com.apple.Boot.plist to org.chameleon.Boot.plist.
 - Added "ShowInfo" key (enabled by default for now), which enables/disables the display of
   partition and resolution related info, on the Gui.
@@ -33,12 +35,12 @@
 - Optimized cursor spinout in textmode if no verbose mode is set
 - Added ram table structures definitions
 - Added getSmbios() a param permitting to select between orig and new smbios entries
-- Changed "Default Partition" behaviour to accept only native system volumes or foreign partitions.
+- Changed "Default Partition" behavior to accept only native system volumes or foreign partitions.
 - Added NVIDIA new NVCAP customization support and support for ION gfx cards from aserebln
 - Added ATI new framebuffers support and new cards from PCEFI10.6
 - improved ACPI file search algo by implementing a cache.
 - Nvidia injection fix
-- pciroot would not always return correct UID in autodection mode
+- pciroot would not always return correct UID in auto detection mode
 - Fixed the hibernation problem in boot2/resume.c
 - Fixed all new booter versions with SystemType would override the facp value even if correct,
   now keeps the facp value if correct and no override has been done, implemented a best effort algo.

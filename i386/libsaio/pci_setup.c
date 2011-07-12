@@ -50,9 +50,9 @@ void setup_pci_devs(pci_dt_t *pci_dt)
 							setup_ati_devprop(current); 
 							break;
 					
-						case PCI_VENDOR_ID_INTEL: 
-                            setup_gma_devprop(current);
-                            break;
+						case PCI_VENDOR_ID_INTEL:
+							setup_gma_devprop(current);
+							break;
 					
 						case PCI_VENDOR_ID_NVIDIA: 
 							setup_nvidia_devprop(current);

@@ -263,5 +263,5 @@ void stop(const char * fmt, ...)
 void pause() 
 {
     printf("Press a key to continue...\n");
-	getchar(); // replace getchar() by pause() ?? were useful...?
+	getchar(); // replace getchar() by pause() were useful.
 }
