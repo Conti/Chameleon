@@ -503,7 +503,7 @@ bool getValueForKey( const char *key, const char **val, int *size, config_file_t
 
       // NOTE: Values are defined by apple as being in com.apple.Boot.plist
       //        kHelperRootUUIDKey, kKernelArchKey, kMKextCacheKey, kKernelCacheKey, kKernelNameKey, kKernelFlagsKey
-      if (ret && (strcmp(key, kKernelNameKey) == 0) && (strcmp(overrideVal, "mach_kernel") == 0))
+      if (ret && (strcmp(key, kKernelNameKey) == 0) && (overrideSize == 0))
         override = false;
 
       if (ret && (strcmp(key, kKernelFlagsKey) == 0) && (overrideSize == 0))
