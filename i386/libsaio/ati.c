@@ -5,8 +5,6 @@
  *
  */
 
-#include "libsa.h"
-#include "saio_internal.h"
 #include "boot.h"
 #include "bootstruct.h"
 #include "pci.h"
