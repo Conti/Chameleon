@@ -646,12 +646,12 @@ int loadChameleonConfig(config_file_t *config)
 {
 	char *dirspec[] = {
 		"rd(0,0)/Extra/org.chameleon.Boot.plist",
-		"bt(0,0)/Extra/org.chameleon.Boot.plist",
 		"/Extra/org.chameleon.Boot.plist",
+		"bt(0,0)/Extra/org.chameleon.Boot.plist",
 		
 		"rd(0,0)/Extra/com.apple.Boot.plist",   /* DEPRECIATED */
-		"bt(0,0)/Extra/com.apple.Boot.plist",   /* DEPRECIATED */
 		"/Extra/com.apple.Boot.plist"           /* DEPRECIATED */
+		"bt(0,0)/Extra/com.apple.Boot.plist",   /* DEPRECIATED */
 	};
 
 	int i, fd, count, ret=-1;
