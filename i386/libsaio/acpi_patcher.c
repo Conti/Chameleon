@@ -152,6 +152,7 @@ void *loadACPITable (const char * filename)
 
 uint8_t	acpi_cpu_count = 0;
 char* acpi_cpu_name[32];
+uint32_t acpi_cpu_p_blk = 0;
 
 void get_acpi_cpu_names(unsigned char* dsdt, uint32_t length)
 {
@@ -184,6 +185,9 @@ void get_acpi_cpu_names(unsigned char* dsdt, uint32_t length)
 				acpi_cpu_name[acpi_cpu_count] = malloc(4);
 				memcpy(acpi_cpu_name[acpi_cpu_count], dsdt+offset, 4);
 				i = offset + 5;
+                
+                if (acpi_cpu_count == 0)
+                    acpi_cpu_p_blk = dsdt[i] | (dsdt[i+1] << 8);
 				
 				verbose("Found ACPI CPU: %c%c%c%c\n", acpi_cpu_name[acpi_cpu_count][0], acpi_cpu_name[acpi_cpu_count][1], acpi_cpu_name[acpi_cpu_count][2], acpi_cpu_name[acpi_cpu_count][3]);
 				
@@ -204,12 +208,19 @@ struct acpi_2_ssdt *generate_cst_ssdt(struct acpi_2_fadt* fadt)
 		0x31, 0x03, 0x10, 0x20 							/* 1.._		*/
 	};
 	
-	char cstate_resource_template[] = 
+	char resource_template_register_fixedhw[] = 
 	{
 		0x11, 0x14, 0x0A, 0x11, 0x82, 0x0C, 0x00, 0x7F, 
 		0x01, 0x02, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 
 		0x00, 0x00, 0x00, 0x79, 0x00
 	};
+    
+    char resource_template_register_systemio[] = 
+	{
+		0x11, 0x14, 0x0A, 0x11, 0x82, 0x0C, 0x00, 0x01,
+        0x08, 0x00, 0x00, 0x15, 0x04, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x79, 0x00, 	
+    };
 
 	if (Platform.CPU.Vendor != 0x756E6547) {
 		verbose ("Not an Intel platform: C-States will not be generated !!!\n");
@@ -236,10 +247,12 @@ struct acpi_2_ssdt *generate_cst_ssdt(struct acpi_2_fadt* fadt)
 		bool c2_enabled = false;
 		bool c3_enabled = false;
 		bool c4_enabled = false;
+        bool cst_using_sustemio = false;
 		
 		getBoolForKey(kEnableC2States, &c2_enabled, &bootInfo->chameleonConfig);
 		getBoolForKey(kEnableC3States, &c3_enabled, &bootInfo->chameleonConfig);
 		getBoolForKey(kEnableC4States, &c4_enabled, &bootInfo->chameleonConfig);
+        getBoolForKey(kCSTUsingSystemIO, &cst_using_sustemio, &bootInfo->chameleonConfig);
 		
 		c2_enabled = c2_enabled | (fadt->C2_Latency < 100);
 		c3_enabled = c3_enabled | (fadt->C3_Latency < 1000);
@@ -254,44 +267,99 @@ struct acpi_2_ssdt *generate_cst_ssdt(struct acpi_2_fadt* fadt)
 						aml_add_byte(pack, cstates_count);
 		
 						struct aml_chunk* tmpl = aml_add_package(pack);
-							cstate_resource_template[11] = 0x00; // C1
-							aml_add_buffer(tmpl, cstate_resource_template, sizeof(cstate_resource_template));
-							aml_add_byte(tmpl, 0x01); // C1
-							aml_add_byte(tmpl, 0x01); // Latency
-							aml_add_word(tmpl, 0x03e8); // Power
+                            if (cst_using_sustemio) {
+                                resource_template_register_fixedhw[8] = 0x00; 
+                                resource_template_register_fixedhw[9] = 0x00; 
+                                resource_template_register_fixedhw[10] = 0x00; 
+                                resource_template_register_fixedhw[11] = 0x00; // C1
+                                aml_add_buffer(tmpl, resource_template_register_fixedhw, sizeof(resource_template_register_fixedhw));
+                                aml_add_byte(tmpl, 0x01); // C1
+                                aml_add_byte(tmpl, 0x20); // Latency
+                                aml_add_word(tmpl, 0x03e8); // Power
+                                
+                                uint8_t p_blk_lo = acpi_cpu_p_blk + 4;
+                                uint8_t p_blk_hi = (acpi_cpu_p_blk + 4) >> 8;
+                                
+                                // C2
+                                if (c2_enabled) 
+                                {    
+                                    tmpl = aml_add_package(pack);
+                                    resource_template_register_systemio[11] = p_blk_lo; // C2
+                                    resource_template_register_systemio[12] = p_blk_hi; // C2
+                                    aml_add_buffer(tmpl, resource_template_register_systemio, sizeof(resource_template_register_systemio));
+                                    aml_add_byte(tmpl, 0x02); // C2
+                                    aml_add_byte(tmpl, 0x60); // Latency
+                                    aml_add_word(tmpl, 0x01f4); // Power
+                                }
+                                
+                                p_blk_lo = acpi_cpu_p_blk + 5;
+                                p_blk_hi = (acpi_cpu_p_blk + 5) >> 8;
+                                
+                                // C4
+                                if (c4_enabled) 
+                                {
+                                    tmpl = aml_add_package(pack);
+                                    resource_template_register_systemio[11] = p_blk_lo; // C4
+                                    resource_template_register_systemio[12] = p_blk_hi; // C4
+                                    aml_add_buffer(tmpl, resource_template_register_systemio, sizeof(resource_template_register_systemio));
+                                    aml_add_byte(tmpl, 0x04); // C4
+                                    aml_add_word(tmpl, 0x0A); // Latency
+                                    aml_add_byte(tmpl, 0xC8); // Power
+                                }
+                                else
+                                    // C3
+                                    if (c3_enabled) 
+                                    {
+                                        tmpl = aml_add_package(pack);
+                                        resource_template_register_systemio[11] = p_blk_lo; // C3
+                                        resource_template_register_systemio[12] = p_blk_hi; // C3
+                                        aml_add_buffer(tmpl, resource_template_register_systemio, sizeof(resource_template_register_systemio));
+                                        aml_add_byte(tmpl, 0x03); // C3
+                                        aml_add_word(tmpl, 0x80); // Latency
+                                        aml_add_word(tmpl, 0x015e); // Power
+                                    }
 
-						// C2
-						if (c2_enabled) 
-						{
-							tmpl = aml_add_package(pack);
-								cstate_resource_template[11] = 0x10; // C2
-								aml_add_buffer(tmpl, cstate_resource_template, sizeof(cstate_resource_template));
-								aml_add_byte(tmpl, 0x02); // C2
-								aml_add_byte(tmpl, fadt->C2_Latency);
-								aml_add_word(tmpl, 0x01f4); // Power
-						}
-						// C4
-						if (c4_enabled) 
-						{
-							tmpl = aml_add_package(pack);
-							cstate_resource_template[11] = 0x30; // C4
-							aml_add_buffer(tmpl, cstate_resource_template, sizeof(cstate_resource_template));
-							aml_add_byte(tmpl, 0x04); // C4
-							aml_add_word(tmpl, fadt->C3_Latency / 2); // TODO: right latency for C4
-							aml_add_byte(tmpl, 0xfa); // Power
-						}
-						else
-						// C3
-						if (c3_enabled) 
-						{
-							tmpl = aml_add_package(pack);
-							cstate_resource_template[11] = 0x20; // C3
-							aml_add_buffer(tmpl, cstate_resource_template, sizeof(cstate_resource_template));
-							aml_add_byte(tmpl, 0x03); // C3
-							aml_add_word(tmpl, fadt->C3_Latency);
-							aml_add_word(tmpl, 0x015e); // Power
-						}
-						
+                            }
+                            else {
+                                resource_template_register_fixedhw[11] = 0x00; // C1
+                                aml_add_buffer(tmpl, resource_template_register_fixedhw, sizeof(resource_template_register_fixedhw));
+                                aml_add_byte(tmpl, 0x01); // C1
+                                aml_add_byte(tmpl, 0x01); // Latency
+                                aml_add_word(tmpl, 0x03e8); // Power
+                                
+                                // C2
+                                if (c2_enabled) 
+                                {
+                                    tmpl = aml_add_package(pack);
+                                    resource_template_register_fixedhw[11] = 0x10; // C2
+                                    aml_add_buffer(tmpl, resource_template_register_fixedhw, sizeof(resource_template_register_fixedhw));
+                                    aml_add_byte(tmpl, 0x02); // C2
+                                    aml_add_byte(tmpl, fadt->C2_Latency);
+                                    aml_add_word(tmpl, 0x01f4); // Power
+                                }
+                                // C4
+                                if (c4_enabled) 
+                                {
+                                    tmpl = aml_add_package(pack);
+                                    resource_template_register_fixedhw[11] = 0x30; // C4
+                                    aml_add_buffer(tmpl, resource_template_register_fixedhw, sizeof(resource_template_register_fixedhw));
+                                    aml_add_byte(tmpl, 0x04); // C4
+                                    aml_add_word(tmpl, 0x11); // TODO: right latency for C4
+                                    aml_add_byte(tmpl, 0xfa); // Power
+                                }
+                                else
+                                    // C3
+                                    if (c3_enabled) 
+                                    {
+                                        tmpl = aml_add_package(pack);
+                                        resource_template_register_fixedhw[11] = 0x20; // C3
+                                        aml_add_buffer(tmpl, resource_template_register_fixedhw, sizeof(resource_template_register_fixedhw));
+                                        aml_add_byte(tmpl, 0x03); // C3
+                                        aml_add_word(tmpl, fadt->C3_Latency);
+                                        aml_add_word(tmpl, 0x015e); // Power
+                                    }
+                            }
+													
 			
 			// Aliaces
 			int i;
