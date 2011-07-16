@@ -865,6 +865,7 @@ static int patch_nvidia_rom(uint8_t *rom)
 {
 	if (!rom || (rom[0] != 0x55 && rom[1] != 0xaa)) {
 		printf("False ROM signature: 0x%02x%02x\n", rom[0], rom[1]);
+		pause();
 		return PATCH_ROM_FAILED;
 	}
 	
@@ -872,6 +873,7 @@ static int patch_nvidia_rom(uint8_t *rom)
 	
 	if (!dcbptr) {
 		printf("no dcb table found\n");
+		pause();
 		return PATCH_ROM_FAILED;
 	}
 //	else
@@ -904,6 +906,7 @@ static int patch_nvidia_rom(uint8_t *rom)
 		if (sig != 0x4edcbdcb)
 		{
 			printf("Bad display config block signature (0x%8x)\n", sig); //Azi: issue #48
+			pause();
 			return PATCH_ROM_FAILED;
 		}
 	}
@@ -917,12 +920,14 @@ static int patch_nvidia_rom(uint8_t *rom)
 		if (strcmp(sig, "DEV_REC"))
 		{
 			printf("Bad Display Configuration Block signature (%s)\n", sig);
+			pause();
 			return PATCH_ROM_FAILED;
 		}
 	}
 	else
 	{
 		printf("ERROR: dcbtable_version is 0x%X\n", dcbtable_version);
+		pause();
 		return PATCH_ROM_FAILED;
 	}
 	
@@ -1325,6 +1330,7 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 	
 	if ((nvPatch = patch_nvidia_rom(rom)) == PATCH_ROM_FAILED) {
 		printf("ERROR: nVidia ROM Patching Failed!\n");
+		pause();
 		//return false;
 	}
 	

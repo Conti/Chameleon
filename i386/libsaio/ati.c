@@ -1148,7 +1148,8 @@ static bool init_card(pci_dt_t *pci_dev)
 	
 	if (!card->info->device_id || !card->info->cfg_name)
 	{
-		printf("Unsupported card!\n");
+		printf("Unsupported card!\nUse AtiConfig key to specify a framebuffer for your card.\nIf still unsupported, report dev id, subsys id and vendor.");
+		pause();
 		return false;
 	}
 	
