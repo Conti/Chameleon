@@ -13,7 +13,7 @@ include ${SRCROOT}/Make.rules
 DIRS_NEEDED = $(SYMROOT)
 
 
-OBJECTS  = boot0 chain0
+OBJECTS  = boot0 boot0md chain0
 OBJECTS := $(addprefix $(SYMROOT)/, $(OBJECTS))
 
 all: $(DIRS_NEEDED) $(OBJECTS)
