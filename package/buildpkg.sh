@@ -48,7 +48,7 @@ main ()
 	cp -f ${1%/*}/i386/cdboot ${1}/Core/Root/usr/standalone/i386
 	cp -f ${1%/*}/i386/chain0 ${1}/Core/Root/usr/standalone/i386
 	fixperms "${1}/Core/Root/"
-	cp -f ${pkgroot}/fdisk ${1}/Core/Root/usr/sbin
+	cp -f ${pkgroot}/fdisk440 ${1}/Core/Root/usr/sbin/fdisk
 	local coresize=$( du -hkc "${1}/Core/Root" | tail -n1 | awk {'print $1'} )
 	buildpackage "${1}/Core" "/" "0" "start_visible=\"false\" start_selected=\"true\""
 
@@ -88,7 +88,7 @@ main ()
 		mkdir -p "${1}/${options[$i]##*/}/Root"
 		mkdir -p "${1}/${options[$i]##*/}/Scripts"
 		
-		ditto --noextattr --noqtn "${options[$i]}/postinstall" "${1}/${options[$i]##*/}/Scripts/postinstall"
+		ditto --noextattr --noqtn "${options[$i]}/postinstall.sh" "${1}/${options[$i]##*/}/Scripts/postinstall.sh"
 		
 		buildpackage "${1}/${options[$i]##*/}" "/" "" "start_selected=\"false\""
 	done

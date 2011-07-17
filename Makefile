@@ -25,6 +25,8 @@ EXCLUDE = --exclude=.svn --exclude=.DS_Store --exclude=sym --exclude=obj \
 
 ARCHLESS_RC_CFLAGS=`echo $(RC_CFLAGS) | sed 's/-arch [a-z0-9]*//g'`
 
+VPATH = $(OBJROOT):$(SYMROOT)
+
 GENERIC_SUBDIRS =
 
 #
@@ -88,6 +90,30 @@ all: $(SYMROOT) $(OBJROOT) $(SRCROOT)/auto.conf $(SRCROOT)/autoconf.h $(SRCROOT)
 	    	echo "========= nothing to build for $$i =========";	  \
 	    fi;								  \
 	done
+
+image:
+	@if [ -e "$(SYMROOT)" ]; then					  \
+	    rm -r -f ${IMGROOT};				  	  \
+	    mkdir -p ${IMGROOT}/usr/standalone/i386;		  	  \
+	    mkdir -p ${IMGROOT}/Extra/modules;				\
+	    if [ -e "$(IMGSKELROOT)" ]; then				  \
+		cp -R -f "${IMGSKELROOT}"/* "${IMGROOT}";		  \
+	    fi;								  \
+	    cp -f ${SYMROOT}/i386/cdboot ${CDBOOT};		  	  \
+	    cp -f ${SYMROOT}/i386/modules/* ${IMGROOT}/Extra/modules;	\
+	    cp -f ${SYMROOT}/i386/boot ${IMGROOT}/usr/standalone/i386; 	  \
+	    cp -f ${SYMROOT}/i386/boot0 ${IMGROOT}/usr/standalone/i386;	  \
+	    cp -f ${SYMROOT}/i386/boot1h ${IMGROOT}/usr/standalone/i386;  \
+	    cp -f ${SYMROOT}/i386/boot1f32 ${IMGROOT}/usr/standalone/i386;\
+	    $(shell hdiutil makehybrid -iso -joliet -hfs -hfs-volume-name \
+	       ${CDLABEL} -eltorito-boot ${CDBOOT} -no-emul-boot -ov -o   \
+	       "${ISOIMAGE}" ${IMGROOT} -quiet) 		  	  \
+	fi;
+
+pkg installer: 
+	@if [ -e "$(SYMROOT)" ]; then					  \
+	    sudo `pwd`/package/buildpkg.sh `pwd`/sym/package;		  \
+	fi;
 
 $(SYMROOT)/i386/vers.h: version
 	@echo "#define I386BOOT_VERSION \"5.0.132\"" > $@
