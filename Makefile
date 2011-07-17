@@ -25,8 +25,6 @@ EXCLUDE = --exclude=.svn --exclude=.DS_Store --exclude=sym --exclude=obj \
 
 ARCHLESS_RC_CFLAGS=`echo $(RC_CFLAGS) | sed 's/-arch [a-z0-9]*//g'`
 
-VPATH = $(OBJROOT):$(SYMROOT)
-
 GENERIC_SUBDIRS =
 
 #
@@ -91,7 +89,7 @@ all: $(SYMROOT) $(OBJROOT) $(SRCROOT)/auto.conf $(SRCROOT)/autoconf.h $(SRCROOT)
 	    fi;								  \
 	done
 
-image:
+image: all
 	@if [ -e "$(SYMROOT)" ]; then					  \
 	    rm -r -f ${IMGROOT};				  	  \
 	    mkdir -p ${IMGROOT}/usr/standalone/i386;		  	  \
@@ -110,9 +108,9 @@ image:
 	       "${ISOIMAGE}" ${IMGROOT} -quiet) 		  	  \
 	fi;
 
-pkg installer: 
+pkg installer: all
 	@if [ -e "$(SYMROOT)" ]; then					  \
-	    sudo `pwd`/package/buildpkg.sh `pwd`/sym/package;		  \
+	    sudo ${SRCROOT}/package/buildpkg.sh ${SYMROOT}/package;		  \
 	fi;
 
 $(SYMROOT)/i386/vers.h: version
@@ -125,3 +123,6 @@ $(SYMROOT)/i386/vers.h: version
 .PHONY: $(SYMROOT)/i386/vers.h
 .PHONY: config
 .PHONY: clean
+.PHONY: image
+.PHONY: pkg
+.PHONY: installer
