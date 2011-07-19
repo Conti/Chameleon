@@ -90,23 +90,26 @@ all: $(SYMROOT) $(OBJROOT) $(SRCROOT)/auto.conf $(SRCROOT)/autoconf.h $(SRCROOT)
 	done
 
 image: all
-	@if [ -e "$(SYMROOT)" ]; then					  \
-	    rm -r -f ${IMGROOT};				  	  \
-	    mkdir -p ${IMGROOT}/usr/standalone/i386;		  	  \
-	    mkdir -p ${IMGROOT}/Extra/modules;				\
-	    if [ -e "$(IMGSKELROOT)" ]; then				  \
-		cp -R -f "${IMGSKELROOT}"/* "${IMGROOT}";		  \
-	    fi;								  \
-	    cp -f ${SYMROOT}/i386/cdboot ${CDBOOT};		  	  \
-	    cp -f ${SYMROOT}/i386/modules/* ${IMGROOT}/Extra/modules;	\
-	    cp -f ${SYMROOT}/i386/boot ${IMGROOT}/usr/standalone/i386; 	  \
-	    cp -f ${SYMROOT}/i386/boot0 ${IMGROOT}/usr/standalone/i386;	  \
-	    cp -f ${SYMROOT}/i386/boot1h ${IMGROOT}/usr/standalone/i386;  \
-	    cp -f ${SYMROOT}/i386/boot1f32 ${IMGROOT}/usr/standalone/i386;\
-	    $(shell hdiutil makehybrid -iso -joliet -hfs -hfs-volume-name \
-	       ${CDLABEL} -eltorito-boot ${CDBOOT} -no-emul-boot -ov -o   \
-	       "${ISOIMAGE}" ${IMGROOT} -quiet) 		  	  \
-	fi;
+	@echo "\t[RM] ${IMGROOT}"
+	@rm -rf ${IMGROOT}	
+	@echo "\t[MKDIR] ${IMGROOT}/usr/standalone/i386"			  	  
+	@mkdir -p ${IMGROOT}/usr/standalone/i386
+	@echo "\t[MKDIR] ${IMGROOT}/Extra/modules"
+	@mkdir -p ${IMGROOT}/Extra/modules				
+	@if [ -e "$(IMGSKELROOT)" ]; then				\
+		@echo "\t[CP] ${IMGROOTSKEL} ${IMGROOT}"		\
+		@cp -R -f "${IMGSKELROOT}"/* "${IMGROOT}";		\
+	fi;								  
+	@cp -f ${SYMROOT}/i386/cdboot ${CDBOOT}
+	@cp -f ${SYMROOT}/i386/modules/* ${IMGROOT}/Extra/modules
+	@cp -f ${SYMROOT}/i386/boot ${IMGROOT}/usr/standalone/i386
+	@cp -f ${SYMROOT}/i386/boot0 ${IMGROOT}/usr/standalone/i386
+	@cp -f ${SYMROOT}/i386/boot1h ${IMGROOT}/usr/standalone/i386
+	@cp -f ${SYMROOT}/i386/boot1f32 ${IMGROOT}/usr/standalone/i386
+	@echo "\t[HDIUTIL] ${ISOIMAGE}"
+	@hdiutil makehybrid -iso -joliet -hfs -hfs-volume-name \
+		${CDLABEL} -eltorito-boot ${CDBOOT} -no-emul-boot -ov -o   \
+		"${ISOIMAGE}" ${IMGROOT} -quiet 		  	  
 
 pkg installer: all
 	@if [ -e "$(SYMROOT)" ]; then					  \
