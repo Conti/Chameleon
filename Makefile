@@ -112,9 +112,8 @@ image: all
 		"${ISOIMAGE}" ${IMGROOT} -quiet 		  	  
 
 pkg installer: all
-	@if [ -e "$(SYMROOT)" ]; then					  \
-	    sudo ${SRCROOT}/package/buildpkg.sh ${SYMROOT}/package;		  \
-	fi;
+	@# TODO: remove sudo
+	sudo ${SRCROOT}/package/buildpkg.sh ${SYMROOT}/package;
 
 $(SYMROOT)/i386/vers.h: version
 	@echo "#define I386BOOT_VERSION \"5.0.132\"" > $@
