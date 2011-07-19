@@ -19,6 +19,7 @@ REVISION = `cat revision`
 PRODUCT = Chameleon-$(VERSION)-r$(REVISION)
 CDLABEL = ${PRODUCT}
 ISOIMAGE = ${SYMROOT}/${CDLABEL}.iso
+DISTFILE = ${SYMROOT}/${PRODUCT}
 
 EXCLUDE = --exclude=.svn --exclude=.DS_Store --exclude=sym --exclude=obj \
 		--exclude=package --exclude=archive --exclude=User_Guide_src --exclude=*.sh
@@ -89,7 +90,7 @@ all: $(SYMROOT) $(OBJROOT) $(SRCROOT)/auto.conf $(SRCROOT)/autoconf.h $(SRCROOT)
 	    fi;								  \
 	done
 
-image: all
+dist image: all
 	@echo "\t[RM] ${IMGROOT}"
 	@rm -rf ${IMGROOT}	
 	@echo "\t[MKDIR] ${IMGROOT}/usr/standalone/i386"			  	  
@@ -110,6 +111,10 @@ image: all
 	@hdiutil makehybrid -iso -joliet -hfs -hfs-volume-name \
 		${CDLABEL} -eltorito-boot ${CDBOOT} -no-emul-boot -ov -o   \
 		"${ISOIMAGE}" ${IMGROOT} -quiet 		  	  
+	@echo "\t[GZ] ${DISTFILE}.tar.gz"
+	@rm ${DISTFILE}.tar.gz
+	@tar -cf ${DISTFILE}.tar ${IMGROOT}
+	@gzip --best ${DISTFILE}.tar
 
 pkg installer: all
 	@# TODO: remove sudo
