@@ -91,6 +91,7 @@ all: $(SYMROOT) $(OBJROOT) $(SRCROOT)/auto.conf $(SRCROOT)/autoconf.h $(SRCROOT)
 	done
 
 dist image: all
+	@echo "================= Distrib ================="
 	@echo "\t[RM] ${IMGROOT}"
 	@rm -rf ${IMGROOT}	
 	@echo "\t[MKDIR] ${IMGROOT}/usr/standalone/i386"			  	  
@@ -112,7 +113,7 @@ dist image: all
 		${CDLABEL} -eltorito-boot ${CDBOOT} -no-emul-boot -ov -o   \
 		"${ISOIMAGE}" ${IMGROOT} -quiet 		  	  
 	@echo "\t[GZ] ${DISTFILE}.tar.gz"
-	@rm ${DISTFILE}.tar.gz
+	@rm -f ${DISTFILE}.tar.gz
 	@tar -cf ${DISTFILE}.tar ${IMGROOT}
 	@gzip --best ${DISTFILE}.tar
 
