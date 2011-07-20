@@ -4,7 +4,6 @@ OBJROOT = $(SRCROOT)/obj
 SYMROOT = $(SRCROOT)/sym
 DSTROOT = $(SRCROOT)/dst
 DOCROOT = $(SRCROOT)/doc
-IMGROOT = $(SRCROOT)/sym/cache
 IMGSKELROOT = $(SRCROOT)/imgskel
 CDBOOT = ${IMGROOT}/usr/standalone/i386/cdboot
 
@@ -14,12 +13,16 @@ include Make.rules
 
 THEME = default
 
-VERSION = `cat version`
-REVISION = `cat revision`
+VERSION = `cat ${SRCROOT}/version`
+REVISION = `cat ${SRCROOT}/revision`
 PRODUCT = Chameleon-$(VERSION)-r$(REVISION)
 CDLABEL = ${PRODUCT}
 ISOIMAGE = ${SYMROOT}/${CDLABEL}.iso
 DISTFILE = ${SYMROOT}/${PRODUCT}
+
+IMGROOT = $(SRCROOT)/sym/${PRODUCT}
+DISTROOT= ./${PRODUCT}
+
 
 EXCLUDE = --exclude=.svn --exclude=.DS_Store --exclude=sym --exclude=obj \
 		--exclude=package --exclude=archive --exclude=User_Guide_src --exclude=*.sh
@@ -98,12 +101,15 @@ dist image: all
 	@mkdir -p ${IMGROOT}/usr/standalone/i386
 	@echo "\t[MKDIR] ${IMGROOT}/Extra/modules"
 	@mkdir -p ${IMGROOT}/Extra/modules				
+	@echo "\t[MKDIR] ${IMGROOT}/Extra/Themes/Default"
+	@mkdir -p ${IMGROOT}/Extra/Themes/Default				
 	@if [ -e "$(IMGSKELROOT)" ]; then				\
 		@echo "\t[CP] ${IMGROOTSKEL} ${IMGROOT}"		\
 		@cp -R -f "${IMGSKELROOT}"/* "${IMGROOT}";		\
 	fi;								  
 	@cp -f ${SYMROOT}/i386/cdboot ${CDBOOT}
 	@cp -f ${SYMROOT}/i386/modules/* ${IMGROOT}/Extra/modules
+	@cp -f ${SRCROOT}/artwork/themes/default/* ${IMGROOT}/Extra/Themes/Default
 	@cp -f ${SYMROOT}/i386/boot ${IMGROOT}/usr/standalone/i386
 	@cp -f ${SYMROOT}/i386/boot0 ${IMGROOT}/usr/standalone/i386
 	@cp -f ${SYMROOT}/i386/boot0md ${IMGROOT}/usr/standalone/i386
@@ -115,7 +121,7 @@ dist image: all
 		"${ISOIMAGE}" ${IMGROOT} -quiet 		  	  
 	@echo "\t[GZ] ${DISTFILE}.tar.gz"
 	@rm -f ${DISTFILE}.tar.gz
-	@tar -cf ${DISTFILE}.tar ${IMGROOT}
+	@cd ${SYMROOT} && tar -cf ${DISTFILE}.tar ${DISTROOT}
 	@gzip --best ${DISTFILE}.tar
 
 pkg installer: all
