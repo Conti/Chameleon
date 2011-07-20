@@ -13,6 +13,10 @@ extern bool platformCPUFeature(uint32_t);
 extern void scan_platform(void);
 extern void dumpPhysAddr(const char * title, void * a, int len);
 
+/* CPUID Vendor */
+#define CPUID_VENDOR_INTEL      0x756E6547
+#define CPUID_VENDOR_AMD        0x68747541
+
 /* CPUID index into cpuid_raw */
 #define CPUID_0				0
 #define CPUID_1				1
@@ -21,7 +25,8 @@ extern void dumpPhysAddr(const char * title, void * a, int len);
 #define CPUID_4				4
 #define CPUID_80			5
 #define CPUID_81			6
-#define CPUID_MAX			7
+#define CPUID_88			7
+#define CPUID_MAX			8
 
 #define CPU_MODEL_YONAH			0x0E			// Sossaman, Yonah
 #define CPU_MODEL_MEROM			0x0F			// Allendale, Conroe, Kentsfield, Woodcrest, Clovertown, Tigerton, Merom
