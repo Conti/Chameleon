@@ -315,20 +315,20 @@ find_boot:
     jne	    .Pass2
 
 .Pass1:
-    cmp     BYTE [si + part.bootid], kPartActive	; In pass 1 we are walking on the standard path
-                                                    ; by trying to hop on the active partition.
-    jne     .continue
-    xor	  	dh, dh               					; Argument for loadBootSector to skip HFS+ partition
-											        ; signature check.
-    jmp     .tryToBoot
-
-.Pass2:    
-    cmp	    BYTE [si + part.type], kPartTypeHFS		; In pass 2 we're going to find a HFS+ partition
+    cmp	    BYTE [si + part.type], kPartTypeHFS		; In pass 1 we're going to find a HFS+ partition
                                                     ; equipped with boot1h in its boot record
                                                     ; regardless if it's active or not.
     jne     .continue
-  	mov 	dh, 1                					; Argument for loadBootSector to check HFS+ partition signature.
+  	mov		dh, 1                					; Argument for loadBootSector to check HFS+ partition signature.
 
+    jmp     .tryToBoot
+
+.Pass2:    
+    cmp     BYTE [si + part.bootid], kPartActive	; In pass 2 we are walking on the standard path
+                                                    ; by trying to hop on the active partition.
+    jne     .continue
+    xor		dh, dh               					; Argument for loadBootSector to skip HFS+ partition
+											        ; signature check.
     DebugChar('*')
 
     ;

@@ -112,6 +112,7 @@ dist image: all
 	@cp -f ${SRCROOT}/artwork/themes/default/* ${IMGROOT}/Extra/Themes/Default
 	@cp -f ${SYMROOT}/i386/boot ${IMGROOT}/usr/standalone/i386
 	@cp -f ${SYMROOT}/i386/boot0 ${IMGROOT}/usr/standalone/i386
+	@cp -f ${SYMROOT}/i386/boot0hfs ${IMGROOT}/usr/standalone/i386
 	@cp -f ${SYMROOT}/i386/boot0md ${IMGROOT}/usr/standalone/i386
 	@cp -f ${SYMROOT}/i386/boot1h ${IMGROOT}/usr/standalone/i386
 	@cp -f ${SYMROOT}/i386/boot1f32 ${IMGROOT}/usr/standalone/i386
