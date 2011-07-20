@@ -10,7 +10,7 @@
 #include "boot.h"
 
 #ifndef DEBUG_CPU
-#define DEBUG_CPU 1
+#define DEBUG_CPU 0
 #endif
 
 #if DEBUG_CPU
