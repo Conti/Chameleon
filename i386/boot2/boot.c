@@ -578,7 +578,7 @@ void common_boot(int biosdev)
             if (ret == 0 && kerneltime > exttime) {
                 exttime = kerneltime;
             }
-            if (ret == 0 && cachetime < exttime) {
+            if (ret == 0 && cachetime != (exttime + 1)) {
                 trycache = 0;
                 break;
             }
