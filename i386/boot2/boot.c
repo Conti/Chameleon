@@ -603,46 +603,57 @@ void common_boot(int biosdev)
 				
 				verbose("Kernel cache did not load %s\n ", bootFile);
             }
-			
-            bootFile = bootInfo->bootFile;
-
+            
+            if (checkOSVersion("10.7"))
+            {
+                bootFile = gBootKernelCacheFile;
+            }
+            else
+            {
+                sprintf(bootFile, "/%s", bootInfo->bootFile);
+            }
+            
             // Try to load kernel image from alternate locations on boot helper partitions.
-            sprintf(bootFileSpec, "com.apple.boot.P/%s", bootFile);
+            sprintf(bootFileSpec, "com.apple.boot.P%s", bootFile);
             ret = GetFileInfo(NULL, bootFileSpec, &flags, &time); 
-  	  	    if (ret == -1)
-  	  	    {
-              sprintf(bootFileSpec, "com.apple.boot.R/%s", bootFile);
-              ret = GetFileInfo(NULL, bootFileSpec, &flags, &time); 
-              if (ret == -1)
-              {
-                sprintf(bootFileSpec, "com.apple.boot.S/%s", bootFile);
+            if (ret == -1)
+            {
+                sprintf(bootFileSpec, "com.apple.boot.R%s", bootFile);
                 ret = GetFileInfo(NULL, bootFileSpec, &flags, &time); 
                 if (ret == -1)
                 {
-                  // No alternate location found, using the original kernel image path.
-                  strcpy(bootFileSpec, bootFile);
+                    sprintf(bootFileSpec, "com.apple.boot.S%s", bootFile);
+                    ret = GetFileInfo(NULL, bootFileSpec, &flags, &time); 
+                    if (ret == -1)
+                    {
+                        // No alternate location found, using the original kernel image path.
+                        strcpy(bootFileSpec, bootFile);
+                    }
                 }
-              }
             }
-            			
+						
             if (checkOSVersion("10.7"))
             {
                 //Lion, dont load kernel if haz cache
-                if (!trycache) {
+                if (!trycache) 
+                {
             		verbose("Loading kernel %s\n", bootFileSpec);
             		ret = LoadThinFatFile(bootFileSpec, &binary);
-            		if (ret <= 0 && archCpuType == CPU_TYPE_X86_64) {
+            		if (ret <= 0 && archCpuType == CPU_TYPE_X86_64) 
+                    {
               			archCpuType = CPU_TYPE_I386;
               			ret = LoadThinFatFile(bootFileSpec, &binary);				
             		}
 		        } 
 				else ret = 1;
             } 
-			else {
+			else 
+            {
                 //Snow Leopard or older
                 verbose("Loading kernel %s\n", bootFileSpec);
                 ret = LoadThinFatFile(bootFileSpec, &binary);
-                if (ret <= 0 && archCpuType == CPU_TYPE_X86_64) {
+                if (ret <= 0 && archCpuType == CPU_TYPE_X86_64) 
+                {
                     archCpuType = CPU_TYPE_I386;
                     ret = LoadThinFatFile(bootFileSpec, &binary);				
                 }
