@@ -746,14 +746,15 @@ ParseXML( char * buffer, ModulePtr * module, TagPtr * personalities )
   
     if (length == -1) return -1;
 
-#if 0   /** remove this check. **/   
-    if (strcmp(XMLCastString(XMLGetProperty(moduleDict, kPropOSBundleRequired)), "Safe Boot") == 0)
+    
+    if (!(gBootMode & kBootModeSafe) &&
+        XMLGetProperty(moduleDict, kPropOSBundleRequired) && 
+        strcmp(XMLCastString(XMLGetProperty(moduleDict, kPropOSBundleRequired)), "Safe Boot") == 0)
     {
-        // Don't load Safe Boot kexts. NOTE: -x should be check too.
+        // Don't load Safe Boot kexts if -x not specified.
         XMLFreeTag(moduleDict);
         return -2;
     }
-#endif 
 
     tmpModule = malloc(sizeof(Module));
     if (tmpModule == 0)
