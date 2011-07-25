@@ -346,6 +346,7 @@ static radeon_card_info_t radeon_cards[] = {
 	{ 0x9552,	0x3000174B, CHIP_FAMILY_RV710,		"ATI Radeon HD 4300/4500 Series",	kNull		},
 	{ 0x9552,	0x30001787, CHIP_FAMILY_RV710,		"ATI Radeon HD 4300/4500 Series",	kNull		},
 	{ 0x9552,	0x300017AF, CHIP_FAMILY_RV710,		"ATI Radeon HD 4300/4500 Series",	kNull		},
+	{ 0x9552,	0x04341028, CHIP_FAMILY_RV710,		"ATI Mobility Radeon 4330",			kShrike		},
 	
 	{ 0x9581,	0x95811002, CHIP_FAMILY_RV630,		"ATI Radeon HD 3600 Series",		kNull		},
 	{ 0x9581,	0x3000148C, CHIP_FAMILY_RV630,		"ATI Radeon HD 3600 Series",		kNull		},
@@ -1203,6 +1204,11 @@ static bool init_card(pci_dt_t *pci_dev)
 			if (strcmp(card->cfg_name, card_configs[i].name) == 0)
 				card->ports = card_configs[i].ports;
 	}
+	
+	//Azi: http://forum.voodooprojects.org/index.php/topic,1959.msg10402.html#msg10402
+	// get around this...
+	if (pci_dev->device_id == 0x9552 && pci_dev->subsys_id.subsys_id == 0x04341028 )
+		card->ports = 2;
 	
 	sprintf(name, "ATY,%s", card->cfg_name);
 	aty_name.type = kStr;
