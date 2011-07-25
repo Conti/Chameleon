@@ -604,14 +604,7 @@ void common_boot(int biosdev)
 				verbose("Kernel cache did not load %s\n ", bootFile);
             }
             
-            if (checkOSVersion("10.7"))
-            {
-                bootFile = gBootKernelCacheFile;
-            }
-            else
-            {
-                sprintf(bootFile, "/%s", bootInfo->bootFile);
-            }
+            bootFile = bootInfo->bootFile;
             
             // Try to load kernel image from alternate locations on boot helper partitions.
             sprintf(bootFileSpec, "com.apple.boot.P%s", bootFile);
