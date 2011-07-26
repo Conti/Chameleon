@@ -50,7 +50,6 @@ typedef enum {
 	CHIP_FAMILY_JUNIPER,
 	CHIP_FAMILY_CYPRESS,
 	CHIP_FAMILY_HEMLOCK,
-//	CHIP_FAMILY_GRANVILLE, //Azi:---
 	/* Northern Islands */
 	CHIP_FAMILY_BARTS,
 	CHIP_FAMILY_CAICOS,
@@ -84,7 +83,6 @@ static const char *chip_family_name[] = {
 	"Juniper",	// RV840
 	"Cypress",	// RV870
 	"Hemlock",
-//	"Granville"	//Azi:---
 	/* Northern Islands */
 	"Barts",
 	"Caicos",
@@ -209,9 +207,9 @@ static radeon_card_info_t radeon_cards[] = {
 	//Azi: added devices
 // temporary placement
 	// issue #88
-	{ 0x6741,	0x1646103C,	CHIP_FAMILY_TURKS,/*???*/"AMD Radeon HD 6600M Series",		kNull		},
+	{ 0x6741,	0x1646103C,	CHIP_FAMILY_TURKS,		"AMD Radeon HD 6750M",				kNull		},
 	// issue #89
-	{ 0x68A8,	0x050E1025,	CHIP_FAMILY_CYPRESS,	"AMD Radeon HD 6850M",				kUakari		}, //Azi: CHIP_FAMILY_GRANVILLE ??
+	{ 0x68A8,	0x050E1025,	CHIP_FAMILY_CYPRESS,	"AMD Radeon HD 6850M",				kUakari		},
 	// issue #90
 	{ 0x68E4,	0x1c921043,	CHIP_FAMILY_CEDAR,		"ATI Radeon HD 5470M",				kEulemur	},
 	// issue #91
@@ -253,6 +251,7 @@ static radeon_card_info_t radeon_cards[] = {
 	{ 0x944E,	0x30101787, CHIP_FAMILY_RV770,		"ATI Radeon HD 4810 Series",		kMotmot		},
 	{ 0x944E,	0x31001787, CHIP_FAMILY_RV770,		"ATI Radeon HD 4820",				kMotmot		},
 	
+	{ 0x9490,	0x20031787, CHIP_FAMILY_RV730,		"ATI Radeon HD 4670",				kFlicker	},
 	{ 0x9490,	0x30501787, CHIP_FAMILY_RV730,		"ATI Radeon HD 4710",				kNull		},
 	{ 0x9490,	0x4710174B, CHIP_FAMILY_RV730,		"ATI Radeon HD 4710",				kNull		},
 	{ 0x9490,	0x300017AF, CHIP_FAMILY_RV730,		"ATI Radeon HD 4710",				kNull		},
