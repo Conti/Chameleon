@@ -108,6 +108,7 @@
 
 #define kUseAtiROM			"UseAtiROM"			/* ati.c */
 #define kAtiConfig			"AtiConfig"			/* ati.c */
+#define kAtiPorts			"AtiPorts"			/* ati.c */
 #define kATYbinimage		"ATYbinimage"		/* ati.c */
 
 #define kUseNvidiaROM		"UseNvidiaROM"		/* nvidia.c */

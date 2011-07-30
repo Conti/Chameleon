@@ -568,7 +568,7 @@ card_t *card;
 #define FLAGTRUE			MKFLAG(0)
 #define EVERGREEN			MKFLAG(1)
 
-static uint8_t atN = 0;
+//static uint8_t atN = 0;
 
 typedef struct {
 	type_t					type;
@@ -1126,10 +1126,11 @@ bool devprop_add_pci_config_space(void)
 
 static bool init_card(pci_dt_t *pci_dev)
 {
-	char name[24];
-	char name_parent[24];
-	int i;
-	bool add_vbios = true;
+	bool	add_vbios = true;
+	char	name[24];
+	char	name_parent[24];
+	int		i;
+	int		n_ports = 0;
 	
 	card = malloc(sizeof(card_t));
 	if (!card)
@@ -1182,7 +1183,7 @@ static bool init_card(pci_dt_t *pci_dev)
 		}
 	}
 	
-	card->ports = 2; // default
+//	card->ports = 2; // default
 	
 	if (card->info->chip_family >= CHIP_FAMILY_CEDAR)
 	{
@@ -1190,7 +1191,7 @@ static bool init_card(pci_dt_t *pci_dev)
 		card->ports = 3;
 	}
 	
-	atN = 0;
+//	atN = 0;
 	
 	card->cfg_name = getStringForKey(kAtiConfig, &bootInfo->chameleonConfig);
 	if (!card->cfg_name)
@@ -1205,10 +1206,9 @@ static bool init_card(pci_dt_t *pci_dev)
 				card->ports = card_configs[i].ports;
 	}
 	
-	//Azi: http://forum.voodooprojects.org/index.php/topic,1959.msg10402.html#msg10402
-	// get around this...
-	if (pci_dev->device_id == 0x9552 && pci_dev->subsys_id.subsys_id == 0x04341028 )
-		card->ports = 2;
+	getIntForKey(kAtiPorts, &n_ports, &bootInfo->bootConfig);
+	if (n_ports > 0)
+		card->ports = n_ports;
 	
 	sprintf(name, "ATY,%s", card->cfg_name);
 	aty_name.type = kStr;
