@@ -1,6 +1,7 @@
 - Added AtiPorts option to GraphicsEnabler, so users can override the default number of ports. It proved
   to be useful when used to limit the number of ports that a framebuffer registers, which seems to be a
-  requirement on laptops that can only use 2 ports at the same time. Thanks to AniV for the tip:
+  requirement on laptops that can only use 2 ports at the same time.
+  Thanks to Akbar for testing and AniV also for the tip:
     http://forum.voodooprojects.org/index.php/topic,1959.msg10402.html#msg10402
 - Added NVidia ION AHCI controllers dev id to AHCIPortInjector kext.
   Forgot to mention source on the commit: http://forum.voodooprojects.org/index.php/topic,1170.0.html
