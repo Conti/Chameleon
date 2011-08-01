@@ -1183,14 +1183,6 @@ static bool init_card(pci_dt_t *pci_dev)
 		}
 	}
 	
-//	card->ports = 2; // default
-	
-	if (card->info->chip_family >= CHIP_FAMILY_CEDAR)
-	{
-		card->flags |= EVERGREEN;
-		card->ports = 3;
-	}
-	
 //	atN = 0;
 	
 	card->cfg_name = getStringForKey(kAtiConfig, &bootInfo->chameleonConfig);
@@ -1204,6 +1196,12 @@ static bool init_card(pci_dt_t *pci_dev)
 		for (i = 0; i < kCfgEnd; i++)
 			if (strcmp(card->cfg_name, card_configs[i].name) == 0)
 				card->ports = card_configs[i].ports;
+	}
+	
+	if (card->info->chip_family >= CHIP_FAMILY_CEDAR)
+	{
+		card->flags |= EVERGREEN;
+		card->ports = 3; //Azi: not sure of the usefulness ??
 	}
 	
 	getIntForKey(kAtiPorts, &n_ports, &bootInfo->bootConfig);
