@@ -537,7 +537,7 @@ void common_boot(int biosdev)
 					// Reset cache name.
 					bzero(gCacheNameAdler + 64, sizeof(gCacheNameAdler) - 64);
 					
-					sprintf(gCacheNameAdler + 64, "%s,%s", gRootDevice, bootInfo->chameleonConfig);
+					sprintf(gCacheNameAdler + 64, "%s,%s", gRootDevice, bootInfo->bootFile);
 					
 					adler32 = Adler32((unsigned char *)gCacheNameAdler, sizeof(gCacheNameAdler));
 					
