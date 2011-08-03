@@ -339,7 +339,8 @@ static radeon_card_info_t radeon_cards[] = {
 	{ 0x9552,	0x300017AF, CHIP_FAMILY_RV710,		"ATI Radeon HD 4300/4500 Series",	kNull		},
 	{ 0x9552,	0x04341028, CHIP_FAMILY_RV710,		"ATI Mobility Radeon 4330",			kShrike		},
 	
-	{ 0x9553,	0x1B321043, CHIP_FAMILY_RV710,		"ATI Mobility Radeon HD 4570",		kShrike/*??*/},
+	{ 0x9553,	0x18751043, CHIP_FAMILY_RV710,		"ATI Mobility Radeon HD 4570",		kShrike		},
+	{ 0x9553,	0x1B321043, CHIP_FAMILY_RV710,		"ATI Mobility Radeon HD 4570",		kShrike		},
 	
 	{ 0x9581,	0x95811002, CHIP_FAMILY_RV630,		"ATI Radeon HD 3600 Series",		kNull		},
 	{ 0x9581,	0x3000148C, CHIP_FAMILY_RV630,		"ATI Radeon HD 3600 Series",		kNull		},
@@ -464,6 +465,7 @@ static radeon_card_info_t radeon_cards[] = {
 	{ 0x6739,	0x21F81458,	CHIP_FAMILY_BARTS,		"AMD Radeon HD 6850",				kDuckweed	},
 	
 	{ 0x6741,	0x050E1025,	CHIP_FAMILY_TURKS,		"AMD Radeon HD 6650M",				kNull		}, // issue 121
+	{ 0x6741,	0x05131025,	CHIP_FAMILY_TURKS,		"AMD Radeon HD 6650M",				kNull		}, // Nai22
 	{ 0x6741,	0x1646103C,	CHIP_FAMILY_TURKS,		"AMD Radeon HD 6750M",				kNull		}, // issue 88
 	
 	{ 0x6759,	0xE193174B,	CHIP_FAMILY_TURKS,		"AMD Radeon HD 6570",				kNull		},
@@ -501,6 +503,7 @@ static radeon_card_info_t radeon_cards[] = {
 	{ 0x9519,	0x00000000, CHIP_FAMILY_RV670,		"AMD FireStream 9170",				kMegalodon	},
 	{ 0x9540,	0x00000000, CHIP_FAMILY_RV710,		"ATI Radeon HD 4550",				kNull		},
 	{ 0x954F,	0x00000000, CHIP_FAMILY_RV710,		"ATI Radeon HD 4300/4500 Series",	kNull		},
+	{ 0x9553,	0x00000000, CHIP_FAMILY_RV710,		"ATI Mobility Radeon HD 4500/5100 Series",	kShrike	},
 	{ 0x9588,	0x00000000, CHIP_FAMILY_RV630,		"ATI Radeon HD 2600 XT",			kLamna		},
 	{ 0x9589,	0x00000000, CHIP_FAMILY_RV630,		"ATI Radeon HD 2600 PRO",			kLamna		},
 	{ 0x958A,	0x00000000, CHIP_FAMILY_RV630,		"ATI Radeon HD 2600 X2 Series",		kLamna		},
@@ -541,6 +544,8 @@ static radeon_card_info_t radeon_cards[] = {
 	{ 0x6738,	0x00000000,	CHIP_FAMILY_BARTS,		"AMD Radeon HD 6870 Series",		kDuckweed	},
 	{ 0x6739,	0x00000000,	CHIP_FAMILY_BARTS,		"AMD Radeon HD 6850 Series",		kDuckweed	},
 	{ 0x673E,	0x00000000,	CHIP_FAMILY_BARTS,		"AMD Radeon HD 6790 Series",		kNull		},
+	
+	{ 0x6741,	0x00000000,	CHIP_FAMILY_TURKS,		"AMD Radeon HD 6600M/6700M Series",	kNull		},
 	
 	{ 0x6758,	0x00000000,	CHIP_FAMILY_TURKS,		"AMD Radeon HD 6670 Series",		kNull		},
 	{ 0x6759,	0x00000000,	CHIP_FAMILY_TURKS,		"AMD Radeon HD 6500 Series",		kNull		},
