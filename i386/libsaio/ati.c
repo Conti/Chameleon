@@ -1215,8 +1215,10 @@ static bool init_card(pci_dt_t *pci_dev)
 	}
 	
 	getIntForKey(kAtiPorts, &n_ports, &bootInfo->bootConfig);
-	if (n_ports > 0)
+	if (n_ports > 0){
 		card->ports = n_ports;
+         verbose("AtiPorts set to %d\n",n_ports); //AniV
+    }
 	
 	sprintf(name, "ATY,%s", card->cfg_name);
 	aty_name.type = kStr;
