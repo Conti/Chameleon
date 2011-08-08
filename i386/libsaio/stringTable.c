@@ -634,6 +634,7 @@ int loadSystemConfig(config_file_t *config)
 			break;
 		}
 	}
+	if(ret == -1) ret = loadHelperConfig(config);
 	return ret;
 }
 
