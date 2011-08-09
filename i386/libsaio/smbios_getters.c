@@ -41,7 +41,7 @@ bool getSMBOemProcessorBusSpeed(returnType *value)
 			{
 				switch (Platform.CPU.Model)
 				{
-					case 0x0D:					// ???
+					case CPU_MODEL_DOTHAN:		// Intel Pentium M
 					case CPU_MODEL_YONAH:		// Intel Mobile Core Solo, Duo
 					case CPU_MODEL_MEROM:		// Intel Mobile Core 2 Solo, Duo, Xeon 30xx, Xeon 51xx, Xeon X53xx, Xeon E53xx, Xeon X32xx
 					case CPU_MODEL_PENRYN:		// Intel Core 2 Solo, Duo, Quad, Extreme, Xeon X54xx, Xeon X33xx
@@ -128,7 +128,7 @@ bool getSMBOemProcessorType(returnType *value)
 			{
 				switch (Platform.CPU.Model)
 				{
-					case 0x0D:							// ???
+					case CPU_MODEL_DOTHAN:				// Intel Pentium M
 					case CPU_MODEL_YONAH:				// Intel Mobile Core Solo, Duo
 					case CPU_MODEL_MEROM:				// Intel Mobile Core 2 Solo, Duo, Xeon 30xx, Xeon 51xx, Xeon X53xx, Xeon E53xx, Xeon X32xx
 					case CPU_MODEL_PENRYN:				// Intel Core 2 Solo, Duo, Quad, Extreme, Xeon X54xx, Xeon X33xx
