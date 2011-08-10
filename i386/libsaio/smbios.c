@@ -328,7 +328,6 @@ void setDefaultSMBData(void)
 							case CPU_MODEL_FIELDS:			// Intel Core i5, i7, Xeon X34xx LGA1156 (45nm)
 							case CPU_MODEL_DALES:
 							case CPU_MODEL_DALES_32NM:		// Intel Core i3, i5 LGA1156 (32nm)
-							case 0x19:						// ??? Intel Core i5 650 @3.20 GHz 
 								defaultBIOSInfo.version			= kDefaultiMacNehalemBIOSVersion;
 								defaultSystemInfo.productName	= kDefaultiMacNehalem;
 								defaultSystemInfo.family		= kDefaultiMacFamily;
@@ -564,7 +563,6 @@ void addSMBOemProcessorBusSpeed(SMBStructPtrs *structPtr)
 		{
 			switch (Platform.CPU.Model)
 			{
-				case 0x19:					// ??? Intel Core i5 650 @3.20 GHz
 				case CPU_MODEL_FIELDS:		// Intel Core i5, i7, Xeon X34xx LGA1156 (45nm)
 				case CPU_MODEL_DALES:
 				case CPU_MODEL_DALES_32NM:	// Intel Core i3, i5 LGA1156 (32nm)

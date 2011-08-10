@@ -48,7 +48,6 @@ bool getSMBOemProcessorBusSpeed(returnType *value)
 					case CPU_MODEL_ATOM:		// Intel Atom (45nm)
 						return false;
 
-					case 0x19:					// ??? Intel Core i5 650 @3.20 GHz 
 					case CPU_MODEL_NEHALEM:		// Intel Core i7, Xeon W35xx, Xeon X55xx, Xeon E55xx LGA1366 (45nm)
 					case CPU_MODEL_FIELDS:		// Intel Core i5, i7, Xeon X34xx LGA1156 (45nm)
 					case CPU_MODEL_DALES:
@@ -140,7 +139,6 @@ bool getSMBOemProcessorType(returnType *value)
 							value->word = 0x0501;			// Xeon 
 						else
 							value->word = 0x0701;			// Core i7
-
 						return true;
 
 					case CPU_MODEL_FIELDS:				// Intel Core i5, i7, Xeon X34xx LGA1156 (45nm)
@@ -172,10 +170,6 @@ bool getSMBOemProcessorType(returnType *value)
 					case CPU_MODEL_WESTMERE:			// Intel Core i7, Xeon X56xx, Xeon E56xx, Xeon W36xx LGA1366 (32nm) 6 Core
 					case CPU_MODEL_WESTMERE_EX:			// Intel Xeon E7
 						value->word = 0x0501;				// Core i7
-						return true;
-
-					case 0x19:							// ??? Intel Core i5 650 @3.20 GHz
-						value->word = 0x0601;				// Core i5
 						return true;
 				}
 			}
