@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SMbiosdate</key>
+	<string>20/08/2008</string>
+	<key>SMbiosversion</key>
+	<string>IM71.88Z.007A.B03.0803051705</string>
+	<key>SMcputype</key>
+	<string>1281</string>
+	<key>SMexternalclock</key>
+	<string>1,33</string>
+	<key>SMfamily</key>
+	<string>iMac</string>
+	<key>SMmanufacter</key>
+	<string>Apple Inc. Mac-F2268CC8</string>
+	<key>SMmaximalclock</key>
+	<string>2,50</string>
+	<key>SMmemmanufacter_1</key>
+	<string>Team Elite</string>
+	<key>SMmemmanufacter_2</key>
+	<string>Team Elite</string>
+	<key>SMmempart_1</key>
+	<string>50M3P4R7</string>
+	<key>SMmempart_2</key>
+	<string>50M3P4R7</string>
+	<key>SMmemserial_1</key>
+	<string>50M353R14L</string>
+	<key>SMmemserial_2</key>
+	<string>50M353R14L</string>
+	<key>SMproductname</key>
+	<string>iMac7,1</string>
+	<key>SMserial</key>
+	<string>YM90295599X</string>
+	<key>SMsystemversion</key>
+	<string>1.0</string>
+</dict>
+</plist>

@@ -1,0 +1,30 @@
+#!/usr/bin/python
+# Script to add arch for Chameleon boot loaders
+
+import sys
+import os
+
+vol = str(sys.argv[3])
+boot = "/Extra/org.chameleon.Boot.plist"
+plist = vol + boot
+infile = open(plist, "r")
+# check if arch has been written or not
+archCheck = False
+
+body = ""
+
+for line in infile:
+    # if we finish the tags and haven't written arch Yet
+    if "</dict>" in line and archCheck == False:
+        line = "        <key>arch</key>\n"
+        line += "        <string>i386</string>\n"
+        line += "</dict>\n"
+        archCheck = True
+        
+    body += line
+    
+infile.close()
+
+outfile = open(plist, "w")
+outfile.write(body)
+outfile.close()

@@ -1,0 +1,30 @@
+#!/usr/bin/python
+# Script to add EHCIacquire for Chameleon boot loaders
+
+import sys
+import os
+
+vol = str(sys.argv[3])
+boot = "/Extra/org.chameleon.Boot.plist"
+plist = vol + boot
+infile = open(plist, "r")
+# check if EHCIacquire has been written or not
+EHCIacquireCheck = False
+
+body = ""
+
+for line in infile:
+    # if we finish the tags and haven't written EHCIacquire Yet
+    if "</dict>" in line and EHCIacquireCheck == False:
+        line = "        <key>EHCIacquire</key>\n"
+        line += "        <string>Yes</string>\n"
+        line += "</dict>\n"
+        EHCIacquireCheck = True
+        
+    body += line
+    
+infile.close()
+
+outfile = open(plist, "w")
+outfile.write(body)
+outfile.close()

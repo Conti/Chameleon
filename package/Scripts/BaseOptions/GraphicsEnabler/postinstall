@@ -1,0 +1,30 @@
+#!/usr/bin/python
+# Script to add GraphicsEnabler for Chameleon boot loaders
+
+import sys
+import os
+
+vol = str(sys.argv[3])
+boot = "/Extra/org.chameleon.Boot.plist"
+plist = vol + boot
+infile = open(plist, "r")
+# check if GraphicsEnabler has been written or not
+GraphicsEnablerCheck = False
+
+body = ""
+
+for line in infile:
+    # if we finish the tags and haven't written GraphicsEnabler Yet
+    if "</dict>" in line and GraphicsEnablerCheck == False:
+        line = "        <key>GraphicsEnabler</key>\n"
+        line += "        <string>Yes</string>\n"
+        line += "</dict>\n"
+        GraphicsEnablerCheck = True
+        
+    body += line
+    
+infile.close()
+
+outfile = open(plist, "w")
+outfile.write(body)
+outfile.close()

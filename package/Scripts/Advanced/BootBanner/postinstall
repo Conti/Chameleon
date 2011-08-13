@@ -1,0 +1,30 @@
+#!/usr/bin/python
+# Script to add BootBanner for Chameleon boot loaders
+
+import sys
+import os
+
+vol = str(sys.argv[3])
+boot = "/Extra/org.chameleon.Boot.plist"
+plist = vol + boot
+infile = open(plist, "r")
+# check if BootBanner has been written or not
+BootBannerCheck = False
+
+body = ""
+
+for line in infile:
+    # if we finish the tags and haven't written BootBanner Yet
+    if "</dict>" in line and BootBannerCheck == False:
+        line = "        <key>BootBanner</key>\n"
+        line += "        <string>No</string>\n"
+        line += "</dict>\n"
+        BootBannerCheck = True
+        
+    body += line
+    
+infile.close()
+
+outfile = open(plist, "w")
+outfile.write(body)
+outfile.close()

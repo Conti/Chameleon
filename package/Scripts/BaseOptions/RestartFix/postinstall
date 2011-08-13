@@ -1,0 +1,30 @@
+#!/usr/bin/python
+# Script to add RestartFix for Chameleon boot loaders
+
+import sys
+import os
+
+vol = str(sys.argv[3])
+boot = "/Extra/org.chameleon.Boot.plist"
+plist = vol + boot
+infile = open(plist, "r")
+# check if RestartFix has been written or not
+RestartFixCheck = False
+
+body = ""
+
+for line in infile:
+    # if we finish the tags and haven't written RestartFix Yet
+    if "</dict>" in line and RestartFixCheck == False:
+        line = "        <key>RestartFix</key>\n"
+        line += "        <string>No</string>\n"
+        line += "</dict>\n"
+        RestartFixCheck = True
+        
+    body += line
+    
+infile.close()
+
+outfile = open(plist, "w")
+outfile.write(body)
+outfile.close()

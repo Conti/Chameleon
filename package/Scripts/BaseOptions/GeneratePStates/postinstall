@@ -1,0 +1,30 @@
+#!/usr/bin/python
+# Script to add GeneratePStates for Chameleon boot loaders
+
+import sys
+import os
+
+vol = str(sys.argv[3])
+boot = "/Extra/org.chameleon.Boot.plist"
+plist = vol + boot
+infile = open(plist, "r")
+# check if GeneratePStates has been written or not
+GeneratePStatesCheck = False
+
+body = ""
+
+for line in infile:
+    # if we finish the tags and haven't written GeneratePStates Yet
+    if "</dict>" in line and GeneratePStatesCheck == False:
+        line = "        <key>GeneratePStates</key>\n"
+        line += "        <string>Yes</string>\n"
+        line += "</dict>\n"
+        DropSSDTCheck = True
+        
+    body += line
+    
+infile.close()
+
+outfile = open(plist, "w")
+outfile.write(body)
+outfile.close()
