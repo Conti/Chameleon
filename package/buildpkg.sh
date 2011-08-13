@@ -238,13 +238,6 @@ outline[$((outlinecount++))]="${indent[$xmlindent]}<choices-outline>"
 			buildpackage "${1}/SMBIOSDefault" "/Extra/Example" "" "start_selected=\"false\"" >/dev/null 2>&1
 		# End build package for SMBIOSDefault
 		
-		# build package for EFIMounter
-			mkdir -p "${1}/EFIMounter/Root"
-			ditto --noextattr --noqtn "${pkgroot}/Configuration/EFIMounter/EFI Mounter.app" "${1}/EFIMounter/Root"
-			echo "	[BUILD] EFIMounter "
-			buildpackage "${1}/EFIMounter" "/Applications/EFI Mounter.app" "" "start_selected=\"false\"" >/dev/null 2>&1
-		# End build package for EFIMounter
-		
 		# build package for Documentation
 			mkdir -p "${1}/Documentation/Root"
 			cp -f ${pkgroot}/doc/BootHelp.txt ${1}/Documentation/Root
