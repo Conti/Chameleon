@@ -125,14 +125,18 @@ dist image: all
 	@hdiutil makehybrid -iso -joliet -hfs -hfs-volume-name \
 		${CDLABEL} -eltorito-boot ${CDBOOT} -no-emul-boot -ov -o   \
 		"${ISOIMAGE}" ${IMGROOT} -quiet 		  	  
-	@echo "\t[GZ] ${DISTFILE}.tar.gz"
+	@echo "\t[GZ] ${DISTFILE}.tgz"
 	@rm -f ${DISTFILE}.tar.gz
 	@cd ${SYMROOT} && tar -cf ${DISTFILE}.tar ${DISTROOT}
 	@gzip --best ${DISTFILE}.tar
 	@mv ${DISTFILE}.tar.gz ${DISTFILE}.tgz
 
+
 pkg installer: all
 	${SRCROOT}/package/buildpkg.sh ${SYMROOT}/package;
+	@echo "\t[GZ] ${DISTFILE}.pkg"
+	@gzip --best ${DISTFILE}.pkg
+
 
 $(SYMROOT)/i386/vers.h: version
 	@echo "#define I386BOOT_VERSION \"5.0.132\"" > $@
