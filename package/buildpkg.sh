@@ -204,9 +204,9 @@ outline[$((outlinecount++))]="${indent[$xmlindent]}<choices-outline>"
 		
 		# build package for Documentation
 			mkdir -p "${1}/Documentation/Root"
-			cp -f ${pkgroot}/doc/BootHelp.txt ${1}/Documentation/Root
-			cp -f ${pkgroot}/doc/README ${1}/Documentation/Root
-			cp -f ${pkgroot}/doc/Users_Guide0.5.pdf ${1}/Documentation/Root
+			cp -f ${pkgroot}/../doc/BootHelp.txt ${1}/Documentation/Root
+			cp -f ${pkgroot}/../doc/README ${1}/Documentation/Root
+			cp -f ${pkgroot}/../doc/Users_Guide0.5.pdf ${1}/Documentation/Root
 			echo "	[BUILD] Documentation "
 			buildpackage "${1}/Documentation" "/Library/Documentation/Chameleon2RC5" "" "start_selected=\"false\"" >/dev/null 2>&1
 		# End build package for Documentation
