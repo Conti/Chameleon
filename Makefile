@@ -136,6 +136,8 @@ pkg installer: all
 	${SRCROOT}/package/buildpkg.sh ${SYMROOT}/package;
 	@echo "\t[GZ] ${DISTFILE}.pkg"
 	@gzip --best ${DISTFILE}.pkg
+	@#Note: compressed for buildsbot
+	@mv ${DISTFILE}.pkg.gz ${DISTFILE}.pkg
 
 
 $(SYMROOT)/i386/vers.h: version
