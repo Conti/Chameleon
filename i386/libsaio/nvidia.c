@@ -67,7 +67,7 @@
 
 #define NVIDIA_ROM_SIZE				0x10000
 #define PATCH_ROM_SUCCESS			1
-#define PATCH_ROM_SUCCESS_HAS_LVDS	2
+#define PATCH_ROM_SUCCESS_HAS_LVDS		2
 #define PATCH_ROM_FAILED			0
 #define MAX_NUM_DCB_ENTRIES			16
 #define TYPE_GROUPED				0xff
@@ -76,12 +76,12 @@ extern uint32_t devices_number;
 
 const char *nvidia_compatible_0[]	=	{ "@0,compatible",	"NVDA,NVMac"	 };
 const char *nvidia_compatible_1[]	=	{ "@1,compatible",	"NVDA,NVMac"	 };
-const char *nvidia_device_type_0[]	=	{ "@0,device_type", "display"		 };
-const char *nvidia_device_type_1[]	=	{ "@1,device_type", "display"		 };
+const char *nvidia_device_type_0[]	=	{ "@0,device_type",	"display"	 };
+const char *nvidia_device_type_1[]	=	{ "@1,device_type",	"display"	 };
 const char *nvidia_device_type[]	=	{ "device_type",	"NVDA,Parent"	 };
-const char *nvidia_name_0[]			=	{ "@0,name",		"NVDA,Display-A" };
-const char *nvidia_name_1[]			=	{ "@1,name",		"NVDA,Display-B" };
-const char *nvidia_slot_name[]		=	{ "AAPL,slot-name", "Slot-1"		 };
+const char *nvidia_name_0[]		=	{ "@0,name",		"NVDA,Display-A" };
+const char *nvidia_name_1[]		=	{ "@1,name",		"NVDA,Display-B" };
+const char *nvidia_slot_name[]		=	{ "AAPL,slot-name",	"Slot-1"	 };
 
 static uint8_t default_NVCAP[]= {
 	0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0d, 0x00,

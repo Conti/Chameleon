@@ -43,7 +43,7 @@
  * Copyright 1993 NeXT Computer, Inc.
  * All rights reserved.
  */
- 
+
 /*
  * Completely reworked by Sam Streeper (sam_s@NeXT.com)
  * Reworked again by Curtis Galloway (galloway@NeXT.com)
@@ -215,7 +215,7 @@ static int ExecKernel(void *binary)
 		outb(0xa1, 0xff);	/* Maskout all interrupts Pic2 */
 		
 		// Jump to kernel's entry point. There's no going back now.
-		
+
 		startprog( kernelEntry, bootArgs );
 	}
 	else {
@@ -223,7 +223,7 @@ static int ExecKernel(void *binary)
 		
 		startprog( kernelEntry, bootArgsPreLion );
 	}
-	
+
 	// Not reached
 	return 0;
 }
@@ -342,7 +342,7 @@ void common_boot(int biosdev)
 
 	// Intialize module system 
 	init_module_system();
-	
+
 #if DEBUG
     printf(" Default: %d, ->biosdev: %d, ->part_no: %d ->flags: %d\n", gBootVolume, gBootVolume->biosdev, gBootVolume->part_no, gBootVolume->flags);
     printf(" bt(0,0): %d, ->biosdev: %d, ->part_no: %d ->flags: %d\n", gBIOSBootVolume, gBIOSBootVolume->biosdev, gBIOSBootVolume->part_no, gBIOSBootVolume->flags);
@@ -384,7 +384,7 @@ void common_boot(int biosdev)
         status = getBootOptions(firstRun);
         firstRun = false;
         if (status == -1) continue;
-		 
+		
         status = processBootOptions();
         // Status==1 means to chainboot
         if ( status ==  1 ) break;
@@ -428,7 +428,7 @@ void common_boot(int biosdev)
 		} else {
 			archCpuType = CPU_TYPE_I386;
 		}
-		
+
 		if (getValueForKey(karch, &val, &len, &bootInfo->chameleonConfig)) {
 			if (strncmp(val, "i386", 4) == 0) {
 				archCpuType = CPU_TYPE_I386;
@@ -485,7 +485,7 @@ void common_boot(int biosdev)
 #endif                
 				break;
 			}
-				
+
 			HibernateBoot((char *)val);
 			break;
 		}
@@ -545,7 +545,7 @@ void common_boot(int biosdev)
 				}
 			}
 		}
-			
+
         // Check for cache file.
         trycache = (usecache && 
 					((gBootMode & kBootModeSafe) == 0) &&
@@ -630,7 +630,7 @@ void common_boot(int biosdev)
                     }
                 }
             }
-						
+
             if (checkOSVersion("10.7"))
             {
                 //Lion, dont load kernel if haz cache
@@ -725,7 +725,7 @@ bool getOSVersion()
 	config_file_t systemVersion;
 	const char *val;
 	int len;
-	
+
 	if (!loadConfigFile("System/Library/CoreServices/SystemVersion.plist", &systemVersion))
 	{
 		valid = true;
@@ -734,7 +734,7 @@ bool getOSVersion()
 	{
 		valid = true;
 	}
-	
+
 	if (valid)
 	{
 		if  (getValueForKey(kProductVersion, &val, &len, &systemVersion))
@@ -747,7 +747,7 @@ bool getOSVersion()
 		else
 			valid = false;
 	}
-	
+
 	return valid;
 }
 

@@ -86,7 +86,7 @@ static struct acpi_2_rsdp* getAddressOfAcpi20Table()
     }
     return NULL;
 }
-/** The folowing ACPI Table search algo. should be reused anywhere needed:*/
+/* The folowing ACPI Table search algo. should be reused anywhere needed:*/
 int search_and_get_acpi_fd(const char * filename, const char ** outDirspec)
 {
 	int fd = 0;
@@ -185,7 +185,7 @@ void get_acpi_cpu_names(unsigned char* dsdt, uint32_t length)
 				acpi_cpu_name[acpi_cpu_count] = malloc(4);
 				memcpy(acpi_cpu_name[acpi_cpu_count], dsdt+offset, 4);
 				i = offset + 5;
-                
+
                 if (acpi_cpu_count == 0)
                     acpi_cpu_p_blk = dsdt[i] | (dsdt[i+1] << 8);
 				
@@ -214,7 +214,7 @@ struct acpi_2_ssdt *generate_cst_ssdt(struct acpi_2_fadt* fadt)
 		0x01, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
 		0x00, 0x00, 0x01, 0x79, 0x00
 	};
-    
+
     char resource_template_register_systemio[] = 
 	{
 		0x11, 0x14, 0x0A, 0x11, 0x82, 0x0C, 0x00, 0x01,
@@ -247,12 +247,12 @@ struct acpi_2_ssdt *generate_cst_ssdt(struct acpi_2_fadt* fadt)
 		bool c2_enabled = false;
 		bool c3_enabled = false;
 		bool c4_enabled = false;
-        bool cst_using_sustemio = false;
+		bool cst_using_sustemio = false;
 		
 		getBoolForKey(kEnableC2State, &c2_enabled, &bootInfo->chameleonConfig);
 		getBoolForKey(kEnableC3State, &c3_enabled, &bootInfo->chameleonConfig);
 		getBoolForKey(kEnableC4State, &c4_enabled, &bootInfo->chameleonConfig);
-        getBoolForKey(kCSTUsingSystemIO, &cst_using_sustemio, &bootInfo->chameleonConfig);
+		getBoolForKey(kCSTUsingSystemIO, &cst_using_sustemio, &bootInfo->chameleonConfig);
 		
 		c2_enabled = c2_enabled | (fadt->C2_Latency < 100);
 		c3_enabled = c3_enabled | (fadt->C3_Latency < 1000);
@@ -565,8 +565,8 @@ struct acpi_2_ssdt *generate_pss_ssdt(struct acpi_2_dsdt* dsdt)
 					case CPU_MODEL_NEHALEM_EX:	// Intel Xeon X75xx, Xeon X65xx, Xeon E75xx, Xeon E65xx
 					case CPU_MODEL_WESTMERE:	// Intel Core i7, Xeon X56xx, Xeon E56xx, Xeon W36xx LGA1366 (32nm) 6 Core
 					case CPU_MODEL_WESTMERE_EX:	// Intel Xeon E7
-                    case CPU_MODEL_SANDY:		// Intel Core i3, i5, i7 LGA1155 (32nm)
-                    case CPU_MODEL_SANDY_XEON:	// Intel Xeon E3
+					case CPU_MODEL_SANDY:		// Intel Core i3, i5, i7 LGA1155 (32nm)
+					case CPU_MODEL_SANDY_XEON:	// Intel Xeon E3
 					{
 						maximum.Control = rdmsr64(MSR_IA32_PERF_STATUS) & 0xff; // Seems it always contains maximum multiplier value (with turbo, that's we need)...
 						minimum.Control = (rdmsr64(MSR_PLATFORM_INFO) >> 40) & 0xff;

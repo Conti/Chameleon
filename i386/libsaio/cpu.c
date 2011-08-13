@@ -30,7 +30,7 @@ static uint64_t measure_tsc_frequency(void)
     unsigned long pollCount;
     uint64_t retval = 0;
     int i;
-    
+
     /* Time how many TSC ticks elapse in 30 msec using the 8254 PIT
      * counter 2.  We run this loop 3 times to make sure the cache
      * is hot and we take the minimum delta from all of the runs.
@@ -67,7 +67,7 @@ static uint64_t measure_tsc_frequency(void)
      * Hz so we need to convert our milliseconds to seconds.  Since we're
      * dividing by the milliseconds, we simply multiply by 1000.
      */
-    
+
     /* Unlike linux, we're not limited to 32-bit, but we do need to take care
      * that we're going to multiply by 1000 first so we do need at least some
      * arithmetic headroom.  For now, 32-bit should be enough.
@@ -209,10 +209,10 @@ void scan_cpu(PlatformInfo_t *p)
 	int len, myfsb;
 	uint8_t bus_ratio_min;
 	uint32_t max_ratio, min_ratio;
-    
+
 	max_ratio = min_ratio = myfsb = bus_ratio_min = 0;
 	maxcoef = maxdiv = bus_ratio_max = currcoef = currdiv = 0;
-    
+
 	/* get cpuid values */
 	do_cpuid(0x00000000, p->CPU.CPUID[CPUID_0]);
 	do_cpuid(0x00000001, p->CPU.CPUID[CPUID_1]);
@@ -330,11 +330,11 @@ void scan_cpu(PlatformInfo_t *p)
 	if (p->CPU.NoThreads > p->CPU.NoCores) {
 		p->CPU.Features |= CPU_FEATURE_HTT;
 	}
-    
+
 	tscFrequency = measure_tsc_frequency();
 	fsbFrequency = 0;
 	cpuFrequency = 0;
-    
+
 	if ((p->CPU.Vendor == CPUID_VENDOR_INTEL) && ((p->CPU.Family == 0x06) || (p->CPU.Family == 0x0f))) {
 		int intelCPU = p->CPU.Model;
 		if ((p->CPU.Family == 0x06 && p->CPU.Model >= 0x0c) || (p->CPU.Family == 0x0f && p->CPU.Model >= 0x03)) {
@@ -365,8 +365,7 @@ void scan_cpu(PlatformInfo_t *p)
                      is inadvertently set to 0.
                      */
 					if (flex_ratio == 0) {
-						/* Clear bit 16 (evidently the
-                         presence bit) */
+						/* Clear bit 16 (evidently the presence bit) */
 						wrmsr64(MSR_FLEX_RATIO, (msr & 0xFFFFFFFFFFFEFFFFULL));
 						msr = rdmsr64(MSR_FLEX_RATIO);
                         verbose("Unusable flex ratio detected.  Patched MSR now %08x\n", bitfield(msr, 31, 0));
@@ -376,7 +375,7 @@ void scan_cpu(PlatformInfo_t *p)
 						}
 					}
 				}
-                
+
 				if (bus_ratio_max) {
 					fsbFrequency = (tscFrequency / bus_ratio_max);
 				}
@@ -392,9 +391,9 @@ void scan_cpu(PlatformInfo_t *p)
 					max_ratio = atoi(newratio);
 					max_ratio = (max_ratio * 10);
 					if (len >= 3) max_ratio = (max_ratio + 5);
-                    
+
 					verbose("Bus-Ratio: min=%d, max=%s\n", bus_ratio_min, newratio);
-                    
+
 					// extreme overclockers may love 320 ;)
 					if ((max_ratio >= min_ratio) && (max_ratio <= 320)) {
 						cpuFrequency = (fsbFrequency * max_ratio) / 10;
@@ -408,7 +407,7 @@ void scan_cpu(PlatformInfo_t *p)
 				/*if(bus_ratio_max > 0) bus_ratio = flex_ratio;*/
 				p->CPU.MaxRatio = max_ratio;
 				p->CPU.MinRatio = min_ratio;
-                
+
 				myfsb = fsbFrequency / 1000000;
 				verbose("Sticking with [BCLK: %dMhz, Bus-Ratio: %d]\n", myfsb, max_ratio);
 				currcoef = bus_ratio_max;
@@ -430,7 +429,7 @@ void scan_cpu(PlatformInfo_t *p)
 					/* XXX */
 					maxcoef = currcoef;
 				}
-                
+
 				if (maxcoef) {
 					if (maxdiv) {
 						fsbFrequency = ((tscFrequency * 2) / ((maxcoef * 2) + 1));

@@ -18,7 +18,7 @@ CFLAGS= -O3 $(MORECPP) -arch i386 -g -static
 DEFINES=
 CONFIG = hd
 LIBSAIODIR = $(SRCROOT)/i386/libsaio
-INC = -I$(LIBSAIODIR) 
+INC = -I$(LIBSAIODIR)
 
 
 ifeq (${CONFIG_MODULES}, y)
