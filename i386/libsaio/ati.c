@@ -375,6 +375,8 @@ static radeon_card_info_t radeon_cards[] = {
 	
 	{ 0x9552,	0x04341028, CHIP_FAMILY_RV710,		"ATI Mobility Radeon 4330",			kShrike		},
 	
+	{ 0x9552,	0x308B103C, CHIP_FAMILY_RV710,		"ATI Mobility Radeon HD 4300 Series", kShrike	},
+	
 	{ 0x9552,	0x3000148C, CHIP_FAMILY_RV710,		"ATI Radeon HD 4300/4500 Series",	kNull		},
 	
 	{ 0x9552,	0x3000174B, CHIP_FAMILY_RV710,		"ATI Radeon HD 4300/4500 Series",	kNull		},
