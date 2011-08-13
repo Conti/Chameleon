@@ -129,6 +129,7 @@ dist image: all
 	@rm -f ${DISTFILE}.tar.gz
 	@cd ${SYMROOT} && tar -cf ${DISTFILE}.tar ${DISTROOT}
 	@gzip --best ${DISTFILE}.tar
+	@mv ${DISTFILE}.tar.gz ${DISTFILE}.tgz
 
 pkg installer: all
 	${SRCROOT}/package/buildpkg.sh ${SYMROOT}/package;
