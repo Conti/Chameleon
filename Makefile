@@ -131,8 +131,7 @@ dist image: all
 	@gzip --best ${DISTFILE}.tar
 
 pkg installer: all
-	@# TODO: remove sudo
-	sudo ${SRCROOT}/package/buildpkg.sh ${SYMROOT}/package;
+	@#${SRCROOT}/package/buildpkg.sh ${SYMROOT}/package;
 
 $(SYMROOT)/i386/vers.h: version
 	@echo "#define I386BOOT_VERSION \"5.0.132\"" > $@
