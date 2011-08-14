@@ -45,6 +45,8 @@ static unsigned int findpciroot(unsigned char * dsdt,int len)
 
 int getPciRootUID(void)
 {
+	char dsdt_dirSpec[128];
+
 	void *new_dsdt;
 	const char *val;
 	int len,fsize;
@@ -73,7 +75,18 @@ int getPciRootUID(void)
 		goto out;
 	}
 
-	int fd = search_and_get_acpi_fd("DSDT.aml", &dsdt_filename);
+	
+	// Try using the file specified with the DSDT option
+	if (getValueForKey(kDSDT, &dsdt_filename, &len, &bootInfo->chameleonConfig))
+	{
+		sprintf(dsdt_dirSpec, dsdt_filename);
+	}
+	else
+	{
+		sprintf(dsdt_dirSpec, "DSDT.aml");
+	}
+	
+	int fd = search_and_get_acpi_fd(dsdt_dirSpec, &dsdt_filename);
 
 	// Check booting partition
 	if (fd<0)
