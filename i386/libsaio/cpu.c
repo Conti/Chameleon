@@ -490,16 +490,17 @@ void scan_cpu(PlatformInfo_t *p)
 	p->CPU.FSBFrequency = fsbFrequency;
 	p->CPU.CPUFrequency = cpuFrequency;
 	
-	DBG("CPU: Brand String:				%s\n",				p->CPU.BrandString);
-	DBG("CPU: Vendor/Family/ExtFamily:	0x%x/0x%x/0x%x\n",	p->CPU.Vendor, p->CPU.Family, p->CPU.ExtFamily);
-	DBG("CPU: Model/ExtModel/Stepping:	0x%x/0x%x/0x%x\n",	p->CPU.Model, p->CPU.ExtModel, p->CPU.Stepping);
-	DBG("CPU: MaxCoef/CurrCoef:			0x%x/0x%x\n",		p->CPU.MaxCoef, p->CPU.CurrCoef);
-	DBG("CPU: MaxDiv/CurrDiv:			0x%x/0x%x\n",		p->CPU.MaxDiv, p->CPU.CurrDiv);
-	DBG("CPU: TSCFreq:					%dMHz\n",			p->CPU.TSCFrequency / 1000000);
-	DBG("CPU: FSBFreq:					%dMHz\n",			p->CPU.FSBFrequency / 1000000);
-	DBG("CPU: CPUFreq:					%dMHz\n",			p->CPU.CPUFrequency / 1000000);
-	DBG("CPU: NoCores/NoThreads:		%d/%d\n",			p->CPU.NoCores, p->CPU.NoThreads);
-	DBG("CPU: Features:					0x%08x\n",			p->CPU.Features);
+	// keep formatted with spaces instead of tabs
+	DBG("CPU: Brand String:             %s\n",              p->CPU.BrandString);
+    DBG("CPU: Vendor/Family/ExtFamily:  0x%x/0x%x/0x%x\n",  p->CPU.Vendor, p->CPU.Family, p->CPU.ExtFamily);
+    DBG("CPU: Model/ExtModel/Stepping:  0x%x/0x%x/0x%x\n",  p->CPU.Model, p->CPU.ExtModel, p->CPU.Stepping);
+    DBG("CPU: MaxCoef/CurrCoef:         0x%x/0x%x\n",       p->CPU.MaxCoef, p->CPU.CurrCoef);
+    DBG("CPU: MaxDiv/CurrDiv:           0x%x/0x%x\n",       p->CPU.MaxDiv, p->CPU.CurrDiv);
+    DBG("CPU: TSCFreq:                  %dMHz\n",           p->CPU.TSCFrequency / 1000000);
+    DBG("CPU: FSBFreq:                  %dMHz\n",           p->CPU.FSBFrequency / 1000000);
+    DBG("CPU: CPUFreq:                  %dMHz\n",           p->CPU.CPUFrequency / 1000000);
+    DBG("CPU: NoCores/NoThreads:        %d/%d\n",           p->CPU.NoCores, p->CPU.NoThreads);
+    DBG("CPU: Features:                 0x%08x\n",          p->CPU.Features);
 #if DEBUG_CPU
 	pause();
 #endif

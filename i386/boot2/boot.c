@@ -60,38 +60,31 @@
 #include "platform.h"
 #include "modules.h"
 
-long gBootMode; /* defaults to 0 == kBootModeNormal */
-bool gOverrideKernel;
-static char gBootKernelCacheFile[512];
-static char gCacheNameAdler[64 + 256];
-char *gPlatformName = gCacheNameAdler;
-char gRootDevice[512];
-char gMKextName[512];
-char gMacOSVersion[8];
-bool gEnableCDROMRescan;
-bool gScanSingleDrive;
-
-int		bvCount = 0;
-//int		menucount = 0;
-int		gDeviceCount = 0; 
-
-BVRef	bvr;
-BVRef	menuBVR;
-BVRef	bvChain;
-bool	useGUI;
-
-//static void selectBiosDevice(void);
-static unsigned long Adler32(unsigned char *buffer, long length);
-static bool checkOSVersion(const char * version);
-static bool getOSVersion();
-
-static bool gUnloadPXEOnExit = false;
-
 /*
  * How long to wait (in seconds) to load the
  * kernel after displaying the "boot:" prompt.
  */
 #define kBootErrorTimeout 5
+
+bool		gOverrideKernel, gEnableCDROMRescan, gScanSingleDrive, useGUI;
+static bool	gUnloadPXEOnExit = false;
+
+static char	gCacheNameAdler[64 + 256];
+char		*gPlatformName = gCacheNameAdler;
+
+char		gRootDevice[512];
+char		gMKextName[512];
+char		gMacOSVersion[8];
+static char	gBootKernelCacheFile[512];
+int			bvCount = 0, gDeviceCount = 0;
+//int		menucount = 0;
+long		gBootMode; /* defaults to 0 == kBootModeNormal */
+BVRef		bvr, menuBVR, bvChain;
+
+static bool				checkOSVersion(const char * version);
+static bool				getOSVersion();
+static unsigned long	Adler32(unsigned char *buffer, long length);
+//static void			selectBiosDevice(void);
 
 
 //==========================================================================
@@ -111,7 +104,7 @@ static void zeroBSS(void)
 
 static void malloc_error(char *addr, size_t size, const char *file, int line)
 {
-	stop("\nMemory allocation error! Addr=0x%x, Size=0x%x, File=%s, Line=%d\n",
+	stop("\nMemory allocation error! Addr: 0x%x, Size: 0x%x, File: %s, Line: %d\n",
 									 (unsigned)addr, (unsigned)size, file, line);
 }
 
@@ -129,8 +122,8 @@ void initialize_runtime(void)
 
 static int ExecKernel(void *binary)
 {
-	entry_t					  kernelEntry;
-	int						  ret;
+	int			ret;
+	entry_t		kernelEntry;
 	
 	bootArgs->kaddr = bootArgs->ksize = 0;
 	execute_hook("ExecKernel", (void*)binary, NULL, NULL, NULL);
@@ -251,15 +244,15 @@ void boot(int biosdev)
 // next boot device on its list.
 void common_boot(int biosdev)
 {
-	int				status;
-	char	 		*bootFile;
-	unsigned long	adler32;
 	bool	 		quiet;
 	bool	 		firstRun = true;
 	bool	 		instantMenu;
 	bool	 		rescanPrompt;
+	char	 		*bootFile;
+	int				status;
 	unsigned int	allowBVFlags = kBVFlagSystemVolume | kBVFlagForeignBoot;
 	unsigned int	denyBVFlags = kBVFlagEFISystem;
+	unsigned long	adler32;
 	
 	// Set reminder to unload the PXE base code. Neglect to unload
 	// the base code will result in a hang or kernel panic.
@@ -365,23 +358,19 @@ void common_boot(int biosdev)
 	setBootGlobals(bvChain);
 	
 	// Parse args, load and start kernel.
-	while (1) {
-		const char *val;
-		int len;
-		int trycache;
-		long flags, cachetime, kerneltime, exttime, sleeptime, time;
-		int ret = -1;
-		void *binary = (void *)kLoadAddr;
-		bool tryresume;
-		bool tryresumedefault;
-		bool forceresume;
-		bool usecache = false;//true;
+	while (1)
+	{
+		bool		tryresume, tryresumedefault, forceresume;
+		bool		usecache = false;//true;
+		const char	*val;
+		int			len, trycache, ret = -1;
+		long		flags, cachetime, kerneltime, exttime, sleeptime, time;
+		void		*binary = (void *)kLoadAddr;
 		
 		// additional variable for testing alternate kernel image locations on boot helper partitions.
-		char	 bootFileSpec[512];
+		char		bootFileSpec[512];
 		
 		// Initialize globals.
-		
 		sysConfigValid = false;
 		gErrors		   = false;
 		
@@ -390,9 +379,9 @@ void common_boot(int biosdev)
 		if (status == -1) continue;
 		 
 		status = processBootOptions();
-		// Status==1 means to chainboot
+		// Status == 1 means to chainboot
 		if ( status ==	1 ) break;
-		// Status==-1 means that the config file couldn't be loaded or that gBootVolume is NULL
+		// Status == -1 means that the config file couldn't be loaded or that gBootVolume is NULL
 		if ( status == -1 )
 		{
 			// gBootVolume == NULL usually means the user hit escape.
@@ -468,7 +457,7 @@ void common_boot(int biosdev)
 			const char *tmp;
 			BVRef bvr;
 			if (!getValueForKey(kWakeImage, &val, &len, &bootInfo->chameleonConfig))
-				val="/private/var/vm/sleepimage";
+				val = "/private/var/vm/sleepimage";
 			
 			// Do this first to be sure that root volume is mounted
 			ret = GetFileInfo(0, val, &flags, &sleeptime);
@@ -503,7 +492,7 @@ void common_boot(int biosdev)
 					len--;
 					val++;
 				}
-				strlcpy(gBootKernelCacheFile, val, len+1);
+				strlcpy(gBootKernelCacheFile, val, len + 1);
 			}
 			else {
 				//Lion
@@ -684,7 +673,7 @@ void common_boot(int biosdev)
 	}
 	
 	// chainboot
-	if (status==1) {
+	if (status == 1) {
 		// if we are already in graphics-mode,
 		if (getVideoMode() == GRAPHICS_MODE) {
 			setVideoMode(VGA_TEXT_MODE, 0); // switch back to text mode.
@@ -725,10 +714,10 @@ bool checkOSVersion(const char * version)
 
 bool getOSVersion()
 {
-	bool valid = false;
-	config_file_t systemVersion;
-	const char *val;
-	int len;
+	bool			valid = false;
+	const char		*val;
+	int				len;
+	config_file_t	systemVersion;
 	
 	if (!loadConfigFile("System/Library/CoreServices/SystemVersion.plist", &systemVersion))
 	{
@@ -759,11 +748,11 @@ bool getOSVersion()
 #define NMAX 5000
 // NMAX (was 5521) the largest n such that 255n(n+1)/2 + (n+1)(BASE-1) <= 2^32-1
 
-#define DO1(buf,i)	{s1 += buf[i]; s2 += s1;}
-#define DO2(buf,i)	DO1(buf,i); DO1(buf,i+1);
-#define DO4(buf,i)	DO2(buf,i); DO2(buf,i+2);
-#define DO8(buf,i)	DO4(buf,i); DO4(buf,i+4);
-#define DO16(buf)	DO8(buf,0); DO8(buf,8);
+#define DO1(buf, i)	{s1 += buf[i]; s2 += s1;}
+#define DO2(buf, i)	DO1(buf, i); DO1(buf, i + 1);
+#define DO4(buf, i)	DO2(buf, i); DO2(buf, i + 2);
+#define DO8(buf, i)	DO4(buf, i); DO4(buf, i + 4);
+#define DO16(buf)	DO8(buf, 0); DO8(buf, 8);
 
 unsigned long Adler32(unsigned char *buf, long len)
 {
