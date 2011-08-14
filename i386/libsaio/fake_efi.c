@@ -492,7 +492,7 @@ static EFI_CHAR8* getSystemID()
 	// belong to smbios config only ...
 	const char *sysId = getStringForKey(kSystemID, &bootInfo->chameleonConfig);
 	EFI_CHAR8*	ret = getUUIDFromString(sysId);
-
+	
 	if (!sysId || !ret) // try bios dmi info UUID extraction
 	{
 		ret = getSmbiosUUID();
@@ -566,7 +566,7 @@ void setupEfiDeviceTree(void)
 	{
 		DT__AddProperty(runtimeServicesNode, "table", sizeof(uint64_t), &gST64->RuntimeServices);
 	}
-
+	
 	// Set up the /efi/configuration-table node which will eventually have several child nodes for
 	// all of the configuration tables needed by various kernel extensions.
 	gEfiConfigurationTableNode = DT__AddChild(node, "configuration-table");
@@ -591,7 +591,7 @@ void setupEfiDeviceTree(void)
 	// Export system-id. Can be disabled with SystemId=No in com.apple.Boot.plist
 	if ((ret=getSystemID()))
 		DT__AddProperty(efiPlatformNode, SYSTEM_ID_PROP, UUID_LEN, (EFI_UINT32*) ret);
-
+	
 	// Export SystemSerialNumber if present
 	if ((ret16=getSmbiosChar16("SMserial", &len)))
 		DT__AddProperty(efiPlatformNode, SYSTEM_SERIAL_PROP, len, ret16);
@@ -647,12 +647,12 @@ static void setupSmbiosConfigFile(const char *filename)
 			err = loadConfigFile(dirSpecSMBIOS, &bootInfo->smbiosConfig);
 		}
 	}
-
+	
 	if (err)
 	{
 		verbose("No SMBIOS replacement found.\n");
 	}
-
+	
 	// get a chance to scan mem dynamically if user asks for it while having the config options
 	// loaded as well, as opposed to when it was in scan_platform(); also load the orig. smbios
 	// so that we can access dmi info, without patching the smbios yet.
@@ -668,7 +668,7 @@ static void setupEfiConfigurationTable()
 	addConfigurationTable(&gEfiSmbiosTableGuid, &smbios_p, NULL);
 	
 	setupBoardId(); //need to be called after getSmbios
-
+	
 	// Setup ACPI with DSDT overrides (mackerintel's patch)
 	setupAcpi();
 	
@@ -690,26 +690,26 @@ void saveOriginalSMBIOS(void)
 	Node *node;
 	SMBEntryPoint *origeps;
 	void *tableAddress;
-
+	
 	node = DT__FindNode("/efi/platform", false);
 	if (!node)
 	{
 		verbose("/efi/platform node not found\n");
 		return;
 	}
-
+	
 	origeps = getSmbios(SMBIOS_ORIGINAL);
 	if (!origeps)
 	{
 		return;
 	}
-
+	
 	tableAddress = (void *)AllocateKernelMemory(origeps->dmi.tableLength);
 	if (!tableAddress)
 	{
 		return;
 	}
-
+	
 	memcpy(tableAddress, (void *)origeps->dmi.tableAddress, origeps->dmi.tableLength);
 	DT__AddProperty(node, "SMBIOS", origeps->dmi.tableLength, tableAddress);
 }
@@ -721,14 +721,14 @@ void setupFakeEfi(void)
 {
 	// Generate efi device strings 
 	setup_pci_devs(root_pci_dev);
-
+	
 	readSMBIOSInfo(getSmbios(SMBIOS_ORIGINAL));
-
+	
 	// load smbios.plist file if any
 	setupSmbiosConfigFile("smbios.plist");
-
+	
 	setupSMBIOSTable();
-
+	
 	// Initialize the base table
 	if (archCpuType == CPU_TYPE_I386)
 	{
@@ -741,10 +741,9 @@ void setupFakeEfi(void)
 	
 	// Initialize the device tree
 	setupEfiDeviceTree();
-
-	saveOriginalSMBIOS();	
-
+	
+	saveOriginalSMBIOS();
+	
 	// Add configuration table entries to both the services table and the device tree
 	setupEfiConfigurationTable();
 }
-
