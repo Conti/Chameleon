@@ -760,19 +760,19 @@ void drawDeviceIcon(BVRef device, pixmap_t *buffer, position_t p, bool isSelecte
 				break;
 
 			case kPartitionTypeHPFS:
-				devicetype = iDeviceNTFS;	// Use HPFS / NTFS icon
+				devicetype = iDeviceNTFS;		// Use HPFS / NTFS icon
 				break;
 
 			case kPartitionTypeFAT16:
-				devicetype = iDeviceFAT16;	// Use FAT16 icon
+				devicetype = iDeviceFAT16;		// Use FAT16 icon
 				break;
 
 			case kPartitionTypeFAT32:
-				devicetype = iDeviceFAT32;	// Use FAT32 icon
+				devicetype = iDeviceFAT32;		// Use FAT32 icon
 				break;
 
 			case kPartitionTypeEXT3:
-				devicetype = iDeviceEXT3;	// Use EXT2/3 icon
+				devicetype = iDeviceEXT3;		// Use EXT2/3 icon
 				break;
 
 			default:
