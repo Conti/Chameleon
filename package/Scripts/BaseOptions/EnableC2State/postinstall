@@ -1,0 +1,30 @@
+#!/usr/bin/python
+# Script to add EnableC2State for Chameleon boot loaders
+
+import sys
+import os
+
+vol = str(sys.argv[3])
+boot = "/Extra/org.chameleon.Boot.plist"
+plist = vol + boot
+infile = open(plist, "r")
+# check if EnableC2State has been written or not
+EnableC2StateCheck = False
+
+body = ""
+
+for line in infile:
+    # if we finish the tags and haven't written EnableC2State Yet
+    if "</dict>" in line and EnableC2StateCheck == False:
+        line = "        <key>EnableC2State</key>\n"
+        line += "        <string>Yes</string>\n"
+        line += "</dict>\n"
+        EnableC2StateCheck = True
+        
+    body += line
+    
+infile.close()
+
+outfile = open(plist, "w")
+outfile.write(body)
+outfile.close()

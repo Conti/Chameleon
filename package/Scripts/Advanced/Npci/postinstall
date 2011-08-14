@@ -1,0 +1,30 @@
+#!/usr/bin/python
+# Script to add Kernel Flags = npci=0x2000 for Chameleon boot loaders
+
+import sys
+import os
+
+vol = str(sys.argv[3])
+boot = "/Extra/org.chameleon.Boot.plist"
+plist = vol + boot
+infile = open(plist, "r")
+# check if Kernel Flags has been written or not
+KernelFlagsCheck = False
+
+body = ""
+
+for line in infile:
+    # if we finish the tags and haven't written Kernel Flags Yet
+    if "</dict>" in line and KernelFlagsCheck == False:
+        line = "        <key>Kernel Flags</key>\n"
+        line += "        <string>npci=0x2000</string>\n"
+        line += "</dict>\n"
+        KernelFlagsCheck = True
+        
+    body += line
+    
+infile.close()
+
+outfile = open(plist, "w")
+outfile.write(body)
+outfile.close()
