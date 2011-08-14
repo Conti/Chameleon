@@ -1696,8 +1696,8 @@ static const struct NamedValue fdiskTypes[] =
 	{ FDISK_UFS,		"Apple UFS"      },
 	{ FDISK_HFS,		"Apple HFS"      },
 	{ FDISK_BOOTER,		"Apple Boot/UFS" },
-	{ 0xCD,			"CD-ROM"         },
-	{ 0x00,			0                }  /* must be last */
+	{ 0xCD,				"CD-ROM"         },
+	{ 0x00,				0                }  /* must be last */
 };
 
 //==========================================================================
