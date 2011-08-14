@@ -111,11 +111,12 @@ static void zeroBSS(void)
 
 static void malloc_error(char *addr, size_t size, const char *file, int line)
 {
-	stop("\nMemory allocation error! Addr=0x%x, Size=0x%x, File=%s, Line=%d\n", (unsigned)addr, (unsigned)size, file, line);
+	stop("\nMemory allocation error! Addr=0x%x, Size=0x%x, File=%s, Line=%d\n",
+									 (unsigned)addr, (unsigned)size, file, line);
 }
 
 //==========================================================================
-//Initializes the runtime.	Right now this means zeroing the BSS and initializing malloc.
+//Initializes the runtime. Right now this means zeroing the BSS and initializing malloc.
 //
 void initialize_runtime(void)
 {
@@ -200,9 +201,9 @@ static int ExecKernel(void *binary)
 	// This will draw the boot graphics unless we are in
 	// verbose mode.
 	if (gVerboseMode)
-	  setVideoMode( GRAPHICS_MODE, 0 );
+		setVideoMode( GRAPHICS_MODE, 0 );
 	else
-	  drawBootGraphics();
+		drawBootGraphics();
 	
 	setupBooterLog();
 	
@@ -299,7 +300,7 @@ void common_boot(int biosdev)
 	}
 	
 	// Override firstRun to get to the boot menu instantly by setting "Instant Menu"=y in system config
-	if (getBoolForKey(kInsantMenuKey, &instantMenu, &bootInfo->chameleonConfig) && instantMenu) {
+	if (getBoolForKey(kInstantMenuKey, &instantMenu, &bootInfo->chameleonConfig) && instantMenu) {
 		firstRun = false;
 	}
 	
@@ -310,7 +311,8 @@ void common_boot(int biosdev)
 	gEnableCDROMRescan = false;
 	
 	// Enable it with Rescan=y in system config
-	if (getBoolForKey(kRescanKey, &gEnableCDROMRescan, &bootInfo->chameleonConfig) && gEnableCDROMRescan) {
+	if (getBoolForKey(kRescanKey, &gEnableCDROMRescan, &bootInfo->chameleonConfig)
+		&& gEnableCDROMRescan) {
 		gEnableCDROMRescan = true;
 	}
 	
@@ -323,15 +325,16 @@ void common_boot(int biosdev)
 	}
 	
 	// Enable touching a single BIOS device only if "Scan Single Drive"=y is set in system config.
-	if (getBoolForKey(kScanSingleDriveKey, &gScanSingleDrive, &bootInfo->chameleonConfig) && gScanSingleDrive) {
+	if (getBoolForKey(kScanSingleDriveKey, &gScanSingleDrive, &bootInfo->chameleonConfig)
+		&& gScanSingleDrive) {
 		gScanSingleDrive = true;
 	}
 	
 	// Create a list of partitions on device(s).
 	if (gScanSingleDrive) {
-	  scanBootVolumes(gBIOSDev, &bvCount);
+		scanBootVolumes(gBIOSDev, &bvCount);
 	} else {
-	  scanDisks(gBIOSDev, &bvCount);
+		scanDisks(gBIOSDev, &bvCount);
 	}
 	
 	// Create a separated bvr chain using the specified filters.
@@ -344,9 +347,9 @@ void common_boot(int biosdev)
 		
 #if DEBUG
 	printf(" Default: %d, ->biosdev: %d, ->part_no: %d ->flags: %d\n",
-			gBootVolume, gBootVolume->biosdev, gBootVolume->part_no, gBootVolume->flags);
+			 gBootVolume, gBootVolume->biosdev, gBootVolume->part_no, gBootVolume->flags);
 	printf(" bt(0,0): %d, ->biosdev: %d, ->part_no: %d ->flags: %d\n",
-			gBIOSBootVolume, gBIOSBootVolume->biosdev, gBIOSBootVolume->part_no, gBIOSBootVolume->flags);
+			 gBIOSBootVolume, gBIOSBootVolume->biosdev, gBIOSBootVolume->part_no, gBIOSBootVolume->flags);
 	getchar();
 #endif
 	
@@ -509,7 +512,8 @@ void common_boot(int biosdev)
 				}
 				// Snow Leopard
 				else if (checkOSVersion("10.6")) {
-					sprintf(gBootKernelCacheFile, "kernelcache_%s", (archCpuType == CPU_TYPE_I386) ? "i386" : "x86_64");
+					sprintf(gBootKernelCacheFile, "kernelcache_%s", (archCpuType == CPU_TYPE_I386)
+							? "i386" : "x86_64");
 					int lnam = sizeof(gBootKernelCacheFile) + 9; //with adler32
 					
 					char* name;

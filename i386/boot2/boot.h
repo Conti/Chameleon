@@ -68,7 +68,7 @@
 #define kRescanPromptKey	"Rescan Prompt"
 #define kRescanKey		    "Rescan"
 #define kScanSingleDriveKey	"Scan Single Drive"
-#define kInsantMenuKey		"Instant Menu"
+#define kInstantMenuKey		"Instant Menu"
 #define kDefaultKernel		"mach_kernel"
 #define kGUIKey				"GUI"
 #define kBootBannerKey		"Boot Banner"
