@@ -857,14 +857,14 @@ void drawDeviceList (int start, int end, int selection)
                 infoMenuSelection = 0;
             }
 			 
-			if(gui.menu.draw)
+			if (gui.menu.draw)
 				drawInfoMenuItems();
 			
-			//Azi: make this info more accessible.
 			getBoolForKey(kShowInfoKey, &shoWinfo, &bootInfo->chameleonConfig);
 			
 			if (shoWinfo && showBootBanner) // no boot banner, no showinfo.
 			{
+				// keep formatted with spaces instead of tabs
 				gui.debug.cursor = pos( 10, 100);
 				dprintf( &gui.screen, "label:     %s\n",   param->label );
 				dprintf( &gui.screen, "biosdev:   0x%x\n", param->biosdev );
@@ -897,11 +897,11 @@ void drawDeviceList (int start, int end, int selection)
 	}
 
 	// draw prev indicator
-	if(start)
+	if (start)
 		blend( images[iDeviceScrollPrev].image, gui.devicelist.pixmap, centeredAt( images[iDeviceScrollPrev].image, p_prev ) );
 
 	// draw next indicator
-	if( end < gDeviceCount - 1 )
+	if ( end < gDeviceCount - 1 )
 		blend( images[iDeviceScrollNext].image, gui.devicelist.pixmap, centeredAt( images[iDeviceScrollNext].image, p_next ) );
 
 	gui.redraw = true;
