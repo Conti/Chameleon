@@ -27,9 +27,9 @@ timestamp=$( date -j -f "%Y-%m-%d %H:%M:%S" "${builddate}" "+%s" )
 
 # =================
 
-develop=" Crazor, Dense, fassl, fxtentacle, iNDi, JrCs, Kabyl, kaitek, mackerintel, mercurysquad, munky, Slice, meklort, mozodojo, rekursor, Turbo, cparm, valv & zef "
+develop=" zef,  Turbo, dfe, netkas, mackerintel, fassl, Kabyl, kaitek, iNDi,  asereBLN, mozodojo, meklort, AzimutZ, Slice, cosmo1t, cparm"	
 
-credits=" andyvand, asereBLN, Azimut, bumby, cosmo1t, dfe, Galaxy, kalyway, Krazubu, MasterChief, netkas, sckevyn, smith@@, THeKiNG, DutchHockeyPro & Andy"
+credits=" JrCs, mercurysquad, munky, rekursor, kalyway, Krazubu, XyZ, blackosx, DHP"
 
 pkgdev=" blackosx, ErmaC , scrax"
 
