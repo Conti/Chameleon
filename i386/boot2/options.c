@@ -1337,7 +1337,7 @@ processBootOptions()
 //==========================================================================
 // Load the help file and display the file contents on the screen.
 
-static void showTextBuffer(char *buf, int size)
+void showTextBuffer(char *buf, int size)
 {
 	char	*bp;
 	int	line;
@@ -1345,7 +1345,7 @@ static void showTextBuffer(char *buf, int size)
 	int	c;
 
 	if (bootArgs->Video.v_display != VGA_TEXT_MODE) {
-		showInfoBox( "Press q to quit\n",buf );
+		showInfoBox( "Press q to continue, space for next page.\n",buf );
 		return;
 	}
 

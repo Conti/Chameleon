@@ -1583,6 +1583,15 @@ void showInfoBox(char *title, char *text)
 			updateVRAM();
 			break;
 		}
+		
+		if(key == ' ') // spacebar = next page
+		{
+			if( lines > ( currentline + visiblelines ) ) 
+				currentline += visiblelines;
+			
+			if(lines < (currentline + visiblelines))
+				currentline = lines - visiblelines;
+		}
 	}
 }
 
