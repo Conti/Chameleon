@@ -1305,7 +1305,7 @@ void drawStr(char *ch, font_t *font, pixmap_t *blendInto, position_t p)
 		if( ch[i] == '\t' )
 			x+=(font->chars[0]->width*5);
 		
-		if(font->chars[cha])
+		if(font->chars[cha] && ((x + font->chars[cha]->width) < blendInto->width))
 			blend(font->chars[cha], blendInto, pos(p.x+x, p.y+y));
 		
 		x += font->chars[cha]->width;
