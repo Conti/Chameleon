@@ -746,15 +746,27 @@ ParseXML( char * buffer, ModulePtr * module, TagPtr * personalities )
   
     if (length == -1) return -1;
 
-    
-    if (!(gBootMode & kBootModeSafe) &&
-        XMLGetProperty(moduleDict, kPropOSBundleRequired) && 
-        strcmp(XMLCastString(XMLGetProperty(moduleDict, kPropOSBundleRequired)), "Safe Boot") == 0)
+	// NOTE: This currenlt knows nothing about /Extra/. If you have a kext in there that 
+	// does not have the required property, it will not load.
+    char* required = XMLCastString(XMLGetProperty(moduleDict, kPropOSBundleRequired));
+	if(!required) return -2; // don't load te kext.
+	
+	// NOTE: Only valid values are
+	// kOSBundleRequiredConsole - Always required (for text? console)
+	// kOSBundleRequiredLocalRoot - Required for local disk booting
+	// kOSBundleRequiredNetworkRoot - required boot from network
+	// kOSBundleRequiredRoot - always needed 
+	// kOSBundleRequiredSafeBoot - Only loaded for safe mode.
+	// Others - invalid
+
+	
+    if (!(gBootMode & kBootModeSafe) && strcmp(required, "Safe Boot") == 0)
     {
         // Don't load Safe Boot kexts if -x not specified.
         XMLFreeTag(moduleDict);
         return -2;
     }
+
 
     tmpModule = malloc(sizeof(Module));
     if (tmpModule == 0)
