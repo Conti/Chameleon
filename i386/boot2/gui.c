@@ -1474,8 +1474,9 @@ void makeRoundedCorners(pixmap_t *p)
 	}
 }
 
-void showInfoBox(char *title, char *text)
+void showInfoBox(char *title, char *text_orig)
 {
+	char* text;
 	int i, key, lines, visiblelines;
 
 	int currentline=0;
@@ -1484,6 +1485,11 @@ void showInfoBox(char *title, char *text)
 	
 	if( !title || !text )
 		return;
+	
+	// Create a copy so that we don't mangle the original
+	text = malloc(strlen(text_orig) + 1);
+	strcpy(text, text_orig);
+	
 	
 	position_t pos_title = pos ( gui.infobox.vborder, gui.infobox.vborder );
 
