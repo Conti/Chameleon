@@ -31,7 +31,7 @@ develop=" zef,  Turbo, dfe, netkas, mackerintel, fassl, Kabyl, kaitek, iNDi,  as
 
 credits=" JrCs, mercurysquad, munky, rekursor, kalyway, Krazubu, XyZ, blackosx, DHP"
 
-pkgdev=" blackosx, ErmaC , scrax"
+pkgdev=" blackosx, ErmaC, scrax"
 
 # =================
 
