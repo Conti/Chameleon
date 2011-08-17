@@ -1483,7 +1483,7 @@ void showInfoBox(char *title, char *text_orig)
 	int cnt=0;
 	int offset=0;
 	
-	if( !title || !text )
+	if( !title || !text_orig )
 		return;
 	
 	// Create a copy so that we don't mangle the original
