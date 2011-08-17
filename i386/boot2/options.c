@@ -1337,17 +1337,23 @@ processBootOptions()
 //==========================================================================
 // Load the help file and display the file contents on the screen.
 
-void showTextBuffer(char *buf, int size)
+void showTextBuffer(char *buf_orig, int size)
 {
 	char	*bp;
+	char* buf;
 	int	line;
 	int	line_offset;
 	int	c;
 
 	if (bootArgs->Video.v_display != VGA_TEXT_MODE) {
-		showInfoBox( "Press q to continue, space for next page.\n",buf );
+		showInfoBox( "Press q to continue, space for next page.\n",buf_orig );
 		return;
 	}
+	
+		// Create a copy so that we don't mangle the original
+		buf = malloc(size + 1);
+		memcpy(buf, buf_orig, size);
+	
 
         bp = buf;
         while (size-- > 0) {
