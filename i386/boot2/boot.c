@@ -602,7 +602,7 @@ void common_boot(int biosdev)
 				bootFile = gBootKernelCacheFile;
 			}
 			else {
-				sprintf(bootFile, "\%s", bootInfo->bootFile);
+				sprintf(bootFile, "/%s", bootInfo->bootFile);
 			}
 			
 			// Try to load kernel image from alternate locations on boot helper partitions.
