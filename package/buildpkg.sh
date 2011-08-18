@@ -27,12 +27,9 @@ timestamp=$( date -j -f "%Y-%m-%d %H:%M:%S" "${builddate}" "+%s" )
 
 # =================
 
-develop=" zef,  Turbo, dfe, netkas, mackerintel, fassl, Kabyl, kaitek, iNDi,  asereBLN, mozodojo, meklort, AzimutZ, Slice, cosmo1t, cparm"	
-
-credits=" JrCs, mercurysquad, munky, rekursor, kalyway, Krazubu, XyZ, blackosx, DHP"
-
-pkgdev=" blackosx, ErmaC, scrax"
-
+develop=$(awk "NR==6{print;exit}" ${pkgroot}/../CREDITS)
+credits=$(awk "NR==10{print;exit}" ${pkgroot}/../CREDITS)
+pkgdev=$(awk "NR==14{print;exit}" ${pkgroot}/../CREDITS)
 # =================
 
 distributioncount=0
@@ -119,6 +116,8 @@ outline[$((outlinecount++))]="${indent[$xmlindent]}<choices-outline>"
 
 	# build Modules package
         echo "================= Modules ================="
+                ###############################
+                # Supported Modules           #
                 ###############################
                 # AMDGraphicsEnabler.dylib    #
                 # ATiGraphicsEnabler.dylib    #
