@@ -44,6 +44,12 @@ enum {
     iDeviceHFSRAID_o,
     iDeviceEXT3,
     iDeviceEXT3_o,
+    iDeviceFreeBSD,     /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
+    iDeviceFreeBSD_o,   /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
+    iDeviceOpenBSD,     /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
+    iDeviceOpenBSD_o,   /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
+    iDeviceBEFS,        /* Haiku detection and Icon credits to scorpius  */
+    iDeviceBEFS_o,      /* Haiku detection and Icon credits to scorpius  */
     iDeviceFAT,
     iDeviceFAT_o,
     iDeviceFAT16,
@@ -93,6 +99,12 @@ image_t images[] = {
     {.name = "device_hfsraid_o",            .image = NULL},
     {.name = "device_ext3",                 .image = NULL},
     {.name = "device_ext3_o",               .image = NULL},
+    {.name = "device_freebsd",              .image = NULL},     /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
+    {.name = "device_freebsd_o",            .image = NULL},     /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
+    {.name = "device_openbsd",              .image = NULL},     /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
+    {.name = "device_openbsd_o",            .image = NULL},     /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
+    {.name = "device_befs",                 .image = NULL},     /* Haiku detection and Icon credits to scorpius  */
+    {.name = "device_befs_o",               .image = NULL},     /* Haiku detection and Icon credits to scorpius  */
     {.name = "device_fat",                  .image = NULL},
     {.name = "device_fat_o",                .image = NULL},
     {.name = "device_fat16",                .image = NULL},
@@ -304,6 +316,12 @@ static int loadGraphics(void)
 	LOADPNG(device_hfsraid_o,               iDeviceHFSRAID);
 	LOADPNG(device_ext3,                    iDeviceGeneric);
 	LOADPNG(device_ext3_o,                  iDeviceEXT3);
+	LOADPNG(device_freebsd,                 iDeviceGeneric);        /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
+	LOADPNG(device_freebsd_o,               iDeviceFreeBSD);        /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
+	LOADPNG(device_openbsd,                 iDeviceGeneric);        /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
+	LOADPNG(device_openbsd_o,               iDeviceOpenBSD);        /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
+	LOADPNG(device_befs,                    iDeviceGeneric);        /* Haiku detection and Icon credits to scorpius  */
+	LOADPNG(device_befs_o,                  iDeviceBEFS);           /* Haiku detection and Icon credits to scorpius  */
 	LOADPNG(device_fat,                     iDeviceGeneric);
 	LOADPNG(device_fat_o,                   iDeviceFAT);
 	LOADPNG(device_fat16,                   iDeviceFAT);
@@ -763,6 +781,18 @@ void drawDeviceIcon(BVRef device, pixmap_t *buffer, position_t p, bool isSelecte
 				devicetype = iDeviceNTFS;		// Use HPFS / NTFS icon
 				break;
 
+			case kPartitionTypeBEFS:                        /* Haiku detection and Icon credits to scorpius  */
+				devicetype = iDeviceBEFS;		// Use BEFS / Haiku icon
+				break;
+
+			case kPartitionTypeFreeBSD:                     /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
+				devicetype = iDeviceFreeBSD;            // Use FreeBSD icon
+				break;
+				
+			case kPartitionTypeOpenBSD:                     /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
+				devicetype = iDeviceOpenBSD;            // Use OpenBSD icon
+				break;
+				
 			case kPartitionTypeFAT16:
 				devicetype = iDeviceFAT16;		// Use FAT16 icon
 				break;
