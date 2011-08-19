@@ -364,7 +364,7 @@ void common_boot(int biosdev)
 	while (1)
 	{
 		bool		tryresume, tryresumedefault, forceresume;
-		bool		usecache = false;//true;
+		bool		useKernelCache = false; // by default don't use prelink kernel cache
 		const char	*val;
 		int			len, trycache, ret = -1;
 		long		flags, cachetime, kerneltime, exttime, sleeptime, time;
@@ -487,8 +487,16 @@ void common_boot(int biosdev)
 			break;
 		}
 		
-		getBoolForKey(kUseKernelCache, &usecache, &bootInfo->chameleonConfig);
-		if (usecache) {
+		// If boot from boot helper partitions and OS is Lion use prelink kernel.
+		// We need to find a solution to load extra mkext with a prelink kernel.
+		if (gBootVolume->flags & kBVFlagBooter && checkOSVersion("10.7")) {
+			verbose("Booting from Lion RAID volume so forcing to use KernelCache\n");
+			useKernelCache = true;
+		} else {
+			getBoolForKey(kUseKernelCache, &useKernelCache, &bootInfo->chameleonConfig);
+		}
+
+		if (useKernelCache) {
 			if (getValueForKey(kKernelCacheKey, &val, &len, &bootInfo->bootConfig)) {
 				if (val[0] == '\\')
 				{
@@ -498,11 +506,11 @@ void common_boot(int biosdev)
 				strlcpy(gBootKernelCacheFile, val, len + 1);
 			}
 			else {
-				//Lion
+				// Lion prelink kernel cache file
 				if (checkOSVersion("10.7")) {
 					sprintf(gBootKernelCacheFile, "%skernelcache", kDefaultCachePathSnow);
 				}
-				// Snow Leopard
+				// Snow Leopard prelink kernel cache file
 				else if (checkOSVersion("10.6")) {
 					sprintf(gBootKernelCacheFile, "kernelcache_%s", (archCpuType == CPU_TYPE_I386)
 							? "i386" : "x86_64");
@@ -537,7 +545,7 @@ void common_boot(int biosdev)
 		}
 		
 		// Check for cache file.
-		trycache = (usecache && 
+		trycache = (useKernelCache &&
 					((gBootMode & kBootModeSafe) == 0) &&
 					!gOverrideKernel &&
 					(gBootFileType == kBlockDeviceType) &&
@@ -545,34 +553,33 @@ void common_boot(int biosdev)
 					(gBootKernelCacheFile[0] != '\0'));
 		
 		verbose("Loading Darwin %s\n", gMacOSVersion);
-		
+
+		// Check if the kernel cache file exists and is more recent (mtime) than
+		// the kernel file or the S/L/E directory
+
 		if (trycache) do {
-			ret = GetFileInfo(NULL, bootInfo->bootFile, &flags, &kerneltime);
-			if (ret != 0) kerneltime = 0;
-			else if ((flags & kFileTypeMask) != kFileTypeFlat) {
-				trycache = 0;
-				break;
-			}
-			
+
 			ret = GetFileInfo(NULL, gBootKernelCacheFile, &flags, &cachetime);
-			if ((ret != 0) || ((flags & kFileTypeMask) != kFileTypeFlat)
-				|| (cachetime < kerneltime)) {
+			// Check if the kernel cache file exist
+			if ((ret != 0) || ((flags & kFileTypeMask) != kFileTypeFlat)) {
 				trycache = 0;
 				break;
 			}
-			
+
+			ret = GetFileInfo(NULL, bootInfo->bootFile, &flags, &kerneltime);
+			if ((ret != 0) || ((flags & kFileTypeMask) != kFileTypeFlat))
+				kerneltime = -1;
+			// Check if the kernel file is more recent than the cache file
+			if (kerneltime > cachetime) {
+				trycache = 0;
+				break;
+			}
+
 			ret = GetFileInfo("/System/Library/", "Extensions", &flags, &exttime);
-			if ((ret == 0) && ((flags & kFileTypeMask) == kFileTypeDirectory)
-				&& (cachetime < exttime)) {
-				trycache = 0;
-				break;
-			}
-			
-			if (ret == 0 && kerneltime > exttime) {
-				exttime = kerneltime;
-			}
-			
-			if (ret == 0 && cachetime != (exttime + 1)) {
+			if ((ret != 0) && ((flags & kFileTypeMask) != kFileTypeDirectory))
+				exttime = -1;
+			// Check if the S/L/E directory time is more recent than the cache file
+			if (exttime > cachetime) {
 				trycache = 0;
 				break;
 			}
