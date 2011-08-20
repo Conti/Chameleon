@@ -1197,17 +1197,16 @@ processBootOptions()
     gOverrideKernel = false;
     if (( kernel = extractKernelName((char **)&cp) )) {
         strcpy( bootInfo->bootFile, kernel );
-        gOverrideKernel = true;
     } else {
         if ( getValueForKey( kKernelNameKey, &val, &cnt, &bootInfo->bootConfig ) ) {
             strlcpy( bootInfo->bootFile, val, cnt+1 );
-            if (strcmp( bootInfo->bootFile, kDefaultKernel ) != 0) {
-                gOverrideKernel = true;
-            }
         } else {
             strcpy( bootInfo->bootFile, kDefaultKernel );
         }
     }
+	if (strcmp( bootInfo->bootFile, kDefaultKernel ) != 0) {
+		gOverrideKernel = true;
+	}
 
     cntRemaining = BOOT_STRING_LEN - 2;  // save 1 for NULL, 1 for space
     argP = bootArgs->CommandLine;
@@ -1323,9 +1322,9 @@ processBootOptions()
 	}
 
 	if ( getValueForKey( kMKextCacheKey, &val, &cnt, &bootInfo->bootConfig ) )
-	{
 		strlcpy(gMKextName, val, cnt + 1);
-	}
+	else
+		gMKextName[0]=0;
 
     free(configKernelFlags);
     free(valueBuffer);
