@@ -61,7 +61,6 @@ static long multiboot_LoadExtraDrivers(FileLoadDrivers_t FileLoadDrivers_p);
 // would be on the stack which would possibly be using way too much stack.
 void multiboot_to_boot(int multiboot_magic, struct multiboot_info *mi_orig)
 {
-    printf("multiboot_magic:%x\n",multiboot_magic);
     uint32_t bootdevice = hi_multiboot(multiboot_magic, mi_orig);
     if(bootdevice != BAD_BOOT_DEVICE)
     {
