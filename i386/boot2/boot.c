@@ -634,15 +634,22 @@ void common_boot(int biosdev)
 					break;
 			}
 
-			// bootFile must start with a /
-			if ((bootInfo->bootFile)[0] != '/')
-				sprintf(bootFile, "/%s", bootInfo->bootFile);
+			bool bootFileWithDevice = false;
+			// Check if bootFile start with a device ex: bt(0,0)/Extra/mach_kernel
+			if (strncmp(bootInfo->bootFile,"bt(",3) == 0 ||
+				strncmp(bootInfo->bootFile,"hd(",3) == 0 ||
+				strncmp(bootInfo->bootFile,"rd(",3) == 0)
+				bootFileWithDevice = true;
+
+			// bootFile must start with a / if it not start with a device name
+			if (!bootFileWithDevice && (bootInfo->bootFile)[0] != '/')
+				sprintf(bootFile, "/%s", bootInfo->bootFile); // append a leading /
 			else
 				strcpy(bootFile, bootInfo->bootFile);
 
 			// Try to load kernel image from alternate locations on boot helper partitions.
 			ret = -1;
-			if (gBootVolume->flags & kBVFlagBooter) {
+			if ((gBootVolume->flags & kBVFlagBooter) && !bootFileWithDevice) {
 				sprintf(bootFilePath, "com.apple.boot.P%s", bootFile);
 				ret = GetFileInfo(NULL, bootFilePath, &flags, &time);
 				if (ret == -1)
@@ -679,7 +686,6 @@ void common_boot(int biosdev)
 		
 		if (ret <= 0) {
 			printf("Can't find %s\n", bootFile);
-			
 			sleep(1);
 			
 			if (gBootFileType == kNetworkDeviceType) {
@@ -687,6 +693,8 @@ void common_boot(int biosdev)
 				gUnloadPXEOnExit = false;
 				break;
 			}
+			pause();
+
 		} else {
 			/* Won't return if successful. */
 			ret = ExecKernel(binary);
