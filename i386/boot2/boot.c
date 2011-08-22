@@ -499,7 +499,7 @@ void common_boot(int biosdev)
 		void		*binary = (void *)kLoadAddr;
 		
 		// additional variable for testing alternate kernel image locations on boot helper partitions.
-		char        bootFile[512];
+		char        bootFile[sizeof(bootInfo->bootFile)];
 		char		bootFilePath[512];
 		
 		// Initialize globals.
@@ -671,7 +671,7 @@ void common_boot(int biosdev)
 			if (!bootFileWithDevice && (bootInfo->bootFile)[0] != '/')
 				sprintf(bootFile, "/%s", bootInfo->bootFile); // append a leading /
 			else
-				strcpy(bootFile, bootInfo->bootFile);
+				strlcpy(bootFile, bootInfo->bootFile, sizeof(bootFile));
 
 			// Try to load kernel image from alternate locations on boot helper partitions.
 			ret = -1;
@@ -691,7 +691,7 @@ void common_boot(int biosdev)
 			}
 			if (ret == -1) {
 				// No alternate location found, using the original kernel image path.
-				strcpy(bootFilePath, bootFile);
+				strlcpy(bootFilePath, bootFile,sizeof(bootFilePath));
 			}
 			
 			verbose("Loading kernel %s\n", bootFilePath);

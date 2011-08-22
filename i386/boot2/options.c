@@ -1196,12 +1196,12 @@ processBootOptions()
 
     gOverrideKernel = false;
     if (( kernel = extractKernelName((char **)&cp) )) {
-        strcpy( bootInfo->bootFile, kernel );
+        strlcpy( bootInfo->bootFile, kernel, sizeof(bootInfo->bootFile) );
     } else {
         if ( getValueForKey( kKernelNameKey, &val, &cnt, &bootInfo->bootConfig ) ) {
             strlcpy( bootInfo->bootFile, val, cnt+1 );
         } else {
-            strcpy( bootInfo->bootFile, kDefaultKernel );
+            strlcpy( bootInfo->bootFile, kDefaultKernel, sizeof(bootInfo->bootFile) );
         }
     }
 	if (strcmp( bootInfo->bootFile, kDefaultKernel ) != 0) {
