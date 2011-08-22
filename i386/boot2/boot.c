@@ -325,14 +325,20 @@ long LoadKernelCache(void **binary) {
 	ret = GetFileInfo(NULL, bootInfo->bootFile, &flags, &kerneltime);
 	// Check if the kernel file is more recent than the cache file
 	if ((ret == 0) && ((flags & kFileTypeMask) == kFileTypeFlat)
-		&& (kerneltime > cachetime))
+		&& (kerneltime > cachetime)) {
+		verbose("Kernel file (%s) is more recent than KernelCache (%s), ignoring KernelCache\n",
+				bootInfo->bootFile, kernelCacheFile);
 		return -1;
+	}
 
 	ret = GetFileInfo("/System/Library/", "Extensions", &flags, &exttime);
 	// Check if the S/L/E directory time is more recent than the cache file
 	if ((ret == 0) && ((flags & kFileTypeMask) == kFileTypeDirectory)
-		&& (exttime > cachetime))
+		&& (exttime > cachetime)) {
+		verbose("/System/Library/Extensions is more recent than KernelCache (%s), ignoring KernelCache\n",
+				kernelCacheFile);
 		return -1;
+	}
 
 	// Since the kernel cache file exists and is the most recent try to load it
 	verbose("Loading kernel cache %s\n", kernelCachePath);
@@ -612,20 +618,40 @@ void common_boot(int biosdev)
 		
 		verbose("Loading Darwin %s\n", gMacOSVersion);
 
-		// If boot from boot helper partitions and OS is Lion use prelink kernel.
-		// We need to find a solution to load extra mkext with a prelink kernel.
-		if (gBootVolume->flags & kBVFlagBooter && checkOSVersion("10.7")) {
-			verbose("Booting from Lion RAID volume so forcing to use KernelCache\n");
-			useKernelCache = true;
-		} else {
-			bool useKernelCacheConfig = false; // by default don't use prelink kernel cache
-			getBoolForKey(kUseKernelCache, &useKernelCacheConfig, &bootInfo->chameleonConfig);
-			useKernelCache = (useKernelCacheConfig &&
-							  ((gBootMode & kBootModeSafe) == 0) &&
-							  !gOverrideKernel &&
-							  (gMKextName[0] == 0) &&
-							  (gBootFileType == kBlockDeviceType));
-		}
+		useKernelCache = false; // by default don't use prelink kernel cache
+		getBoolForKey(kUseKernelCache, &useKernelCache, &bootInfo->chameleonConfig);
+
+		if (useKernelCache) do {
+
+			// If boot from boot helper partitions and OS is Lion use prelink kernel.
+			// We need to find a solution to load extra mkext with a prelink kernel.
+			if (gBootVolume->flags & kBVFlagBooter && checkOSVersion("10.7")) {
+				verbose("Booting from Lion RAID volume so forcing to use KernelCache\n");
+				useKernelCache = true;
+				break;
+			}
+
+			if ((gBootMode & kBootModeSafe) == 1) {
+				verbose("Booting in 'Boot Safe' mode, KernelCache will not be used\n");
+				useKernelCache = false;
+				break;
+			}
+			if (gOverrideKernel) {
+				verbose("Using a non default kernel (%s), KernelCache will not be used\n",
+						bootInfo->bootFile);
+				useKernelCache = false;
+				break;
+			}
+			if (gMKextName[0] != 0) {
+				verbose("Using a specific MKext Cache (%s), KernelCache will not be used\n",
+						gMKextName);
+				useKernelCache = false;
+				break;
+			}
+			if (gBootFileType != kBlockDeviceType)
+				useKernelCache = false;
+
+		} while(0);
 
 		do {
 			if (useKernelCache) {
