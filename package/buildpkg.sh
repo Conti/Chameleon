@@ -292,7 +292,7 @@ outline[$((outlinecount++))]="${indent[$xmlindent]}<choices-outline>"
 		for (( i = 0 ; i < ${#themes[@]} ; i++ )) 
 		do
 			theme=$( echo ${themes[$i]##*/} | awk 'BEGIN{OFS=FS=""}{$1=toupper($1);print}' )
-			mkdir -p "${1}/${theme}/Root/"
+			mkdir -p "${1}/${themes[$i]##*/}/Root/"
             rsync -r --exclude=.svn "${themes[$i]}" "${1}/${themes[$i]##*/}/Root/${theme}"
             # #### Comment out thx meklort
             # ditto --noextattr --noqtn "${themes[$i]}" "${1}/${themes[$i]##*/}/Root/${theme}" 
