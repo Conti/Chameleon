@@ -225,23 +225,15 @@ static int ExecKernel(void *binary)
 //==========================================================================
 // LoadKernelCache - Try to load Kernel Cache.
 // return the length of the loaded cache file or -1 on error
-long LoadKernelCache(void **binary) {
+long LoadKernelCache(const char* cacheFile, void **binary) {
 	char		kernelCacheFile[512];
 	char		kernelCachePath[512];
-	const char	*val;
-	int		    len;
 	long		flags, time, cachetime, kerneltime, exttime, ret=-1;
     unsigned long adler32;
 
-	// Determine the name of the Kernel Cache
-	if (getValueForKey(kKernelCacheKey, &val, &len, &bootInfo->bootConfig)) {
-		if (val[0] == '\\')
-		{
-			len--;
-			val++;
-		}
-		strlcpy(kernelCacheFile, val, len + 1);
-	}
+	// Use specify kernel cache file if not empty
+	if (cacheFile[0] != 0)
+		strlcpy(kernelCacheFile, cacheFile, sizeof(kernelCacheFile));
 	else {
 		// Lion prelink kernel cache file
 		if (checkOSVersion("10.7")) {
@@ -498,10 +490,10 @@ void common_boot(int biosdev)
 		long		flags, sleeptime, time;
 		void		*binary = (void *)kLoadAddr;
 		
-		// additional variable for testing alternate kernel image locations on boot helper partitions.
 		char        bootFile[sizeof(bootInfo->bootFile)];
 		char		bootFilePath[512];
-		
+		char		kernelCacheFile[512];
+
 		// Initialize globals.
 		sysConfigValid = false;
 		gErrors		   = false;
@@ -623,6 +615,18 @@ void common_boot(int biosdev)
 
 		if (useKernelCache) do {
 
+			// Determine the name of the Kernel Cache
+			if (getValueForKey(kKernelCacheKey, &val, &len, &bootInfo->bootConfig)) {
+				if (val[0] == '\\')
+				{
+					len--;
+					val++;
+				}
+				strlcpy(kernelCacheFile, val, len + 1);
+			} else {
+				kernelCacheFile[0] = 0; // Use default kernel cache file
+			}
+
 			// If boot from boot helper partitions and OS is Lion use prelink kernel.
 			// We need to find a solution to load extra mkext with a prelink kernel.
 			if (gBootVolume->flags & kBVFlagBooter && checkOSVersion("10.7")) {
@@ -636,8 +640,8 @@ void common_boot(int biosdev)
 				useKernelCache = false;
 				break;
 			}
-			if (gOverrideKernel) {
-				verbose("Using a non default kernel (%s), KernelCache will not be used\n",
+			if (gOverrideKernel && kernelCacheFile[0] == 0) {
+				verbose("Using a non default kernel (%s) without specifying 'Kernel Cache' path, KernelCache will not be used\n",
 						bootInfo->bootFile);
 				useKernelCache = false;
 				break;
@@ -655,7 +659,7 @@ void common_boot(int biosdev)
 
 		do {
 			if (useKernelCache) {
-				ret = LoadKernelCache(&binary);
+				ret = LoadKernelCache(kernelCacheFile, &binary);
 				if (ret >= 0)
 					break;
 			}
