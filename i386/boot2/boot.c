@@ -610,7 +610,13 @@ void common_boot(int biosdev)
 		
 		verbose("Loading Darwin %s\n", gMacOSVersion);
 
-		useKernelCache = false; // by default don't use prelink kernel cache
+		// If boot from boot helper partitions and OS is Lion use prelink kernel.
+		// We need to find a solution to load extra mkext with a prelink kernel.
+		if (gBootVolume->flags & kBVFlagBooter && checkOSVersion("10.7"))
+			useKernelCache = true;
+		else
+			useKernelCache = false; // by default don't use prelink kernel cache
+
 		getBoolForKey(kUseKernelCache, &useKernelCache, &bootInfo->chameleonConfig);
 
 		if (useKernelCache) do {
@@ -627,19 +633,6 @@ void common_boot(int biosdev)
 				kernelCacheFile[0] = 0; // Use default kernel cache file
 			}
 
-			// If boot from boot helper partitions and OS is Lion use prelink kernel.
-			// We need to find a solution to load extra mkext with a prelink kernel.
-			if (gBootVolume->flags & kBVFlagBooter && checkOSVersion("10.7")) {
-				verbose("Booting from Lion RAID volume so forcing to use KernelCache\n");
-				useKernelCache = true;
-				break;
-			}
-
-			if ((gBootMode & kBootModeSafe) == 1) {
-				verbose("Booting in 'Boot Safe' mode, KernelCache will not be used\n");
-				useKernelCache = false;
-				break;
-			}
 			if (gOverrideKernel && kernelCacheFile[0] == 0) {
 				verbose("Using a non default kernel (%s) without specifying 'Kernel Cache' path, KernelCache will not be used\n",
 						bootInfo->bootFile);

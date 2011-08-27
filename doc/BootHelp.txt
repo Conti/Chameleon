@@ -68,8 +68,9 @@ Options useful in the org.chameleon.Boot.plist file:
 
   PciRoot=<value>         Use an alternate value for PciRoot (default value 0).
 
-  UseKernelCache=Yes|No   Default is No. Yes will load pre-linked kernel and will
-                            ignore /E/E and /S/L/E/Extensions.mkext.
+  UseKernelCache=Yes|No   Yes will load pre-linked kernel and will ignore /E/E
+						    and /S/L/E/Extensions.mkext.
+							Default is No but Yes if you use Lion on a Raid partition.
 
   GraphicsEnabler=Yes|No  Automatic device-properties generation for gfx cards.
     AtiConfig=<cardcfg>   Use a different card config, e.g. AtiConfig=Megalodon.
