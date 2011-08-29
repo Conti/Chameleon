@@ -276,7 +276,7 @@ int is_module_loaded(const char* name)
 
 	}
 	
-	DBG("Module %s not found\n", name); DBGPAUSE();
+	DBG("Module %s not loaded\n", name); DBGPAUSE();
 	return 0;
 }
 
