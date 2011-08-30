@@ -131,6 +131,21 @@ dist image: all
 	@gzip --best ${DISTFILE}.tar
 	@mv ${DISTFILE}.tar.gz ${DISTFILE}.tgz
 
+clean:
+	@echo "\t[RM] $(OBJROOT)"
+	@echo "\t[RM] $(SYMROOT)"
+	@echo "\t[RM] $(DSTROOT)"
+	@echo "\t[RM] $(SRCROOT)/revision"
+	@echo "\t[RM] $(SRCROOT)/i386/modules/module_includes"
+	@echo "\t[RM] $(SRCROOT)/auto.conf"
+	@echo "\t[RM] $(SRCROOT)/autoconf.h"
+	@echo "\t[RM] $(SRCROOT)/autoconf.inc"
+
+	@rm -rf $(OBJROOT) $(SYMROOT) $(DSTROOT) $(SRCROOT)/revision \
+            $(SRCROOT)/i386/modules/module_includes \
+            $(SRCROOT)/auto.conf \
+            $(SRCROOT)/autoconf.h \
+            $(SRCROOT)/autoconf.inc
 
 pkg installer: all
 	${SRCROOT}/package/buildpkg.sh ${SYMROOT}/package;

@@ -146,6 +146,7 @@ endif
 
 
 clean:
+	@for d in $(SUBDIRS); do (cd $$d && $(MAKE) $@ ); done
 	@echo "\t[RM] $(SYMROOT)/modules/$(MODULE_NAME).dylib"
 	@echo "\t[RM] $(OBJROOT)"
 	@echo "\t[RM] $(DSTROOT)"
