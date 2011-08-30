@@ -72,6 +72,7 @@ ifneq ($(BUILT_IN),yes)
 
 # Make this as a *MODULE*
 all: dylib
+	@for d in $(SUBDIRS); do (cd $$d; $(MAKE) $@ ); done
 
 else
 # Module not selected to be compiled as a module
@@ -86,6 +87,7 @@ ifeq ($(BUILT_IN),yes)
 
 # Make this *BUILT IN*
 all: dylib_LINKER
+	@for d in $(SUBDIRS); do (cd $$d; $(MAKE) $@ ); done
 
 else
 # Module not selected to be built in
