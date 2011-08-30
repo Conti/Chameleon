@@ -20,13 +20,13 @@ for line in infile:
     if "<key>GraphicsEnabler</key>" in line:
         line = infile.next()
         line = "        <key>Graphics Mode</key>\n"
-        line += "        <string>1680x1050x32</string>\n"
+        line += "        <string>1440x900x32</string>\n"
         InstantMenuCheck = True
 
     # if we finish the tags and haven't written Graphics_Mode Yet
     if "</dict>" in line and Graphics_ModeCheck == False:
         line = "        <key>Graphics Mode</key>\n"
-        line += "        <string>1680x1050x32</string>\n"
+        line += "        <string>1440x900x32</string>\n"
         line += "</dict>\n"
         Graphics_ModeCheck = True
         
