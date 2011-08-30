@@ -14,15 +14,6 @@ Graphics_ModeCheck = False
 body = ""
 
 for line in infile:
-    # if GraphicsEnabler is there, advance the next line to
-    # read past it, and then change the lines to read
-    # "<key>GraphicsEnabler<\key>" and "<string>Yes</string>"
-    if "<key>GraphicsEnabler</key>" in line:
-        line = infile.next()
-        line = "        <key>Graphics Mode</key>\n"
-        line += "        <string>1280x960x32</string>\n"
-        InstantMenuCheck = True
-
     # if we finish the tags and haven't written Graphics_Mode Yet
     if "</dict>" in line and Graphics_ModeCheck == False:
         line = "        <key>Graphics Mode</key>\n"
