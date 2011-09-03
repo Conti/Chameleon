@@ -21,7 +21,30 @@
 
 bool getProcessorInformationExternalClock(returnType *value)
 {
-	value->word = Platform.CPU.FSBFrequency/1000000;
+	if (Platform.CPU.Vendor == CPUID_VENDOR_INTEL) // Intel
+	{		
+		switch (Platform.CPU.Family)
+		{
+			case 0x06:
+			{
+				switch (Platform.CPU.Model)
+				{
+						// set external clock to 0 for SANDY
+						// removes FSB info from system profiler as on real mac's.     
+					case CPU_MODEL_SANDY_XEON:     
+					case CPU_MODEL_SANDY:
+						value->word = 0;
+						break;
+					default:
+						value->word = Platform.CPU.FSBFrequency/1000000;
+				}
+			}
+				break;
+				
+			default:
+				value->word = Platform.CPU.FSBFrequency/1000000;
+		}
+	}
 	return true;
 }
 
@@ -33,7 +56,7 @@ bool getProcessorInformationMaximumClock(returnType *value)
 
 bool getSMBOemProcessorBusSpeed(returnType *value)
 {
-	if (Platform.CPU.Vendor == 0x756E6547) // Intel
+	if (Platform.CPU.Vendor == CPUID_VENDOR_INTEL) // Intel
 	{		
 		switch (Platform.CPU.Family) 
 		{
@@ -113,7 +136,7 @@ bool getSMBOemProcessorType(returnType *value)
 		
 	value->word = simpleGetSMBOemProcessorType();
 
-	if (Platform.CPU.Vendor == 0x756E6547) // Intel
+	if (Platform.CPU.Vendor == CPUID_VENDOR_INTEL) // Intel
 	{
 		if (!done)
 		{
