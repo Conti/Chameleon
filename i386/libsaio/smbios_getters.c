@@ -45,6 +45,11 @@ bool getProcessorInformationExternalClock(returnType *value)
 				value->word = Platform.CPU.FSBFrequency/1000000;
 		}
 	}
+	else
+	{
+		value->word = Platform.CPU.FSBFrequency/1000000;
+	}
+
 	return true;
 }
 
