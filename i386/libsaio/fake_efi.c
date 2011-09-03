@@ -434,8 +434,6 @@ static const char const SYSTEM_SERIAL_PROP[] = "SystemSerialNumber";
 static const char const SYSTEM_TYPE_PROP[] = "system-type";
 static const char const MODEL_PROP[] = "Model";
 static const char const BOARDID_PROP[] = "board-id";
-static const char const BOOT_UUID_PROP[] = "boot-uuid";
-static char uuidStr[64];
 
 /*
  * Get an smbios option string option to convert to EFI_CHAR16 string
@@ -604,17 +602,6 @@ void setupEfiDeviceTree(void)
 	
 	// Fill /efi/device-properties node.
 	setupDeviceProperties(node);
-    
-    //Facetime fix start
-    Node              *ChoosenNode;
-    if (gBootVolume->fs_getuuid && gBootVolume->fs_getuuid (gBootVolume, uuidStr) == 0)
-    {
-        
-        ChoosenNode = DT__FindNode("/chosen", false);
-        DT__AddProperty(ChoosenNode,  BOOT_UUID_PROP, 64, uuidStr);
-    }
-    //Facetime fix end
-
 }
 
 /*
