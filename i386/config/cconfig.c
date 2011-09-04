@@ -797,7 +797,7 @@ static void conf_save(void)
 
 int main(int ac, char **av)
 {
-	int saved_x, saved_y;
+	int saved_x = 0, saved_y = 0;
 	char *mode;
 	int res;
     int rebuild = 0;
