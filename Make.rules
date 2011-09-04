@@ -141,11 +141,13 @@ $(RECURSIVE_CLEAN_TARGETS):
 					|| eval $$failcom; \
 				done
 
-clean: clean-recursive
+clean-dep:
 	@if [ -f "$(OBJROOT)/Makedep" ];then echo "\t[RM] $(OBJROOT)/Makedep"; fi
 	@rm -f $(OBJROOT)/Makedep
 
-distclean: distclean-recursive clean-local
+clean: clean-recursive clean-dep
+
+distclean: distclean-recursive clean-local clean-dep
 
 clean-local:
 
