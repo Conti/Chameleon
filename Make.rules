@@ -1,7 +1,7 @@
+
 -include $(SRCROOT)/auto.conf
 
 export USE_APPLE_PB_SUPPORT = all
-	
 
 ifneq "" "$(wildcard /bin/mkdirs)"
   MKDIRS = /bin/mkdirs
@@ -20,6 +20,7 @@ CFLAGS	= $(CONFIG_OPTIMIZATION_LEVEL) -g -Wmost -Werror
 CPPFLAGS = $(MORECPP) -g -Wmost -Werror -fno-exceptions -fno-rtti
 DEFINES=
 
+DIST_SUBDIRS += $(SUBDIRS)
 
 #
 # Common makefile targets.
@@ -74,7 +75,7 @@ $(OBJROOT)/boot2.o:
 	@$(CC) -Wa,-n -c $(INC) -arch i386 -o $(OBJROOT)/$(@F) boot2.s \
 		    -MD -dependency-file $*.d
 	@md -u $(OBJROOT)/Makedep -f -d $*.d
-	
+
 $(OBJROOT)/%.o: %.s
 	@echo "\t[AS] $<"
 	@$(CC) $(CPPFLAGS) -c $(INC) -arch i386 -o $@ $< \
@@ -82,18 +83,80 @@ $(OBJROOT)/%.o: %.s
 	@md -u $(OBJROOT)/Makedep -f -d $*.d
 
 
+CONFIG_FILES=$(SRCROOT)/auto.conf $(SRCROOT)/autoconf.h $(SRCROOT)/autoconf.inc $(SRCROOT)/.config
+$(CONFIG_FILES): $(SRCROOT)/.config
+	@echo "\t[MAKE] config"
+	@make -C $(SRCROOT)/i386/config rebuild_config
+
+HEADER_VERSION=$(SRCROOT)/vers.h
+$(HEADER_VERSION): $(SRCROOT)/version
+	@echo "#define I386BOOT_VERSION \"5.0.132\"" > $@
+	@echo "#define I386BOOT_BUILDDATE \"`date \"+%Y-%m-%d %H:%M:%S\"`\"" >> $@
+	@echo "#define I386BOOT_CHAMELEONVERSION \"`cat $(SRCROOT)/version`\"" >> $@
+	@echo "#define I386BOOT_CHAMELEONREVISION \"`svnversion -n | tr -d [:alpha:]`\"" >> $@
+
+CONFIG_HEADERS=$(CONFIG_FILES) $(HEADER_VERSION)
 
 # This breaks make, must use make all (FIXME)
 $(DIRS_NEEDED) $(INSTALLDIR) $(OBJROOT) $(SYMROOT):
 	@echo "\t[MKDIR] $@"
 	@$(MKDIRS) $@
-	
-$(SRCROOT)/auto.conf $(SRCROOT)/autoconf.h $(SRCROOT)/.config:
-	@echo "\t[MAKE] config"
-	@cd $(SRCROOT) && make rebuild_config
 
-.PHONY: clean
-clean:
-	@for d in $(SUBDIRS); do (cd $$d && $(MAKE) $@ ); done
+# Recursive rules
+RECURSIVE_TARGETS = all-recursive
+RECURSIVE_CLEAN_TARGETS = distclean-recursive clean-recursive
+.PHONY: $(RECURSIVE_CLEAN_TARGETS) $(RECURSIVE_TARGETS)
+
+$(RECURSIVE_TARGETS):
+				@failcom='exit 1'; \
+				target=`echo $@ | sed s/-recursive//`; \
+				list='$(SUBDIRS)'; for subdir in $$list; do \
+					echo ================= Making $$target in $$subdir =================; \
+					(cd $$subdir && $(MAKE) $$target)						\
+					|| eval $$failcom;					\
+				done;
+
+$(RECURSIVE_CLEAN_TARGETS):
+				@failcom='exit 1'; \
+				dot_seen=no; \
+				case "$@" in \
+					distclean-* | maintainer-clean-*) list='$(DIST_SUBDIRS)' ;; \
+					*) list='$(SUBDIRS)' ;; \
+				esac; \
+				rev=''; for subdir in $$list; do \
+					if test "$$subdir" = "."; then :; else \
+						rev="$$subdir $$rev"; \
+					fi; \
+				done; \
+				rev="$$rev ."; \
+				target=`echo $@ | sed s/-recursive//`; \
+				for subdir in $$rev; do \
+					echo "Making $$target in $$subdir"; \
+          if test "$$subdir" = "."; then \
+            local_target="$$target-local"; \
+          else \
+            local_target="$$target"; \
+          fi; \
+					(cd $$subdir && $(MAKE) $$local_target) \
+					|| eval $$failcom; \
+				done
+
+clean: clean-recursive
+	@if [ -f "$(OBJROOT)/Makedep" ];then echo "\t[RM] $(OBJROOT)/Makedep"; fi
+	@rm -f $(OBJROOT)/Makedep
+
+distclean: distclean-recursive clean-local
+
+clean-local:
+
+distclean-local:
 
 .DEFAULT_GOAL := all
+
+# Local Variables:      #
+# mode: Makefile        #
+# tab-width: 2          #
+# indent-tabs-mode: t 	#
+# End:                  #
+#
+# vi: set noexpandtab ts=2 sw=2 sts=2: #

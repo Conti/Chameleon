@@ -1,4 +1,4 @@
-SRCROOT = $(CURDIR)/../../
+SRCROOT = $(abspath $(CURDIR)/../..)
 OBJROOT = $(SRCROOT)/obj/i386/cdboot
 SYMROOT = $(SRCROOT)/sym/i386
 DSTROOT = $(SRCROOT)/dst/i386
@@ -25,4 +25,6 @@ $(SYMROOT)/cdboot:
 		| perl -ane "print pack('V',@F[0]);" \
 		| dd of=$(SYMROOT)/cdboot bs=1 count=4 seek=2044 conv=notrunc &> /dev/null
 
-#dependencies
+clean-local:
+	@if [ -f "$(SYMROOT)/cdboot" ];then echo "\t[RM] $(SYMROOT)/cdboot"; fi
+	@rm -f $(SYMROOT)/cdboot

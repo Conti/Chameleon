@@ -3,7 +3,7 @@
 # we'll just keep the generated files in this directory
 # and install them directly, rather than generating them again.
 #
-SRCROOT = $(CURDIR)/../../
+SRCROOT = $(abspath $(CURDIR)/../..)
 OBJROOT = $(SRCROOT)/obj/i386/util
 SYMROOT = $(SRCROOT)/sym/i386
 DSTROOT = $(SRCROOT)/dst/i386
@@ -17,19 +17,20 @@ DIR = util
 include ${SRCROOT}/Make.rules
 
 PROGRAMS = machOconv dyldsymboltool
-OBJECTS = dyldsymboltool.o32 dyldsymboltool.o64 machOconv.o32 machOconv.o64
+OBJS = dyldsymboltool.o32 dyldsymboltool.o64 machOconv.o32 machOconv.o64
 
 
 ifeq (${CONFIG_BDMESG}, y)
 PROGRAMS += bdmesg
-OBJECTS += bdmesg.o32 bdmesg.o64
+OBJS += bdmesg.o32 bdmesg.o64
 endif
 
 ifeq (${CONFIG_OPENUP}, y)
 PROGRAMS += openUp
-OBJECTS += openUp.o64 openUp.o32
+OBJS += openUp.o64 openUp.o32
 endif
 
+OBJS := $(addprefix $(OBJROOT)/, $(OBJS))
 
 LDFLAGS := $(LDFALGS) -framework IOKit -framework CoreFoundation -mmacosx-version-min=10.5
 
@@ -37,9 +38,11 @@ SYMPROG = $(addprefix $(SYMROOT)/, $(PROGRAMS))
 
 DIRS_NEEDED = $(OBJROOT) $(SYMROOT)
 
-all: $(DIRS_NEEDED) $(SYMPROG) fdisk440
+SUBDIRS = fdisk
 
-$(SYMPROG): $(addprefix $(OBJROOT)/, $(OBJECTS))
+all: $(DIRS_NEEDED) $(SYMPROG) all-recursive
+
+$(SYMPROG): $(OBJS)
 	@echo "\t[LD32] $(@F)_32"
 	@$(CC) $(CFLAGS) $(LDFLAGS) $(DEFINES) -arch i386 -o $(SYMROOT)/$(@F)_32 $(OBJROOT)/$(@F).o32
 	@echo "\t[LD64] $(@F)_64"
@@ -48,13 +51,10 @@ $(SYMPROG): $(addprefix $(OBJROOT)/, $(OBJECTS))
 	@lipo -create -arch i386 $(SYMROOT)/$(@F)_32 -arch x86_64 $(SYMROOT)/$(@F)_64 -output $(SYMROOT)/$(@F)
 	@$(RM) $(SYMROOT)/$(@F)_32 $(SYMROOT)/$(@F)_64
 
-
-
-.PHONY: fdisk440
-fdisk440:
-	@echo ================= make all for fdisk =================;
-	@$(MAKE) -C fdisk
-
-
 #dependencies
 -include $(OBJROOT)/Makedep
+
+clean-local:
+	@for o in $(OBJS); do if [ -f "$${o}" ];then echo "\t[RM] $${o}"; fi; done
+	@for p in $(SYMPROG); do if [ -f "$${p}" ];then echo "\t[RM] $${p}"; fi; done
+	@rm -f $(SYMPROG) $(OBJS)

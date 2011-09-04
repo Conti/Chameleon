@@ -1,4 +1,4 @@
-SRCROOT = $(CURDIR)/../../
+SRCROOT = $(abspath $(CURDIR)/../..)
 OBJROOT = $(SRCROOT)/obj/i386/libsa
 SYMROOT = $(SRCROOT)/sym/i386
 DSTROOT = $(SRCROOT)/dst/i386
@@ -22,9 +22,11 @@ CPPFLAGS := $(CPPFLAGS) -nostdinc++
 
 INC = -I. -I$(SYMROOT) -I$(LIBSAIODIR) -I${SRCROOT}/i386/include
 
-SA_OBJS = prf.o printf.o zalloc.o \
+OBJS = prf.o printf.o zalloc.o \
 	string.o strtol.o error.o \
 	setjmp.o qsort.o efi_tables.o
+
+OBJS := $(addprefix $(OBJROOT)/, $(OBJS))
 
 LIBS = libsa.a
 LIBS := $(addprefix $(SYMROOT)/, $(LIBS))
@@ -34,7 +36,7 @@ DIRS_NEEDED = $(OBJROOT) $(SYMROOT)
 all embedtheme: $(DIRS_NEEDED) $(LIBS)
 
 
-$(LIBS): $(addprefix $(OBJROOT)/, $(SA_OBJS))
+$(LIBS): $(OBJS)
 	@echo "\t[RM] $@"
 	@rm -f $@
 	@echo "\t[AR] $(@F)"
@@ -44,3 +46,8 @@ $(LIBS): $(addprefix $(OBJROOT)/, $(SA_OBJS))
 
 # dependencies
 -include $(OBJROOT)/Makedep
+
+clean-local:
+	@for o in $(OBJS); do if [ -f "$${o}" ];then echo "\t[RM] $${o}"; fi; done
+	@for l in $(LIBS); do if [ -f "$${l}" ];then echo "\t[RM] $${l}"; fi; done
+	@rm -f $(LIBS) $(OBJS)

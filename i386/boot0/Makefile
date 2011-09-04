@@ -1,4 +1,4 @@
-SRCROOT = $(CURDIR)/../../
+SRCROOT = $(abspath $(CURDIR)/../..)
 OBJROOT = $(SRCROOT)/obj/i386/boot0
 SYMROOT = $(SRCROOT)/sym/i386
 DSTROOT = $(SRCROOT)/dst/i386
@@ -12,15 +12,15 @@ include ${SRCROOT}/Make.rules
 
 DIRS_NEEDED = $(SYMROOT)
 
+OBJS  = boot0 boot0hfs boot0md chain0
+OBJS := $(addprefix $(SYMROOT)/, $(OBJS))
 
-OBJECTS  = boot0 boot0hfs boot0md chain0
-OBJECTS := $(addprefix $(SYMROOT)/, $(OBJECTS))
+all: $(DIRS_NEEDED) $(OBJS)
 
-all: $(DIRS_NEEDED) $(OBJECTS)
-
-$(OBJECTS): $(SRCROOT)/autoconf.inc
+$(OBJS): $(SRCROOT)/autoconf.inc
 	@echo "\t[NASM] $(@F)"
 	@$(NASM) $(@F).s -o $@
 
-#dependencies
-
+clean-local:
+	@for o in $(OBJS); do if [ -f "$${o}" ];then echo "\t[RM] $${o}"; fi; done
+	@rm -f $(OBJS)

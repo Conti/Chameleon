@@ -3,7 +3,7 @@
 # we'll just keep the generated files in this directory
 # and install them directly, rather than generating them again.
 #
-SRCROOT = $(shell pwd)/../../
+SRCROOT = $(abspath $(CURDIR)/../..)
 OBJROOT = $(SRCROOT)/obj/i386/config
 SYMROOT = $(SRCROOT)/sym/i386
 DSTROOT = $(SRCROOT)/dst/i386
@@ -15,9 +15,11 @@ CDBOOT = ${IMGROOT}/usr/standalone/i386/cdboot
 DIR = util
 include ${SRCROOT}/Make.rules
 
-OBJECTS = cconfig.o32 cconfig.o64 zconf.tab.o32 zconf.tab.o64 \
+OBJS = cconfig.o32 cconfig.o64 zconf.tab.o32 zconf.tab.o64 \
 		  yesno.o32 yesno.o64 textbox.o32 textbox.o64 menubox.o32 \
 		  menubox.o64 checklist.o32 checklist.o64 inputbox.o32 inputbox.o64
+
+OBJS := $(addprefix $(OBJROOT)/, $(OBJS))
 
 DEFINES = -DKBUILD_NO_NLS -DCURSES_LOC=\<ncurses.h\> -DPATH_MAX=256 -DPACKAGE=\"chameleon\" 
 LDFLAGS = -lncurses -lmenu
@@ -30,7 +32,7 @@ DIRS_NEEDED = $(OBJROOT) $(SYMROOT)
 
 all: $(DIRS_NEEDED) $(SYMPROG)
 
-$(SYMPROG): $(addprefix $(OBJROOT)/, $(OBJECTS))
+$(SYMPROG): $(OBJS)
 	@echo "\t[LD32] $(@F)_32"
 	@$(CC) $(CFLAGS) $(LDFLAGS) $(DEFINES) -arch i386 -o $(SYMROOT)/$(@F)_32 $(OBJROOT)/*.o32
 	@echo "\t[LD64] $(@F)_64"
@@ -46,7 +48,10 @@ rebuild_config: $(DIRS_NEEDED) $(SYMPROG)
 	@cd ${SRCROOT} && $(SYMPROG) $(SRCROOT)/Cconfig rebuild
 
 
-.PHONY: config
+.PHONY: config rebuild_config
 
 #dependencies
 -include $(OBJROOT)/Makedep
+
+distclean-local:
+	@rm -f $(SYMPROG) $(OBJS) $(OBJROOT)/Makedep

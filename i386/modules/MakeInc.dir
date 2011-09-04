@@ -1,6 +1,6 @@
-SRCROOT = $(shell pwd)/../../../
+SRCROOT = $(abspath $(CURDIR)/../../..)
 OBJROOT = $(SRCROOT)/obj/i386/modules/$(DIR)
-SYMROOT = $(SRCROOT)/sym/i386/modules/
+SYMROOT = $(SRCROOT)/sym/i386
 DSTROOT = $(SRCROOT)/dst/i386
 DOCROOT = $(SRCROOT)/doc
 IMGROOT = $(SRCROOT)/sym/cache
@@ -22,7 +22,7 @@ CFLAGS	:= $(RC_CFLAGS) $(OPTIM) $(MORECPP) -arch i386 -g -Wmost -Werror \
 		-fno-builtin -DSAIO_INTERNAL_USER -static $(OMIT_FRAME_POINTER_CFLAG) \
 		-mpreferred-stack-boundary=2 -fno-align-functions -fno-stack-protector \
 		-march=pentium4 -msse2 -mfpmath=sse -msoft-float -nostdinc -include $(SRCROOT)/autoconf.h
-	      
+
 CPPFLAGS := $(CPPFLAGS) -arch i386 -static -nostdinc++ -Wmost -Werror \
 	-fno-builtin -mpreferred-stack-boundary=2 \
 	-fno-align-functions -fno-stack-protector \
@@ -36,7 +36,7 @@ CFLAGS := $(CLFAGS) -nostdinc -Wmost -Werror \
 	-fno-align-functions -fno-stack-protector \
 	-march=pentium4 -msse2 -mfpmath=sse -msoft-float \
 	-arch i386 -include $(SRCROOT)/autoconf.h
-	
+
 CPPFLAGS := $(CPPFLAGS) -nostdinc++ -Wmost -Werror \
 	-fno-builtin -mpreferred-stack-boundary=2 \
 	-fno-align-functions -fno-stack-protector \
@@ -71,12 +71,11 @@ ifeq  ($(MODULE_DEFINITION),m)
 ifneq ($(BUILT_IN),yes)
 
 # Make this as a *MODULE*
-all: dylib
-	@for d in $(SUBDIRS); do (cd $$d; $(MAKE) $@ ); done
+all: $(CONFIG_HEADERS) $(HEADER_VERSION) dylib all-recursive
 
 else
 # Module not selected to be compiled as a module
-all:
+all: $(CONFIG_HEADERS) $(HEADER_VERSION) all-recursive
 
 endif
 
@@ -86,12 +85,11 @@ ifeq ($(MODULE_DEFINITION),y)
 ifeq ($(BUILT_IN),yes)
 
 # Make this *BUILT IN*
-all: dylib_LINKER
-	@for d in $(SUBDIRS); do (cd $$d; $(MAKE) $@ ); done
+all: $(CONFIG_HEADERS) $(HEADER_VERSION) dylib_LINKER all-recursive
 
 else
 # Module not selected to be built in
-all:
+all: $(CONFIG_HEADERS) $(HEADER_VERSION) all-recursive
 
 endif
 else
@@ -107,10 +105,11 @@ dylib_LINKER: $(SRCROOT)/sym/i386/boot_modules.c $(SRCROOT)/sym/i386/boot_module
 
 dylib: ${SYMROOT}/modules/ ${OBJROOT} $(SYMROOT)/modules/$(MODULE_NAME).dylib
 
+MODULE_OBJS := $(addprefix $(OBJROOT)/, ${MODULE_OBJS})
 
 ifeq ($(BUILT_IN),yes)
 
-$(SYMROOT)/modules/$(MODULE_NAME).dylib: $(addprefix $(OBJROOT)/, ${MODULE_OBJS}) $(MODULE_DEPENDENCIES) $(OBJROOT)/$(MODULE_NAME).desc $(OBJROOT)/$(MODULE_NAME).author Makefile
+$(SYMROOT)/modules/$(MODULE_NAME).dylib: $(MODULE_OBJS) $(MODULE_DEPENDENCIES) $(OBJROOT)/$(MODULE_NAME).desc $(OBJROOT)/$(MODULE_NAME).author Makefile
 	@echo "\t[LD] $(MODULE_NAME).dylib"
 	@ld -arch i386 -undefined dynamic_lookup \
 	-dylib -read_only_relocs suppress \
@@ -126,9 +125,9 @@ $(SYMROOT)/modules/$(MODULE_NAME).dylib: $(addprefix $(OBJROOT)/, ${MODULE_OBJS}
 
 else
 
-$(SYMROOT)/modules/$(MODULE_NAME).dylib: $(addprefix $(OBJROOT)/, ${MODULE_OBJS}) $(MODULE_DEPENDENCIES) $(OBJROOT)/$(MODULE_NAME).desc $(OBJROOT)/$(MODULE_NAME).author $(SRCROOT)/obj/i386/boot2/Symbols_LINKER_ONLY.dylib Makefile
+$(SYMROOT)/modules/$(MODULE_NAME).dylib: $(MODULE_OBJS) $(MODULE_DEPENDENCIES) $(OBJROOT)/$(MODULE_NAME).desc $(OBJROOT)/$(MODULE_NAME).author $(SRCROOT)/obj/i386/boot2/Symbols_LINKER_ONLY.dylib Makefile
 	@echo "\t[LD] $(MODULE_NAME).dylib"
-	
+
 	@ld -arch i386 \
 	-alias _$(MODULE_START) start \
 	-dylib -read_only_relocs suppress \
@@ -143,39 +142,35 @@ $(SYMROOT)/modules/$(MODULE_NAME).dylib: $(addprefix $(OBJROOT)/, ${MODULE_OBJS}
 	-sectcreate __INFO __description $(OBJROOT)/$(MODULE_NAME).desc \
 	-macosx_version_min 10.6 \
 	-o $@
-	
+
 endif
 
 
-clean:
-	@for d in $(SUBDIRS); do (cd $$d && $(MAKE) $@ ); done
-	@echo "\t[RM] $(SYMROOT)/modules/$(MODULE_NAME).dylib"
-	@echo "\t[RM] $(OBJROOT)"
-	@echo "\t[RM] $(DSTROOT)"
-	@echo "\t[RM] $(SRCROOT)/revision"
-	@echo "\t[RM] $(SRCROOT)/i386/modules/module_includes"
-	@rm -rf $(SYMROOT)/modules/$(MODULE_NAME).dylib &> /dev/null
-	@rm -rf $(OBJROOT) $(DSTROOT) $(SRCROOT)/revision $(SRCROOT)/i386/modules/module_includes
+clean-local:
+	@if [ -f "$(SYMROOT)/modules/$(MODULE_NAME).dylib" ];then \
+        echo "\t[RM] $(SYMROOT)/modules/$(MODULE_NAME).dylib";\
+    fi
+	@for o in $(MODULE_OBJS); do if [ -f "$${o}" ];then echo "\t[RM] $${o}"; fi; done
+	@rm -f $(SYMROOT)/modules/$(MODULE_NAME).dylib
+	@rm -rf $(OBJROOT)
 
-	
+
 ${SYMROOT}/modules/:
 	@echo "\t[MKDIR] $@"
 	@$(MKDIRS) $@
-
-	
 
 .PHONY: $(SRCROOT)/sym/i386/boot_modules.h
 .PHONY: $(SRCROOT)/sym/i386/boot_modules.c
 
 $(SRCROOT)/sym/i386/boot_modules.c: 
 	@echo "\tstart_built_in_module(\"$(MODULE_NAME)\", \"$(MODULE_AUTHOR)\", \"$(MODULE_DESCRIPTION)\", 0, 0, &$(MODULE_START));" >> $@
-	
+
 $(SRCROOT)/sym/i386/boot_modules.h:
 	@echo "void $(MODULE_START)(); // $(MODULE_NAME)" >> $@
-	
+
 $(OBJROOT)/$(MODULE_NAME).author: Makefile
 	@echo "$(MODULE_AUTHOR)" > $@
-	
+
 $(OBJROOT)/$(MODULE_NAME).desc: Makefile
 	@echo "$(MODULE_DESCRIPTION)" > $@
 

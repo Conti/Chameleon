@@ -1,4 +1,4 @@
-SRCROOT = $(CURDIR)/../../
+SRCROOT = $(abspath $(CURDIR)/../..)
 OBJROOT = $(SRCROOT)/obj/i386/boot1
 SYMROOT = $(SRCROOT)/sym/i386
 DSTROOT = $(SRCROOT)/dst/i386
@@ -15,8 +15,6 @@ DIRS_NEEDED = $(SYMROOT)
 
 VERS = `vers_string -f 5.0 | tr - .`
 NEW_VERS = Darwin boot1h v$(VERS)
-
-
 
 PROGRAMS  =  boot1hp boot1f32
 
@@ -41,3 +39,7 @@ $(PROGRAMS): $(SRCROOT)/autoconf.inc
 install_i386:: all $(INSTALLDIR)
 	cp $(SYMROOT)/boot1h $(INSTALLDIR)/
 	cd $(INSTALLDIR); chmod u+w $(VERSIONED_FILES) 
+
+clean-local:
+	@for p in $(PROGRAMS); do if [ -f "$${p}" ];then echo "\t[RM] $${p}"; fi; done
+	@rm -f $(PROGRAMS)

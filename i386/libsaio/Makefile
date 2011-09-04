@@ -1,4 +1,4 @@
-SRCROOT = $(CURDIR)/../../
+SRCROOT = $(abspath $(CURDIR)/../..)
 OBJROOT = $(SRCROOT)/obj/i386/libsaio
 SYMROOT = $(SRCROOT)/sym/i386
 DSTROOT = $(SRCROOT)/dst/i386
@@ -10,7 +10,7 @@ CDBOOT = ${IMGROOT}/usr/standalone/i386/cdboot
 DIR = libsaio
 include ${SRCROOT}/Make.rules
 
-UTILDIR = ../util
+UTILDIR  = ../util
 LIBSADIR = ../libsa
 BOOT2DIR = ../boot2
 
@@ -26,7 +26,7 @@ CFLAGS	:= $(CFLAGS) $(RC_CFLAGS) $(MORECPP) -arch i386 \
 
 CPPFLAGS := $(CPPFLAGS) -nostdinc++
 
-INC = -I. -I$(SYMROOT) -I$(LIBSADIR) -I$(BOOT2DIR) -I${SRCROOT}/i386/include
+INC = -I. -I$(SRCROOT) -I$(SYMROOT) -I$(LIBSADIR) -I$(BOOT2DIR) -I${SRCROOT}/i386/include
 
 SAIO_OBJS = table.o asm.o bios.o biosfn.o \
 	disk.o sys.o cache.o bootstruct.o \
@@ -41,15 +41,17 @@ SAIO_OBJS = table.o asm.o bios.o biosfn.o \
 	device_inject.o nvidia.o ati.o gma.o pci_root.o \
 	convert.o aml_generator.o console.o
 
+SAIO_OBJS := $(addprefix $(OBJROOT)/, $(SAIO_OBJS))
+
 LIBS  = libsaio.a
 LIBS := $(addprefix $(SYMROOT)/, $(LIBS))
 
 DIRS_NEEDED = $(OBJROOT) $(SYMROOT)
 
 
-all: $(DIRS_NEEDED) $(LIBS)
+all: $(DIRS_NEEDED) $(CONFIG_HEADERS) $(LIBS) all-recursive
 
-$(LIBS): $(addprefix $(OBJROOT)/, $(SAIO_OBJS))
+$(LIBS): $(SAIO_OBJS)
 	@echo "\t[RM] $@"
 	@rm -f $@
 	@echo "\t[AR] $(@F)"
@@ -57,6 +59,8 @@ $(LIBS): $(addprefix $(OBJROOT)/, $(SAIO_OBJS))
 	@echo "\t[RANLIB] $(@F)"
 	@ranlib $(SYMROOT)/$(@F)
 
+clean-local:
+	@rm -f $(LIBS) $(SAIO_OBJS)
 
 # dependencies
 -include $(OBJROOT)/Makedep

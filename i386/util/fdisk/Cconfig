@@ -3,5 +3,5 @@ config FDISK440
 	default y
 	help
 	  Say Y here if you want to compile the fdisk440 utility.
-	  fdisk440 is used to update the boot0 file on the partition by replacing the first 440 bytes, instead of the first 446 bytes as with frisk.
+	  fdisk440 is used to update the boot0 file on the partition by replacing the first 440 bytes, instead of the first 446 bytes as with fdisk.
 	  When in doubt, say "Y".

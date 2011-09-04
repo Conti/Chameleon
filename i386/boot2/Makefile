@@ -1,4 +1,4 @@
-SRCROOT = $(CURDIR)/../../
+SRCROOT = $(abspath $(CURDIR)/../..)
 OBJROOT = $(SRCROOT)/obj/i386/boot2
 SYMROOT = $(SRCROOT)/sym/i386
 DSTROOT = $(SRCROOT)/dst/i386
@@ -33,7 +33,7 @@ LIBSADIR = ../libsa
 LIBSAIODIR = ../libsaio
 THEME = $(CONFIG_EMBEDED_THEME)
 THEMEDIR = ../../artwork/themes/$(THEME)
-INC = -I. -I$(SYMDIR) -I$(LIBSADIR) -I$(LIBSAIODIR) -I${SRCROOT}/i386/include
+INC = -I. -I$(SRCROOT) -I$(SYMDIR) -I$(LIBSADIR) -I$(LIBSAIODIR) -I${SRCROOT}/i386/include
 
 LIBS= -L$(SYMDIR) -lsaio -lsa
 LIBDEP= libsaio.a libsa.a
@@ -45,7 +45,8 @@ OTHER_FILES =
 OBJS = boot2.o boot.o graphics.o drivers.o prompt.o options.o lzss.o mboot.o \
 	   ramdisk.o picopng.o resume.o bmdecompress.o graphic_utils.o gui.o modules.o \
 	   modules_support.o boot_modules.o
-# button.o browser.o scrollbar.o == NOTYET	
+# button.o browser.o scrollbar.o == NOTYET
+OBJS := $(addprefix $(OBJROOT)/, $(OBJS))
 
 UTILDIR = ../util
 DIRS_NEEDED = $(OBJROOT) $(SYMROOT)
@@ -64,15 +65,15 @@ DATA_ADDR   = $(shell printf "%d" `otool -l $(SYMROOT)/boot.sys | grep __data -A
 PATCH_ADDR  = $(shell echo ${SYMBOL_ADDR}-${DATA_ADDR}+${DATA_OFFSET} | bc)
 
 
-all: $(DIRS_NEEDED) boot 
+all: $(DIRS_NEEDED) boot all-recursive
 
 ifeq (${CONFIG_EMBED_THEME}, y)
 
-boot: $(SYMROOT)/art.h $(SYMROOT)/vers.h $(SYMROOT)/embedded.h $(addprefix $(OBJROOT)/, $(OBJS)) $(addprefix $(SYMROOT)/, $(LIBDEP))
+boot: $(CONFIG_HEADERS) $(SYMROOT)/art.h $(SYMROOT)/embedded.h $(OBJS) $(addprefix $(SYMROOT)/, $(LIBDEP))
 
 else
 
-boot: $(SYMROOT)/vers.h $(SYMROOT)/embedded.h $(addprefix $(OBJROOT)/, $(OBJS)) $(addprefix $(SYMROOT)/, $(LIBDEP))
+boot: $(CONFIG_HEADERS) $(SYMROOT)/embedded.h $(OBJS) $(addprefix $(SYMROOT)/, $(LIBDEP))
 
 
 endif
@@ -183,7 +184,12 @@ $(SYMROOT)/embedded.h:
 	@cd $(SYMROOT)/../../doc && xxd -i BootHelp.txt > $(SYMROOT)/embedded.h
 
 
-.PHONY: $(SYMROOT)/vers.h
-
 #dependencies
 -include $(OBJROOT)/Makedep
+
+clean-local:
+	@for o in $(SYMROOT)/boot $(SYMROOT)/boot.sys $(SYMROOT)/embedded.h $(OBJROOT)/Symbols_LINKER_ONLY.dylib; do \
+		if [ -f "$${o}" ];then echo "\t[RM] $${o}"; fi; done
+	@if [ -d "$(OBJROOT)" ];then echo "\t[RM] all objects in $(OBJROOT)"; fi
+	@rm -f $(SYMROOT)/boot $(SYMROOT)/boot.sys $(SYMROOT)/embedded.h $(OBJS)
+	@rm -rf $(OBJROOT)
