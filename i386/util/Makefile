@@ -3,7 +3,7 @@
 # we'll just keep the generated files in this directory
 # and install them directly, rather than generating them again.
 #
-SRCROOT = $(shell pwd)/../../
+SRCROOT = $(CURDIR)/../../
 OBJROOT = $(SRCROOT)/obj/i386/util
 SYMROOT = $(SRCROOT)/sym/i386
 DSTROOT = $(SRCROOT)/dst/i386

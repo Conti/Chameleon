@@ -1,5 +1,5 @@
 #	Makefile for kernel booter
-SRCROOT = $(shell pwd)
+SRCROOT = $(CURDIR)
 OBJROOT = $(SRCROOT)/obj
 SYMROOT = $(SRCROOT)/sym
 DSTROOT = $(SRCROOT)/dst

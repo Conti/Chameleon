@@ -3,7 +3,7 @@
 #
 # these paths are only valid in subdirectories of this directory
 #
-SRCROOT = $(shell pwd)/../
+SRCROOT = $(CURDIR)/../
 OBJROOT = $(SRCROOT)/obj/i386
 SYMROOT = $(SRCROOT)/sym/i386
 DSTROOT = $(SRCROOT)/dst/i386

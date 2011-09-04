@@ -649,6 +649,7 @@
 		6DBAFFC313B0D4590047ED33 /* ufsmount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ufsmount.h; sourceTree = "<group>"; };
 		6DBAFFC413B0D4590047ED33 /* unistd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unistd.h; sourceTree = "<group>"; };
 		6DBAFFC513B0D4590047ED33 /* unwind.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unwind.h; sourceTree = "<group>"; };
+		A360AA7D14136C1A00084D3F /* Make.rules */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Make.rules; sourceTree = "<group>"; };
 		B0056CE711F3868000754B65 /* boot0.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = boot0.s; sourceTree = "<group>"; };
 		B0056CE811F3868000754B65 /* chain0.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = chain0.s; sourceTree = "<group>"; };
 		B0056CE911F3868000754B65 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
@@ -780,7 +781,6 @@
 		B0056D7411F3868000754B65 /* xml.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xml.c; sourceTree = "<group>"; };
 		B0056D7511F3868000754B65 /* xml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xml.h; sourceTree = "<group>"; };
 		B0056D7611F3868000754B65 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
-		B0056D7811F3868000754B65 /* MakePaths.dir */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MakePaths.dir; sourceTree = "<group>"; };
 		B0056D7A11F3868000754B65 /* machOconv.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = machOconv.c; sourceTree = "<group>"; };
 		B0056D7B11F3868000754B65 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		B0056D7C11F3868000754B65 /* TODO */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
@@ -933,6 +933,7 @@
 				019DFBAF11FB94090013E8CC /* MEMTEST86_LICENSE */,
 				B0056D7C11F3868000754B65 /* TODO */,
 				B0056D7D11F3868000754B65 /* Makefile */,
+				A360AA7D14136C1A00084D3F /* Make.rules */,
 				B0056D8011F3868000754B65 /* coding_standards.txt */,
 			);
 			name = Chameleon;
@@ -2050,7 +2051,6 @@
 				B0056D2411F3868000754B65 /* libsaio */,
 				B0056D7911F3868000754B65 /* util */,
 				B0056D7611F3868000754B65 /* Makefile */,
-				B0056D7811F3868000754B65 /* MakePaths.dir */,
 			);
 			path = i386;
 			sourceTree = "<group>";

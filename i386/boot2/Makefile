@@ -1,4 +1,4 @@
-SRCROOT = $(shell pwd)/../../
+SRCROOT = $(CURDIR)/../../
 OBJROOT = $(SRCROOT)/obj/i386/boot2
 SYMROOT = $(SRCROOT)/sym/i386
 DSTROOT = $(SRCROOT)/dst/i386
