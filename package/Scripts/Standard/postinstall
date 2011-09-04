@@ -231,7 +231,7 @@ echo "Check the format of the selected partition"
 echo "*************************************"
 
 if [ "$( fstyp ${bootdev} | grep hfs )" ]; then
-	echo "${bootdev} is a currently formatted as HFS"
+	echo "${bootdev} is currently formatted as HFS"
 	efiformat="hfs"
 fi
 if [ "$( fstyp ${bootdev} | grep msdos )" ]; then
@@ -287,18 +287,18 @@ if ${diskupdate}; then
 	echo "Diskupdate = true, so yes"
 	#---------------------------------------------------------------------
 	# Check bytes 438-446 of the GPTdiskProtectiveMBR for a Windows Disk Signature
-	# If there’s no Windows disk signature then we can write boot0
+	# If there's no Windows disk signature then we can write boot0
 	#---------------------------------------------------------------------
 
 	if [ ${disksignature} == "00000000" ]; then
 		echo "Executing command: fdisk440 -u -f /usr/standalone/i386/${diskloader} -y ${bootdisk}"
-		fdisk440 -u -f "${bootvolume}/usr/standalone/i386/${diskloader}" -y ${bootdisk}
+		"${bootresources}/Tools/fdisk440" -u -f "${bootvolume}/usr/standalone/i386/${diskloader}" -y ${bootdisk}
 	else
 		#---------------------------------------------------------------------
 		# If it exists then Windows is also installed on the HDD and we need to write boot0hfs
 		#---------------------------------------------------------------------
 		echo "Executing command: fdisk440 -u -f /usr/standalone/i386/${diskloaderdualboot} -y ${bootdisk}"
-		fdisk440 -u -f "${bootvolume}/usr/standalone/i386/${diskloaderdualboot}" -y ${bootdisk}
+		"${bootresources}/Tools/fdisk440" -u -f "${bootvolume}/usr/standalone/i386/${diskloaderdualboot}" -y ${bootdisk}
 	fi
 else
 echo "Diskupdate is false, so no stage 0 file was written"
@@ -332,7 +332,7 @@ echo "*****************************************************"
 if [ ${disksignature} == "00000000" ]; then
 	# echo "Windows is not installed so let's change the active partition"
 
-	partitionactive=$( fdisk440 -d ${bootrdisk} | grep -n "*" | awk -F: '{print $1}')
+	partitionactive=$( "${bootresources}/Tools/fdisk440" -d ${bootrdisk} | grep -n "*" | awk -F: '{print $1}')
 	echo "Current Active Partition: ${partitionactive}"
 
 	if [ "${partitionactive}" = "${bootslice}" ]; then
@@ -342,7 +342,7 @@ if [ ${disksignature} == "00000000" ]; then
 		# BadAxe requires EFI partition to be flagged active.
 		# but it doesn't' hurt to do it for any non-windows partition.
 		
-		fdisk440 -e ${bootrdisk} <<-MAKEACTIVE
+		"${bootresources}/Tools/fdisk440" -e ${bootrdisk} <<-MAKEACTIVE
 		print
 		flag ${bootslice}
 		write

@@ -268,7 +268,7 @@ if [ ${attempts} = 5 ]; then
 fi
 
 if [ "$( fstyp ${bootdev} | grep hfs )" ]; then
-	echo "${bootdev} is a currently formatted as HFS"
+	echo "${bootdev} is currently formatted as HFS"
 	efiformat="hfs"
 fi
 if [ "$( fstyp ${bootdev} | grep msdos )" ]; then
@@ -298,50 +298,59 @@ if ${diskupdate}; then
 	echo "Diskupdate = true, so yes"
 	#---------------------------------------------------------------------
 	# Check bytes 438-446 of the GPTdiskProtectiveMBR for a Windows Disk Signature
-	# If there’s no Windows disk signature then we can write boot0
+	# If there's no Windows disk signature then we can write boot0
 	#---------------------------------------------------------------------
 
 	if [ ${disksignature} == "00000000" ]; then
-		echo "Executing command: fdisk -u -f ${diskloader} -y ${bootdisk}"
-		fdisk -u -f "${osxvolume}/${diskloader}" -y ${bootdisk}
+		echo "Executing command: fdisk -u -f "${osxvolume}/usr/standalone/i386/${diskloader}" -y ${bootdisk}"
+		fdisk -u -f "${osxvolume}/usr/standalone/i386/${diskloader}" -y ${bootdisk}
 	else
 		#---------------------------------------------------------------------
 		# If it exists then Windows is also installed on the HDD and we need to write boot0hfs
 		#---------------------------------------------------------------------
 
-		echo "Executing command: fdisk -u -f ${diskloader} -y ${bootdisk}"
-		fdisk -u -f "${osxvolume}/${diskloader}" -y ${bootdisk}
+		#Azipkg: diskloader=boot0 ??? boot0hfs/boot0md - remenber this is for GPT!!
+		echo "Executing command: fdisk -u -f "${osxvolume}/usr/standalone/i386/${diskloader}" -y ${bootdisk}"
+		fdisk -u -f "${osxvolume}/usr/standalone/i386/${diskloader}" -y ${bootdisk}
 	fi
 else
 	echo "Diskupdate is false, so no stage 0 file was written"
 fi
 
-
 #echo "Executing command: dd if=${partitionloader} of=${bootrdev}"
 #dd if="${osxvolume}/${partitionloader}" of=${bootrdev}
 
-echo "Prepare Stage 1 loader"
-
-echo "Executing command: dd if=${bootrdev} count=1 bs=512 of=/tmp/origbs"
-dd if=${bootrdev} count=1 bs=512 of=/tmp/origbs
-
-if [ ${efiformat} = "hfs" ]; then
-	echo "Executing command: cp ${osxvolume}/${partitionloaderhfs} /tmp/newbs"
-	cp "${osxvolume}/${partitionloaderhfs}" /tmp/newbs
-fi
-
+# if we have an original EFI ("FAT"), copy boot1f32 to newbs
 if [ ${efiformat} = "msdos" ]; then
-	echo "Executing command: cp ${osxvolume}/${partitionloaderfat} /tmp/newbs"
-	cp "${osxvolume}/${partitionloaderfat}" /tmp/newbs
+	
+	echo "Prepare Stage 1 loader"
+	# copy partition boot sector to origbs
+	echo "Executing command: dd if=${bootrdev} count=1 bs=512 of=/tmp/origbs"
+	dd if=${bootrdev} count=1 bs=512 of=/tmp/origbs
+	
+	# copy boot1f32 to newbs
+	echo "Executing command: cp "${osxvolume}/usr/standalone/i386/${partitionloaderfat}" /tmp/newbs"
+	cp "${osxvolume}/usr/standalone/i386/${partitionloaderfat}" /tmp/newbs
+	
+	# "merge" origbs into newbs
+	echo "Executing command: dd if=/tmp/origbs of=/tmp/newbs skip=3 seek=3 bs=1 count=87 conv=notrunc"
+	dd if=/tmp/origbs of=/tmp/newbs skip=3 seek=3 bs=1 count=87 conv=notrunc
+	
+	echo "Write Stage 1 loader"
+	
+	# write newbs to the partition boot sector
+	echo "Executing command: dd if=/tmp/newbs of=${bootrdev}"
+	dd if=/tmp/newbs of=${bootrdev}
+else
+	#Azipkg: this is was failing for me, hanged at boot0: done. Got fine when i removed "bs=512 count=1" ??
+	# makes no sense but... anyway, i'd remove this!.. no need to change EFI fs if boot1f32 works fine.
+	# In fact, i'm not a fan of EFI installs so, i'd remove it all!! :)
+	echo "Write Stage 1 loader"
+	
+	# just write boot1h to the partition boot sector
+	echo "Executing command: dd if="${osxvolume}/usr/standalone/i386/${partitionloaderhfs}" of=${bootrdev}"
+	dd if="${osxvolume}/usr/standalone/i386/${partitionloaderhfs}" of=${bootrdev}
 fi
-
-echo "Executing command: dd if=/tmp/origbs of=/tmp/newbs skip=3 seek=3 bs=1 count=87 conv=notrunc"
-dd if=/tmp/origbs of=/tmp/newbs skip=3 seek=3 bs=1 count=87 conv=notrunc
-
-echo "Write Stage 1 loader"
-
-echo "Executing command: dd of=${bootrdev} count=1 bs=512 if=/tmp/newbs"
-dd if=/tmp/newbs of=${bootrdev} count=1 bs=512
 
 echo "-----------------------------------------------"
 echo ""
@@ -420,8 +429,8 @@ echo "==============================================="
 echo "Write Stage 2 loader"
 echo "********************"
        
-echo "Executing command: cp ${osxvolume}${filesystemloader} ${bootvolume}/boot"
-cp "${osxvolume}${filesystemloader}" "${bootvolume}/boot"
+echo "Executing command: cp "${osxvolume}/usr/standalone/i386/${filesystemloader}" ${bootvolume}/boot"
+cp "${osxvolume}/usr/standalone/i386/${filesystemloader}" "${bootvolume}/boot"
 echo "boot written"
 
 echo "-----------------------------------------------"

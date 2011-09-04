@@ -3,10 +3,14 @@
 
 import sys
 import os
+import shutil
 
 vol = str(sys.argv[3])
 boot = "/Extra/org.chameleon.Boot.plist"
 plist = vol + boot
+if not os.path.exists(plist):
+    shutil.copy('/Library/Preferences/SystemConfiguration/com.apple.Boot.plist', plist)
+
 infile = open(plist, "r")
 # check if ShowInfo has been written or not
 ShowInfoCheck = False

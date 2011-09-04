@@ -33,7 +33,7 @@ else
     dest_vol="$3"
 fi    
 
-# delee the temporary Chameleon folder
+# delete the temporary Chameleon folder
 
 rm -rf "$dest_vol/tmpcham"
 
