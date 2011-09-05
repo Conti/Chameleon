@@ -831,8 +831,8 @@ void drawDeviceIcon(BVRef device, pixmap_t *buffer, position_t p, bool isSelecte
 void drawDeviceList (int start, int end, int selection)
 {
 	int			i;
-	bool		shoWinfo = true; //Azi:showinfo
-	extern bool showBootBanner; //
+	bool		shoWinfo = false;
+	extern bool showBootBanner;
 	position_t	p, p_prev, p_next;
 
 	//uint8_t	maxDevices = MIN( gui.maxdevices, menucount );
@@ -892,9 +892,8 @@ void drawDeviceList (int start, int end, int selection)
 			
 			getBoolForKey(kShowInfoKey, &shoWinfo, &bootInfo->chameleonConfig);
 			
-			if (shoWinfo && showBootBanner) // no boot banner, no showinfo.
+			if (shoWinfo && showBootBanner)
 			{
-				// keep formatted with spaces instead of tabs
 				gui.debug.cursor = pos( 10, 100);
 				dprintf( &gui.screen, "label:     %s\n",   param->label );
 				dprintf( &gui.screen, "biosdev:   0x%x\n", param->biosdev );
@@ -907,6 +906,7 @@ void drawDeviceList (int start, int end, int selection)
 				dprintf( &gui.screen, "name:      %s\n",   param->name );
 				dprintf( &gui.screen, "type_name: %s\n",   param->type_name );
 				dprintf( &gui.screen, "modtime:   %d\n",   param->modTime );
+//				// res
 				dprintf( &gui.screen, "width:     %d\n",   gui.screen.width );
 				dprintf( &gui.screen, "height:    %d\n",   gui.screen.height );
 //				dprintf( &gui.screen, "attr:      0x%x\n", gui.screen.attr ); //Azi: reminder
