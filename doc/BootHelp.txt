@@ -110,6 +110,8 @@ Options useful in the org.chameleon.Boot.plist file:
                             (C-States).
   GeneratePStates=Yes     Enable auto generation of processor power performance
                             states (P-States).
+  CSTUsingSystemIO=Yes    New C-State _CST generation method using SystemIO
+                            registers instead of FixedHW.
 
   EnableC2State=Yes       Enable specific Processor power state, C2.
   EnableC3State=Yes       Enable specific Processor power state, C3.
