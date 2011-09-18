@@ -38,18 +38,6 @@ enum {
 	VerticalLayout		= 1
 };
 
-enum {
-	kBackspaceKey		= 0x08,
-	kTabKey				= 0x09,
-	kReturnKey			= '\r',
-	kEscapeKey			= 0x1b,
-	kUpArrowkey			= 0x4800,
-	kDownArrowkey		= 0x5000,
-	kASCIIKeyMask		= 0x7f,
-	kF5Key				= 0x3f00,
-	kF10Key				= 0x4400
-};
-
 /*
  * Menu item structure.
  */

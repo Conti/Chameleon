@@ -9,6 +9,7 @@
  */
 
 #include "gui.h"
+#include "term.h"
 #include "appleboot.h"
 #include "vers.h"
 
@@ -1604,15 +1605,15 @@ void showInfoBox(char *title, char *text_orig)
 		
 		key = getchar();
 			
-		if( key == kUpArrowkey )
+		if( key == KEY_UP )
 			if( currentline > 0 )
 				currentline--;
 
-		if( key == kDownArrowkey )
+		if( key == KEY_DOWN )
 			if( lines > ( currentline + visiblelines ) )
 				currentline++;
 
-		if( key == kEscapeKey || key == 'q' || key == 'Q')
+		if( key == KEY_ESC || key == 'q' || key == 'Q')
 		{
 			gui.infobox.draw = false;
 			gui.redraw = true;
@@ -1762,7 +1763,7 @@ int updateInfoMenu(int key)
 	switch (key)
 	{
 
-		case kUpArrowkey:	// up arrow
+		case KEY_UP:	// up arrow
 				if (infoMenuSelection > 0)
 				{
 					if(!infoMenuNativeBoot && infoMenuSelection == INFOMENU_NATIVEBOOT_END + 1)
@@ -1784,7 +1785,7 @@ int updateInfoMenu(int key)
 				}
 				break;
 
-		case kDownArrowkey:	// down arrow
+		case KEY_DOWN:	// down arrow
 				if (infoMenuSelection < infoMenuItemsCount - 1)
 				{
 					if(!infoMenuNativeBoot && infoMenuSelection == INFOMENU_NATIVEBOOT_START - 1)
@@ -1796,7 +1797,7 @@ int updateInfoMenu(int key)
 				}
 				break;
 
-		case kReturnKey:
+		case KEY_ENTER:
 				key = 0;
 				if( infoMenuSelection == MENU_SHOW_MEMORY_INFO )
 					showInfoBox( "Memory Info. Press q to quit.\n", getMemoryInfoString());
