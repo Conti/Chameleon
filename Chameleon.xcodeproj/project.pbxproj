@@ -679,7 +679,6 @@
 		A3561CAF1414024C00E9B51E /* HelloWorld.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HelloWorld.cpp; sourceTree = "<group>"; };
 		A3561CB11414024C00E9B51E /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		A3561CB31414024C00E9B51E /* modules */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = modules; sourceTree = "<group>"; };
-		A3561CB61414024D00E9B51E /* test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test; sourceTree = "<group>"; };
 		A3561CB81414024D00E9B51E /* __ashldi3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = __ashldi3.c; sourceTree = "<group>"; };
 		A3561CB91414024D00E9B51E /* __ashrdi3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = __ashrdi3.c; sourceTree = "<group>"; };
 		A3561CBA1414024D00E9B51E /* __clzsi2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = __clzsi2.c; sourceTree = "<group>"; };
@@ -878,6 +877,18 @@
 		A3561D7F1414024D00E9B51E /* utility.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = utility.cpp; sourceTree = "<group>"; };
 		A3561D801414024D00E9B51E /* valarray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = valarray.cpp; sourceTree = "<group>"; };
 		A3561D811414024D00E9B51E /* vector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vector.cpp; sourceTree = "<group>"; };
+		A3561DA61414296600E9B51E /* Keylayout.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Keylayout.c; sourceTree = "<group>"; };
+		A3561DA71414296600E9B51E /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		A3561DA81414296600E9B51E /* Cconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cconfig; sourceTree = "<group>"; };
+		A35D216F141A73B000969AC0 /* cham-mklayout.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "cham-mklayout.c"; sourceTree = "<group>"; };
+		A35D2171141A73B000969AC0 /* mac-de.slt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "mac-de.slt"; sourceTree = "<group>"; };
+		A35D2172141A73B000969AC0 /* mac-es.slt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "mac-es.slt"; sourceTree = "<group>"; };
+		A35D2173141A73B000969AC0 /* mac-fr.slt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "mac-fr.slt"; sourceTree = "<group>"; };
+		A35D2174141A73B000969AC0 /* mac-it.slt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "mac-it.slt"; sourceTree = "<group>"; };
+		A35D2175141A73B000969AC0 /* mac-se.slt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "mac-se.slt"; sourceTree = "<group>"; };
+		A35D2176141A73B000969AC0 /* pc-fr.slt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "pc-fr.slt"; sourceTree = "<group>"; };
+		A35D2177141A73B000969AC0 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		A35D2178141A753E00969AC0 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		A360AA7D14136C1A00084D3F /* Make.rules */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Make.rules; sourceTree = "<group>"; };
 		B0056CE711F3868000754B65 /* boot0.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = boot0.s; sourceTree = "<group>"; };
 		B0056CE811F3868000754B65 /* chain0.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = chain0.s; sourceTree = "<group>"; };
@@ -2342,17 +2353,12 @@
 		A3561CB41414024C00E9B51E /* Keylayout */ = {
 			isa = PBXGroup;
 			children = (
-				A3561CB51414024C00E9B51E /* utils */,
+				A35D216E141A73B000969AC0 /* layouts */,
+				A3561DA81414296600E9B51E /* Cconfig */,
+				A3561DA61414296600E9B51E /* Keylayout.c */,
+				A3561DA71414296600E9B51E /* Makefile */,
 			);
 			path = Keylayout;
-			sourceTree = "<group>";
-		};
-		A3561CB51414024C00E9B51E /* utils */ = {
-			isa = PBXGroup;
-			children = (
-				A3561CB61414024D00E9B51E /* test */,
-			);
-			path = utils;
 			sourceTree = "<group>";
 		};
 		A3561CB71414024D00E9B51E /* klibc */ = {
@@ -2585,6 +2591,30 @@
 				A3561D621414024D00E9B51E /* vector */,
 			);
 			path = include;
+			sourceTree = "<group>";
+		};
+		A35D216E141A73B000969AC0 /* layouts */ = {
+			isa = PBXGroup;
+			children = (
+				A35D216F141A73B000969AC0 /* cham-mklayout.c */,
+				A35D2170141A73B000969AC0 /* layouts-src */,
+				A35D2177141A73B000969AC0 /* Makefile */,
+			);
+			path = layouts;
+			sourceTree = "<group>";
+		};
+		A35D2170141A73B000969AC0 /* layouts-src */ = {
+			isa = PBXGroup;
+			children = (
+				A35D2178141A753E00969AC0 /* README */,
+				A35D2171141A73B000969AC0 /* mac-de.slt */,
+				A35D2172141A73B000969AC0 /* mac-es.slt */,
+				A35D2173141A73B000969AC0 /* mac-fr.slt */,
+				A35D2174141A73B000969AC0 /* mac-it.slt */,
+				A35D2175141A73B000969AC0 /* mac-se.slt */,
+				A35D2176141A73B000969AC0 /* pc-fr.slt */,
+			);
+			path = "layouts-src";
 			sourceTree = "<group>";
 		};
 		B0056CE511F3868000754B65 /* i386 */ = {

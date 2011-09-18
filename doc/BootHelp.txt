@@ -72,6 +72,9 @@ Options useful in the org.chameleon.Boot.plist file:
 						    and /S/L/E/Extensions.mkext.
 							Default is No but Yes if you use Lion on a Raid partition.
 
+  KeyLayout=keymap        Use to change the keyboard mapping of the bootloader
+                            (e.g. KeyLayout=mac-fr)
+
   GraphicsEnabler=Yes|No  Automatic device-properties generation for gfx cards.
     AtiConfig=<cardcfg>   Use a different card config, e.g. AtiConfig=Megalodon.
     AtiPorts=<value>      Specify the number of ports, e.g. AtiPorts=2.

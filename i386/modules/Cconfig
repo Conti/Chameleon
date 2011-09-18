@@ -7,4 +7,5 @@ source "i386/modules/Resolution/Cconfig"
 source "i386/modules/klibc/Cconfig"
 source "i386/modules/uClibcxx/Cconfig"
 source "i386/modules/HelloWorld/Cconfig"
+source "i386/modules/Keylayout/Cconfig"
 endmenu

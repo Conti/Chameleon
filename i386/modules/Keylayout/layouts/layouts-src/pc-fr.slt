@@ -1,0 +1,58 @@
+# Keycode      Normal       Shift       Alt     Shift+Alt
+
+# 1ère Ligne
+keycode 0x29 = <            >
+keycode 0x02 = &            1
+keycode 0x03 = VoidSymbol   2           ~
+keycode 0x04 = "            3           #
+keycode 0x05 = '            4           {
+keycode 0x06 = (            5           [
+keycode 0x07 = minus        6           |
+keycode 0x08 = VoidSymbol   7           `
+keycode 0x09 = underscore   8           \
+keycode 0x0a = VoidSymbol   9           ^
+keycode 0x0b = VoidSymbol   0           @
+keycode 0x0c = )            VoidSymbol  ]
+keycode 0x0d = =            +           }
+keycode 0x0e = Backspace
+
+# 2ème Ligne
+keycode 0x0f = Tab
+keycode 0x10 = a            A
+keycode 0x11 = z            Z
+keycode 0x12 = e            E
+keycode 0x13 = r            R
+keycode 0x14 = t            T
+keycode 0x15 = y            Y
+keycode 0x16 = u            U
+keycode 0x17 = i            I
+keycode 0x18 = o            O
+keycode 0x19 = p            P
+keycode 0x1a = ^            VoidSymbol
+keycode 0x1b = $            VoidSymbol
+
+# 3ème Ligne
+keycode 0x1e = q            Q
+keycode 0x1f = s            S
+keycode 0x20 = d            D
+keycode 0x21 = f            F
+keycode 0x22 = g            G
+keycode 0x23 = h            H
+keycode 0x24 = j            J
+keycode 0x25 = k            K
+keycode 0x26 = l            L
+keycode 0x27 = m            M
+keycode 0x28 = VoidSymbol   %
+keycode 0x2b = *            VoidSymbol
+
+# 4ème Ligne
+keycode 0x2c = w            W
+keycode 0x2d = x            X
+keycode 0x2e = c            C
+keycode 0x2f = v            V
+keycode 0x30 = b            B
+keycode 0x31 = n            N
+keycode 0x32 = ,            ?
+keycode 0x33 = ;            .
+keycode 0x34 = :            /
+keycode 0x35 = !            VoidSymbol

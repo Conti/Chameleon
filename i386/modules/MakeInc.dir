@@ -7,7 +7,6 @@ IMGROOT = $(SRCROOT)/sym/cache
 IMGSKELROOT = $(SRCROOT)/imgskel
 CDBOOT = ${IMGROOT}/usr/standalone/i386/cdboot
 
-
 ifeq ($(BUILT_IN),yes)
 override OBJROOT = $(SRCROOT)/obj/i386/boot2_modules/$(DIR)
 override SYMROOT = $(SRCROOT)/obj/i386/

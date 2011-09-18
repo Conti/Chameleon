@@ -29,6 +29,10 @@ ifdef CONFIG_HELLOWORLD_MODULE
 SUBDIRS += HelloWorld
 endif
 
+ifdef CONFIG_KEYLAYOUT_MODULE
+SUBDIRS += Keylayout
+endif
+
 CFLAGS= -O3 $(MORECPP) -arch i386 -g -static
 DEFINES=
 CONFIG = hd

@@ -81,6 +81,14 @@ endif
 ifdef CONFIG_BDMESG
 	@cp -f ${SYMROOT}/i386/bdmesg ${IMGROOT}/usr/bin    
 endif
+ifdef CONFIG_KEYLAYOUT_MODULE
+	@cp -f ${SYMROOT}/i386/cham-mklayout ${IMGROOT}/usr/bin
+	@echo "\t[MKDIR] ${IMGROOT}/Extra/Keymaps"
+	@mkdir -p ${IMGROOT}/Extra/Keymaps
+	@echo "\t[CP] Keymaps ${IMGROOT}/Extra/Keymaps"
+	@cp -R -f "Keymaps"/* "${IMGROOT}/Extra/Keymaps/"
+endif
+
 	@echo "\t[HDIUTIL] ${ISOIMAGE}"
 	@hdiutil makehybrid -iso -joliet -hfs -hfs-volume-name \
 		${CDLABEL} -eltorito-boot ${CDBOOT} -no-emul-boot -ov -o   \
