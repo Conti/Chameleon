@@ -117,6 +117,7 @@ outline[$((outlinecount++))]="${indent[$xmlindent]}<choices-outline>"
                 # klibc.dylib                 #
                 # Resolution.dylib            #
                 # uClibcxx.dylib              #
+                # Keylayout.dylib             #
                 ###############################
         if [ "$(ls -A "${1%/*}/i386/modules")" ]; then
         {
@@ -140,6 +141,27 @@ outline[$((outlinecount++))]="${indent[$xmlindent]}<choices-outline>"
                 ditto --noextattr --noqtn ${1%/*}/i386/modules/Resolution.dylib ${1}/AutoReso/Root
                 echo "	[BUILD] Resolution "
                 buildpackage "${1}/AutoReso" "/Extra/modules" "" "start_selected=\"false\"" >/dev/null 2>&1
+            }
+            fi
+# -
+            if [ -e ${1%/*}/i386/modules/Keylayout.dylib ]; then
+            {
+				mkdir -p ${1}/Keylayout/Root/Extra/{modules,Keymaps}
+				mkdir -p ${1}/Keylayout/Root/usr/bin
+				layout_src_dir="${1%/sym/*}/i386/modules/Keylayout/layouts/layouts-src"
+				if [ -d "$layout_src_dir" ];then
+					# Create a tar.gz from layout sources
+					(cd "$layout_src_dir"; \
+					 tar czf "${1}/Keylayout/Root/Extra/Keymaps/layouts-src.tar.gz" README *.slt)
+				fi
+				# Adding module
+                ditto --noextattr --noqtn ${1%/*}/i386/modules/Keylayout.dylib ${1}/Keylayout/Root/Extra/modules
+				# Adding Keymaps
+				ditto --noextattr --noqtn ${1%/sym/*}/Keymaps ${1}/Keylayout/Root/Extra/Keymaps
+				# Adding tools
+				ditto --noextattr --noqtn ${1%/*}/i386/cham-mklayout ${1}/Keylayout/Root/usr/bin
+                echo "	[BUILD] Keylayout "
+                buildpackage "${1}/Keylayout" "/" "" "start_selected=\"true\"" >/dev/null 2>&1
             }
             fi
 # -
@@ -225,6 +247,26 @@ outline[$((outlinecount++))]="${indent[$xmlindent]}<choices-outline>"
 		done
 		# End build base options packages
 
+		# build KeyLayout option packages
+			echo "================= Keymaps Options ================="
+			outline[$((outlinecount++))]="${indent[$xmlindent]}\t<line choice=\"KeyLayout\">"
+			choices[$((choicescount++))]="<choice\n\tid=\"KeyLayout\"\n\ttitle=\"KeyLayout_title\"\n\tdescription=\"KeyLayout_description\"\n>\n</choice>\n"
+			((xmlindent++))
+			packagesidentity="org.chameleon.options.keylayout"
+			keymaps=($( find "${1%/sym/*}/Keymaps" -type f -depth 1 -name '*.lyt' | sed 's|.*/||;s|\.lyt||' ))
+			for (( i = 0 ; i < ${#keymaps[@]} ; i++ ))
+			do
+				mkdir -p "${1}/${keymaps[$i]}/Root/"
+				mkdir -p "${1}/${keymaps[$i]}/Scripts/"
+				sed "s/@@KEYMAP@@/${keymaps[$i]}/g" "${pkgroot}/Scripts/Keymaps/postinstall.in" > "${1}/${keymaps[$i]}/Scripts/postinstall" && \
+					chmod +rx "${1}/${keymaps[$i]}/Scripts/postinstall"
+				echo "	[BUILD] ${keymaps[$i]} "
+				buildpackage "${1}/${keymaps[$i]}" "/tmpcham" "" "start_selected=\"false\"" >/dev/null 2>&1
+			done
+			((xmlindent--))
+			outline[$((outlinecount++))]="${indent[$xmlindent]}\t</line>"
+		# End build KeyLayout option packages
+
 		# build resolution packages
 			echo "================= Res. Options ================="
 			outline[$((outlinecount++))]="${indent[$xmlindent]}\t<line choice=\"Resolution\">"
@@ -244,7 +286,7 @@ outline[$((outlinecount++))]="${indent[$xmlindent]}<choices-outline>"
 			((xmlindent--))
 			outline[$((outlinecount++))]="${indent[$xmlindent]}\t</line>"
 		# End build resolution packages
-	
+
 		# build Advanced packages
 			echo "================= Adv. Options ================="
 			outline[$((outlinecount++))]="${indent[$xmlindent]}\t<line choice=\"Advanced\">"
@@ -270,7 +312,7 @@ outline[$((outlinecount++))]="${indent[$xmlindent]}<choices-outline>"
 		outline[$((outlinecount++))]="${indent[$xmlindent]}\t</line>"
 
 	# End build options packages
-	
+
 	# build theme packages
 		echo "================= Themes ================="
 		outline[$((outlinecount++))]="${indent[$xmlindent]}\t<line choice=\"Themes\">"
