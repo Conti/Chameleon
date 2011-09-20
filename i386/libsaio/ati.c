@@ -558,11 +558,9 @@ static radeon_card_info_t radeon_cards[] = {
 	{ 0x6740,	0x1657103C, CHIP_FAMILY_TURKS,		"AMD Radeon HD 6770M",				kNull		},
 	
 	{ 0x6741,	0x050E1025, CHIP_FAMILY_TURKS,		"AMD Radeon HD 6650M",				kNull		},
-	{ 0x6741,	0x05131025, CHIP_FAMILY_TURKS,		"AMD Radeon HD 6650M",				kNull		},	
+	{ 0x6741,	0x05131025, CHIP_FAMILY_TURKS,		"AMD Radeon HD 6650M",				kNull		},
 	{ 0x6741,	0x1646103C, CHIP_FAMILY_TURKS,		"AMD Radeon HD 6750M",				kNull		},
-	{ 0x6741,	0x9080104D, CHIP_FAMILY_TURKS,		"AMD Radeon HD 6630M",				kNull		},
-	
-	{ 0x6741,	0x9080104D, CHIP_FAMILY_TURKS,		"AMD Radeon HD 6630M",				kNull,		},
+	{ 0x6741,	0x9080104D,	CHIP_FAMILY_TURKS,		"AMD Radeon HD 6630M",				kNull		},
 	
 	{ 0x6759,	0xE193174B, CHIP_FAMILY_TURKS,		"AMD Radeon HD 6570",				kNull		},
 	
@@ -1320,7 +1318,7 @@ static bool init_card(pci_dt_t *pci_dev)
 	// if none,
 	if (!card->cfg_name)
 	{
-		// use the device fb key on radeon_cards, to retrive the default name from card_configs.
+		// use cfg_name on radeon_cards, to retrive the default name from card_configs,
 		card->cfg_name = card_configs[card->info->cfg_name].name;
 		// and leave ports alone!
 //		card->ports = card_configs[card->info->cfg_name].ports;
@@ -1344,7 +1342,7 @@ static bool init_card(pci_dt_t *pci_dev)
     }
 	else// if (card->cfg_name > 0) // do we want 0 ports if fb is kNull or mistyped ?
 	{
-		// else, match fb name with card_configs list and retrive default nr of ports.
+		// else, match cfg_name with card_configs list and retrive default nr of ports.
 		for (i = 0; i < kCfgEnd; i++)
 			if (strcmp(card->cfg_name, card_configs[i].name) == 0)
 				card->ports = card_configs[i].ports; // default
