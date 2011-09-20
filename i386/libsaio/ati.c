@@ -314,9 +314,6 @@ static radeon_card_info_t radeon_cards[] = {
 	{ 0x94C3,	0x2247148C, CHIP_FAMILY_RV610,		"ATI Radeon HD 2400 LE",			kNull		},
 	{ 0x94C3,	0x3000148C, CHIP_FAMILY_RV610,		"ATI Radeon HD 2350 Series",		kNull		},
 	
-	{ 0x94C3,	0x30001642, CHIP_FAMILY_RV610,		"ATI Radeon HD 3410",				kNull		},
-	{ 0x94C3,	0x37161642, CHIP_FAMILY_RV610,		"ATI Radeon HD 2400 PRO",			kNull		},
-	
 	{ 0x94C3,	0x3000174B, CHIP_FAMILY_RV610,		"ATI Radeon HD 2350 Series",		kNull		},
 	{ 0x94C3,	0xE370174B, CHIP_FAMILY_RV610,		"ATI Radeon HD 2400 PRO",			kNull		},
 	{ 0x94C3,	0xE400174B, CHIP_FAMILY_RV610,		"ATI Radeon HD 2400 PRO",			kNull		},
@@ -397,8 +394,6 @@ static radeon_card_info_t radeon_cards[] = {
 	{ 0x9588,	0x01021A93, CHIP_FAMILY_RV630,		"Qimonda Radeon HD 2600 XT",		kNull		},
 	
 	{ 0x9589,	0x30001462, CHIP_FAMILY_RV630,		"ATI Radeon HD 3610",				kNull		},
-	
-	{ 0x9589,	0x30001642, CHIP_FAMILY_RV630,		"ATI Radeon HD 3610",				kNull		},
 	
 	{ 0x9589,	0x0E41174B, CHIP_FAMILY_RV630,		"ATI Radeon HD 3600 Series",		kNull		},
 	
