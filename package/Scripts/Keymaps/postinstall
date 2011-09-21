@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# Script to add Graphics_Mode for Chameleon boot loaders
+# Script to add KeyLayout for Chameleon boot loaders
 
 import sys
 import os
