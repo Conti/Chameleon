@@ -258,7 +258,7 @@ outline[$((outlinecount++))]="${indent[$xmlindent]}<choices-outline>"
 			do
 				mkdir -p "${1}/${keymaps[$i]}/Root/"
 				mkdir -p "${1}/${keymaps[$i]}/Scripts/"
-				sed "s/@@KEYMAP@@/${keymaps[$i]}/g" "${pkgroot}/Scripts/Keymaps/postinstall" > "${1}/${keymaps[$i]}/Scripts/postinstall" && \
+				sed "s/@@KEYMAP@@/${keymaps[$i]}/g" "${pkgroot}/Scripts/Keymaps/postinstall.in" > "${1}/${keymaps[$i]}/Scripts/postinstall" && \
 					chmod +rx "${1}/${keymaps[$i]}/Scripts/postinstall"
 				echo "	[BUILD] ${keymaps[$i]} "
 				buildpackage "${1}/${keymaps[$i]}" "/tmpcham" "" "start_selected=\"false\"" >/dev/null 2>&1
