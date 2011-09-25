@@ -1,0 +1,34 @@
+#!/usr/bin/python
+# Script to add UseKernelCache for Chameleon boot loaders
+
+import sys
+import os
+import shutil
+
+vol = str(sys.argv[3])
+boot = "/Extra/org.chameleon.Boot.plist"
+plist = vol + boot
+if not os.path.exists(plist):
+    shutil.copy('/Library/Preferences/SystemConfiguration/com.apple.Boot.plist', plist)
+
+infile = open(plist, "r")
+# check if UseKernelCache has been written or not
+UseKernelCacheCheck = False
+
+body = ""
+
+for line in infile:
+    # if we finish the tags and haven't written UseKernelCache Yet
+    if "</dict>" in line and UseKernelCacheCheck == False:
+        line = "        <key>UseKernelCache</key>\n"
+        line += "        <string>Yes</string>\n"
+        line += "</dict>\n"
+        UseKernelCacheCheck = True
+        
+    body += line
+    
+infile.close()
+
+outfile = open(plist, "w")
+outfile.write(body)
+outfile.close()
