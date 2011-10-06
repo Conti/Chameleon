@@ -490,12 +490,12 @@ makedistribution ()
 #   command use to generate the file:
 #   ditto -c -k --sequesterRsrc --keepParent Icon.icns Icon.zip
 # ----
-#    ditto -xk "${pkgroot}/Icons/pkg.zip" "${pkgroot}/Icons/"
-#    DeRez -only icns "${pkgroot}/Icons/Icons/pkg.icns" > tempicns.rsrc
-#    Rez -append tempicns.rsrc -o "${1%/*}/$packagename-${version}-r$revision.pkg"
-#    SetFile -a C "${1%/*}/$packagename-${version}-r$revision.pkg"
-#    rm -f tempicns.rsrc
-#    rm -rf "${pkgroot}/Icons/Icons"
+    ditto -xk "${pkgroot}/Icons/pkg.zip" "${pkgroot}/Icons/"
+    DeRez -only icns "${pkgroot}/Icons/Icons/pkg.icns" > tempicns.rsrc
+    Rez -append tempicns.rsrc -o "${1%/*}/$packagename-${version}-r$revision.pkg"
+    SetFile -a C "${1%/*}/$packagename-${version}-r$revision.pkg"
+    rm -f tempicns.rsrc
+    rm -rf "${pkgroot}/Icons/Icons"
 # End
 
 	md5=$( md5 "${1%/*}/${packagename// /}-${version}-r${revision}.pkg" | awk {'print $4'} )

@@ -123,8 +123,9 @@ distclean-local:
 
 pkg installer: all
 	${SRCROOT}/package/buildpkg.sh ${SYMROOT}/package;
-	@echo "\t[GZ] ${DISTFILE}.pkg"
-	@gzip --best ${DISTFILE}.pkg
+	@echo "\t[ZIP] ${DISTFILE}.pkg"
+	@ditto -c -k --sequesterRsrc ${DISTFILE}.pkg ${DISTFILE}.zip
+	@rm -r ${DISTFILE}.pkg
 
 .PHONY: config
 .PHONY: clean
