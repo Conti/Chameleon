@@ -14,7 +14,7 @@
 #include <errno.h>
 #include "stdint.h"
 #include "term.h"
-#include "keylayout.h"
+#include "Keylayout.h"
 
 #define PACKAGE_NAME	"chameleon"
 #define PROGRAM_VERSION	"1.0"
