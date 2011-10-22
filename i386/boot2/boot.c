@@ -72,7 +72,7 @@ static bool	gUnloadPXEOnExit = false;
 static char	gCacheNameAdler[64 + 256];
 char		*gPlatformName = gCacheNameAdler;
 
-char		gRootDevice[512];
+char		gRootDevice[ROOT_DEVICE_SIZE];
 char		gMKextName[512];
 char		gMacOSVersion[8];
 int			bvCount = 0, gDeviceCount = 0;
