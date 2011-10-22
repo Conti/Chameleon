@@ -1071,6 +1071,9 @@ bool copyArgument(const char *argName, const char *val, int cnt, char **argP, in
     int argLen = argName ? strlen(argName) : 0;
     int len = argLen + cnt + 1;  // +1 to account for space
 
+	if (argName)
+		len++; // +1 to account for '='
+
     if (len > *cntRemainingP) {
         error("Warning: boot arguments too long, truncating\n");
         return false;
@@ -1081,8 +1084,8 @@ bool copyArgument(const char *argName, const char *val, int cnt, char **argP, in
         *argP += argLen;
         *argP[0] = '=';
         (*argP)++;
-        len++; // +1 to account for '='
     }
+
     strncpy( *argP, val, cnt );
     *argP += cnt;
     *argP[0] = ' ';
