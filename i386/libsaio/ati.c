@@ -314,6 +314,9 @@ static radeon_card_info_t radeon_cards[] = {
 	{ 0x94C3,	0x2247148C, CHIP_FAMILY_RV610,		"ATI Radeon HD 2400 LE",			kNull		},
 	{ 0x94C3,	0x3000148C, CHIP_FAMILY_RV610,		"ATI Radeon HD 2350 Series",		kNull		},
 	
+	{ 0x94C3,	0x30001642, CHIP_FAMILY_RV610,		"ATI Radeon HD 3410",				kNull		},
+	{ 0x94C3,	0x37161642, CHIP_FAMILY_RV610,		"ATI Radeon HD 2400 PRO",			kNull		},
+	
 	{ 0x94C3,	0x3000174B, CHIP_FAMILY_RV610,		"ATI Radeon HD 2350 Series",		kNull		},
 	{ 0x94C3,	0xE370174B, CHIP_FAMILY_RV610,		"ATI Radeon HD 2400 PRO",			kNull		},
 	{ 0x94C3,	0xE400174B, CHIP_FAMILY_RV610,		"ATI Radeon HD 2400 PRO",			kNull		},
@@ -559,13 +562,15 @@ static radeon_card_info_t radeon_cards[] = {
 	
 	{ 0x6741,	0x050E1025, CHIP_FAMILY_TURKS,		"AMD Radeon HD 6650M",				kNull		},
 	{ 0x6741,	0x05131025, CHIP_FAMILY_TURKS,		"AMD Radeon HD 6650M",				kNull		},
+	
 	{ 0x6741,	0x1646103C, CHIP_FAMILY_TURKS,		"AMD Radeon HD 6750M",				kNull		},
+	
 	{ 0x6741,	0x9080104D,	CHIP_FAMILY_TURKS,		"AMD Radeon HD 6630M",				kNull		},
 	
 	{ 0x6759,	0xE193174B, CHIP_FAMILY_TURKS,		"AMD Radeon HD 6570",				kNull		},
 	
-	{ 0x6760,	0x04CC1028,	CHIP_FAMILY_RV730,		"AMD Radeon HD 6490M",				kNull		},
-	{ 0x6760,	0x1CB21043, CHIP_FAMILY_RV730,		"AMD Radeon HD 6470M",				kNull		},
+	{ 0x6760,	0x04CC1028,	CHIP_FAMILY_TURKS,		"AMD Radeon HD 6490M",				kNull		},
+	{ 0x6760,	0x1CB21043, CHIP_FAMILY_TURKS,		"AMD Radeon HD 6470M",				kNull		},
 	
 	/* standard/default models */
 	{ 0x9400,	0x00000000, CHIP_FAMILY_R600,		"ATI Radeon HD 2900 XT",			kNull		},
@@ -1272,7 +1277,8 @@ static bool init_card(pci_dt_t *pci_dev)
 	
 	if (!card->info->device_id || !card->info->cfg_name)
 	{
-		printf("Unsupported card!\n");
+		verbose("Unsupported ATI card! Device ID: [%04x:%04x] Subsystem ID: [%08x] \n", 
+				pci_dev->vendor_id, pci_dev->device_id, pci_dev->subsys_id);
 		return false;
 	}
 	
