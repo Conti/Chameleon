@@ -1,32 +1,45 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta http-equiv="Content-Style-Type" content="text/css">
   <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="1038.36">
   <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px Lucida Grande;}
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px 'Lucida Grande'}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px 'Lucida Grande'; min-height: 12.0px}
+    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px 'Lucida Grande'; color: #0000ee; min-height: 12.0px}
+    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px 'Lucida Grande'; color: #0418ee}
+    p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px 'Lucida Grande'; color: #0000ee}
+    span.s1 {color: #0000ee}
+    span.s2 {text-decoration: underline ; color: #0418ee}
+    span.s3 {text-decoration: underline ; color: #0000ee}
+    span.s4 {text-decoration: underline}
+    span.s5 {color: #000000}
   </style>
 </head>
 <body>
-<p class="p1">Chameleon est une conbinaison de différent composants de boot loader.</p>
-<p class="p1">Il est basé sur la "fake EFI" implémentation de David Elliott ajouté au projet<span class="Apple-converted-space">  </span>Apple's boot-132.</p>
+<p class="p1">Chameleon est un chargeur d'amorçage construit en utilisant une combinaison de composants qui a elle même évoluée à partir du développement de l'implémentation "fake EFI" de David Elliott, qui a été ajoutée au projet boot-132 d'Apple.</p>
 <p class="p2"><br></p>
-<p class="p1">Chameleon à été amélioré avec les fonctions clé suivantes:</p>
+<p class="p1">Chameleon v2 a été, au fur et à mesure, mis à jour avec nombre de fonctions :</p>
+<p class="p2"><br></p>
+<p class="p1">- Interface utilisateur customisable, pour donner un peu de piment au chargeur d'amorçage Darwin.</p>
+<p class="p1">- Chargement possible d'un "RAMDisk" pour pouvoir démarrer un DVD officiel de Mac OS X sans logiciels tiers.</p>
+<p class="p1">- Mise en veille prolongée. Permet de reprendre votre session de travail instantanément via une image d'hibernation.</p>
+<p class="p1">- Prise en charge d'un SMBIOS modifié. Permet d'outrepasser le SMBIOS d'origine de votre machine.</p>
+<p class="p1">- Prise en charge d'un DSDT modifié. Permet d'appliquer un DSDT patché et résoudre beaucoup de problèmes.</p>
+<p class="p1">- Injection des propriétés de périphériques via une chaîne de caractère "device-properties".</p>
+<p class="p1">- Fichiers boot0 et boot1h hybrides. Permet l'utilisation de disques partitionés via MBR ou GPT.</p>
+<p class="p1">- Detection automatique du FSB, même pour les processeurs AMD récents.</p>
+<p class="p1">- Support du RAID Logiciel d'Apple.</p>
+<p class="p1">- Support de modules (extensions de Chameleon).</p>
+<p class="p1">- Détection mémoire adaptée de memtest86 : <a href="http://www.memtest.org">http://www.memtest.org</a></p>
 <p class="p3"><br></p>
-<p class="p1">Les nouvelles fonctionnalités de Chameleon 2.0</p>
 <p class="p3"><br></p>
-<p class="p1">- Interface graphique entierement customisable pour apporter un peu de couleur au Darwin Bootloader.</p>
-<p class="p1">- Booter un DVD Retail en chargeant directement une image RAMDISK sans l'aide de programmes tierce.</p>
-<p class="p1">- Hibernation:<span class="Apple-converted-space">  </span>Appréciez<span class="Apple-converted-space">  </span>l'affichage d'un apercu d'écran durant le démarrage  après mise en veille.</p>
-<p class="p1">- SMBIOS override : pour modifier les valeur d'usines du SMBIOS.</p>
-<p class="p1">- DSDT override : Utilisation d'un DSDT modifié pouvant résoudre quelques problemes .</p>
-<p class="p3"><br></p>
-<p class="p1">- Device Property Injection via device-properties string dans boot.plist.</p>
-<p class="p1">- Hybrid boot0 / boot1h pour disque dur partionnés en MBR et GPT .</p>
-<p class="p1">- Détection du FSB automatique , mème pour les CPU AMD récents.</p>
-<p class="p1">- Support du Apple Software RAID .</p>
-<p class="p3"><br></p>
-<p class="p1">Pour des informations plus détaillées , visitez : <a href="http://chameleon.osx86.hu/"><span class="s1">http://chameleon.osx86.hu</span></a></p>
+<p class="p1">Le code est publié sous la version 2 de la licence GPL (Gnu Public License).</p>
+<p class="p4"><a href="http://forge.voodooprojects.org/p/chameleon/">http://forge.voodooprojects.org/p/chameleon</a></p>
+<p class="p2"><br></p>
+<p class="p1">Question fréquentes (en anglais) : <a href="http://forum.voodooprojects.org/index.php/topic,754.0.html">http://forum.voodooprojects.org/index.php/topic,754.0.html</a></p>
 </body>
 </html>
