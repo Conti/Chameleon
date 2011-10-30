@@ -1,0 +1,195 @@
+#!/bin/bash
+
+echo "==============================================="
+echo "Main EFI System Partition Post-Install Script"
+echo "*********************************************"
+echo "-----------------------------------------------"
+echo ""
+
+# Find location of this script in the package installer
+# so we know where all the other scripts are located.
+
+MYLOCATION="${PWD}/${BASH_ARGV[0]}"
+export MYLOCATION="${MYLOCATION%/*}"
+scriptDir=$MYLOCATION
+
+
+#echo "==============================================="
+#echo "Apple Installer Package Variables"
+#echo "*********************************"
+#echo "DEBUG: $ 1 = Full path to the installation package the installer app is processing: " $1
+#echo "DEBUG: $ 2 = Full path to the installation destination: " $2
+#echo "DEBUG: $ 3 = Installation volume (mountpoint) to receive the payload: " $3
+#echo "DEBUG: $ 4 = Root directory for the system: " $4
+#echo "DEBUG: Script Name: " $SCRIPT_NAME
+#echo "DEBUG: Package Path: " $PACKAGE_PATH
+#echo "DEBUG: Installer Temp: " $INSTALLER_TEMP
+#echo "DEBUG: Full path to the temp directory containing the operation executable: " $RECEIPT_PATH
+#echo "-----------------------------------------------"
+#echo ""
+
+# Initialise Script Globals
+
+stage0Loader="boot0"
+stage0LoaderDualBoot="boot0md"
+stage1LoaderHFS="boot1h"
+stage1LoaderFAT="boot1f32"
+stage2Loader="boot"
+
+# If target volume root of current system then replace
+# / with volume name.
+if [ "$3" == "/" ]
+then
+	targetVolumeChosenByUser="/Volumes/"$( ls -1F /Volumes | sed -n 's:@$::p' )
+else
+    targetVolumeChosenByUser="$3"
+fi
+
+targetDeviceChosenByUser=$( df "${targetVolumeChosenByUser}" | sed -n '2p' | awk '{print $1}' )
+
+targetVolume="/Volumes/EFI"
+targetDevice=${targetDeviceChosenByUser%s*}s1
+targetDeviceRaw=${targetDevice/disk/rdisk}
+targetDisk=${targetDevice%s*}
+targetDiskRaw=${targetDisk/disk/rdisk}
+targetSlice=${targetDevice#*disk*s}
+
+targetResources="${targetVolumeChosenByUser}/usr/local/bin/"
+
+echo "==============================================="
+echo "DEBUG: display script variables"
+echo "***************************"
+
+echo "DEBUG: stage0Loader: Disk loader is ${stage0Loader}"
+echo "DEBUG: stage0LoaderDualBoot: Disk loader is ${stage0LoaderDualBoot}"
+echo "DEBUG: stage1LoaderHFS: Partition loader is ${stage1LoaderHFS}"
+echo "DEBUG: stage1LoaderFat: Partition loader is ${stage1LoaderFAT}"
+echo "DEBUG: stage2Loader: Filesystem loader is ${stage2Loader}"
+echo "DEBUG: targetVolumeChosenByUser: Volume is ${targetVolumeChosenByUser}"
+echo "DEBUG: targetDeviceChosenByUser: Volume device is ${targetDeviceChosenByUser}"
+echo "DEBUG: targetVolume: Volume is ${targetVolume}"
+echo "DEBUG: targetDevice: Volume device is ${targetDevice}"
+echo "DEBUG: targetDeviceRaw: Volume raw device is ${targetDeviceRaw}"
+echo "DEBUG: targetDisk: Disk device is ${targetDisk}"
+echo "DEBUG: targetDiskRaw: Disk raw device is ${targetDiskRaw}"
+echo "DEBUG: targetSlice: Volume slice is ${targetSlice}"
+echo "DEBUG: targetResources: Boot Resources is ${targetResources}" 
+echo "-----------------------------------------------"
+echo ""
+
+
+# Write some information to the Install Log
+"$scriptDir"InstallLog.sh "${targetVolumeChosenByUser}" "Running EFI postinstall script"
+"$scriptDir"InstallLog.sh "${targetVolumeChosenByUser}" "Target selected by user = ${targetVolumeChosenByUser} on ${targetDeviceChosenByUser}"
+"$scriptDir"InstallLog.sh "${targetVolumeChosenByUser}" "Target volume = ${targetVolume} on ${targetDevice}"
+
+# Check to see if the selected disk uses a GPT
+
+bootuuid=$( diskutil info "$targetDeviceChosenByUser" | grep Volume\ UUID | awk {'print $3'} )
+partitiontable=$( diskutil list ${targetDeviceChosenByUser%s*} | sed -n '3p' | awk '{print $2}' )
+
+if [ ${partitiontable} = "GUID_partition_scheme" ]; then
+	echo "Confirm this is a GPT partitioned disk."
+
+	# Double check we can see the selected partition and it's of the right type.
+	# If the following script finds anything, it returns 1 to indicate failure.
+
+
+	"$scriptDir"CheckProceed.sh "${targetVolume}" "${targetDeviceChosenByUser}" "${targetVolumeChosenByUser}" "${scriptDir}"
+	returnValue=$?
+	if [ ${returnValue} = 0 ]; then
+		# OK to proceed
+
+
+		# Does a GRUB or Linux loader already exist in the disk's MBR?
+		# The script returns 1 if yes, 0 if no.
+
+		"$scriptDir"CheckGRUBLinuxLoader.sh "${targetDisk}" "${targetVolumeChosenByUser}" "${scriptDir}"
+		returnValue=$?
+		if [ ${returnValue} = 0 ]; then
+			# OK to proceed
+
+
+			# check for a 4-byte Windows disk signature in the disk's MBR.
+			# the following script returns 1 if a Windows disk signature exists, and 0 if not.
+
+			"$scriptDir"CheckWindowsDiskSignature.sh "${targetDisk}" "${targetVolumeChosenByUser}" "${scriptDir}"
+			diskSigCheck=$?
+
+
+			# check for existing bootloaders in the disk's MBR
+			# and find out if we can write the Chameleon boot files.
+			# the following script returns 0 if we can proceed
+			# with writing the boot files, and 1 for not.
+
+			"$scriptDir"CheckDiskMicrocode.sh "${targetDisk}" "${diskSigCheck}" "${targetVolumeChosenByUser}" "${scriptDir}"
+			diskupdate=$?
+
+
+			# check the format of the selected partition.
+			# result should be either hfs or msdos
+			# Should really check to make sure!
+
+			targetFormat=$( fstyp "$targetDevice" )
+			
+
+			# Append a LineBreak to the installer log
+			"$scriptDir"InstallLog.sh "${targetVolumeChosenByUser}" "LineBreak"
+
+			if [ ${diskupdate} = "0" ]; then
+				
+				# Write the stage 0 loader to the MBR
+				"$scriptDir"WriteChameleonStage0.sh "${diskSigCheck}" "${stage0Loader}" "${stage0LoaderDualBoot}" "${targetDisk}" "${targetResources}" "${targetVolumeChosenByUser}" "${scriptDir}"
+			else
+				"$scriptDir"InstallLog.sh "${targetVolumeChosenByUser}" "Stage 0 loader not written to ${targetDisk}."
+			fi
+
+			# Write the stage 1 loader to the partition boot sector
+			"$scriptDir"WriteChameleonStage1.sh "${targetFormat}" "${stage1LoaderHFS}" "${stage1LoaderFAT}" "${targetVolumeChosenByUser}" "${targetDeviceRaw}" "${targetVolumeChosenByUser}" "${scriptDir}"
+
+
+			# Unmount ALL mounted volumes named EFI.
+			# Returns 0=success, 1=fail
+			
+			"$scriptDir"UnMountEFIvolumes.sh "${targetVolumeChosenByUser}" "${scriptDir}"
+			returnValue=$?
+			if [ ${returnValue} = 0 ]; then
+				# OK to proceed
+				
+				# Mount the EFI system partition
+				"$scriptDir"MountESP.sh "${targetDisk}" "${targetVolumeChosenByUser}" "${scriptDir}"
+	
+				# Write the stage 2 loader to the root of the selected partition
+				"$scriptDir"WriteChameleonStage2.sh "${stage2Loader}" "${targetVolume}" "${targetDevice}" "${targetVolumeChosenByUser}" "${scriptDir}"
+
+				# Check for another existing Chameleon installation on the same disk
+				"$scriptDir"CheckPreviousChameleon.sh "${targetDisk}" "${targetDeviceRaw}" "${targetDevice}" "${targetVolumeChosenByUser}" "${scriptDir}"
+			fi	
+
+			# Append a LineBreak to the installer log
+			"$scriptDir"InstallLog.sh "${targetVolumeChosenByUser}" "LineBreak"
+
+			# Set the active partition ONLY if Windows is not installed
+			"$scriptDir"SetActivePartition.sh "${diskSigCheck}" "${targetDiskRaw}" "${targetSlice}" "${targetVolumeChosenByUser}" "${scriptDir}"
+
+		fi
+	fi
+else
+	#echo "ERROR Volume is not on a GPT partitioned disc."
+	"$scriptDir"InstallLog.sh "${targetVolumeChosenByUser}" "ERROR Volume is not on a GPT partitioned disc."
+fi
+
+# Create temporary file on target volume to notify Postinstall
+# script, boot option code, that EFI (ESP) option was chosen
+echo "EFI" >"${targetVolumeChosenByUser}"/.ChameleonEFI 
+
+"$scriptDir"InstallLog.sh "${targetVolumeChosenByUser}" "LineBreak"
+"$scriptDir"InstallLog.sh "${targetVolumeChosenByUser}" "EFI script complete"
+
+echo "==============================================="
+echo "END - Main EFI System Partition Post-Install Script"
+echo "*********************************************"
+echo "-----------------------------------------------"
+echo ""
+
+exit 0

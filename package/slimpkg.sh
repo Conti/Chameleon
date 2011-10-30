@@ -3,10 +3,9 @@
 # $1 Path to store built package
 
 packagesidentity="org.chameleon"
-
 packagename="Chameleon"
-
 pkgroot="${0%/*}"
+chamTemp="usr/local/chamTemp"
 
 COL_BLACK="\x1b[30;01m"
 COL_RED="\x1b[31;01m"
@@ -18,7 +17,6 @@ COL_WHITE="\x1b[37;01m"
 COL_BLUE="\x1b[34;01m"
 COL_RESET="\x1b[39;49;00m"
 
-#version=$( grep I386BOOT_CHAMELEONVERSION vers.h | awk '{ print $3 }' | tr -d '\"' )
 version=$( cat version )
 stage=${version##*-}
 revision=$( grep I386BOOT_CHAMELEONREVISION vers.h | awk '{ print $3 }' | tr -d '\"' )
@@ -27,11 +25,9 @@ timestamp=$( date -j -f "%Y-%m-%d %H:%M:%S" "${builddate}" "+%s" )
 
 # =================
 
-develop=" Crazor, Dense, fassl, fxtentacle, iNDi, JrCs, Kabyl, kaitek, mackerintel, mercurysquad, munky, Slice, meklort, mozodojo, rekursor, Turbo, cparm, valv & zef "
-
-credits=" andyvand, asereBLN, Azimut, bumby, cosmo1t, dfe, Galaxy, kalyway, Krazubu, MasterChief, netkas, sckevyn, smith@@, THeKiNG, DutchHockeyPro & Andy"
-
-pkgdev=" blackosx, ErmaC , scrax"
+develop=$(awk "NR==6{print;exit}" ${pkgroot}/../CREDITS)
+credits=$(awk "NR==10{print;exit}" ${pkgroot}/../CREDITS)
+pkgdev=$(awk "NR==14{print;exit}" ${pkgroot}/../CREDITS)
 
 # =================
 
@@ -50,179 +46,197 @@ main ()
 
 rm -R -f "${1}"
 echo ""	
-echo -e $COL_BLACK"	---------------------"$COL_RESET
-echo -e $COL_BLACK"	Building Slim Package"$COL_RESET
-echo -e $COL_BLACK"	---------------------"$COL_RESET
+echo -e $COL_CYAN"	---------------------------------------"$COL_RESET
+echo -e $COL_CYAN"	Building $packagename Slim Install Package"$COL_RESET
+echo -e $COL_CYAN"	---------------------------------------"$COL_RESET
 echo ""
 
 outline[$((outlinecount++))]="${indent[$xmlindent]}<choices-outline>"
 
+# build pre install package
+	echo "================= Preinstall ================="
+	((xmlindent++))
+	packagesidentity="org.chameleon"
+	mkdir -p ${1}/Pre/Root
+	mkdir -p ${1}/Pre/Scripts
+	ditto --noextattr --noqtn ${1%/*/*}/revision ${1}/Pre/Scripts/Resources/revision
+	ditto --noextattr --noqtn ${1%/*/*}/version ${1}/Pre/Scripts/Resources/version
+	cp -f ${pkgroot}/Scripts/Main/preinstall ${1}/Pre/Scripts
+	cp -f ${pkgroot}/Scripts/Sub/InstallLog.sh ${1}/Pre/Scripts
+	echo "	[BUILD] Pre "
+	buildpackage "${1}/Pre" "/" "" "start_visible=\"false\" start_selected=\"true\"" >/dev/null 2>&1
+# End build pre install package
+
 # build core package
 	echo "================= Core ================="
-	((xmlindent++))
-	packagesidentity="org.chameleon.core"
-	mkdir -p ${1}/Core/Root/usr/sbin
+	packagesidentity="org.chameleon"
 	mkdir -p ${1}/Core/Root/usr/local/bin
 	mkdir -p ${1}/Core/Root/usr/standalone/i386
-#    if [ "$(ls -A "${1%/*}/i386/modules")" ]; then
-#        echo "Modules found."
-#        mkdir -p ${1}/Core/Root/usr/standalone/i386/modules
-#        cp -R ${1%/*}/i386/modules ${1}/Core/Root/usr/standalone/i386
-#    else
-#        echo "No found modules into dir module"
-#    fi
 	ditto --noextattr --noqtn ${1%/*}/i386/boot ${1}/Core/Root/usr/standalone/i386
 	ditto --noextattr --noqtn ${1%/*}/i386/boot0 ${1}/Core/Root/usr/standalone/i386
 	ditto --noextattr --noqtn ${1%/*}/i386/boot0md ${1}/Core/Root/usr/standalone/i386
-#	ditto --noextattr --noqtn ${1%/*}/i386/boot0hf ${1}/Core/Root/usr/standalone/i386
 	ditto --noextattr --noqtn ${1%/*}/i386/boot1f32 ${1}/Core/Root/usr/standalone/i386
 	ditto --noextattr --noqtn ${1%/*}/i386/boot1h ${1}/Core/Root/usr/standalone/i386
 	ditto --noextattr --noqtn ${1%/*}/i386/boot1he ${1}/Core/Root/usr/standalone/i386
 	ditto --noextattr --noqtn ${1%/*}/i386/boot1hp ${1}/Core/Root/usr/standalone/i386
 	ditto --noextattr --noqtn ${1%/*}/i386/cdboot ${1}/Core/Root/usr/standalone/i386
 	ditto --noextattr --noqtn ${1%/*}/i386/chain0 ${1}/Core/Root/usr/standalone/i386
-# fixperms "${1}/Core/Root/"
-	ditto --noextattr --noqtn ${1%/*}/i386/fdisk440 ${1}/Core/Root/usr/sbin
-	ditto --noextattr --noqtn ${1%/*}/i386/bdmesg ${1}/Core/Root/usr/sbin
+	ditto --noextattr --noqtn ${1%/*}/i386/fdisk440 ${1}/Core/Root/usr/local/bin
+	ditto --noextattr --noqtn ${1%/*}/i386/bdmesg ${1}/Core/Root/usr/local/bin
 	local coresize=$( du -hkc "${1}/Core/Root" | tail -n1 | awk {'print $1'} )
 	echo "	[BUILD] i386 "
 	buildpackage "${1}/Core" "/" "0" "start_visible=\"false\" start_selected=\"true\"" >/dev/null 2>&1
+# End build core package
+
+# build install type
+	echo "================= Chameleon ================="
+	outline[$((outlinecount++))]="${indent[$xmlindent]}<line choice=\"InstallType\">"
+	choices[$((choicescount++))]="\t<choice\n\t\tid=\"InstallType\"\n\t\ttitle=\"InstallType_title\"\n\t\tdescription=\"InstallType_description\">\n\t</choice>\n"
+	((xmlindent++))
+	packagesidentity="org.chameleon.type"
+	
+	# build new install package 
+		mkdir -p ${1}/New/Root
+		echo "" > "${1}/New/Root/install_type_new"
+		echo "	[BUILD] New "
+        buildpackage "${1}/New" "/$chamTemp" "" "start_enabled=\"true\" selected=\"exclusive(choices['Upgrade'])\"" >/dev/null 2>&1
+	# End build new install package 
+
+	# build upgrade package 
+		mkdir -p ${1}/Upgrade/Root
+		echo "" > "${1}/Upgrade/Root/install_type_upgrade"
+		echo "	[BUILD] Upgrade "
+		buildpackage "${1}/Upgrade" "/$chamTemp" "" "start_selected=\"false\" selected=\"exclusive(choices['New'])\"" >/dev/null 2>&1
+	# End build upgrade package
+
+   ((xmlindent--))
+   outline[$((outlinecount++))]="${indent[$xmlindent]}</line>"
+# End build install type	
 
 # build Chameleon package
 	echo "================= Chameleon ================="
-	outline[$((outlinecount++))]="${indent[$xmlindent]}\t<line choice=\"Chameleon\">"
-	choices[$((choicescount++))]="<choice\n\tid=\"Chameleon\"\n\ttitle=\"Chameleon_title\"\n\tdescription=\"Chameleon_description\"\n>\n</choice>\n"
-
+	outline[$((outlinecount++))]="${indent[$xmlindent]}<line choice=\"Chameleon\">"
+	choices[$((choicescount++))]="\t<choice\n\t\tid=\"Chameleon\"\n\t\ttitle=\"Chameleon_title\"\n\t\tdescription=\"Chameleon_description\">\n\t</choice>\n"
+	((xmlindent++))
+	
 	# build standard package 
 		mkdir -p ${1}/Standard/Root
-		mkdir -p ${1}/Standard/Scripts/Tools
-		cp -f ${pkgroot}/Scripts/Standard/* ${1}/Standard/Scripts
-		# ditto --arch i386 `which SetFile` ${1}/Standard/Scripts/Tools/SetFile
+		mkdir -p ${1}/Standard/Scripts/Resources
+		cp -f ${pkgroot}/Scripts/Main/Standardpostinstall ${1}/Standard/Scripts/postinstall
+		cp -f ${pkgroot}/Scripts/Sub/* ${1}/Standard/Scripts
+		ditto --arch i386 `which SetFile` ${1}/Standard/Scripts/Resources/SetFile
+		ditto --noextattr --noqtn ${1%/*/*}/revision ${1}/Standard/Scripts/Resources/revision
+		ditto --noextattr --noqtn ${1%/*/*}/version ${1}/Standard/Scripts/Resources/version
 		echo "	[BUILD] Standard "
-		buildpackage "${1}/Standard" "/" "${coresize}" "start_enabled=\"true\" start_selected=\"upgrade_allowed()\" selected=\"exclusive(choices['EFI']) &amp;&amp; exclusive(choices['noboot'])\"" >/dev/null 2>&1
+        buildpackage "${1}/Standard" "/" "${coresize}" "start_enabled=\"true\" selected=\"exclusive(choices['EFI']) &amp;&amp; exclusive(choices['noboot'])\"" >/dev/null 2>&1
 	# End build standard package 
 
 	# build efi package 
 		mkdir -p ${1}/EFI/Root
-		mkdir -p ${1}/EFI/Scripts/Tools
-		cp -f ${pkgroot}/Scripts/EFI/* ${1}/EFI/Scripts
-		# ditto --arch i386 `which SetFile` ${1}/EFI/Scripts/Tools/SetFile
+		mkdir -p ${1}/EFI/Scripts/Resources
+		cp -f ${pkgroot}/Scripts/Main/ESPpostinstall ${1}/EFI/Scripts/postinstall
+		cp -f ${pkgroot}/Scripts/Sub/* ${1}/EFI/Scripts
+		ditto --arch i386 `which SetFile` ${1}/EFI/Scripts/Resources/SetFile
+		ditto --noextattr --noqtn ${1%/*/*}/revision ${1}/EFI/Scripts/Resources/revision
+		ditto --noextattr --noqtn ${1%/*/*}/version ${1}/EFI/Scripts/Resources/version
 		echo "	[BUILD] EFI "
-		buildpackage "${1}/EFI" "/" "${coresize}" "start_visible=\"systemHasGPT()\" start_selected=\"false\" selected=\"exclusive(choices['Standard']) &amp;&amp; exclusive(choices['noboot'])\"" >/dev/null 2>&1
+		buildpackage "${1}/EFI" "/" "${coresize}" "start_visible=\"systemHasGPT()\" selected=\"exclusive(choices['Standard']) &amp;&amp; exclusive(choices['noboot'])\"" >/dev/null 2>&1
 	# End build efi package
 
 	# build reset choice package 
 		mkdir -p ${1}/noboot/Root
 		echo "	[BUILD] Reset choice "
-		buildpackage "${1}/noboot" "/tmpcham" "" "start_visible=\"true\" start_selected=\"false\" selected=\"exclusive(choices['Standard']) &amp;&amp; exclusive(choices['EFI'])\"" >/dev/null 2>&1
+		buildpackage "${1}/noboot" "/$chamTemp" "" "selected=\"exclusive(choices['Standard']) &amp;&amp; exclusive(choices['EFI'])\"" >/dev/null 2>&1
 	# End build reset choice package 
 
-	# build Modules package
-        echo "================= Modules ================="
-                ###############################
-                # AMDGraphicsEnabler.dylib    #
-                # ATiGraphicsEnabler.dylib    #
-                # IntelGraphicsEnabler.dylib  #
-                # klibc.dylib                 #
-                # NVIDIAGraphicsEnabler.dylib #
-                # Resolution.dylib            #
-                # uClibcxx.dylib              #
-                ###############################
-        if [ "$(ls -A "${1%/*}/i386/modules")" ]; then
-        {
-            outline[$((outlinecount++))]="${indent[$xmlindent]}\t<line choice=\"Module\">"
-            choices[$((choicescount++))]="<choice\n\tid=\"Module\"\n\ttitle=\"Module_title\"\n\tdescription=\"Module_description\"\n>\n</choice>\n"
-            ((xmlindent++))
-            packagesidentity="org.chameleon.module"
-# -
-            if [ -e ${1%/*}/i386/modules/AMDGraphicsEnabler.dylib ]; then
-            {
-                mkdir -p ${1}/AMDGraphicsEnabler/Root
-                ditto --noextattr --noqtn ${1%/*}/i386/modules/AMDGraphicsEnabler.dylib ${1}/AMDGraphicsEnabler/Root
-                echo "	[BUILD] AMDGraphicsEnabler "
-                buildpackage "${1}/AMDGraphicsEnabler" "/Extra/modules" "" "start_selected=\"false\"" >/dev/null 2>&1
-            }
-            fi
-# -
-            if [ -e ${1%/*}/i386/modules/ATiGraphicsEnabler.dylib ]; then
-            {
-                mkdir -p ${1}/ATiGraphicsEnabler/Root
-                ditto --noextattr --noqtn ${1%/*}/i386/modules/ATiGraphicsEnabler.dylib ${1}/ATiGraphicsEnabler/Root
-                echo "	[BUILD] ATiGraphicsEnabler "
-                buildpackage "${1}/ATiGraphicsEnabler" "/Extra/modules" "" "start_selected=\"false\"" >/dev/null 2>&1
-            }
-            fi
-# -
-            if [ -e ${1%/*}/i386/modules/IntelGraphicsEnabler.dylib ]; then
-            {
-                mkdir -p ${1}/IntelGraphicsEnabler/Root
-                ditto --noextattr --noqtn ${1%/*}/i386/modules/IntelGraphicsEnabler.dylib ${1}/IntelGraphicsEnabler/Root
-                echo "	[BUILD] IntelGraphicsEnabler "
-                buildpackage "${1}/IntelGraphicsEnabler" "/Extra/modules" "" "start_selected=\"false\"" >/dev/null 2>&1
-            }
-            fi
-# -
-            if [ -e ${1%/*}/i386/modules/klibc.dylib ]; then
-            {
-                mkdir -p ${1}/klibc/Root
-                ditto --noextattr --noqtn ${1%/*}/i386/modules/klibc.dylib ${1}/klibc/Root
-                echo "	[BUILD] klibc "
-                buildpackage "${1}/klibc" "/Extra/modules" "" "start_selected=\"false\"" >/dev/null 2>&1
-            }
-            fi
-# -
-            if [ -e ${1%/*}/i386/modules/NVIDIAGraphicsEnabler.dylib ]; then
-            {
-                mkdir -p ${1}/NVIDIAGraphicsEnabler/Root
-                ditto --noextattr --noqtn ${1%/*}/i386/modules/NVIDIAGraphicsEnabler.dylib ${1}/NVIDIAGraphicsEnabler/Root
-                echo "	[BUILD] NVIDIAGraphicsEnabler "
-                buildpackage "${1}/NVIDIAGraphicsEnabler" "/Extra/modules" "" "start_selected=\"false\"" >/dev/null 2>&1
-            }
-            fi
-# -
-            if [ -e ${1%/*}/i386/modules/Resolution.dylib ]; then
-            {
-                mkdir -p ${1}/AutoReso/Root
-                ditto --noextattr --noqtn ${1%/*}/i386/modules/Resolution.dylib ${1}/AutoReso/Root
-                echo "	[BUILD] Resolution "
-                buildpackage "${1}/AutoReso" "/Extra/modules" "" "start_selected=\"false\"" >/dev/null 2>&1
-            }
-            fi
-# -
-            if [ -e ${1%/*}/i386/modules/uClibcxx.dylib ]; then
-            {
-                mkdir -p ${1}/uClibc/Root
-                ditto --noextattr --noqtn ${1%/*}/i386/modules/uClibcxx.dylib ${1}/uClibc/Root
-                ditto --noextattr --noqtn ${1%/*}/i386/modules/klibc.dylib ${1}/uClibc/Root
-                echo "	[BUILD] uClibc++ "
-                buildpackage "${1}/uClibc" "/Extra/modules" "" "start_selected=\"false\"" >/dev/null 2>&1
-            }
-            fi
-            ((xmlindent--))
-            outline[$((outlinecount++))]="${indent[$xmlindent]}\t</line>"
-        }
-        else
-        {
-            echo "      -= no modules to include =-"
-        }
-        fi
-	# End build Modules packages
     ((xmlindent--))
-    outline[$((outlinecount++))]="${indent[$xmlindent]}\t</line>"
+    outline[$((outlinecount++))]="${indent[$xmlindent]}</line>"
 # End build Chameleon package
+
+# build Modules package
+	echo "================= Modules ================="
+	###############################
+	# Supported Modules           #
+	###############################
+	# klibc.dylib                 #
+	# Resolution.dylib            #
+	# uClibcxx.dylib              #
+	# Keylayout.dylib             #
+	###############################
+	if [ "$(ls -A "${1%/*}/i386/modules")" ]; then
+	{
+		outline[$((outlinecount++))]="${indent[$xmlindent]}<line choice=\"Module\">"
+		choices[$((choicescount++))]="\t<choice\n\t\tid=\"Module\"\n\t\ttitle=\"Module_title\"\n\t\tdescription=\"Module_description\">\n\t</choice>\n"
+		((xmlindent++))
+		packagesidentity="org.chameleon.modules"
+# -
+		if [ -e ${1%/*}/i386/modules/klibc.dylib ]; then
+		{
+			mkdir -p ${1}/klibc/Root
+			ditto --noextattr --noqtn ${1%/*}/i386/modules/klibc.dylib ${1}/klibc/Root
+			echo "	[BUILD] klibc "
+			buildpackage "${1}/klibc" "/$chamTemp/Extra/modules" "" "start_selected=\"false\"" >/dev/null 2>&1
+		}
+		fi
+# -
+		if [ -e ${1%/*}/i386/modules/Resolution.dylib ]; then
+		{
+			mkdir -p ${1}/AutoReso/Root
+			ditto --noextattr --noqtn ${1%/*}/i386/modules/Resolution.dylib ${1}/AutoReso/Root
+			echo "	[BUILD] Resolution "
+			buildpackage "${1}/AutoReso" "/$chamTemp/Extra/modules" "" "start_selected=\"false\"" >/dev/null 2>&1
+		}
+		fi
+# -
+		if [ -e ${1%/*}/i386/modules/uClibcxx.dylib ]; then
+		{
+			mkdir -p ${1}/uClibc/Root
+			ditto --noextattr --noqtn ${1%/*}/i386/modules/uClibcxx.dylib ${1}/uClibc/Root
+			ditto --noextattr --noqtn ${1%/*}/i386/modules/klibc.dylib ${1}/uClibc/Root
+			echo "	[BUILD] uClibc++ "
+			buildpackage "${1}/uClibc" "/$chamTemp/Extra/modules" "" "start_selected=\"false\"" >/dev/null 2>&1
+		}
+		fi
+# -
+		if [ -e ${1%/*}/i386/modules/Keylayout.dylib ]; then
+		{
+			mkdir -p ${1}/Keylayout/Root
+			ditto --noextattr --noqtn ${1%/*}/i386/modules/Keylayout.dylib ${1}/Keylayout/Root
+			echo "	[BUILD] Keylayout "
+			buildpackage "${1}/Keylayout" "/$chamTemp/Extra/modules" "" "start_selected=\"false\"" >/dev/null 2>&1
+		}
+		fi
+
+		((xmlindent--))
+		outline[$((outlinecount++))]="${indent[$xmlindent]}</line>"
+	}
+	else
+	{
+		echo "      -= no modules to include =-"
+	}
+	fi
+# End build Modules packages
 
 # build post install package
 	echo "================= Post ================="
+	packagesidentity="org.chameleon"
 	mkdir -p ${1}/Post/Root
 	mkdir -p ${1}/Post/Scripts
-	cp -f ${pkgroot}/Scripts/Post/* ${1}/Post/Scripts
+	cp -f ${pkgroot}/Scripts/Main/postinstall ${1}/Post/Scripts
+	cp -f ${pkgroot}/Scripts/Sub/InstallLog.sh ${1}/Post/Scripts
+	cp -f ${pkgroot}/Scripts/Sub/UnMountEFIvolumes.sh ${1}/Post/Scripts
+	ditto --noextattr --noqtn ${1%/*/*}/revision ${1}/Post/Scripts/Resources/revision
+	ditto --noextattr --noqtn ${1%/*/*}/version ${1}/Post/Scripts/Resources/version
 	echo "	[BUILD] Post "
 	buildpackage "${1}/Post" "/" "" "start_visible=\"false\" start_selected=\"true\"" >/dev/null 2>&1
-	outline[$((outlinecount++))]="${indent[$xmlindent]}</choices-outline>"
+# End build post install package
+
+#((xmlindent--))
+outline[$((outlinecount++))]="${indent[$xmlindent]}</choices-outline>"
 
 # build meta package
 
-	makedistribution "${1}" "${2}" "${3}" "${4}" "${5}"
+	makedistribution "${1}" "${2}" "${3}" "${4}" #"${5}"
 
 # clean up 
 
@@ -296,13 +310,12 @@ if [ -d "${1}/Root" ] && [ "${1}/Scripts" ]; then
 
 	popd >/dev/null
 
-	outline[$((outlinecount++))]="${indent[$xmlindent]}\t<line choice=\"${packagename// /}\"/>"
+	outline[$((outlinecount++))]="${indent[$xmlindent]}<line choice=\"${packagename// /}\"/>"
 
 	if [ "${4}" ]; then
-		local choiceoptions="${indent[$xmlindent]}${4}\n"	
+		local choiceoptions="\t\t${4}"
 	fi
-	choices[$((choicescount++))]="<choice\n\tid=\"${packagename// /}\"\n\ttitle=\"${packagename}_title\"\n\tdescription=\"${packagename}_description\"\n${choiceoptions}>\n\t<pkg-ref id=\"${identifier}\" installKBytes='${installedsize}' version='${version}.0.0.${timestamp}' auth='root'>#${packagename// /}.pkg</pkg-ref>\n</choice>\n"
-
+	choices[$((choicescount++))]="\t<choice\n\t\tid=\"${packagename// /}\"\n\t\ttitle=\"${packagename}_title\"\n\t\tdescription=\"${packagename}_description\"\n${choiceoptions}>\n\t\t<pkg-ref id=\"${identifier}\" installKBytes='${installedsize}' version='${version}.0.0.${timestamp}' >#${packagename// /}.pkg</pkg-ref>\n\t</choice>\n"	
 	rm -R -f "${1}"
 fi
 }
@@ -350,19 +363,34 @@ makedistribution ()
 
 	find "${1}/${packagename}" -name '.DS_Store' -delete
 	pushd "${1}/${packagename}" >/dev/null
-	xar -c -f "${1%/*}/$packagename.pkg" --compression none .
+	xar -c -f "${1%/*}/${packagename// /}-${version}-r${revision}.pkg" --compression none .
 	popd >/dev/null
 
 #   Here is the place for assign a Icon to the pkg
-ditto -xk "${pkgroot}/Icons/pkg.zip" "${pkgroot}/Icons/"
-DeRez -only icns "${pkgroot}/Icons/Icons/pkg.icns" > tempicns.rsrc
-Rez -append tempicns.rsrc -o "${1%/*}/$packagename.pkg"
-SetFile -a C "${1%/*}/$packagename.pkg"
-rm -f tempicns.rsrc
-rm -rf "${pkgroot}/Icons/Icons"
+    ditto -xk "${pkgroot}/Icons/pkg.zip" "${pkgroot}/Icons/"
+    DeRez -only icns "${pkgroot}/Icons/Icons/pkg.icns" > tempicns.rsrc
+    Rez -append tempicns.rsrc -o "${1%/*}/$packagename-${version}-r$revision.pkg"
+    SetFile -a C "${1%/*}/$packagename-${version}-r$revision.pkg"
+    rm -f tempicns.rsrc
+    rm -rf "${pkgroot}/Icons/Icons"
 # End
+
+	echo ""	
+
+	echo -e $COL_GREEN"	--------------------------"$COL_RESET
+	echo -e $COL_GREEN"	Building process complete!"$COL_RESET
+	echo -e $COL_GREEN"	--------------------------"$COL_RESET
+	echo ""	
+	echo -e $COL_GREEN"	Build info."
+	echo -e $COL_GREEN"	==========="
+	echo -e $COL_BLUE"	Package name:	"$COL_RESET"$packagename-${version}-r$revision.pkg"
+	echo -e $COL_BLUE"	MD5:		"$COL_RESET"$md5"
+	echo -e $COL_BLUE"	Version:	"$COL_RESET"$version"
+	echo -e $COL_BLUE"	Stage:		"$COL_RESET"$stage"
+	echo -e $COL_BLUE"	Date/Time:	"$COL_RESET"$builddate"
+	echo ""
 
 }
 
-main "${1}" "${2}" "${3}" "${4}" "${5}"
+main "${1}" "${2}" "${3}" "${4}" #"${5}"
 

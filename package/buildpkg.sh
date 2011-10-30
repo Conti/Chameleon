@@ -3,10 +3,9 @@
 # $1 Path to store built package
 
 packagesidentity="org.chameleon"
-
 packagename="Chameleon"
-
 pkgroot="${0%/*}"
+chamTemp="usr/local/chamTemp"
 
 COL_BLACK="\x1b[30;01m"
 COL_RED="\x1b[31;01m"
@@ -18,7 +17,6 @@ COL_WHITE="\x1b[37;01m"
 COL_BLUE="\x1b[34;01m"
 COL_RESET="\x1b[39;49;00m"
 
-#version=$( grep I386BOOT_CHAMELEONVERSION vers.h | awk '{ print $3 }' | tr -d '\"' )
 version=$( cat version )
 stage=${version##*-}
 revision=$( grep I386BOOT_CHAMELEONREVISION vers.h | awk '{ print $3 }' | tr -d '\"' )
@@ -30,6 +28,7 @@ timestamp=$( date -j -f "%Y-%m-%d %H:%M:%S" "${builddate}" "+%s" )
 develop=$(awk "NR==6{print;exit}" ${pkgroot}/../CREDITS)
 credits=$(awk "NR==10{print;exit}" ${pkgroot}/../CREDITS)
 pkgdev=$(awk "NR==14{print;exit}" ${pkgroot}/../CREDITS)
+
 # =================
 
 distributioncount=0
@@ -54,308 +53,294 @@ echo ""
 
 outline[$((outlinecount++))]="${indent[$xmlindent]}<choices-outline>"
 
+# build pre install package
+	echo "================= Preinstall ================="
+	((xmlindent++))
+	packagesidentity="org.chameleon"
+	mkdir -p ${1}/Pre/Root
+	mkdir -p ${1}/Pre/Scripts
+	ditto --noextattr --noqtn ${1%/*/*}/revision ${1}/Pre/Scripts/Resources/revision
+	ditto --noextattr --noqtn ${1%/*/*}/version ${1}/Pre/Scripts/Resources/version
+	cp -f ${pkgroot}/Scripts/Main/preinstall ${1}/Pre/Scripts
+	cp -f ${pkgroot}/Scripts/Sub/InstallLog.sh ${1}/Pre/Scripts
+	echo "	[BUILD] Pre "
+	buildpackage "${1}/Pre" "/" "" "start_visible=\"false\" start_selected=\"true\"" >/dev/null 2>&1
+# End build pre install package
+
 # build core package
 	echo "================= Core ================="
-	((xmlindent++))
-	packagesidentity="org.chameleon.core"
-	mkdir -p ${1}/Core/Root/usr/sbin
+	packagesidentity="org.chameleon"
 	mkdir -p ${1}/Core/Root/usr/local/bin
 	mkdir -p ${1}/Core/Root/usr/standalone/i386
 	ditto --noextattr --noqtn ${1%/*}/i386/boot ${1}/Core/Root/usr/standalone/i386
 	ditto --noextattr --noqtn ${1%/*}/i386/boot0 ${1}/Core/Root/usr/standalone/i386
 	ditto --noextattr --noqtn ${1%/*}/i386/boot0md ${1}/Core/Root/usr/standalone/i386
-#	ditto --noextattr --noqtn ${1%/*}/i386/boot0hf ${1}/Core/Root/usr/standalone/i386
 	ditto --noextattr --noqtn ${1%/*}/i386/boot1f32 ${1}/Core/Root/usr/standalone/i386
 	ditto --noextattr --noqtn ${1%/*}/i386/boot1h ${1}/Core/Root/usr/standalone/i386
 	ditto --noextattr --noqtn ${1%/*}/i386/boot1he ${1}/Core/Root/usr/standalone/i386
 	ditto --noextattr --noqtn ${1%/*}/i386/boot1hp ${1}/Core/Root/usr/standalone/i386
 	ditto --noextattr --noqtn ${1%/*}/i386/cdboot ${1}/Core/Root/usr/standalone/i386
 	ditto --noextattr --noqtn ${1%/*}/i386/chain0 ${1}/Core/Root/usr/standalone/i386
-# fixperms "${1}/Core/Root/"
-	ditto --noextattr --noqtn ${1%/*}/i386/fdisk440 ${1}/Core/Root/usr/sbin
-	ditto --noextattr --noqtn ${1%/*}/i386/bdmesg ${1}/Core/Root/usr/sbin
+	ditto --noextattr --noqtn ${1%/*}/i386/fdisk440 ${1}/Core/Root/usr/local/bin
+	ditto --noextattr --noqtn ${1%/*}/i386/bdmesg ${1}/Core/Root/usr/local/bin
 	local coresize=$( du -hkc "${1}/Core/Root" | tail -n1 | awk {'print $1'} )
 	echo "	[BUILD] i386 "
 	buildpackage "${1}/Core" "/" "0" "start_visible=\"false\" start_selected=\"true\"" >/dev/null 2>&1
+# End build core package
+	
+# build install type
+	echo "================= Chameleon ================="
+	outline[$((outlinecount++))]="${indent[$xmlindent]}<line choice=\"InstallType\">"
+	choices[$((choicescount++))]="\t<choice\n\t\tid=\"InstallType\"\n\t\ttitle=\"InstallType_title\"\n\t\tdescription=\"InstallType_description\">\n\t</choice>\n"
+	((xmlindent++))
+	packagesidentity="org.chameleon.type"
+	
+	# build new install package 
+		mkdir -p ${1}/New/Root
+		echo "" > "${1}/New/Root/install_type_new"
+		echo "	[BUILD] New "
+        buildpackage "${1}/New" "/$chamTemp" "" "start_enabled=\"true\" selected=\"exclusive(choices['Upgrade'])\"" >/dev/null 2>&1
+	# End build new install package 
+
+	# build upgrade package 
+		mkdir -p ${1}/Upgrade/Root
+		echo "" > "${1}/Upgrade/Root/install_type_upgrade"
+		echo "	[BUILD] Upgrade "
+		buildpackage "${1}/Upgrade" "/$chamTemp" "" "start_selected=\"false\" selected=\"exclusive(choices['New'])\"" >/dev/null 2>&1
+	# End build upgrade package
+
+   ((xmlindent--))
+   outline[$((outlinecount++))]="${indent[$xmlindent]}</line>"
+# End build install type	
 
 # build Chameleon package
 	echo "================= Chameleon ================="
-	outline[$((outlinecount++))]="${indent[$xmlindent]}\t<line choice=\"Chameleon\">"
-	choices[$((choicescount++))]="<choice\n\tid=\"Chameleon\"\n\ttitle=\"Chameleon_title\"\n\tdescription=\"Chameleon_description\"\n>\n</choice>\n"
-
+	outline[$((outlinecount++))]="${indent[$xmlindent]}<line choice=\"Chameleon\">"
+	choices[$((choicescount++))]="\t<choice\n\t\tid=\"Chameleon\"\n\t\ttitle=\"Chameleon_title\"\n\t\tdescription=\"Chameleon_description\">\n\t</choice>\n"
+	((xmlindent++))
+	
 	# build standard package 
 		mkdir -p ${1}/Standard/Root
-		mkdir -p ${1}/Standard/Scripts/Tools
-		cp -f ${pkgroot}/Scripts/Standard/* ${1}/Standard/Scripts
-		ditto --arch i386 `which SetFile` ${1}/Standard/Scripts/Tools/SetFile
-		ditto --noextattr --noqtn ${1%/*}/i386/fdisk440 ${1}/Standard/Scripts/Tools
+		mkdir -p ${1}/Standard/Scripts/Resources
+		cp -f ${pkgroot}/Scripts/Main/Standardpostinstall ${1}/Standard/Scripts/postinstall
+		cp -f ${pkgroot}/Scripts/Sub/* ${1}/Standard/Scripts
+		ditto --arch i386 `which SetFile` ${1}/Standard/Scripts/Resources/SetFile
 		echo "	[BUILD] Standard "
-		buildpackage "${1}/Standard" "/" "${coresize}" "start_enabled=\"true\" start_selected=\"upgrade_allowed()\" selected=\"exclusive(choices['EFI']) &amp;&amp; exclusive(choices['noboot'])\"" >/dev/null 2>&1
+        buildpackage "${1}/Standard" "/" "${coresize}" "start_enabled=\"true\" selected=\"exclusive(choices['EFI']) &amp;&amp; exclusive(choices['noboot'])\"" >/dev/null 2>&1
 	# End build standard package 
 
 	# build efi package 
 		mkdir -p ${1}/EFI/Root
-		mkdir -p ${1}/EFI/Scripts/Tools
-		cp -f ${pkgroot}/Scripts/EFI/* ${1}/EFI/Scripts
-		ditto --arch i386 `which SetFile` ${1}/EFI/Scripts/Tools/SetFile
-		ditto --noextattr --noqtn ${1%/*}/i386/fdisk440 ${1}/Standard/Scripts/Tools
+		mkdir -p ${1}/EFI/Scripts/Resources
+		cp -f ${pkgroot}/Scripts/Main/ESPpostinstall ${1}/EFI/Scripts/postinstall
+		cp -f ${pkgroot}/Scripts/Sub/* ${1}/EFI/Scripts
+		ditto --arch i386 `which SetFile` ${1}/EFI/Scripts/Resources/SetFile
 		echo "	[BUILD] EFI "
-		buildpackage "${1}/EFI" "/" "${coresize}" "start_visible=\"systemHasGPT()\" start_selected=\"false\" selected=\"exclusive(choices['Standard']) &amp;&amp; exclusive(choices['noboot'])\"" >/dev/null 2>&1
+		buildpackage "${1}/EFI" "/" "${coresize}" "start_visible=\"systemHasGPT()\" selected=\"exclusive(choices['Standard']) &amp;&amp; exclusive(choices['noboot'])\"" >/dev/null 2>&1
 	# End build efi package
 
 	# build reset choice package 
 		mkdir -p ${1}/noboot/Root
 		echo "	[BUILD] Reset choice "
-		buildpackage "${1}/noboot" "/tmpcham" "" "start_visible=\"true\" start_selected=\"false\" selected=\"exclusive(choices['Standard']) &amp;&amp; exclusive(choices['EFI'])\"" >/dev/null 2>&1
+		buildpackage "${1}/noboot" "/$chamTemp" "" "selected=\"exclusive(choices['Standard']) &amp;&amp; exclusive(choices['EFI'])\"" >/dev/null 2>&1
 	# End build reset choice package 
 
-	# build Modules package
-        echo "================= Modules ================="
-                ###############################
-                # Supported Modules           #
-                ###############################
-                # klibc.dylib                 #
-                # Resolution.dylib            #
-                # uClibcxx.dylib              #
-                # Keylayout.dylib             #
-                ###############################
-        if [ "$(ls -A "${1%/*}/i386/modules")" ]; then
-        {
-            outline[$((outlinecount++))]="${indent[$xmlindent]}\t<line choice=\"Module\">"
-            choices[$((choicescount++))]="<choice\n\tid=\"Module\"\n\ttitle=\"Module_title\"\n\tdescription=\"Module_description\"\n>\n</choice>\n"
-            ((xmlindent++))
-            packagesidentity="org.chameleon.modules"
-# -
-            if [ -e ${1%/*}/i386/modules/klibc.dylib ]; then
-            {
-                mkdir -p ${1}/klibc/Root
-                ditto --noextattr --noqtn ${1%/*}/i386/modules/klibc.dylib ${1}/klibc/Root
-                echo "	[BUILD] klibc "
-                buildpackage "${1}/klibc" "/Extra/modules" "" "start_selected=\"true\"" >/dev/null 2>&1
-            }
-            fi
-# -
-            if [ -e ${1%/*}/i386/modules/Resolution.dylib ]; then
-            {
-                mkdir -p ${1}/AutoReso/Root
-                ditto --noextattr --noqtn ${1%/*}/i386/modules/Resolution.dylib ${1}/AutoReso/Root
-                echo "	[BUILD] Resolution "
-                buildpackage "${1}/AutoReso" "/Extra/modules" "" "start_selected=\"false\"" >/dev/null 2>&1
-            }
-            fi
-# -
-            if [ -e ${1%/*}/i386/modules/Keylayout.dylib ]; then
-            {
-				mkdir -p ${1}/Keylayout/Root/Extra/{modules,Keymaps}
-				mkdir -p ${1}/Keylayout/Root/usr/bin
-				layout_src_dir="${1%/sym/*}/i386/modules/Keylayout/layouts/layouts-src"
-				if [ -d "$layout_src_dir" ];then
-					# Create a tar.gz from layout sources
-					(cd "$layout_src_dir"; \
-					 tar czf "${1}/Keylayout/Root/Extra/Keymaps/layouts-src.tar.gz" README *.slt)
-				fi
-				# Adding module
-                ditto --noextattr --noqtn ${1%/*}/i386/modules/Keylayout.dylib ${1}/Keylayout/Root/Extra/modules
-				# Adding Keymaps
-				ditto --noextattr --noqtn ${1%/sym/*}/Keymaps ${1}/Keylayout/Root/Extra/Keymaps
-				# Adding tools
-				ditto --noextattr --noqtn ${1%/*}/i386/cham-mklayout ${1}/Keylayout/Root/usr/bin
-                echo "	[BUILD] Keylayout "
-                buildpackage "${1}/Keylayout" "/" "" "start_selected=\"true\"" >/dev/null 2>&1
-            }
-            fi
-# -
-            if [ -e ${1%/*}/i386/modules/uClibcxx.dylib ]; then
-            {
-                mkdir -p ${1}/uClibc/Root
-                ditto --noextattr --noqtn ${1%/*}/i386/modules/uClibcxx.dylib ${1}/uClibc/Root
-                ditto --noextattr --noqtn ${1%/*}/i386/modules/klibc.dylib ${1}/uClibc/Root
-                echo "	[BUILD] uClibc++ "
-                buildpackage "${1}/uClibc" "/Extra/modules" "" "start_selected=\"true\"" >/dev/null 2>&1
-            }
-            fi
-            ((xmlindent--))
-            outline[$((outlinecount++))]="${indent[$xmlindent]}\t</line>"
-        }
-        else
-        {
-            echo "      -= no modules to include =-"
-        }
-        fi
-	# End build Modules packages
     ((xmlindent--))
-    outline[$((outlinecount++))]="${indent[$xmlindent]}\t</line>"
+    outline[$((outlinecount++))]="${indent[$xmlindent]}</line>"
 # End build Chameleon package
 
-# build Extras package
-	#echo "================= Extras ================="
-	#outline[$((outlinecount++))]="${indent[$xmlindent]}\t<line choice=\"Extras\">"
-	#choices[$((choicescount++))]="<choice\n\tid=\"Extras\"\n\ttitle=\"Extras_title\"\n\tdescription=\"Extras_description\"\n>\n</choice>\n"
-	#((xmlindent++))
-	#packagesidentity="org.chameleon.extras"
-
-	# build utility package
-	#	outline[$((outlinecount++))]="${indent[$xmlindent]}\t<line choice=\"Utility\">"
-	#	choices[$((choicescount++))]="<choice\n\tid=\"Utility\"\n\ttitle=\"Utility_title\"\n\tdescription=\"Utility_description\"\n>\n</choice>\n"
-	#	((xmlindent++))
-	#	packagesidentity="org.chameleon.utilities"
-
-	#	# build package for Chameleon PrefPanel
-	#		mkdir -p "${1}/PrefPanel/Root"
-	#		ditto --noextattr --noqtn "${pkgroot}/Configuration/PrefPanel/Chameleon.prefPane" "${1}/PrefPanel/Root"
-	#		echo "	[BUILD] Chameleon Preference Panel "
-	#		buildpackage "${1}/PrefPanel" "/Library/PreferencePanes/Chameleon.prefPane" "" "start_selected=\"false\"" >/dev/null 2>&1
-	#	# End build package for Chameleon PrefPanel
-		
-	#	# build package for SMBIOSDefault
-	#		mkdir -p "${1}/SMBIOSDefault/Root"
-	#		ditto --noextattr --noqtn "${pkgroot}/Configuration/SMBIOSDefault/smbios.plist" "${1}/SMBIOSDefault/Root"
-	#		echo "	[BUILD] SMBIOSDefault "
-	#		buildpackage "${1}/SMBIOSDefault" "/Extra/Example" "" "start_selected=\"false\"" >/dev/null 2>&1
-	#	# End build package for SMBIOSDefault
-		
-	#	# build package for Documentation
-	#		mkdir -p "${1}/Documentation/Root"
-	#		cp -f ${pkgroot}/../doc/BootHelp.txt ${1}/Documentation/Root
-	#		cp -f ${pkgroot}/../doc/README ${1}/Documentation/Root
-	#		cp -f ${pkgroot}/../doc/Users_Guide0.5.pdf ${1}/Documentation/Root
-	#		echo "	[BUILD] Documentation "
-	#		buildpackage "${1}/Documentation" "/Library/Documentation/Chameleon2" "" "start_selected=\"false\"" >/dev/null 2>&1
-	#	# End build package for Documentation
-
-	#	((xmlindent--))
-	#	outline[$((outlinecount++))]="${indent[$xmlindent]}\t</line>"
-	# End utility package
-		
-	# build options packages
-	echo "================= Options ================="
-		outline[$((outlinecount++))]="${indent[$xmlindent]}\t<line choice=\"Options\">"
-		choices[$((choicescount++))]="<choice\n\tid=\"Options\"\n\ttitle=\"Options_title\"\n\tdescription=\"Options_description\"\n>\n</choice>\n"
+# build Modules package
+	echo "================= Modules ================="
+	###############################
+	# Supported Modules           #
+	###############################
+	# klibc.dylib                 #
+	# Resolution.dylib            #
+	# uClibcxx.dylib              #
+	# Keylayout.dylib             #
+	###############################
+	if [ "$(ls -A "${1%/*}/i386/modules")" ]; then
+	{
+		outline[$((outlinecount++))]="${indent[$xmlindent]}<line choice=\"Module\">"
+		choices[$((choicescount++))]="\t<choice\n\t\tid=\"Module\"\n\t\ttitle=\"Module_title\"\n\t\tdescription=\"Module_description\">\n\t</choice>\n"
 		((xmlindent++))
-
-		# build base options packages
-		packagesidentity="org.chameleon.options"
-		
-		options=($( find "${pkgroot}/Scripts/BaseOptions" -type d -depth 1 -not -name '.svn' ))
-		for (( i = 0 ; i < ${#options[@]} ; i++ )) 
-		do
-			mkdir -p "${1}/${options[$i]##*/}/Root"
-			mkdir -p "${1}/${options[$i]##*/}/Scripts"
-			ditto --noextattr --noqtn "${options[$i]}/postinstall" "${1}/${options[$i]##*/}/Scripts/postinstall"
-			echo "	[BUILD] ${options[$i]##*/} "
-			buildpackage "${1}/${options[$i]##*/}" "/" "" "start_selected=\"false\"" >/dev/null 2>&1
-		done
-		# End build base options packages
-
-		# build KeyLayout option packages
-			echo "================= Keymaps Options ================="
-			outline[$((outlinecount++))]="${indent[$xmlindent]}\t<line choice=\"KeyLayout\">"
-			choices[$((choicescount++))]="<choice\n\tid=\"KeyLayout\"\n\ttitle=\"KeyLayout_title\"\n\tdescription=\"KeyLayout_description\"\n>\n</choice>\n"
-			((xmlindent++))
-			packagesidentity="org.chameleon.options.keylayout"
-			keymaps=($( find "${1%/sym/*}/Keymaps" -type f -depth 1 -name '*.lyt' | sed 's|.*/||;s|\.lyt||' ))
-			for (( i = 0 ; i < ${#keymaps[@]} ; i++ ))
-			do
-				mkdir -p "${1}/${keymaps[$i]}/Root/"
-				mkdir -p "${1}/${keymaps[$i]}/Scripts/"
-				sed "s/@@KEYMAP@@/${keymaps[$i]}/g" "${pkgroot}/Scripts/Keymaps/postinstall.in" > "${1}/${keymaps[$i]}/Scripts/postinstall" && \
-					chmod +rx "${1}/${keymaps[$i]}/Scripts/postinstall"
-				echo "	[BUILD] ${keymaps[$i]} "
-				buildpackage "${1}/${keymaps[$i]}" "/tmpcham" "" "start_selected=\"false\"" >/dev/null 2>&1
-			done
-			((xmlindent--))
-			outline[$((outlinecount++))]="${indent[$xmlindent]}\t</line>"
-		# End build KeyLayout option packages
-
-		# build resolution packages
-			echo "================= Res. Options ================="
-			outline[$((outlinecount++))]="${indent[$xmlindent]}\t<line choice=\"Resolution\">"
-			choices[$((choicescount++))]="<choice\n\tid=\"Resolution\"\n\ttitle=\"Resolution_title\"\n\tdescription=\"Resolution_description\"\n>\n</choice>\n"
-			((xmlindent++))
-			packagesidentity="org.chameleon.options.resolution"
-			resolutions=($( find "${pkgroot}/Scripts/Resolutions" -type d -depth 1 -not -name '.svn' ))
-			for (( i = 0 ; i < ${#resolutions[@]} ; i++ )) 
-			do
-				mkdir -p "${1}/${resolutions[$i]##*/}/Root/"
-				mkdir -p "${1}/${resolutions[$i]##*/}/Scripts/"
-				ditto --noextattr --noqtn "${resolutions[$i]}/postinstall" "${1}/${resolutions[$i]##*/}/Scripts/postinstall"
-				echo "	[BUILD] ${resolutions[$i]##*/} "
-				buildpackage "${1}/${resolutions[$i]##*/}" "/tmpcham" "" "start_selected=\"false\"" >/dev/null 2>&1
-			done
-
-			((xmlindent--))
-			outline[$((outlinecount++))]="${indent[$xmlindent]}\t</line>"
-		# End build resolution packages
-
-		# build Advanced packages
-			echo "================= Adv. Options ================="
-			outline[$((outlinecount++))]="${indent[$xmlindent]}\t<line choice=\"Advanced\">"
-			choices[$((choicescount++))]="<choice\n\tid=\"Advanced\"\n\ttitle=\"Advanced_title\"\n\tdescription=\"Advanced_description\"\n>\n</choice>\n"
-			((xmlindent++))
-
-			packagesidentity="org.chameleon.options.advanced"
-			optionsadv=($( find "${pkgroot}/Scripts/Advanced" -type d -depth 1 -not -name '.svn' ))
-			for (( i = 0 ; i < ${#optionsadv[@]} ; i++ )) 
-			do
-				mkdir -p "${1}/${optionsadv[$i]##*/}/Root"
-				mkdir -p "${1}/${optionsadv[$i]##*/}/Scripts"
-				ditto --noextattr --noqtn "${optionsadv[$i]}/postinstall" "${1}/${optionsadv[$i]##*/}/Scripts/postinstall"
-				echo "	[BUILD] ${optionsadv[$i]##*/} "
-				buildpackage "${1}/${optionsadv[$i]##*/}" "/" "" "start_selected=\"false\"" >/dev/null 2>&1
-			done
-		
-			((xmlindent--))
-			outline[$((outlinecount++))]="${indent[$xmlindent]}\t</line>"
-		# End build Advanced packages
+		packagesidentity="org.chameleon.modules"
+# -
+		if [ -e ${1%/*}/i386/modules/klibc.dylib ]; then
+		{
+			mkdir -p ${1}/klibc/Root
+			ditto --noextattr --noqtn ${1%/*}/i386/modules/klibc.dylib ${1}/klibc/Root
+			echo "	[BUILD] klibc "
+			buildpackage "${1}/klibc" "/$chamTemp/Extra/modules" "" "start_selected=\"false\"" >/dev/null 2>&1
+		}
+		fi
+# -
+		if [ -e ${1%/*}/i386/modules/Resolution.dylib ]; then
+		{
+			mkdir -p ${1}/AutoReso/Root
+			ditto --noextattr --noqtn ${1%/*}/i386/modules/Resolution.dylib ${1}/AutoReso/Root
+			echo "	[BUILD] Resolution "
+			buildpackage "${1}/AutoReso" "/$chamTemp/Extra/modules" "" "start_selected=\"false\"" >/dev/null 2>&1
+		}
+		fi
+# -
+		if [ -e ${1%/*}/i386/modules/uClibcxx.dylib ]; then
+		{
+			mkdir -p ${1}/uClibc/Root
+			ditto --noextattr --noqtn ${1%/*}/i386/modules/uClibcxx.dylib ${1}/uClibc/Root
+			ditto --noextattr --noqtn ${1%/*}/i386/modules/klibc.dylib ${1}/uClibc/Root
+			echo "	[BUILD] uClibc++ "
+			buildpackage "${1}/uClibc" "/$chamTemp/Extra/modules" "" "start_selected=\"false\"" >/dev/null 2>&1
+		}
+		fi
+# -
+		if [ -e ${1%/*}/i386/modules/Keylayout.dylib ]; then
+		{
+			mkdir -p ${1}/Keylayout/Root
+			ditto --noextattr --noqtn ${1%/*}/i386/modules/Keylayout.dylib ${1}/Keylayout/Root
+			echo "	[BUILD] Keylayout "
+			buildpackage "${1}/Keylayout" "/$chamTemp/Extra/modules" "" "start_selected=\"false\"" >/dev/null 2>&1
+		}
+		fi
 
 		((xmlindent--))
-		outline[$((outlinecount++))]="${indent[$xmlindent]}\t</line>"
+		outline[$((outlinecount++))]="${indent[$xmlindent]}</line>"
+	}
+	else
+	{
+		echo "      -= no modules to include =-"
+	}
+	fi
+# End build Modules packages
+
+# build Extras package
+	# build options packages
+
+		outline[$((outlinecount++))]="${indent[$xmlindent]}<line choice=\"Options\">"
+		choices[$((choicescount++))]="\t<choice\n\t\tid=\"Options\"\n\t\ttitle=\"Options_title\"\n\t\tdescription=\"Options_description\">\n\t</choice>\n"
+		((xmlindent++))
+
+		# ------------------------------------------------------
+		# parse OptionalSettings folder to find files of boot options.
+		# ------------------------------------------------------
+		OptionalSettingsFolder="${pkgroot}/OptionalSettings"
+		OptionalSettingsFiles=($( find "${OptionalSettingsFolder}" -depth 1 ! -name '.svn' ! -name '.DS_Store' ))
+
+		for (( i = 0 ; i < ${#OptionalSettingsFiles[@]} ; i++ ))
+		do
+
+			# Take filename and Strip .txt from end and path from front
+			builtOptionsList=$( echo ${OptionalSettingsFiles[$i]%.txt} )
+			builtOptionsList=$( echo ${builtOptionsList##*/} )
+			echo "================= $builtOptionsList ================="
+			outline[$((outlinecount++))]="${indent[$xmlindent]}<line choice=\"${builtOptionsList}\">"
+			choices[$((choicescount++))]="\t<choice\n\t\tid=\"${builtOptionsList}\"\n\t\ttitle=\"${builtOptionsList}_title\"\n\t\tdescription=\"${builtOptionsList}_description\">\n\t</choice>\n"
+			((xmlindent++))
+			packagesidentity="org.chameleon.options.$builtOptionsList"
+			
+			# ------------------------------------------------------
+			# Read boot option file in to an array.
+			# ------------------------------------------------------ 
+			availableOptions=() # array to hold the list of boot options, per 'section'.
+			exclusiveFlag=0 # used to indicate list has exclusive options.
+			exclusiveName="" # will be appended to exclusive 'none' option name.
+			count=0 # used as index for stepping through array.
+			while read textLine
+			do
+				# ignore lines in the file beginning with a # and Exclusive=False
+				if [[ ${textLine} != \#* ]] && [[ ${textLine} != "Exclusive=False" ]];then
+					# check for 'Exclusive=True' option in file
+					if [[ ${textLine} == "Exclusive=True" ]];then
+						exclusiveFlag=1
+						exclusiveName=$builtOptionsList
+					else
+						availableOptions[count]=$textLine
+						((count++))
+					fi
+				fi
+			done < ${OptionalSettingsFiles[$i]}
+			buildoptionalsettings "$1" "${exclusiveFlag}" "${exclusiveName}"
+			
+			((xmlindent--))
+			outline[$((outlinecount++))]="${indent[$xmlindent]}</line>"
+		done
+
+		# build KeyLayout options packages
+			echo "================= Keymaps Options ================="
+			outline[$((outlinecount++))]="${indent[$xmlindent]}<line choice=\"KeyLayout\">"
+			choices[$((choicescount++))]="\t<choice\n\t\tid=\"KeyLayout\"\n\t\ttitle=\"KeyLayout_title\"\n\t\tdescription=\"KeyLayout_description\">\n\t</choice>\n"
+			((xmlindent++))
+			packagesidentity="org.chameleon.options.keylayout"
+			
+			# ------------------------------------------------------
+			# Available Keylayout boot options are discovered by
+			# reading contents of /Keymaps folder after compilation
+			# ------------------------------------------------------
+			availableOptions=()
+			availableOptions=($( find "${1%/sym/*}/Keymaps" -type f -depth 1 -name '*.lyt' | sed 's|.*/||;s|\.lyt||' ))
+			# Adjust array contents to match expected format
+			# for boot options which is: name:key=value
+			for (( i = 0 ; i < ${#availableOptions[@]} ; i++ )) 
+			do
+				availableOptions[i]=${availableOptions[i]}":KeyLayout="${availableOptions[i]}
+			done
+			
+			# to indicate exclusive option, call buildoptionalsettings with the 2nd parameter set to 1 .
+			buildoptionalsettings "$1" "1" "keylayout"
+			
+			((xmlindent--))
+			outline[$((outlinecount++))]="${indent[$xmlindent]}</line>"
+
+		# End build KeyLayout options packages
+
+		((xmlindent--))
+		outline[$((outlinecount++))]="${indent[$xmlindent]}</line>"
 
 	# End build options packages
 
 	# build theme packages
 		echo "================= Themes ================="
-		outline[$((outlinecount++))]="${indent[$xmlindent]}\t<line choice=\"Themes\">"
-		choices[$((choicescount++))]="<choice\n\tid=\"Themes\"\n\ttitle=\"Themes_title\"\n\tdescription=\"Themes_description\"\n>\n</choice>\n"
+		outline[$((outlinecount++))]="${indent[$xmlindent]}<line choice=\"Themes\">"
+		choices[$((choicescount++))]="\t<choice\n\t\tid=\"Themes\"\n\t\ttitle=\"Themes_title\"\n\t\tdescription=\"Themes_description\">\n\t</choice>\n"
 		((xmlindent++))
+
+		# Using themes section from Azi's/package branch.
 		packagesidentity="org.chameleon.themes"
-		artwork="${1%/*}"
-		themes=($( find "${artwork%/*}/artwork/themes" -type d -depth 1 -not -name '.svn' ))
+		artwork="${1%/sym/package}/artwork/themes"
+		themes=($( find "${artwork}" -type d -depth 1 -not -name '.svn' ))
 		for (( i = 0 ; i < ${#themes[@]} ; i++ )) 
 		do
 			theme=$( echo ${themes[$i]##*/} | awk 'BEGIN{OFS=FS=""}{$1=toupper($1);print}' )
-			mkdir -p "${1}/${themes[$i]##*/}/Root/"
-            rsync -r --exclude=.svn "${themes[$i]}/" "${1}/${themes[$i]##*/}/Root/${theme}"
-            # #### Comment out thx meklort
-            # ditto --noextattr --noqtn "${themes[$i]}" "${1}/${themes[$i]##*/}/Root/${theme}" 
-            # ####
-            find "${1}/${themes[$i]##*/}" -name '.DS_Store' -or -name '.svn' -exec rm -R {} \+
-			find "${1}/${themes[$i]##*/}" -type f -exec chmod 644 {} \+
-			echo "	[BUILD] ${themes[$i]##*/} "
-			buildpackage "${1}/${theme}" "/Extra/Themes" "" "start_selected=\"false\"" >/dev/null 2>&1
-			rm -R -f "${1}/${i##*/}"
+			mkdir -p "${1}/${theme}/Root/"
+			rsync -r --exclude=.svn "${themes[$i]}/" "${1}/${theme}/Root/${theme}"
+			echo "	[BUILD] ${theme}"
+			buildpackage "${1}/${theme}" "/$chamTemp/Extra/Themes" "" "start_selected=\"false\"" >/dev/null 2>&1
 		done
 
 		((xmlindent--))
-		outline[$((outlinecount++))]="${indent[$xmlindent]}\t</line>"
-	# End build theme packages
-
-	#((xmlindent--))
-	#outline[$((outlinecount++))]="${indent[$xmlindent]}\t</line>"
-# End build Extras package
+		outline[$((outlinecount++))]="${indent[$xmlindent]}</line>"
+	# End build theme packages# End build Extras package
 
 # build post install package
 	echo "================= Post ================="
+	packagesidentity="org.chameleon"
 	mkdir -p ${1}/Post/Root
 	mkdir -p ${1}/Post/Scripts
-	cp -f ${pkgroot}/Scripts/Post/* ${1}/Post/Scripts
+	cp -f ${pkgroot}/Scripts/Main/postinstall ${1}/Post/Scripts
+	cp -f ${pkgroot}/Scripts/Sub/InstallLog.sh ${1}/Post/Scripts
+	cp -f ${pkgroot}/Scripts/Sub/UnMountEFIvolumes.sh ${1}/Post/Scripts
+	ditto --noextattr --noqtn ${1%/*/*}/revision ${1}/Post/Scripts/Resources/revision
+	ditto --noextattr --noqtn ${1%/*/*}/version ${1}/Post/Scripts/Resources/version
 	echo "	[BUILD] Post "
 	buildpackage "${1}/Post" "/" "" "start_visible=\"false\" start_selected=\"true\"" >/dev/null 2>&1
-	outline[$((outlinecount++))]="${indent[$xmlindent]}</choices-outline>"
+# End build post install package
+
+((xmlindent--))
+outline[$((outlinecount++))]="${indent[$xmlindent]}</choices-outline>"
 
 # build meta package
 
-	makedistribution "${1}" "${2}" "${3}" "${4}" "${5}"
+	makedistribution "${1}" "${2}" "${3}" "${4}" #"${5}"
 
 # clean up 
 
@@ -369,6 +354,93 @@ fixperms ()
 	find "${1}" -type f -exec chmod 644 {} \;
 	find "${1}" -type d -exec chmod 755 {} \;
 	chown -R 0:0 "${1}"
+}
+
+buildoptionalsettings()
+{
+	# $1 Path to package to build containing Root and or Scripts
+	# $2 = exclusiveFlag
+	# S3 = exclusiveName 
+	
+	# ------------------------------------------------------
+	# if exclusiveFlag=1 then re-build array
+	# adding extra boot option at beginning to give
+	# user a chance to choose none of them.
+	# ------------------------------------------------------
+	if [ ${2} = "1" ]; then
+		tempArray=("${availableOptions[@]}")
+		availableOptions=()
+		availableOptions[0]="ChooseNone-"$3":DONT=ADD"
+		position=0
+		totalItems="${#tempArray[@]}"	
+		for (( position = 0 ; position < $totalItems ; position++ ))
+		do
+			availableOptions[$position+1]=${tempArray[${position}]}
+		done
+	fi
+	
+	# ------------------------------------------------------
+	# Loop through options in array and process each in turn
+	# ------------------------------------------------------
+	for (( c = 0 ; c < ${#availableOptions[@]} ; c++ ))
+	do
+		textLine=${availableOptions[c]}
+		# split line - taking all before ':' as option name
+		# and all after ':' as key/value
+		optionName=${textLine%:*}
+		keyValue=${textLine##*:}
+
+		# create folders required for each boot option
+		mkdir -p "${1}/$optionName/Root/"
+
+		# create dummy file with name of key/value
+		echo "" > "${1}/$optionName/Root/${keyValue}"
+
+		echo "	[BUILD] ${optionName} "
+
+		# ------------------------------------------------------
+		# Before calling buildpackage, add exclusive options
+		# to buildpackage call if requested.
+		# ------------------------------------------------------
+		if [ $2 = "1" ]; then
+
+			# Prepare individual string parts
+			stringStart="selected=\""
+			stringBefore="exclusive(choices['"
+			stringAfter="']) &amp;&amp; "
+			stringEnd="'])\""
+			x=${stringStart}${stringBefore}
+
+			# build string for sending to buildpackage
+			totalItems="${#availableOptions[@]}"
+			lastItem=$((totalItems-1))
+
+			for (( r = 0 ; r < ${totalItems} ; r++ ))
+			do
+				textLineTemp=${availableOptions[r]}
+				optionNameTemp=${textLineTemp%:*}
+				if [ "${optionNameTemp}" != "${optionName}" ]; then
+					 x="${x}${optionNameTemp}"
+					 # Only add these to end of string up to the one before the last item
+					if [ $r -lt $lastItem ]; then
+						x="${x}${stringAfter}${stringBefore}"
+					fi
+				fi
+			done
+			x="${x}${stringEnd}"
+
+			# First exclusive option is the 'no choice' option, so let's make that selected by default.
+			if [ $c = 0 ]; then
+				initialChoice="true"
+			else
+				initialChoice="false"
+			fi
+
+			buildpackage "${1}/${optionName}" "/$chamTemp/options" "" "start_selected=\"${initialChoice}\" ${x}" >/dev/null 2>&1
+		else
+			buildpackage "${1}/${optionName}" "/$chamTemp/options" "" "start_selected=\"false\"" >/dev/null 2>&1
+		fi
+	done
 }
 
 buildpackage ()
@@ -429,13 +501,12 @@ if [ -d "${1}/Root" ] && [ "${1}/Scripts" ]; then
 
 	popd >/dev/null
 
-	outline[$((outlinecount++))]="${indent[$xmlindent]}\t<line choice=\"${packagename// /}\"/>"
+	outline[$((outlinecount++))]="${indent[$xmlindent]}<line choice=\"${packagename// /}\"/>"
 
 	if [ "${4}" ]; then
-		local choiceoptions="${indent[$xmlindent]}${4}\n"	
+		local choiceoptions="\t\t${4}"
 	fi
-	choices[$((choicescount++))]="<choice\n\tid=\"${packagename// /}\"\n\ttitle=\"${packagename}_title\"\n\tdescription=\"${packagename}_description\"\n${choiceoptions}>\n\t<pkg-ref id=\"${identifier}\" installKBytes='${installedsize}' version='${version}.0.0.${timestamp}' auth='root'>#${packagename// /}.pkg</pkg-ref>\n</choice>\n"
-
+	choices[$((choicescount++))]="\t<choice\n\t\tid=\"${packagename// /}\"\n\t\ttitle=\"${packagename}_title\"\n\t\tdescription=\"${packagename}_description\"\n${choiceoptions}>\n\t\t<pkg-ref id=\"${identifier}\" installKBytes='${installedsize}' version='${version}.0.0.${timestamp}' >#${packagename// /}.pkg</pkg-ref>\n\t</choice>\n"	
 	rm -R -f "${1}"
 fi
 }
@@ -517,5 +588,5 @@ makedistribution ()
 
 }
 
-main "${1}" "${2}" "${3}" "${4}" "${5}"
+main "${1}" "${2}" "${3}" "${4}" #"${5}"
 

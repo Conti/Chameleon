@@ -1,0 +1,59 @@
+#!/bin/bash
+
+echo "==============================================="
+echo "Pre-Install Script"
+echo "*********************************"
+echo "-----------------------------------------------"
+echo ""
+
+# Creates text file named 'Chameleon_Installer_Log.txt'
+# at the root of the target volume. This is to help show the
+# user why the installation process failed (even though the
+# package installer ends reading 'Installation Successful'. 
+
+
+
+# Find location of this script in the package installer
+# so we know where all the other scripts are located.
+
+MYLOCATION="${PWD}/${BASH_ARGV[0]}"
+export MYLOCATION="${MYLOCATION%/*}"
+scriptDir=$MYLOCATION
+
+
+# If target volume root of current system then replace
+# / with volume name.
+if [ "$3" == "/" ]
+then
+	targetVolume="/Volumes/"$( ls -1F /Volumes | sed -n 's:@$::p' )
+else
+    targetVolume="$3"
+fi
+
+logName="Chameleon_Installer_Log.txt"
+logFile="${targetVolume}"/$logName
+
+versionNumber=`cat "${scriptDir}"/Resources/version`
+revisionNumber=`cat "${scriptDir}"/Resources/revision`
+
+
+
+# Setup Chameleon_Installer_Log.txt file
+# by writing header and diskutil list
+
+echo "Chameleon installer log - $( date )
+Installer version: ${versionNumber} ${revisionNumber}
+======================================================" >"${logFile}"
+	
+diskutil list >>"${logFile}"
+echo "======================================================" >>"${logFile}"
+
+
+
+echo "==============================================="
+echo "END - Pre-Install Script"
+echo "*********************************"
+echo "-----------------------------------------------"
+echo ""
+
+exit 0

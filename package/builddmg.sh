@@ -39,6 +39,7 @@ stage=${version##*-}
 revision=$( grep I386BOOT_CHAMELEONREVISION vers.h | awk '{ print $3 }' | tr -d '\"' )
 builddate=$( grep I386BOOT_BUILDDATE vers.h | awk '{ print $3,$4 }' | tr -d '\"' )
 timestamp=$( date -j -f "%Y-%m-%d %H:%M:%S" "${builddate}" "+%s" )
+CHAMELEON_PACKAGE_NAME=${VOLUME_NAME}-${version}-r${revision}
 
 # =========================
 # Start of building process
@@ -51,11 +52,11 @@ echo -e $COL_BLACK"	----------------------"$COL_RESET
 echo ""
 
 # =================================
-# 1) Clean previus builded contents
+# 1) Clean previous builded contents
 # =================================
 
 	if [ -x ${SRC_FOLDER} ]; then
-		echo "	Deleting previus existing source folder/content "
+		echo "	Deleting previous existing source folder/content "
 		rm -R ${SRC_FOLDER} 
 		rm -f ${DMG_TEMP_NAME}
 	fi
@@ -75,13 +76,32 @@ echo ""
 	ditto -xk "${pkgroot}/Icons/doc.zip" "${SRC_FOLDER}/"
 	ditto -xk "${pkgroot}/Icons/pan.zip" "${SRC_FOLDER}/"
 	ditto -xk "${pkgroot}/Icons/tm.zip" "${SRC_FOLDER}/"
-
-	mv ${SYM_ROOT}/${VOLUME_NAME}.pkg ${SRC_FOLDER}/${VOLUME_NAME}.pkg
-	cp -r ${pkgroot}/doc/* ${SRC_FOLDER}/Documentation/
+	
+	#mv ${SYM_ROOT}/${VOLUME_NAME}.pkg ${SRC_FOLDER}/${VOLUME_NAME}.pkg
+	cp -r ${SYM_ROOT}/${CHAMELEON_PACKAGE_NAME}.pkg ${SRC_FOLDER}/${CHAMELEON_PACKAGE_NAME}.pkg
+	#cp -r ${pkgroot}/doc/* ${SRC_FOLDER}/Documentation/
+	cp -r ${SYM_ROOT%/*}/doc/BootHelp.txt ${SRC_FOLDER}/Documentation/
+	cp -r ${SYM_ROOT%/*}/doc/Users_Guide0.5.pdf ${SRC_FOLDER}/Documentation/
 	cp -r ${pkgroot}/Configuration/PrefPanel/* ${SRC_FOLDER}/PrefPanel/
 	cp -r ${SYM_ROOT}/i386/* ${SRC_FOLDER}/i386/
 	cp -r ${SYM_ROOT%/*}/artwork/themes/* ${SRC_FOLDER}/Themes/
-	rm -rf ${SRC_FOLDER}`find . -type d -name .svn`
+	#rm -rf ${SRC_FOLDER}`find . -type d -name .svn`
+	
+	# The above line caused problems with svn reporting changes to all
+	# directories in the Chameleon source folder that exist before compiling
+	# svn status would show the following:
+	# ~       Chameleon.xcodeproj
+	# ~       artwork
+	# ~       i386
+	# ~       package
+	# ~       doc
+	# I've changed the code to this for now to get round the problem.
+	# Hopefully someone else can find out why it was happenening.
+	svnFilesToRemove=($( find "${SRC_FOLDER}" -type d -name '.svn'))
+	for (( i = 0 ; i < ${#svnFilesToRemove[@]} ; i++ ))
+	do
+		rm -rf ${svnFilesToRemove[$i]}
+	done
 
 # =======================================
 # 4) Find the size of the folder contents
@@ -138,7 +158,7 @@ echo ""
 # 9) Make sure it's not world writeable
 # =====================================
 
-	mv ${SRC_FOLDER}/${VOLUME_NAME}.pkg ${MOUNT_DIR}/${VOLUME_NAME}.pkg
+	mv ${SRC_FOLDER}/${CHAMELEON_PACKAGE_NAME}.pkg ${MOUNT_DIR}/${VOLUME_NAME}.pkg
 	cp -R ${SRC_FOLDER}/Documentation ${MOUNT_DIR}/
 	cp -R ${SRC_FOLDER}/PrefPanel ${MOUNT_DIR}/
 	cp -R ${SRC_FOLDER}/i386 ${MOUNT_DIR}/
@@ -155,10 +175,10 @@ echo ""
 # =============================================
 
 	echo "	[openUp] Setting auto open flag"
-if [ -x ${OPENUP_TOOL} ]; then
-	echo "	Applying openUp..."
-    ${OPENUP_TOOL} "${MOUNT_DIR}" >/dev/null 2>&1
-fi
+	if [ -x ${OPENUP_TOOL} ]; then
+		echo "	Applying openUp..."
+		${OPENUP_TOOL} "${MOUNT_DIR}" >/dev/null 2>&1
+	fi
 	echo " "
 
 # ===========
@@ -211,4 +231,5 @@ fi
 	echo "	===================="
 	echo ""
 #-----
+
 exit 0

@@ -1,0 +1,45 @@
+- Add option to upgrade an existing install - or more exactly, merge newly selected options with an existing /Extra folder. Also, rename an existing /Extra/com.apple.Boot.plist to /Extra/org.chameleon.Boot.plist.
+
+- Change the layout/wording displayed in the installer (English only) and give it a facelift. Adjust background image to scale to fit in the window.
+
+- Set exclusive 'None' option to default choice.
+
+- Add code to detect and make necessary changes to avoid possibility of a b1f:error or boot1:error should the user decide to install a secondary boot partition.
+
+- Fix bug installing to /Volumes/EFI
+
+- Add crazybirdy's Chinese translation to zh-CN and zh-TW resources.
+
+- Add dmaazar's boot0workV2 changes to ../i386/boot0/boot0md.s.
+
+- Added check for an existing Chameleon installation on a different partition of same target disk to help stop new
+users from confusing themselves. If found, the install process will exit and write the reason to the install log.
+
+- Re-organised Scripts folder in to Main and Sub scripts. The main scripts for the standard and EFI system partition
+installation options have been changed to used the code that I'd previously re-structured. The Sub scripts are the
+original chameleon installer scripts with maybe some tweaks/additions, split in to separate scripts. These scripts
+include the previous additions I'd made including checking for FAT16 partitions, installing boot0md or boot0 depending
+on whether or not a Windows installation is found and writing boot1h or boot1f32 depending on installing to HFS or 
+FAT32 format partitions.
+
+- All references of Boot0hfs removed and now replaced with Boot0md.
+
+- Installer log added to now dump a log of useful info about the install process to the root of the selected target.
+
+- Boot options re-thought and are now automatically created at compile time from simple lists, rather than manage a
+separate file of code of each option.
+
+- Added missing useKernelCache boot option.
+
+- Easily enable a list to be exclusive or not.
+
+- The main Post script now creates the org.chameleon.Boot.plist based on the modules / options / key layouts / themes
+selected by the user.
+
+- Only create and /Extra folder if there's something to go in it.
+
+- Backup an existing /Extra folder to /Extra-OLD(date & time).
+
+- slimpkg.sh changed to match the revised code in buildpkg.sh where applicable.
+
+- English Localizable.strings revised to match latest additions and some texts updated.

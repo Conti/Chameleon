@@ -1,0 +1,38 @@
+# ---------------------------------------------
+# Chameleon Optional Settings List.
+# ---------------------------------------------
+# Add boot options or kernel flags to the bottom of this file.
+# They will appear under the package installer's Settings menu
+# in a sub menu named with the filename of this file.
+#ÊUse one file or many files - it's flexible to make it easy
+# to group different options under separate sub menus.
+# ---------------------------------------------
+# To add boot option: Structure is name:key=value
+# example1: InstantMenu:Instant Menu=Yes
+# example2: DropSSDT:DropSSDT=Yes
+# ---------------------------------------------
+# To add kernel flag: Structure is name:KFflag=kernelflag
+# example1: Npci:KFflag=npci=0x2000
+# example2: Verbose:KFflag=-v
+# ---------------------------------------------
+# The package installer has a setting which controls what
+# the user is allowed to choose.
+# A) User can select every option from the list.
+# B) User can select only one of the options from the list.
+# Set Exclusive=False for A, or Exclusive=True for B.
+#
+Exclusive=True
+# ---------------------------------------------
+# Note: There must be a carriage return at end of last line
+# ---------------------------------------------
+1024x600x32:Graphics Mode=1024x600x32
+1024x768x32:Graphics Mode=1024x768x32
+1280x768x32:Graphics Mode=1280x768x32
+1280x800x32:Graphics Mode=1280x800x32
+1280x960x32:Graphics Mode=1280x960x32
+1280x1024x32:Graphics Mode=1280x1024x32
+1440x900x32:Graphics Mode=1440x900x32
+1600x900x32:Graphics Mode=1600x900x32
+1680x1050x32:Graphics Mode=1680x1050x32
+1920x1080x32:Graphics Mode=1920x1080x32
+1920x1200x32:Graphics Mode=1920x1200x32
