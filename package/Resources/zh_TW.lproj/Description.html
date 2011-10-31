@@ -4,40 +4,46 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta http-equiv="Content-Style-Type" content="text/css">
   <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="1038.36">
   <style type="text/css">
     p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px 'Lucida Grande'}
     p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px 'Lucida Grande'; min-height: 12.0px}
-    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px 'Lucida Grande'; color: #0e01ee; min-height: 12.0px}
-    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px 'Lucida Grande'; color: #0000ee}
-    span.s1 {text-decoration: underline ; color: #0e01ee}
-    span.s2 {text-decoration: underline}
-    span.s3 {color: #000000}
+    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px STSong}
+    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px 'Lucida Grande'; color: #1018ee; min-height: 12.0px}
+    p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px 'Lucida Grande'; color: #0418ee}
+    span.s1 {font: 10.0px STSong}
+    span.s2 {font: 10.0px Times}
+    span.s3 {font: 10.0px 'Lucida Grande'}
+    span.s4 {text-decoration: underline ; color: #1018ee}
+    span.s5 {text-decoration: underline}
+    span.s6 {font: 10.0px STSong; color: #000000}
+    span.s7 {color: #000000}
   </style>
 </head>
 <body>
-<p class="p1">Chameleon is a boot loader built using a combination of components which evolved from the development of David Elliott's fake EFI implementation added to Apple's boot-132 project.</p>
+<p class="p1">Chameleon <span class="s1">是一個結合許多組件的開機引導器。這些組件的演變來自於</span><span class="s2"> </span>David Elliott <span class="s1">加入</span><span class="s2"> </span>Apple <span class="s1">的</span> boot-132 <span class="s1">程式項目的</span><span class="s2"> </span>fake EFI <span class="s1">安裝工具。</span></p>
 <p class="p2"><br></p>
-<p class="p1">Chameleon v2 is extended with many features. For example:</p>
+<p class="p3"><span class="s3">Chameleon v2 </span>現在已經擴充了許多功能。例如：</p>
 <p class="p2"><br></p>
-<p class="p1">- Fully customizable GUI to bring some color to the Darwin Bootloader.</p>
-<p class="p1">- Load a ramdisk to directly boot retail DVDs without additional programs.</p>
-<p class="p1">- Hibernation. Enjoy resuming your Mac OS X with a preview image.</p>
-<p class="p1">- SMBIOS override to modify the factory SMBIOS values.</p>
-<p class="p1">- DSDT override to use a modified fixed DSDT which can solve several issues.</p>
-<p class="p1">- Device Property Injection via device-properties string.</p>
-<p class="p1">- hybrid boot0 / boot1h for MBR and GPT partitioned disks.</p>
-<p class="p1">- Automatic FSB detection code even for recent AMD CPUs.</p>
-<p class="p1">- Apple Software RAID support.</p>
-<p class="p1">- Nvidia &amp; ATI/AMD Graphics Card Enabler.</p>
-<p class="p1">- Module support</p>
-<p class="p1">- Memory detection adapted from memtest86: <a href="http://www.memtest.org/"><span class="s1">http://www.memtest.org</span></a></p>
-<p class="p1">- Automatic P-State &amp; C-State generation for native power management.</p>
-<p class="p1">- Message logging.</p>
-<p class="p3"><br></p>
-<p class="p3"><br></p>
-<p class="p1">The code is released under version 2 of the Gnu Public License.</p>
-<p class="p4"><span class="s2"><a href="http://forge.voodooprojects.org/p/chameleon/">http://forge.voodooprojects.org/p/chameleon</a></span></p>
+<p class="p1">- <span class="s1">客製化的圖形使用者介面，為</span> Darwin Bootloader <span class="s1">帶來更多的色彩。</span></p>
+<p class="p3"><span class="s3">- </span>無須其他程式，即可載入<span class="s3"> ramdisk </span>來直接啓動<span class="s3"> </span>零售版<span class="s3"> DVD</span>。</p>
+<p class="p3"><span class="s3">- </span>支持睡眠。<span class="s3"> </span>可使用睡眠映像恢復繼續使用<span class="s3"> Mac OS X </span>。</p>
+<p class="p1">- <span class="s1">可使用修改過的</span><span class="s2"> </span>SMBIOS <span class="s1">覆蓋</span><span class="s2"> </span>SMBIOS <span class="s1">之出廠設定值。</span></p>
+<p class="p3"><span class="s3">- </span>可使用修正過的<span class="s2"> </span><span class="s3">DSDT </span>覆蓋原始<span class="s2"> </span><span class="s3">DSDT</span>，並可解決許多問題。</p>
+<p class="p1">- <span class="s1">可透過</span><span class="s2"> </span>device-properties string <span class="s1">自動注入設備屬性。</span></p>
+<p class="p1">- <span class="s1">支持</span> MBR <span class="s1">及</span> GPT <span class="s1">分割區磁盤的</span><span class="s2"><span class="Apple-converted-space"> </span></span> boot0 / boot1h <span class="s1">多重開機功能。</span></p>
+<p class="p3"><span class="s3">- </span>具有自動偵測<span class="s3"> FSB </span>碼功能，並可用於新式的<span class="s3"> AMD CPU</span>。</p>
+<p class="p1">- <span class="s1">支持</span><span class="s2"> </span>Apple Software RAID <span class="s1">功能。</span></p>
+<p class="p1">- <span class="s1">支持</span> Nvidia &amp; ATI/AMD <span class="s1">顯示卡啓用功能。</span></p>
+<p class="p3"><span class="s3">- </span>支持模組功能。</p>
+<p class="p1">- <span class="s1">支持改編自</span><span class="s2"> </span>memtest86: <a href="http://www.memtest.org/"><span class="s4">http://www.memtest.org</span></a> <span class="s1">的記憶體偵測功能。</span></p>
+<p class="p1">- <span class="s1">具有自動生成</span> P-State <span class="s1">及</span> C-State <span class="s1">的原生電源管理之功能。</span></p>
+<p class="p3"><span class="s3">- </span>具有訊息紀錄之功能。</p>
+<p class="p4"><br></p>
+<p class="p1"><span class="s1">源代碼依照</span><span class="s2"> </span>Gnu Public License v2 <span class="s1">的原則釋放於以下網站上。</span></p>
+<p class="p5"><span class="s5"><a href="http://forge.voodooprojects.org/p/chameleon/">http://forge.voodooprojects.org/p/chameleon</a></span></p>
 <p class="p2"><br></p>
-<p class="p4"><span class="s3">FAQ's: <a href="http://forum.voodooprojects.org/index.php/topic,754.0.html"><span class="s2">http://forum.voodooprojects.org/index.php/topic,754.0.html</span></a></span></p>
+<p class="p5"><span class="s6">常見問題</span><span class="s7">: <a href="http://forum.voodooprojects.org/index.php/topic,754.0.html"><span class="s5">http://forum.voodooprojects.org/index.php/topic,754.0.html</span></a></span></p>
 </body>
 </html>
