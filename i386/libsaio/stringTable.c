@@ -498,7 +498,7 @@ bool getValueForKey( const char *key, const char **val, int *size, config_file_t
 
   ret = getValueForConfigTableKey(config, key, val, size);
 
-  // Try to find alternate keys in bootInfo->overrideConfig
+  // Try to find alternate keys in bootInfo->chameleonConfig (if config can be overriden)
   // and prefer its values with the exceptions for
   // "Kernel"="mach_kernel" and "Kernel Flags"="".
 
@@ -635,13 +635,15 @@ int loadSystemConfig(config_file_t *config)
 			sysConfigValid = true;	
 			ret=0;
 			
-			// enable canOverride flag
-			config->canOverride = true;
-
 			break;
 		}
 	}
+
 	if(ret == -1) ret = loadHelperConfig(config);
+
+	// Always enable canOverride flag (for SystemConfig)
+	config->canOverride = true;
+
 	return ret;
 }
 

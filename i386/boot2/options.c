@@ -1214,7 +1214,7 @@ processBootOptions()
     cntRemaining = BOOT_STRING_LEN - 2;  // save 1 for NULL, 1 for space
     argP = bootArgs->CommandLine;
 
-    // Get config table kernel flags, if not ignored.
+	// Get config kernel flags, if not ignored.
     if (getValueForBootKey(cp, kIgnoreBootFileFlag, &val, &cnt) ||
             !getValueForKey( kKernelFlagsKey, &val, &cnt, &bootInfo->bootConfig )) {
         val = "";
