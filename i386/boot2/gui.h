@@ -64,6 +64,7 @@ typedef struct {
 	uint16_t	height;			// Font Height 
 	uint16_t	width;			// Font Width for monospace font only
 	pixmap_t	*chars[CHARACTERS_COUNT];
+	uint16_t    count;          // Number of chars in font
 } font_t;
 
 /*
