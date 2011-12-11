@@ -144,6 +144,7 @@ void updateGraphicBootPrompt();
 
 void updateVRAM();
 
+position_t drawChar(unsigned char ch, font_t *font, pixmap_t *blendInto, position_t p);
 void drawStr(char *ch, font_t *font, pixmap_t *blendInto, position_t p);
 void drawStrCenteredAt(char *ch, font_t *font, pixmap_t *blendInto, position_t p);
 
