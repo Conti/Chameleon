@@ -649,6 +649,25 @@
 		6DBAFFC313B0D4590047ED33 /* ufsmount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ufsmount.h; sourceTree = "<group>"; };
 		6DBAFFC413B0D4590047ED33 /* unistd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unistd.h; sourceTree = "<group>"; };
 		6DBAFFC513B0D4590047ED33 /* unwind.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unwind.h; sourceTree = "<group>"; };
+		A354B6271495124F00D81AA5 /* ESPpostinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = ESPpostinstall; sourceTree = "<group>"; };
+		A354B6281495124F00D81AA5 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = postinstall; sourceTree = "<group>"; };
+		A354B6291495124F00D81AA5 /* preinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = preinstall; sourceTree = "<group>"; };
+		A354B62A1495124F00D81AA5 /* Standardpostinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Standardpostinstall; sourceTree = "<group>"; };
+		A354B62C149514DE00D81AA5 /* CheckDiskMicrocode.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = CheckDiskMicrocode.sh; sourceTree = "<group>"; };
+		A354B62D149514DE00D81AA5 /* CheckFatType.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = CheckFatType.sh; sourceTree = "<group>"; };
+		A354B62E149514DE00D81AA5 /* CheckGRUBLinuxLoader.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = CheckGRUBLinuxLoader.sh; sourceTree = "<group>"; };
+		A354B62F149514DE00D81AA5 /* CheckPartitionScheme.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = CheckPartitionScheme.sh; sourceTree = "<group>"; };
+		A354B630149514DE00D81AA5 /* CheckPreviousChameleon.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = CheckPreviousChameleon.sh; sourceTree = "<group>"; };
+		A354B631149514DE00D81AA5 /* CheckProceed.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = CheckProceed.sh; sourceTree = "<group>"; };
+		A354B632149514DE00D81AA5 /* CheckWindowsDiskSignature.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = CheckWindowsDiskSignature.sh; sourceTree = "<group>"; };
+		A354B633149514DE00D81AA5 /* InstallLog.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = InstallLog.sh; sourceTree = "<group>"; };
+		A354B634149514DE00D81AA5 /* MountESP.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = MountESP.sh; sourceTree = "<group>"; };
+		A354B635149514DE00D81AA5 /* patch */ = {isa = PBXFileReference; lastKnownFileType = file; path = patch; sourceTree = "<group>"; };
+		A354B636149514DE00D81AA5 /* SetActivePartition.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = SetActivePartition.sh; sourceTree = "<group>"; };
+		A354B637149514DE00D81AA5 /* UnMountEFIvolumes.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = UnMountEFIvolumes.sh; sourceTree = "<group>"; };
+		A354B638149514DE00D81AA5 /* WriteChameleonStage0.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = WriteChameleonStage0.sh; sourceTree = "<group>"; };
+		A354B639149514DE00D81AA5 /* WriteChameleonStage1.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = WriteChameleonStage1.sh; sourceTree = "<group>"; };
+		A354B63A149514DE00D81AA5 /* WriteChameleonStage2.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = WriteChameleonStage2.sh; sourceTree = "<group>"; };
 		A3561C731413FD7800E9B51E /* auto.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = auto.c; sourceTree = "<group>"; };
 		A3561C741413FD7800E9B51E /* auto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = auto.h; sourceTree = "<group>"; };
 		A3561C751413FD7800E9B51E /* Cconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cconfig; sourceTree = "<group>"; };
@@ -949,49 +968,6 @@
 		A37D7D84141B7C6F0069C38B /* sr */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = sr; path = sr.lproj/License.rtf; sourceTree = "<group>"; };
 		A37D7D85141B7C6F0069C38B /* sr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sr; path = sr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A37D7D86141B7C6F0069C38B /* sr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.rtfd; name = sr; path = sr.lproj/Welcome.rtfd; sourceTree = "<group>"; };
-		A3F1F210141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F212141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F214141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F216141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F218141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F21A141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F21C141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F21E141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F220141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F222141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F224141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F226141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F228141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F22A141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F22C141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F22E141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F230141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F233141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F235141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F237141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F239141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F23B141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F23D141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F23F141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F241141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F243141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F245141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F247141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F249141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F24B141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = postinstall; sourceTree = "<group>"; };
-		A3F1F24D141B9B0D00DDA709 /* postinstall.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall.in; sourceTree = "<group>"; };
-		A3F1F24F141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = postinstall; sourceTree = "<group>"; };
-		A3F1F252141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F254141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F256141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F258141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F25A141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F25C141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F25E141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F260141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F262141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F264141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = postinstall; sourceTree = "<group>"; };
-		A3F1F266141B9B0D00DDA709 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = postinstall; sourceTree = "<group>"; };
 		A3F1F267141B9B3B00DDA709 /* Readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme.txt; sourceTree = "<group>"; };
 		B0056CE711F3868000754B65 /* boot0.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = boot0.s; sourceTree = "<group>"; };
 		B0056CE811F3868000754B65 /* chain0.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = chain0.s; sourceTree = "<group>"; };
@@ -2348,6 +2324,39 @@
 			path = ufs;
 			sourceTree = "<group>";
 		};
+		A354B6261495124F00D81AA5 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				A354B6271495124F00D81AA5 /* ESPpostinstall */,
+				A354B6281495124F00D81AA5 /* postinstall */,
+				A354B6291495124F00D81AA5 /* preinstall */,
+				A354B62A1495124F00D81AA5 /* Standardpostinstall */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		A354B62B149514DE00D81AA5 /* Sub */ = {
+			isa = PBXGroup;
+			children = (
+				A354B62C149514DE00D81AA5 /* CheckDiskMicrocode.sh */,
+				A354B62D149514DE00D81AA5 /* CheckFatType.sh */,
+				A354B62E149514DE00D81AA5 /* CheckGRUBLinuxLoader.sh */,
+				A354B62F149514DE00D81AA5 /* CheckPartitionScheme.sh */,
+				A354B630149514DE00D81AA5 /* CheckPreviousChameleon.sh */,
+				A354B631149514DE00D81AA5 /* CheckProceed.sh */,
+				A354B632149514DE00D81AA5 /* CheckWindowsDiskSignature.sh */,
+				A354B633149514DE00D81AA5 /* InstallLog.sh */,
+				A354B634149514DE00D81AA5 /* MountESP.sh */,
+				A354B635149514DE00D81AA5 /* patch */,
+				A354B636149514DE00D81AA5 /* SetActivePartition.sh */,
+				A354B637149514DE00D81AA5 /* UnMountEFIvolumes.sh */,
+				A354B638149514DE00D81AA5 /* WriteChameleonStage0.sh */,
+				A354B639149514DE00D81AA5 /* WriteChameleonStage1.sh */,
+				A354B63A149514DE00D81AA5 /* WriteChameleonStage2.sh */,
+			);
+			path = Sub;
+			sourceTree = "<group>";
+		};
 		A3561C721413FD7800E9B51E /* fdisk */ = {
 			isa = PBXGroup;
 			children = (
@@ -2704,419 +2713,10 @@
 		A3F1F20D141B9B0D00DDA709 /* Scripts */ = {
 			isa = PBXGroup;
 			children = (
-				A3F1F20E141B9B0D00DDA709 /* Advanced */,
-				A3F1F231141B9B0D00DDA709 /* BaseOptions */,
-				A3F1F24A141B9B0D00DDA709 /* EFI */,
-				A3F1F24C141B9B0D00DDA709 /* Keymaps */,
-				A3F1F24E141B9B0D00DDA709 /* Post */,
-				A3F1F250141B9B0D00DDA709 /* Resolutions */,
-				A3F1F265141B9B0D00DDA709 /* Standard */,
+				A354B6261495124F00D81AA5 /* Main */,
+				A354B62B149514DE00D81AA5 /* Sub */,
 			);
 			path = Scripts;
-			sourceTree = "<group>";
-		};
-		A3F1F20E141B9B0D00DDA709 /* Advanced */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F20F141B9B0D00DDA709 /* BootBanner */,
-				A3F1F211141B9B0D00DDA709 /* EHCIacquire */,
-				A3F1F213141B9B0D00DDA709 /* ForceHPET */,
-				A3F1F215141B9B0D00DDA709 /* ForceWake */,
-				A3F1F217141B9B0D00DDA709 /* GUI */,
-				A3F1F219141B9B0D00DDA709 /* LegacyLogo */,
-				A3F1F21B141B9B0D00DDA709 /* Npci */,
-				A3F1F21D141B9B0D00DDA709 /* QuietBoot */,
-				A3F1F21F141B9B0D00DDA709 /* ShowInfo */,
-				A3F1F221141B9B0D00DDA709 /* SMBIOSdefaults */,
-				A3F1F223141B9B0D00DDA709 /* UHCIreset */,
-				A3F1F225141B9B0D00DDA709 /* UseAtiROM */,
-				A3F1F227141B9B0D00DDA709 /* UseMemDetect */,
-				A3F1F229141B9B0D00DDA709 /* UseNvidiaROM */,
-				A3F1F22B141B9B0D00DDA709 /* VBIOS */,
-				A3F1F22D141B9B0D00DDA709 /* Wait */,
-				A3F1F22F141B9B0D00DDA709 /* Wake */,
-			);
-			path = Advanced;
-			sourceTree = "<group>";
-		};
-		A3F1F20F141B9B0D00DDA709 /* BootBanner */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F210141B9B0D00DDA709 /* postinstall */,
-			);
-			path = BootBanner;
-			sourceTree = "<group>";
-		};
-		A3F1F211141B9B0D00DDA709 /* EHCIacquire */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F212141B9B0D00DDA709 /* postinstall */,
-			);
-			path = EHCIacquire;
-			sourceTree = "<group>";
-		};
-		A3F1F213141B9B0D00DDA709 /* ForceHPET */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F214141B9B0D00DDA709 /* postinstall */,
-			);
-			path = ForceHPET;
-			sourceTree = "<group>";
-		};
-		A3F1F215141B9B0D00DDA709 /* ForceWake */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F216141B9B0D00DDA709 /* postinstall */,
-			);
-			path = ForceWake;
-			sourceTree = "<group>";
-		};
-		A3F1F217141B9B0D00DDA709 /* GUI */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F218141B9B0D00DDA709 /* postinstall */,
-			);
-			path = GUI;
-			sourceTree = "<group>";
-		};
-		A3F1F219141B9B0D00DDA709 /* LegacyLogo */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F21A141B9B0D00DDA709 /* postinstall */,
-			);
-			path = LegacyLogo;
-			sourceTree = "<group>";
-		};
-		A3F1F21B141B9B0D00DDA709 /* Npci */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F21C141B9B0D00DDA709 /* postinstall */,
-			);
-			path = Npci;
-			sourceTree = "<group>";
-		};
-		A3F1F21D141B9B0D00DDA709 /* QuietBoot */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F21E141B9B0D00DDA709 /* postinstall */,
-			);
-			path = QuietBoot;
-			sourceTree = "<group>";
-		};
-		A3F1F21F141B9B0D00DDA709 /* ShowInfo */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F220141B9B0D00DDA709 /* postinstall */,
-			);
-			path = ShowInfo;
-			sourceTree = "<group>";
-		};
-		A3F1F221141B9B0D00DDA709 /* SMBIOSdefaults */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F222141B9B0D00DDA709 /* postinstall */,
-			);
-			path = SMBIOSdefaults;
-			sourceTree = "<group>";
-		};
-		A3F1F223141B9B0D00DDA709 /* UHCIreset */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F224141B9B0D00DDA709 /* postinstall */,
-			);
-			path = UHCIreset;
-			sourceTree = "<group>";
-		};
-		A3F1F225141B9B0D00DDA709 /* UseAtiROM */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F226141B9B0D00DDA709 /* postinstall */,
-			);
-			path = UseAtiROM;
-			sourceTree = "<group>";
-		};
-		A3F1F227141B9B0D00DDA709 /* UseMemDetect */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F228141B9B0D00DDA709 /* postinstall */,
-			);
-			path = UseMemDetect;
-			sourceTree = "<group>";
-		};
-		A3F1F229141B9B0D00DDA709 /* UseNvidiaROM */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F22A141B9B0D00DDA709 /* postinstall */,
-			);
-			path = UseNvidiaROM;
-			sourceTree = "<group>";
-		};
-		A3F1F22B141B9B0D00DDA709 /* VBIOS */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F22C141B9B0D00DDA709 /* postinstall */,
-			);
-			path = VBIOS;
-			sourceTree = "<group>";
-		};
-		A3F1F22D141B9B0D00DDA709 /* Wait */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F22E141B9B0D00DDA709 /* postinstall */,
-			);
-			path = Wait;
-			sourceTree = "<group>";
-		};
-		A3F1F22F141B9B0D00DDA709 /* Wake */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F230141B9B0D00DDA709 /* postinstall */,
-			);
-			path = Wake;
-			sourceTree = "<group>";
-		};
-		A3F1F231141B9B0D00DDA709 /* BaseOptions */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F232141B9B0D00DDA709 /* arch */,
-				A3F1F234141B9B0D00DDA709 /* CSTUsingSystemIO */,
-				A3F1F236141B9B0D00DDA709 /* DropSSDT */,
-				A3F1F238141B9B0D00DDA709 /* EnableC2State */,
-				A3F1F23A141B9B0D00DDA709 /* EnableC3State */,
-				A3F1F23C141B9B0D00DDA709 /* EnableC4State */,
-				A3F1F23E141B9B0D00DDA709 /* EthernetBuiltIn */,
-				A3F1F240141B9B0D00DDA709 /* GenerateCStates */,
-				A3F1F242141B9B0D00DDA709 /* GeneratePStates */,
-				A3F1F244141B9B0D00DDA709 /* GraphicsEnabler */,
-				A3F1F246141B9B0D00DDA709 /* InstantMenu */,
-				A3F1F248141B9B0D00DDA709 /* RestartFix */,
-			);
-			path = BaseOptions;
-			sourceTree = "<group>";
-		};
-		A3F1F232141B9B0D00DDA709 /* arch */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F233141B9B0D00DDA709 /* postinstall */,
-			);
-			path = arch;
-			sourceTree = "<group>";
-		};
-		A3F1F234141B9B0D00DDA709 /* CSTUsingSystemIO */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F235141B9B0D00DDA709 /* postinstall */,
-			);
-			path = CSTUsingSystemIO;
-			sourceTree = "<group>";
-		};
-		A3F1F236141B9B0D00DDA709 /* DropSSDT */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F237141B9B0D00DDA709 /* postinstall */,
-			);
-			path = DropSSDT;
-			sourceTree = "<group>";
-		};
-		A3F1F238141B9B0D00DDA709 /* EnableC2State */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F239141B9B0D00DDA709 /* postinstall */,
-			);
-			path = EnableC2State;
-			sourceTree = "<group>";
-		};
-		A3F1F23A141B9B0D00DDA709 /* EnableC3State */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F23B141B9B0D00DDA709 /* postinstall */,
-			);
-			path = EnableC3State;
-			sourceTree = "<group>";
-		};
-		A3F1F23C141B9B0D00DDA709 /* EnableC4State */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F23D141B9B0D00DDA709 /* postinstall */,
-			);
-			path = EnableC4State;
-			sourceTree = "<group>";
-		};
-		A3F1F23E141B9B0D00DDA709 /* EthernetBuiltIn */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F23F141B9B0D00DDA709 /* postinstall */,
-			);
-			path = EthernetBuiltIn;
-			sourceTree = "<group>";
-		};
-		A3F1F240141B9B0D00DDA709 /* GenerateCStates */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F241141B9B0D00DDA709 /* postinstall */,
-			);
-			path = GenerateCStates;
-			sourceTree = "<group>";
-		};
-		A3F1F242141B9B0D00DDA709 /* GeneratePStates */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F243141B9B0D00DDA709 /* postinstall */,
-			);
-			path = GeneratePStates;
-			sourceTree = "<group>";
-		};
-		A3F1F244141B9B0D00DDA709 /* GraphicsEnabler */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F245141B9B0D00DDA709 /* postinstall */,
-			);
-			path = GraphicsEnabler;
-			sourceTree = "<group>";
-		};
-		A3F1F246141B9B0D00DDA709 /* InstantMenu */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F247141B9B0D00DDA709 /* postinstall */,
-			);
-			path = InstantMenu;
-			sourceTree = "<group>";
-		};
-		A3F1F248141B9B0D00DDA709 /* RestartFix */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F249141B9B0D00DDA709 /* postinstall */,
-			);
-			path = RestartFix;
-			sourceTree = "<group>";
-		};
-		A3F1F24A141B9B0D00DDA709 /* EFI */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F24B141B9B0D00DDA709 /* postinstall */,
-			);
-			path = EFI;
-			sourceTree = "<group>";
-		};
-		A3F1F24C141B9B0D00DDA709 /* Keymaps */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F24D141B9B0D00DDA709 /* postinstall.in */,
-			);
-			path = Keymaps;
-			sourceTree = "<group>";
-		};
-		A3F1F24E141B9B0D00DDA709 /* Post */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F24F141B9B0D00DDA709 /* postinstall */,
-			);
-			path = Post;
-			sourceTree = "<group>";
-		};
-		A3F1F250141B9B0D00DDA709 /* Resolutions */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F251141B9B0D00DDA709 /* 1024x600x32 */,
-				A3F1F253141B9B0D00DDA709 /* 1024x768x32 */,
-				A3F1F255141B9B0D00DDA709 /* 1280x1024x32 */,
-				A3F1F257141B9B0D00DDA709 /* 1280x800x32 */,
-				A3F1F259141B9B0D00DDA709 /* 1280x960x32 */,
-				A3F1F25B141B9B0D00DDA709 /* 1440x900x32 */,
-				A3F1F25D141B9B0D00DDA709 /* 1600x900x32 */,
-				A3F1F25F141B9B0D00DDA709 /* 1680x1050x32 */,
-				A3F1F261141B9B0D00DDA709 /* 1920x1080x32 */,
-				A3F1F263141B9B0D00DDA709 /* 1920x1200x32 */,
-			);
-			path = Resolutions;
-			sourceTree = "<group>";
-		};
-		A3F1F251141B9B0D00DDA709 /* 1024x600x32 */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F252141B9B0D00DDA709 /* postinstall */,
-			);
-			path = 1024x600x32;
-			sourceTree = "<group>";
-		};
-		A3F1F253141B9B0D00DDA709 /* 1024x768x32 */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F254141B9B0D00DDA709 /* postinstall */,
-			);
-			path = 1024x768x32;
-			sourceTree = "<group>";
-		};
-		A3F1F255141B9B0D00DDA709 /* 1280x1024x32 */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F256141B9B0D00DDA709 /* postinstall */,
-			);
-			path = 1280x1024x32;
-			sourceTree = "<group>";
-		};
-		A3F1F257141B9B0D00DDA709 /* 1280x800x32 */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F258141B9B0D00DDA709 /* postinstall */,
-			);
-			path = 1280x800x32;
-			sourceTree = "<group>";
-		};
-		A3F1F259141B9B0D00DDA709 /* 1280x960x32 */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F25A141B9B0D00DDA709 /* postinstall */,
-			);
-			path = 1280x960x32;
-			sourceTree = "<group>";
-		};
-		A3F1F25B141B9B0D00DDA709 /* 1440x900x32 */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F25C141B9B0D00DDA709 /* postinstall */,
-			);
-			path = 1440x900x32;
-			sourceTree = "<group>";
-		};
-		A3F1F25D141B9B0D00DDA709 /* 1600x900x32 */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F25E141B9B0D00DDA709 /* postinstall */,
-			);
-			path = 1600x900x32;
-			sourceTree = "<group>";
-		};
-		A3F1F25F141B9B0D00DDA709 /* 1680x1050x32 */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F260141B9B0D00DDA709 /* postinstall */,
-			);
-			path = 1680x1050x32;
-			sourceTree = "<group>";
-		};
-		A3F1F261141B9B0D00DDA709 /* 1920x1080x32 */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F262141B9B0D00DDA709 /* postinstall */,
-			);
-			path = 1920x1080x32;
-			sourceTree = "<group>";
-		};
-		A3F1F263141B9B0D00DDA709 /* 1920x1200x32 */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F264141B9B0D00DDA709 /* postinstall */,
-			);
-			path = 1920x1200x32;
-			sourceTree = "<group>";
-		};
-		A3F1F265141B9B0D00DDA709 /* Standard */ = {
-			isa = PBXGroup;
-			children = (
-				A3F1F266141B9B0D00DDA709 /* postinstall */,
-			);
-			path = Standard;
 			sourceTree = "<group>";
 		};
 		B0056CE511F3868000754B65 /* i386 */ = {
