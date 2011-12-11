@@ -1365,11 +1365,15 @@ void drawStrCenteredAt(char *text, font_t *font, pixmap_t *blendInto, position_t
 	int i = 0;
 	int width = 0;
 	int max_width = 0;
+	int height = font->height;
 
 	// calculate the width in pixels
 	for (i=0; i < strlen(text); i++) {
 		if (text[i] == '\n')
+		{
 			width = 0;
+			height += font->height;
+		}
 		else if (text[i] == '\t')
 			width += TAB_PIXELS_WIDTH;
 		else
@@ -1383,10 +1387,7 @@ void drawStrCenteredAt(char *text, font_t *font, pixmap_t *blendInto, position_t
 	}
 
 	p.x = ( p.x - ( max_width / 2 ) );
-	p.y = ( p.y - ( font->height / 2 ) ); 
-	
-	if ( p.x == -6 )
-		p.x = 0;
+	p.y = ( p.y - ( height / 2 ) );
 	
 	drawStr(text, font, blendInto, p);
 }
