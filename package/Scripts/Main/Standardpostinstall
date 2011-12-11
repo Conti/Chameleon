@@ -43,7 +43,7 @@ if [ "$3" == "/" ]
 then
 	targetVolume="/Volumes/"$( ls -1F /Volumes | sed -n 's:@$::p' )
 else
-    targetVolume="$3"
+	targetVolume="$3"
 fi
 
 
@@ -54,6 +54,8 @@ targetDiskRaw=${targetDisk/disk/rdisk}
 targetSlice=${targetDevice#*disk*s}
 
 targetResources="${targetVolume}/usr/local/bin/"
+
+updateStage1=1 # by default update partition boot sector
 
 echo "==============================================="
 echo "DEBUG: display script variables"
@@ -87,115 +89,111 @@ returnValue=$?
 if [ ${returnValue} = 0 ]; then
 	# OK to proceed
 
-
 	# Does a GRUB or Linux loader already exist in the disk's MBR?
 	# The script returns 1 if yes, 0 if no.
-
 	"$scriptDir"CheckGRUBLinuxLoader.sh "${targetDisk}" "${targetVolume}" "${scriptDir}"
-	returnValue=$?
-	if [ ${returnValue} = 0 ]; then
-		# OK to proceed
-
-
-		# check for a 4-byte Windows disk signature in the disk's MBR.
-		# the following script returns 1 if a Windows disk signature exists, and 0 if not.
-
-		"$scriptDir"CheckWindowsDiskSignature.sh "${targetDisk}" "${targetVolume}" "${scriptDir}"
-		diskSigCheck=$?
-
-
+	diskupdate=$?
+	if [ ${diskupdate} -ne 0 ]; then
+		"$scriptDir"InstallLog.sh "${targetVolume}" "Found an existing GRUB/LILO bootloader in the MBR."
+		"$scriptDir"InstallLog.sh "${targetVolume}" "MBR and partition boot sector will not be modified."
+		updateStage1=0
+	else
 		# check for existing bootloaders in the disk's MBR
 		# and find out if we can write the Chameleon boot files.
 		# the following script returns 0 if we can proceed
 		# with writing the boot files, and 1 for not.
-
 		"$scriptDir"CheckDiskMicrocode.sh "${targetDisk}" "${diskSigCheck}" "${targetVolume}" "${scriptDir}"
 		diskupdate=$?
+	fi
 
 
-		# check the format of the selected partition.
-		# result should be either hfs or msdos
-		# Should really check to make sure!
+	# check for a 4-byte Windows disk signature in the disk's MBR.
+	# the following script returns 1 if a Windows disk signature exists, and 0 if not.
+	"$scriptDir"CheckWindowsDiskSignature.sh "${targetDisk}" "${targetVolume}" "${scriptDir}"
+	diskSigCheck=$?
 
-		targetFormat=$( fstyp "$targetDevice" )
-		
 
-		# check the partition scheme used for the selected disk.
-		# the following script returns 1 if GPT
-		# the following script returns 2 if GPT/MBR
-		# the following script returns 3 if MBR
+	# check the format of the selected partition.
+	# result should be either hfs or msdos
+	# Should really check to make sure!
+	targetFormat=$( fstyp "$targetDevice" )
+
+
+	# check the partition scheme used for the selected disk.
+	# the following script returns 1 if GPT
+	# the following script returns 2 if GPT/MBR
+	# the following script returns 3 if MBR
+	# the following script returns 0 if nothing
+	"$scriptDir"CheckPartitionScheme.sh "${targetDisk}" "${targetVolume}" "${scriptDir}"
+	partitionScheme=$?
+	if [ ${partitionScheme} = 3 ]; then
+		# If MBR partition scheme then check for FAT16 or FAT32
+
+		# the following script returns 1 if FAT16
+		# the following script returns 2 if FAT32
 		# the following script returns 0 if nothing
+		"$scriptDir"CheckFatType.sh "${targetDeviceRaw}" "${targetVolume}" "${scriptDir}"
+		fatType=$?
+	fi
 
-		"$scriptDir"CheckPartitionScheme.sh "${targetDisk}" "${targetVolume}" "${scriptDir}"
-		partitionScheme=$?
-		if [ ${partitionScheme} = 3 ]; then
-			# If MBR partition scheme then check for FAT16 or FAT32
+	if [ "${fatType}" = 1 ] && [ "${partitionScheme}" = 3 ]; then
+		# Write error to Chameleon_Error_Log file
+		"$scriptDir"InstallLog.sh "${targetVolume}" "FAIL: Cannot install to a device using FAT16"
+	else
+		# Continue if the selected device is not a FAT16 format device
 
-			# the following script returns 1 if FAT16
-			# the following script returns 2 if FAT32
-			# the following script returns 0 if nothing
+		# Append a line break to the installer log
+		"$scriptDir"InstallLog.sh "${targetVolume}" "LineBreak"
 
-			"$scriptDir"CheckFatType.sh "${targetDeviceRaw}" "${targetVolume}" "${scriptDir}"
-			fatType=$?
+		if [ ${diskupdate} -eq 0 ]; then
+			# Write the stage 0 loader to the MBR
+			"$scriptDir"WriteChameleonStage0.sh "${diskSigCheck}" "${stage0Loader}" "${stage0LoaderDualBoot}" "${targetDisk}" "${targetResources}" "${targetVolume}" "${scriptDir}"
+		else
+			"$scriptDir"InstallLog.sh "${targetVolume}" "Stage 0 loader not written to ${targetDisk}."
 		fi
 
-		if [ "${fatType}" = 1 ] && [ "${partitionScheme}" = 3 ]; then
-			# Write error to Chameleon_Error_Log file
-			"$scriptDir"InstallLog.sh "${targetVolume}" "FAIL: Cannot install to a device using FAT16"
-		else
-			# Continue if the selected device is not a FAT16 format device
-
-			# Append a line break to the installer log
-			"$scriptDir"InstallLog.sh "${targetVolume}" "LineBreak"
-
-			if [ ${diskupdate} = "0" ]; then
-			
-				# Write the stage 0 loader to the MBR
-				"$scriptDir"WriteChameleonStage0.sh "${diskSigCheck}" "${stage0Loader}" "${stage0LoaderDualBoot}" "${targetDisk}" "${targetResources}" "${targetVolume}" "${scriptDir}"
-			else
-				"$scriptDir"InstallLog.sh "${targetVolume}" "Stage 0 loader not written to ${targetDisk}."
-			fi
-
+		if [ ${updateStage1} -eq 1 ]; then
 			# Write the stage 1 loader to the partition boot sector
 			"$scriptDir"WriteChameleonStage1.sh "${targetFormat}" "${stage1LoaderHFS}" "${stage1LoaderFAT}" "${3}" "${targetDeviceRaw}" "${targetVolume}" "${scriptDir}"
+		else
+			"$scriptDir"InstallLog.sh "${targetVolume}" "Partition boot sector not written to ${targetDevice}."
+		fi
 
-			# Write the stage 2 loader to the root of the selected partition
-			"$scriptDir"WriteChameleonStage2.sh "${stage2Loader}" "${3}" "${targetDevice}" "${targetVolume}" "${scriptDir}"
+		# Write the stage 2 loader to the root of the selected partition
+		"$scriptDir"WriteChameleonStage2.sh "${stage2Loader}" "${3}" "${targetDevice}" "${targetVolume}" "${scriptDir}"
 
 
-			# Next we look to check for existing Chameleon installations.
-			# But as it will check /Volumes/EFI for the stage 2 loader,
-			# we need to make sure it's mounted.
-			
-			# Tell the user what's going on.
-			"$scriptDir"InstallLog.sh "${targetVolume}" "LineBreak"
-			"$scriptDir"InstallLog.sh "${targetVolume}" "About to check your disk for previous installations"
-			"$scriptDir"InstallLog.sh "${targetVolume}" "which involves checking the EFI system partition if"
-			"$scriptDir"InstallLog.sh "${targetVolume}" "appropriate for this disk."
-			
-			# Unmount ALL mounted volumes named EFI.
-			# Returns 0=success, 1=fail
-			
-			"$scriptDir"UnMountEFIvolumes.sh "${targetVolume}" "${scriptDir}"
-			returnValue=$?
-			if [ ${returnValue} = 0 ]; then
-				# OK to proceed
-				
-				if [ ${partitionScheme} = 1 ] || [ ${partitionScheme} = 2 ]; then
-					# Mount the EFI system partition
-					"$scriptDir"MountESP.sh "${targetDisk}" "${targetVolume}" "${scriptDir}"
-				fi
-				
-				# Check for another existing Chameleon installation on the same disk
-				"$scriptDir"CheckPreviousChameleon.sh "${targetDisk}" "${targetDeviceRaw}" "${targetDevice}" "${targetVolume}" "${scriptDir}"
+		# Next we look to check for existing Chameleon installations.
+		# But as it will check /Volumes/EFI for the stage 2 loader,
+		# we need to make sure it's mounted.
+
+		# Tell the user what's going on.
+		"$scriptDir"InstallLog.sh "${targetVolume}" "LineBreak"
+		"$scriptDir"InstallLog.sh "${targetVolume}" "About to check your disk for previous installations"
+		"$scriptDir"InstallLog.sh "${targetVolume}" "which involves checking the EFI system partition if"
+		"$scriptDir"InstallLog.sh "${targetVolume}" "appropriate for this disk."
+
+		# Unmount ALL mounted volumes named EFI.
+		# Returns 0=success, 1=fail
+		"$scriptDir"UnMountEFIvolumes.sh "${targetVolume}" "${scriptDir}"
+		returnValue=$?
+		if [ ${returnValue} = 0 ]; then
+			# OK to proceed
+
+			if [ ${partitionScheme} = 1 ] || [ ${partitionScheme} = 2 ]; then
+				# Mount the EFI system partition
+				"$scriptDir"MountESP.sh "${targetDisk}" "${targetVolume}" "${scriptDir}"
 			fi
 
-			# Append a line break to the installer log
-			"$scriptDir"InstallLog.sh "${targetVolume}" "LineBreak"
-
-			# Set the active partition ONLY if Windows is not installed
-			"$scriptDir"SetActivePartition.sh "${diskSigCheck}" "${targetDiskRaw}" "${targetSlice}" "${targetVolume}" "${scriptDir}"	
+			# Check for another existing Chameleon installation on the same disk
+			"$scriptDir"CheckPreviousChameleon.sh "${targetDisk}" "${targetDeviceRaw}" "${targetDevice}" "${targetVolume}" "${scriptDir}"
 		fi
+
+		# Append a line break to the installer log
+		"$scriptDir"InstallLog.sh "${targetVolume}" "LineBreak"
+
+		# Set the active partition ONLY if Windows is not installed
+		"$scriptDir"SetActivePartition.sh "${diskSigCheck}" "${targetDiskRaw}" "${targetSlice}" "${targetVolume}" "${scriptDir}"
 	fi
 fi
 
