@@ -194,12 +194,25 @@ outline[$((outlinecount++))]="${indent[$xmlindent]}<choices-outline>"
 		}
 		fi
 # -
+		# Warning Keylayout module need additional files
 		if [ -e ${1%/*}/i386/modules/Keylayout.dylib ]; then
 		{
-			mkdir -p ${1}/Keylayout/Root
-			ditto --noextattr --noqtn ${1%/*}/i386/modules/Keylayout.dylib ${1}/Keylayout/Root
+			mkdir -p ${1}/Keylayout/Root/Extra/{modules,Keymaps}
+			mkdir -p ${1}/Keylayout/Root/usr/local/bin
+			layout_src_dir="${1%/sym/*}/i386/modules/Keylayout/layouts/layouts-src"
+			if [ -d "$layout_src_dir" ];then
+				# Create a tar.gz from layout sources
+				(cd "$layout_src_dir"; \
+					tar czf "${1}/Keylayout/Root/Extra/Keymaps/layouts-src.tar.gz" README *.slt)
+			fi
+			# Adding module
+			ditto --noextattr --noqtn ${1%/*}/i386/modules/Keylayout.dylib ${1}/Keylayout/Root/Extra/modules
+			# Adding Keymaps
+			ditto --noextattr --noqtn ${1%/sym/*}/Keymaps ${1}/Keylayout/Root/Extra/Keymaps
+			# Adding tools
+			ditto --noextattr --noqtn ${1%/*}/i386/cham-mklayout ${1}/Keylayout/Root/usr/local/bin
 			echo "	[BUILD] Keylayout "
-			buildpackage "${1}/Keylayout" "/$chamTemp/Extra/modules" "" "start_selected=\"false\"" >/dev/null 2>&1
+			buildpackage "${1}/Keylayout" "/" "" "start_selected=\"true\"" >/dev/null 2>&1
 		}
 		fi
 
@@ -208,7 +221,7 @@ outline[$((outlinecount++))]="${indent[$xmlindent]}<choices-outline>"
 	}
 	else
 	{
-		echo "      -= no modules to include =-"
+		echo "		-= no modules to include =-"
 	}
 	fi
 # End build Modules packages
