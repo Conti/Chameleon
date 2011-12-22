@@ -191,6 +191,8 @@ struct BootVolume {
 	char			 altlabel[BVSTRLEN]; /* partition volume label */
 	bool			 filtered;		  /* newFilteredBVChain() will set to TRUE */
 	bool			 visible;		  /* will shown in the device list */
+    char			 OSVersion[8];
+    bool             OSisServer;        /* 1 = OS X server , 0 = OS X client */
 };
 
 enum {

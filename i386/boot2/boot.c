@@ -81,7 +81,7 @@ long		gBootMode; /* defaults to 0 == kBootModeNormal */
 BVRef		bvr, menuBVR, bvChain;
 
 static bool				checkOSVersion(const char * version);
-static bool				getOSVersion();
+static void				getOSVersion();
 static unsigned long	Adler32(unsigned char *buffer, long length);
 //static void			selectBiosDevice(void);
 
@@ -761,36 +761,9 @@ bool checkOSVersion(const char * version)
 			&& (gMacOSVersion[2] == version[2]) && (gMacOSVersion[3] == version[3]));
 }
 
-bool getOSVersion()
+static void getOSVersion()
 {
-	bool			valid = false;
-	const char		*val;
-	int				len;
-	config_file_t	systemVersion;
-	
-	if (!loadConfigFile("System/Library/CoreServices/SystemVersion.plist", &systemVersion))
-	{
-		valid = true;
-	}
-	else if (!loadConfigFile("System/Library/CoreServices/ServerVersion.plist", &systemVersion))
-	{
-		valid = true;
-	}
-	
-	if (valid)
-	{
-		if	(getValueForKey(kProductVersion, &val, &len, &systemVersion))
-		{
-			// getValueForKey uses const char for val
-			// so copy it and trim
-			*gMacOSVersion = '\0';
-			strncat(gMacOSVersion, val, MIN(len, 4));
-		}
-		else
-			valid = false;
-	}
-	
-	return valid;
+	strlcpy(gMacOSVersion,gBootVolume->OSVersion,sizeof(gMacOSVersion)+1);	
 }
 
 #define BASE 65521L /* largest prime smaller than 65536 */

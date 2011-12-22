@@ -1,3 +1,5 @@
+- cparm : Ported the OS detection to the trunk, updated the default theme to v 1.1 (credit to blackosx) 
+
 - Added AtiPorts option to GraphicsEnabler, so users can override the default number of ports. It proved
   to be useful when used to limit the number of ports that a framebuffer registers, which seems to be a
   requirement on laptops that can only use 2 ports at the same time.

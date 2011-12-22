@@ -43,8 +43,24 @@ enum {
     iDeviceGeneric_o,
     iDeviceHFS,
     iDeviceHFS_o,
+	iDeviceHFS_Lion,
+    iDeviceHFS_Lion_o,
+	iDeviceHFS_SL,
+    iDeviceHFS_SL_o,
+	iDeviceHFS_Leo,
+    iDeviceHFS_Leo_o,
+	iDeviceHFS_Tiger,
+    iDeviceHFS_Tiger_o,
     iDeviceHFSRAID,
     iDeviceHFSRAID_o,
+	iDeviceHFSRAID_Lion,
+    iDeviceHFSRAID_Lion_o,
+	iDeviceHFSRAID_SL,
+    iDeviceHFSRAID_SL_o,
+	iDeviceHFSRAID_Leo,
+    iDeviceHFSRAID_Leo_o,
+	iDeviceHFSRAID_Tiger,
+    iDeviceHFSRAID_Tiger_o,
     iDeviceEXT3,
     iDeviceEXT3_o,
     iDeviceFreeBSD,     /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
@@ -97,9 +113,26 @@ image_t images[] = {
     {.name = "device_generic",              .image = NULL},
     {.name = "device_generic_o",            .image = NULL},
     {.name = "device_hfsplus",              .image = NULL},
-    {.name = "device_hfsplus_o",            .image = NULL},
+    {.name = "device_hfsplus_o",            .image = NULL},	
+	{.name = "device_hfsplus_lion",              .image = NULL},
+    {.name = "device_hfsplus_lion_o",            .image = NULL},
+	{.name = "device_hfsplus_sl",              .image = NULL},
+    {.name = "device_hfsplus_sl_o",            .image = NULL},
+	{.name = "device_hfsplus_leo",              .image = NULL},
+    {.name = "device_hfsplus_leo_o",            .image = NULL},
+	{.name = "device_hfsplus_tiger",              .image = NULL},
+    {.name = "device_hfsplus_tiger_o",            .image = NULL},
+	
     {.name = "device_hfsraid",              .image = NULL},
     {.name = "device_hfsraid_o",            .image = NULL},
+	{.name = "device_hfsplus_raid_lion",              .image = NULL},
+    {.name = "device_hfsplus_raid_lion_o",            .image = NULL},
+	{.name = "device_hfsplus_raid_sl",              .image = NULL},
+    {.name = "device_hfsplus_raid_sl_o",            .image = NULL},
+	{.name = "device_hfsplus_raid_leo",              .image = NULL},
+    {.name = "device_hfsplus_raid_leo_o",            .image = NULL},
+	{.name = "device_hfsplus_raid_tiger",              .image = NULL},
+    {.name = "device_hfsplus_raid_tiger_o",            .image = NULL},
     {.name = "device_ext3",                 .image = NULL},
     {.name = "device_ext3_o",               .image = NULL},
     {.name = "device_freebsd",              .image = NULL},     /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
@@ -285,13 +318,24 @@ static int loadThemeImage(const char *image, int alt_image)
             return 0;
         }
 #endif
-        else if (alt_image != IMG_REQUIRED && images[alt_image].image->pixels != NULL)
+        else if (alt_image != IMG_REQUIRED)
         {
-            // Using the passed alternate image for non-mandatory images.
-            // We don't clone the already existing pixmap, but using its properties instead!
-            images[i].image->width = images[alt_image].image->width;
-            images[i].image->height = images[alt_image].image->height;
-            images[i].image->pixels = images[alt_image].image->pixels;
+			if (images[alt_image].image->pixels != NULL) {
+				
+				// Using the passed alternate image for non-mandatory images.
+				// We don't clone the already existing pixmap, but using its properties instead!
+				images[i].image->width = images[alt_image].image->width;
+				images[i].image->height = images[alt_image].image->height;
+				images[i].image->pixels = images[alt_image].image->pixels;
+				
+			} else {
+                
+				// Unable to load or to find the image, this image not vital anyway, reseting and returning success !!
+                
+				free(images[i].image);
+				images[i].image = NULL;
+			} 
+			
             return 0;
         }
         else
@@ -300,8 +344,12 @@ static int loadThemeImage(const char *image, int alt_image)
             printf("ERROR: GUI: could not open '%s/%s.png'!\n", theme_name, image);
 			sleep(2);
 #endif
-            return 1;
-        }
+			free(images[i].image);
+			images[i].image = NULL;
+			return 1;
+            
+        }      
+        
     }
 	return 1;
 }
@@ -315,8 +363,25 @@ static int loadGraphics(void)
 	LOADPNG(device_generic_o,               iDeviceGeneric);
 	LOADPNG(device_hfsplus,                 iDeviceGeneric);
 	LOADPNG(device_hfsplus_o,               iDeviceHFS);
+	LOADPNG(device_hfsplus_lion,            iDeviceHFS_Lion);
+	LOADPNG(device_hfsplus_lion_o,          iDeviceHFS_Lion_o);
+	LOADPNG(device_hfsplus_sl,              iDeviceHFS_SL);
+	LOADPNG(device_hfsplus_sl_o,            iDeviceHFS_SL_o);
+	LOADPNG(device_hfsplus_leo,             iDeviceHFS_Leo);
+	LOADPNG(device_hfsplus_leo_o,           iDeviceHFS_Leo_o);
+	LOADPNG(device_hfsplus_tiger,           iDeviceHFS_Tiger);
+	LOADPNG(device_hfsplus_tiger_o,         iDeviceHFS_Tiger_o);
+	
 	LOADPNG(device_hfsraid,                 iDeviceGeneric);
 	LOADPNG(device_hfsraid_o,               iDeviceHFSRAID);
+	LOADPNG(device_hfsplus_raid_lion,       iDeviceHFSRAID_Lion);
+	LOADPNG(device_hfsplus_raid_lion_o,     iDeviceHFSRAID_Lion_o);
+	LOADPNG(device_hfsplus_raid_sl,         iDeviceHFSRAID_SL);
+	LOADPNG(device_hfsplus_raid_sl_o,       iDeviceHFSRAID_SL_o);
+	LOADPNG(device_hfsplus_raid_leo,        iDeviceHFSRAID_Leo);
+	LOADPNG(device_hfsplus_raid_leo_o,      iDeviceHFSRAID_Leo_o);
+	LOADPNG(device_hfsplus_raid_tiger,      iDeviceHFSRAID_Tiger);
+	LOADPNG(device_hfsplus_raid_tiger_o,    iDeviceHFSRAID_Tiger_o);
 	LOADPNG(device_ext3,                    iDeviceGeneric);
 	LOADPNG(device_ext3_o,                  iDeviceEXT3);
 	LOADPNG(device_freebsd,                 iDeviceGeneric);        /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
@@ -764,6 +829,11 @@ int initGUI(void)
 	return 1;
 }
 
+bool is_image_loaded(int i)
+{	
+	return (images[i].image != NULL) ? true : false;
+}
+
 void drawDeviceIcon(BVRef device, pixmap_t *buffer, position_t p, bool isSelected)
 {
 	int devicetype;
@@ -775,39 +845,84 @@ void drawDeviceIcon(BVRef device, pixmap_t *buffer, position_t p, bool isSelecte
 		switch (device->part_type)
 		{
 			case kPartitionTypeHFS:
+			{				
 
 				// Use HFS or HFSRAID icon depending on bvr flags.
-				devicetype = (device->flags & kBVFlagBooter) ? iDeviceHFSRAID : iDeviceHFS;
-				break;
-
-			case kPartitionTypeHPFS:
-				devicetype = iDeviceNTFS;		// Use HPFS / NTFS icon
-				break;
-
-			case kPartitionTypeBEFS:                        /* Haiku detection and Icon credits to scorpius  */
-				devicetype = iDeviceBEFS;		// Use BEFS / Haiku icon
-				break;
-
-			case kPartitionTypeFreeBSD:                     /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
-				devicetype = iDeviceFreeBSD;            // Use FreeBSD icon
+				if (device->flags & kBVFlagBooter) {
+                    
+					switch (device->OSVersion[3]) {
+						case '7':
+							devicetype = is_image_loaded(iDeviceHFSRAID_Lion) ? iDeviceHFSRAID_Lion : is_image_loaded(iDeviceHFSRAID) ? iDeviceHFSRAID  : iDeviceGeneric;
+							break;
+						case '6':
+							devicetype = is_image_loaded(iDeviceHFSRAID_SL) ? iDeviceHFSRAID_SL : is_image_loaded(iDeviceHFSRAID) ? iDeviceHFSRAID  : iDeviceGeneric;
+							break;
+						case '5':
+							devicetype = is_image_loaded(iDeviceHFSRAID_Leo) ? iDeviceHFSRAID_Leo : is_image_loaded(iDeviceHFSRAID) ? iDeviceHFSRAID  : iDeviceGeneric;
+							break;
+						case '4':
+							devicetype = is_image_loaded(iDeviceHFSRAID_Tiger) ? iDeviceHFSRAID_Tiger : is_image_loaded(iDeviceHFSRAID) ? iDeviceHFSRAID  : iDeviceGeneric;
+							break;
+						default:
+							devicetype = is_image_loaded(iDeviceHFSRAID) ? iDeviceHFSRAID  : iDeviceGeneric;
+							break;
+					}
+					
+				} 
+                else
+				{					
+					
+					switch (device->OSVersion[3]) {
+						case '7':
+							devicetype = is_image_loaded(iDeviceHFS_Lion) ? iDeviceHFS_Lion : is_image_loaded(iDeviceHFS) ? iDeviceHFS : iDeviceGeneric;
+							break;
+						case '6':
+							devicetype = is_image_loaded(iDeviceHFS_SL) ? iDeviceHFS_SL : is_image_loaded(iDeviceHFS) ? iDeviceHFS : iDeviceGeneric;
+							break;
+						case '5':
+							devicetype = is_image_loaded(iDeviceHFS_Leo) ? iDeviceHFS_Leo : is_image_loaded(iDeviceHFS) ? iDeviceHFS : iDeviceGeneric;
+							break;
+						case '4':
+							devicetype = is_image_loaded(iDeviceHFS_Tiger) ? iDeviceHFS_Tiger : is_image_loaded(iDeviceHFS) ? iDeviceHFS : iDeviceGeneric;
+							break;
+						default:
+							devicetype = is_image_loaded(iDeviceHFS) ? iDeviceHFS : iDeviceGeneric;
+							break;
+					}						
+					
+				}
+				
 				break;
 				
-			case kPartitionTypeOpenBSD:                     /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
-				devicetype = iDeviceOpenBSD;            // Use OpenBSD icon
+			}				
+			case kPartitionTypeHPFS:
+				devicetype = is_image_loaded(iDeviceNTFS) ? iDeviceNTFS : iDeviceGeneric;		// Use HPFS / NTFS icon
 				break;
 				
 			case kPartitionTypeFAT16:
-				devicetype = iDeviceFAT16;		// Use FAT16 icon
+				devicetype = is_image_loaded(iDeviceFAT16) ? iDeviceFAT16 : iDeviceGeneric;		// Use FAT16 icon
 				break;
-
+				
 			case kPartitionTypeFAT32:
-				devicetype = iDeviceFAT32;		// Use FAT32 icon
+				devicetype = is_image_loaded(iDeviceFAT32) ? iDeviceFAT32 : iDeviceGeneric;		// Use FAT32 icon
 				break;
-
+				
 			case kPartitionTypeEXT3:
-				devicetype = iDeviceEXT3;		// Use EXT2/3 icon
+				devicetype = is_image_loaded(iDeviceEXT3) ? iDeviceEXT3 : iDeviceGeneric;		// Use EXT2/3 icon
 				break;
-
+				
+			case kPartitionTypeFreeBSD:
+				devicetype = is_image_loaded(iDeviceFreeBSD) ? iDeviceFreeBSD : iDeviceGeneric;		// Use FreeBSD icon
+				break;
+				
+			case kPartitionTypeOpenBSD:
+				devicetype = is_image_loaded(iDeviceOpenBSD) ? iDeviceOpenBSD : iDeviceGeneric;		// Use OpenBSD icon
+				break;
+				
+			case kPartitionTypeBEFS:               /* Haiku detection and Icon credits to scorpius  */
+				devicetype = is_image_loaded(iDeviceBEFS) ? iDeviceBEFS : iDeviceGeneric;// Use BEFS / Haiku icon
+				break;
+				
 			default:
 				devicetype = iDeviceGeneric;	// Use Generic icon
 				break;

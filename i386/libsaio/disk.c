@@ -131,6 +131,7 @@ int (*p_ramdiskReadBytes)( int biosdev, unsigned int blkno,
                       unsigned int byteCount, void * buffer ) = NULL;
 int (*p_get_ramdisk_info)(int biosdev, struct driveInfo *dip) = NULL;
 
+static bool getOSVersion(BVRef bvr, char *str);
 
 extern void spinActivityIndicator(int sectors);
 
@@ -1427,6 +1428,48 @@ scanErr:
     }
 }
 
+static bool getOSVersion(BVRef bvr, char *str)
+{
+	bool valid = false;	
+	config_file_t systemVersion;
+	char  dirSpec[512];	
+	
+	sprintf(dirSpec, "hd(%d,%d)/System/Library/CoreServices/SystemVersion.plist", BIOS_DEV_UNIT(bvr), bvr->part_no);
+	
+	if (!loadConfigFile(dirSpec, &systemVersion))
+	{
+		valid = true;
+	}
+	else 
+	{
+		sprintf(dirSpec, "hd(%d,%d)/System/Library/CoreServices/ServerVersion.plist", BIOS_DEV_UNIT(bvr), bvr->part_no);
+		
+		if (!loadConfigFile(dirSpec, &systemVersion))
+		{	
+            bvr->OSisServer = true;
+			valid = true;
+		}		
+	}
+	
+	if (valid)
+	{		
+		const char *val;
+		int len;
+		
+		if  (getValueForKey(kProductVersion, &val, &len, &systemVersion))
+		{
+			// getValueForKey uses const char for val
+			// so copy it and trim
+			*str = '\0';
+			strncat(str, val, MIN(len, 4));
+		}
+		else
+			valid = false;
+	}
+	
+	return valid;
+}
+
 //==========================================================================
 
 static void scanFSLevelBVRSettings(BVRef chain)
@@ -1479,18 +1522,10 @@ static void scanFSLevelBVRSettings(BVRef chain)
     //
     if (bvr->flags & kBVFlagNativeBoot)
     {
-      sprintf(dirSpec, "hd(%d,%d)/System/Library/CoreServices/", BIOS_DEV_UNIT(bvr), bvr->part_no);
-      strcpy(fileSpec, "SystemVersion.plist");
-      ret = GetFileInfo(dirSpec, fileSpec, &flags, &time);
-
-      if (ret == -1)
-      {
-        strcpy(fileSpec, "ServerVersion.plist");
-        ret = GetFileInfo(dirSpec, fileSpec, &flags, &time);
-      }
-
-      if (!ret)
-        bvr->flags |= kBVFlagSystemVolume;
+        if (getOSVersion(bvr,bvr->OSVersion) == true)
+        {
+            bvr->flags |= kBVFlagSystemVolume;
+        }
     }
 
   }

@@ -124,6 +124,7 @@ int  initGUI();
 void drawBackground();
 
 void setupDeviceList(config_file_t *theme);
+bool is_image_loaded(int i);
 void drawDeviceIcon(BVRef device, pixmap_t *buffer, position_t p, bool isSelected);
 void drawDeviceList(int start, int end, int selection);
 void drawProgressBar(pixmap_t *blendInto, uint16_t width, position_t p, uint8_t progress);

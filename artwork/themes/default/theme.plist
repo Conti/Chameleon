@@ -5,11 +5,9 @@
 	<key>Author</key>
 	<string>Blackosx</string>
 	<key>Version</key>
-	<string>1.0</string>
-
+	<string>1.1</string>
 	<key>Enabled</key>
 	<string>no</string>
-
 	<key>screen_width</key>
 	<string>1024</string>
 	<key>screen_height</key>
@@ -20,12 +18,10 @@
 	<string>10</string>
 	<key>screen_bgcolor</key>
 	<string>#767f73</string>
-
 	<key>background_pos_x</key>
 	<string>50%</string>
 	<key>background_pos_y</key>
 	<string>0</string>
-
 	<key>logo_pos_x</key>
 	<string></string>
 	<key>logo_pos_y</key>
@@ -34,7 +30,6 @@
 	<string>#000000</string>
 	<key>logo_transparency</key>
 	<string>255</string>
-
 	<key>devices_pos_x</key>
 	<string></string>
 	<key>devices_pos_y</key>
@@ -49,7 +44,6 @@
 	<string>45</string>
 	<key>devices_layout</key>
 	<string>horizontal</string>
-
 	<key>bootprompt_pos_x</key>
 	<string></string>
 	<key>bootprompt_pos_y</key>
@@ -66,7 +60,6 @@
 	<string>#3e3e3e</string>
 	<key>bootprompt_transparency</key>
 	<string>1</string>
-
 	<key>infobox_pos_x</key>
 	<string></string>
 	<key>infobox_pos_y</key>
@@ -83,7 +76,6 @@
 	<string>#3e3e3e</string>
 	<key>infobox_transparency</key>
 	<string>35</string>
-
 	<key>menu_pos_x</key>
 	<string></string>
 	<key>menu_pos_y</key>
@@ -96,7 +88,6 @@
 	<string>#3e3e3e</string>
 	<key>menu_transparency</key>
 	<string>1</string>
-
 	<key>progressbar_pos_x</key>
 	<string></string>
 	<key>progressbar_pos_y</key>
@@ -105,12 +96,10 @@
 	<string>100</string>
 	<key>progressbar_height</key>
 	<string>40</string>
-
 	<key>countdown_pos_x</key>
 	<string></string>
 	<key>countdown_pos_y</key>
 	<string>-20%</string>
-
 	<key>boot_width</key>
 	<string>1024</string>
 	<key>boot_height</key>
