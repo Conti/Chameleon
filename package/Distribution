@@ -2,52 +2,45 @@
 
 <installer-gui-script minSpecVersion='1'>
 
-	<options hostArchitectures='i386' allow-external-scripts="no"/>
-	<domains enable_anywhere="true"/>
+    <options hostArchitectures='i386' allow-external-scripts="no"/>
+    <domains enable_anywhere="true"/>
 
-	<welcome file='Welcome.rtfd'/>
-	<license file="License.rtf" sla="EA0401"/>
-	<readme  file='Description.html'/>
-	<conclusion file="Conclusion.rtfd"/>
-	<background file='background.tiff' alignment='topleft' scaling='tofit'/>
+    <welcome file='Welcome.rtfd'/>
+    <license file="License.rtf" sla="EA0401"/>
+    <readme  file='Description.html'/>
+    <conclusion file="Conclusion.rtfd"/>
+    <background file='background.tiff' alignment='topleft' scaling='tofit'/>
 
-	<title>Chameleon_title</title>
+    <title>Chameleon_title</title>
 
-	<script>
+    <script>
 
-	function installCheckScript()
-	{	
-		var obj = system.ioregistry.matchingClass("AppleSMC");
-		if (obj) {
-			system.log('installCheckScript: Found AppleSMC');
-			my.result.message = system.localizedStringWithFormat('Intel_Mac_message');
-			my.result.type = 'Fatal';
-			return false;
-		}
-		system.log('installCheckScript: Failed.');
-		return false;
-	}
+    function installCheckScript() {
+        var obj = system.ioregistry.matchingClass("AppleSMC");
+        if (obj) {
+            system.log('installCheckScript: Found AppleSMC');
+            my.result.message = system.localizedStringWithFormat('Intel_Mac_message');
+            my.result.type = 'Fatal';
+            return false;
+        }
+        system.log('installCheckScript: Failed.');
+        return false;
+    }
 
-	function volCheckScript()
-	{	
-		system.log('volCheckScript: Failed.');
-		return true;
-	}
+    function volCheckScript() {
+        system.log('volCheckScript: Failed.');
+        return true;
+    }
 
-	function systemHasGPT(){
-		var obj = system.ioregistry.matchingName("EFI System Partition");
-		if (obj)
-			return true;
-		return false;
-	}
-	
-	function exclusive(toggle){
-		toggle.selected = ( my.choice.selected != "false" ? "false" : "true" );
-		return ( toggle.selected != false ? false : true );
-	}
+    function systemHasGPT() {
+        var obj = system.ioregistry.matchingName("EFI System Partition");
+        if (obj)
+            return true;
+        return false;
+    }
 
-	function chameleon_boot_plist_exists() {
-		return system.files.fileExistsAtPath(my.target.mountpoint + '/Extra/org.chameleon.Boot.plist');
-	}
+    function chameleon_boot_plist_exists() {
+        return system.files.fileExistsAtPath(my.target.mountpoint + '/Extra/org.chameleon.Boot.plist');
+    }
 
     </script>
