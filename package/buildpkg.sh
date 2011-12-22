@@ -106,7 +106,7 @@ outline[$((outlinecount++))]="${indent[$xmlindent]}<choices-outline>"
 		mkdir -p ${1}/Upgrade/Root
 		echo "" > "${1}/Upgrade/Root/install_type_upgrade"
 		echo "	[BUILD] Upgrade "
-		buildpackage "${1}/Upgrade" "/$chamTemp" "" "start_selected=\"false\" selected=\"exclusive(choices['New'])\"" >/dev/null 2>&1
+		buildpackage "${1}/Upgrade" "/$chamTemp" "" "start_selected=\"chameleon_boot_plist_exists()\" selected=\"exclusive(choices['New'])\"" >/dev/null 2>&1
 	# End build upgrade package
 
    ((xmlindent--))
