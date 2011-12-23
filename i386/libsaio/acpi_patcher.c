@@ -819,7 +819,7 @@ int setupAcpi(void)
 
 			sprintf(filename, i>0?"SSDT-%d.aml":"SSDT.aml", i);
 			
-			if(new_ssdt[ssdt_count] = loadACPITable(filename)) 
+			if ( (new_ssdt[ssdt_count] = loadACPITable(filename)) )
 			{				
 				ssdt_count++;
 			}

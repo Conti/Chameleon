@@ -43,7 +43,7 @@ typedef struct pci_dt_t {
 	struct pci_dt_t			*next;
 } pci_dt_t;
 
-#define PCIADDR(bus, dev, func) (1 << 31) | (bus << 16) | (dev << 11) | (func << 8)
+#define PCIADDR(bus, dev, func) ((1 << 31) | (bus << 16) | (dev << 11) | (func << 8))
 #define PCI_ADDR_REG		0xcf8
 #define PCI_DATA_REG		0xcfc
 

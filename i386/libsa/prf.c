@@ -151,7 +151,7 @@ number:
 		break;
 	case 's':
 		s = (char *)*adx;
-		while (c = *s++) {
+		while ((c = *s++)) {
 			(*putfn_p)(c, putfn_arg);
 			width++;
 		}

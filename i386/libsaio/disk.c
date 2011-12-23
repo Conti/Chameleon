@@ -1144,7 +1144,7 @@ static int probeFileSystem(int biosdev, unsigned int blkoff)
     result = FDISK_NTFS;
   else if (BeFSProbe(probeBuffer))
     result = FDISK_BEFS;
-  else if (fatbits=MSDOSProbe(probeBuffer))
+  else if ( (fatbits = MSDOSProbe(probeBuffer)) )
   {
 	  switch (fatbits)
 	  {
@@ -1185,7 +1185,7 @@ static BVRef diskScanGPTBootVolumes( int biosdev, int * countPtr )
     struct DiskBVMap *        map = NULL;
     void *buffer = malloc(BPS);
     int error;
-    if ( error = readBytes( biosdev, /*secno*/0, 0, BPS, buffer ) != 0) {
+    if ( (error = readBytes( biosdev, /*secno*/0, 0, BPS, buffer )) != 0) {
         verbose("Failed to read boot sector from BIOS device %02xh. Error=%d\n", biosdev, error);
         goto scanErr;
     }

@@ -135,7 +135,7 @@ static int countdown( const char * msg, int row, int timeout )
 			lasttime=time18();
 		}		
   
-        if (ch = readKeyboardStatus())
+        if ( (ch = readKeyboardStatus()) )
             break;
 
         // Count can be interrupted by holding down shift,

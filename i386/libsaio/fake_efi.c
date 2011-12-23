@@ -655,7 +655,7 @@ static void setupSmbiosConfigFile(const char *filename)
 	{
 		// Check selected volume's Extra.
 		sprintf(dirSpecSMBIOS, "/Extra/%s", filename);
-		if (err = loadConfigFile(dirSpecSMBIOS, &bootInfo->smbiosConfig))
+		if ( (err = loadConfigFile(dirSpecSMBIOS, &bootInfo->smbiosConfig)) )
 		{
 			// Check booter volume/rdbt Extra.
 			sprintf(dirSpecSMBIOS, "bt(0,0)/Extra/%s", filename);

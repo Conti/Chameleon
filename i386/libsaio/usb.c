@@ -244,7 +244,7 @@ int ehci_acquire (pci_dt_t *pci_dev)
 	//We try soft reset first - some systems hang on reboot with hard reset
 	// Definitely needed during reboot on 10.4.6
 
-	isOwnershipConflict = ((legacy[3] & 1 !=  0) && (legacy[2] & 1 !=  0));
+	isOwnershipConflict = (((legacy[3] & 1) !=  0) && ((legacy[2] & 1) !=  0));
 	if (!alwaysHardBIOSReset && isOwnershipConflict) {
 		DBG("EHCI - Ownership conflict - attempting soft reset ...\n");
 		DBG("EHCI - toggle OS Ownership to 0\n");

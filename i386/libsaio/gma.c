@@ -115,21 +115,21 @@ bool setup_gma_devprop(pci_dt_t *gma_dev)
 	devprop_add_value(device, "model", (uint8_t*)model, (strlen(model) + 1));
 	devprop_add_value(device, "device_type", (uint8_t*)"display", 8);	
 	
-	if ((model == (char *)"Mobile GMA950")
-		|| (model == (char *)"Mobile GMA3150"))
+	if ((strcmp("Mobile GMA950", model) == 0) ||
+		(strcmp("Mobile GMA3150",model) == 0))
 	{
 		devprop_add_value(device, "AAPL,HasPanel", reg_TRUE, 4);
 		devprop_add_value(device, "built-in", &BuiltIn, 1);
 		devprop_add_value(device, "class-code", ClassFix, 4);
 	}
-	else if ((model == (char *)"Desktop GMA950")
-			|| (model == (char *)"Desktop GMA3150"))
+	else if ((strcmp("Desktop GMA950", model) == 0) ||
+			 (strcmp("Desktop GMA3150",model) == 0))
 	{
 		BuiltIn = 0x01;
 		devprop_add_value(device, "built-in", &BuiltIn, 1);
 		devprop_add_value(device, "class-code", ClassFix, 4);
 	}
-	else if (model == (char *)"GMAX3100")
+	else if (strcmp("GMAX3100",model) == 0)
 	{
 		devprop_add_value(device, "AAPL,HasPanel",					GMAX3100_vals[0], 4);
 		devprop_add_value(device, "AAPL,SelfRefreshSupported",		GMAX3100_vals[1], 4);
