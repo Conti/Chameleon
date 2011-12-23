@@ -763,7 +763,7 @@ bool checkOSVersion(const char * version)
 
 static void getOSVersion()
 {
-	strlcpy(gMacOSVersion,gBootVolume->OSVersion,sizeof(gMacOSVersion)+1);	
+	strlcpy(gMacOSVersion, gBootVolume->OSVersion, sizeof(gMacOSVersion));
 }
 
 #define BASE 65521L /* largest prime smaller than 65536 */
