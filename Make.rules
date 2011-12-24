@@ -141,13 +141,24 @@ $(RECURSIVE_CLEAN_TARGETS):
 					|| eval $$failcom; \
 				done
 
+
 clean-dep:
 	@if [ -f "$(OBJROOT)/Makedep" ];then echo "\t[RM] $(OBJROOT)/Makedep"; fi
 	@rm -f $(OBJROOT)/Makedep
 
+
+FIND_IGNORE := \( -name .git -o -name .svn \) -prune -o -name Cconfig -o
+
+# clean: remove most generated files
 clean: clean-recursive clean-dep
 
 distclean: distclean-recursive clean-local clean-dep
+		@find . $(FIND_IGNORE) \
+				\( -name '*.orig' -o -name '*.rej' -o -name '*~' \
+				-o -name '*.bak' -o -name '#*#' -o -name '.*.orig' \
+				-o -name '.*.rej' -o -size 0 \
+				-o -name '*%' -o -name '.*.cmd' -o -name 'core' \) \
+				-type f -print | xargs rm -f
 
 clean-local:
 
