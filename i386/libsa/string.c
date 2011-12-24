@@ -165,15 +165,6 @@ strncpy(char * s1, const char * s2, size_t n)
 	return ret;
 }
 
-size_t
-strlcpy(char * s1, const char * s2, size_t n)
-{
-	while (n && (*s1++ = *s2++))
-		n--;
-	if (!n) *--s1=0;
-	return strlen(s2);
-}
-
 char *
 strstr(const char *in, const char *str)
 {

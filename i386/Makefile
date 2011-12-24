@@ -16,7 +16,7 @@ include ${SRCROOT}/Make.rules
 
 # The order of building is important.
 SUBDIRS_PRE = util
-SUBDIRS = $(SUBDIRS_PRE) libsa libsaio boot0 boot1 boot2 cdboot modules
+SUBDIRS = $(SUBDIRS_PRE) klibc libsa libsaio boot0 boot1 boot2 cdboot modules
 
 modules-builtin:
 	@cd modules; ${MAKE} BUILT_IN=yes

@@ -35,8 +35,8 @@ THEME = $(CONFIG_EMBEDED_THEME)
 THEMEDIR = ../../artwork/themes/$(THEME)
 INC = -I. -I$(SRCROOT) -I$(SYMDIR) -I$(LIBSADIR) -I$(LIBSAIODIR) -I${SRCROOT}/i386/include
 
-LIBS= -L$(SYMDIR) -lsaio -lsa
-LIBDEP= libsaio.a libsa.a
+LIBS= -L$(SYMDIR) -lsaio -lsa -lklibc
+LIBDEP= libsaio.a libsa.a libklibc.a
 
 OTHER_FILES =
 
