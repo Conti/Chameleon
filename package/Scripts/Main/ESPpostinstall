@@ -56,6 +56,8 @@ targetSlice=${targetDevice#*disk*s}
 
 targetResources="${targetVolumeChosenByUser}/usr/local/bin/"
 
+efiPartitionExist=0 # target volume does not have EFI system partition.
+
 echo "==============================================="
 echo "DEBUG: display script variables"
 echo "***************************"
@@ -92,14 +94,18 @@ if [ ${partitiontable} = "GUID_partition_scheme" ]; then
 	echo "Confirm this is a GPT partitioned disk."
 
 	# Double check we can see the selected partition and it's of the right type.
-	# If the following script finds anything, it returns 1 to indicate failure.
+	# The following script returns either 0 or 1 to proceed, or 2 to indicate failure.
 
 
 	"$scriptDir"CheckProceed.sh "${targetVolume}" "${targetDeviceChosenByUser}" "${targetVolumeChosenByUser}" "${scriptDir}"
 	returnValue=$?
-	if [ ${returnValue} = 0 ]; then
+	if [ ${returnValue} -ne 2 ]; then
 		# OK to proceed
 
+		# Remember if the target volume has an EFI system partition.
+		if [ ${returnValue} -ne 1 ]; then
+			efiPartitionExist=1
+		fi
 
 		# Does a GRUB or Linux loader already exist in the disk's MBR?
 		# The script returns 1 if yes, 0 if no.
@@ -157,12 +163,14 @@ if [ ${partitiontable} = "GUID_partition_scheme" ]; then
 				# OK to proceed
 				
 				# Mount the EFI system partition
-				"$scriptDir"MountESP.sh "${targetDisk}" "${targetVolumeChosenByUser}" "${scriptDir}"
+				"$scriptDir"MountESP.sh "${targetDisk}" "${targetVolumeChosenByUser}" "${efiPartitionExist}" "${scriptDir}"
 	
 				# Write the stage 2 loader to the root of the selected partition
 				"$scriptDir"WriteChameleonStage2.sh "${stage2Loader}" "${targetVolume}" "${targetDevice}" "${targetVolumeChosenByUser}" "${scriptDir}"
 
 				# Check for another existing Chameleon installation on the same disk
+				"$scriptDir"InstallLog.sh "${targetVolume}" "LineBreak"
+				"$scriptDir"InstallLog.sh "${targetVolume}" "Preparing to check target disk for previous installations."
 				"$scriptDir"CheckPreviousChameleon.sh "${targetDisk}" "${targetDeviceRaw}" "${targetDevice}" "${targetVolumeChosenByUser}" "${scriptDir}"
 			fi	
 

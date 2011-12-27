@@ -52,8 +52,7 @@ numSlices=$(( $( diskutil list | grep $( echo ${targetDisk#/dev/} ) | sed -n '$=
 # if there is more than one partition on the disk.
 # ===============================================
 if [ $numSlices -gt 1 ]; then 
-	"$scriptDir"InstallLog.sh "${installerVolume}" "LineBreak"
-	"$scriptDir"InstallLog.sh "${installerVolume}" "Checking for previous chameleon installations on ${targetDisk#/dev/}"
+	"$scriptDir"InstallLog.sh "${installerVolume}" "Checking ${targetDisk#/dev/}."
 
 	# Check the disk's MBR for existing stage 0 boot code (code from CheckDiskMicrocode.sh script)
 	stage0type=$( dd 2>/dev/null if="$targetDisk" count=3 bs=1 skip=105 | xxd | awk '{print $2$3}' )
@@ -64,6 +63,7 @@ if [ $numSlices -gt 1 ]; then
 	fi
 	
 	#Scan all partitions for Chameleon code
+	cleanRun=1
 	for (( i=1; i <= $numSlices; i++ ));
 	do
 		if [ $stage0type == 1 ] || [ $stage0type == 2 ]; then
@@ -108,7 +108,7 @@ if [ $numSlices -gt 1 ]; then
 				"$scriptDir"InstallLog.sh "${installerVolume}" "${message}"
 			fi
 			if [ $stagesFound == 3 ] && [ $i -gt $sliceNumber ]; then
-				# Exisitng installation found which will no longer be default.
+				# Existing installation found which will no longer be default.
 				message="NOTE: There is an existing Chameleon installation on $targetDiskRaw
 NOTE: but this installation on $targetDevice will be the default loader
 NOTE: because you're installing to an earlier partition on the disk."
@@ -173,11 +173,15 @@ NOTE: and NONE of the other options.
 					#echo "DEBUG: Boot0 not found"
 				fi
 			fi
+		else
+			(( cleanRun++ ))
 		fi
-		
 	done
-#else
-	#echo "DEBUG: Just one slice"
+	if [[ $cleanRun == $i ]]; then
+		"$scriptDir"InstallLog.sh "${installerVolume}" "Nothing found that could cause any problems."
+	fi
+else
+	"$scriptDir"InstallLog.sh "${installerVolume}" "Nothing to check as there's only one partition."
 fi
 
 exit 0

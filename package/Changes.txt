@@ -1,3 +1,19 @@
+- Change Localizable.strings to match the recent changes to the install process.
+
+- Improve messages written to the installation log.
+
+- Change upgrade install to only backup /Extra folder if necessary.
+
+- JrCs - Enhanced installer - We can add an option without an associated package - We can have an option that install
+multiple packages - No more "fake" option (none) - The package that is build is already compressed (no need to
+compress it again)
+
+- JrCs - Update postinstall script - Fix a bug where kernel flags are not set properly - Fix indent - Add some comments.
+
+- JrCs - Automaticaly select upgrade option if /Extra/org.chameleon.Boot.plist file exists on the target volume.
+
+- JrCs - Keylayout / Keymaps fixed and made a mandatory install when a keymap is chosen.
+
 - Add option to upgrade an existing install - or more exactly, merge newly selected options with an existing /Extra folder. Also, rename an existing /Extra/com.apple.Boot.plist to /Extra/org.chameleon.Boot.plist.
 
 - Change the layout/wording displayed in the installer (English only) and give it a facelift. Adjust background image to scale to fit in the window.
