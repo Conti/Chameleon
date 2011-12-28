@@ -5,10 +5,10 @@
 # $2 directory where pkgs will be created
 
 # Directory paths
-PKGROOT="${0%/*}"
-SRCROOT="$1"
-SYMROOT="$2"
-PKG_BUILD_DIR="$3"
+declare -r PKGROOT="${0%/*}"
+declare -r SRCROOT="$1"
+declare -r SYMROOT="$2"
+declare -r PKG_BUILD_DIR="$3"
 
 if [[ $# -lt 3 ]];then
     echo "Too few arguments. Aborting..." >&2 && exit 1
@@ -24,29 +24,35 @@ set -u  # Abort with unset variables
 
 # ====== COLORS ======
 
-COL_BLACK="\x1b[30;01m"
-COL_RED="\x1b[31;01m"
-COL_GREEN="\x1b[32;01m"
-COL_YELLOW="\x1b[33;01m"
-COL_MAGENTA="\x1b[35;01m"
-COL_CYAN="\x1b[36;01m"
-COL_WHITE="\x1b[37;01m"
-COL_BLUE="\x1b[34;01m"
-COL_RESET="\x1b[39;49;00m"
+declare -r COL_BLACK="\x1b[30;01m"
+declare -r COL_RED="\x1b[31;01m"
+declare -r COL_GREEN="\x1b[32;01m"
+declare -r COL_YELLOW="\x1b[33;01m"
+declare -r COL_MAGENTA="\x1b[35;01m"
+declare -r COL_CYAN="\x1b[36;01m"
+declare -r COL_WHITE="\x1b[37;01m"
+declare -r COL_BLUE="\x1b[34;01m"
+declare -r COL_RESET="\x1b[39;49;00m"
 
 # ====== REVISION/VERSION ======
 
-version=$( cat version )
+declare -r version=$( cat version )
+
+# stage
 stage=${version##*-}
-revision=$( grep I386BOOT_CHAMELEONREVISION vers.h | awk '{ print $3 }' | tr -d '\"' )
-builddate=$( grep I386BOOT_BUILDDATE vers.h | awk '{ print $3,$4 }' | tr -d '\"' )
-timestamp=$( date -j -f "%Y-%m-%d %H:%M:%S" "${builddate}" "+%s" )
+stage=${stage/RC/Release Candidate }
+stage=${stage/FINAL/2.1 Final}
+declare -r stage
+
+declare -r revision=$( grep I386BOOT_CHAMELEONREVISION vers.h | awk '{ print $3 }' | tr -d '\"' )
+declare -r builddate=$( grep I386BOOT_BUILDDATE vers.h | awk '{ print $3,$4 }' | tr -d '\"' )
+declare -r timestamp=$( date -j -f "%Y-%m-%d %H:%M:%S" "${builddate}" "+%s" )
 
 # ====== CREDITS ======
 
-develop=$(awk "NR==6{print;exit}"  ${PKGROOT}/../CREDITS)
-credits=$(awk "NR==10{print;exit}" ${PKGROOT}/../CREDITS)
-pkgdev=$(awk "NR==14{print;exit}"  ${PKGROOT}/../CREDITS)
+declare -r develop=$(awk "NR==6{print;exit}"  ${PKGROOT}/../CREDITS)
+declare -r credits=$(awk "NR==10{print;exit}" ${PKGROOT}/../CREDITS)
+declare -r pkgdev=$(awk "NR==14{print;exit}"  ${PKGROOT}/../CREDITS)
 
 # =================
 
@@ -62,11 +68,13 @@ declare -a pkgrefs
 declare -a outline
 declare -a choices
 
+# Package name
+declare -r packagename="Chameleon"
+
 # Package identifiers
-packagesidentity="org.chameleon"
-modules_packages_identity="${packagesidentity}.modules"
-packagename="Chameleon"
-chamTemp="usr/local/chamTemp"
+declare -r chameleon_package_identity="org.chameleon"
+declare -r modules_packages_identity="${chameleon_package_identity}.modules"
+declare -r chamTemp="usr/local/chamTemp"
 
 # ====== FUNCTIONS ======
 
@@ -135,7 +143,7 @@ main ()
 # build pre install package
     echo "================= Preinstall ================="
     ((xmlindent++))
-    packagesidentity="org.chameleon"
+    packagesidentity="${chameleon_package_identity}"
     choiceId="Pre"
     mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Root
     mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Scripts
@@ -151,7 +159,7 @@ main ()
 
 # build core package
     echo "================= Core ================="
-    packagesidentity="org.chameleon"
+    packagesidentity="${chameleon_package_identity}"
     choiceId="Core"
     mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Root/usr/local/bin
     mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Root/usr/standalone/i386
@@ -177,7 +185,7 @@ main ()
     outline[${#outline[*]}]="${indent[$xmlindent]}<line choice=\"InstallType\">"
     choices[${#choices[*]}]="\t<choice\n\t\tid=\"InstallType\"\n\t\ttitle=\"InstallType_title\"\n\t\tdescription=\"InstallType_description\">\n\t</choice>\n"
     ((xmlindent++))
-    packagesidentity="org.chameleon.type"
+    packagesidentity="${chameleon_package_identity}.type"
     allChoices="New Upgrade"
 
     # build new install package
@@ -382,7 +390,7 @@ main ()
 		outline[${#outline[*]}]="${indent[$xmlindent]}<line choice=\"${builtOptionsList}\">"
 		choices[${#choices[*]}]="\t<choice\n\t\tid=\"${builtOptionsList}\"\n\t\ttitle=\"${builtOptionsList}_title\"\n\t\tdescription=\"${builtOptionsList}_description\">\n\t</choice>\n"
 		((xmlindent++))
-		packagesidentity="org.chameleon.options.$builtOptionsList"
+		packagesidentity="${chameleon_package_identity}.options.$builtOptionsList"
 
 		# ------------------------------------------------------
 		# Read boot option file into an array.
@@ -438,7 +446,7 @@ main ()
 	outline[${#outline[*]}]="${indent[$xmlindent]}<line choice=\"KeyLayout\">"
 	choices[${#choices[*]}]="\t<choice\n\t\tid=\"KeyLayout\"\n\t\ttitle=\"KeyLayout_title\"\n\t\tdescription=\"KeyLayout_description\">\n\t</choice>\n"
 	((xmlindent++))
-	packagesidentity="org.chameleon.options.keylayout"
+	packagesidentity="${chameleon_package_identity}.options.keylayout"
 	keylayoutPackageRefId=$(getPackageRefId "${modules_packages_identity}" "Keylayout")
 
 	# ------------------------------------------------------
@@ -484,7 +492,7 @@ main ()
 	((xmlindent++))
 
 	# Using themes section from Azi's/package branch.
-	packagesidentity="org.chameleon.themes"
+	packagesidentity="${chameleon_package_identity}.themes"
 	artwork="${SRCROOT}/artwork/themes"
 	themes=($( find "${artwork}" -type d -depth 1 -not -name '.svn' ))
 	for (( i = 0 ; i < ${#themes[@]} ; i++ )); do
@@ -503,7 +511,7 @@ main ()
 
 # build post install package
     echo "================= Post ================="
-    packagesidentity="org.chameleon"
+    packagesidentity="${chameleon_package_identity}"
     choiceId="Post"
     mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Root
     mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Scripts
@@ -592,9 +600,9 @@ buildpackage ()
 
 makedistribution ()
 {
-    distributionDestDir="${SYMROOT}"
-    distributionFilename="${packagename// /}-${version}-r${revision}.pkg"
-    distributionFilePath="${distributionDestDir}/${distributionFilename}"
+    declare -r distributionDestDir="${SYMROOT}"
+    declare -r distributionFilename="${packagename// /}-${version}-r${revision}.pkg"
+    declare -r distributionFilePath="${distributionDestDir}/${distributionFilename}"
 
     rm -f "${distributionDestDir}/${packagename// /}"*.pkg
 
@@ -637,8 +645,6 @@ makedistribution ()
     perl -i -p -e "s/%CHAMELEONREVISION%/${revision}/g"   $( find "${PKG_BUILD_DIR}/${packagename}/Resources" -type f )
 
 #   Add Chameleon Stage
-    stage=${stage/RC/Release Candidate }
-    stage=${stage/FINAL/2.0 Final}
     perl -i -p -e "s/%CHAMELEONSTAGE%/${stage}/g" $( find "${PKG_BUILD_DIR}/${packagename}/Resources" -type f )
 
 #   Adding Developer and credits
