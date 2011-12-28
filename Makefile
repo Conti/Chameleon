@@ -6,7 +6,7 @@ DSTROOT = $(SRCROOT)/dst
 DOCROOT = $(SRCROOT)/doc
 IMGSKELROOT = $(SRCROOT)/imgskel
 CDBOOT = ${IMGROOT}/usr/standalone/i386/cdboot
-
+PKG_BUILD_DIR = $(SYMROOT)/package
 
 include Make.rules
 
@@ -100,10 +100,10 @@ endif
 	@mv ${DISTFILE}.tar.gz ${DISTFILE}.tgz
 
 clean-local:
-	@if [ -d "$(SYMROOT)/package" ];then echo "\t[RMDIR] $(SYMROOT)/package"; fi
+	@if [ -d "$(PKG_BUILD_DIR)" ];then echo "\t[RMDIR] $(PKG_BUILD_DIR)"; fi
 	@if [ -f "$(HEADER_VERSION)" ];then echo "\t[RM] $(HEADER_VERSION)"; fi
 	@if [ -f "$(SRCROOT)/revision" ];then echo "\t[RM] $(SRCROOT)/revision"; fi
-	@rm -rf "$(SYMROOT)/package" $(HEADER_VERSION) $(SRCROOT)/revision
+	@rm -rf "$(PKG_BUILD_DIR)" $(HEADER_VERSION) $(SRCROOT)/revision
 
 AUTOCONF_FILES = $(SRCROOT)/auto.conf    $(SRCROOT)/autoconf.h \
 				 $(SRCROOT)/autoconf.inc $(SRCROOT)/.config $(SRCROOT)/.config.old
@@ -121,7 +121,8 @@ distclean-local:
             $(AUTOCONF_FILES)
 
 pkg installer: all
-	${SRCROOT}/package/buildpkg.sh ${SYMROOT}/package
+	@echo "================= Building Package ================="
+	@${SRCROOT}/package/buildpkg.sh "$(SRCROOT)" "$(SYMROOT)" "$(PKG_BUILD_DIR)"
 
 help:
 	@echo   'Configuration target:'
