@@ -22,6 +22,14 @@ fi
 set -u  # Abort with unset variables
 #set -e # Abort with any error can be suppressed locally using EITHER cmd||true OR set -e;cmd;set +e
 
+# ====== CONFIGURATION ======
+CONFIG_MODULES=""
+CONFIG_KLIBC_MODULE=""
+CONFIG_UCLIBCXX_MODULE=""
+CONFIG_RESOLUTION_MODULE=""
+CONFIG_KEYLAYOUT_MODULE=""
+source "${SRCROOT}/auto.conf"
+
 # ====== COLORS ======
 
 declare -r COL_BLACK="\x1b[30;01m"
@@ -264,6 +272,7 @@ main ()
     outline[${#outline[*]}]="${indent[$xmlindent]}</line>"
 # End build Chameleon package
 
+if [[ "${CONFIG_MODULES}" == 'y' ]];then
 # build Modules package
     echo "================= Modules ================="
     ###############################
@@ -281,27 +290,12 @@ main ()
         ((xmlindent++))
 
 # -
-        if [ -e ${SYMROOT}/i386/modules/klibc.dylib ]; then
-        {
-            # Start build klibc package module
-            choiceId="klibc"
-            mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Root
-            ditto --noextattr --noqtn ${SYMROOT}/i386/modules/${choiceId}.dylib ${PKG_BUILD_DIR}/${choiceId}/Root
-            echo -e "\t[BUILD] ${choiceId} "
-            packageRefId=$(getPackageRefId "${modules_packages_identity}" "${choiceId}")
-            buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/$chamTemp/Extra/modules"
-            addChoice "${choiceId}"  "start_selected=\"false\""  "$packageRefId"
-            # End build klibc package module
-        }
-        fi
-
-# -
-        if [ -e ${SYMROOT}/i386/modules/Resolution.dylib ]; then
+        if [[ "${CONFIG_RESOLUTION_MODULE}" == 'm' && -f "${SYMROOT}/i386/modules/Resolution.dylib" ]]; then
         {
             # Start build Resolution package module
             choiceId="AutoReso"
-            mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Root
-            ditto --noextattr --noqtn ${SYMROOT}/i386/modules/Resolution.dylib ${PKG_BUILD_DIR}/${choiceId}/Root
+            mkdir -p "${PKG_BUILD_DIR}/${choiceId}/Root"
+            ditto --noextattr --noqtn "${SYMROOT}/i386/modules/Resolution.dylib" "${PKG_BUILD_DIR}/${choiceId}/Root"
             echo -e "\t[BUILD] ${choiceId} "
             packageRefId=$(getPackageRefId "${modules_packages_identity}" "${choiceId}")
             buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/$chamTemp/Extra/modules"
@@ -311,25 +305,44 @@ main ()
         fi
 
 # -
-        if [ -e ${SYMROOT}/i386/modules/uClibcxx.dylib ]; then
+        if [[ "${CONFIG_KLIBC_MODULE}" == 'm' && -f "${SYMROOT}/i386/modules/klibc.dylib" ]]; then
         {
+            # Start build klibc package module
+            choiceId="klibc"
+            mkdir -p "${PKG_BUILD_DIR}/${choiceId}/Root"
+            ditto --noextattr --noqtn "${SYMROOT}/i386/modules/${choiceId}.dylib" ${PKG_BUILD_DIR}/${choiceId}/Root
+            echo -e "\t[BUILD] ${choiceId} "
+            packageRefId=$(getPackageRefId "${modules_packages_identity}" "${choiceId}")
+            buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/$chamTemp/Extra/modules"
+            addChoice "${choiceId}"  "start_selected=\"false\""  "$packageRefId"
+            # End build klibc package module
+        }
+        fi
+
+# -
+        if [[ "${CONFIG_UCLIBCXX_MODULE}" = 'm' && -n "${CONFIG_KLIBC_MODULE}" && \
+              -f "${SYMROOT}/i386/modules/uClibcxx.dylib" ]]; then
+        {
+            klibcPackageRefId=""
+            if [[ "${CONFIG_KLIBC_MODULE}" == 'm' ]];then
+                klibcPackageRefId=$(getPackageRefId "${modules_packages_identity}" "klibc")
+            fi
             # Start build uClibc package module
             choiceId="uClibc"
-            mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Root
-            ditto --noextattr --noqtn ${SYMROOT}/i386/modules/uClibcxx.dylib ${PKG_BUILD_DIR}/${choiceId}/Root
+            mkdir -p "${PKG_BUILD_DIR}/${choiceId}/Root"
+            ditto --noextattr --noqtn "${SYMROOT}/i386/modules/uClibcxx.dylib" "${PKG_BUILD_DIR}/${choiceId}/Root"
             echo -e "\t[BUILD] ${choiceId} "
             packageRefId=$(getPackageRefId "${modules_packages_identity}" "${choiceId}")
             buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/$chamTemp/Extra/modules"
             # Add the klibc package because the uClibc module is dependent of klibc module
-            addChoice "${choiceId}"  "start_selected=\"false\""  \
-             "$packageRefId" $(getPackageRefId "${modules_packages_identity}" "klibc")
+            addChoice "${choiceId}"  "start_selected=\"false\""  "$packageRefId" "$klibcPackageRefId"
             # End build uClibc package module
         }
         fi
 
 # -
         # Warning Keylayout module need additional files
-        if [ -e ${SYMROOT}/i386/modules/Keylayout.dylib ]; then
+        if [[ "${CONFIG_KEYLAYOUT_MODULE}" = 'm' && -f "${SYMROOT}/i386/modules/Keylayout.dylib" ]]; then
         {
             # Start build Keylayout package module
             choiceId="Keylayout"
@@ -366,6 +379,7 @@ main ()
     }
     fi
 # End build Modules packages
+fi
 
 # build Options packages
 
@@ -441,13 +455,17 @@ main ()
 		outline[${#outline[*]}]="${indent[$xmlindent]}</line>"
 	done
 
-	# build KeyLayout options packages
+if [[ -n "${CONFIG_KEYLAYOUT_MODULE}" ]];then
+# build KeyLayout options packages
 	echo "================= Keymaps Options ================="
 	outline[${#outline[*]}]="${indent[$xmlindent]}<line choice=\"KeyLayout\">"
 	choices[${#choices[*]}]="\t<choice\n\t\tid=\"KeyLayout\"\n\t\ttitle=\"KeyLayout_title\"\n\t\tdescription=\"KeyLayout_description\">\n\t</choice>\n"
 	((xmlindent++))
 	packagesidentity="${chameleon_package_identity}.options.keylayout"
-	keylayoutPackageRefId=$(getPackageRefId "${modules_packages_identity}" "Keylayout")
+    keylayoutPackageRefId=""
+    if [[ "${CONFIG_MODULES}" == 'y' && "${CONFIG_KEYLAYOUT_MODULE}" = 'm' ]];then
+        keylayoutPackageRefId=$(getPackageRefId "${modules_packages_identity}" "Keylayout")
+    fi
 
 	# ------------------------------------------------------
 	# Available Keylayout boot options are discovered by
@@ -479,9 +497,9 @@ main ()
 	((xmlindent--))
 	outline[${#outline[*]}]="${indent[$xmlindent]}</line>"
 
-	# End build KeyLayout options packages
-
-	((xmlindent--))
+# End build KeyLayout options packages
+fi
+    ((xmlindent--))
 	outline[${#outline[*]}]="${indent[$xmlindent]}</line>"
 # End build options packages
 
