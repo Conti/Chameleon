@@ -455,6 +455,10 @@ fi
 		outline[${#outline[*]}]="${indent[$xmlindent]}</line>"
 	done
 
+    ((xmlindent--))
+	outline[${#outline[*]}]="${indent[$xmlindent]}</line>"
+# End build options packages
+
 if [[ -n "${CONFIG_KEYLAYOUT_MODULE}" ]];then
 # build KeyLayout options packages
 	echo "================= Keymaps Options ================="
@@ -499,9 +503,6 @@ if [[ -n "${CONFIG_KEYLAYOUT_MODULE}" ]];then
 
 # End build KeyLayout options packages
 fi
-    ((xmlindent--))
-	outline[${#outline[*]}]="${indent[$xmlindent]}</line>"
-# End build options packages
 
 # build theme packages
 	echo "================= Themes ================="
