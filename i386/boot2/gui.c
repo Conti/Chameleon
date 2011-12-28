@@ -125,14 +125,14 @@ image_t images[] = {
 	
     {.name = "device_hfsraid",              .image = NULL},
     {.name = "device_hfsraid_o",            .image = NULL},
-	{.name = "device_hfsplus_raid_lion",              .image = NULL},
-    {.name = "device_hfsplus_raid_lion_o",            .image = NULL},
-	{.name = "device_hfsplus_raid_sl",              .image = NULL},
-    {.name = "device_hfsplus_raid_sl_o",            .image = NULL},
-	{.name = "device_hfsplus_raid_leo",              .image = NULL},
-    {.name = "device_hfsplus_raid_leo_o",            .image = NULL},
-	{.name = "device_hfsplus_raid_tiger",              .image = NULL},
-    {.name = "device_hfsplus_raid_tiger_o",            .image = NULL},
+	{.name = "device_hfsraid_lion",              .image = NULL},
+    {.name = "device_hfsraid_lion_o",            .image = NULL},
+	{.name = "device_hfsraid_sl",              .image = NULL},
+    {.name = "device_hfsraid_sl_o",            .image = NULL},
+	{.name = "device_hfsraid_leo",              .image = NULL},
+    {.name = "device_hfsraid_leo_o",            .image = NULL},
+	{.name = "device_hfsraid_tiger",              .image = NULL},
+    {.name = "device_hfsraid_tiger_o",            .image = NULL},
     {.name = "device_ext3",                 .image = NULL},
     {.name = "device_ext3_o",               .image = NULL},
     {.name = "device_freebsd",              .image = NULL},     /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
@@ -374,14 +374,14 @@ static int loadGraphics(void)
 	
 	LOADPNG(device_hfsraid,                 iDeviceGeneric);
 	LOADPNG(device_hfsraid_o,               iDeviceHFSRAID);
-	LOADPNG(device_hfsplus_raid_lion,       iDeviceHFSRAID_Lion);
-	LOADPNG(device_hfsplus_raid_lion_o,     iDeviceHFSRAID_Lion_o);
-	LOADPNG(device_hfsplus_raid_sl,         iDeviceHFSRAID_SL);
-	LOADPNG(device_hfsplus_raid_sl_o,       iDeviceHFSRAID_SL_o);
-	LOADPNG(device_hfsplus_raid_leo,        iDeviceHFSRAID_Leo);
-	LOADPNG(device_hfsplus_raid_leo_o,      iDeviceHFSRAID_Leo_o);
-	LOADPNG(device_hfsplus_raid_tiger,      iDeviceHFSRAID_Tiger);
-	LOADPNG(device_hfsplus_raid_tiger_o,    iDeviceHFSRAID_Tiger_o);
+	LOADPNG(device_hfsraid_lion,       iDeviceHFSRAID_Lion);
+	LOADPNG(device_hfsraid_lion_o,     iDeviceHFSRAID_Lion_o);
+	LOADPNG(device_hfsraid_sl,         iDeviceHFSRAID_SL);
+	LOADPNG(device_hfsraid_sl_o,       iDeviceHFSRAID_SL_o);
+	LOADPNG(device_hfsraid_leo,        iDeviceHFSRAID_Leo);
+	LOADPNG(device_hfsraid_leo_o,      iDeviceHFSRAID_Leo_o);
+	LOADPNG(device_hfsraid_tiger,      iDeviceHFSRAID_Tiger);
+	LOADPNG(device_hfsraid_tiger_o,    iDeviceHFSRAID_Tiger_o);
 	LOADPNG(device_ext3,                    iDeviceGeneric);
 	LOADPNG(device_ext3_o,                  iDeviceEXT3);
 	LOADPNG(device_freebsd,                 iDeviceGeneric);        /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
