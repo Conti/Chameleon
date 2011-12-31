@@ -531,7 +531,9 @@ fi
 
             packageRefId=$(getPackageRefId "${packagesidentity}" "${optionName}")
             buildpackage "$packageRefId" "${optionName}" "${PKG_BUILD_DIR}/${optionName}" "/$chamTemp/options"
-            addChoice --group="${builtOptionsList}"  --start-selected="false"  --pkg-refs="$packageRefId" "${optionName}"
+            addChoice --group="${builtOptionsList}"  \
+                --start-selected="check_chameleon_option('$key','$value')" \
+                --pkg-refs="$packageRefId" "${optionName}"
         done
 
     done
@@ -548,6 +550,7 @@ if [[ -n "${CONFIG_KEYLAYOUT_MODULE}" ]];then
         keylayoutPackageRefId=$(getPackageRefId "${modules_packages_identity}" "Keylayout")
     fi
 
+    chameleon_keylayout_key="KeyLayout"
     # ------------------------------------------------------
     # Available Keylayout boot options are discovered by
     # reading contents of /Keymaps folder after compilation
@@ -556,18 +559,19 @@ if [[ -n "${CONFIG_KEYLAYOUT_MODULE}" ]];then
     # Adjust array contents to match expected format
     # for boot options which is: name:key=value
     for (( i = 0 ; i < ${#availableOptions[@]} ; i++ )); do
-        # availableOptions[i]=${availableOptions[i]}":KeyLayout="${availableOptions[i]}
         # Start build of a keymap package module
         choiceId="${availableOptions[i]}"
         mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Root
 
         # create dummy file with name of key/value
-        echo "" > "${PKG_BUILD_DIR}/${choiceId}/Root/KeyLayout=${availableOptions[i]}"
+        echo "" > "${PKG_BUILD_DIR}/${choiceId}/Root/${chameleon_keylayout_key}=${availableOptions[i]}"
 
         packageRefId=$(getPackageRefId "${packagesidentity}" "${choiceId}")
         buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/$chamTemp/options"
         # Add the Keylayout package because the Keylayout module is needed
-        addChoice --group="KeyLayout"  --start-selected="false" --pkg-refs="$packageRefId $keylayoutPackageRefId" "${choiceId}"
+        addChoice --group="KeyLayout"  \
+            --start-selected="check_chameleon_option('${chameleon_keylayout_key}','${choiceId}')" \
+            --pkg-refs="$packageRefId $keylayoutPackageRefId" "${choiceId}"
     done
 
 # End build KeyLayout options packages

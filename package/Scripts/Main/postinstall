@@ -1,5 +1,24 @@
 #!/bin/bash
 
+mergeString () {
+    local src="${1}"
+    local new="${2}"
+    local result="$src"
+
+    for newItem in $new ;do
+        local found=0
+        for srcItem in $src ;do
+            if [[ $newItem == $srcItem ]];then
+                found=1
+                break
+            fi
+        done
+        [[ $found -eq 0 ]] && result="$result $newItem"
+    done
+
+    echo "$result"
+}
+
 echo "==============================================="
 echo "Post Post-Install Script"
 echo "*********************************"
@@ -180,7 +199,7 @@ NOTE: and chose Wait=Yes from the list, this will NOT be changed.
 
         if [[ -n "$currentFlags" ]];then
             # Combine new kernel flags with old ones.
-            kernelFlagString="${kernelFlagString} $currentFlags"
+            kernelFlagString=$( mergeString "$currentFlags" "${kernelFlagString}" )
         fi
 
     elif [ -e "$chamTemp/install_type_new" ]; then

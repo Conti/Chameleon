@@ -39,8 +39,51 @@
         return false;
     }
 
+    function get_chameleon_boot_plist() {
+        if (my.target) {
+            var chameleon_boot_plist = my.target.mountpoint + '/Extra/org.chameleon.Boot.plist'
+            return system.files.plistAtPath(chameleon_boot_plist);
+        }
+        return null;
+    }
+
     function chameleon_boot_plist_exists() {
-        return system.files.fileExistsAtPath(my.target.mountpoint + '/Extra/org.chameleon.Boot.plist');
+        if (get_chameleon_boot_plist() != null)
+            return true;
+        return false;
+    }
+
+    function check_chameleon_kernel_option(kernelFlags, value) {
+        var flags = kernelFlags.split(" ");
+        for ( var i = 0; i &lt; flags.length; i++ ) {
+            if (flags[i] == value)
+                  return true;
+        }
+        return false;
+    }
+
+    function check_chameleon_option(key, value) {
+        var bootPlist = get_chameleon_boot_plist();
+        if (bootPlist) {
+            if (key == "KFflag")
+                key = "Kernel Flags";
+
+            if (bootPlist[ key ]) {
+                if ( key == "Kernel Flags" )
+                    return check_chameleon_kernel_option( bootPlist[ key ], value );
+
+                // Check if value is a boolean
+                var pattern=/^(Y(es)?|No?)$/i;
+                var result = value.match(pattern); // Check if the value is a boolean
+                if ( result &amp;&amp; bootPlist[ key ].charAt(0).toLowerCase() == value.charAt(0).toLowerCase() )
+                    return true;
+                else
+                    return bootPlist[ key ] == value; // check if the strings are equal
+            }
+            else
+                return false;
+        }
+        return false;
     }
 
     </script>
