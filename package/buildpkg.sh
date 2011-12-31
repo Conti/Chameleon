@@ -15,7 +15,7 @@ if [[ $# -lt 3 ]];then
 fi
 
 if [[ ! -d "$SYMROOT" ]];then
-	echo "Directory ${SYMROOT} doesn't exit. Aborting..." >&2 && exit 1
+    echo "Directory ${SYMROOT} doesn't exit. Aborting..." >&2 && exit 1
 fi
 
 # Prevent the script from doing bad things
@@ -62,19 +62,21 @@ declare -r develop=$(awk "NR==6{print;exit}"  ${PKGROOT}/../CREDITS)
 declare -r credits=$(awk "NR==10{print;exit}" ${PKGROOT}/../CREDITS)
 declare -r pkgdev=$(awk "NR==14{print;exit}"  ${PKGROOT}/../CREDITS)
 
-# =================
-
-xmlindent=0
-
-indent[0]="\t"
-indent[1]="\t\t"
-indent[2]="\t\t\t"
-indent[3]="\t\t\t\t"
-
 # ====== GLOBAL VARIABLES ======
 declare -a pkgrefs
-declare -a outline
-declare -a choices
+declare -a choice_key
+declare -a choice_options
+declare -a choice_pkgrefs
+declare -a choice_parent_group_index
+declare -a choice_group_items
+declare -a choice_group_exclusive
+
+# Init Main Group
+choice_key[0]=""
+choice_options[0]=""
+choices_pkgrefs[0]=""
+choice_group_items[0]=""
+choice_group_exclusive[0]=""
 
 # Package name
 declare -r packagename="Chameleon"
@@ -86,28 +88,140 @@ declare -r chamTemp="usr/local/chamTemp"
 
 # ====== FUNCTIONS ======
 
+trim () {
+    local result="${1#"${1%%[![:space:]]*}"}"   # remove leading whitespace characters
+    echo "${result%"${result##*[![:space:]]}"}" # remove trailing whitespace characters
+}
+
 getPackageRefId () {
     echo ${1//_/.}.${2//_/.} | tr [:upper:] [:lower:]
 }
 
-addChoice () {
+# Return index of a choice
+getChoiceIndex () {
     # $1 Choice Id
-    # $2 Choice Options
-    # $3..$n Package reference id (optional)
-    local choiceId="${1}"
-    local choiceOptions="${2}"
-    local choiceNode="\t<choice\n\t\tid=\"${choiceId}\"\n\t\ttitle=\"${choiceId}_title\"\n\t\tdescription=\"${choiceId}_description\""
-    [[ -n "${choiceOptions}" ]] && choiceNode="${choiceNode}\n\t\t${choiceOptions}"
-    choiceNode="${choiceNode}>"
-    if [[ $# -ge 3 ]];then
-        for pkgRefId in ${@:3};do
-            choiceNode="${choiceNode}\n\t\t<pkg-ref id=\"${pkgRefId}\"/>"
-        done
-    fi
-    choiceNode="${choiceNode}\n\t</choice>\n"
+    local found=0
+    for (( idx=0 ; idx < ${#choice_key[*]}; idx++ ));do
+        if [[ "${1}" == "${choice_key[$idx]}" ]];then
+            found=1
+            break
+        fi
+    done
+    echo "$idx"
+    return $found
+}
 
-    outline[${#outline[*]}]="${indent[$xmlindent]}<line choice=\"${choiceId}\"/>"
-    choices[${#choices[*]}]="$choiceNode"
+# Add a new choice
+addChoice () {
+    # Optionnal arguments:
+    #    --group=<group> : Group Choice Id
+    #    --start-selected=<javascript code> : Specifies whether this choice is initially selected or unselected
+    #    --start-enabled=<javascript code>  : Specifies the initial enabled state of this choice
+    #    --start-visible=<javascript code>  : Specifies whether this choice is initially visible
+    #    --pkg-refs=<pkgrefs> : List of package reference(s) id (separate by spaces)
+    #
+    # $1 Choice Id
+
+    local option
+    local groupChoice=""
+    local choiceOptions=""
+    local pkgrefs=""
+
+    # Check the arguments.
+    for option in "${@}";do
+        case "$option" in
+            --group=*)
+                       shift; groupChoice=${option#*=} ;;
+            --start-selected=*)
+                         shift; choiceOptions="$choiceOptions start_selected=\"${option#*=}\"" ;;
+            --start-enabled=*)
+                         shift; choiceOptions="$choiceOptions start_enabled=\"${option#*=}\"" ;;
+            --start-visible=*)
+                         shift; choiceOptions="$choiceOptions start_visible=\"${option#*=}\"" ;;
+            --pkg-refs=*)
+                          shift; pkgrefs=${option#*=} ;;
+            -*)
+                echo "Unrecognized addChoice option '$option'" >&2
+                exit 1
+                ;;
+            *)  break ;;
+        esac
+    done
+
+    if [[ $# -ne 1 ]];then
+        echo "addChoice invalid number of arguments: ${@}" >&2
+        exit 1
+    fi
+
+    local choiceId="${1}"
+
+    # Add choice in the group
+    idx_group=$(getChoiceIndex "$groupChoice")
+    found_group=$?
+    if [[ $found_group -ne 1 ]];then
+        # No group exist
+        echo "Error can't add choice '$choiceId' to group '$groupChoice': group choice '$groupChoice' doesn't exists." >&2
+        exit 1
+    else
+        set +u; oldItems=${choice_group_items[$idx_group]}; set -u
+        choice_group_items[$idx_group]="$oldItems $choiceId"
+    fi
+
+    # Check that the choice doesn't already exists
+    idx=$(getChoiceIndex "$choiceId")
+    found=$?
+    if [[ $found -ne 0 ]];then
+        # Choice already exists
+        echo "Error can't add choice '$choiceId': a choice with same name already exists." >&2
+        exit 1
+    fi
+
+    # Record new node
+    choice_key[$idx]="$choiceId"
+    choice_options[$idx]=$(trim "${choiceOptions}") # Removing leading and trailing whitespace(s)
+    choice_parent_group_index[$idx]=$idx_group
+    choice_pkgrefs[$idx]="$pkgrefs"
+
+    return $idx
+}
+
+# Add a group choice
+addGroupChoices() {
+    # $1 Choice Id
+    # $2 Parent group choice Id (empty if main group)
+    # $3 Exclusive mode (optional):
+    #       exclusive_zero_or_one_choice
+    #       exclusive_one_choice
+    # Check the arguments.
+    local option
+    local groupChoice=""
+    local exclusive_function=""
+
+    for option in "${@}";do
+        case "$option" in
+            --exclusive_zero_or_one_choice)
+                       shift; exclusive_function="exclusive_zero_or_one_choice" ;;
+            --exclusive_one_choice)
+                       shift; exclusive_function="exclusive_one_choice" ;;
+            --group=*)
+                       shift; groupChoice=${option#*=} ;;
+            -*)
+                echo "Unrecognized addGroupChoices option '$option'" >&2
+                exit 1
+                ;;
+            *)  break ;;
+        esac
+    done
+
+    if [[ $# -ne 1 ]];then
+        echo "addGroupChoices invalid number of arguments: ${@}" >&2
+        exit 1
+    fi
+
+    addChoice --group="$groupChoice" "${1}"
+    local idx=$? # index of the new created choice
+
+    choice_group_exclusive[$idx]="$exclusive_function"
 }
 
 exclusive_one_choice () {
@@ -146,11 +260,8 @@ main ()
     echo -e $COL_CYAN"  ----------------------------------"$COL_RESET
     echo ""
 
-    outline[${#outline[*]}]="${indent[$xmlindent]}<choices-outline>"
-
 # build pre install package
     echo "================= Preinstall ================="
-    ((xmlindent++))
     packagesidentity="${chameleon_package_identity}"
     choiceId="Pre"
     mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Root
@@ -159,10 +270,10 @@ main ()
     ditto --noextattr --noqtn ${SRCROOT}/version  ${PKG_BUILD_DIR}/${choiceId}/Scripts/Resources/version
     cp -f ${PKGROOT}/Scripts/Main/preinstall   ${PKG_BUILD_DIR}/${choiceId}/Scripts
     cp -f ${PKGROOT}/Scripts/Sub/InstallLog.sh ${PKG_BUILD_DIR}/${choiceId}/Scripts
-    echo -e "\t[BUILD] ${choiceId} "
+
     packageRefId=$(getPackageRefId "${packagesidentity}" "${choiceId}")
     buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/"
-    addChoice "${choiceId}"  "start_visible=\"false\" start_selected=\"true\""  "$packageRefId"
+    addChoice --start-visible="false" --start-selected="true"  --pkg-refs="$packageRefId" "${choiceId}"
 # End build pre install package
 
 # build core package
@@ -182,53 +293,42 @@ main ()
     ditto --noextattr --noqtn ${SYMROOT}/i386/chain0   ${PKG_BUILD_DIR}/${choiceId}/Root/usr/standalone/i386
     ditto --noextattr --noqtn ${SYMROOT}/i386/fdisk440 ${PKG_BUILD_DIR}/${choiceId}/Root/usr/local/bin
     ditto --noextattr --noqtn ${SYMROOT}/i386/bdmesg   ${PKG_BUILD_DIR}/${choiceId}/Root/usr/local/bin
-    echo -e "\t[BUILD] ${choiceId} "
+
     packageRefId=$(getPackageRefId "${packagesidentity}" "${choiceId}")
     buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/"
-    addChoice "${choiceId}"  "start_visible=\"false\" start_selected=\"true\""  "$packageRefId"
+    addChoice --start-visible="false" --start-selected="true" --pkg-refs="$packageRefId" "${choiceId}"
 # End build core package
 
 # build install type
     echo "================= Chameleon ================="
-    outline[${#outline[*]}]="${indent[$xmlindent]}<line choice=\"InstallType\">"
-    choices[${#choices[*]}]="\t<choice\n\t\tid=\"InstallType\"\n\t\ttitle=\"InstallType_title\"\n\t\tdescription=\"InstallType_description\">\n\t</choice>\n"
-    ((xmlindent++))
+    addGroupChoices --exclusive_one_choice "InstallType"
     packagesidentity="${chameleon_package_identity}.type"
-    allChoices="New Upgrade"
 
     # build new install package
     choiceId="New"
     mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Root
     echo "" > "${PKG_BUILD_DIR}/${choiceId}/Root/install_type_new"
-    echo -e "\t[BUILD] ${choiceId} "
+
     packageRefId=$(getPackageRefId "${packagesidentity}" "${choiceId}")
     buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/$chamTemp"
-    exclusiveChoice=$(exclusive_one_choice "$choiceId" "$allChoices")
-    addChoice "${choiceId}"  "start_selected=\"!choices['Upgrade'].selected\" selected=\"${exclusiveChoice}\""  "$packageRefId"
+    addChoice  --group="InstallType"  --start-selected="!choices['Upgrade'].selected"  --pkg-refs="$packageRefId" "${choiceId}"
     # End build new install package
 
     # build upgrade package
     choiceId="Upgrade"
     mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Root
     echo "" > "${PKG_BUILD_DIR}/${choiceId}/Root/install_type_upgrade"
-    echo -e "\t[BUILD] ${choiceId} "
+
     packageRefId=$(getPackageRefId "${packagesidentity}" "${choiceId}")
     buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/$chamTemp"
-    exclusiveChoice=$(exclusive_one_choice "$choiceId" "$allChoices")
-    addChoice "${choiceId}"  "start_selected=\"chameleon_boot_plist_exists()\" selected=\"${exclusiveChoice}\""  "$packageRefId"
+    addChoice --group="InstallType"  --start-selected="chameleon_boot_plist_exists()"  --pkg-refs="$packageRefId" "${choiceId}"
     # End build upgrade package
 
-   ((xmlindent--))
-   outline[${#outline[*]}]="${indent[$xmlindent]}</line>"
 # End build install type
 
 # build Chameleon package
     echo "================= Chameleon ================="
-    outline[${#outline[*]}]="${indent[$xmlindent]}<line choice=\"Chameleon\">"
-    choices[${#choices[*]}]="\t<choice\n\t\tid=\"Chameleon\"\n\t\ttitle=\"Chameleon_title\"\n\t\tdescription=\"Chameleon_description\">\n\t</choice>\n"
-    ((xmlindent++))
-
-    allChoices="Standard EFI noboot"
+    addGroupChoices --exclusive_one_choice "Chameleon"
 
     # build standard package
     choiceId="Standard"
@@ -237,11 +337,10 @@ main ()
     cp -f ${PKGROOT}/Scripts/Main/${choiceId}postinstall ${PKG_BUILD_DIR}/${choiceId}/Scripts/postinstall
     cp -f ${PKGROOT}/Scripts/Sub/* ${PKG_BUILD_DIR}/${choiceId}/Scripts
     ditto --arch i386 `which SetFile` ${PKG_BUILD_DIR}/${choiceId}/Scripts/Resources/SetFile
-    echo -e "\t[BUILD] ${choiceId} "
+
     packageRefId=$(getPackageRefId "${packagesidentity}" "${choiceId}")
     buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/"
-    exclusiveChoice=$(exclusive_one_choice "$choiceId" "$allChoices")
-    addChoice "${choiceId}"  "start_selected=\"true\" selected=\"${exclusiveChoice}\""  "$packageRefId"
+    addChoice --group="Chameleon"  --start-selected="true"  --pkg-refs="$packageRefId" "${choiceId}"
     # End build standard package
 
     # build efi package
@@ -251,25 +350,21 @@ main ()
     cp -f ${PKGROOT}/Scripts/Main/ESPpostinstall ${PKG_BUILD_DIR}/${choiceId}/Scripts/postinstall
     cp -f ${PKGROOT}/Scripts/Sub/* ${PKG_BUILD_DIR}/${choiceId}/Scripts
     ditto --arch i386 `which SetFile` ${PKG_BUILD_DIR}/${choiceId}/Scripts/Resources/SetFile
-    echo -e "\t[BUILD] ${choiceId} "
+
     packageRefId=$(getPackageRefId "${packagesidentity}" "${choiceId}")
     buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/"
-    exclusiveChoice=$(exclusive_one_choice "$choiceId" "$allChoices")
-    addChoice "${choiceId}"  "start_visible=\"systemHasGPT()\" start_selected=\"false\" selected=\"${exclusiveChoice}\""  "$packageRefId"
+    addChoice --group="Chameleon"  --start-visible="systemHasGPT()" --start-selected="false"  --pkg-refs="$packageRefId" "${choiceId}"
     # End build efi package
 
     # build no bootloader choice package
     choiceId="noboot"
     mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Root
-    echo -e "\t[BUILD] ${choiceId} "
+
     packageRefId=$(getPackageRefId "${packagesidentity}" "${choiceId}")
     buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/"
-    exclusiveChoice=$(exclusive_one_choice "$choiceId" "$allChoices")
-    addChoice "${choiceId}"  "start_selected=\"false\" selected=\"${exclusiveChoice}\""  "$packageRefId"
+    addChoice --group="Chameleon"  --start-selected="false"  --pkg-refs="$packageRefId" "${choiceId}"
     # End build no bootloader choice package
 
-    ((xmlindent--))
-    outline[${#outline[*]}]="${indent[$xmlindent]}</line>"
 # End build Chameleon package
 
 if [[ "${CONFIG_MODULES}" == 'y' ]];then
@@ -285,9 +380,7 @@ if [[ "${CONFIG_MODULES}" == 'y' ]];then
     ###############################
     if [ "$(ls -A "${SYMROOT}/i386/modules")" ]; then
     {
-        outline[${#outline[*]}]="${indent[$xmlindent]}<line choice=\"Module\">"
-        choices[${#choices[*]}]="\t<choice\n\t\tid=\"Module\"\n\t\ttitle=\"Module_title\"\n\t\tdescription=\"Module_description\">\n\t</choice>\n"
-        ((xmlindent++))
+        addGroupChoices "Module"
 
 # -
         if [[ "${CONFIG_RESOLUTION_MODULE}" == 'm' && -f "${SYMROOT}/i386/modules/Resolution.dylib" ]]; then
@@ -296,10 +389,10 @@ if [[ "${CONFIG_MODULES}" == 'y' ]];then
             choiceId="AutoReso"
             mkdir -p "${PKG_BUILD_DIR}/${choiceId}/Root"
             ditto --noextattr --noqtn "${SYMROOT}/i386/modules/Resolution.dylib" "${PKG_BUILD_DIR}/${choiceId}/Root"
-            echo -e "\t[BUILD] ${choiceId} "
+
             packageRefId=$(getPackageRefId "${modules_packages_identity}" "${choiceId}")
             buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/$chamTemp/Extra/modules"
-            addChoice "${choiceId}"  "start_selected=\"false\""  "$packageRefId"
+            addChoice --group="Module"  --start-selected="false"  --pkg-refs="$packageRefId" "${choiceId}"
             # End build Resolution package module
         }
         fi
@@ -311,10 +404,10 @@ if [[ "${CONFIG_MODULES}" == 'y' ]];then
             choiceId="klibc"
             mkdir -p "${PKG_BUILD_DIR}/${choiceId}/Root"
             ditto --noextattr --noqtn "${SYMROOT}/i386/modules/${choiceId}.dylib" ${PKG_BUILD_DIR}/${choiceId}/Root
-            echo -e "\t[BUILD] ${choiceId} "
+
             packageRefId=$(getPackageRefId "${modules_packages_identity}" "${choiceId}")
             buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/$chamTemp/Extra/modules"
-            addChoice "${choiceId}"  "start_selected=\"false\""  "$packageRefId"
+            addChoice --group="Module"  --start-selected="false"  --pkg-refs="$packageRefId" "${choiceId}"
             # End build klibc package module
         }
         fi
@@ -331,11 +424,11 @@ if [[ "${CONFIG_MODULES}" == 'y' ]];then
             choiceId="uClibc"
             mkdir -p "${PKG_BUILD_DIR}/${choiceId}/Root"
             ditto --noextattr --noqtn "${SYMROOT}/i386/modules/uClibcxx.dylib" "${PKG_BUILD_DIR}/${choiceId}/Root"
-            echo -e "\t[BUILD] ${choiceId} "
+
             packageRefId=$(getPackageRefId "${modules_packages_identity}" "${choiceId}")
             buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/$chamTemp/Extra/modules"
             # Add the klibc package because the uClibc module is dependent of klibc module
-            addChoice "${choiceId}"  "start_selected=\"false\""  "$packageRefId" "$klibcPackageRefId"
+            addChoice --group="Module"  --start-selected="false"  --pkg-refs="$packageRefId $klibcPackageRefId" "${choiceId}"
             # End build uClibc package module
         }
         fi
@@ -360,18 +453,16 @@ if [[ "${CONFIG_MODULES}" == 'y' ]];then
             ditto --noextattr --noqtn ${SRCROOT}/Keymaps ${PKG_BUILD_DIR}/${choiceId}/Root/Extra/Keymaps
             # Adding tools
             ditto --noextattr --noqtn ${SYMROOT}/i386/cham-mklayout ${PKG_BUILD_DIR}/${choiceId}/Root/usr/local/bin
-            echo -e "\t[BUILD] ${choiceId} "
+
             packageRefId=$(getPackageRefId "${modules_packages_identity}" "${choiceId}")
             buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/$chamTemp"
 
             # Don't add a choice for Keylayout module
-            # addChoice "${choiceId}"  "start_selected=\"false\""  "$packageRefId"
+            # addChoice "${choiceId}" "Module" --start-selected="false"  "$packageRefId"
             # End build Keylayout package module
         }
         fi
 
-        ((xmlindent--))
-        outline[${#outline[*]}]="${indent[$xmlindent]}</line>"
     }
     else
     {
@@ -383,10 +474,7 @@ fi
 
 # build Options packages
 
-    outline[${#outline[*]}]="${indent[$xmlindent]}<line choice=\"Options\">"
-    choices[${#choices[*]}]="\t<choice\n\t\tid=\"Options\"\n\t\ttitle=\"Options_title\"\n\t\tdescription=\"Options_description\">\n\t</choice>\n"
-    ((xmlindent++))
-
+    addGroupChoices "Options"
 
     # ------------------------------------------------------
     # parse OptionalSettings folder to find files of boot options.
@@ -397,135 +485,111 @@ fi
     for (( i = 0 ; i < ${#OptionalSettingsFiles[@]} ; i++ ))
     do
 
-		# Take filename and Strip .txt from end and path from front
-		builtOptionsList=$( echo ${OptionalSettingsFiles[$i]%.txt} )
-		builtOptionsList=$( echo ${builtOptionsList##*/} )
-		echo "================= $builtOptionsList ================="
-		outline[${#outline[*]}]="${indent[$xmlindent]}<line choice=\"${builtOptionsList}\">"
-		choices[${#choices[*]}]="\t<choice\n\t\tid=\"${builtOptionsList}\"\n\t\ttitle=\"${builtOptionsList}_title\"\n\t\tdescription=\"${builtOptionsList}_description\">\n\t</choice>\n"
-		((xmlindent++))
-		packagesidentity="${chameleon_package_identity}.options.$builtOptionsList"
+        # Take filename and Strip .txt from end and path from front
+        builtOptionsList=$( echo ${OptionalSettingsFiles[$i]%.txt} )
+        builtOptionsList=$( echo ${builtOptionsList##*/} )
 
-		# ------------------------------------------------------
-		# Read boot option file into an array.
-		# ------------------------------------------------------
-		availableOptions=() # array to hold the list of boot options, per 'section'.
-		exclusiveFlag=0 # used to indicate list has exclusive options
-		count=0 # used as index for stepping through array.
-		while read textLine; do
-			# ignore lines in the file beginning with a # and Exclusive=False
-			if [[ ${textLine} != \#* ]] && [[ ${textLine} != "Exclusive=False" ]];then
-				# check for 'Exclusive=True' option in file
-				if [[ ${textLine} == "Exclusive=True" ]];then
-					exclusiveFlag=1
-				else
-					availableOptions[${#availableOptions[@]}]=$textLine
-				fi
-			fi
-		done < ${OptionalSettingsFiles[$i]}
+        echo "================= $builtOptionsList ================="
 
-		# ------------------------------------------------------
-		# Loop through options in array and process each in turn
-		# ------------------------------------------------------
-		allChoices="${availableOptions[@]//:*/}"
-		for (( c = 0 ; c < ${#availableOptions[@]} ; c++ )); do
-			textLine=${availableOptions[c]}
-			# split line - taking all before ':' as option name
-			# and all after ':' as key/value
-			optionName=${textLine%:*}
-			keyValue=${textLine##*:}
+        # ------------------------------------------------------
+        # Read boot option file into an array.
+        # ------------------------------------------------------
+        availableOptions=() # array to hold the list of boot options, per 'section'.
+        exclusiveFlag=""    # used to indicate list has exclusive options
+        while read textLine; do
+            # ignore lines in the file beginning with a # and Exclusive=False
+            if [[ ${textLine} != \#* ]] && [[ ${textLine} != "Exclusive=False" ]];then
+                # check for 'Exclusive=True' option in file
+                if [[ ${textLine} == "Exclusive=True" ]];then
+                    exclusiveFlag="--exclusive_zero_or_one_choice"
+                else
+                    availableOptions[${#availableOptions[@]}]=$textLine
+                fi
+            fi
+        done < ${OptionalSettingsFiles[$i]}
 
-			# create folders required for each boot option
-			mkdir -p "${PKG_BUILD_DIR}/$optionName/Root/"
+        addGroupChoices  --group="Options" $exclusiveFlag "${builtOptionsList}"
+        packagesidentity="${chameleon_package_identity}.options.$builtOptionsList"
 
-			# create dummy file with name of key/value
-			echo "" > "${PKG_BUILD_DIR}/$optionName/Root/${keyValue}"
+        # ------------------------------------------------------
+        # Loop through options in array and process each in turn
+        # ------------------------------------------------------
+        for (( c = 0 ; c < ${#availableOptions[@]} ; c++ )); do
+            textLine=${availableOptions[c]}
+            # split line - taking all before ':' as option name
+            # and all after ':' as key/value
+            optionName=${textLine%:*}
+            keyValue=${textLine##*:}
+            key=${keyValue%%=*}
+            value=${keyValue#*=}
 
-			echo -e "\t[BUILD] ${optionName} "
-			packageRefId=$(getPackageRefId "${packagesidentity}" "${optionName}")
-			buildpackage "$packageRefId" "${optionName}" "${PKG_BUILD_DIR}/${optionName}" "/$chamTemp/options"
-			exclusiveSelect=""
-			if [[ ${exclusiveFlag} -eq 1 ]];then
-				exclusiveSelect="selected=\"$(exclusive_zero_or_one_choice "$optionName" "$allChoices")\""
-			fi
-			addChoice "${optionName}"  "start_selected=\"false\" ${exclusiveSelect}"  "$packageRefId"
-		done
+            # create folders required for each boot option
+            mkdir -p "${PKG_BUILD_DIR}/$optionName/Root/"
 
-		((xmlindent--))
-		outline[${#outline[*]}]="${indent[$xmlindent]}</line>"
-	done
+            # create dummy file with name of key/value
+            echo "" > "${PKG_BUILD_DIR}/$optionName/Root/${keyValue}"
 
-    ((xmlindent--))
-	outline[${#outline[*]}]="${indent[$xmlindent]}</line>"
+            packageRefId=$(getPackageRefId "${packagesidentity}" "${optionName}")
+            buildpackage "$packageRefId" "${optionName}" "${PKG_BUILD_DIR}/${optionName}" "/$chamTemp/options"
+            addChoice --group="${builtOptionsList}"  --start-selected="false"  --pkg-refs="$packageRefId" "${optionName}"
+        done
+
+    done
+
 # End build options packages
 
 if [[ -n "${CONFIG_KEYLAYOUT_MODULE}" ]];then
 # build KeyLayout options packages
-	echo "================= Keymaps Options ================="
-	outline[${#outline[*]}]="${indent[$xmlindent]}<line choice=\"KeyLayout\">"
-	choices[${#choices[*]}]="\t<choice\n\t\tid=\"KeyLayout\"\n\t\ttitle=\"KeyLayout_title\"\n\t\tdescription=\"KeyLayout_description\">\n\t</choice>\n"
-	((xmlindent++))
-	packagesidentity="${chameleon_package_identity}.options.keylayout"
+    echo "================= Keymaps Options ================="
+    addGroupChoices --exclusive_zero_or_one_choice "KeyLayout"
+    packagesidentity="${chameleon_package_identity}.options.keylayout"
     keylayoutPackageRefId=""
     if [[ "${CONFIG_MODULES}" == 'y' && "${CONFIG_KEYLAYOUT_MODULE}" = 'm' ]];then
         keylayoutPackageRefId=$(getPackageRefId "${modules_packages_identity}" "Keylayout")
     fi
 
-	# ------------------------------------------------------
-	# Available Keylayout boot options are discovered by
-	# reading contents of /Keymaps folder after compilation
-	# ------------------------------------------------------
-	availableOptions=($( find "${SRCROOT}/Keymaps" -type f -depth 1 -name '*.lyt' | sed 's|.*/||;s|\.lyt||' ))
-	allChoices="${availableOptions[@]}"
-	# Adjust array contents to match expected format
-	# for boot options which is: name:key=value
-	for (( i = 0 ; i < ${#availableOptions[@]} ; i++ )); do
-		# availableOptions[i]=${availableOptions[i]}":KeyLayout="${availableOptions[i]}
-		# Start build of a keymap package module
-		choiceId="${availableOptions[i]}"
-		mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Root
+    # ------------------------------------------------------
+    # Available Keylayout boot options are discovered by
+    # reading contents of /Keymaps folder after compilation
+    # ------------------------------------------------------
+    availableOptions=($( find "${SRCROOT}/Keymaps" -type f -depth 1 -name '*.lyt' | sed 's|.*/||;s|\.lyt||' ))
+    # Adjust array contents to match expected format
+    # for boot options which is: name:key=value
+    for (( i = 0 ; i < ${#availableOptions[@]} ; i++ )); do
+        # availableOptions[i]=${availableOptions[i]}":KeyLayout="${availableOptions[i]}
+        # Start build of a keymap package module
+        choiceId="${availableOptions[i]}"
+        mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Root
 
-		# create dummy file with name of key/value
-		echo "" > "${PKG_BUILD_DIR}/${choiceId}/Root/KeyLayout=${availableOptions[i]}"
+        # create dummy file with name of key/value
+        echo "" > "${PKG_BUILD_DIR}/${choiceId}/Root/KeyLayout=${availableOptions[i]}"
 
-		echo -e "\t[BUILD] ${choiceId} "
-		packageRefId=$(getPackageRefId "${packagesidentity}" "${choiceId}")
-		buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/$chamTemp/options"
-		exclusiveChoice=$(exclusive_zero_or_one_choice "$choiceId" "$allChoices")
-		# Add the Keylayout package because the Keylayout module is needed
-		addChoice "${choiceId}"  "start_selected=\"false\" selected=\"${exclusiveChoice}\""  \
-		 "$packageRefId" "$keylayoutPackageRefId"
-		# End build uClibc package module
-	done
-
-	((xmlindent--))
-	outline[${#outline[*]}]="${indent[$xmlindent]}</line>"
+        packageRefId=$(getPackageRefId "${packagesidentity}" "${choiceId}")
+        buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/$chamTemp/options"
+        # Add the Keylayout package because the Keylayout module is needed
+        addChoice --group="KeyLayout"  --start-selected="false" --pkg-refs="$packageRefId $keylayoutPackageRefId" "${choiceId}"
+    done
 
 # End build KeyLayout options packages
 fi
 
 # build theme packages
-	echo "================= Themes ================="
-	outline[${#outline[*]}]="${indent[$xmlindent]}<line choice=\"Themes\">"
-	choices[${#choices[*]}]="\t<choice\n\t\tid=\"Themes\"\n\t\ttitle=\"Themes_title\"\n\t\tdescription=\"Themes_description\">\n\t</choice>\n"
-	((xmlindent++))
+    echo "================= Themes ================="
+    addGroupChoices "Themes"
 
-	# Using themes section from Azi's/package branch.
-	packagesidentity="${chameleon_package_identity}.themes"
-	artwork="${SRCROOT}/artwork/themes"
-	themes=($( find "${artwork}" -type d -depth 1 -not -name '.svn' ))
-	for (( i = 0 ; i < ${#themes[@]} ; i++ )); do
-		theme=$( echo ${themes[$i]##*/} | awk 'BEGIN{OFS=FS=""}{$1=toupper($1);print}' )
-		mkdir -p "${PKG_BUILD_DIR}/${theme}/Root/"
-		rsync -r --exclude=.svn "${themes[$i]}/" "${PKG_BUILD_DIR}/${theme}/Root/${theme}"
-		echo -e "\t[BUILD] ${theme}"
-		packageRefId=$(getPackageRefId "${packagesidentity}" "${theme}")
-		buildpackage "$packageRefId" "${theme}" "${PKG_BUILD_DIR}/${theme}" "/$chamTemp/Extra/Themes"
-		addChoice "${theme}"  "start_selected=\"false\""  "$packageRefId"
-	done
+    # Using themes section from Azi's/package branch.
+    packagesidentity="${chameleon_package_identity}.themes"
+    artwork="${SRCROOT}/artwork/themes"
+    themes=($( find "${artwork}" -type d -depth 1 -not -name '.svn' ))
+    for (( i = 0 ; i < ${#themes[@]} ; i++ )); do
+        theme=$( echo ${themes[$i]##*/} | awk 'BEGIN{OFS=FS=""}{$1=toupper($1);print}' )
+        mkdir -p "${PKG_BUILD_DIR}/${theme}/Root/"
+        rsync -r --exclude=.svn "${themes[$i]}/" "${PKG_BUILD_DIR}/${theme}/Root/${theme}"
 
-	((xmlindent--))
-	outline[${#outline[*]}]="${indent[$xmlindent]}</line>"
+        packageRefId=$(getPackageRefId "${packagesidentity}" "${theme}")
+        buildpackage "$packageRefId" "${theme}" "${PKG_BUILD_DIR}/${theme}" "/$chamTemp/Extra/Themes"
+        addChoice --group="Themes"  --start-selected="false"  --pkg-refs="$packageRefId" "${theme}"
+    done
 # End build theme packages# End build Extras package
 
 # build post install package
@@ -539,82 +603,145 @@ fi
     cp -f ${PKGROOT}/Scripts/Sub/UnMountEFIvolumes.sh ${PKG_BUILD_DIR}/${choiceId}/Scripts
     ditto --noextattr --noqtn ${SRCROOT}/revision ${PKG_BUILD_DIR}/${choiceId}/Scripts/Resources/revision
     ditto --noextattr --noqtn ${SRCROOT}/version ${PKG_BUILD_DIR}/${choiceId}/Scripts/Resources/version
-    echo -e "\t[BUILD] ${choiceId} "
+
     packageRefId=$(getPackageRefId "${packagesidentity}" "${choiceId}")
     buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/"
-    addChoice "${choiceId}"  "start_visible=\"false\" start_selected=\"true\""  "$packageRefId"
+    addChoice  --start-visible="false" --start-selected="true"  --pkg-refs="$packageRefId" "${choiceId}"
 # End build post install package
-
-	((xmlindent--))
-	outline[${#outline[*]}]="${indent[$xmlindent]}</choices-outline>"
 
 }
 
 buildpackage ()
 {
-	#  $1 Package Reference Id (ie: org.chameleon.themes.default)
-	#  $2 Package Name (ie: Default)
-	#  $3 Path to package to build containing Root and/or Scripts
-	#  $4 Target install location
-	#  $5 Size (optional)
-	if [[ -d "${3}/Root" ]]; then
-		local packageRefId="$1"
-		local packageName="$2"
-		local packagePath="$3"
-		local targetPath="$4"
-		set +u # packageSize is optional
+    #  $1 Package Reference Id (ie: org.chameleon.themes.default)
+    #  $2 Package Name (ie: Default)
+    #  $3 Path to package to build containing Root and/or Scripts
+    #  $4 Target install location
+    #  $5 Size (optional)
+    if [[ -d "${3}/Root" ]]; then
+        local packageRefId="$1"
+        local packageName="$2"
+        local packagePath="$3"
+        local targetPath="$4"
+        set +u # packageSize is optional
         local packageSize="$5"
         set -u
 
-		find "${packagePath}" -name '.DS_Store' -delete
-		local filecount=$( find "${packagePath}/Root" | wc -l )
-		if [ "${packageSize}" ]; then
-			local installedsize="${packageSize}"
-		else
-			local installedsize=$( du -hkc "${packagePath}/Root" | tail -n1 | awk {'print $1'} )
-		fi
-		local header="<?xml version=\"1.0\"?>\n<pkg-info format-version=\"2\" "
+        echo -e "\t[BUILD] ${packageName}"
 
-		#[ "${3}" == "relocatable" ] && header+="relocatable=\"true\" "
+        find "${packagePath}" -name '.DS_Store' -delete
+        local filecount=$( find "${packagePath}/Root" | wc -l )
+        if [ "${packageSize}" ]; then
+            local installedsize="${packageSize}"
+        else
+            local installedsize=$( du -hkc "${packagePath}/Root" | tail -n1 | awk {'print $1'} )
+        fi
+        local header="<?xml version=\"1.0\"?>\n<pkg-info format-version=\"2\" "
 
-		header+="identifier=\"${packageRefId}\" "
-		header+="version=\"${version}\" "
+        #[ "${3}" == "relocatable" ] && header+="relocatable=\"true\" "
 
-		[ "${targetPath}" != "relocatable" ] && header+="install-location=\"${targetPath}\" "
+        header+="identifier=\"${packageRefId}\" "
+        header+="version=\"${version}\" "
 
-		header+="auth=\"root\">\n"
-		header+="\t<payload installKBytes=\"${installedsize##* }\" numberOfFiles=\"${filecount##* }\"/>\n"
-		rm -R -f "${packagePath}/Temp"
+        [ "${targetPath}" != "relocatable" ] && header+="install-location=\"${targetPath}\" "
 
-		[ -d "${packagePath}/Temp" ] || mkdir -m 777 "${packagePath}/Temp"
-		[ -d "${packagePath}/Root" ] && mkbom "${packagePath}/Root" "${packagePath}/Temp/Bom"
+        header+="auth=\"root\">\n"
+        header+="\t<payload installKBytes=\"${installedsize##* }\" numberOfFiles=\"${filecount##* }\"/>\n"
+        rm -R -f "${packagePath}/Temp"
 
-		if [ -d "${packagePath}/Scripts" ]; then
-			header+="\t<scripts>\n"
-			for script in $( find "${packagePath}/Scripts" -type f \( -name 'pre*' -or -name 'post*' \) ); do
-				header+="\t\t<${script##*/} file=\"./${script##*/}\"/>\n"
-			done
-			header+="\t</scripts>\n"
-			# Create the Script archive file (cpio format)
-			(cd "${packagePath}/Scripts" && find . -print | cpio -o -z -R 0:0 --format cpio > "${packagePath}/Temp/Scripts") 2>&1 | \
-			    grep -vE '^[0-9]+\s+blocks?$' # to remove cpio stderr messages
+        [ -d "${packagePath}/Temp" ] || mkdir -m 777 "${packagePath}/Temp"
+        [ -d "${packagePath}/Root" ] && mkbom "${packagePath}/Root" "${packagePath}/Temp/Bom"
+
+        if [ -d "${packagePath}/Scripts" ]; then
+            header+="\t<scripts>\n"
+            for script in $( find "${packagePath}/Scripts" -type f \( -name 'pre*' -or -name 'post*' \) ); do
+                header+="\t\t<${script##*/} file=\"./${script##*/}\"/>\n"
+            done
+            header+="\t</scripts>\n"
+            # Create the Script archive file (cpio format)
+            (cd "${packagePath}/Scripts" && find . -print | cpio -o -z -R 0:0 --format cpio > "${packagePath}/Temp/Scripts") 2>&1 | \
+                grep -vE '^[0-9]+\s+blocks?$' # to remove cpio stderr messages
         fi
 
-		header+="</pkg-info>"
-		echo -e "${header}" > "${packagePath}/Temp/PackageInfo"
+        header+="</pkg-info>"
+        echo -e "${header}" > "${packagePath}/Temp/PackageInfo"
 
-		# Create the Payload file (cpio format)
-		(cd "${packagePath}/Root" && find . -print | cpio -o -z -R 0:0 --format cpio > "${packagePath}/Temp/Payload") 2>&1 | \
-	        grep -vE '^[0-9]+\s+blocks?$' # to remove cpio stderr messages
+        # Create the Payload file (cpio format)
+        (cd "${packagePath}/Root" && find . -print | cpio -o -z -R 0:0 --format cpio > "${packagePath}/Temp/Payload") 2>&1 | \
+            grep -vE '^[0-9]+\s+blocks?$' # to remove cpio stderr messages
 
-		# Create the package
-		(cd "${packagePath}/Temp" && xar -c -f "${packagePath}/../${packageName}.pkg" --compression none .)
+        # Create the package
+        (cd "${packagePath}/Temp" && xar -c -f "${packagePath}/../${packageName}.pkg" --compression none .)
 
-		# Add the package to the list of build packages
-		pkgrefs[${#pkgrefs[*]}]="\t<pkg-ref id=\"${packageRefId}\" installKBytes='${installedsize}' version='${version}.0.0.${timestamp}'>#${packageName}.pkg</pkg-ref>"
+        # Add the package to the list of build packages
+        pkgrefs[${#pkgrefs[*]}]="\t<pkg-ref id=\"${packageRefId}\" installKBytes='${installedsize}' version='${version}.0.0.${timestamp}'>#${packageName}.pkg</pkg-ref>"
 
-		rm -rf "${packagePath}"
-	fi
+        rm -rf "${packagePath}"
+    fi
+}
+
+generateOutlineChoices() {
+    # $1 Main Choice
+    # $2 indent level
+    local idx=$(getChoiceIndex "$1")
+    local indentLevel="$2"
+    local indentString=""
+    for ((level=1; level <= $indentLevel ; level++)); do
+        indentString="\t$indentString"
+    done
+    set +u; subChoices="${choice_group_items[$idx]}"; set -u
+    if [[ -n "${subChoices}" ]]; then
+        # Sub choices exists
+        echo -e "$indentString<line choice=\"$1\">"
+        for subChoice in $subChoices;do
+            generateOutlineChoices $subChoice $(($indentLevel+1))
+        done
+        echo -e "$indentString</line>"
+    else
+        echo -e "$indentString<line choice=\"$1\"/>"
+    fi
+}
+
+generateChoices() {
+    for (( idx=1; idx < ${#choice_key[*]} ; idx++)); do
+        local choiceId=${choice_key[$idx]}
+        local choiceOptions=${choice_options[$idx]}
+        local choiceParentGroupIndex=${choice_parent_group_index[$idx]}
+        set +u; local group_exclusive=${choice_group_exclusive[$choiceParentGroupIndex]}; set -u
+
+        # Create the node and standard attributes
+        local choiceNode="\t<choice\n\t\tid=\"${choiceId}\"\n\t\ttitle=\"${choiceId}_title\"\n\t\tdescription=\"${choiceId}_description\""
+
+        # Add options like start_selected, etc...
+        [[ -n "${choiceOptions}" ]] && choiceNode="${choiceNode}\n\t\t${choiceOptions}"
+
+        # Add the selected attribute if options are mutually exclusive
+        if [[ -n "$group_exclusive" ]];then
+            local group_items="${choice_group_items[$choiceParentGroupIndex]}"
+            case $group_exclusive in
+                exclusive_one_choice)
+                    local selected_option=$(exclusive_one_choice "$choiceId" "$group_items") ;;
+                exclusive_zero_or_one_choice)
+                    local selected_option=$(exclusive_zero_or_one_choice "$choiceId" "$group_items") ;;
+                *) echo "Error: unknown function to generate exclusive mode '$group_exclusive' for group '${choice_key[$choiceParentGroupIndex]}'" >&2
+                   exit 1
+                   ;;
+            esac
+            choiceNode="${choiceNode}\n\t\tselected=\"$selected_option\""
+        fi
+
+        choiceNode="${choiceNode}>"
+
+        # Add the package references
+        for pkgRefId in ${choice_pkgrefs[$idx]};do
+            choiceNode="${choiceNode}\n\t\t<pkg-ref id=\"${pkgRefId}\"/>"
+        done
+
+        # Close the node
+        choiceNode="${choiceNode}\n\t</choice>\n"
+
+        echo -e "$choiceNode"
+    done
 }
 
 makedistribution ()
@@ -628,7 +755,7 @@ makedistribution ()
     mkdir -p "${PKG_BUILD_DIR}/${packagename}"
 
     find "${PKG_BUILD_DIR}" -type f -name '*.pkg' -depth 1 | while read component
-	do
+    do
         pkg="${component##*/}" # ie: EFI.pkg
         pkgdir="${PKG_BUILD_DIR}/${packagename}/${pkg}"
         # expand individual packages
@@ -639,13 +766,14 @@ makedistribution ()
 #   Create the Distribution file
     ditto --noextattr --noqtn "${PKGROOT}/Distribution" "${PKG_BUILD_DIR}/${packagename}/Distribution"
 
-    for (( i=0; i < ${#outline[*]} ; i++)); do
-		echo -e "${outline[$i]}" >> "${PKG_BUILD_DIR}/${packagename}/Distribution"
-	done
+    local start_indent_level=2
+    echo -e "\n\t<choices-outline>" >> "${PKG_BUILD_DIR}/${packagename}/Distribution"
+    for main_choice in ${choice_group_items[0]};do
+        generateOutlineChoices $main_choice $start_indent_level >> "${PKG_BUILD_DIR}/${packagename}/Distribution"
+    done
+    echo -e "\t</choices-outline>\n" >> "${PKG_BUILD_DIR}/${packagename}/Distribution"
 
-    for (( i=0; i < ${#choices[*]} ; i++)); do
-		echo -e "${choices[$i]}" >> "${PKG_BUILD_DIR}/${packagename}/Distribution"
-	done
+    generateChoices >> "${PKG_BUILD_DIR}/${packagename}/Distribution"
 
     for (( i=0; i < ${#pkgrefs[*]} ; i++)); do
         echo -e "${pkgrefs[$i]}" >> "${PKG_BUILD_DIR}/${packagename}/Distribution"
