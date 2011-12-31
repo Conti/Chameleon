@@ -56,6 +56,7 @@ scriptDir=$MYLOCATION
 # set temporary directory
 chamTemp="$dest_vol/usr/local/chamTemp"
 
+
 # ---------------------------------------------
 # Build org.chameleon.Boot.plist
 # ---------------------------------------------
@@ -227,22 +228,15 @@ NOTE: and chose Wait=Yes from the list, this will NOT be changed.
 
     if [ ! -f "$dest_vol"/.ChameleonEFI ]; then
         # The Standard install option chosen
+        rm -rf "$dest_vol/Extra" # Remove old Extra directory
 
-        # Does an /Extra folder already exist?
-        if [ -e "$dest_vol"/Extra ]; then
-            "$scriptDir"InstallLog.sh "${dest_vol}" "Moving $dest_vol/Extra folder to $dest_vol/Extra-OLD-$( date "+%H-%M-%S" )"
-            mv "$dest_vol/Extra" "$dest_vol/Extra_OLD-"$( date "+%H-%M-%S" )
-        fi
         "$scriptDir"InstallLog.sh "${dest_vol}" "Writing new Extra folder to: $dest_vol/"
         echo "Copying $chamTemp/Extra TO $dest_vol"
         cp -R "$chamTemp"/Extra "$dest_vol"
     else
         # The EFI system partition install option was chosen
-        # Does a /Volumes/Extra folder already exist?
-        if [ -e "/Volumes/EFI/Extra" ]; then
-            "$scriptDir"InstallLog.sh "${dest_vol}" "Moving /Volumes/EFI/Extra folder to /Volumes/EFI/Extra-OLD-$( date "+%H-%M-%S" )"
-            mv "/Volumes/EFI/Extra" "/Volumes/EFI/Extra_OLD-"$( date "+%H-%M-%S" )
-        fi
+        rm -rf "/Volumes/EFI/Extra" # Remove old Extra directory
+
         "$scriptDir"InstallLog.sh "${dest_vol}" "Writing new Extra folder to: /Volumes/EFI/"
         cp -R "$chamTemp"/Extra "/Volumes/EFI"
     fi
@@ -259,6 +253,12 @@ so leaving existing /Volumes/EFI/Extra folder untouched."
         fi
     fi
 fi
+
+# ---------------------------------------------
+# Update Rights
+# ---------------------------------------------
+chmod 777 ${dest_vol}/Extra         2>/dev/null
+chmod 666 ${dest_vol}/Extra/*.plist 2>/dev/null
 
 # ---------------------------------------------
 # Cleanup

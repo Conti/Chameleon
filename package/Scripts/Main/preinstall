@@ -9,7 +9,7 @@ echo ""
 # Creates text file named 'Chameleon_Installer_Log.txt'
 # at the root of the target volume. This is to help show the
 # user why the installation process failed (even though the
-# package installer ends reading 'Installation Successful'. 
+# package installer ends reading 'Installation Successful'.
 
 
 
@@ -25,17 +25,28 @@ scriptDir=$MYLOCATION
 # / with volume name.
 if [ "$3" == "/" ]
 then
-	targetVolume="/Volumes/"$( ls -1F /Volumes | sed -n 's:@$::p' )
+    targetVolume="/Volumes/"$( ls -1F /Volumes | sed -n 's:@$::p' )
 else
     targetVolume="$3"
 fi
 
 logName="Chameleon_Installer_Log.txt"
-logFile="${targetVolume}"/$logName
+logFile="${targetVolume}/$logName"
 
 versionNumber=`cat "${scriptDir}"/Resources/version`
 revisionNumber=`cat "${scriptDir}"/Resources/revision`
 
+
+# ---------------------------------------------
+# Preparing Backing up Chameleon files
+# ---------------------------------------------
+backupDir="${targetVolume}/Chameleon.Backups/"$( date -j "+%F-%Hh%M" )
+mkdir -p "$backupDir"
+
+if [[ -f "$logFile" ]];then
+    # Backup old log file
+    mv "$logFile" "${backupDir}/${logName}"
+fi
 
 
 # Setup Chameleon_Installer_Log.txt file
@@ -44,11 +55,25 @@ revisionNumber=`cat "${scriptDir}"/Resources/revision`
 echo "Chameleon installer log - $( date )
 Installer version: ${versionNumber} ${revisionNumber}
 ======================================================" >"${logFile}"
-	
+
 diskutil list >>"${logFile}"
 echo "======================================================" >>"${logFile}"
 
-
+# ---------------------------------------------
+# Backing up Chameleon files
+# ---------------------------------------------
+# Backup stage2
+if [[ -f "${targetVolume}/boot" ]];then
+    echo "Backing up stage2 file ${targetVolume}/boot to ${backupDir}/boot" >>"${logFile}"
+    cp -p "${targetVolume}/boot" "${backupDir}/boot"
+fi
+# Backup /Extra directory
+if [[ -d "${targetVolume}/Extra" ]];then
+    echo "Moving ${targetVolume}/Extra folder to ${backupDir}/Extra" >>"${logFile}"
+    cp -pR "${targetVolume}/Extra" "${backupDir}/Extra"
+fi
+chflags -R nohidden "$backupDir" # Remove the invisible flag of files in the backups
+echo "======================================================" >>"${logFile}"
 
 echo "==============================================="
 echo "END - Pre-Install Script"
