@@ -187,12 +187,13 @@ addChoice () {
 
 # Add a group choice
 addGroupChoices() {
+    # Optionnal arguments:
+    #    --parent=<parent> : parent group choice id
+    #    --exclusive_zero_or_one_choice : only zero or one choice can be selected in the group
+    #    --exclusive_one_choice : only one choice can be selected in the group
+    #
     # $1 Choice Id
-    # $2 Parent group choice Id (empty if main group)
-    # $3 Exclusive mode (optional):
-    #       exclusive_zero_or_one_choice
-    #       exclusive_one_choice
-    # Check the arguments.
+
     local option
     local groupChoice=""
     local exclusive_function=""
@@ -203,7 +204,7 @@ addGroupChoices() {
                        shift; exclusive_function="exclusive_zero_or_one_choice" ;;
             --exclusive_one_choice)
                        shift; exclusive_function="exclusive_one_choice" ;;
-            --group=*)
+            --parent=*)
                        shift; groupChoice=${option#*=} ;;
             -*)
                 echo "Unrecognized addGroupChoices option '$option'" >&2
@@ -508,7 +509,7 @@ fi
             fi
         done < ${OptionalSettingsFiles[$i]}
 
-        addGroupChoices  --group="Options" $exclusiveFlag "${builtOptionsList}"
+        addGroupChoices  --parent="Options" $exclusiveFlag "${builtOptionsList}"
         packagesidentity="${chameleon_package_identity}.options.$builtOptionsList"
 
         # ------------------------------------------------------
