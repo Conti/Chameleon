@@ -41,8 +41,12 @@
 
     function get_chameleon_boot_plist() {
         if (my.target) {
-            var chameleon_boot_plist = my.target.mountpoint + '/Extra/org.chameleon.Boot.plist'
-            return system.files.plistAtPath(chameleon_boot_plist);
+            var boot_plist_filenames = new Array( 'org.chameleon.Boot.plist', 'com.apple.Boot.plist' );
+            for ( var i = 0; i &lt; boot_plist_filenames.length; i++ ) {
+                var plist = system.files.plistAtPath( my.target.mountpoint + '/Extra/' + boot_plist_filenames[i] );
+                if (plist)
+                   return plist;
+            }
         }
         return null;
     }
