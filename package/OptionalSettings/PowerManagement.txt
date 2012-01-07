@@ -11,9 +11,9 @@
 # example1: InstantMenu:Instant Menu=Yes
 # example2: DropSSDT:DropSSDT=Yes
 # ---------------------------------------------
-# To add kernel flag: Structure is name:KFflag=kernelflag
-# example1: Npci:KFflag=npci=0x2000
-# example2: Verbose:KFflag=-v
+# To add kernel flag: Structure is name:Kernel Flags=kernelflag
+# example1: Npci:Kernel Flags=npci=0x2000
+# example2: Verbose:Kernel Flags=-v
 # ---------------------------------------------
 # The package installer has a setting which controls what
 # the user is allowed to choose.

@@ -80,47 +80,34 @@ if [ "$(ls -A ${chamTemp}/options )" ]; then
     cp "$4"/Library/Preferences/SystemConfiguration/com.apple.Boot.plist "$tempOCBP"
 
     # Read list of all boot options the user added.
-    arrayCount=0
-    kernelFlagCount=0
-    while read FILE
-    do
-        options[arrayCount]="${FILE##*/}"
+    while IFS= read -r -d '' FILE; do
+        option="${FILE##*/}"
+        key="${option%%=*}"
+        value="${option#*=}"
 
-        # Check keyRead for 'KF' at beginning to
-        # indicate that should be a kernel flag
-        if [ ${options[arrayCount]:0:2} = "KF" ];then
+        # Check for 'Kernel Flags' key indicate that should be a kernel flag
+        if [[ "$key" = "Kernel Flags" ]];then
             # plistbuddy only add's if the key doesn't already exist.
             # So let's store any kernelflags and add them all at the
             # same time once when we reach the end of the options list.
-            kernelflag[kernelFlagCount]="${options[arrayCount]##*flag=}"
-            "$scriptDir"InstallLog.sh "${dest_vol}" "Added kernel flag: ${kernelflag[kernelFlagCount]}"
-            (( kernelFlagCount++ ))
+            kernelflag[${#kernelflag[*]}]="$value"
+            "$scriptDir"InstallLog.sh "${dest_vol}" "Added kernel flag: $value"
         else
-            keyRead="${options[$arrayCount]%=*}"
-            value="${options[$arrayCount]#*=}"
             # escape any spaces
-            keyToUse=$( echo $keyRead | sed 's/ /\\ /g' )
-            if [ "${keyToUse}" != "DONT" ] && [ "${value}" != "ADD" ]; then
-                sudo /usr/libexec/plistbuddy -c "Add :${keyToUse} string ${value}" "$tempOCBP"
-                returnValue=$?
-                if [ ${returnValue} -ne 1 ]; then
-                    "$scriptDir"InstallLog.sh "${dest_vol}" "Added boot option: ${keyRead}=${value}"
-                else
-                    "$scriptDir"InstallLog.sh "${dest_vol}" "Can't add ${keyRead}=${value} as an option already exists for: ${keyRead}"
-                fi
+            keyToUse=$( echo "$key" | sed 's/ /\\ /g' )
+            sudo /usr/libexec/plistbuddy -c "Add :${keyToUse} string ${value}" "$tempOCBP"
+            returnValue=$?
+            if [ ${returnValue} -ne 1 ]; then
+                "$scriptDir"InstallLog.sh "${dest_vol}" "Added boot option: ${key}=${value}"
+            else
+                "$scriptDir"InstallLog.sh "${dest_vol}" "Can't add ${key}=${value} as an option already exists for: ${key}"
             fi
         fi
-        (( arrayCount++ ))
-    done < <(ls "${chamTemp}"/options )
+    done < <( find "${chamTemp}/options" -type f -print0 )
 
-    if [ $kernelFlagCount -gt 0 ]; then
-        # Add any kernel flags together in to one string.
-        for (( i=0 ; i < $kernelFlagCount ; i++ ))
-        do
-            kernelFlagString="${kernelFlagString} ${kernelflag[i]}"
-        done
-        # We add the final string in the next section.
-    fi
+    # Add any kernel flags together in to one string.
+    kernelFlagString="${kernelflag[@]}"
+    # We add the final string in the next section.
 fi
 
 # ---------------------------------------------

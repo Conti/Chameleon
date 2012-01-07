@@ -519,7 +519,7 @@ fi
             textLine=${availableOptions[c]}
             # split line - taking all before ':' as option name
             # and all after ':' as key/value
-            optionName=${textLine%:*}
+            optionName=${textLine%%:*}
             keyValue=${textLine##*:}
             key=${keyValue%%=*}
             value=${keyValue#*=}
