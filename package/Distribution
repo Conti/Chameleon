@@ -15,6 +15,16 @@
 
     <script>
 
+    var bootPlist = null;
+    if (my.target) {
+        var boot_plist_filenames = new Array( 'org.chameleon.Boot.plist', 'com.apple.Boot.plist' );
+        for ( var i = 0; i &lt; boot_plist_filenames.length; i++ ) {
+            bootPlist = system.files.plistAtPath( my.target.mountpoint + '/Extra/' + boot_plist_filenames[i] );
+            if (bootPlist)
+                break;
+        }
+    }
+
     function installCheckScript() {
         var obj = system.ioregistry.matchingClass("AppleSMC");
         if (obj) {
@@ -39,22 +49,8 @@
         return false;
     }
 
-    function get_chameleon_boot_plist() {
-        if (my.target) {
-            var boot_plist_filenames = new Array( 'org.chameleon.Boot.plist', 'com.apple.Boot.plist' );
-            for ( var i = 0; i &lt; boot_plist_filenames.length; i++ ) {
-                var plist = system.files.plistAtPath( my.target.mountpoint + '/Extra/' + boot_plist_filenames[i] );
-                if (plist)
-                   return plist;
-            }
-        }
-        return null;
-    }
-
     function chameleon_boot_plist_exists() {
-        if (get_chameleon_boot_plist() != null)
-            return true;
-        return false;
+        return bootPlist ? true : false;
     }
 
     function check_chameleon_kernel_option(kernelFlags, value) {
@@ -67,7 +63,6 @@
     }
 
     function check_chameleon_option(key, value) {
-        var bootPlist = get_chameleon_boot_plist();
         if (bootPlist) {
             if (key == "KFflag")
                 key = "Kernel Flags";
