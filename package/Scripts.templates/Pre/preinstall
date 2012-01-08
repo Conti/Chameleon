@@ -6,7 +6,7 @@ echo "*********************************"
 echo "-----------------------------------------------"
 echo ""
 
-# Creates text file named 'Chameleon_Installer_Log.txt'
+# Creates text file named '@LOG_FILENAME@'
 # at the root of the target volume. This is to help show the
 # user why the installation process failed (even though the
 # package installer ends reading 'Installation Successful'.
@@ -30,12 +30,8 @@ else
     targetVolume="$3"
 fi
 
-logName="Chameleon_Installer_Log.txt"
+logName="@LOG_FILENAME@"
 logFile="${targetVolume}/$logName"
-
-versionNumber=`cat "${scriptDir}"/Resources/version`
-revisionNumber=`cat "${scriptDir}"/Resources/revision`
-
 
 # ---------------------------------------------
 # Preparing Backing up Chameleon files
@@ -49,11 +45,11 @@ if [[ -f "$logFile" ]];then
 fi
 
 
-# Setup Chameleon_Installer_Log.txt file
+# Setup @LOG_FILENAME@ file
 # by writing header and diskutil list
 
 echo "Chameleon installer log - $( date )
-Installer version: ${versionNumber} ${revisionNumber}
+Installer version: %CHAMELEONVERSION% %CHAMELEONREVISION%
 ======================================================" >"${logFile}"
 
 diskutil list >>"${logFile}"

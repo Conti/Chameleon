@@ -4,7 +4,7 @@
 #echo "InstallLog: Create/Append installation log"
 #echo "**********************************************"
 
-# Writes to the Chameleon_Installer_Log.txt file created
+# Writes to the @LOG_FILENAME@ file created
 # by the preinstall script at the start of installation.
 
 # Receives two parameters
@@ -21,11 +21,8 @@ else
 	exit 9
 fi
 
-
-
-logName="Chameleon_Installer_Log.txt"
+logName="@LOG_FILENAME@"
 logFile="${logLocation}"/$logName
-
 
 if [ -f "${logFile}" ]; then
 

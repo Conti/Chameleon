@@ -9,6 +9,7 @@ declare -r PKGROOT="${0%/*}"
 declare -r SRCROOT="$1"
 declare -r SYMROOT="$2"
 declare -r PKG_BUILD_DIR="$3"
+declare -r SCPT_TPL_DIR="${PKGROOT}/Scripts.templates"
 
 if [[ $# -lt 3 ]];then
     echo "Too few arguments. Aborting..." >&2 && exit 1
@@ -44,25 +45,27 @@ declare -r COL_RESET="\x1b[39;49;00m"
 
 # ====== REVISION/VERSION ======
 
-declare -r version=$( cat version )
+declare -r CHAMELEON_VERSION=$( cat version )
 
 # stage
-stage=${version##*-}
-stage=${stage/RC/Release Candidate }
-stage=${stage/FINAL/2.1 Final}
-declare -r stage
+CHAMELEON_STAGE=${CHAMELEON_VERSION##*-}
+CHAMELEON_STAGE=${CHAMELEON_STAGE/RC/Release Candidate }
+CHAMELEON_STAGE=${CHAMELEON_STAGE/FINAL/2.1 Final}
+declare -r CHAMELEON_STAGE
 
-declare -r revision=$( grep I386BOOT_CHAMELEONREVISION vers.h | awk '{ print $3 }' | tr -d '\"' )
-declare -r builddate=$( grep I386BOOT_BUILDDATE vers.h | awk '{ print $3,$4 }' | tr -d '\"' )
-declare -r timestamp=$( date -j -f "%Y-%m-%d %H:%M:%S" "${builddate}" "+%s" )
+declare -r CHAMELEON_REVISION=$( grep I386BOOT_CHAMELEONREVISION vers.h | awk '{ print $3 }' | tr -d '\"' )
+declare -r CHAMELEON_BUILDDATE=$( grep I386BOOT_BUILDDATE vers.h | awk '{ print $3,$4 }' | tr -d '\"' )
+declare -r CHAMELEON_TIMESTAMP=$( date -j -f "%Y-%m-%d %H:%M:%S" "${CHAMELEON_BUILDDATE}" "+%s" )
 
 # ====== CREDITS ======
 
-declare -r develop=$(awk "NR==6{print;exit}"  ${PKGROOT}/../CREDITS)
-declare -r credits=$(awk "NR==10{print;exit}" ${PKGROOT}/../CREDITS)
-declare -r pkgdev=$(awk "NR==14{print;exit}"  ${PKGROOT}/../CREDITS)
+declare -r CHAMELEON_DEVELOP=$(awk "NR==6{print;exit}"  ${PKGROOT}/../CREDITS)
+declare -r CHAMELEON_CREDITS=$(awk "NR==10{print;exit}" ${PKGROOT}/../CREDITS)
+declare -r CHAMELEON_PKGDEV=$(awk "NR==14{print;exit}"  ${PKGROOT}/../CREDITS)
 
 # ====== GLOBAL VARIABLES ======
+declare -r LOG_FILENAME="Chameleon_Installer_Log.txt"
+
 declare -a pkgrefs
 declare -a choice_key
 declare -a choice_options
@@ -91,6 +94,133 @@ declare -r chamTemp="usr/local/chamTemp"
 trim () {
     local result="${1#"${1%%[![:space:]]*}"}"   # remove leading whitespace characters
     echo "${result%"${result##*[![:space:]]}"}" # remove trailing whitespace characters
+}
+
+argument () {
+  local opt="$1"
+
+  if [[ $# -eq 0 ]];then
+      echo "$0: option requires an argument -- '$opt'" >&2; exit 1
+  fi
+  echo "$opt"
+}
+
+function makeSubstitutions () {
+    # Substition is like: Key=Value
+    #
+    # Optionnal arguments:
+    #    --subst=<substition> : add a new substitution
+    #    --subst <substition> : add a new substitution
+    #
+    # Last argument(s) is/are file(s) where substitutions must be made
+
+    local ownSubst=""
+
+    function addSubst () {
+        local mySubst="$1"
+        case "$mySubst" in
+			*=*) keySubst=${mySubst%%=*}
+				 valSubst=${mySubst#*=}
+				 ownSubst=$(printf "%s\n%s" "$ownSubst" "s&@$keySubst@&$valSubst&g;t t")
+				 ;;
+			*) echo "Invalid substitution $mySubst" >&2
+               exit 1
+               ;;
+		esac
+    }
+
+    # Check the arguments.
+    while [[ $# -gt 0 ]];do
+        local option="$1"
+        case "$option" in
+            --subst)   shift; addSubst "$(argument $@)"; shift ;;
+            --subst=*) shift; addSubst "${option#*=}" ;;
+            -*)
+                echo "Unrecognized makeSubstitutions option '$option'" >&2
+                exit 1
+                ;;
+            *)  break ;;
+        esac
+    done
+
+    if [[ $# -lt 1 ]];then
+        echo "makeSubstitutions invalid number of arguments: at least one file needed" >&2
+        exit 1
+    fi
+
+    local chameleonSubsts="
+s&%CHAMELEONVERSION%&${CHAMELEON_VERSION%%-*}&g
+s&%CHAMELEONREVISION%&${CHAMELEON_REVISION}&g
+s&%CHAMELEONSTAGE%&${CHAMELEON_STAGE}&g
+s&%DEVELOP%&${CHAMELEON_DEVELOP}&g
+s&%CREDITS%&${CHAMELEON_CREDITS}&g
+s&%PKGDEV%&${CHAMELEON_PKGDEV}&g
+:t
+/@[a-zA-Z_][a-zA-Z_0-9]*@/!b
+s&@LOG_FILENAME@&${LOG_FILENAME}&g;t t"
+
+    local allSubst="
+$chameleonSubsts
+$ownSubst"
+
+    for file in "$@";do
+        cp -pf "$file" "${file}.in"
+        sed "$allSubst" "${file}.in" > "${file}"
+        rm -f "${file}.in"
+    done
+}
+
+addTemplateScripts () {
+    # Arguments:
+    #    --pkg-rootdir=<pkg_rootdir> : path of the pkg root dir
+    #
+    # Optionnal arguments:
+    #    --subst=<substition> : add a new substitution
+    #    --subst <substition> : add a new substitution
+    #
+    # Substition is like: Key=Value
+    #
+    # $n : Name of template(s) (templates are in package/Scripts.templates
+
+    local pkgRootDir=""
+    declare -a allSubst
+
+    # Check the arguments.
+    while [[ $# -gt 0 ]];do
+        local option="$1"
+        case "$option" in
+            --pkg-rootdir=*)   shift; pkgRootDir="${option#*=}" ;;
+            --subst)   shift; allSubst[${#allSubst[*]}]="$option"; allSubst[${#allSubst[*]}]="$1" ; shift ;;
+            --subst=*) shift; allSubst[${#allSubst[*]}]="${option}" ;;
+            -*)
+                echo "Unrecognized addTemplateScripts option '$option'" >&2
+                exit 1
+                ;;
+            *)  break ;;
+        esac
+    done
+    if [[ $# -lt 1 ]];then
+        echo "addTemplateScripts invalid number of arguments: you must specify a template name" >&2
+        exit 1
+    fi
+    [[ -z "$pkgRootDir" ]] && { echo "Error addTemplateScripts: --pkg-rootdir option is needed" >&2 ; exit 1; }
+    [[ ! -d "$pkgRootDir" ]] && { echo "Error addTemplateScripts: directory '$pkgRootDir' doesn't exists" >&2 ; exit 1; }
+
+    for templateName in "$@";do
+        local templateRootDir="${SCPT_TPL_DIR}/${templateName}"
+        [[ ! -d "$templateRootDir" ]] && {
+            echo "Error addTemplateScripts: template '$templateName' doesn't exists" >&2; exit 1; }
+
+        # Copy files to destination
+        rsync -pr --exclude=.svn --exclude="*~" "$templateRootDir/" "$pkgRootDir/Scripts/"
+    done
+
+    files=$( find "$pkgRootDir/Scripts/" -type f )
+    if [[ ${#allSubst[*]} -gt 0 ]];then
+        makeSubstitutions "${allSubst[@]}" $files
+    else
+        makeSubstitutions $files
+    fi
 }
 
 getPackageRefId () {
@@ -266,11 +396,7 @@ main ()
     packagesidentity="${chameleon_package_identity}"
     choiceId="Pre"
     mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Root
-    mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Scripts
-    ditto --noextattr --noqtn ${SRCROOT}/revision ${PKG_BUILD_DIR}/${choiceId}/Scripts/Resources/revision
-    ditto --noextattr --noqtn ${SRCROOT}/version  ${PKG_BUILD_DIR}/${choiceId}/Scripts/Resources/version
-    cp -f ${PKGROOT}/Scripts/Main/preinstall   ${PKG_BUILD_DIR}/${choiceId}/Scripts
-    cp -f ${PKGROOT}/Scripts/Sub/InstallLog.sh ${PKG_BUILD_DIR}/${choiceId}/Scripts
+    addTemplateScripts --pkg-rootdir="${PKG_BUILD_DIR}/${choiceId}" ${choiceId}
 
     packageRefId=$(getPackageRefId "${packagesidentity}" "${choiceId}")
     buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/"
@@ -335,6 +461,7 @@ main ()
     choiceId="Standard"
     mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Root
     mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Scripts/Resources
+    addTemplateScripts --pkg-rootdir="${PKG_BUILD_DIR}/${choiceId}" InstallerLog
     cp -f ${PKGROOT}/Scripts/Main/${choiceId}postinstall ${PKG_BUILD_DIR}/${choiceId}/Scripts/postinstall
     cp -f ${PKGROOT}/Scripts/Sub/* ${PKG_BUILD_DIR}/${choiceId}/Scripts
     ditto --arch i386 `which SetFile` ${PKG_BUILD_DIR}/${choiceId}/Scripts/Resources/SetFile
@@ -348,6 +475,7 @@ main ()
     choiceId="EFI"
     mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Root
     mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Scripts/Resources
+    addTemplateScripts --pkg-rootdir="${PKG_BUILD_DIR}/${choiceId}" InstallerLog
     cp -f ${PKGROOT}/Scripts/Main/ESPpostinstall ${PKG_BUILD_DIR}/${choiceId}/Scripts/postinstall
     cp -f ${PKGROOT}/Scripts/Sub/* ${PKG_BUILD_DIR}/${choiceId}/Scripts
     ditto --arch i386 `which SetFile` ${PKG_BUILD_DIR}/${choiceId}/Scripts/Resources/SetFile
@@ -589,7 +717,7 @@ fi
     for (( i = 0 ; i < ${#themes[@]} ; i++ )); do
         theme=$( echo ${themes[$i]##*/} | awk 'BEGIN{OFS=FS=""}{$1=toupper($1);print}' )
         mkdir -p "${PKG_BUILD_DIR}/${theme}/Root/"
-        rsync -r --exclude=.svn "${themes[$i]}/" "${PKG_BUILD_DIR}/${theme}/Root/${theme}"
+        rsync -r --exclude=.svn --exclude="*~" "${themes[$i]}/" "${PKG_BUILD_DIR}/${theme}/Root/${theme}"
 
         packageRefId=$(getPackageRefId "${packagesidentity}" "${theme}")
         buildpackage "$packageRefId" "${theme}" "${PKG_BUILD_DIR}/${theme}" "/$chamTemp/Extra/Themes"
@@ -602,12 +730,8 @@ fi
     packagesidentity="${chameleon_package_identity}"
     choiceId="Post"
     mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Root
-    mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Scripts
-    cp -f ${PKGROOT}/Scripts/Main/postinstall ${PKG_BUILD_DIR}/${choiceId}/Scripts
-    cp -f ${PKGROOT}/Scripts/Sub/InstallLog.sh ${PKG_BUILD_DIR}/${choiceId}/Scripts
+    addTemplateScripts --pkg-rootdir="${PKG_BUILD_DIR}/${choiceId}" ${choiceId} InstallerLog
     cp -f ${PKGROOT}/Scripts/Sub/UnMountEFIvolumes.sh ${PKG_BUILD_DIR}/${choiceId}/Scripts
-    ditto --noextattr --noqtn ${SRCROOT}/revision ${PKG_BUILD_DIR}/${choiceId}/Scripts/Resources/revision
-    ditto --noextattr --noqtn ${SRCROOT}/version ${PKG_BUILD_DIR}/${choiceId}/Scripts/Resources/version
 
     packageRefId=$(getPackageRefId "${packagesidentity}" "${choiceId}")
     buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/"
@@ -646,7 +770,7 @@ buildpackage ()
         #[ "${3}" == "relocatable" ] && header+="relocatable=\"true\" "
 
         header+="identifier=\"${packageRefId}\" "
-        header+="version=\"${version}\" "
+        header+="version=\"${CHAMELEON_VERSION}\" "
 
         [ "${targetPath}" != "relocatable" ] && header+="install-location=\"${targetPath}\" "
 
@@ -679,7 +803,7 @@ buildpackage ()
         (cd "${packagePath}/Temp" && xar -c -f "${packagePath}/../${packageName}.pkg" --compression none .)
 
         # Add the package to the list of build packages
-        pkgrefs[${#pkgrefs[*]}]="\t<pkg-ref id=\"${packageRefId}\" installKBytes='${installedsize}' version='${version}.0.0.${timestamp}'>#${packageName}.pkg</pkg-ref>"
+        pkgrefs[${#pkgrefs[*]}]="\t<pkg-ref id=\"${packageRefId}\" installKBytes='${installedsize}' version='${CHAMELEON_VERSION}.0.0.${CHAMELEON_TIMESTAMP}'>#${packageName}.pkg</pkg-ref>"
 
         rm -rf "${packagePath}"
     fi
@@ -752,7 +876,7 @@ generateChoices() {
 makedistribution ()
 {
     declare -r distributionDestDir="${SYMROOT}"
-    declare -r distributionFilename="${packagename// /}-${version}-r${revision}.pkg"
+    declare -r distributionFilename="${packagename// /}-${CHAMELEON_VERSION}-r${CHAMELEON_REVISION}.pkg"
     declare -r distributionFilePath="${distributionDestDir}/${distributionFilename}"
 
     rm -f "${distributionDestDir}/${packagename// /}"*.pkg
@@ -792,17 +916,8 @@ makedistribution ()
 #   CleanUp the directory
     find "${PKG_BUILD_DIR}/${packagename}" \( -type d -name '.svn' \) -o -name '.DS_Store' -exec rm -rf {} \;
 
-#   Add Chameleon Version and Revision
-    perl -i -p -e "s/%CHAMELEONVERSION%/${version%%-*}/g" $( find "${PKG_BUILD_DIR}/${packagename}/Resources" -type f )
-    perl -i -p -e "s/%CHAMELEONREVISION%/${revision}/g"   $( find "${PKG_BUILD_DIR}/${packagename}/Resources" -type f )
-
-#   Add Chameleon Stage
-    perl -i -p -e "s/%CHAMELEONSTAGE%/${stage}/g" $( find "${PKG_BUILD_DIR}/${packagename}/Resources" -type f )
-
-#   Adding Developer and credits
-    perl -i -p -e "s/%DEVELOP%/${develop}/g" $( find "${PKG_BUILD_DIR}/${packagename}/Resources" -type f )
-    perl -i -p -e "s/%CREDITS%/${credits}/g" $( find "${PKG_BUILD_DIR}/${packagename}/Resources" -type f )
-    perl -i -p -e "s/%PKGDEV%/${pkgdev}/g"   $( find "${PKG_BUILD_DIR}/${packagename}/Resources" -type f )
+    # Make substitutions like version, revision, stage, developers, credits, etc..
+    makeSubstitutions $( find "${PKG_BUILD_DIR}/${packagename}/Resources" -type f )
 
 #   Create the final package
     pkgutil --flatten "${PKG_BUILD_DIR}/${packagename}" "${distributionFilePath}"
@@ -828,9 +943,9 @@ makedistribution ()
     echo -e $COL_GREEN" ==========="
     echo -e $COL_BLUE"  Package name: "$COL_RESET"${distributionFilename}"
     echo -e $COL_BLUE"  MD5:          "$COL_RESET"$md5"
-    echo -e $COL_BLUE"  Version:      "$COL_RESET"$version"
-    echo -e $COL_BLUE"  Stage:        "$COL_RESET"$stage"
-    echo -e $COL_BLUE"  Date/Time:    "$COL_RESET"$builddate"
+    echo -e $COL_BLUE"  Version:      "$COL_RESET"$CHAMELEON_VERSION"
+    echo -e $COL_BLUE"  Stage:        "$COL_RESET"$CHAMELEON_STAGE"
+    echo -e $COL_BLUE"  Date/Time:    "$COL_RESET"$CHAMELEON_BUILDDATE"
     echo ""
 
 }
