@@ -62,6 +62,7 @@ declare -r CHAMELEON_TIMESTAMP=$( date -j -f "%Y-%m-%d %H:%M:%S" "${CHAMELEON_BU
 declare -r CHAMELEON_DEVELOP=$(awk "NR==6{print;exit}"  ${PKGROOT}/../CREDITS)
 declare -r CHAMELEON_CREDITS=$(awk "NR==10{print;exit}" ${PKGROOT}/../CREDITS)
 declare -r CHAMELEON_PKGDEV=$(awk "NR==14{print;exit}"  ${PKGROOT}/../CREDITS)
+declare -r CHAMELEON_WHOBUILD=$(whoami | awk '{print $1}' | cut -d ":" -f3)
 
 # ====== GLOBAL VARIABLES ======
 declare -r LOG_FILENAME="Chameleon_Installer_Log.txt"
@@ -155,6 +156,7 @@ s&%CHAMELEONSTAGE%&${CHAMELEON_STAGE}&g
 s&%DEVELOP%&${CHAMELEON_DEVELOP}&g
 s&%CREDITS%&${CHAMELEON_CREDITS}&g
 s&%PKGDEV%&${CHAMELEON_PKGDEV}&g
+s&%WHOBUILD%&${CHAMELEON_WHOBUILD}&g
 :t
 /@[a-zA-Z_][a-zA-Z_0-9]*@/!b
 s&@LOG_FILENAME@&${LOG_FILENAME}&g;t t"
@@ -946,6 +948,7 @@ makedistribution ()
     echo -e $COL_BLUE"  Version:      "$COL_RESET"$CHAMELEON_VERSION"
     echo -e $COL_BLUE"  Stage:        "$COL_RESET"$CHAMELEON_STAGE"
     echo -e $COL_BLUE"  Date/Time:    "$COL_RESET"$CHAMELEON_BUILDDATE"
+    echo -e $COL_BLUE"  Builded by:   "$COL_RESET"$CHAMELEON_WHOBUILD"
     echo ""
 
 }
