@@ -166,9 +166,11 @@ $chameleonSubsts
 $ownSubst"
 
     for file in "$@";do
-        cp -pf "$file" "${file}.in"
-        sed "$allSubst" "${file}.in" > "${file}"
-        rm -f "${file}.in"
+        if [[ ! $file == *.svn* ]]; then
+            cp -pf "$file" "${file}.in"
+            sed "$allSubst" "${file}.in" > "${file}"
+            rm -f "${file}.in"
+        fi
     done
 }
 
