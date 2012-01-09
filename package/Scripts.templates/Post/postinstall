@@ -73,8 +73,6 @@ if [ "$(ls -A ${chamTemp}/options )" ]; then
         mkdir "$chamTemp"/Extra
     fi
 
-    tempOCBP="$chamTemp"/Extra/org.chameleon.Boot.plist
-
     # Create template for org.chameleon.Boot.plist"
     tempOCBP="$chamTemp"/Extra/org.chameleon.Boot.plist
     cp "$4"/Library/Preferences/SystemConfiguration/com.apple.Boot.plist "$tempOCBP"

@@ -7,9 +7,13 @@ echo "-----------------------------------------------"
 echo ""
 
 # Creates text file named '@LOG_FILENAME@'
-# at the root of the target volume. This is to help show the
-# user why the installation process failed (even though the
+# at the root of the target volume. This is to give the user 
+# a record of the installation process and also to show why
+# possibly the installation process failed (even though the
 # package installer ends reading 'Installation Successful'.
+
+# This script also prepares, then backs up any previous
+# stage2 boot file, /Extra folder and install log if they exist.
 
 
 
@@ -34,18 +38,18 @@ logName="@LOG_FILENAME@"
 logFile="${targetVolume}/$logName"
 
 # ---------------------------------------------
-# Preparing Backing up Chameleon files
+# Preparing Backing up of Chameleon files
 # ---------------------------------------------
 backupDir="${targetVolume}/Chameleon.Backups/"$( date -j "+%F-%Hh%M" )
-mkdir -p "$backupDir"
-
 if [[ -f "$logFile" ]];then
+    # Only make backupDir if required
+    mkdir -p "$backupDir"
     # Backup old log file
     mv "$logFile" "${backupDir}/${logName}"
 fi
 
 
-# Setup @LOG_FILENAME@ file
+# Setup Chameleon Log file
 # by writing header and diskutil list
 
 echo "Chameleon installer log - $( date )
@@ -58,18 +62,23 @@ echo "======================================================" >>"${logFile}"
 # ---------------------------------------------
 # Backing up Chameleon files
 # ---------------------------------------------
-# Backup stage2
-if [[ -f "${targetVolume}/boot" ]];then
-    echo "Backing up stage2 file ${targetVolume}/boot to ${backupDir}/boot" >>"${logFile}"
-    cp -p "${targetVolume}/boot" "${backupDir}/boot"
+if [[ -f "${targetVolume}/boot" ]] || [[ -d "${targetVolume}/Extra" ]];then
+    if [[ ! -d "$backupDir" ]];then
+        mkdir -p "$backupDir"
+    fi
+    # Backup stage2
+    if [[ -f "${targetVolume}/boot" ]];then
+        echo "Backing up stage2 file ${targetVolume}/boot to ${backupDir}/boot" >>"${logFile}"
+        cp -p "${targetVolume}/boot" "${backupDir}/boot"
+    fi
+    # Backup /Extra directory
+    if [[ -d "${targetVolume}/Extra" ]];then
+        echo "Moving ${targetVolume}/Extra folder to ${backupDir}/Extra" >>"${logFile}"
+        cp -pR "${targetVolume}/Extra" "${backupDir}/Extra"
+    fi
+    chflags -R nohidden "$backupDir" # Remove the invisible flag of files in the backups
+    echo "======================================================" >>"${logFile}"
 fi
-# Backup /Extra directory
-if [[ -d "${targetVolume}/Extra" ]];then
-    echo "Moving ${targetVolume}/Extra folder to ${backupDir}/Extra" >>"${logFile}"
-    cp -pR "${targetVolume}/Extra" "${backupDir}/Extra"
-fi
-chflags -R nohidden "$backupDir" # Remove the invisible flag of files in the backups
-echo "======================================================" >>"${logFile}"
 
 echo "==============================================="
 echo "END - Pre-Install Script"
