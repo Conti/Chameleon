@@ -38,13 +38,11 @@ logFile="${targetVolume}/$logName"
 # ---------------------------------------------
 # Preparing Backing up of Chameleon files
 # ---------------------------------------------
-backupDir="${targetVolume}/Chameleon.Backups/"$( date -j "+%F-%Hh%M" )
+backupRootDir="${targetVolume}/Chameleon.Backups"
+backupDir="${backupRootDir}/"$( date -j "+%F-%Hh%M" )
 
-# Only make backupDir if required
-if [[ ! -d "$backupDir" && \
-      ( -f "$logFile" || -f "${targetVolume}/boot" || -d "${targetVolume}/Extra" ) ]];then
-    mkdir -p "$backupDir"
-fi
+# Create the backup dirextory
+mkdir -p "$backupDir"
 
 [[ -f "$logFile" ]] && mv "$logFile" "${backupDir}/${logName}" # Backup old log file
 
@@ -61,21 +59,23 @@ echo "======================================================" >>"${logFile}"
 # ---------------------------------------------
 # Backing up Chameleon files
 # ---------------------------------------------
-if [[ -d "$backupDir" ]];then
-  # Backup stage2
-  if [[ -f "${targetVolume}/boot" ]];then
-      echo "Backing up stage2 file ${targetVolume}/boot to ${backupDir}/boot" >>"${logFile}"
-      cp -p "${targetVolume}/boot" "${backupDir}/boot"
-  fi
-  # Backup /Extra directory
-  if [[ -d "${targetVolume}/Extra" ]];then
-      echo "Moving ${targetVolume}/Extra folder to ${backupDir}/Extra" >>"${logFile}"
-      cp -pR "${targetVolume}/Extra" "${backupDir}/Extra"
-  fi
-
-  chflags -R nohidden "$backupDir" # Remove the invisible flag of files in the backups
-  echo "======================================================" >>"${logFile}"
+echo "Backing up Chameleon files" >>"${logFile}"
+# Backup stage2
+if [[ -f "${targetVolume}/boot" ]];then
+    echo "Backing up stage2 file ${targetVolume}/boot to ${backupDir}/boot" >>"${logFile}"
+    cp -p "${targetVolume}/boot" "${backupDir}/boot"
 fi
+# Backup /Extra directory
+if [[ -d "${targetVolume}/Extra" ]];then
+    echo "Backing up ${targetVolume}/Extra folder to ${backupDir}/Extra" >>"${logFile}"
+    cp -pR "${targetVolume}/Extra" "${backupDir}/Extra"
+fi
+
+chflags -R nohidden "$backupDir" # Remove the invisible flag of files in the backups
+
+find "${backupRootDir}" -type d -depth -empty -exec rmdir {} \; # Remove empty directories
+
+echo "======================================================" >>"${logFile}"
 
 echo "==============================================="
 echo "END - Pre-Install Script"
