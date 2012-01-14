@@ -53,27 +53,26 @@
         return bootPlist ? true : false;
     }
 
-    function check_chameleon_kernel_option(kernelFlags, value) {
-        var flags = kernelFlags.split(" ");
-        for ( var i = 0; i &lt; flags.length; i++ ) {
-            if (flags[i] == value)
-                  return true;
-        }
+    function check_chameleon_bool_option(key, value) {
+		if ( bootPlist &amp;&amp; bootPlist[ key ] )
+            // check if the first letter (in lowercase) is the same
+            return bootPlist[ key ].charAt(0).toLowerCase() == value.charAt(0).toLowerCase();
         return false;
-    }
+	}
 
-    function check_chameleon_option(key, value) {
+    function check_chameleon_text_option(key, value) {
+		if ( bootPlist &amp;&amp; bootPlist[ key ] )
+            return bootPlist[ key ] == value; // check if the strings are equal
+        return false;
+	}
+
+    function check_chameleon_list_option(key, value) {
         if ( bootPlist &amp;&amp; bootPlist[ key ] ) {
-            if ( key == "Kernel Flags" )
-                return check_chameleon_kernel_option( bootPlist[ key ], value );
-
-            // Check if value is a boolean
-            var pattern=/^(Y(es)?|No?)$/i;
-            var result = value.match(pattern); // Check if the value is a boolean
-            if ( result &amp;&amp; bootPlist[ key ].charAt(0).toLowerCase() == value.charAt(0).toLowerCase() )
-                return true;
-            else
-                return bootPlist[ key ] == value; // check if the strings are equal
+            var items = bootPlist[ key ].split(" ");
+            for ( var i = 0; i &lt; items.length; i++ ) {
+                if (items[i] == value)
+                  return true;
+            }
         }
         return false;
     }

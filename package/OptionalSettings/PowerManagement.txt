@@ -4,16 +4,16 @@
 # Add boot options or kernel flags to the bottom of this file.
 # They will appear under the package installer's Settings menu
 # in a sub menu named with the filename of this file.
-#ÊUse one file or many files - it's flexible to make it easy
+# Use one file or many files - it's flexible to make it easy
 # to group different options under separate sub menus.
 # ---------------------------------------------
-# To add boot option: Structure is name:key=value
-# example1: InstantMenu:Instant Menu=Yes
-# example2: DropSSDT:DropSSDT=Yes
+# To add boot option: Structure is:
+#     type@name:key=value
+# example1: Bool@InstantMenu:Instant Menu=Yes
+# example2: Text@1024x600x32:Graphics Mode=1024x600x32
+# example3: List@Npci:Kernel Flags=npci=0x2000
 # ---------------------------------------------
-# To add kernel flag: Structure is name:Kernel Flags=kernelflag
-# example1: Npci:Kernel Flags=npci=0x2000
-# example2: Verbose:Kernel Flags=-v
+# type can be: Bool, Text or List
 # ---------------------------------------------
 # The package installer has a setting which controls what
 # the user is allowed to choose.
@@ -25,10 +25,10 @@ Exclusive=False
 # ---------------------------------------------
 # Note: There must be a carriage return at end of last line
 # ---------------------------------------------
-CSTUsingSystemIO:CSTUsingSystemIO=Yes
-DropSSDT:DropSSDT=Yes
-EnableC2State:EnableC2State=Yes
-EnableC3State:EnableC3State=Yes
-EnableC4State:EnableC4State=Yes
-GenerateCStates:GenerateCStates=Yes
-GeneratePStates:GeneratePStates=Yes
+Bool@CSTUsingSystemIO:CSTUsingSystemIO=Yes
+Bool@DropSSDT:DropSSDT=Yes
+Bool@EnableC2State:EnableC2State=Yes
+Bool@EnableC3State:EnableC3State=Yes
+Bool@EnableC4State:EnableC4State=Yes
+Bool@GenerateCStates:GenerateCStates=Yes
+Bool@GeneratePStates:GeneratePStates=Yes

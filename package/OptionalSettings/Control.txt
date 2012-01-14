@@ -4,16 +4,16 @@
 # Add boot options or kernel flags to the bottom of this file.
 # They will appear under the package installer's Settings menu
 # in a sub menu named with the filename of this file.
-#ÊUse one file or many files - it's flexible to make it easy
+# Use one file or many files - it's flexible to make it easy
 # to group different options under separate sub menus.
 # ---------------------------------------------
-# To add boot option: Structure is name:key=value
-# example1: InstantMenu:Instant Menu=Yes
-# example2: DropSSDT:DropSSDT=Yes
+# To add boot option: Structure is:
+#     type@name:key=value
+# example1: Bool@InstantMenu:Instant Menu=Yes
+# example2: Text@1024x600x32:Graphics Mode=1024x600x32
+# example3: List@Npci:Kernel Flags=npci=0x2000
 # ---------------------------------------------
-# To add kernel flag: Structure is name:Kernel Flags=kernelflag
-# example1: Npci:Kernel Flags=npci=0x2000
-# example2: Verbose:Kernel Flags=-v
+# type can be: Bool, Text or List
 # ---------------------------------------------
 # The package installer has a setting which controls what
 # the user is allowed to choose.
@@ -25,10 +25,10 @@ Exclusive=False
 # ---------------------------------------------
 # Note: There must be a carriage return at end of last line
 # ---------------------------------------------
-BootBanner:Boot Banner=No
-GUI:GUI=No
-LegacyLogo:Legacy Logo=Yes
-InstantMenu:Instant Menu=Yes
-QuietBoot:QuietBoot=Yes
-ShowInfo:ShowInfo=Yes
-Wait:Wait=Yes
+Bool@BootBanner:Boot Banner=No
+Bool@GUI:GUI=No
+Bool@LegacyLogo:Legacy Logo=Yes
+Bool@InstantMenu:Instant Menu=Yes
+Bool@QuietBoot:QuietBoot=Yes
+Bool@ShowInfo:ShowInfo=Yes
+Bool@Wait:Wait=Yes

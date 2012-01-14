@@ -611,14 +611,13 @@ fi
     # parse OptionalSettings folder to find files of boot options.
     # ------------------------------------------------------
     OptionalSettingsFolder="${PKGROOT}/OptionalSettings"
-    OptionalSettingsFiles=($( find "${OptionalSettingsFolder}" -depth 1 ! -name '.svn' ! -name '.DS_Store' ))
 
-    for (( i = 0 ; i < ${#OptionalSettingsFiles[@]} ; i++ ))
-    do
+    while IFS= read -r -d '' OptionsFile; do
 
         # Take filename and Strip .txt from end and path from front
-        builtOptionsList=$( echo ${OptionalSettingsFiles[$i]%.txt} )
-        builtOptionsList=$( echo ${builtOptionsList##*/} )
+        builtOptionsList=${OptionsFile%.txt}
+        builtOptionsList=${builtOptionsList##*/}
+        packagesidentity="${chameleon_package_identity}.options.$builtOptionsList"
 
         echo "================= $builtOptionsList ================="
 
@@ -628,29 +627,32 @@ fi
         availableOptions=() # array to hold the list of boot options, per 'section'.
         exclusiveFlag=""    # used to indicate list has exclusive options
         while read textLine; do
-            # ignore lines in the file beginning with a # and Exclusive=False
-            if [[ ${textLine} != \#* ]] && [[ ${textLine} != "Exclusive=False" ]];then
-                # check for 'Exclusive=True' option in file
-                if [[ ${textLine} == "Exclusive=True" ]];then
-                    exclusiveFlag="--exclusive_zero_or_one_choice"
-                else
-                    availableOptions[${#availableOptions[@]}]=$textLine
-                fi
-            fi
-        done < ${OptionalSettingsFiles[$i]}
+            # ignore lines in the file beginning with a #
+            [[ $textLine = \#* ]] && continue
+            local optionName="" key="" value=""
+            case "$textLine" in
+                Exclusive=[Tt][Rr][Uu][Ee]) exclusiveFlag="--exclusive_zero_or_one_choice" ;;
+                Exclusive=*) continue ;;
+                *@*:*=*)
+                   availableOptions[${#availableOptions[*]}]="$textLine" ;;
+                *) echo "Error: invalid line '$textLine' in file '$OptionsFile'" >&2
+                   exit 1
+                   ;;
+            esac
+        done < "$OptionsFile"
 
         addGroupChoices  --parent="Options" $exclusiveFlag "${builtOptionsList}"
-        packagesidentity="${chameleon_package_identity}.options.$builtOptionsList"
 
         # ------------------------------------------------------
         # Loop through options in array and process each in turn
         # ------------------------------------------------------
-        for (( c = 0 ; c < ${#availableOptions[@]} ; c++ )); do
-            textLine=${availableOptions[c]}
+        for textLine in "${availableOptions[@]}"; do
             # split line - taking all before ':' as option name
             # and all after ':' as key/value
-            optionName=${textLine%%:*}
-            keyValue=${textLine##*:}
+            type=$( echo "${textLine%%@*}" | tr '[:upper:]' '[:lower:]' )
+            tmp=${textLine#*@}
+            optionName=${tmp%%:*}
+            keyValue=${tmp##*:}
             key=${keyValue%%=*}
             value=${keyValue#*=}
 
@@ -660,14 +662,22 @@ fi
             # create dummy file with name of key/value
             echo "" > "${PKG_BUILD_DIR}/$optionName/Root/${keyValue}"
 
+            case "$type" in
+                bool) startSelected="check_chameleon_bool_option('$key','$value')" ;;
+                text) startSelected="check_chameleon_text_option('$key','$value')" ;;
+                list) startSelected="check_chameleon_list_option('$key','$value')" ;;
+                *) echo "Error: invalid type '$type' in line '$textLine' in '$OptionsFile'" >&2
+                   exit 1
+                   ;;
+            esac
             packageRefId=$(getPackageRefId "${packagesidentity}" "${optionName}")
             buildpackage "$packageRefId" "${optionName}" "${PKG_BUILD_DIR}/${optionName}" "/$chamTemp/options"
             addChoice --group="${builtOptionsList}"  \
-                --start-selected="check_chameleon_option('$key','$value')" \
+                --start-selected="$startSelected"    \
                 --pkg-refs="$packageRefId" "${optionName}"
         done
 
-    done
+    done < <( find "${OptionalSettingsFolder}" -depth 1 -type f -name '*.txt' -print0 )
 
 # End build options packages
 
