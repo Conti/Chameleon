@@ -682,10 +682,10 @@ fi
 # End build options packages
 
 if [[ -n "${CONFIG_KEYLAYOUT_MODULE}" ]];then
-# build KeyLayout options packages
+# build Keymaps options packages
     echo "================= Keymaps Options ================="
-    addGroupChoices --exclusive_zero_or_one_choice "KeyLayout"
-    packagesidentity="${chameleon_package_identity}.options.keylayout"
+    addGroupChoices --exclusive_zero_or_one_choice "Keymaps"
+    packagesidentity="${chameleon_package_identity}.options.keymaps"
     keylayoutPackageRefId=""
     if [[ "${CONFIG_MODULES}" == 'y' && "${CONFIG_KEYLAYOUT_MODULE}" = 'm' ]];then
         keylayoutPackageRefId=$(getPackageRefId "${modules_packages_identity}" "Keylayout")
@@ -710,12 +710,12 @@ if [[ -n "${CONFIG_KEYLAYOUT_MODULE}" ]];then
         packageRefId=$(getPackageRefId "${packagesidentity}" "${choiceId}")
         buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/$chamTemp/options"
         # Add the Keylayout package because the Keylayout module is needed
-        addChoice --group="KeyLayout"  \
-            --start-selected="check_chameleon_option('${chameleon_keylayout_key}','${choiceId}')" \
+        addChoice --group="Keymaps"  \
+            --start-selected="check_chameleon_text_option('${chameleon_keylayout_key}','${choiceId}')" \
             --pkg-refs="$packageRefId $keylayoutPackageRefId" "${choiceId}"
     done
 
-# End build KeyLayout options packages
+# End build Keymaps options packages
 fi
 
 # build theme packages
