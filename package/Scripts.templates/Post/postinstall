@@ -1,48 +1,28 @@
 #!/bin/bash
 
-mergeString () {
-    local src="${1}"
-    local new="${2}"
-    local result="$src"
-
-    for newItem in $new ;do
-        local found=0
-        for srcItem in $src ;do
-            if [[ $newItem == $srcItem ]];then
-                found=1
-                break
-            fi
-        done
-        [[ $found -eq 0 ]] && result="$result $newItem"
-    done
-
-    echo "$result"
-}
-
-echo "==============================================="
-echo "Post Post-Install Script"
-echo "*********************************"
-
-#echo "DEBUG: $ 1 = Full path to the installation package the installer app is processing: " $1
-#echo "DEBUG: $ 2 = Full path to the installation destination: " $2
-#echo "DEBUG: $ 3 = Installation volume (mountpoint) to receive the payload: " $3
-#echo "DEBUG: $ 4 = Root directory for the system: " $4
+# $1 = Full path to the installation package the installer app is processing
+# $2 = Full path to the installation destination
+# $3 = Installation volume (mountpoint) to receive the payload
+# $4 = Root directory for the system
 
 # Check target exists
-if [ ! -e "$3" ]
-then
-    echo "$3 volume does not exist!"
+if [ ! -d "$3" ]; then
+    echo "$3 volume does not exist !" >&2
     exit 1
 fi
 
 # If target volume root of current system then replace
 # / with volume name.
-if [ "$3" == "/" ]
-then
+if [ "$3" == "/" ]; then
     dest_vol="/Volumes/"$( ls -1F /Volumes | sed -n 's:@$::p' )
 else
     dest_vol="$3"
 fi
+
+logName="@LOG_FILENAME@"
+logFile="${dest_vol}/$logName"
+
+exec >>"${logFile}" 2>&1
 
 # Find script location so to find the Install Log script.
 MYLOCATION="${PWD}/${BASH_ARGV[0]}"
@@ -50,194 +30,9 @@ export MYLOCATION="${MYLOCATION%/*}"
 scriptDir=$MYLOCATION
 
 # Write some information to the Install Log
-"$scriptDir"InstallLog.sh "${dest_vol}" "Running Post postinstall script"
-"$scriptDir"InstallLog.sh "${dest_vol}" "Target volume = ${dest_vol}"
-
-# set temporary directory
-chamTemp="$dest_vol/usr/local/chamTemp"
-
-
-# ---------------------------------------------
-# Build org.chameleon.Boot.plist
-# ---------------------------------------------
-# All options selected are now dummy files with
-# the filename of the option and value residing
-# in /usr/local/chamTemp/options/
-# for example. Boot Banner=Yes
-
-# Are there any options to build?
-if [ "$(ls -A ${chamTemp}/options )" ]; then
-
-    # Check for temporary directory/Extra folder.
-    if [ ! -d "$chamTemp"/Extra ]; then
-        mkdir "$chamTemp"/Extra
-    fi
-
-    # Create template for org.chameleon.Boot.plist"
-    tempOCBP="$chamTemp"/Extra/org.chameleon.Boot.plist
-    cp "$4"/Library/Preferences/SystemConfiguration/com.apple.Boot.plist "$tempOCBP"
-
-    # Read list of all boot options the user added.
-    while IFS= read -r -d '' FILE; do
-        option="${FILE##*/}"
-        key="${option%%=*}"
-        value="${option#*=}"
-
-        # Check for 'Kernel Flags' key indicate that should be a kernel flag
-        if [[ "$key" = "Kernel Flags" ]];then
-            # plistbuddy only add's if the key doesn't already exist.
-            # So let's store any kernelflags and add them all at the
-            # same time once when we reach the end of the options list.
-            kernelflag[${#kernelflag[*]}]="$value"
-            "$scriptDir"InstallLog.sh "${dest_vol}" "Added kernel flag: $value"
-        else
-            # escape any spaces
-            keyToUse=$( echo "$key" | sed 's/ /\\ /g' )
-            sudo /usr/libexec/plistbuddy -c "Add :${keyToUse} string ${value}" "$tempOCBP"
-            returnValue=$?
-            if [ ${returnValue} -ne 1 ]; then
-                "$scriptDir"InstallLog.sh "${dest_vol}" "Added boot option: ${key}=${value}"
-            else
-                "$scriptDir"InstallLog.sh "${dest_vol}" "Can't add ${key}=${value} as an option already exists for: ${key}"
-            fi
-        fi
-    done < <( find "${chamTemp}/options" -type f -print0 )
-
-    # Add any kernel flags together in to one string.
-    kernelFlagString="${kernelflag[@]}"
-    # We add the final string in the next section.
-fi
-
-# ---------------------------------------------
-# Add any installed modules to the Install Log
-# ---------------------------------------------
-if [ -e "${chamTemp}"/Extra/modules ]; then
-    ls "${chamTemp}"/Extra/modules | while read FILE
-    do
-        "$scriptDir"InstallLog.sh "${dest_vol}" "Added module: $FILE"
-        if [ "$FILE" == "Keylayout.dylib" ]; then
-            "$scriptDir"InstallLog.sh "${dest_vol}" "Also adding required Keymaps."
-        fi
-    done
-fi
-
-# ---------------------------------------------
-# Add any installed themes to the Install Log
-# ---------------------------------------------
-if [ -e "${chamTemp}"/Extra/Themes ]; then
-    ls "${chamTemp}"/Extra/Themes | while read FILE
-    do
-        "$scriptDir"InstallLog.sh "${dest_vol}" "Added Theme: $FILE"
-    done
-fi
-
-# Does a temporary /Extra folder exist?
-if [ -d "$chamTemp"/Extra ]; then
-
-    # ---------------------------------------------
-    # Merge /Extra folders?
-    # ---------------------------------------------
-    # Does the user want to upgrade an existing /Extra folder?
-    # If so, then merge their existing one in to the temp one.
-    if [ -e "$chamTemp/install_type_upgrade" ]; then
-        "$scriptDir"InstallLog.sh "${dest_vol}" "User selected to do an upgrade install."
-
-        # first move the new org.chameleon.Boot.plist out of tmp
-        # Extra folder so we can merge that separately.
-        mv "$tempOCBP" "$chamTemp/holding.plist"
-
-        # Check for an existing /Extra folder
-        # and merge existing /Extra with temp one.
-            if [ -e "$dest_vol"/.ChameleonEFI ]; then
-                if [ -e "/Volumes/EFI/Extra" ]; then
-                    "$scriptDir"InstallLog.sh "${dest_vol}" "Merging existing /Volumes/EFI/Extra folder."
-                    ditto --noextattr --noqtn /Volumes/EFI/Extra "$chamTemp"/Extra
-                fi
-            else
-                if [ -e "$dest_vol/Extra" ]; then
-                    "$scriptDir"InstallLog.sh "${dest_vol}" "Merging existing ${dest_vol}/Extra folder."
-                    ditto --noextattr --noqtn "${dest_vol}"/Extra "$chamTemp"/Extra
-                fi
-            fi
-
-        # Check existing plist name for old naming convention
-        # and change to new convention.
-        if [ -e "$chamTemp"/Extra/com.apple.Boot.plist ]; then
-            "$scriptDir"InstallLog.sh "${dest_vol}" "Renaming existing com.apple.Boot.plist to org.chameleon.Boot.plist."
-            mv "$chamTemp"/Extra/com.apple.Boot.plist "$tempOCBP"
-        fi
-
-        # Before merging org.chameleon.Boot.plist, copy any
-        # existing kernel flags, then delete the entry.
-        currentFlags=$( sudo /usr/libexec/plistbuddy -c "Print :Kernel\ Flags" "$tempOCBP" )
-        sudo /usr/libexec/plistbuddy -c "Delete :Kernel\ Flags" "$tempOCBP"
-
-        # Merge new org.chameleon.Boot.plist (holding.plist)
-        # with their currently existing one.
-        "$scriptDir"InstallLog.sh "${dest_vol}" "------
-Merging new options into org.chameleon.Boot.plist.
-NOTE: Please check the new merged org.chameleon.Boot.plist as
-NOTE: any existing keys will NOT have been updated.
-NOTE: For example: If you already had Wait=No as a boot option
-NOTE: and chose Wait=Yes from the list, this will NOT be changed.
-------"
-        sudo /usr/libexec/plistbuddy -c "Merge $chamTemp/holding.plist" "$tempOCBP"
-
-        if [[ -n "$currentFlags" ]];then
-            # Combine new kernel flags with old ones.
-            kernelFlagString=$( mergeString "$currentFlags" "${kernelFlagString}" )
-        fi
-
-    elif [ -e "$chamTemp/install_type_new" ]; then
-        "$scriptDir"InstallLog.sh "${dest_vol}" "User selected to make a new install."
-    fi
-
-    # Write kernel flags option
-    kernelFlagString=$(echo ${kernelFlagString}) # Remove leading and trailing spaces
-    if [[ -n "$kernelFlagString" ]];then
-        sudo /usr/libexec/plistbuddy -c "Add :Kernel\ Flags string $kernelFlagString" "$tempOCBP"
-        returnValue=$?
-        if [ ${returnValue} -ne 0 ]; then # key already exists.
-            sudo /usr/libexec/plistbuddy -c "Delete :Kernel\ Flags" "$tempOCBP"
-            sudo /usr/libexec/plistbuddy -c "Add :Kernel\ Flags string $kernelFlagString" "$tempOCBP"
-        fi
-    fi
-
-    # ---------------------------------------------
-    # Copy temp Extra folder to target destination
-    # ---------------------------------------------
-    # Check for an existing /Extra folder. If found, back it up
-    # before copying the temporary Extra folder to destination.
-    # Extra folder now resides in /usr/local/chamTemp/
-    # Copy /usr/local/chamTemp/Extra to correct location.
-
-    if [ ! -f "$dest_vol"/.ChameleonEFI ]; then
-        # The Standard install option chosen
-        rm -rf "$dest_vol/Extra" # Remove old Extra directory
-
-        "$scriptDir"InstallLog.sh "${dest_vol}" "Writing new Extra folder to: $dest_vol/"
-        echo "Copying $chamTemp/Extra TO $dest_vol"
-        cp -R "$chamTemp"/Extra "$dest_vol"
-    else
-        # The EFI system partition install option was chosen
-        rm -rf "/Volumes/EFI/Extra" # Remove old Extra directory
-
-        "$scriptDir"InstallLog.sh "${dest_vol}" "Writing new Extra folder to: /Volumes/EFI/"
-        cp -R "$chamTemp"/Extra "/Volumes/EFI"
-    fi
-else
-    if [ ! -f "$dest_vol"/.ChameleonEFI ]; then
-        if [ -e "$dest_vol"/Extra ]; then
-            "$scriptDir"InstallLog.sh "${dest_vol}" "No elements selected for adding to an Extra folder,
-so leaving existing $dest_vol/Extra folder untouched."
-        fi
-    else
-        if [ -e "/Volumes/EFI/Extra" ]; then
-            "$scriptDir"InstallLog.sh "${dest_vol}" "No elements selected for adding to an Extra folder,
-so leaving existing /Volumes/EFI/Extra folder untouched."
-        fi
-    fi
-fi
+echo "======================================================"
+echo "Running Post postinstall script"
+echo "Target volume = ${dest_vol}"
 
 # ---------------------------------------------
 # Update Rights
@@ -253,41 +48,10 @@ chmod 666 ${dest_vol}/Extra/*.plist 2>/dev/null
 "$scriptDir"UnMountEFIvolumes.sh "${dest_vol}" "${scriptDir}"
 
 # remove any temporary boot sector files if they exist
-if [ -d /tmp/newbs ]; then
-    cleanUp="${cleanUp},1a"
-    rm /tmp/newbs
-fi
-if [ -d /tmp/origbs ]; then
-    cleanUp="${cleanUp},1b"
-    rm /tmp/origbs
-fi
-if [ -d /tmp/newBootSector ]; then
-    cleanUp="${cleanUp},1c"
-    rm /tmp/newbs
-fi
-if [ -d /tmp/originalBootSector ]; then
-    cleanUp="${cleanUp},1d"
-    rm /tmp/origbs
-fi
-
-# delete the temporary Chameleon folder
-if [ -e "$chamTemp" ]; then
-    cleanUp="${cleanUp},2"
-    rm -rf "$chamTemp"
-fi
+rm -f /tmp/newbs /tmp/origbs /tmp/originalBootSector /tmp/newBootSector
 
 # Remove /.ChameleonEFI file
-if [ -f "$dest_vol"/.ChameleonEFI ]; then
-    cleanUp="${cleanUp},3"
-    rm "$dest_vol"/.ChameleonEFI
-fi
+rm -f "${dest_vol}/.ChameleonEFI"
 
-"$scriptDir"InstallLog.sh "${dest_vol}" "Cleanup: ${cleanUp}"
-"$scriptDir"InstallLog.sh "${dest_vol}" "LineBreak"
-"$scriptDir"InstallLog.sh "${dest_vol}" "Post script complete"
-
-echo "==============================================="
-echo "END - Post Post-Install Script"
-echo "*********************************"
-echo "-----------------------------------------------"
-echo ""
+echo "======================================================"
+echo "Post postinstall script complete"

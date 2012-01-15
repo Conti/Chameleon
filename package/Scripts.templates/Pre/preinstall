@@ -77,6 +77,19 @@ find "${backupRootDir}" -type d -depth -empty -exec rmdir {} \; # Remove empty d
 
 echo "======================================================" >>"${logFile}"
 
+# Check existing plist name for old naming convention and change to new convention.
+if [[ -f "${targetVolume}/Extra/com.apple.Boot.plist" ]]; then
+  echo "Renaming existing com.apple.Boot.plist to org.chameleon.Boot.plist" >>"${logFile}"
+  mv "${targetVolume}/Extra/com.apple.Boot.plist" "${targetVolume}/Extra/org.chameleon.Boot.plist"
+fi
+
+# ---------------------------------------------
+# Clearing options that Chameleon can managed
+# ---------------------------------------------
+echo "Clearing options..." >>"${logFile}"
+"${PWD}/clean_bootplist.pl" "${targetVolume}" 2>&1 | grep -v 'Does Not Exist' >>"${logFile}"
+echo "======================================================" >>"${logFile}"
+
 echo "==============================================="
 echo "END - Pre-Install Script"
 echo "*********************************"

@@ -67,6 +67,10 @@ declare -r CHAMELEON_WHOBUILD=$(whoami | awk '{print $1}' | cut -d ":" -f3)
 # ====== GLOBAL VARIABLES ======
 declare -r LOG_FILENAME="Chameleon_Installer_Log.txt"
 
+declare -a chameleonOptionType
+declare -a chameleonOptionKey
+declare -a chameleonOptionValues
+
 declare -a pkgrefs
 declare -a choice_key
 declare -a choice_options
@@ -88,7 +92,6 @@ declare -r packagename="Chameleon"
 # Package identifiers
 declare -r chameleon_package_identity="org.chameleon"
 declare -r modules_packages_identity="${chameleon_package_identity}.modules"
-declare -r chamTemp="usr/local/chamTemp"
 
 # ====== FUNCTIONS ======
 
@@ -97,21 +100,11 @@ trim () {
     echo "${result%"${result##*[![:space:]]}"}" # remove trailing whitespace characters
 }
 
-argument () {
-  local opt="$1"
-
-  if [[ $# -eq 0 ]];then
-      echo "$0: option requires an argument -- '$opt'" >&2; exit 1
-  fi
-  echo "$opt"
-}
-
 function makeSubstitutions () {
     # Substition is like: Key=Value
     #
     # Optionnal arguments:
     #    --subst=<substition> : add a new substitution
-    #    --subst <substition> : add a new substitution
     #
     # Last argument(s) is/are file(s) where substitutions must be made
 
@@ -134,7 +127,6 @@ function makeSubstitutions () {
     while [[ $# -gt 0 ]];do
         local option="$1"
         case "$option" in
-            --subst)   shift; addSubst "$(argument $@)"; shift ;;
             --subst=*) shift; addSubst "${option#*=}" ;;
             -*)
                 echo "Unrecognized makeSubstitutions option '$option'" >&2
@@ -178,7 +170,6 @@ addTemplateScripts () {
     #
     # Optionnal arguments:
     #    --subst=<substition> : add a new substitution
-    #    --subst <substition> : add a new substitution
     #
     # Substition is like: Key=Value
     #
@@ -192,7 +183,6 @@ addTemplateScripts () {
         local option="$1"
         case "$option" in
             --pkg-rootdir=*)   shift; pkgRootDir="${option#*=}" ;;
-            --subst)   shift; allSubst[${#allSubst[*]}]="$option"; allSubst[${#allSubst[*]}]="$1" ; shift ;;
             --subst=*) shift; allSubst[${#allSubst[*]}]="${option}" ;;
             -*)
                 echo "Unrecognized addTemplateScripts option '$option'" >&2
@@ -381,6 +371,53 @@ exclusive_zero_or_one_choice () {
     echo "(my.choice.selected &amp;&amp; $(exclusive_one_choice ${@}))"
 }
 
+recordChameleonOption () {
+    local type="$1"
+    local key="$2"
+    local value="$3"
+
+    # Search for an existing key
+    local found=0
+    for (( idx=0 ; idx < ${#chameleonOptionKey[@]}; idx++ ));do
+        if [[ "$key" == "${chameleonOptionKey[$idx]}" ]];then
+            found=1
+            break
+        fi
+    done
+
+    # idx contain the index of a new key or an existing one
+    if [[ $found -eq 0 ]]; then
+        # Create a new one
+        chameleonOptionKey[$idx]="$key"
+        chameleonOptionType[$idx]="$type"
+        chameleonOptionValues[$idx]=""
+    fi
+
+    case "$type" in
+        bool) ;;
+        text|list) chameleonOptionValues[$idx]="${chameleonOptionValues[$idx]} $value" ;;
+        *) echo "Error unknown type '$type' for '$key'" >&2
+           exit 1
+           ;;
+    esac
+}
+
+generate_options_yaml_file () {
+    local yamlFile="$1"
+    echo "---" > $yamlFile
+    for (( idx=0; idx < ${#chameleonOptionKey[@]}; idx++ ));do
+        printf "%s:\n  type: %s\n" "${chameleonOptionKey[$idx]}" "${chameleonOptionType[$idx]}" >> $yamlFile
+        case ${chameleonOptionType[$idx]} in
+            text|list)
+                printf "  values:\n" >> $yamlFile
+                for value in ${chameleonOptionValues[$idx]};do
+                    printf  "    - %s\n" "$value" >> $yamlFile
+                done
+                ;;
+        esac
+    done
+}
+
 main ()
 {
 
@@ -393,17 +430,16 @@ main ()
     echo -e $COL_CYAN"  ----------------------------------"$COL_RESET
     echo ""
 
-# build pre install package
+# Add pre install choice
     echo "================= Preinstall ================="
     packagesidentity="${chameleon_package_identity}"
     choiceId="Pre"
-    mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Root
-    addTemplateScripts --pkg-rootdir="${PKG_BUILD_DIR}/${choiceId}" ${choiceId}
 
     packageRefId=$(getPackageRefId "${packagesidentity}" "${choiceId}")
-    buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/"
     addChoice --start-visible="false" --start-selected="true"  --pkg-refs="$packageRefId" "${choiceId}"
-# End build pre install package
+
+    # Package will be build at the end
+# End pre install choice
 
 # build core package
     echo "================= Core ================="
@@ -428,33 +464,6 @@ main ()
     addChoice --start-visible="false" --start-selected="true" --pkg-refs="$packageRefId" "${choiceId}"
 # End build core package
 
-# build install type
-    echo "================= Chameleon ================="
-    addGroupChoices --exclusive_one_choice "InstallType"
-    packagesidentity="${chameleon_package_identity}.type"
-
-    # build new install package
-    choiceId="New"
-    mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Root
-    echo "" > "${PKG_BUILD_DIR}/${choiceId}/Root/install_type_new"
-
-    packageRefId=$(getPackageRefId "${packagesidentity}" "${choiceId}")
-    buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/$chamTemp"
-    addChoice  --group="InstallType"  --start-selected="!choices['Upgrade'].selected"  --pkg-refs="$packageRefId" "${choiceId}"
-    # End build new install package
-
-    # build upgrade package
-    choiceId="Upgrade"
-    mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Root
-    echo "" > "${PKG_BUILD_DIR}/${choiceId}/Root/install_type_upgrade"
-
-    packageRefId=$(getPackageRefId "${packagesidentity}" "${choiceId}")
-    buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/$chamTemp"
-    addChoice --group="InstallType"  --start-selected="chameleon_boot_plist_exists()"  --pkg-refs="$packageRefId" "${choiceId}"
-    # End build upgrade package
-
-# End build install type
-
 # build Chameleon package
     echo "================= Chameleon ================="
     addGroupChoices --exclusive_one_choice "Chameleon"
@@ -474,6 +483,10 @@ main ()
     # End build standard package
 
     # build efi package
+if [[ 1 -eq 0 ]];then
+    # Only standard installation is currently supported
+    # We need to update the script to be able to install
+    # Chameleon on EFI partition
     choiceId="EFI"
     mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Root
     mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Scripts/Resources
@@ -486,7 +499,7 @@ main ()
     buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/"
     addChoice --group="Chameleon"  --start-visible="systemHasGPT()" --start-selected="false"  --pkg-refs="$packageRefId" "${choiceId}"
     # End build efi package
-
+fi
     # build no bootloader choice package
     choiceId="noboot"
     mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Root
@@ -518,11 +531,16 @@ if [[ "${CONFIG_MODULES}" == 'y' ]];then
         {
             # Start build Resolution package module
             choiceId="AutoReso"
+            moduleFile="Resolution.dylib"
             mkdir -p "${PKG_BUILD_DIR}/${choiceId}/Root"
-            ditto --noextattr --noqtn "${SYMROOT}/i386/modules/Resolution.dylib" "${PKG_BUILD_DIR}/${choiceId}/Root"
+            ditto --noextattr --noqtn "${SYMROOT}/i386/modules/$moduleFile" "${PKG_BUILD_DIR}/${choiceId}/Root"
+            addTemplateScripts --pkg-rootdir="${PKG_BUILD_DIR}/${choiceId}" \
+                               --subst="moduleName=$choiceId"               \
+                               --subst="moduleFile=$moduleFile"             \
+                               InstallModule
 
             packageRefId=$(getPackageRefId "${modules_packages_identity}" "${choiceId}")
-            buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/$chamTemp/Extra/modules"
+            buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/Extra/modules"
             addChoice --group="Module"  --start-selected="false"  --pkg-refs="$packageRefId" "${choiceId}"
             # End build Resolution package module
         }
@@ -533,11 +551,16 @@ if [[ "${CONFIG_MODULES}" == 'y' ]];then
         {
             # Start build klibc package module
             choiceId="klibc"
+            moduleFile="${choiceId}.dylib"
             mkdir -p "${PKG_BUILD_DIR}/${choiceId}/Root"
-            ditto --noextattr --noqtn "${SYMROOT}/i386/modules/${choiceId}.dylib" ${PKG_BUILD_DIR}/${choiceId}/Root
+            ditto --noextattr --noqtn "${SYMROOT}/i386/modules/$moduleFile" ${PKG_BUILD_DIR}/${choiceId}/Root
+            addTemplateScripts --pkg-rootdir="${PKG_BUILD_DIR}/${choiceId}" \
+                               --subst="moduleName=$choiceId"               \
+                               --subst="moduleFile=$moduleFile"             \
+                               InstallModule
 
             packageRefId=$(getPackageRefId "${modules_packages_identity}" "${choiceId}")
-            buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/$chamTemp/Extra/modules"
+            buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/Extra/modules"
             addChoice --group="Module"  --start-selected="false"  --pkg-refs="$packageRefId" "${choiceId}"
             # End build klibc package module
         }
@@ -553,11 +576,16 @@ if [[ "${CONFIG_MODULES}" == 'y' ]];then
             fi
             # Start build uClibc package module
             choiceId="uClibc"
+            moduleFile="uClibcxx.dylib"
             mkdir -p "${PKG_BUILD_DIR}/${choiceId}/Root"
-            ditto --noextattr --noqtn "${SYMROOT}/i386/modules/uClibcxx.dylib" "${PKG_BUILD_DIR}/${choiceId}/Root"
+            ditto --noextattr --noqtn "${SYMROOT}/i386/modules/$moduleFile" "${PKG_BUILD_DIR}/${choiceId}/Root"
+            addTemplateScripts --pkg-rootdir="${PKG_BUILD_DIR}/${choiceId}" \
+                               --subst="moduleName=$choiceId"               \
+                               --subst="moduleFile=$moduleFile"             \
+                               InstallModule
 
             packageRefId=$(getPackageRefId "${modules_packages_identity}" "${choiceId}")
-            buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/$chamTemp/Extra/modules"
+            buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/Extra/modules"
             # Add the klibc package because the uClibc module is dependent of klibc module
             addChoice --group="Module"  --start-selected="false"  --pkg-refs="$packageRefId $klibcPackageRefId" "${choiceId}"
             # End build uClibc package module
@@ -570,6 +598,7 @@ if [[ "${CONFIG_MODULES}" == 'y' ]];then
         {
             # Start build Keylayout package module
             choiceId="Keylayout"
+            moduleFile="${choiceId}.dylib"
             mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Root/Extra/{modules,Keymaps}
             mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Root/usr/local/bin
             layout_src_dir="${SRCROOT}/i386/modules/Keylayout/layouts/layouts-src"
@@ -579,14 +608,19 @@ if [[ "${CONFIG_MODULES}" == 'y' ]];then
                     tar czf "${PKG_BUILD_DIR}/${choiceId}/Root/Extra/Keymaps/layouts-src.tar.gz" README *.slt)
             fi
             # Adding module
-            ditto --noextattr --noqtn ${SYMROOT}/i386/modules/${choiceId}.dylib ${PKG_BUILD_DIR}/${choiceId}/Root/Extra/modules
+            ditto --noextattr --noqtn ${SYMROOT}/i386/modules/$moduleFile ${PKG_BUILD_DIR}/${choiceId}/Root/Extra/modules
             # Adding Keymaps
             ditto --noextattr --noqtn ${SRCROOT}/Keymaps ${PKG_BUILD_DIR}/${choiceId}/Root/Extra/Keymaps
             # Adding tools
             ditto --noextattr --noqtn ${SYMROOT}/i386/cham-mklayout ${PKG_BUILD_DIR}/${choiceId}/Root/usr/local/bin
+            # Adding scripts
+            addTemplateScripts --pkg-rootdir="${PKG_BUILD_DIR}/${choiceId}" \
+                               --subst="moduleName=$choiceId"               \
+                               --subst="moduleFile=$moduleFile"             \
+                               InstallModule
 
             packageRefId=$(getPackageRefId "${modules_packages_identity}" "${choiceId}")
-            buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/$chamTemp"
+            buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/"
 
             # Don't add a choice for Keylayout module
             # addChoice "${choiceId}" "Module" --start-selected="false"  "$packageRefId"
@@ -659,9 +693,6 @@ fi
             # create folders required for each boot option
             mkdir -p "${PKG_BUILD_DIR}/$optionName/Root/"
 
-            # create dummy file with name of key/value
-            echo "" > "${PKG_BUILD_DIR}/$optionName/Root/${keyValue}"
-
             case "$type" in
                 bool) startSelected="check_chameleon_bool_option('$key','$value')" ;;
                 text) startSelected="check_chameleon_text_option('$key','$value')" ;;
@@ -670,8 +701,14 @@ fi
                    exit 1
                    ;;
             esac
+            recordChameleonOption "$type" "$key" "$value"
+            addTemplateScripts --pkg-rootdir="${PKG_BUILD_DIR}/$optionName" \
+                               --subst="optionType=$type"                   \
+                               --subst="optionKey=$key"                     \
+                               --subst="optionValue=$value"                 \
+                               AddOption
             packageRefId=$(getPackageRefId "${packagesidentity}" "${optionName}")
-            buildpackage "$packageRefId" "${optionName}" "${PKG_BUILD_DIR}/${optionName}" "/$chamTemp/options"
+            buildpackage "$packageRefId" "${optionName}" "${PKG_BUILD_DIR}/${optionName}" "/"
             addChoice --group="${builtOptionsList}"  \
                 --start-selected="$startSelected"    \
                 --pkg-refs="$packageRefId" "${optionName}"
@@ -704,11 +741,14 @@ if [[ -n "${CONFIG_KEYLAYOUT_MODULE}" ]];then
         choiceId="${availableOptions[i]}"
         mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Root
 
-        # create dummy file with name of key/value
-        echo "" > "${PKG_BUILD_DIR}/${choiceId}/Root/${chameleon_keylayout_key}=${availableOptions[i]}"
-
+        recordChameleonOption "text" "$chameleon_keylayout_key" "$choiceId"
+        addTemplateScripts --pkg-rootdir="${PKG_BUILD_DIR}/${choiceId}" \
+                           --subst="optionType=text"                    \
+                           --subst="optionKey=$chameleon_keylayout_key" \
+                           --subst="optionValue=$choiceId"              \
+                           AddOption
         packageRefId=$(getPackageRefId "${packagesidentity}" "${choiceId}")
-        buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/$chamTemp/options"
+        buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/"
         # Add the Keylayout package because the Keylayout module is needed
         addChoice --group="Keymaps"  \
             --start-selected="check_chameleon_text_option('${chameleon_keylayout_key}','${choiceId}')" \
@@ -727,22 +767,42 @@ fi
     artwork="${SRCROOT}/artwork/themes"
     themes=($( find "${artwork}" -type d -depth 1 -not -name '.svn' ))
     for (( i = 0 ; i < ${#themes[@]} ; i++ )); do
-        theme=$( echo ${themes[$i]##*/} | awk 'BEGIN{OFS=FS=""}{$1=toupper($1);print}' )
-        mkdir -p "${PKG_BUILD_DIR}/${theme}/Root/"
-        rsync -r --exclude=.svn --exclude="*~" "${themes[$i]}/" "${PKG_BUILD_DIR}/${theme}/Root/${theme}"
+        themeName=$( echo ${themes[$i]##*/} | awk 'BEGIN{OFS=FS=""}{$1=toupper($1);print}' )
+        themeDir="$themeName"
+        mkdir -p "${PKG_BUILD_DIR}/${themeName}/Root/"
+        rsync -r --exclude=.svn --exclude="*~" "${themes[$i]}/" "${PKG_BUILD_DIR}/${themeName}/Root/${themeName}"
+        addTemplateScripts --pkg-rootdir="${PKG_BUILD_DIR}/${themeName}" \
+                           --subst="themeName=$themeName"                \
+                           --subst="themeDir=$themeDir"                  \
+                           InstallTheme
 
-        packageRefId=$(getPackageRefId "${packagesidentity}" "${theme}")
-        buildpackage "$packageRefId" "${theme}" "${PKG_BUILD_DIR}/${theme}" "/$chamTemp/Extra/Themes"
-        addChoice --group="Themes"  --start-selected="false"  --pkg-refs="$packageRefId" "${theme}"
+        packageRefId=$(getPackageRefId "${packagesidentity}" "${themeName}")
+        buildpackage "$packageRefId" "${themeName}" "${PKG_BUILD_DIR}/${themeName}" "/Extra/Themes"
+        addChoice --group="Themes"  --start-selected="false"  --pkg-refs="$packageRefId"  "${themeName}"
     done
 # End build theme packages# End build Extras package
+
+# build pre install package
+    echo "================= Pre ================="
+    packagesidentity="${chameleon_package_identity}"
+    choiceId="Pre"
+
+    packageRefId=$(getPackageRefId "${packagesidentity}" "${choiceId}")
+    mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Root
+    mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Scripts/Resources
+    local yamlFile="Resources/chameleon_options.yaml"
+    addTemplateScripts --pkg-rootdir="${PKG_BUILD_DIR}/${choiceId}" \
+                       --subst="YAML_FILE=${yamlFile}" ${choiceId}
+    generate_options_yaml_file "${PKG_BUILD_DIR}/${choiceId}/Scripts/$yamlFile"
+    buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/"
+# End build pre install package
 
 # build post install package
     echo "================= Post ================="
     packagesidentity="${chameleon_package_identity}"
     choiceId="Post"
     mkdir -p ${PKG_BUILD_DIR}/${choiceId}/Root
-    addTemplateScripts --pkg-rootdir="${PKG_BUILD_DIR}/${choiceId}" ${choiceId} InstallerLog
+    addTemplateScripts --pkg-rootdir="${PKG_BUILD_DIR}/${choiceId}" ${choiceId}
     cp -f ${PKGROOT}/Scripts/Sub/UnMountEFIvolumes.sh ${PKG_BUILD_DIR}/${choiceId}/Scripts
 
     packageRefId=$(getPackageRefId "${packagesidentity}" "${choiceId}")

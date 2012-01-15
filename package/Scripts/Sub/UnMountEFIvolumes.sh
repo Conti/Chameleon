@@ -2,7 +2,6 @@
 
 echo "==============================================="
 echo "Unmount all volumes named EFI"
-echo "*****************************"
 
 # loop through and un-mount ALL mounted 'EFI' system partitions - Thanks kizwan
 
@@ -12,10 +11,10 @@ echo "*****************************"
 if [ "$#" -eq 2 ]; then
 	targetVolumeChosenByUser="$1"
 	scriptDir="$2"
-	echo "DEBUG: passed argument for targetVolumeChosenByUser = $targetVolumeChosenByUser"
-	echo "DEBUG: passed argument for scriptDir = $scriptDir"
+	# echo "DEBUG: passed argument for targetVolumeChosenByUser = $targetVolumeChosenByUser"
+	# echo "DEBUG: passed argument for scriptDir = $scriptDir"
 else
-	echo "Error - wrong number of values passed"
+	echo "Error - wrong number of values passed" >&2
 	exit 9
 fi
 
@@ -34,6 +33,3 @@ if [ $attempts = 5 ]; then
 fi
 
 exit 0
-
-
-
