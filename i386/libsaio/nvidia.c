@@ -1256,7 +1256,8 @@ unsigned long long mem_detect(volatile uint8_t *regs, uint8_t nvCardType, pci_dt
 		case 0x0DE0: vram_size = 1024*1024*1024; break; // GT 440
 		case 0x0DE1: vram_size = 1024*1024*1024; break; // GT 430
 		case 0x0DE2: vram_size = 1024*1024*1024; break; // GT 420
-		case 0x0DEC: vram_size = 1024*1024*1024; break; // GT 525M
+		case 0x0DEC: vram_size = 1024*1024*1024; break; // GT 525M 0DEC
+		case 0x0DF5: vram_size = 1024*1024*1024; break; // GT 525M 0DF5
 		default: break;
 	}
 	
