@@ -609,7 +609,7 @@ static radeon_card_info_t radeon_cards[] = {
 	{ 0x6738,	0x31031682, CHIP_FAMILY_BARTS,		"AMD Radeon HD 6870",				kDuckweed	},
 	{ 0x6738,	0x31041682, CHIP_FAMILY_BARTS,		"AMD Radeon HD 6870",				kDuckweed	},
 	{ 0x6738,	0x31071682, CHIP_FAMILY_BARTS,		"AMD Radeon HD 6870",				kDuckweed	}, 
-	{ 0x6738,	0x31081682, CHIP_FAMILY_BARTS,		"AMD Radeon HD 6870",				kDuckweed	},  ?? kJuncus ??
+	{ 0x6738,	0x31081682, CHIP_FAMILY_BARTS,		"AMD Radeon HD 6870",				kDuckweed	},  // ?? kJuncus ??
 
 	{ 0x6738,	0xE178174B, CHIP_FAMILY_BARTS,		"AMD Radeon HD 6870",				kDuckweed	},
 
