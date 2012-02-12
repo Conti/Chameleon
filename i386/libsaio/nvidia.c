@@ -830,6 +830,7 @@ static struct nv_chipsets_t NVKnownChipsets[] = {
 	{ 0x10DE1040, "GeForce GT 520" },
 	// 1050 - 105F
 	{ 0x10DE1050, "GeForce GT 520M" },
+	{ 0x10DE1051, "GeForce GT 520MX" },
 	{ 0x10DE1054, "GeForce GT 410M" }, 
 	{ 0x10DE1056, "NVS 4200M" }, 
 	{ 0x10DE1057, "NVS 4200M" }, 
