@@ -165,9 +165,9 @@ getshort(p)
 }
 
 void
-putshort(p, l)
-	void *p;
-	u_int16_t l;
+putshort(
+	void *p,
+	u_int16_t l)
 {
 	unsigned char *cp = p;
 
