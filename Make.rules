@@ -10,7 +10,7 @@ else
 endif
 AS = as
 LD = ld
-CC = cc
+CC = gcc
 CPP = g++
 PAX = /bin/pax
 NASM = $(shell which nasm) -p $(SRCROOT)/autoconf.inc
