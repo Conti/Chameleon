@@ -29,4 +29,5 @@ List@Verbose:Kernel Flags=-v
 List@Singleusermode:Kernel Flags=-s
 List@Ignorecaches:Kernel Flags=-f
 List@Npci:Kernel Flags=npci=0x2000
+List@Npci3:Kernel Flags=npci=0x3000
 List@Darkwake:Kernel Flags=darkwake=0

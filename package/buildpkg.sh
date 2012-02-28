@@ -60,7 +60,7 @@ declare -r CHAMELEON_DEVELOP=$(awk "NR==6{print;exit}"  ${PKGROOT}/../CREDITS)
 declare -r CHAMELEON_CREDITS=$(awk "NR==10{print;exit}" ${PKGROOT}/../CREDITS)
 declare -r CHAMELEON_PKGDEV=$(awk "NR==14{print;exit}"  ${PKGROOT}/../CREDITS)
 declare -r CHAMELEON_CPRYEAR=$(awk "NR==18{print;exit}"  ${PKGROOT}/../CREDITS)
-if [[ $(whoami | awk '{print $1}' | cut -d ":" -f3) == "cmorton" ]];then
+if [[ $(whoami | awk '{print $1}' | cut -d ":" -f3) == "admin" ]];then
     declare -r CHAMELEON_WHOBUILD="VoodooLabs BuildBot"
 else
     declare -r CHAMELEON_WHOBUILD=$(whoami | awk '{print $1}' | cut -d ":" -f3)
