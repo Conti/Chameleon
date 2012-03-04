@@ -990,7 +990,7 @@ makedistribution ()
     ditto --noextattr --noqtn "${PKGROOT}/Resources" "${PKG_BUILD_DIR}/${packagename}/Resources"
 
 #   CleanUp the directory
-    find "${PKG_BUILD_DIR}/${packagename}" \( -type d -name '.svn' \) -o -name '.DS_Store' -exec rm -rf {} \;
+    find "${PKG_BUILD_DIR}/${packagename}" \( -type d -name '.svn' \) -o -name '.DS_Store' -depth -exec rm -rf {} \;
 
     # Make substitutions for version, revision, stage, developers, credits, etc..
     makeSubstitutions $( find "${PKG_BUILD_DIR}/${packagename}/Resources" -type f )
