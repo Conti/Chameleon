@@ -987,10 +987,27 @@ makedistribution ()
     echo -e "\n</installer-gui-script>"  >> "${PKG_BUILD_DIR}/${packagename}/Distribution"
 
 #   Create the Resources directory
-    ditto --noextattr --noqtn "${PKGROOT}/Resources" "${PKG_BUILD_DIR}/${packagename}/Resources"
+    ditto --noextattr --noqtn "${PKGROOT}/Resources/distribution" "${PKG_BUILD_DIR}/${packagename}/Resources"
 
-#   CleanUp the directory
+#   Make the translation
+    echo ""
+    echo "========= Translating Resources ========"
+    (cd "${PKGROOT}" &&  PERLLIB=${PKGROOT}/bin/po4a/lib                  \
+        bin/po4a/po4a                                                     \
+        --package-name 'Chameleon'                                        \
+        --package-version "${CHAMELEON_VERSION}-r${CHAMELEON_REVISION}"   \
+        --msgmerge-opt '--lang=$lang'                                     \
+        --variable PODIR="po"                                             \
+        --variable TEMPLATES_DIR="Resources/templates"                    \
+        --variable OUTPUT_DIR="${PKG_BUILD_DIR}/${packagename}/Resources" \
+        ${PKGROOT}/po4a-chameleon.cfg)
+
+    # Copy common files in english localisation directory
+    ditto --noextattr --noqtn "${PKGROOT}/Resources/common" "${PKG_BUILD_DIR}/${packagename}/Resources/en.lproj"
+
+    # CleanUp the directory
     find "${PKG_BUILD_DIR}/${packagename}" \( -type d -name '.svn' \) -o -name '.DS_Store' -depth -exec rm -rf {} \;
+    find "${PKG_BUILD_DIR}/${packagename}" -type d -depth -empty -exec rmdir {} \; # Remove empty directories
 
     # Make substitutions for version, revision, stage, developers, credits, etc..
     makeSubstitutions $( find "${PKG_BUILD_DIR}/${packagename}/Resources" -type f )

@@ -1,0 +1,1273 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Chameleon 2.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-03-04 10:37+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: ko <ko@li.org>\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. type: Content of: <html><body><div><p>
+#: Resources/templates/Welcome.html:22
+#, fuzzy, no-wrap
+#| msgid "Chameleon Bootloader"
+msgid "Chameleon"
+msgstr "카멜레온 부트로더 "
+
+#. type: Content of: <html><body><div><p>
+#: Resources/templates/Welcome.html:23
+#, no-wrap
+msgid "v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
+msgstr ""
+
+#. type: Content of: <html><body><div><p>
+#: Resources/templates/Welcome.html:25
+#, no-wrap
+msgid "Do not install to an Apple Macintosh computer"
+msgstr ""
+
+#. type: Content of: <html><body><div><p>
+#: Resources/templates/Welcome.html:27
+#, no-wrap
+msgid "Developers :"
+msgstr ""
+
+#. type: Content of: <html><body><div><p>
+#: Resources/templates/Welcome.html:28
+#, no-wrap
+msgid "%DEVELOP%"
+msgstr ""
+
+#. type: Content of: <html><body><div><p>
+#: Resources/templates/Welcome.html:30
+#, no-wrap
+msgid "Thanks to :"
+msgstr ""
+
+#. type: Content of: <html><body><div><p>
+#: Resources/templates/Welcome.html:31
+#, no-wrap
+msgid "%CREDITS%"
+msgstr ""
+
+#. type: Content of: <html><body><div><p>
+#: Resources/templates/Welcome.html:33
+#, no-wrap
+msgid "Package :"
+msgstr ""
+
+#. type: Content of: <html><body><div><p>
+#: Resources/templates/Welcome.html:34
+#, no-wrap
+msgid "%PKGDEV%"
+msgstr ""
+
+#. type: Content of: <html><body><div><p>
+#: Resources/templates/Welcome.html:36 Resources/templates/Conclusion.html:30
+#, no-wrap
+msgid "Package built by: %WHOBUILD%, language translated by: blackosx"
+msgstr ""
+
+#. type: Content of: <html><body><div><p>
+#: Resources/templates/Welcome.html:37 Resources/templates/Conclusion.html:31
+#, no-wrap
+msgid "Copyright © %CPRYEAR%"
+msgstr ""
+
+#. type: Content of: <html><body><p>
+#: Resources/templates/Description.html:18
+#, no-wrap
+msgid "Chameleon is a boot loader built using a combination of components which evolved from the development of David Elliott's fake EFI implementation added to Apple's boot-132 project."
+msgstr ""
+
+#. type: Content of: <html><body><p>
+#: Resources/templates/Description.html:20
+#, no-wrap
+msgid "Chameleon v2 is extended with many features. For example:"
+msgstr ""
+
+#. type: Content of: <html><body><p>
+#: Resources/templates/Description.html:22
+#, no-wrap
+msgid "- Fully customizable GUI to bring some color to the Darwin Bootloader."
+msgstr ""
+
+#. type: Content of: <html><body><p>
+#: Resources/templates/Description.html:23
+#, no-wrap
+msgid "- Load a ramdisk to directly boot retail DVDs without additional programs."
+msgstr ""
+
+#. type: Content of: <html><body><p>
+#: Resources/templates/Description.html:24
+#, no-wrap
+msgid "- Hibernation. Enjoy resuming your Mac OS X with a preview image."
+msgstr ""
+
+#. type: Content of: <html><body><p>
+#: Resources/templates/Description.html:25
+#, no-wrap
+msgid "- SMBIOS override to modify the factory SMBIOS values."
+msgstr ""
+
+#. type: Content of: <html><body><p>
+#: Resources/templates/Description.html:26
+#, no-wrap
+msgid "- DSDT override to use a modified fixed DSDT which can solve several issues."
+msgstr ""
+
+#. type: Content of: <html><body><p>
+#: Resources/templates/Description.html:27
+#, no-wrap
+msgid "- Device Property Injection via device-properties string."
+msgstr ""
+
+#. type: Content of: <html><body><p>
+#: Resources/templates/Description.html:28
+#, no-wrap
+msgid "- hybrid boot0 / boot1h for MBR and GPT partitioned disks."
+msgstr ""
+
+#. type: Content of: <html><body><p>
+#: Resources/templates/Description.html:29
+#, no-wrap
+msgid "- Automatic FSB detection code even for recent AMD CPUs."
+msgstr ""
+
+#. type: Content of: <html><body><p>
+#: Resources/templates/Description.html:30
+#, no-wrap
+msgid "- Apple Software RAID support."
+msgstr ""
+
+#. type: Content of: <html><body><p>
+#: Resources/templates/Description.html:31
+#, no-wrap
+msgid "- Nvidia &amp; ATI/AMD Graphics Card Enabler."
+msgstr ""
+
+#. type: Content of: <html><body><p>
+#: Resources/templates/Description.html:32
+#, fuzzy, no-wrap
+#| msgid "Modules"
+msgid "- Module support"
+msgstr "모듈"
+
+#. type: Content of: <html><body><p>
+#: Resources/templates/Description.html:33
+#, no-wrap
+msgid "- Memory detection adapted from memtest86:&nbsp;"
+msgstr ""
+
+#. type: Content of: <html><body><p>
+#: Resources/templates/Description.html:34
+#, no-wrap
+msgid "- Automatic P-State &amp; C-State generation for native power management."
+msgstr ""
+
+#. type: Content of: <html><body><p>
+#: Resources/templates/Description.html:35
+#, no-wrap
+msgid "- Message logging."
+msgstr ""
+
+#. type: Content of: <html><body><p>
+#: Resources/templates/Description.html:37
+#, no-wrap
+msgid "The code is released under version 2 of the Gnu Public License."
+msgstr ""
+
+#. type: Content of: <html><body><p><span>
+#: Resources/templates/Description.html:40
+#, no-wrap
+msgid "FAQ's:&nbsp;"
+msgstr ""
+
+#. type: Content of: <html><body><div><p>
+#: Resources/templates/Conclusion.html:22
+#, no-wrap
+msgid "The scripts have completed and a file named&nbsp;"
+msgstr ""
+
+#. type: Content of: <html><body><div><p><span>
+#: Resources/templates/Conclusion.html:22
+#, no-wrap
+msgid "@LOG_FILENAME@"
+msgstr ""
+
+#. type: Content of: <html><body><div><p>
+#: Resources/templates/Conclusion.html:23
+#, no-wrap
+msgid "&nbsp;has been written to the root of your chosen partition."
+msgstr ""
+
+#. type: Content of: <html><body><div><p>
+#: Resources/templates/Conclusion.html:25
+#, no-wrap
+msgid "Please&nbsp;"
+msgstr ""
+
+#. type: Content of: <html><body><div><p><span>
+#: Resources/templates/Conclusion.html:25
+#, no-wrap
+msgid "read it"
+msgstr ""
+
+#. type: Content of: <html><body><div><p>
+#: Resources/templates/Conclusion.html:26
+#, no-wrap
+msgid "&nbsp;to find out if the installation was successful and keep it for a record of what was done."
+msgstr ""
+
+#. type: Content of: <html><body><div><p>
+#: Resources/templates/Conclusion.html:28
+#, no-wrap
+msgid "Chameleon v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
+msgstr ""
+
+#. type: "Chameleon_Package_Title"
+#: Resources/templates/Localizable.strings:4
+#, fuzzy, no-wrap
+#| msgid "Chameleon Bootloader"
+msgid "Chameleon Bootloader Package"
+msgstr "카멜레온 부트로더 "
+
+#. type: "ERROR_BOOTVOL"
+#: Resources/templates/Localizable.strings:9
+#, no-wrap
+msgid "This software must be installed on the startup volume."
+msgstr "이 소프트웨어는 시동 볼륨에만 설치될 수 있습니다."
+
+#. type: "ERROR_INSTALL"
+#: Resources/templates/Localizable.strings:10
+#, no-wrap
+msgid "This volume does not meet the requirements for this update."
+msgstr "선택한 볼륨은 이 업데이트의 요구사항을 만족하지 않습니다."
+
+#. type: "Newer_Package_Installed_message"
+#: Resources/templates/Localizable.strings:12
+#, no-wrap
+msgid "A newer version of Chameleon is already installed"
+msgstr "카멜레온의 더 새로운 버전이 이미 설치되어 있습니다."
+
+#. type: "Intel_Mac_message"
+#: Resources/templates/Localizable.strings:13
+#, no-wrap
+msgid "This software cannot be installed on this computer."
+msgstr "이 소프트웨어는 이 컴퓨터에 설치될 수 없습니다."
+
+#. type: "Chameleon_title"
+#: Resources/templates/Localizable.strings:19
+#, no-wrap
+msgid "Chameleon Bootloader"
+msgstr "카멜레온 부트로더 "
+
+#. type: "Chameleon_description"
+#: Resources/templates/Localizable.strings:20
+#, no-wrap
+msgid ""
+"Chameleon requires three essential files. (in simple terms)\n"
+"boot0 (On the drive's MBR) responsible for loading boot1.\n"
+"boot1 (On the partition's boot-sector) to finding boot2.\n"
+"boot2 (On the partition's root directory) for loading kernel etc."
+msgstr ""
+"카멜레온 부트로더는 다음과 같은 세 개의 파일을 필요로 합니다. (간단히 설명해서)\n"
+"boot0 (드라이브의 MBR에 있음) boot1로딩을 담당.\n"
+"boot1 (파티션의 부트 섹터에 있음) boot2의 위치를 알려줌.\n"
+"boot2 (드라이브의 루트 디렉토리에 있음) 커널 로딩 등 기타 담당."
+
+#. type: "Default_title"
+#: Resources/templates/Localizable.strings:25
+#: Resources/templates/Localizable.strings:239
+#, no-wrap
+msgid "Standard"
+msgstr ""
+
+#. type: "Standard_description"
+#: Resources/templates/Localizable.strings:26
+#, no-wrap
+msgid "Install Chameleon's files to the root of the selected partition using either boot0 or boot0md depending on your system without destroying any existing Windows installation if you have one."
+msgstr "선택된 파티션의 루트 디렉토리에 카멜레온에 필요한 파일들을 사용자의 시스템에 따라 boot0 또는 boot0md를 이용하여 설치합니다. 윈도우가 설치되있더라도 영향을 주지 않습니다."
+
+#. type: "noboot_title"
+#: Resources/templates/Localizable.strings:28
+#, no-wrap
+msgid "Don't install the Bootloader"
+msgstr "부트로더를 설치하지 않음"
+
+#. type: "noboot_description"
+#: Resources/templates/Localizable.strings:29
+#, no-wrap
+msgid "Useful if you only want to install the extra's."
+msgstr "이미 부트로더가 설치되있을 경우 사용자가 기타 옵션들을 설치하고자 할 때 유용합니다."
+
+#. type: "Module_title"
+#: Resources/templates/Localizable.strings:35
+#, no-wrap
+msgid "Modules"
+msgstr "모듈"
+
+#. type: "Module_description"
+#: Resources/templates/Localizable.strings:36
+#, no-wrap
+msgid "The modules system incorporated in chameleon allows for a user or developer to extend the core functionality of chameleon without replacing the main boot file."
+msgstr "카멜레온에 통합된 모듈 시스템은 사용자나 개발자가 메인 부트 파일을 바꾸지 않고 카멜레온의 핵심 기능을 연장할 수 있게 해줍니다."
+
+#. type: "klibc_title"
+#: Resources/templates/Localizable.strings:38
+#, no-wrap
+msgid "klibc"
+msgstr ""
+
+#. type: "klibc_description"
+#: Resources/templates/Localizable.strings:39
+#, no-wrap
+msgid ""
+"This module provides a standard c library for modules to link to if the library provided by chameleon is insufficient.\n"
+"This is currently only used by the uClibc++ library.\n"
+"Source: http://www.kernel.org/pub/linux/libs/klibc/"
+msgstr ""
+"이 모듈은 만약 카멜레온이 부족할시 다른 모듈들이 연결할 수 있는 C 표준 라이브러리를 제공합니다.\n"
+"현재 uClibc++ 라이브러리에서만 사용되고 있습니다.\n"
+"소스: (영문)http://www.kernel.org/pub/linux/libs/klibc/"
+
+#. type: "Resolution_title"
+#: Resources/templates/Localizable.strings:43
+#: Resources/templates/Localizable.strings:267
+#, no-wrap
+msgid "Resolution"
+msgstr "화면 해상도"
+
+#. type: "AutoReso_description"
+#: Resources/templates/Localizable.strings:44
+#, no-wrap
+msgid ""
+"This module reads the edid information from the monitor attached to the main display.\n"
+"The module is currently not integrated into trunk and has minimal uses as it stands.\n"
+"Additionally, the module will patch the vesa modes available in pre intel hd graphics cards to provide proper resolution while booting."
+msgstr ""
+"이 모듈은 기본 모니터로부터 EDID 정보를 읽습니다.\n"
+"현재 이 모듈은 트렁크에 통합되지 않고 있고, 또 쓸모가 적습니다.\n"
+"추가로, Intel사의 HD 시리즈 전 그래픽카드들이 사용할 수 있는 VESA 모드를 패치하여 부팅 중 올바른 해상도를 가질 수 있게 해줍니다."
+
+#. type: "uClibc_title"
+#: Resources/templates/Localizable.strings:48
+#, no-wrap
+msgid "uClibc++"
+msgstr ""
+
+#. type: "uClibc_description"
+#: Resources/templates/Localizable.strings:49
+#, no-wrap
+msgid ""
+"This module provides a minimalistic c++ runtime library for use in other modules. This does not provide functionality by itself, instead it is used to allow for the c++ language to be used in other modules.\n"
+"*Please note that rtti and exceptions has both been disabled.\n"
+"Source: http://cxx.uclibc.org/\n"
+"Dependencies: klibc"
+msgstr ""
+"이 모듈은 다른 모듈들을 위한 최소화적인 c++ 런타임 라이브러리를 제공합니다.\n"
+"이 모듈은 특별한 기능 없이 c++ 언어가 다른 모듈들에 의해 사용될 수 있도록 해 줍니다.\n"
+"실행시간 데이터형 정보(RTTI)와 예외 처리(Exceptions)는 비활성화된점 참고하시기 바랍니다. \n"
+"소스: (영문) http://cxx.uclibc.org/\n"
+"의존 관계(Dependencies): klibc"
+
+#. type: "Options_title"
+#: Resources/templates/Localizable.strings:58
+#, no-wrap
+msgid "Settings"
+msgstr "환경 설정"
+
+#. type: "Options_description"
+#: Resources/templates/Localizable.strings:59
+#, no-wrap
+msgid "Create an /Extra/org.chameleon.Boot.plist by selecting any of these boot options and kernel flags."
+msgstr "/Extra 폴더안에 드롭다운 메뉴에서 선택한 항목들을 포함한 org.chameleon.Boot.plist 파일을 생성합니다."
+
+#. type: "BootBanner_title"
+#: Resources/templates/Localizable.strings:61
+#, no-wrap
+msgid "BootBanner=No"
+msgstr "배너 사용안함(BootBanner=No)"
+
+#. type: "BootBanner_description"
+#: Resources/templates/Localizable.strings:62
+#, no-wrap
+msgid "Hides Chameleon's boot banner in GUI. This is the text that is drawn at the top left corner of the screen displaying the release version etc."
+msgstr "선택 시 GUI에 표시되는 카멜레온 부트로더 배너를 숨깁니다. 좌측 상단 모서리에 위치한 배너는 릴리스 버전 등을 텍스트로 보여줍니다."
+
+#. type: "GUI_title"
+#: Resources/templates/Localizable.strings:64
+#, no-wrap
+msgid "GUI=No"
+msgstr "명령어 모드(GUI=No)"
+
+#. type: "GUI_description"
+#: Resources/templates/Localizable.strings:65
+#, no-wrap
+msgid "Disables the default enabled graphic user interface."
+msgstr "선택 시 카멜레온에 원래 사용되는 그래픽 유저 인터페이스를 끕니다. 비선택 시에는 파티션 선택 화면에서 Tab키로 전환이 가능합니다."
+
+#. type: "LegacyLogo_title"
+#: Resources/templates/Localizable.strings:67
+#, no-wrap
+msgid "LegacyLogo=Yes"
+msgstr "맥 부팅 스크린(LegacyLogo=Yes)"
+
+#. type: "LegacyLogo_description"
+#: Resources/templates/Localizable.strings:68
+#, no-wrap
+msgid "Use the legacy 'dark grey' apple logo on the light grey screen for the boot process rather than the boot.png in the theme."
+msgstr "선택 시 오리지널 맥과 같은 짙은 회색 애플 로고밑에 돌아가는 휠과 밝은 회색 배경을 부팅 스크린으로 사용합니다. 비선택 시 /Extra/Theme 폴더 안의  boot.png 사진을 사용"
+
+#. type: "InstantMenu_title"
+#: Resources/templates/Localizable.strings:70
+#, no-wrap
+msgid "InstantMenu=Yes"
+msgstr "자동 부팅 사용 안함(InstantMenu=Yes)"
+
+#. type: "InstantMenu_description"
+#: Resources/templates/Localizable.strings:71
+#, no-wrap
+msgid "By default, when Chameleon loads you'll see the icon for the current default partition, along with a timeout progress bar which left alone will count down before Chameleon automatically boots that partition. This options skips that and takes you directly to the device selection screen."
+msgstr "선택 시 매번 사용자가 직접 부팅할 파티션을 고릅니다. 고르고 엔터를 누르기 전까지 OS부팅을 하지 않습니다. 비선택 시 카멜레온이 로딩 중 기본 파티션 아이콘과 자동 부팅까지 남은 시간을 막대기로 보여 줍니다. 이때 멀티 부팅을 위해 아무키나 입력해 자동 부팅을 취소할 수 있습니다."
+
+#. type: "QuietBoot_title"
+#: Resources/templates/Localizable.strings:73
+#, no-wrap
+msgid "QuietBoot=Yes"
+msgstr "부팅과정 숨김(QuietBoot=Yes)"
+
+#. type: "QuietBoot_description"
+#: Resources/templates/Localizable.strings:74
+#, no-wrap
+msgid "Enable quiet boot mode (no messages or prompt)."
+msgstr "선택 시 오리지널 맥과 같이 부팅 스크린으로 바로 부팅합니다. 주의 할 점은 파티션 선택이나 명령어(Kernel Flag)입력이 불가능하며 오직 org.chameleon.Boot.plist 파일 안에 지정된 기본 파티션과 Kernel Flag가 적용됩니다. 참고로, 기본 파티션이 윈도우로 설정될 경우 맥 부팅으로 수정이 어렵고 맥OS 상에서 선택한 시동 볼륨은 부트로더에 전달이 되지않으며 무시됩니다."
+
+#. type: "ShowInfo_title"
+#: Resources/templates/Localizable.strings:76
+#, no-wrap
+msgid "ShowInfo=Yes"
+msgstr "카멜레온 정보 표시(ShowInfo=Yes)"
+
+#. type: "ShowInfo_description"
+#: Resources/templates/Localizable.strings:77
+#, no-wrap
+msgid "Enables display of partition and resolution details shown on the left side of the GUI under the boot banner. This is useful information for troubleshooting, though can clash with certain themes."
+msgstr "선택 시 파티션, 화면 해상도 상세정보를 부트로더 배너 아래에 표시합니다. 문제 해결할 때 유용한 정보를 보여주지만 특정 테마들과 겹칠 수 있습니다."
+
+#. type: "Wait_title"
+#: Resources/templates/Localizable.strings:79
+#, no-wrap
+msgid "Wait=Yes"
+msgstr "부트로더 로그 보기(Wait=Yes)"
+
+#. type: "Wait_description"
+#: Resources/templates/Localizable.strings:80
+#, no-wrap
+msgid "Pauses the boot process after Chameleon has finished it's setup then waits for a key press before it starts the mach kernel. Useful when combined with verbose boot for troubleshooting."
+msgstr "선택 시 맥 커널을 로딩하기 직전에 부팅 과정을 일시 정지하고 자세한 로그를 보여줍니다. q키 입력으로 부팅을 계속 진행할 수 있습니다."
+
+#. type: "arch_title"
+#: Resources/templates/Localizable.strings:84
+#, no-wrap
+msgid "arch=i386"
+msgstr "32비트 모드(arch=i386)"
+
+#. type: "arch_description"
+#: Resources/templates/Localizable.strings:85
+#, no-wrap
+msgid "Boots the kernel in 32bit mode rather than the default 64bit mode."
+msgstr "선택 시 커널이 32비트 모드로 부팅합니다. 비선택 시 64비트 모드."
+
+#. type: "EHCIacquire_title"
+#: Resources/templates/Localizable.strings:87
+#, no-wrap
+msgid "EHCIacquire=Yes"
+msgstr "EHCI확보(EHCIacquire=Yes)"
+
+#. type: "EHCIacquire_description"
+#: Resources/templates/Localizable.strings:88
+#, no-wrap
+msgid "Enables the option to fix any EHCI ownership issues due to bad bioses."
+msgstr "선택 시 에러가 있는 바이오스로 인한 어떠한 EHCI 권한 오류라도 고칩니다."
+
+#. type: "EthernetBuiltIn_title"
+#: Resources/templates/Localizable.strings:90
+#, no-wrap
+msgid "EthernetBuiltIn=Yes"
+msgstr "내장형 이더넷(EthernetBuiltIn=Yes)"
+
+#. type: "EthernetBuiltIn_description"
+#: Resources/templates/Localizable.strings:91
+#, no-wrap
+msgid "Enables the option of adding 'built-in' to your ethernet devices."
+msgstr "선택 시 네트워크 카드들을 '내장형'으로 만듭니다."
+
+#. type: "ForceHPET_title"
+#: Resources/templates/Localizable.strings:93
+#, no-wrap
+msgid "ForceHPET=Yes"
+msgstr "강제HPET(ForceHPET=Yes)"
+
+#. type: "ForceHPET_description"
+#: Resources/templates/Localizable.strings:94
+#, no-wrap
+msgid "Enables HPET on intel chipsets, for bioses that dont include the option."
+msgstr "선택 시 바이오스가 지원하지 않더라도 Intel 칩셋에서 HPET를 사용하게 합니다."
+
+#. type: "ForceWake_title"
+#: Resources/templates/Localizable.strings:96
+#, no-wrap
+msgid "ForceWake=Yes"
+msgstr "강제 깨우기(ForceWake=Yes)"
+
+#. type: "ForceWake_description"
+#: Resources/templates/Localizable.strings:97
+#, no-wrap
+msgid "This option enables you to bypass bad sleep images."
+msgstr "선택 시 잠자기때 저장한 이미지가 에러난 경우 우회합니다."
+
+#. type: "RestartFix_title"
+#: Resources/templates/Localizable.strings:99
+#, no-wrap
+msgid "RestartFix=No"
+msgstr "재시동 안고침(RestartFix=No)"
+
+#. type: "RestartFix_description"
+#: Resources/templates/Localizable.strings:100
+#, no-wrap
+msgid "Disables the automatically enabled restart fix."
+msgstr "선택 시  카멜레온이 재시동 에러를 고치지 않습니다."
+
+#. type: "UHCIreset_title"
+#: Resources/templates/Localizable.strings:102
+#, no-wrap
+msgid "UHCIreset=Yes"
+msgstr "UHCI 리셋함(UHCIreset=Yes)"
+
+#. type: "UHCIreset_description"
+#: Resources/templates/Localizable.strings:103
+#, no-wrap
+msgid "Enables the option to reset UHCI controllers before starting OS X."
+msgstr "선택 시 OS X를 시작하기 전에 UHCI 컨트롤러들을 리셋합니다."
+
+#. type: "UseMemDetect_title"
+#: Resources/templates/Localizable.strings:105
+#, no-wrap
+msgid "UseMemDetect=No"
+msgstr "자동 메모리 인식 안함(UseMemDetect=No)"
+
+#. type: "UseMemDetect_description"
+#: Resources/templates/Localizable.strings:106
+#, no-wrap
+msgid "Disables the automatically enabled RAM recognition."
+msgstr "선택 시 자동 RAM인식을 끕니다"
+
+#. type: "UseKernelCache_title"
+#: Resources/templates/Localizable.strings:108
+#, no-wrap
+msgid "UseKernelCache=Yes"
+msgstr "커널 캐시 사용(UseKernelCache=Yes)"
+
+#. type: "UseKernelCache_description"
+#: Resources/templates/Localizable.strings:109
+#, no-wrap
+msgid "For Lion only. Enables loading of the pre-linked kernel. This will ignore /E/E and /S/L/E. ONLY use this is you have know it contains everything you need."
+msgstr "Lion 전용. 선택 시 이전에 저장된 커널 로딩을 사용합니다. /E/E와 /S/L/E를 우회하기 때문에 필요한 모든 것을 캐시에 저장 후에 사용하세요."
+
+#. type: "Wake_title"
+#: Resources/templates/Localizable.strings:111
+#, no-wrap
+msgid "Wake=Yes"
+msgstr "깨우기 시도함(Wake=Yes)"
+
+#. type: "Wake_description"
+#: Resources/templates/Localizable.strings:112
+#, no-wrap
+msgid "Attempts to load the sleep image saved from last hibernation."
+msgstr "선택 시 마지막 최대 절전 모드 이미지를 로딩 시도합니다."
+
+#. type: "CSTUsingSystemIO_title"
+#: Resources/templates/Localizable.strings:116
+#, no-wrap
+msgid "CSTUsingSystemIO=Yes"
+msgstr ""
+
+#. type: "CSTUsingSystemIO_description"
+#: Resources/templates/Localizable.strings:117
+#, no-wrap
+msgid "New C-State _CST generation method using SystemIO registers instead of FixedHW."
+msgstr "새로운 C-State _CST 생성 방법으로, 선택 시 기존의 FixedHW대신 SystemIO registers를 사용합니다."
+
+#. type: "DropSSDT_title"
+#: Resources/templates/Localizable.strings:119
+#, no-wrap
+msgid "DropSSDT=Yes"
+msgstr "마더보드 SSDT 버림(DropSSDT=Yes)"
+
+#. type: "DropSSDT_description"
+#: Resources/templates/Localizable.strings:120
+#, no-wrap
+msgid "Discard the motherboard's built-in SSDT tables."
+msgstr "선택 시 마더보드에 포함된 SSDT 표를 버립니다."
+
+#. type: "EnableC2State_title"
+#: Resources/templates/Localizable.strings:122
+#, no-wrap
+msgid "EnableC2State=Yes"
+msgstr "C2단계 사용(EnableC2State=Yes)"
+
+#. type: "EnableC2State_description"
+#: Resources/templates/Localizable.strings:123
+#, no-wrap
+msgid "Enable specific Processor power state, C2."
+msgstr "선택 시 특정한 CPU 파워 단계 C2를 사용."
+
+#. type: "EnableC3State_title"
+#: Resources/templates/Localizable.strings:125
+#, no-wrap
+msgid "EnableC3State=Yes"
+msgstr "C3단계 사용(EnableC3State=Yes)"
+
+#. type: "EnableC3State_description"
+#: Resources/templates/Localizable.strings:126
+#, no-wrap
+msgid "Enable specific Processor power state, C3."
+msgstr "선택 시 특정한 CPU 파워 단계 C3를 사용."
+
+#. type: "EnableC4State_title"
+#: Resources/templates/Localizable.strings:128
+#, no-wrap
+msgid "EnableC4State=Yes"
+msgstr "C4단계 사용(EnableC4State=Yes)"
+
+#. type: "EnableC4State_description"
+#: Resources/templates/Localizable.strings:129
+#, no-wrap
+msgid "Enable specific Processor power state, C4."
+msgstr "선택 시 특정한 CPU 파워 단계 C4를 사용."
+
+#. type: "GenerateCStates_title"
+#: Resources/templates/Localizable.strings:131
+#, fuzzy, no-wrap
+#| msgid "Generate C-States=Yes"
+msgid "GenerateCStates=Yes"
+msgstr "C-State 생성(Generate C-States=Yes)"
+
+#. type: "GenerateCStates_description"
+#: Resources/templates/Localizable.strings:132
+#, no-wrap
+msgid "Enable auto generation of processor idle sleep states (C-States)."
+msgstr "선택 시 유휴 상태 CPU단계들(C-States)을 자동 활성화 합니다."
+
+#. type: "GeneratePStates_title"
+#: Resources/templates/Localizable.strings:134
+#, fuzzy, no-wrap
+#| msgid "Generate P-States=Yes"
+msgid "GeneratePStates=Yes"
+msgstr "P-State 생성(Generate P-States=Yes)"
+
+#. type: "GeneratePStates_description"
+#: Resources/templates/Localizable.strings:135
+#, no-wrap
+msgid "Enable auto generation of processor power performance states (P-States)."
+msgstr "선택 시 활동 상태 CPU단계들(P-States)을 자동 활성화 합니다."
+
+#. type: "1024x600x32_title"
+#: Resources/templates/Localizable.strings:139
+#, no-wrap
+msgid "1024x600x32"
+msgstr ""
+
+#. type: "1024x600x32_description"
+#: Resources/templates/Localizable.strings:140
+#, no-wrap
+msgid "Set Graphics Mode to 1024x600x32"
+msgstr "부팅 해상도 및 색심도를 1024x600x32로"
+
+#. type: "1024x768x32_title"
+#: Resources/templates/Localizable.strings:142
+#, no-wrap
+msgid "1024x768x32"
+msgstr ""
+
+#. type: "1024x768x32_description"
+#: Resources/templates/Localizable.strings:143
+#, no-wrap
+msgid "Set Graphics Mode to 1024x768x32"
+msgstr "부팅 해상도 및 색심도를 1024x768x32"
+
+#. type: "1280x768x32_title"
+#: Resources/templates/Localizable.strings:145
+#, no-wrap
+msgid "1280x768x32"
+msgstr ""
+
+#. type: "1280x768x32_description"
+#: Resources/templates/Localizable.strings:146
+#, no-wrap
+msgid "Set Graphics Mode to 1280x768x32"
+msgstr "부팅 해상도 및 색심도를 1280x768x32"
+
+#. type: "1280x800x32_title"
+#: Resources/templates/Localizable.strings:148
+#, no-wrap
+msgid "1280x800x32"
+msgstr ""
+
+#. type: "1280x800x32_description"
+#: Resources/templates/Localizable.strings:149
+#, no-wrap
+msgid "Set Graphics Mode to 1280x800x32"
+msgstr "부팅 해상도 및 색심도를 1280x800x32"
+
+#. type: "1280x1024x32_title"
+#: Resources/templates/Localizable.strings:151
+#, no-wrap
+msgid "1280x1024x32"
+msgstr ""
+
+#. type: "1280x1024x32_description"
+#: Resources/templates/Localizable.strings:152
+#, no-wrap
+msgid "Set Graphics Mode to 1280x1024x32"
+msgstr "부팅 해상도 및 색심도를 1280x1024x32"
+
+#. type: "1280x960x32_title"
+#: Resources/templates/Localizable.strings:154
+#, no-wrap
+msgid "1280x960x32"
+msgstr ""
+
+#. type: "1280x960x32_description"
+#: Resources/templates/Localizable.strings:155
+#, no-wrap
+msgid "Set Graphics Mode to 1280x960x32"
+msgstr "부팅 해상도 및 색심도를 1280x960x32"
+
+#. type: "1440x900x32_title"
+#: Resources/templates/Localizable.strings:157
+#, no-wrap
+msgid "1440x900x32"
+msgstr ""
+
+#. type: "1440x900x32_description"
+#: Resources/templates/Localizable.strings:158
+#, no-wrap
+msgid "Set Graphics Mode to 1440x900x32"
+msgstr "부팅 해상도 및 색심도를 1440x900x32"
+
+#. type: "1600x900x32_title"
+#: Resources/templates/Localizable.strings:160
+#, no-wrap
+msgid "1600x900x32"
+msgstr ""
+
+#. type: "1600x900x32_description"
+#: Resources/templates/Localizable.strings:161
+#, no-wrap
+msgid "Set Graphics Mode to 1600x900x32"
+msgstr "부팅 해상도 및 색심도를 1600x900x32"
+
+#. type: "1680x1050x32_title"
+#: Resources/templates/Localizable.strings:163
+#, no-wrap
+msgid "1680x1050x32"
+msgstr ""
+
+#. type: "1680x1050x32_description"
+#: Resources/templates/Localizable.strings:164
+#, no-wrap
+msgid "Set Graphics Mode to 1680x1050x32"
+msgstr "부팅 해상도 및 색심도를 1680x1050x32"
+
+#. type: "1920x1080x32_title"
+#: Resources/templates/Localizable.strings:166
+#, no-wrap
+msgid "1920x1080x32"
+msgstr ""
+
+#. type: "1920x1080x32_description"
+#: Resources/templates/Localizable.strings:167
+#, no-wrap
+msgid "Set Graphics Mode to 1920x1080x32"
+msgstr "부팅 해상도 및 색심도를 1920x1080x32"
+
+#. type: "1920x1200x32_title"
+#: Resources/templates/Localizable.strings:169
+#, no-wrap
+msgid "1920x1200x32"
+msgstr ""
+
+#. type: "1920x1200x32_description"
+#: Resources/templates/Localizable.strings:170
+#, no-wrap
+msgid "Set Graphics Mode to 1920x1200x32"
+msgstr "부팅 해상도 및 색심도를 1920x1200x32"
+
+#. type: "GraphicsEnabler_title"
+#: Resources/templates/Localizable.strings:174
+#, no-wrap
+msgid "GraphicsEnabler=Yes"
+msgstr "그래픽활성화(GraphicsEnabler=Yes)"
+
+#. type: "GraphicsEnabler_description"
+#: Resources/templates/Localizable.strings:175
+#, no-wrap
+msgid "Enables the option to autodetect NVIDIA based GPUs and inject the correct info."
+msgstr "NVIDIA GPU 기반의 그래픽카드를 자동 탐색하여 OS X에서 인식할 수 있게 잡아줍니다."
+
+#. type: "UseAtiROM_title"
+#: Resources/templates/Localizable.strings:177
+#, no-wrap
+msgid "UseAtiROM=Yes"
+msgstr "커스텀ATi롬 사용(UseAtiROM=Yes)"
+
+#. type: "UseAtiROM_description"
+#: Resources/templates/Localizable.strings:178
+#, no-wrap
+msgid "Enables UseAtiROM options."
+msgstr "Extra폴더안에 있는 ATi롬 파일을 그래픽 카드 롬 대신 사용합니다."
+
+#. type: "UseNvidiaROM_title"
+#: Resources/templates/Localizable.strings:180
+#, no-wrap
+msgid "UseNvidiaROM=Yes"
+msgstr "커스텀Nvidia롬 사용(UseNvidiaROM=Yes)"
+
+#. type: "UseNvidiaROM_description"
+#: Resources/templates/Localizable.strings:181
+#, no-wrap
+msgid "Enables UseNvidiaROM options."
+msgstr "Extra폴더안에 있는 Nvidia롬 파일을 그래픽 카드 롬 대신 사용합니다."
+
+#. type: "VBIOS_title"
+#: Resources/templates/Localizable.strings:183
+#, no-wrap
+msgid "VBIOS=Yes"
+msgstr "VBIOS 인식(VBIOS=Yes)"
+
+#. type: "VBIOS_description"
+#: Resources/templates/Localizable.strings:184
+#, no-wrap
+msgid "Enables VBIOS option"
+msgstr "VBIOS를 device-properties에 넣어줌"
+
+#. type: "Verbose_title"
+#: Resources/templates/Localizable.strings:189
+#, no-wrap
+msgid "Verbose Mode"
+msgstr "부팅 로그 표시(상세 모드 aka, verbose mode)"
+
+#. type: "Verbose_description"
+#: Resources/templates/Localizable.strings:190
+#, no-wrap
+msgid "Turns on verbose logging and allows you to see messages from both Chameleon and the OS X kernel at boot time. Essential for troubleshooting."
+msgstr "선택 시 사용자가 카멜레온과 OS X 커널 메세지를 실시간으로 보게 합니다. 부팅 스크린이 비활성화되며 콘솔에 커널 로그를 남깁니다. 문제 해결에 필수 요소."
+
+#. type: "Singleusermode_title"
+#: Resources/templates/Localizable.strings:192
+#, no-wrap
+msgid "Single User Mode"
+msgstr "단일 사용자 모드"
+
+#. type: "Singleusermode_description"
+#: Resources/templates/Localizable.strings:193
+#, no-wrap
+msgid "A troubleshooting option used for booting into OS X's BSD/Unix command line."
+msgstr "문제 해결을 위한 옵션으로, 선택 시 OS X의 BSD/UNIX 커맨드 라인으로 부팅합니다."
+
+#. type: "Ignorecaches_title"
+#: Resources/templates/Localizable.strings:195
+#, no-wrap
+msgid "Ignore Caches"
+msgstr "캐시 무시"
+
+#. type: "Ignorecaches_description"
+#: Resources/templates/Localizable.strings:196
+#, no-wrap
+msgid "Not an option that's needed for everyday booting, but it can be useful if you want OS X to load all files from it's system folders, rather than relying on it's pre-built caches."
+msgstr "선택 시 커널이 이전에 저장된 캐시를 무시하고 모든 파일들을 시스템 폴더로부터 로드 합니다."
+
+#. type: "Npci_title"
+#: Resources/templates/Localizable.strings:198
+#, no-wrap
+msgid "npci=0x2000"
+msgstr ""
+
+#. type: "Npci_description"
+#: Resources/templates/Localizable.strings:199
+#, no-wrap
+msgid "For overcoming a hang at 'PCI configuration begin' on some systems. 0x2000 is the kIOPCIConfiguratorPFM64 flag, as seen in the IOPCIFamily source code."
+msgstr "몇몇 시스템에서 볼 수 있는 'PCI configurationbegin'과 함께 나타나는 멈춤 현상을 고치는 대 쓰입니다. IOPCIFamily 소스 코드에서 볼 수 있는 0x2000은 kIOPCIConfiguratorPFM64 플래그입니다."
+
+#. type: "Npci3_title"
+#: Resources/templates/Localizable.strings:201
+#, no-wrap
+msgid "npci=0x3000"
+msgstr ""
+
+#. type: "Npci3_description"
+#: Resources/templates/Localizable.strings:202
+#, no-wrap
+msgid "For overcoming a hang at 'PCI configuration begin' on some systems. 0x3000 is the kIOPCIConfiguratorPFM64 flag, as seen in the IOPCIFamily source code."
+msgstr "몇몇 시스템에서 볼 수 있는 'PCI configurationbegin'과 함께 나타나는 멈춤 현상을 고치는 대 쓰입니다. IOPCIFamily 소스 코드에서 볼 수 있는 0x3000은 kIOPCIConfiguratorPFM64 플래그입니다."
+
+#. type: "Darkwake_title"
+#: Resources/templates/Localizable.strings:204
+#, no-wrap
+msgid "darkwake=0"
+msgstr "저전력 깨우기 끔(darkwake=0)"
+
+#. type: "Darkwake_description"
+#: Resources/templates/Localizable.strings:205
+#, no-wrap
+msgid "Lion only. Disables the 'low power wake' feature which can sometimes leave the screen black after wake from sleep."
+msgstr "Lion전용. 선택 시 잠자기 모드에서 깨어난 후 가끔 화면이 안 켜질 수 있는 '저전력 깨우기' 기능을 끕니다."
+
+#. type: "mac-de_title"
+#: Resources/templates/Localizable.strings:211
+#, no-wrap
+msgid "German Mac Keyboard"
+msgstr "독일어 맥 키보드"
+
+#. type: "mac-de_description"
+#: Resources/templates/Localizable.strings:212
+#, no-wrap
+msgid "Use the keyboard layout for a German Mac keyboard"
+msgstr "독일어 맥 키보드를 위한 키보드 레이아웃을 사용합니다."
+
+#. type: "mac-es_title"
+#: Resources/templates/Localizable.strings:214
+#, no-wrap
+msgid "Spanish Mac Keyboard"
+msgstr "스페인어 맥 키보드"
+
+#. type: "mac-es_description"
+#: Resources/templates/Localizable.strings:215
+#, no-wrap
+msgid "Use the keyboard layout for a Spanish Mac keyboard"
+msgstr "스페인어 맥 키보드를 위한 키보드 레이아웃을 사용합니다."
+
+#. type: "mac-fr_title"
+#: Resources/templates/Localizable.strings:217
+#, no-wrap
+msgid "French Mac Keyboard"
+msgstr "불어 맥 키보드"
+
+#. type: "mac-fr_description"
+#: Resources/templates/Localizable.strings:218
+#, no-wrap
+msgid "Use the keyboard layout for a French Mac keyboard"
+msgstr "불어 맥 키보드를 위한 키보드 레이아웃을 사용합니다."
+
+#. type: "mac-it_title"
+#: Resources/templates/Localizable.strings:220
+#, no-wrap
+msgid "Italian Mac Keyboard"
+msgstr "이탈리아어 맥 키보드"
+
+#. type: "mac-it_description"
+#: Resources/templates/Localizable.strings:221
+#, no-wrap
+msgid "Use the keyboard layout for an Italian Mac keyboard"
+msgstr "이탈리아어 맥 키보드를 위한 키보드 레이아웃을 사용합니다."
+
+#. type: "mac-se_title"
+#: Resources/templates/Localizable.strings:223
+#, no-wrap
+msgid "Swedish Mac Keyboard"
+msgstr "스웨덴어 맥 키보드"
+
+#. type: "mac-se_description"
+#: Resources/templates/Localizable.strings:224
+#, no-wrap
+msgid "Use the keyboard layout for a Swedish Mac keyboard"
+msgstr "스웨덴어 맥 키보드를 위한 키보드 레이아웃을 사용합니다."
+
+#. type: "pc-fr_title"
+#: Resources/templates/Localizable.strings:226
+#, no-wrap
+msgid "French PC Keyboard"
+msgstr "불어 PC 키보드"
+
+#. type: "pc-fr_description"
+#: Resources/templates/Localizable.strings:227
+#, no-wrap
+msgid "Use the keyboard layout for a French PC keyboard"
+msgstr "불어 PC 키보드를 위한 키보드 레이아웃을 사용합니다."
+
+#. type: "Embed_title"
+#: Resources/templates/Localizable.strings:233
+#, no-wrap
+msgid "Embed"
+msgstr ""
+
+#. type: "Embed_description"
+#: Resources/templates/Localizable.strings:234
+#, no-wrap
+msgid "A smaller simple version of the new default theme used when building a version of Chameleon which requires an embedded theme."
+msgstr "Embedded 테마를 요구하는 카멜레온 버전을 제작할 때 사용되었던 새 기본 테마의 작고 심플한 버전입니다."
+
+#. type: "Legacy_title"
+#: Resources/templates/Localizable.strings:236
+#, no-wrap
+msgid "Legacy"
+msgstr ""
+
+#. type: "Legacy_description"
+#: Resources/templates/Localizable.strings:237
+#, no-wrap
+msgid "Chameleon's original default theme introduced for v2.0 RC1"
+msgstr "카멜레온 v2.0 RC1에서 소개된 오리지널 기본 테마입니다."
+
+#. type: "Default_description"
+#: Resources/templates/Localizable.strings:240
+#, no-wrap
+msgid "Chameleon default theme introduced for v2.0 RC5"
+msgstr "카멜레온 v2.0 RC5에서 소개된 오리지널 기본 테마입니다."
+
+#. type: "Bullet_title"
+#: Resources/templates/Localizable.strings:242
+#, no-wrap
+msgid "Bullet"
+msgstr ""
+
+#. type: "Bullet_description"
+#: Resources/templates/Localizable.strings:243
+#, no-wrap
+msgid "A lovely simple theme by NoSmokingBandit from April 2009."
+msgstr "보기좋고 심플한 NoSmokingBandit님의 테마,  2009년 4월 작품."
+
+#. type: "Control_title"
+#: Resources/templates/Localizable.strings:251
+#, no-wrap
+msgid "Control Options"
+msgstr "부팅 화면 조정"
+
+#. type: "Control_description"
+#: Resources/templates/Localizable.strings:252
+#, no-wrap
+msgid "Settings to control how Chameleon works."
+msgstr "전체적인 부팅 화면을 커스터마이징할 수 있습니다."
+
+#. type: "General_title"
+#: Resources/templates/Localizable.strings:255
+#, no-wrap
+msgid "General Options"
+msgstr "기본 기능 조정"
+
+#. type: "General_description"
+#: Resources/templates/Localizable.strings:256
+#, no-wrap
+msgid "Choose from a selection of base options."
+msgstr "부트로더에 포함된 기본 기능들을 켜고 끌 수 있습니다."
+
+#. type: "KernelFlags_title"
+#: Resources/templates/Localizable.strings:259
+#, no-wrap
+msgid "Kernel Flags"
+msgstr "커널 플래그(Kernel Flags)"
+
+#. type: "KernelFlags_description"
+#: Resources/templates/Localizable.strings:260
+#, no-wrap
+msgid "Choose from a selection of kernel flags."
+msgstr "OS X 부팅 시 사용되는 커널 플래그를 정합니다."
+
+#. type: "PowerManagement_title"
+#: Resources/templates/Localizable.strings:263
+#, no-wrap
+msgid "Power Management"
+msgstr "전원 관리"
+
+#. type: "PowerManagement_description"
+#: Resources/templates/Localizable.strings:264
+#, no-wrap
+msgid "A selection of options that deal with power management and speedstep."
+msgstr "Intel SpeedStep과 전원 관리에 사용되는 데이터를 부트로더가 자동으로 찾아주는 옵션들입니다."
+
+#. type: "Resolution_description"
+#: Resources/templates/Localizable.strings:268
+#, no-wrap
+msgid "Set one resolution to use."
+msgstr "부팅 시 사용될 한 해상도를 선택하거나 고르지 않으려면 선택 안함을 선택하세요."
+
+#. type: "Video_title"
+#: Resources/templates/Localizable.strings:271
+#, no-wrap
+msgid "Video"
+msgstr "그래픽"
+
+#. type: "Video_description"
+#: Resources/templates/Localizable.strings:272
+#, no-wrap
+msgid "A selection of options that deal with video."
+msgstr "그래픽 카드들과 관련된 옵션들입니다"
+
+#. type: "Keymaps_title"
+#: Resources/templates/Localizable.strings:275
+#, no-wrap
+msgid "KeyLayout"
+msgstr "키 레이아웃"
+
+#. type: "Keymaps_description"
+#: Resources/templates/Localizable.strings:276
+#, no-wrap
+msgid "Select one keylayout to use. This will also install the Keylayout module and keymaps."
+msgstr ""
+"부팅 시 적용될 키 레이아웃에서 사용하는 키보드와 맞는것을, 아니면 없음을 선택하세요.\n"
+"선택 시 필요한 키 레이아웃 모듈과 키 맵을 추가로 설치합니다."
+
+#. type: "Themes_title"
+#: Resources/templates/Localizable.strings:279
+#, no-wrap
+msgid "Themes"
+msgstr "테마"
+
+#. type: "Themes_description"
+#: Resources/templates/Localizable.strings:280
+#, no-wrap
+msgid ""
+"A collection of sample themes\n"
+"More themes can be found at http://forum.voodooprojects.org/index.php/board,7.0.html"
+msgstr ""
+"샘플 테마들을 모아놓았습니다. 더 많은 테마는 다음 주소에서 찾으실 수 있습니다: \n"
+"http://forum.voodooprojects.org/index.php/board,7.0.html"
+
+#~ msgid "Install Type"
+#~ msgstr "설치 유형"
+
+#~ msgid "Choose to perform a new installation or upgrade an existing installation."
+#~ msgstr "새 설치나 업그레이드 둘 중 하나를 선택하세요."
+
+#~ msgid "New Installation"
+#~ msgstr "새 설치"
+
+#~ msgid "Backup an existing /Extra folder, if found on the target partition. A new one will be created if any options are chosen from the installer, other than the Bootloader."
+#~ msgstr "Bootloader 이외의 옵션이 추가로 선택된 경우, 만약 설치할 파티션에 /Extra 폴더가 이미 존재하면, 다른 이름으로 백업한 후, 추가 선택한 옵션들이 포함된 새로운 /Extra 폴더가 생성됩니다."
+
+#~ msgid "Upgrade"
+#~ msgstr "업그레이드"
+
+#~ msgid "Merge an existing /Extra folder, if found on the target, with any options chosen from the installer, other than the Bootloader. The original /Extra folder will be backed up."
+#~ msgstr "Bootloader 이외의 옵션이 추가로 선택된 경우 만약 설치할 파티션에 /Extra 폴더가 이미 존재하면, 다른 이름으로 백업한 후, 기존 /Extra 폴더에 추가 선택한 옵션들이 더해집니다. (org.chameleon.Boot.plist 기존 항목들을 덮어 쓰기 하지 않고 이미 없는 옵션들만 추가합니다.)"
+
+#~ msgid "Install Chameleon's files to the normally hidden EFI system partition using either boot0 or boot0md depending on your system and without destroying any existing Windows installation if you have one."
+#~ msgstr "평상 시 숨겨져있는 EFI 시스템 파티션에 카멜레온에 필요한 파일들을 사용자의 시스템에 따라 boot0 또는 boot0md를 이용하여 설치합니다. 윈도우가 설치되있더라도 영향을 주지 않습니다."
+
+#~ msgid "Keylayout"
+#~ msgstr "키레이아웃"
+
+#~ msgid "This module permits the user to define the keyboard key mappings. This module and associated keymaps are installed by default."
+#~ msgstr "이 모듈은 사용자 키보드 키 매핑 정의를 허용합니다."
+
+#~ msgid "Utilities"
+#~ msgstr "유틸리티"
+
+#~ msgid "Optional files to help setup"
+#~ msgstr "설치를 도우는 선택적인 파일들"
+
+#~ msgid "Preference Panel"
+#~ msgstr "환경 설정 패널"
+
+#~ msgid "Installs Preference Panel for Chameleon."
+#~ msgstr "카멜레온의 환경 설정 패널을 설치함."
+
+#~ msgid "Copies an example smbios.plist in /Extra/Configuration."
+#~ msgstr "/Extra/Configuration 폴더 안에 smbios.plist 예제 파일을 만듭니다."
+
+#~ msgid "Documentation"
+#~ msgstr "사용 설명서"
+
+#~ msgid "Documentation for Chameleon manual install and use"
+#~ msgstr "카멜레온 부트로더를 설치하고, 이용하는 데에 대한 사용 설명서"
+
+#~ msgid "Portuguese Mac Keyboard"
+#~ msgstr "포르투갈어 맥 키보드"
+
+#~ msgid "Use the keyboard layout for a Portuguese Mac keyboard"
+#~ msgstr "포르투갈어 맥 키보드를 위한 키보드 레이아웃을 사용합니다."
+
+#~ msgid "German PC Keyboard"
+#~ msgstr "독일어 PC 키보드"
+
+#~ msgid "Use the keyboard layout for a German PC keyboard"
+#~ msgstr "독일어 PC 키보드를 위한 키보드 레이아웃을 사용합니다."
+
+#~ msgid "Spanish PC Keyboard"
+#~ msgstr "스페인어 PC 키보드"
+
+#~ msgid "Use the keyboard layout for a Spanish PC keyboard"
+#~ msgstr "스페인어 PC 키보드를 위한 키보드 레이아웃을 사용합니다."
+
+#~ msgid "Italian PC Keyboard"
+#~ msgstr "이탈리아어 PC 키보드"
+
+#~ msgid "Use the keyboard layout for a Italian PC keyboard"
+#~ msgstr "이탈리아어 PC 키보드를 위한 키보드 레이아웃을 사용합니다."
+
+#~ msgid "Swedish PC Keyboard"
+#~ msgstr "스웨덴어 PC 키보드"
+
+#~ msgid "Use the keyboard layout for a Swedish PC keyboard"
+#~ msgstr "스웨덴어 PC 키보드를 위한 키보드 레이아웃을 사용합니다."
+
+#~ msgid "Portuguese PC Keyboard"
+#~ msgstr "포르투갈어 PC 키보드"
+
+#~ msgid "Use the keyboard layout for a Portuguese PC keyboard"
+#~ msgstr "포르투갈어 PC 키보드를 위한 키보드 레이아웃을 사용합니다."
+
+#~ msgid "None"
+#~ msgstr "없음"
+
+#~ msgid "Don't choose a resolution."
+#~ msgstr "화면 해상도 고르지 않음"
+
+#~ msgid "Don't choose a keylayout."
+#~ msgstr "맞는 키 레이아웃 없음"
+
+#, fuzzy
+#~| msgid ""
+#~| "A collection of sample themes\n"
+#~| "More themes can be found at http://forum.voodooprojects.org/index.php/"
+#~| "board,7.0.html"
+#~ msgid "http://forge.voodooprojects.org/p/chameleon"
+#~ msgstr ""
+#~ "샘플 테마들을 모아놓았습니다. 더 많은 테마는 다음 주소에서 찾으실 수 있습"
+#~ "니다: \n"
+#~ "http://forum.voodooprojects.org/index.php/board,7.0.html"
+
+#, fuzzy
+#~| msgid ""
+#~| "A collection of sample themes\n"
+#~| "More themes can be found at http://forum.voodooprojects.org/index.php/"
+#~| "board,7.0.html"
+#~ msgid "http://forum.voodooprojects.org/index.php/topic,754.0.html"
+#~ msgstr ""
+#~ "샘플 테마들을 모아놓았습니다. 더 많은 테마는 다음 주소에서 찾으실 수 있습"
+#~ "니다: \n"
+#~ "http://forum.voodooprojects.org/index.php/board,7.0.html"
+
+#, fuzzy
+#~| msgid ""
+#~| "A collection of sample themes\n"
+#~| "More themes can be found at http://forum.voodooprojects.org/index.php/"
+#~| "board,7.0.html"
+#~ msgid ""
+#~ "<span class=\"s2\">http://forum.voodooprojects.org/index.php/topic,754.0."
+#~ "html</span>"
+#~ msgstr ""
+#~ "샘플 테마들을 모아놓았습니다. 더 많은 테마는 다음 주소에서 찾으실 수 있습"
+#~ "니다: \n"
+#~ "http://forum.voodooprojects.org/index.php/board,7.0.html"

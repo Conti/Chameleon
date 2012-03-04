@@ -1,0 +1,1235 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Chameleon 2.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-03-04 10:37+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: zh_CN <zh_CN@li.org>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. type: Content of: <html><body><div><p>
+#: Resources/templates/Welcome.html:22
+#, fuzzy, no-wrap
+#| msgid "Chameleon Bootloader"
+msgid "Chameleon"
+msgstr "Chameleon"
+
+#. type: Content of: <html><body><div><p>
+#: Resources/templates/Welcome.html:23
+#, no-wrap
+msgid "v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
+msgstr ""
+
+#. type: Content of: <html><body><div><p>
+#: Resources/templates/Welcome.html:25
+#, no-wrap
+msgid "Do not install to an Apple Macintosh computer"
+msgstr ""
+
+#. type: Content of: <html><body><div><p>
+#: Resources/templates/Welcome.html:27
+#, no-wrap
+msgid "Developers :"
+msgstr ""
+
+#. type: Content of: <html><body><div><p>
+#: Resources/templates/Welcome.html:28
+#, no-wrap
+msgid "%DEVELOP%"
+msgstr ""
+
+#. type: Content of: <html><body><div><p>
+#: Resources/templates/Welcome.html:30
+#, no-wrap
+msgid "Thanks to :"
+msgstr ""
+
+#. type: Content of: <html><body><div><p>
+#: Resources/templates/Welcome.html:31
+#, no-wrap
+msgid "%CREDITS%"
+msgstr ""
+
+#. type: Content of: <html><body><div><p>
+#: Resources/templates/Welcome.html:33
+#, no-wrap
+msgid "Package :"
+msgstr ""
+
+#. type: Content of: <html><body><div><p>
+#: Resources/templates/Welcome.html:34
+#, no-wrap
+msgid "%PKGDEV%"
+msgstr ""
+
+#. type: Content of: <html><body><div><p>
+#: Resources/templates/Welcome.html:36 Resources/templates/Conclusion.html:30
+#, no-wrap
+msgid "Package built by: %WHOBUILD%, language translated by: blackosx"
+msgstr ""
+
+#. type: Content of: <html><body><div><p>
+#: Resources/templates/Welcome.html:37 Resources/templates/Conclusion.html:31
+#, no-wrap
+msgid "Copyright © %CPRYEAR%"
+msgstr ""
+
+#. type: Content of: <html><body><p>
+#: Resources/templates/Description.html:18
+#, no-wrap
+msgid "Chameleon is a boot loader built using a combination of components which evolved from the development of David Elliott's fake EFI implementation added to Apple's boot-132 project."
+msgstr ""
+
+#. type: Content of: <html><body><p>
+#: Resources/templates/Description.html:20
+#, no-wrap
+msgid "Chameleon v2 is extended with many features. For example:"
+msgstr ""
+
+#. type: Content of: <html><body><p>
+#: Resources/templates/Description.html:22
+#, no-wrap
+msgid "- Fully customizable GUI to bring some color to the Darwin Bootloader."
+msgstr ""
+
+#. type: Content of: <html><body><p>
+#: Resources/templates/Description.html:23
+#, no-wrap
+msgid "- Load a ramdisk to directly boot retail DVDs without additional programs."
+msgstr ""
+
+#. type: Content of: <html><body><p>
+#: Resources/templates/Description.html:24
+#, no-wrap
+msgid "- Hibernation. Enjoy resuming your Mac OS X with a preview image."
+msgstr ""
+
+#. type: Content of: <html><body><p>
+#: Resources/templates/Description.html:25
+#, no-wrap
+msgid "- SMBIOS override to modify the factory SMBIOS values."
+msgstr ""
+
+#. type: Content of: <html><body><p>
+#: Resources/templates/Description.html:26
+#, no-wrap
+msgid "- DSDT override to use a modified fixed DSDT which can solve several issues."
+msgstr ""
+
+#. type: Content of: <html><body><p>
+#: Resources/templates/Description.html:27
+#, no-wrap
+msgid "- Device Property Injection via device-properties string."
+msgstr ""
+
+#. type: Content of: <html><body><p>
+#: Resources/templates/Description.html:28
+#, no-wrap
+msgid "- hybrid boot0 / boot1h for MBR and GPT partitioned disks."
+msgstr ""
+
+#. type: Content of: <html><body><p>
+#: Resources/templates/Description.html:29
+#, no-wrap
+msgid "- Automatic FSB detection code even for recent AMD CPUs."
+msgstr ""
+
+#. type: Content of: <html><body><p>
+#: Resources/templates/Description.html:30
+#, no-wrap
+msgid "- Apple Software RAID support."
+msgstr ""
+
+#. type: Content of: <html><body><p>
+#: Resources/templates/Description.html:31
+#, no-wrap
+msgid "- Nvidia &amp; ATI/AMD Graphics Card Enabler."
+msgstr ""
+
+#. type: Content of: <html><body><p>
+#: Resources/templates/Description.html:32
+#, fuzzy, no-wrap
+#| msgid "Modules"
+msgid "- Module support"
+msgstr "模块选项"
+
+#. type: Content of: <html><body><p>
+#: Resources/templates/Description.html:33
+#, no-wrap
+msgid "- Memory detection adapted from memtest86:&nbsp;"
+msgstr ""
+
+#. type: Content of: <html><body><p>
+#: Resources/templates/Description.html:34
+#, no-wrap
+msgid "- Automatic P-State &amp; C-State generation for native power management."
+msgstr ""
+
+#. type: Content of: <html><body><p>
+#: Resources/templates/Description.html:35
+#, no-wrap
+msgid "- Message logging."
+msgstr ""
+
+#. type: Content of: <html><body><p>
+#: Resources/templates/Description.html:37
+#, no-wrap
+msgid "The code is released under version 2 of the Gnu Public License."
+msgstr ""
+
+#. type: Content of: <html><body><p><span>
+#: Resources/templates/Description.html:40
+#, no-wrap
+msgid "FAQ's:&nbsp;"
+msgstr ""
+
+#. type: Content of: <html><body><div><p>
+#: Resources/templates/Conclusion.html:22
+#, no-wrap
+msgid "The scripts have completed and a file named&nbsp;"
+msgstr ""
+
+#. type: Content of: <html><body><div><p><span>
+#: Resources/templates/Conclusion.html:22
+#, no-wrap
+msgid "@LOG_FILENAME@"
+msgstr ""
+
+#. type: Content of: <html><body><div><p>
+#: Resources/templates/Conclusion.html:23
+#, no-wrap
+msgid "&nbsp;has been written to the root of your chosen partition."
+msgstr ""
+
+#. type: Content of: <html><body><div><p>
+#: Resources/templates/Conclusion.html:25
+#, no-wrap
+msgid "Please&nbsp;"
+msgstr ""
+
+#. type: Content of: <html><body><div><p><span>
+#: Resources/templates/Conclusion.html:25
+#, no-wrap
+msgid "read it"
+msgstr ""
+
+#. type: Content of: <html><body><div><p>
+#: Resources/templates/Conclusion.html:26
+#, no-wrap
+msgid "&nbsp;to find out if the installation was successful and keep it for a record of what was done."
+msgstr ""
+
+#. type: Content of: <html><body><div><p>
+#: Resources/templates/Conclusion.html:28
+#, no-wrap
+msgid "Chameleon v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
+msgstr ""
+
+#. type: "Chameleon_Package_Title"
+#: Resources/templates/Localizable.strings:4
+#, fuzzy, no-wrap
+#| msgid "Chameleon Bootloader"
+msgid "Chameleon Bootloader Package"
+msgstr "Chameleon"
+
+#. type: "ERROR_BOOTVOL"
+#: Resources/templates/Localizable.strings:9
+#, no-wrap
+msgid "This software must be installed on the startup volume."
+msgstr "此软件必须安装在一个启动卷宗。"
+
+#. type: "ERROR_INSTALL"
+#: Resources/templates/Localizable.strings:10
+#, no-wrap
+msgid "This volume does not meet the requirements for this update."
+msgstr "此卷宗未符合此更新所需的要求。"
+
+#. type: "Newer_Package_Installed_message"
+#: Resources/templates/Localizable.strings:12
+#, no-wrap
+msgid "A newer version of Chameleon is already installed"
+msgstr "系统中已安装了一个较新版本的 Chameleon 。"
+
+#. type: "Intel_Mac_message"
+#: Resources/templates/Localizable.strings:13
+#, no-wrap
+msgid "This software cannot be installed on this computer."
+msgstr "此软件无法在此电脑上安装。"
+
+#. type: "Chameleon_title"
+#: Resources/templates/Localizable.strings:19
+#, no-wrap
+msgid "Chameleon Bootloader"
+msgstr "Chameleon"
+
+#. type: "Chameleon_description"
+#: Resources/templates/Localizable.strings:20
+#, no-wrap
+msgid ""
+"Chameleon requires three essential files. (in simple terms)\n"
+"boot0 (On the drive's MBR) responsible for loading boot1.\n"
+"boot1 (On the partition's boot-sector) to finding boot2.\n"
+"boot2 (On the partition's root directory) for loading kernel etc."
+msgstr ""
+"简而言之，变色龙需要三个必要的文件。\n"
+"boot0 (在硬盘的 MBR) 负责载入 boot1。\n"
+"boot1 (在分区的开机磁区 boot-sector) 搜寻 boot2。\n"
+"boot2 (在分区的根目录) 载入系统内核等等。"
+
+#. type: "Default_title"
+#: Resources/templates/Localizable.strings:25
+#: Resources/templates/Localizable.strings:239
+#, no-wrap
+msgid "Standard"
+msgstr "默认主题"
+
+#. type: "Standard_description"
+#: Resources/templates/Localizable.strings:26
+#, no-wrap
+msgid "Install Chameleon's files to the root of the selected partition using either boot0 or boot0md depending on your system without destroying any existing Windows installation if you have one."
+msgstr "此选项会安装三个必要文件，并依照您的系统需求将 boot0 或 boot0md 写入 MBR 的前 440 位元，以避免损坏任何已经存在的 Windows 机码。然后 boot0 会在第一个启动分区搜寻 boot1h，而 boot0md 可以在第二个硬盘的第一个启动分区搜寻 boot1h。"
+
+#. type: "noboot_title"
+#: Resources/templates/Localizable.strings:28
+#, no-wrap
+msgid "Don't install the Bootloader"
+msgstr "皆不安装"
+
+#. type: "noboot_description"
+#: Resources/templates/Localizable.strings:29
+#, no-wrap
+msgid "Useful if you only want to install the extra's."
+msgstr "不安装变色龙引导器 (适用于仅安装 Extra 组件)。"
+
+#. type: "Module_title"
+#: Resources/templates/Localizable.strings:35
+#, no-wrap
+msgid "Modules"
+msgstr "模块选项"
+
+#. type: "Module_description"
+#: Resources/templates/Localizable.strings:36
+#, no-wrap
+msgid "The modules system incorporated in chameleon allows for a user or developer to extend the core functionality of chameleon without replacing the main boot file."
+msgstr ""
+
+#. type: "klibc_title"
+#: Resources/templates/Localizable.strings:38
+#, no-wrap
+msgid "klibc"
+msgstr ""
+
+#. type: "klibc_description"
+#: Resources/templates/Localizable.strings:39
+#, no-wrap
+msgid ""
+"This module provides a standard c library for modules to link to if the library provided by chameleon is insufficient.\n"
+"This is currently only used by the uClibc++ library.\n"
+"Source: http://www.kernel.org/pub/linux/libs/klibc/"
+msgstr ""
+"模块安装位置 /Extra/modules/klibc.dylib\n"
+"此模块在 Chameleon 的 library 不敷使用时，可提供一个标准的 c library 给其他模块链结使用 。\n"
+"目前仅有 uClibc++ library 链结使用。\n"
+"源代码: http://www.kernel.org/pub/linux/libs/klibc/ "
+
+#. type: "Resolution_title"
+#: Resources/templates/Localizable.strings:43
+#: Resources/templates/Localizable.strings:267
+#, no-wrap
+msgid "Resolution"
+msgstr "分辨率设置"
+
+#. type: "AutoReso_description"
+#: Resources/templates/Localizable.strings:44
+#, no-wrap
+msgid ""
+"This module reads the edid information from the monitor attached to the main display.\n"
+"The module is currently not integrated into trunk and has minimal uses as it stands.\n"
+"Additionally, the module will patch the vesa modes available in pre intel hd graphics cards to provide proper resolution while booting."
+msgstr ""
+"模块安装位置 /Extra/modules/Resolution.dylib\n"
+"此模块会从连接的主要显示器中，读取其屏幕的 EDID 信息。\n"
+"这个模块目前并未整合到 trunk 版本内，而是采独立运作。\n"
+"另外，此模块会修正早期 Intel HD 显卡的 VESA 模式，可在开机引导時，采用正确的分辨率。"
+
+#. type: "uClibc_title"
+#: Resources/templates/Localizable.strings:48
+#, no-wrap
+msgid "uClibc++"
+msgstr ""
+
+#. type: "uClibc_description"
+#: Resources/templates/Localizable.strings:49
+#, no-wrap
+msgid ""
+"This module provides a minimalistic c++ runtime library for use in other modules. This does not provide functionality by itself, instead it is used to allow for the c++ language to be used in other modules.\n"
+"*Please note that rtti and exceptions has both been disabled.\n"
+"Source: http://cxx.uclibc.org/\n"
+"Dependencies: klibc"
+msgstr ""
+"模块安装位置 /Extra/modules/uClibcxx.dylib\n"
+"此模块提供一个精简的 c++ runtime library 给其他模块链结使用。\n"
+"模块本身不提供任何功能，而是用来允许其他模块可使用 c++ 语言。\n"
+"请注意 rtti 和 例外 都已被禁用。\n"
+"源代码: http://cxx.uclibc.org/\n"
+"依存: klibc "
+
+#. type: "Options_title"
+#: Resources/templates/Localizable.strings:58
+#, no-wrap
+msgid "Settings"
+msgstr "开机选项"
+
+#. type: "Options_description"
+#: Resources/templates/Localizable.strings:59
+#, no-wrap
+msgid "Create an /Extra/org.chameleon.Boot.plist by selecting any of these boot options and kernel flags."
+msgstr "创建 /Extra/org.chameleon.Boot.plist 及选用您需要的 Chameleon 开机选项及内核参数。"
+
+#. type: "BootBanner_title"
+#: Resources/templates/Localizable.strings:61
+#, no-wrap
+msgid "BootBanner=No"
+msgstr ""
+
+#. type: "BootBanner_description"
+#: Resources/templates/Localizable.strings:62
+#, no-wrap
+msgid "Hides Chameleon's boot banner in GUI. This is the text that is drawn at the top left corner of the screen displaying the release version etc."
+msgstr "(默认是 Yes) 隐藏 图形用户介面的 Chameleon 开机选单。"
+
+#. type: "GUI_title"
+#: Resources/templates/Localizable.strings:64
+#, no-wrap
+msgid "GUI=No"
+msgstr ""
+
+#. type: "GUI_description"
+#: Resources/templates/Localizable.strings:65
+#, no-wrap
+msgid "Disables the default enabled graphic user interface."
+msgstr "(默认是 Yes) 禁用 默认开启之图形用户介面。"
+
+#. type: "LegacyLogo_title"
+#: Resources/templates/Localizable.strings:67
+#, no-wrap
+msgid "LegacyLogo=Yes"
+msgstr ""
+
+#. type: "LegacyLogo_description"
+#: Resources/templates/Localizable.strings:68
+#, no-wrap
+msgid "Use the legacy 'dark grey' apple logo on the light grey screen for the boot process rather than the boot.png in the theme."
+msgstr "(默认是 No) 开机画面使用传统的 Apple Logo(白底灰苹果)，而不使用主题内所定义之 boot.png。"
+
+#. type: "InstantMenu_title"
+#: Resources/templates/Localizable.strings:70
+#, no-wrap
+msgid "InstantMenu=Yes"
+msgstr ""
+
+#. type: "InstantMenu_description"
+#: Resources/templates/Localizable.strings:71
+#, no-wrap
+msgid "By default, when Chameleon loads you'll see the icon for the current default partition, along with a timeout progress bar which left alone will count down before Chameleon automatically boots that partition. This options skips that and takes you directly to the device selection screen."
+msgstr "(默认是 No) 跳过倒数画面，直接显示分区开机选择画面。"
+
+#. type: "QuietBoot_title"
+#: Resources/templates/Localizable.strings:73
+#, no-wrap
+msgid "QuietBoot=Yes"
+msgstr ""
+
+#. type: "QuietBoot_description"
+#: Resources/templates/Localizable.strings:74
+#, no-wrap
+msgid "Enable quiet boot mode (no messages or prompt)."
+msgstr "(默认是 No) 启用静默开机模式(不会出现信息或提示)。"
+
+#. type: "ShowInfo_title"
+#: Resources/templates/Localizable.strings:76
+#, no-wrap
+msgid "ShowInfo=Yes"
+msgstr ""
+
+#. type: "ShowInfo_description"
+#: Resources/templates/Localizable.strings:77
+#, no-wrap
+msgid "Enables display of partition and resolution details shown on the left side of the GUI under the boot banner. This is useful information for troubleshooting, though can clash with certain themes."
+msgstr "(默认是 No) 启用 在开机图示选单左上方显示分区及分辨率的详细信息的功能。虽然会与一些背景主题发生冲突，在问题排除时，却是非常有用的信息。"
+
+#. type: "Wait_title"
+#: Resources/templates/Localizable.strings:79
+#, no-wrap
+msgid "Wait=Yes"
+msgstr ""
+
+#. type: "Wait_description"
+#: Resources/templates/Localizable.strings:80
+#, no-wrap
+msgid "Pauses the boot process after Chameleon has finished it's setup then waits for a key press before it starts the mach kernel. Useful when combined with verbose boot for troubleshooting."
+msgstr "(默认是 No) 在 Chameleon 载入完毕后暂停，并在 按任意键 后继续载入 mach kernel，适合问题排除时搭配 (-v) 啰唆模式开机一起使用。"
+
+#. type: "arch_title"
+#: Resources/templates/Localizable.strings:84
+#, no-wrap
+msgid "arch=i386"
+msgstr ""
+
+#. type: "arch_description"
+#: Resources/templates/Localizable.strings:85
+#, no-wrap
+msgid "Boots the kernel in 32bit mode rather than the default 64bit mode."
+msgstr "(默认是 64 位) 启用 32 位模式引导内核开机，而非默认的 64 位开机。"
+
+#. type: "EHCIacquire_title"
+#: Resources/templates/Localizable.strings:87
+#, no-wrap
+msgid "EHCIacquire=Yes"
+msgstr ""
+
+#. type: "EHCIacquire_description"
+#: Resources/templates/Localizable.strings:88
+#, no-wrap
+msgid "Enables the option to fix any EHCI ownership issues due to bad bioses."
+msgstr "(默认是 No) 启用 EHCI 修正功能，可修复任何不良 BIOS 造成的 EHCI 所有权问题。"
+
+#. type: "EthernetBuiltIn_title"
+#: Resources/templates/Localizable.strings:90
+#, no-wrap
+msgid "EthernetBuiltIn=Yes"
+msgstr ""
+
+#. type: "EthernetBuiltIn_description"
+#: Resources/templates/Localizable.strings:91
+#, no-wrap
+msgid "Enables the option of adding 'built-in' to your ethernet devices."
+msgstr "(默认是 No) 启用将以太网卡设置成‘内建’的功能。此功能只可让网卡识别为内建，并无驱动的功能。"
+
+#. type: "ForceHPET_title"
+#: Resources/templates/Localizable.strings:93
+#, no-wrap
+msgid "ForceHPET=Yes"
+msgstr ""
+
+#. type: "ForceHPET_description"
+#: Resources/templates/Localizable.strings:94
+#, no-wrap
+msgid "Enables HPET on intel chipsets, for bioses that dont include the option."
+msgstr "(默认是 No) 对 BIOS 中无 HPET 选项之 Intel 芯片组主板，强制开启 HPET 功能。"
+
+#. type: "ForceWake_title"
+#: Resources/templates/Localizable.strings:96
+#, no-wrap
+msgid "ForceWake=Yes"
+msgstr ""
+
+#. type: "ForceWake_description"
+#: Resources/templates/Localizable.strings:97
+#, no-wrap
+msgid "This option enables you to bypass bad sleep images."
+msgstr "(默认是 No) 启用强制覆盖睡眠资料映像功能，此选项可以覆盖并忽略不正确之休眠映像文件。"
+
+#. type: "RestartFix_title"
+#: Resources/templates/Localizable.strings:99
+#, no-wrap
+msgid "RestartFix=No"
+msgstr ""
+
+#. type: "RestartFix_description"
+#: Resources/templates/Localizable.strings:100
+#, no-wrap
+msgid "Disables the automatically enabled restart fix."
+msgstr "(默认是 Yes) 禁用 自动启用的重新开机修正功能 (Intel CPU 专用)。"
+
+#. type: "UHCIreset_title"
+#: Resources/templates/Localizable.strings:102
+#, no-wrap
+msgid "UHCIreset=Yes"
+msgstr ""
+
+#. type: "UHCIreset_description"
+#: Resources/templates/Localizable.strings:103
+#, no-wrap
+msgid "Enables the option to reset UHCI controllers before starting OS X."
+msgstr "(默认是 No) 启用 UHCI 修正功能。可在进入 OS X 之前，先重置 UHCI 控制器。"
+
+#. type: "UseMemDetect_title"
+#: Resources/templates/Localizable.strings:105
+#, no-wrap
+msgid "UseMemDetect=No"
+msgstr ""
+
+#. type: "UseMemDetect_description"
+#: Resources/templates/Localizable.strings:106
+#, no-wrap
+msgid "Disables the automatically enabled RAM recognition."
+msgstr "(默认是 Yes) 禁用 自动启用的内存识别功能。"
+
+#. type: "UseKernelCache_title"
+#: Resources/templates/Localizable.strings:108
+#, no-wrap
+msgid "UseKernelCache=Yes"
+msgstr ""
+
+#. type: "UseKernelCache_description"
+#: Resources/templates/Localizable.strings:109
+#, no-wrap
+msgid "For Lion only. Enables loading of the pre-linked kernel. This will ignore /E/E and /S/L/E. ONLY use this is you have know it contains everything you need."
+msgstr "(默认是 No) Lion 专用，选用 Yes 将载入预链接的 KernelCache，并忽略 /Extra/Extensions 和 /System/Library/Extensions 及 Extensions.mkext。建议在 KernelCache 已内含所有必要的驱动时，才启用。"
+
+#. type: "Wake_title"
+#: Resources/templates/Localizable.strings:111
+#, no-wrap
+msgid "Wake=Yes"
+msgstr ""
+
+#. type: "Wake_description"
+#: Resources/templates/Localizable.strings:112
+#, no-wrap
+msgid "Attempts to load the sleep image saved from last hibernation."
+msgstr "(默认是 No) 启用睡眠唤醒功能，尝试载入最后一次休眠时保存的睡眠映像。"
+
+#. type: "CSTUsingSystemIO_title"
+#: Resources/templates/Localizable.strings:116
+#, no-wrap
+msgid "CSTUsingSystemIO=Yes"
+msgstr ""
+
+#. type: "CSTUsingSystemIO_description"
+#: Resources/templates/Localizable.strings:117
+#, no-wrap
+msgid "New C-State _CST generation method using SystemIO registers instead of FixedHW."
+msgstr "(默认是 No) 采用 SystemIO registers 生成 C-States _CST 的新方法。(非原来的 FixedHW 方法)"
+
+#. type: "DropSSDT_title"
+#: Resources/templates/Localizable.strings:119
+#, no-wrap
+msgid "DropSSDT=Yes"
+msgstr ""
+
+#. type: "DropSSDT_description"
+#: Resources/templates/Localizable.strings:120
+#, no-wrap
+msgid "Discard the motherboard's built-in SSDT tables."
+msgstr "(默认是 No) 设置 Yes 忽略主板 BIOS 内建之 SSDT 表，可读取 Extra 文件夹中的 SSDT 资料。/Extra/SSDT.aml。"
+
+#. type: "EnableC2State_title"
+#: Resources/templates/Localizable.strings:122
+#, no-wrap
+msgid "EnableC2State=Yes"
+msgstr ""
+
+#. type: "EnableC2State_description"
+#: Resources/templates/Localizable.strings:123
+#, no-wrap
+msgid "Enable specific Processor power state, C2."
+msgstr "(默认是 No) 强制生成 C2 State 为管理 CPU 电源状态，可以让 CPU 在闲置状态下处于低功耗状态。一般来说数字越大其节能效果愈佳。"
+
+#. type: "EnableC3State_title"
+#: Resources/templates/Localizable.strings:125
+#, no-wrap
+msgid "EnableC3State=Yes"
+msgstr ""
+
+#. type: "EnableC3State_description"
+#: Resources/templates/Localizable.strings:126
+#, no-wrap
+msgid "Enable specific Processor power state, C3."
+msgstr "(默认是 No) 强制生成 C3 State 为管理 CPU 电源状态，可以让 CPU 在闲置状态下处于低功耗状态。一般来说数字越大其节能效果愈佳。"
+
+#. type: "EnableC4State_title"
+#: Resources/templates/Localizable.strings:128
+#, no-wrap
+msgid "EnableC4State=Yes"
+msgstr ""
+
+#. type: "EnableC4State_description"
+#: Resources/templates/Localizable.strings:129
+#, no-wrap
+msgid "Enable specific Processor power state, C4."
+msgstr "(默认是 No) 强制生成 C4 State 为管理 CPU 电源状态，可以让 CPU 在闲置状态下处于低功耗状态。一般来说数字越大其节能效果愈佳。"
+
+#. type: "GenerateCStates_title"
+#: Resources/templates/Localizable.strings:131
+#, no-wrap
+msgid "GenerateCStates=Yes"
+msgstr ""
+
+#. type: "GenerateCStates_description"
+#: Resources/templates/Localizable.strings:132
+#, no-wrap
+msgid "Enable auto generation of processor idle sleep states (C-States)."
+msgstr "(默认是 No) 启用自动生成 CPU 闲置休眠状态的功能 (C-States)，管理 CPU 电源状态，可以让 CPU 在闲置状态下处于不同低功耗状态。"
+
+#. type: "GeneratePStates_title"
+#: Resources/templates/Localizable.strings:134
+#, no-wrap
+msgid "GeneratePStates=Yes"
+msgstr ""
+
+#. type: "GeneratePStates_description"
+#: Resources/templates/Localizable.strings:135
+#, no-wrap
+msgid "Enable auto generation of processor power performance states (P-States)."
+msgstr "(默认是 No) 启用自动生成 CPU 功耗表现状态的功能 (P-States)，管理 CPU 性能状态，可以让 CPU 在不同负载量下改变功耗。"
+
+#. type: "1024x600x32_title"
+#: Resources/templates/Localizable.strings:139
+#, no-wrap
+msgid "1024x600x32"
+msgstr ""
+
+#. type: "1024x600x32_description"
+#: Resources/templates/Localizable.strings:140
+#, no-wrap
+msgid "Set Graphics Mode to 1024x600x32"
+msgstr "设置显示器分辨率为 1024x600x32"
+
+#. type: "1024x768x32_title"
+#: Resources/templates/Localizable.strings:142
+#, no-wrap
+msgid "1024x768x32"
+msgstr ""
+
+#. type: "1024x768x32_description"
+#: Resources/templates/Localizable.strings:143
+#, no-wrap
+msgid "Set Graphics Mode to 1024x768x32"
+msgstr "设置显示器分辨率为 1024x768x32"
+
+#. type: "1280x768x32_title"
+#: Resources/templates/Localizable.strings:145
+#, no-wrap
+msgid "1280x768x32"
+msgstr ""
+
+#. type: "1280x768x32_description"
+#: Resources/templates/Localizable.strings:146
+#, no-wrap
+msgid "Set Graphics Mode to 1280x768x32"
+msgstr "设置显示器分辨率为 1280x768x32"
+
+#. type: "1280x800x32_title"
+#: Resources/templates/Localizable.strings:148
+#, no-wrap
+msgid "1280x800x32"
+msgstr ""
+
+#. type: "1280x800x32_description"
+#: Resources/templates/Localizable.strings:149
+#, no-wrap
+msgid "Set Graphics Mode to 1280x800x32"
+msgstr "设置显示器分辨率为 1280x800x32"
+
+#. type: "1280x1024x32_title"
+#: Resources/templates/Localizable.strings:151
+#, no-wrap
+msgid "1280x1024x32"
+msgstr ""
+
+#. type: "1280x1024x32_description"
+#: Resources/templates/Localizable.strings:152
+#, no-wrap
+msgid "Set Graphics Mode to 1280x1024x32"
+msgstr "设置显示器分辨率为 1280x1024x32"
+
+#. type: "1280x960x32_title"
+#: Resources/templates/Localizable.strings:154
+#, no-wrap
+msgid "1280x960x32"
+msgstr ""
+
+#. type: "1280x960x32_description"
+#: Resources/templates/Localizable.strings:155
+#, no-wrap
+msgid "Set Graphics Mode to 1280x960x32"
+msgstr "设置显示器分辨率为 1280x960x32"
+
+#. type: "1440x900x32_title"
+#: Resources/templates/Localizable.strings:157
+#, no-wrap
+msgid "1440x900x32"
+msgstr ""
+
+#. type: "1440x900x32_description"
+#: Resources/templates/Localizable.strings:158
+#, no-wrap
+msgid "Set Graphics Mode to 1440x900x32"
+msgstr "设置显示器分辨率为 1440x900x32"
+
+#. type: "1600x900x32_title"
+#: Resources/templates/Localizable.strings:160
+#, no-wrap
+msgid "1600x900x32"
+msgstr ""
+
+#. type: "1600x900x32_description"
+#: Resources/templates/Localizable.strings:161
+#, no-wrap
+msgid "Set Graphics Mode to 1600x900x32"
+msgstr "设置显示器分辨率为 1600x900x32"
+
+#. type: "1680x1050x32_title"
+#: Resources/templates/Localizable.strings:163
+#, no-wrap
+msgid "1680x1050x32"
+msgstr ""
+
+#. type: "1680x1050x32_description"
+#: Resources/templates/Localizable.strings:164
+#, no-wrap
+msgid "Set Graphics Mode to 1680x1050x32"
+msgstr "设置显示器分辨率为 1680x1050x32"
+
+#. type: "1920x1080x32_title"
+#: Resources/templates/Localizable.strings:166
+#, no-wrap
+msgid "1920x1080x32"
+msgstr ""
+
+#. type: "1920x1080x32_description"
+#: Resources/templates/Localizable.strings:167
+#, no-wrap
+msgid "Set Graphics Mode to 1920x1080x32"
+msgstr "设置显示器分辨率为 1920x1080x32"
+
+#. type: "1920x1200x32_title"
+#: Resources/templates/Localizable.strings:169
+#, no-wrap
+msgid "1920x1200x32"
+msgstr ""
+
+#. type: "1920x1200x32_description"
+#: Resources/templates/Localizable.strings:170
+#, no-wrap
+msgid "Set Graphics Mode to 1920x1200x32"
+msgstr "设置显示器分辨率为 1920x1200x32"
+
+#. type: "GraphicsEnabler_title"
+#: Resources/templates/Localizable.strings:174
+#, no-wrap
+msgid "GraphicsEnabler=Yes"
+msgstr ""
+
+#. type: "GraphicsEnabler_description"
+#: Resources/templates/Localizable.strings:175
+#, no-wrap
+msgid "Enables the option to autodetect NVIDIA based GPUs and inject the correct info."
+msgstr "(默认是 No) 启用显卡侦测功能。自动识别 显卡 GPU 并注入正确的设备属性信息。"
+
+#. type: "UseAtiROM_title"
+#: Resources/templates/Localizable.strings:177
+#, no-wrap
+msgid "UseAtiROM=Yes"
+msgstr ""
+
+#. type: "UseAtiROM_description"
+#: Resources/templates/Localizable.strings:178
+#, no-wrap
+msgid "Enables UseAtiROM options."
+msgstr "(默认是 No) 启用 ATI EEPRom 功能，可在不刷显卡 BIOS 的情况下使用修改的 Rom。请命名为 “VenderID_DeviceID_SubsysID.rom” 放置 Extra 文件夹。如：/Extra/1002_68C1_FD501179.rom。"
+
+#. type: "UseNvidiaROM_title"
+#: Resources/templates/Localizable.strings:180
+#, no-wrap
+msgid "UseNvidiaROM=Yes"
+msgstr ""
+
+#. type: "UseNvidiaROM_description"
+#: Resources/templates/Localizable.strings:181
+#, no-wrap
+msgid "Enables UseNvidiaROM options."
+msgstr "(默认是 No) 启用 Nvidia EEPRom 功能，可在不刷显卡 BIOS 的情况下使用修改的 Rom。请命名为 “VenderID_DeviceID.rom” 放置 Extra 文件夹。如：/Extra/10de_0614.rom。"
+
+#. type: "VBIOS_title"
+#: Resources/templates/Localizable.strings:183
+#, no-wrap
+msgid "VBIOS=Yes"
+msgstr ""
+
+#. type: "VBIOS_description"
+#: Resources/templates/Localizable.strings:184
+#, no-wrap
+msgid "Enables VBIOS option"
+msgstr "(默认是 No) 启用 Nvidia VBIOS 功能。仅针对 Nvidia 显卡的参数选项，ATI 显卡请勿使用。启用读取显卡参数，可在显卡信息中显示 ROM 修正版 信息。"
+
+#. type: "Verbose_title"
+#: Resources/templates/Localizable.strings:189
+#, no-wrap
+msgid "Verbose Mode"
+msgstr "-v 啰唆模式"
+
+#. type: "Verbose_description"
+#: Resources/templates/Localizable.strings:190
+#, no-wrap
+msgid "Turns on verbose logging and allows you to see messages from both Chameleon and the OS X kernel at boot time. Essential for troubleshooting."
+msgstr "使用 (-v) 啰唆模式进入，允许您在显示器上读取 变色龙 和 OS X 内核 两者在开机时产生的纪录信息。这是在开机时排除问题的基本用法。"
+
+#. type: "Singleusermode_title"
+#: Resources/templates/Localizable.strings:192
+#, no-wrap
+msgid "Single User Mode"
+msgstr "-s 单用户模式"
+
+#. type: "Singleusermode_description"
+#: Resources/templates/Localizable.strings:193
+#, no-wrap
+msgid "A troubleshooting option used for booting into OS X's BSD/Unix command line."
+msgstr "使用 (-s) 单用户模式进入，在排除问题时，可于在开机使用 (-s) 进入 OS X 的 BSD/Unix 命令模式。"
+
+#. type: "Ignorecaches_title"
+#: Resources/templates/Localizable.strings:195
+#, no-wrap
+msgid "Ignore Caches"
+msgstr "-f 忽略 Caches"
+
+#. type: "Ignorecaches_description"
+#: Resources/templates/Localizable.strings:196
+#, no-wrap
+msgid "Not an option that's needed for everyday booting, but it can be useful if you want OS X to load all files from it's system folders, rather than relying on it's pre-built caches."
+msgstr "使用 (-f) 忽略 Caches 模式进入，并非每日开机必备的的选项，但可经由忽略预制的 Caches ，以使 OS X 可以重新载入所有位于系统目录的 kext 文件。"
+
+#. type: "Npci_title"
+#: Resources/templates/Localizable.strings:198
+#, no-wrap
+msgid "npci=0x2000"
+msgstr ""
+
+#. type: "Npci_description"
+#: Resources/templates/Localizable.strings:199
+#, no-wrap
+msgid "For overcoming a hang at 'PCI configuration begin' on some systems. 0x2000 is the kIOPCIConfiguratorPFM64 flag, as seen in the IOPCIFamily source code."
+msgstr "可在某些系统上排除 'PCI configuration begin' 的错误。0x2000 是 kIOPCIConfiguratorPFM64 flag，可在 IOPCIFamily 的 source code 中找到相关信息。"
+
+#. type: "Npci3_title"
+#: Resources/templates/Localizable.strings:201
+#, no-wrap
+msgid "npci=0x3000"
+msgstr ""
+
+#. type: "Npci3_description"
+#: Resources/templates/Localizable.strings:202
+#, no-wrap
+msgid "For overcoming a hang at 'PCI configuration begin' on some systems. 0x3000 is the kIOPCIConfiguratorPFM64 flag, as seen in the IOPCIFamily source code."
+msgstr "可在某些系统上排除 'PCI configuration begin' 的错误。0x3000 是 kIOPCIConfiguratorPFM64 flag，可在 IOPCIFamily 的 source code 中找到相关信息。"
+
+#. type: "Darkwake_title"
+#: Resources/templates/Localizable.strings:204
+#, no-wrap
+msgid "darkwake=0"
+msgstr ""
+
+#. type: "Darkwake_description"
+#: Resources/templates/Localizable.strings:205
+#, no-wrap
+msgid "Lion only. Disables the 'low power wake' feature which can sometimes leave the screen black after wake from sleep."
+msgstr "Lion 专用。禁用 'low power wake' 的功能，在显示器睡眠唤醒之后，有时可能会发生显示器黑屏的状况。"
+
+#. type: "mac-de_title"
+#: Resources/templates/Localizable.strings:211
+#, no-wrap
+msgid "German Mac Keyboard"
+msgstr "德语 Mac 键盘布局"
+
+#. type: "mac-de_description"
+#: Resources/templates/Localizable.strings:212
+#, no-wrap
+msgid "Use the keyboard layout for a German Mac keyboard"
+msgstr "使用德国的 Mac 键盘的键盘布局"
+
+#. type: "mac-es_title"
+#: Resources/templates/Localizable.strings:214
+#, no-wrap
+msgid "Spanish Mac Keyboard"
+msgstr "西班牙语 Mac 键盘布局"
+
+#. type: "mac-es_description"
+#: Resources/templates/Localizable.strings:215
+#, no-wrap
+msgid "Use the keyboard layout for a Spanish Mac keyboard"
+msgstr "使用西班牙的 Mac 键盘的键盘布局"
+
+#. type: "mac-fr_title"
+#: Resources/templates/Localizable.strings:217
+#, no-wrap
+msgid "French Mac Keyboard"
+msgstr "法语 Mac 键盘布局"
+
+#. type: "mac-fr_description"
+#: Resources/templates/Localizable.strings:218
+#, no-wrap
+msgid "Use the keyboard layout for a French Mac keyboard"
+msgstr "使用法国的 Mac 键盘的键盘布局"
+
+#. type: "mac-it_title"
+#: Resources/templates/Localizable.strings:220
+#, no-wrap
+msgid "Italian Mac Keyboard"
+msgstr "意大利语 Mac 键盘布局"
+
+#. type: "mac-it_description"
+#: Resources/templates/Localizable.strings:221
+#, no-wrap
+msgid "Use the keyboard layout for an Italian Mac keyboard"
+msgstr "使用意大利的 Mac 键盘的键盘布局"
+
+#. type: "mac-se_title"
+#: Resources/templates/Localizable.strings:223
+#, no-wrap
+msgid "Swedish Mac Keyboard"
+msgstr "瑞典语 Mac 键盘布局"
+
+#. type: "mac-se_description"
+#: Resources/templates/Localizable.strings:224
+#, no-wrap
+msgid "Use the keyboard layout for a Swedish Mac keyboard"
+msgstr "使用瑞典的 Mac 键盘的键盘布局"
+
+#. type: "pc-fr_title"
+#: Resources/templates/Localizable.strings:226
+#, no-wrap
+msgid "French PC Keyboard"
+msgstr "法语 PC 键盘布局"
+
+#. type: "pc-fr_description"
+#: Resources/templates/Localizable.strings:227
+#, no-wrap
+msgid "Use the keyboard layout for a French PC keyboard"
+msgstr "使用法国的 PC 键盘的键盘布局"
+
+#. type: "Embed_title"
+#: Resources/templates/Localizable.strings:233
+#, no-wrap
+msgid "Embed"
+msgstr "内崁主题"
+
+#. type: "Embed_description"
+#: Resources/templates/Localizable.strings:234
+#, no-wrap
+msgid "A smaller simple version of the new default theme used when building a version of Chameleon which requires an embedded theme."
+msgstr "Embed：小而简单且可于编译 boot 时，内崁在 Chameleon 里的主题."
+
+#. type: "Legacy_title"
+#: Resources/templates/Localizable.strings:236
+#, no-wrap
+msgid "Legacy"
+msgstr "传统主题"
+
+#. type: "Legacy_description"
+#: Resources/templates/Localizable.strings:237
+#, no-wrap
+msgid "Chameleon's original default theme introduced for v2.0 RC1"
+msgstr "Legacy：Chameleon v2.0 RC1 的原始默认主题."
+
+#. type: "Default_description"
+#: Resources/templates/Localizable.strings:240
+#, no-wrap
+msgid "Chameleon default theme introduced for v2.0 RC5"
+msgstr "Default：Chameleon v2.0 RC5 的新版默认主题."
+
+#. type: "Bullet_title"
+#: Resources/templates/Localizable.strings:242
+#, no-wrap
+msgid "Bullet"
+msgstr "子弹主题"
+
+#. type: "Bullet_description"
+#: Resources/templates/Localizable.strings:243
+#, no-wrap
+msgid "A lovely simple theme by NoSmokingBandit from April 2009."
+msgstr "Bullet：来自 NoSmokingBandit 2009.4 的一个小巧可爱的子弹主题."
+
+#. type: "Control_title"
+#: Resources/templates/Localizable.strings:251
+#, no-wrap
+msgid "Control Options"
+msgstr "控制选项"
+
+#. type: "Control_description"
+#: Resources/templates/Localizable.strings:252
+#, no-wrap
+msgid "Settings to control how Chameleon works."
+msgstr "设置控制 Chameleon 的运作方式。"
+
+#. type: "General_title"
+#: Resources/templates/Localizable.strings:255
+#, no-wrap
+msgid "General Options"
+msgstr "一般选项"
+
+#. type: "General_description"
+#: Resources/templates/Localizable.strings:256
+#, no-wrap
+msgid "Choose from a selection of base options."
+msgstr "选取一些基本的选项。"
+
+#. type: "KernelFlags_title"
+#: Resources/templates/Localizable.strings:259
+#, no-wrap
+msgid "Kernel Flags"
+msgstr "内核参数"
+
+#. type: "KernelFlags_description"
+#: Resources/templates/Localizable.strings:260
+#, no-wrap
+msgid "Choose from a selection of kernel flags."
+msgstr "选取有关 kernel flags 的各种内核参数设置。另可于开机时，键入以下命令配合使用。"
+
+#. type: "PowerManagement_title"
+#: Resources/templates/Localizable.strings:263
+#, no-wrap
+msgid "Power Management"
+msgstr "电源管理"
+
+#. type: "PowerManagement_description"
+#: Resources/templates/Localizable.strings:264
+#, no-wrap
+msgid "A selection of options that deal with power management and speedstep."
+msgstr "一些设置电源管理和 speedstep 的选项。"
+
+#. type: "Resolution_description"
+#: Resources/templates/Localizable.strings:268
+#, no-wrap
+msgid "Set one resolution to use."
+msgstr ""
+
+#. type: "Video_title"
+#: Resources/templates/Localizable.strings:271
+#, no-wrap
+msgid "Video"
+msgstr "显卡选项"
+
+#. type: "Video_description"
+#: Resources/templates/Localizable.strings:272
+#, no-wrap
+msgid "A selection of options that deal with video."
+msgstr "一些设置显卡的选项。"
+
+#. type: "Keymaps_title"
+#: Resources/templates/Localizable.strings:275
+#, no-wrap
+msgid "KeyLayout"
+msgstr "键盘布局"
+
+#. type: "Keymaps_description"
+#: Resources/templates/Localizable.strings:276
+#, no-wrap
+msgid "Select one keylayout to use. This will also install the Keylayout module and keymaps."
+msgstr ""
+
+#. type: "Themes_title"
+#: Resources/templates/Localizable.strings:279
+#, no-wrap
+msgid "Themes"
+msgstr "主题选项"
+
+#. type: "Themes_description"
+#: Resources/templates/Localizable.strings:280
+#, no-wrap
+msgid ""
+"A collection of sample themes\n"
+"More themes can be found at http://forum.voodooprojects.org/index.php/board,7.0.html"
+msgstr ""
+"选集的一些主题范例。\n"
+"可在 http://forum.voodooprojects.org/index.php/board,7.0.html 找到更多的主题。"
+
+#~ msgid "Install Type"
+#~ msgstr "安装类型"
+
+#~ msgid "Choose to perform a new installation or upgrade an existing installation."
+#~ msgstr "选择进行全新安装或更新安装。"
+
+#~ msgid "New Installation"
+#~ msgstr "全新安装"
+
+#~ msgid "Backup an existing /Extra folder, if found on the target partition. A new one will be created if any options are chosen from the installer, other than the Bootloader."
+#~ msgstr "备份目标分区已存在的 /Extra 目录。如果选取 boot 以外的其他安装选项，将备份原有的 /Extra 设置文件，并建立新的 /Extra 设置文件。"
+
+#~ msgid "Upgrade"
+#~ msgstr "更新安装"
+
+#~ msgid "Merge an existing /Extra folder, if found on the target, with any options chosen from the installer, other than the Bootloader. The original /Extra folder will be backed up."
+#~ msgstr "合并目标分区已存在的 /Extra 目录。如果选取 boot 以外的其他安装选项，将合并原有的 /Extra 设置文件。"
+
+#~ msgid "EFI"
+#~ msgstr "EFI 安装"
+
+#~ msgid "Install Chameleon's files to the normally hidden EFI system partition using either boot0 or boot0md depending on your system and without destroying any existing Windows installation if you have one."
+#~ msgstr "此选项会安装三个必要文件到正常隐藏的 EFI 分区，并依照您的系统需求将 boot0 或 boot0md 写入 MBR 的前 440 位元，以避免损坏任何已经存在的 Windows 机码。然后 boot0 会在第一个启动分区搜寻 boot1h，而 boot0md 可以在第二个硬盘的第一个启动分区搜寻 boot1h。"
+
+#~ msgid "This module permits the user to define the keyboard key mappings. This module and associated keymaps are installed by default."
+#~ msgstr ""
+#~ "模块安装位置 /Extra/modules/Keylayout.dylib\n"
+#~ "键盘布局，此模块允许用户定义键盘按键的映射。"
+
+#~ msgid "Utilities"
+#~ msgstr "工具选项"
+
+#~ msgid "Optional files to help setup"
+#~ msgstr "协助安装设置的文件。"
+
+#~ msgid "Preference Panel"
+#~ msgstr "系统偏好设置面板"
+
+#~ msgid "Installs Preference Panel for Chameleon."
+#~ msgstr "安装 Chameleon 系统偏好设置面板。"
+
+#~ msgid "Documentation"
+#~ msgstr "说明文件"
+
+#~ msgid "Documentation for Chameleon manual install and use"
+#~ msgstr "Chameleon 手动安装及使用的说明文件。"
+
+#~ msgid "None"
+#~ msgstr "不安装"
+
+#~ msgid "Don't choose a resolution."
+#~ msgstr "不选取安装任何显示器分辨率。"
+
+#~ msgid "Don't choose a keylayout."
+#~ msgstr "不选取安装任何键盘布局。"
+
+#, fuzzy
+#~| msgid ""
+#~| "A collection of sample themes\n"
+#~| "More themes can be found at http://forum.voodooprojects.org/index.php/"
+#~| "board,7.0.html"
+#~ msgid "http://forge.voodooprojects.org/p/chameleon"
+#~ msgstr ""
+#~ "选集的一些主题范例。\n"
+#~ "可在 http://forum.voodooprojects.org/index.php/board,7.0.html 找到更多的主"
+#~ "题。"
+
+#, fuzzy
+#~| msgid ""
+#~| "A collection of sample themes\n"
+#~| "More themes can be found at http://forum.voodooprojects.org/index.php/"
+#~| "board,7.0.html"
+#~ msgid "http://forum.voodooprojects.org/index.php/topic,754.0.html"
+#~ msgstr ""
+#~ "选集的一些主题范例。\n"
+#~ "可在 http://forum.voodooprojects.org/index.php/board,7.0.html 找到更多的主"
+#~ "题。"
+
+#, fuzzy
+#~| msgid ""
+#~| "A collection of sample themes\n"
+#~| "More themes can be found at http://forum.voodooprojects.org/index.php/"
+#~| "board,7.0.html"
+#~ msgid ""
+#~ "<span class=\"s2\">http://forum.voodooprojects.org/index.php/topic,754.0."
+#~ "html</span>"
+#~ msgstr ""
+#~ "选集的一些主题范例。\n"
+#~ "可在 http://forum.voodooprojects.org/index.php/board,7.0.html 找到更多的主"
+#~ "题。"

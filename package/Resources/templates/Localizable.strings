@@ -1,0 +1,281 @@
+﻿// ============================================================================
+// Package
+// ----------------------------------------------------------------------------
+"Chameleon_Package_Title" = "Chameleon Bootloader Package";
+
+// ============================================================================
+// Error strings
+// ----------------------------------------------------------------------------
+"ERROR_BOOTVOL" = "This software must be installed on the startup volume.";
+"ERROR_INSTALL" = "This volume does not meet the requirements for this update.";
+
+"Newer_Package_Installed_message" = "A newer version of Chameleon is already installed";
+"Intel_Mac_message" = "This software cannot be installed on this computer.";
+
+
+// ============================================================================
+// Bootloader
+// ----------------------------------------------------------------------------
+"Chameleon_title" = "Chameleon Bootloader";
+"Chameleon_description" = "Chameleon requires three essential files. (in simple terms)
+boot0 (On the drive's MBR) responsible for loading boot1.
+boot1 (On the partition's boot-sector) to finding boot2.
+boot2 (On the partition's root directory) for loading kernel etc.";
+
+"Standard_title" = "Standard";
+"Standard_description" = "Install Chameleon's files to the root of the selected partition using either boot0 or boot0md depending on your system without destroying any existing Windows installation if you have one.";
+
+"noboot_title" = "Don't install the Bootloader";
+"noboot_description" = "Useful if you only want to install the extra's.";
+
+
+// ============================================================================
+// Modules
+// ----------------------------------------------------------------------------
+"Module_title" = "Modules";
+"Module_description" = "The modules system incorporated in chameleon allows for a user or developer to extend the core functionality of chameleon without replacing the main boot file.";
+
+"klibc_title" = "klibc";
+"klibc_description" = "This module provides a standard c library for modules to link to if the library provided by chameleon is insufficient.
+This is currently only used by the uClibc++ library.
+Source: http://www.kernel.org/pub/linux/libs/klibc/";
+
+"AutoReso_title" = "Resolution";
+"AutoReso_description" = "This module reads the edid information from the monitor attached to the main display.
+The module is currently not integrated into trunk and has minimal uses as it stands.
+Additionally, the module will patch the vesa modes available in pre intel hd graphics cards to provide proper resolution while booting.";
+
+"uClibc_title" = "uClibc++";
+"uClibc_description" = "This module provides a minimalistic c++ runtime library for use in other modules. This does not provide functionality by itself, instead it is used to allow for the c++ language to be used in other modules.
+*Please note that rtti and exceptions has both been disabled.
+Source: http://cxx.uclibc.org/
+Dependencies: klibc";
+
+// ============================================================================
+// Boot Options - The follow options are split to match the layout OptionalSettings text files.
+// but they can be changed to suit however anyone wants to do it.
+// ----------------------------------------------------------------------------
+"Options_title" = "Settings";
+"Options_description" = "Create an /Extra/org.chameleon.Boot.plist by selecting any of these boot options and kernel flags.";
+
+"BootBanner_title" = "BootBanner=No";
+"BootBanner_description" = "Hides Chameleon's boot banner in GUI. This is the text that is drawn at the top left corner of the screen displaying the release version etc.";
+
+"GUI_title" = "GUI=No";
+"GUI_description" = "Disables the default enabled graphic user interface.";
+
+"LegacyLogo_title" = "LegacyLogo=Yes";
+"LegacyLogo_description" = "Use the legacy 'dark grey' apple logo on the light grey screen for the boot process rather than the boot.png in the theme.";
+
+"InstantMenu_title" = "InstantMenu=Yes";
+"InstantMenu_description" = "By default, when Chameleon loads you'll see the icon for the current default partition, along with a timeout progress bar which left alone will count down before Chameleon automatically boots that partition. This options skips that and takes you directly to the device selection screen.";
+
+"QuietBoot_title" = "QuietBoot=Yes";
+"QuietBoot_description" = "Enable quiet boot mode (no messages or prompt).";
+
+"ShowInfo_title" = "ShowInfo=Yes";
+"ShowInfo_description" = "Enables display of partition and resolution details shown on the left side of the GUI under the boot banner. This is useful information for troubleshooting, though can clash with certain themes.";
+
+"Wait_title" = "Wait=Yes";
+"Wait_description" = "Pauses the boot process after Chameleon has finished it's setup then waits for a key press before it starts the mach kernel. Useful when combined with verbose boot for troubleshooting.";
+
+// ----------------------------------------------------------------------------
+
+"arch_title" = "arch=i386";
+"arch_description" = "Boots the kernel in 32bit mode rather than the default 64bit mode.";
+
+"EHCIacquire_title" = "EHCIacquire=Yes";
+"EHCIacquire_description" = "Enables the option to fix any EHCI ownership issues due to bad bioses.";
+
+"EthernetBuiltIn_title" = "EthernetBuiltIn=Yes";
+"EthernetBuiltIn_description" = "Enables the option of adding 'built-in' to your ethernet devices.";
+
+"ForceHPET_title" = "ForceHPET=Yes";
+"ForceHPET_description" = "Enables HPET on intel chipsets, for bioses that dont include the option.";
+
+"ForceWake_title" = "ForceWake=Yes";
+"ForceWake_description" = "This option enables you to bypass bad sleep images.";
+
+"RestartFix_title" = "RestartFix=No";
+"RestartFix_description" = "Disables the automatically enabled restart fix.";
+
+"UHCIreset_title" = "UHCIreset=Yes";
+"UHCIreset_description" = "Enables the option to reset UHCI controllers before starting OS X.";
+
+"UseMemDetect_title" = "UseMemDetect=No";
+"UseMemDetect_description" = "Disables the automatically enabled RAM recognition.";
+
+"UseKernelCache_title" = "UseKernelCache=Yes";
+"UseKernelCache_description" = "For Lion only. Enables loading of the pre-linked kernel. This will ignore /E/E and /S/L/E. ONLY use this is you have know it contains everything you need.";
+
+"Wake_title" = "Wake=Yes";
+"Wake_description" = "Attempts to load the sleep image saved from last hibernation.";
+
+// ----------------------------------------------------------------------------
+
+"CSTUsingSystemIO_title" = "CSTUsingSystemIO=Yes";
+"CSTUsingSystemIO_description" = "New C-State _CST generation method using SystemIO registers instead of FixedHW.";
+
+"DropSSDT_title" = "DropSSDT=Yes";
+"DropSSDT_description" = "Discard the motherboard's built-in SSDT tables.";
+
+"EnableC2State_title" = "EnableC2State=Yes";
+"EnableC2State_description" = "Enable specific Processor power state, C2.";
+
+"EnableC3State_title" = "EnableC3State=Yes";
+"EnableC3State_description" = "Enable specific Processor power state, C3.";
+
+"EnableC4State_title" = "EnableC4State=Yes";
+"EnableC4State_description" = "Enable specific Processor power state, C4.";
+
+"GenerateCStates_title" = "GenerateCStates=Yes";
+"GenerateCStates_description" = "Enable auto generation of processor idle sleep states (C-States).";
+
+"GeneratePStates_title" = "GeneratePStates=Yes";
+"GeneratePStates_description" = "Enable auto generation of processor power performance states (P-States).";
+
+// ----------------------------------------------------------------------------
+
+"1024x600x32_title" = "1024x600x32";
+"1024x600x32_description" = "Set Graphics Mode to 1024x600x32";
+
+"1024x768x32_title" = "1024x768x32";
+"1024x768x32_description" = "Set Graphics Mode to 1024x768x32";
+
+"1280x768x32_title" = "1280x768x32";
+"1280x768x32_description" = "Set Graphics Mode to 1280x768x32";
+
+"1280x800x32_title" = "1280x800x32";
+"1280x800x32_description" = "Set Graphics Mode to 1280x800x32";
+
+"1280x1024x32_title" = "1280x1024x32";
+"1280x1024x32_description" = "Set Graphics Mode to 1280x1024x32";
+
+"1280x960x32_title" = "1280x960x32";
+"1280x960x32_description" = "Set Graphics Mode to 1280x960x32";
+
+"1440x900x32_title" = "1440x900x32";
+"1440x900x32_description" = "Set Graphics Mode to 1440x900x32";
+
+"1600x900x32_title" = "1600x900x32";
+"1600x900x32_description" = "Set Graphics Mode to 1600x900x32";
+
+"1680x1050x32_title" = "1680x1050x32";
+"1680x1050x32_description" = "Set Graphics Mode to 1680x1050x32";
+
+"1920x1080x32_title" = "1920x1080x32";
+"1920x1080x32_description" = "Set Graphics Mode to 1920x1080x32";
+
+"1920x1200x32_title" = "1920x1200x32";
+"1920x1200x32_description" = "Set Graphics Mode to 1920x1200x32";
+
+// ----------------------------------------------------------------------------
+
+"GraphicsEnabler_title" = "GraphicsEnabler=Yes";
+"GraphicsEnabler_description" = "Enables the option to autodetect NVIDIA based GPUs and inject the correct info.";
+
+"UseAtiROM_title" = "UseAtiROM=Yes";
+"UseAtiROM_description" = "Enables UseAtiROM options.";
+
+"UseNvidiaROM_title" = "UseNvidiaROM=Yes";
+"UseNvidiaROM_description" = "Enables UseNvidiaROM options.";
+
+"VBIOS_title" = "VBIOS=Yes";
+"VBIOS_description" = "Enables VBIOS option";
+
+// ----------------------------------------------------------------------------
+// Boot options - KERNEL FLAGS
+// ----------------------------------------------------------------------------
+"Verbose_title" = "Verbose Mode";
+"Verbose_description" = "Turns on verbose logging and allows you to see messages from both Chameleon and the OS X kernel at boot time. Essential for troubleshooting.";
+
+"Singleusermode_title" = "Single User Mode";
+"Singleusermode_description" = "A troubleshooting option used for booting into OS X's BSD/Unix command line.";
+
+"Ignorecaches_title" = "Ignore Caches";
+"Ignorecaches_description" = "Not an option that's needed for everyday booting, but it can be useful if you want OS X to load all files from it's system folders, rather than relying on it's pre-built caches.";
+
+"Npci_title" = "npci=0x2000";
+"Npci_description" = "For overcoming a hang at 'PCI configuration begin' on some systems. 0x2000 is the kIOPCIConfiguratorPFM64 flag, as seen in the IOPCIFamily source code.";
+
+"Npci3_title" = "npci=0x3000";
+"Npci3_description" = "For overcoming a hang at 'PCI configuration begin' on some systems. 0x3000 is the kIOPCIConfiguratorPFM64 flag, as seen in the IOPCIFamily source code.";
+
+"Darkwake_title" = "darkwake=0";
+"Darkwake_description" = "Lion only. Disables the 'low power wake' feature which can sometimes leave the screen black after wake from sleep.";
+
+
+// ----------------------------------------------------------------------------
+// Boot options - KEYMAPS
+// ----------------------------------------------------------------------------
+"mac-de_title" = "German Mac Keyboard";
+"mac-de_description" = "Use the keyboard layout for a German Mac keyboard";
+
+"mac-es_title" = "Spanish Mac Keyboard";
+"mac-es_description" = "Use the keyboard layout for a Spanish Mac keyboard";
+
+"mac-fr_title" = "French Mac Keyboard";
+"mac-fr_description" = "Use the keyboard layout for a French Mac keyboard";
+
+"mac-it_title" = "Italian Mac Keyboard";
+"mac-it_description" = "Use the keyboard layout for an Italian Mac keyboard";
+
+"mac-se_title" = "Swedish Mac Keyboard";
+"mac-se_description" = "Use the keyboard layout for a Swedish Mac keyboard";
+
+"pc-fr_title" = "French PC Keyboard";
+"pc-fr_description" = "Use the keyboard layout for a French PC keyboard";
+
+
+// ----------------------------------------------------------------------------
+// Boot options - THEMES
+// ----------------------------------------------------------------------------
+"Embed_title" = "Embed";
+"Embed_description" = "A smaller simple version of the new default theme used when building a version of Chameleon which requires an embedded theme.";
+
+"Legacy_title" = "Legacy";
+"Legacy_description" = "Chameleon's original default theme introduced for v2.0 RC1";
+
+"Default_title" = "Standard";
+"Default_description" = "Chameleon default theme introduced for v2.0 RC5";
+
+"Bullet_title" = "Bullet";
+"Bullet_description" = "A lovely simple theme by NoSmokingBandit from April 2009.";
+
+
+// ============================================================================
+// The filenames from OptionalSettings text files' become sub menu headings.
+// These sub menu headings need titles and descriptions.
+// ----------------------------------------------------------------------------
+// Control
+"Control_title" = "Control Options";
+"Control_description" = "Settings to control how Chameleon works.";
+
+// General
+"General_title" = "General Options";
+"General_description" = "Choose from a selection of base options.";
+
+// KernelFlags
+"KernelFlags_title" = "Kernel Flags";
+"KernelFlags_description" = "Choose from a selection of kernel flags.";
+
+// PowerManagement
+"PowerManagement_title" = "Power Management";
+"PowerManagement_description" = "A selection of options that deal with power management and speedstep.";
+
+// Resolution
+"Resolution_title" = "Resolution";
+"Resolution_description" = "Set one resolution to use.";
+
+// Video
+"Video_title" = "Video";
+"Video_description" = "A selection of options that deal with video.";
+
+// Keymaps
+"Keymaps_title" = "KeyLayout";
+"Keymaps_description" = "Select one keylayout to use. This will also install the Keylayout module and keymaps.";
+
+// Themes
+"Themes_title" = "Themes";
+"Themes_description" = "A collection of sample themes
+More themes can be found at http://forum.voodooprojects.org/index.php/board,7.0.html";

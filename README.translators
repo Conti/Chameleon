@@ -1,0 +1,26 @@
+Hi all translators,
+
+we can help us to translate the Chameleon Project.
+
+You need to have gettext utilities installed.
+You can install them :
+    * With MacPorts or Fink
+    or
+    * With the package http://dl.dropbox.com/u/112112/Chameleon.Dev/gettext-0.18.1.1.dmg
+      You need to change your ~/.bashrc or ~/.bash_profile to add the path to the utilities:
+      # MacPorts Installer: adding an appropriate PATH variable for use with MacPorts.
+      export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+      # Finished adapting your PATH environment variable for use with MacPorts.
+
+      # MacPorts Installer: adding an appropriate MANPATH variable for use with MacPorts.
+      export MANPATH=/opt/local/share/man:$MANPATH
+      # Finished adapting your MANPATH environment variable for use with MacPorts.
+
+You must also have a PO editor like Poedit: http://www.poedit.net/download.php
+
+The files to translate are in package/po directory. Open them with your PO editor and translate :D.
+
+If you want to add a new language copy the package/po/chameleon.pot to po/$lang.po where $lang is
+the new language you want to add. Example to add belgian language:
+    # cp package/po/chameleon.pot package/po/be.po
+Now you can start translating the new po file with your PO editor

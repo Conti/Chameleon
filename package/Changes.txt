@@ -1,3 +1,5 @@
+- JrCs - Add translation to the project.
+
 - ErmaC - Update Language for whobuild resources.
 
 - JrCs - Improved Installer - Start using template scripts
