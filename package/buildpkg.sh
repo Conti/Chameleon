@@ -862,7 +862,8 @@ buildpackage ()
             done
             header+="\t</scripts>\n"
             # Create the Script archive file (cpio format)
-            (cd "${packagePath}/Scripts" && find . -print | cpio -o -z -R 0:0 --format cpio > "${packagePath}/Temp/Scripts") 2>&1 | \
+            (cd "${packagePath}/Scripts" && find . -print |                                    \
+                cpio -o -z -R root:wheel --format cpio > "${packagePath}/Temp/Scripts") 2>&1 | \
                 grep -vE '^[0-9]+\s+blocks?$' # to remove cpio stderr messages
         fi
 
@@ -870,7 +871,8 @@ buildpackage ()
         echo -e "${header}" > "${packagePath}/Temp/PackageInfo"
 
         # Create the Payload file (cpio format)
-        (cd "${packagePath}/Root" && find . -print | cpio -o -z -R 0:0 --format cpio > "${packagePath}/Temp/Payload") 2>&1 | \
+        (cd "${packagePath}/Root" && find . -print |                                       \
+            cpio -o -z -R root:wheel --format cpio > "${packagePath}/Temp/Payload") 2>&1 | \
             grep -vE '^[0-9]+\s+blocks?$' # to remove cpio stderr messages
 
         # Create the package
