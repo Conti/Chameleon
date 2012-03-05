@@ -9,9 +9,6 @@
 # Modules and declarations
 ############################################################################
 
-use Locale::Po4a::TransTractor qw(process new);
-use Locale::Po4a::Common;
-
 package Locale::Po4a::Prop;
 
 use 5.006;
@@ -24,10 +21,26 @@ use vars qw(@ISA @EXPORT $AUTOLOAD);
 @ISA = qw(Locale::Po4a::TransTractor);
 @EXPORT = qw();
 
+use Locale::Po4a::TransTractor;
+use Locale::Po4a::Common;
+
 my $debug=0;
 
-sub initialize {}
+sub initialize {
+    my $self = shift;
+    my %options = @_;
 
+    $self->{options}{'wrap'}=0;
+
+    foreach my $opt (keys %options) {
+        if ($options{$opt}) {
+            die wrap_mod("po4a::prop",
+                dgettext("po4a", "Unknown option: %s"), $opt)
+                unless exists $self->{options}{$opt};
+            $self->{options}{$opt} = $options{$opt};
+        }
+    }
+}
 sub parse {
 	my $self=shift;
 	my ($line,$ref);
@@ -61,10 +74,10 @@ sub parse {
 		    # Remove the final ";
 		    $quoted_text =~ s/"\s*;[^"]*$//;
 		    # Translate the string
-		    $par = $self->translate($quoted_text, $ref, $pre_text);
-
+            $par = $self->translate($quoted_text, $ref, $pre_text,
+                                    'wrap'=>$self->{options}{'wrap'});
 			# Now push the result
-			$self->pushline($pre_text .' = "'.$par."\";\n");
+            $self->pushline($pre_text .' = "'.$par."\";\n");
 			print STDERR  "End of line containing \".\n" if $debug;
 		}
         else
