@@ -6,8 +6,8 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Chameleon 2.1svn-r1841\n"
-"POT-Creation-Date: 2012-03-04 10:37+0100\n"
+"Project-Id-Version: Chameleon 2.1svn-r1854\n"
+"POT-Creation-Date: 2012-03-05 20:13+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,73 +18,61 @@ msgstr ""
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:22
-#, no-wrap
 msgid "Chameleon"
 msgstr ""
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:23
-#, no-wrap
 msgid "v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
 msgstr ""
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:25
-#, no-wrap
 msgid "Do not install to an Apple Macintosh computer"
 msgstr ""
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:27
-#, no-wrap
 msgid "Developers :"
 msgstr ""
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:28
-#, no-wrap
 msgid "%DEVELOP%"
 msgstr ""
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:30
-#, no-wrap
 msgid "Thanks to :"
 msgstr ""
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:31
-#, no-wrap
 msgid "%CREDITS%"
 msgstr ""
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:33
-#, no-wrap
 msgid "Package :"
 msgstr ""
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:34
-#, no-wrap
 msgid "%PKGDEV%"
 msgstr ""
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:36 Resources/templates/Conclusion.html:30
-#, no-wrap
 msgid "Package built by: %WHOBUILD%, language translated by: blackosx"
 msgstr ""
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:37 Resources/templates/Conclusion.html:31
-#, no-wrap
 msgid "Copyright © %CPRYEAR%"
 msgstr ""
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:18
-#, no-wrap
 msgid ""
 "Chameleon is a boot loader built using a combination of components which "
 "evolved from the development of David Elliott's fake EFI implementation "
@@ -93,139 +81,116 @@ msgstr ""
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:20
-#, no-wrap
 msgid "Chameleon v2 is extended with many features. For example:"
 msgstr ""
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:22
-#, no-wrap
 msgid "- Fully customizable GUI to bring some color to the Darwin Bootloader."
 msgstr ""
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:23
-#, no-wrap
 msgid "- Load a ramdisk to directly boot retail DVDs without additional programs."
 msgstr ""
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:24
-#, no-wrap
 msgid "- Hibernation. Enjoy resuming your Mac OS X with a preview image."
 msgstr ""
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:25
-#, no-wrap
 msgid "- SMBIOS override to modify the factory SMBIOS values."
 msgstr ""
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:26
-#, no-wrap
 msgid "- DSDT override to use a modified fixed DSDT which can solve several issues."
 msgstr ""
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:27
-#, no-wrap
 msgid "- Device Property Injection via device-properties string."
 msgstr ""
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:28
-#, no-wrap
 msgid "- hybrid boot0 / boot1h for MBR and GPT partitioned disks."
 msgstr ""
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:29
-#, no-wrap
 msgid "- Automatic FSB detection code even for recent AMD CPUs."
 msgstr ""
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:30
-#, no-wrap
 msgid "- Apple Software RAID support."
 msgstr ""
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:31
-#, no-wrap
 msgid "- Nvidia &amp; ATI/AMD Graphics Card Enabler."
 msgstr ""
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:32
-#, no-wrap
 msgid "- Module support"
 msgstr ""
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:33
-#, no-wrap
 msgid "- Memory detection adapted from memtest86:&nbsp;"
 msgstr ""
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:34
-#, no-wrap
 msgid "- Automatic P-State &amp; C-State generation for native power management."
 msgstr ""
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:35
-#, no-wrap
 msgid "- Message logging."
 msgstr ""
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:37
-#, no-wrap
 msgid "The code is released under version 2 of the Gnu Public License."
 msgstr ""
 
 #. type: Content of: <html><body><p><span>
 #: Resources/templates/Description.html:40
-#, no-wrap
 msgid "FAQ's:&nbsp;"
 msgstr ""
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:22
-#, no-wrap
 msgid "The scripts have completed and a file named&nbsp;"
 msgstr ""
 
 #. type: Content of: <html><body><div><p><span>
 #: Resources/templates/Conclusion.html:22
-#, no-wrap
 msgid "@LOG_FILENAME@"
 msgstr ""
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:23
-#, no-wrap
 msgid "&nbsp;has been written to the root of your chosen partition."
 msgstr ""
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:25
-#, no-wrap
 msgid "Please&nbsp;"
 msgstr ""
 
 #. type: Content of: <html><body><div><p><span>
 #: Resources/templates/Conclusion.html:25
-#, no-wrap
 msgid "read it"
 msgstr ""
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:26
-#, no-wrap
 msgid ""
 "&nbsp;to find out if the installation was successful and keep it for a "
 "record of what was done."
@@ -233,7 +198,6 @@ msgstr ""
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:28
-#, no-wrap
 msgid "Chameleon v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
 msgstr ""
 

@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Chameleon 2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-04 10:37+0100\n"
-"PO-Revision-Date: 2012-03-05 04:25+0200\n"
-"Last-Translator: ErmaC <asaaabhwd@inwind.it>\n"
+"POT-Creation-Date: 2012-03-05 20:13+0100\n"
+"PO-Revision-Date: 2012-03-05 21:24+0200\n"
+"Last-Translator: JrCs <d2t56xxptp@snkmail.com>\n"
 "Language-Team: it <it@li.org>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -19,75 +19,66 @@ msgstr ""
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:22
-#, no-wrap
 msgid "Chameleon"
 msgstr "Chameleon"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:23
-#, no-wrap
 msgid "v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
 msgstr "v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:25
-#, no-wrap
 msgid "Do not install to an Apple Macintosh computer"
 msgstr "Non installare su computer Apple Macintosh"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:27
-#, no-wrap
 msgid "Developers :"
 msgstr "Sviluppatori :"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:28
-#, no-wrap
 msgid "%DEVELOP%"
 msgstr "%DEVELOP%"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:30
-#, no-wrap
 msgid "Thanks to :"
 msgstr "Grazie a :"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:31
-#, no-wrap
 msgid "%CREDITS%"
 msgstr "%CREDITS%"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:33
-#, no-wrap
 msgid "Package :"
 msgstr "Pacchetto realizzato da :"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:34
-#, no-wrap
 msgid "%PKGDEV%"
 msgstr "%PKGDEV%"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:36 Resources/templates/Conclusion.html:30
-#, no-wrap
 msgid "Package built by: %WHOBUILD%, language translated by: blackosx"
 msgstr ""
 "Pacchetto compilato da: %WHOBUILD%, tradotto in Italiano da: ErmaC e scrax"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:37 Resources/templates/Conclusion.html:31
-#, no-wrap
 msgid "Copyright © %CPRYEAR%"
 msgstr "Copyright © %CPRYEAR%"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:18
-#, no-wrap
-msgid "Chameleon is a boot loader built using a combination of components which evolved from the development of David Elliott's fake EFI implementation added to Apple's boot-132 project."
+msgid ""
+"Chameleon is a boot loader built using a combination of components which "
+"evolved from the development of David Elliott's fake EFI implementation "
+"added to Apple's boot-132 project."
 msgstr ""
 "Chameleon è la combinazione di diverse parti del boot loader.È basato sulle "
 "modifiche di David Elliott sull'implementazione \"EFI\" al progetto della "
@@ -95,13 +86,11 @@ msgstr ""
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:20
-#, no-wrap
 msgid "Chameleon v2 is extended with many features. For example:"
 msgstr "La versione 2 di Chameleon presenta nuove caratteristiche. Ad esempio:"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:22
-#, no-wrap
 msgid "- Fully customizable GUI to bring some color to the Darwin Bootloader."
 msgstr ""
 "- Interfaccia grafica completamente personalizzabile per dare maggiori "
@@ -109,15 +98,14 @@ msgstr ""
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:23
-#, no-wrap
-msgid "- Load a ramdisk to directly boot retail DVDs without additional programs."
+msgid ""
+"- Load a ramdisk to directly boot retail DVDs without additional programs."
 msgstr ""
 "- Avviare DVD retail semplicemente caricando una immagine ramdisk senza "
 "l'utilizzo di programmi aggiuntivi."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:24
-#, no-wrap
 msgid "- Hibernation. Enjoy resuming your Mac OS X with a preview image."
 msgstr ""
 "- Ibernazione. Godetevi nel risvegliare il vostro Mac OS X con un'immagine "
@@ -125,21 +113,19 @@ msgstr ""
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:25
-#, no-wrap
 msgid "- SMBIOS override to modify the factory SMBIOS values."
 msgstr "- Sovrascrittura del SMBIOS per personalizzare i valori dell'SMBIOS."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:26
-#, no-wrap
-msgid "- DSDT override to use a modified fixed DSDT which can solve several issues."
+msgid ""
+"- DSDT override to use a modified fixed DSDT which can solve several issues."
 msgstr ""
 "- Sovrascrittura della tabella DSDT, potendo selezionare una ottimizzata che "
 "risolve svariate problematiche."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:27
-#, no-wrap
 msgid "- Device Property Injection via device-properties string."
 msgstr ""
 "- Iniezione delle Proprità delle Periferiche con stringhe EFI in device-"
@@ -147,100 +133,86 @@ msgstr ""
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:28
-#, no-wrap
 msgid "- hybrid boot0 / boot1h for MBR and GPT partitioned disks."
 msgstr "- boot0 / boot1h ibrido per dischi partizionati in MBR e GPT."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:29
-#, no-wrap
 msgid "- Automatic FSB detection code even for recent AMD CPUs."
 msgstr ""
-"- Riconoscimento automatico della frequenza anche sui recenti processori "
-"AMD."
+"- Riconoscimento automatico della frequenza anche sui recenti processori AMD."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:30
-#, no-wrap
 msgid "- Apple Software RAID support."
 msgstr "- Supporta il RAID software di Apple."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:31
-#, no-wrap
 msgid "- Nvidia &amp; ATI/AMD Graphics Card Enabler."
 msgstr "- Abilitazione grafica per schede Nvidia &amp; ATI/AMD."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:32
-#, no-wrap
 msgid "- Module support"
-msgstr "- Supporto Moduli."
+msgstr "- Supporto Moduli"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:33
-#, no-wrap
 msgid "- Memory detection adapted from memtest86:&nbsp;"
 msgstr "- Rivelamento memoria adattato da memtest86:&nbsp;"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:34
-#, no-wrap
-msgid "- Automatic P-State &amp; C-State generation for native power management."
+msgid ""
+"- Automatic P-State &amp; C-State generation for native power management."
 msgstr "- Generazione automatica dei P-State e C-State."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:35
-#, no-wrap
 msgid "- Message logging."
 msgstr "- Log dei messaggi."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:37
-#, no-wrap
 msgid "The code is released under version 2 of the Gnu Public License."
 msgstr "Il codice è rilasciato sotto licenza GPL v.2 (Gnu Public License)."
 
 #. type: Content of: <html><body><p><span>
 #: Resources/templates/Description.html:40
-#, no-wrap
 msgid "FAQ's:&nbsp;"
 msgstr "Per maggiori informazioni, visita (In Inglese):&nbsp;"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:22
-#, no-wrap
 msgid "The scripts have completed and a file named&nbsp;"
 msgstr "Le operazioni sono state completate ed un file chiamato&nbsp;"
 
 #. type: Content of: <html><body><div><p><span>
 #: Resources/templates/Conclusion.html:22
-#, no-wrap
 msgid "@LOG_FILENAME@"
 msgstr "@LOG_FILENAME@"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:23
-#, no-wrap
 msgid "&nbsp;has been written to the root of your chosen partition."
 msgstr "&nbsp;é stato scritto nella root della partizione scelta."
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:25
-#, no-wrap
 msgid "Please&nbsp;"
 msgstr "Per favore&nbsp;"
 
 #. type: Content of: <html><body><div><p><span>
 #: Resources/templates/Conclusion.html:25
-#, no-wrap
 msgid "read it"
 msgstr "leggilo"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:26
-#, no-wrap
-msgid "&nbsp;to find out if the installation was successful and keep it for a record of what was done."
+msgid ""
+"&nbsp;to find out if the installation was successful and keep it for a "
+"record of what was done."
 msgstr ""
 "&nbspper vedere se l'installazione é avvenuta con successo e vedere le "
 "operazioni che sono state eseguite."
@@ -248,7 +220,6 @@ msgstr ""
 # 80%
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:28
-#, no-wrap
 msgid "Chameleon v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
 msgstr "Chameleon v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
 
@@ -280,7 +251,7 @@ msgstr "Una versione più recente di Chameleon è già installata"
 #: Resources/templates/Localizable.strings:13
 #, no-wrap
 msgid "This software cannot be installed on this computer."
-msgstr "Questo software non può essere installato su questo computer ."
+msgstr "Questo software non può essere installato su questo computer."
 
 #. type: "Chameleon_title"
 #: Resources/templates/Localizable.strings:19
@@ -313,7 +284,7 @@ msgstr "Standard"
 #: Resources/templates/Localizable.strings:26
 #, no-wrap
 msgid "Install Chameleon's files to the root of the selected partition using either boot0 or boot0md depending on your system without destroying any existing Windows installation if you have one."
-msgstr "Installare Chameleon"
+msgstr "Installare Chameleon."
 
 #. type: "noboot_title"
 #: Resources/templates/Localizable.strings:28
@@ -325,7 +296,7 @@ msgstr "Non installare il Bootloader"
 #: Resources/templates/Localizable.strings:29
 #, no-wrap
 msgid "Useful if you only want to install the extra's."
-msgstr "Utile se vuoi solo installare i componenti aggiuntivi"
+msgstr "Utile se vuoi solo installare i componenti aggiuntivi."
 
 #. type: "Module_title"
 #: Resources/templates/Localizable.strings:35
@@ -392,8 +363,7 @@ msgid ""
 "Dependencies: klibc"
 msgstr ""
 "Questo modulo fornisce una libreria C++ minima per l'uso in altri moduli.\n"
-"Esso non fornisce la funzionalitá di per sè, ma viene utilizzato per "
-"consentire l'uso del linguaggio C++ in altri moduli.\n"
+"Esso non fornisce la funzionalitá di per sè, ma viene utilizzato per consentire l'uso del linguaggio C++ in altri moduli.\n"
 "Da notare che rtti e exceptions sono entrambe disattivate.\n"
 "Fonte: http://cxx.uclibc.org/\n"
 "Dipendenze: klibc"
@@ -408,7 +378,7 @@ msgstr "Opzioni di avvio"
 #: Resources/templates/Localizable.strings:59
 #, no-wrap
 msgid "Create an /Extra/org.chameleon.Boot.plist by selecting any of these boot options and kernel flags."
-msgstr "Imposta opzioni predefinite di avvio"
+msgstr "Imposta opzioni predefinite di avvio."
 
 #. type: "BootBanner_title"
 #: Resources/templates/Localizable.strings:61
@@ -420,7 +390,7 @@ msgstr "BootBanner=No"
 #: Resources/templates/Localizable.strings:62
 #, no-wrap
 msgid "Hides Chameleon's boot banner in GUI. This is the text that is drawn at the top left corner of the screen displaying the release version etc."
-msgstr "Nasconde il banner di chameleon la boot in modalità grafica"
+msgstr "Nasconde il banner di chameleon la boot in modalità grafica."
 
 #. type: "GUI_title"
 #: Resources/templates/Localizable.strings:64
@@ -444,7 +414,7 @@ msgstr "LegacyLogo=Yes"
 #: Resources/templates/Localizable.strings:68
 #, no-wrap
 msgid "Use the legacy 'dark grey' apple logo on the light grey screen for the boot process rather than the boot.png in the theme."
-msgstr "Utilizza mela aple originale (nera) al caricamento"
+msgstr "Utilizza mela aple originale (nera) al caricamento."
 
 #. type: "InstantMenu_title"
 #: Resources/templates/Localizable.strings:70
@@ -456,7 +426,7 @@ msgstr "InstantMenu=Yes"
 #: Resources/templates/Localizable.strings:71
 #, no-wrap
 msgid "By default, when Chameleon loads you'll see the icon for the current default partition, along with a timeout progress bar which left alone will count down before Chameleon automatically boots that partition. This options skips that and takes you directly to the device selection screen."
-msgstr "Carica subito il menu di selezione dei dischi"
+msgstr "Carica subito il menu di selezione dei dischi."
 
 #. type: "QuietBoot_title"
 #: Resources/templates/Localizable.strings:73
@@ -468,7 +438,7 @@ msgstr "QuietBoot=Yes"
 #: Resources/templates/Localizable.strings:74
 #, no-wrap
 msgid "Enable quiet boot mode (no messages or prompt)."
-msgstr "Carica immediatamente il disco predefinito"
+msgstr "Carica immediatamente il disco predefinito."
 
 #. type: "ShowInfo_title"
 #: Resources/templates/Localizable.strings:76
@@ -492,7 +462,7 @@ msgstr "Wait=Yes"
 #: Resources/templates/Localizable.strings:80
 #, no-wrap
 msgid "Pauses the boot process after Chameleon has finished it's setup then waits for a key press before it starts the mach kernel. Useful when combined with verbose boot for troubleshooting."
-msgstr "Attende la pressione di un tasto prima di caricare il kernel"
+msgstr "Attende la pressione di un tasto prima di caricare il kernel."
 
 #. type: "arch_title"
 #: Resources/templates/Localizable.strings:84
@@ -504,7 +474,7 @@ msgstr "Architettura (arch=i386)"
 #: Resources/templates/Localizable.strings:85
 #, no-wrap
 msgid "Boots the kernel in 32bit mode rather than the default 64bit mode."
-msgstr "Avvia il kernel in modalità 32bit (consigliato per sistemi con meno di 10GB di RAM)"
+msgstr "Avvia il kernel in modalità 32bit (consigliato per sistemi con meno di 10GB di RAM)."
 
 #. type: "EHCIacquire_title"
 #: Resources/templates/Localizable.strings:87
@@ -564,7 +534,7 @@ msgstr "RestartFix=No"
 #: Resources/templates/Localizable.strings:100
 #, no-wrap
 msgid "Disables the automatically enabled restart fix."
-msgstr "Disabilita la correzione automatica per il riavvio"
+msgstr "Disabilita la correzione automatica per il riavvio."
 
 #. type: "UHCIreset_title"
 #: Resources/templates/Localizable.strings:102
@@ -612,7 +582,7 @@ msgstr "Wake=Yes"
 #: Resources/templates/Localizable.strings:112
 #, no-wrap
 msgid "Attempts to load the sleep image saved from last hibernation."
-msgstr "Carica dall'immagine dell'ibernazione"
+msgstr "Carica dall'immagine dell'ibernazione."
 
 #. type: "CSTUsingSystemIO_title"
 #: Resources/templates/Localizable.strings:116
@@ -648,7 +618,7 @@ msgstr "EnableC2State=Yes"
 #: Resources/templates/Localizable.strings:123
 #, no-wrap
 msgid "Enable specific Processor power state, C2."
-msgstr "Abilita i C2State"
+msgstr "Abilita i C2State."
 
 #. type: "EnableC3State_title"
 #: Resources/templates/Localizable.strings:125
@@ -660,7 +630,7 @@ msgstr "EnableC3State=Yes"
 #: Resources/templates/Localizable.strings:126
 #, no-wrap
 msgid "Enable specific Processor power state, C3."
-msgstr "Abilita i C3State"
+msgstr "Abilita i C3State."
 
 #. type: "EnableC4State_title"
 #: Resources/templates/Localizable.strings:128
@@ -672,12 +642,11 @@ msgstr "EnableC4State=Yes"
 #: Resources/templates/Localizable.strings:129
 #, no-wrap
 msgid "Enable specific Processor power state, C4."
-msgstr "Abilita i C4State"
+msgstr "Abilita i C4State."
 
 #. type: "GenerateCStates_title"
 #: Resources/templates/Localizable.strings:131
 #, no-wrap
-#| msgid "Generate C-States=Yes"
 msgid "GenerateCStates=Yes"
 msgstr "GenerateCStates=Yes"
 
@@ -685,12 +654,11 @@ msgstr "GenerateCStates=Yes"
 #: Resources/templates/Localizable.strings:132
 #, no-wrap
 msgid "Enable auto generation of processor idle sleep states (C-States)."
-msgstr "Attiva C-State automatici"
+msgstr "Attiva C-State automatici."
 
 #. type: "GeneratePStates_title"
 #: Resources/templates/Localizable.strings:134
 #, no-wrap
-#| msgid "Generate P-States=Yes"
 msgid "GeneratePStates=Yes"
 msgstr "GeneratePStates=Yes"
 
@@ -698,7 +666,7 @@ msgstr "GeneratePStates=Yes"
 #: Resources/templates/Localizable.strings:135
 #, no-wrap
 msgid "Enable auto generation of processor power performance states (P-States)."
-msgstr "Attiva P-State automatici"
+msgstr "Attiva P-State automatici."
 
 #. type: "1024x600x32_title"
 #: Resources/templates/Localizable.strings:139
@@ -854,7 +822,7 @@ msgstr "UseAtiROM=Yes"
 #: Resources/templates/Localizable.strings:178
 #, no-wrap
 msgid "Enables UseAtiROM options."
-msgstr "Attiva opzione UseAtiROM"
+msgstr "Attiva opzione UseAtiROM."
 
 #. type: "UseNvidiaROM_title"
 #: Resources/templates/Localizable.strings:180
@@ -866,7 +834,7 @@ msgstr "UseNvidiaROM=Yes"
 #: Resources/templates/Localizable.strings:181
 #, no-wrap
 msgid "Enables UseNvidiaROM options."
-msgstr "Attiva opzione UseNvidiaROM"
+msgstr "Attiva opzione UseNvidiaROM."
 
 #. type: "VBIOS_title"
 #: Resources/templates/Localizable.strings:183
@@ -926,7 +894,7 @@ msgstr "npci=0x2000"
 #: Resources/templates/Localizable.strings:199
 #, no-wrap
 msgid "For overcoming a hang at 'PCI configuration begin' on some systems. 0x2000 is the kIOPCIConfiguratorPFM64 flag, as seen in the IOPCIFamily source code."
-msgstr "Imposta la flag npci=0x2000 per la key Kernel Flags"
+msgstr "Imposta la flag npci=0x2000 per la key Kernel Flags."
 
 #. type: "Npci3_title"
 #: Resources/templates/Localizable.strings:201
@@ -938,7 +906,7 @@ msgstr "npci=0x3000"
 #: Resources/templates/Localizable.strings:202
 #, no-wrap
 msgid "For overcoming a hang at 'PCI configuration begin' on some systems. 0x3000 is the kIOPCIConfiguratorPFM64 flag, as seen in the IOPCIFamily source code."
-msgstr "Imposta la flag npci=0x3000 per la key Kernel Flags"
+msgstr "Imposta la flag npci=0x3000 per la key Kernel Flags."
 
 #. type: "Darkwake_title"
 #: Resources/templates/Localizable.strings:204
@@ -1034,7 +1002,7 @@ msgstr "Embed"
 #: Resources/templates/Localizable.strings:234
 #, no-wrap
 msgid "A smaller simple version of the new default theme used when building a version of Chameleon which requires an embedded theme."
-msgstr "Tema integrato in chameleon (Standard ridotto)"
+msgstr "Tema integrato in chameleon (Standard ridotto)."
 
 #. type: "Legacy_title"
 #: Resources/templates/Localizable.strings:236
@@ -1064,7 +1032,7 @@ msgstr "Bullet"
 #: Resources/templates/Localizable.strings:243
 #, no-wrap
 msgid "A lovely simple theme by NoSmokingBandit from April 2009."
-msgstr "Un tema The Bullet by NoSmokingBandit"
+msgstr "Un tema The Bullet by NoSmokingBandit."
 
 #. type: "Control_title"
 #: Resources/templates/Localizable.strings:251
@@ -1163,29 +1131,53 @@ msgstr ""
 #~ msgid "Install Type"
 #~ msgstr "Tipo di installazione"
 
-#~ msgid "Choose to perform a new installation or upgrade an existing installation."
-#~ msgstr "Scegli se fare una nuova installazione o aggiornare una già esistente."
+#~ msgid ""
+#~ "Choose to perform a new installation or upgrade an existing installation."
+#~ msgstr ""
+#~ "Scegli se fare una nuova installazione o aggiornare una già esistente."
 
 #~ msgid "New Installation"
 #~ msgstr "Nuova Installazione"
 
-#~ msgid "Backup an existing /Extra folder, if found on the target partition. A new one will be created if any options are chosen from the installer, other than the Bootloader."
-#~ msgstr "Salva una cartella /Extra, se trovata sulla partizione destinazione. Una nuova verrà creata se scegliete una opzione dall'installer, oltre che al Bootloader."
+#~ msgid ""
+#~ "Backup an existing /Extra folder, if found on the target partition. A new "
+#~ "one will be created if any options are chosen from the installer, other "
+#~ "than the Bootloader."
+#~ msgstr ""
+#~ "Salva una cartella /Extra, se trovata sulla partizione destinazione. Una "
+#~ "nuova verrà creata se scegliete una opzione dall'installer, oltre che al "
+#~ "Bootloader."
 
 #~ msgid "Upgrade"
 #~ msgstr "Aggiornamento"
 
-#~ msgid "Merge an existing /Extra folder, if found on the target, with any options chosen from the installer, other than the Bootloader. The original /Extra folder will be backed up."
-#~ msgstr "Fonde una cartella /Extra esistente, se trovata sulla partizione destinazione, con qualsiasi opzione scelta nell'installer, oltre al Bootloader."
+#~ msgid ""
+#~ "Merge an existing /Extra folder, if found on the target, with any options "
+#~ "chosen from the installer, other than the Bootloader. The original /Extra "
+#~ "folder will be backed up."
+#~ msgstr ""
+#~ "Fonde una cartella /Extra esistente, se trovata sulla partizione "
+#~ "destinazione, con qualsiasi opzione scelta nell'installer, oltre al "
+#~ "Bootloader."
 
 #~ msgid "EFI"
 #~ msgstr "Partizione EFI"
 
-#~ msgid "Install Chameleon's files to the normally hidden EFI system partition using either boot0 or boot0md depending on your system and without destroying any existing Windows installation if you have one."
-#~ msgstr "Installa Chameleon nella partizione EFI (Normalmente nascosta), usando boot0 o boot0md dipende dal vostro sistema e senza compromettere pre-esistenti installazioni di Windows(Se voi ne possedete una)."
+#~ msgid ""
+#~ "Install Chameleon's files to the normally hidden EFI system partition "
+#~ "using either boot0 or boot0md depending on your system and without "
+#~ "destroying any existing Windows installation if you have one."
+#~ msgstr ""
+#~ "Installa Chameleon nella partizione EFI (Normalmente nascosta), usando "
+#~ "boot0 o boot0md dipende dal vostro sistema e senza compromettere pre-"
+#~ "esistenti installazioni di Windows(Se voi ne possedete una)."
 
-#~ msgid "This module permits the user to define the keyboard key mappings. This module and associated keymaps are installed by default."
-#~ msgstr "Questo modulo permette all'utente di definire la mappatura della propria tastiera."
+#~ msgid ""
+#~ "This module permits the user to define the keyboard key mappings. This "
+#~ "module and associated keymaps are installed by default."
+#~ msgstr ""
+#~ "Questo modulo permette all'utente di definire la mappatura della propria "
+#~ "tastiera."
 
 #~ msgid "Utilities"
 #~ msgstr "Utilitá"
@@ -1200,7 +1192,9 @@ msgstr ""
 #~ msgstr "Installa il Pannello preferenze di Chameleon."
 
 #~ msgid "Copies an example smbios.plist in /Extra/Configuration."
-#~ msgstr "Copia o sovrascrive il file smbios.plist in /Extra/Configuration con uno di esempio"
+#~ msgstr ""
+#~ "Copia o sovrascrive il file smbios.plist in /Extra/Configuration con uno "
+#~ "di esempio"
 
 #~ msgid "Documentation"
 #~ msgstr "Documentazione"
