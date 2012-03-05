@@ -8,13 +8,14 @@ msgstr ""
 "Project-Id-Version: Chameleon 2.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-04 10:37+0100\n"
-"PO-Revision-Date: \n"
-"Last-Translator: JrCs\n"
+"PO-Revision-Date: 2012-03-05 19:07+0200\n"
+"Last-Translator: JrCs <d2t56xxptp@snkmail.com>\n"
 "Language-Team: fr <fr@li.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 2.1.6\n"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:22
@@ -112,7 +113,9 @@ msgstr "- Chargement possible d'un \"RAMDisk\" pour pouvoir démarrer un DVD off
 #: Resources/templates/Description.html:24
 #, no-wrap
 msgid "- Hibernation. Enjoy resuming your Mac OS X with a preview image."
-msgstr "- Mise en veille prolongée. Permet de reprendre votre session de travail instantanément via une image d'hibernation"
+msgstr ""
+"- Mise en veille prolongée. Permet de reprendre votre session de travail "
+"instantanément via une image d'hibernation."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:25
@@ -130,7 +133,9 @@ msgstr "- Prise en charge d'un DSDT modifié. Permet d'appliquer un DSDT patché
 #: Resources/templates/Description.html:27
 #, no-wrap
 msgid "- Device Property Injection via device-properties string."
-msgstr "- Injection des propriétés de périphériques via une chaîne de caractère \"device-properties\""
+msgstr ""
+"- Injection des propriétés de périphériques via une chaîne de caractère "
+"\"device-properties\"."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:28
@@ -160,7 +165,7 @@ msgstr "- Activateur graphique Nvidia &amp; ATI/AMD intégré."
 #: Resources/templates/Description.html:32
 #, no-wrap
 msgid "- Module support"
-msgstr "- Support de modules (extensions de Chameleon)."
+msgstr "- Support de modules (extensions de Chameleon)"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:33
@@ -256,7 +261,7 @@ msgstr "Ce volume n'a pas les caractéristiques requises pour cette mise à jour
 #: Resources/templates/Localizable.strings:12
 #, no-wrap
 msgid "A newer version of Chameleon is already installed"
-msgstr "Une version plus récente de Chameleon est déja installée."
+msgstr "Une version plus récente de Chameleon est déjà installée."
 
 #. type: "Intel_Mac_message"
 #: Resources/templates/Localizable.strings:13
@@ -373,9 +378,11 @@ msgid ""
 "Source: http://cxx.uclibc.org/\n"
 "Dependencies: klibc"
 msgstr ""
-"Ce module fournit une simple bibliothèque d'éxecution C++ pour une utilisation dans d'autres modules.  \n"
-"Cela ne procure aucune fonctionnalité concrète. Ce module est utilisé pour permettre l'usage du langage C++ dans d'autres modules.\n"
-"Veuillez noter que RTTI et Exceptions ont été désactivés.\n"
+"Ce module fournit une simple bibliothèque d'éxecution C++ pour une "
+"utilisation dans d'autres modules.\n"
+"Cela ne procure aucune fonctionnalité concrète, cependant il peut être "
+"utilisé pour permettre l'usage du langage C++ dans d'autres modules.\n"
+"*Veuillez noter que RTTI et Exceptions ont été désactivés.\n"
 "Source: http://cxx.uclibc.org/\n"
 "Dépendances : klibc"
 
@@ -437,7 +444,10 @@ msgstr "InstantMenu=Yes"
 #: Resources/templates/Localizable.strings:71
 #, no-wrap
 msgid "By default, when Chameleon loads you'll see the icon for the current default partition, along with a timeout progress bar which left alone will count down before Chameleon automatically boots that partition. This options skips that and takes you directly to the device selection screen."
-msgstr "Vous emmene directement à l'écran de sélection des partitions. Passe l'écran de décompte du temps (petite barre qui décompte le temps et démarre directement sur la partition par défaut à sa fin)."
+msgstr ""
+"Vous emmène directement à l'écran de sélection des partitions. Passe l'écran "
+"de décompte du temps (petite barre qui décompte le temps et démarre "
+"directement sur la partition par défaut à sa fin)."
 
 #. type: "QuietBoot_title"
 #: Resources/templates/Localizable.strings:73
@@ -509,7 +519,7 @@ msgstr "EthernetBuiltIn=Yes"
 #: Resources/templates/Localizable.strings:91
 #, no-wrap
 msgid "Enables the option of adding 'built-in' to your ethernet devices."
-msgstr "Ajoute la chaine 'built-in' aux périphériques Ethernet."
+msgstr "Ajoute la chaine 'built-in' aux périphériques ethernet."
 
 #. type: "ForceHPET_title"
 #: Resources/templates/Localizable.strings:93
@@ -773,7 +783,7 @@ msgstr "1600x900x32"
 #: Resources/templates/Localizable.strings:161
 #, no-wrap
 msgid "Set Graphics Mode to 1600x900x32"
-msgstr "Règle la résolution graphique à 600x900x32"
+msgstr "Règle la résolution graphique à 1600x900x32"
 
 #. type: "1680x1050x32_title"
 #: Resources/templates/Localizable.strings:163
@@ -857,7 +867,7 @@ msgstr "VBIOS=Yes"
 #: Resources/templates/Localizable.strings:184
 #, no-wrap
 msgid "Enables VBIOS option"
-msgstr "Active l'option VBIOS."
+msgstr "Active l'option VBIOS"
 
 #. type: "Verbose_title"
 #: Resources/templates/Localizable.strings:189
@@ -1025,13 +1035,13 @@ msgstr "Legacy"
 #: Resources/templates/Localizable.strings:237
 #, no-wrap
 msgid "Chameleon's original default theme introduced for v2.0 RC1"
-msgstr "Thème original de Chameleon indroduit lors de la version 2.0 RC1."
+msgstr "Thème original de Chameleon introduit lors de la version 2.0 RC1"
 
 #. type: "Default_description"
 #: Resources/templates/Localizable.strings:240
 #, no-wrap
 msgid "Chameleon default theme introduced for v2.0 RC5"
-msgstr "Thème par défaut de Chameleon depuis la version 2.0 RC5."
+msgstr "Thème par défaut de Chameleon depuis la version 2.0 RC5"
 
 #. type: "Bullet_title"
 #: Resources/templates/Localizable.strings:242
