@@ -8,13 +8,15 @@ msgstr ""
 "Project-Id-Version: Chameleon 2.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-04 10:37+0100\n"
-"PO-Revision-Date: 2012-03-04 17:04+0100\n"
-"Last-Translator: JrCs\n"
+"PO-Revision-Date: 2012-03-05 11:46+0200\n"
+"Last-Translator: JrCs <d2t56xxptp@snkmail.com>\n"
 "Language-Team: en <en@li.org>\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.1.6\n"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:22
@@ -238,7 +240,7 @@ msgstr "Chameleon v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
 #: Resources/templates/Localizable.strings:4
 #, no-wrap
 msgid "Chameleon Bootloader Package"
-msgstr "Chameleon Bootloader Package"
+msgstr "Chameleon Bootloader"
 
 #. type: "ERROR_BOOTVOL"
 #: Resources/templates/Localizable.strings:9
@@ -1137,4 +1139,3 @@ msgid ""
 msgstr ""
 "A collection of sample themes\n"
 "More themes can be found at http://forum.voodooprojects.org/index.php/board,7.0.html"
-
