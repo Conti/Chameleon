@@ -8,13 +8,14 @@ msgstr ""
 "Project-Id-Version: Chameleon 2.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-04 10:37+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2012-03-06 09:28+0200\n"
+"Last-Translator: blackosx <blackosx@gmail.com>\n"
 "Language-Team: nl <nl@li.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 2.1.6\n"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:22
@@ -27,103 +28,116 @@ msgstr "Chameleon"
 #: Resources/templates/Welcome.html:23
 #, no-wrap
 msgid "v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
-msgstr ""
+msgstr "v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:25
 #, no-wrap
 msgid "Do not install to an Apple Macintosh computer"
-msgstr ""
+msgstr "Installeer niet op een echte Apple Macintosh computer!"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:27
 #, no-wrap
 msgid "Developers :"
-msgstr ""
+msgstr "Ontwikkelaars"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:28
 #, no-wrap
 msgid "%DEVELOP%"
-msgstr ""
+msgstr "%DEVELOP%"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:30
 #, no-wrap
 msgid "Thanks to :"
-msgstr ""
+msgstr "Dank gaat uit naar"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:31
 #, no-wrap
 msgid "%CREDITS%"
-msgstr ""
+msgstr "%CREDITS%"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:33
 #, no-wrap
 msgid "Package :"
-msgstr ""
+msgstr "Package"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:34
 #, no-wrap
 msgid "%PKGDEV%"
-msgstr ""
+msgstr "%PKGDEV%"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:36 Resources/templates/Conclusion.html:30
 #, no-wrap
 msgid "Package built by: %WHOBUILD%, language translated by: blackosx"
 msgstr ""
+"Package built by: %WHOBUILD%, language Vertaald door: yeehaw123 & Badeendje"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:37 Resources/templates/Conclusion.html:31
 #, no-wrap
 msgid "Copyright © %CPRYEAR%"
-msgstr ""
+msgstr "Copyright © %CPRYEAR%"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:18
 #, no-wrap
 msgid "Chameleon is a boot loader built using a combination of components which evolved from the development of David Elliott's fake EFI implementation added to Apple's boot-132 project."
 msgstr ""
+"Chameleon is een combinatie van verschillende boot loader componenten. Het "
+"is gebaseerd op de fake EFI implementatie van David Elliott die toegevoegd "
+"is aan Apple's boot-132 project."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:20
 #, no-wrap
 msgid "Chameleon v2 is extended with many features. For example:"
-msgstr ""
+msgstr "Nieuwe functies in Chameleon 2.0:"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:22
 #, no-wrap
 msgid "- Fully customizable GUI to bring some color to the Darwin Bootloader."
 msgstr ""
+"- Volledig aanpasbare GUI, zodat de Darwin Bootloader een mooier uiterlijk "
+"krijgt."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:23
 #, no-wrap
 msgid "- Load a ramdisk to directly boot retail DVDs without additional programs."
 msgstr ""
+"- Het booten van retail DVD's door direct een ramdisk image te laden zonder "
+"hulp van extra programma's."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:24
 #, no-wrap
 msgid "- Hibernation. Enjoy resuming your Mac OS X with a preview image."
 msgstr ""
+"- Slaapstand. Geniet van het hervatten van Mac OS X met een preview image."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:25
 #, no-wrap
 msgid "- SMBIOS override to modify the factory SMBIOS values."
 msgstr ""
+"- Het negeren van het SMBIOS zodat de standaard SMBIOS waarden aangepast "
+"kunnen worden."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:26
 #, no-wrap
 msgid "- DSDT override to use a modified fixed DSDT which can solve several issues."
 msgstr ""
+"- Het negeren van de DSDT zodat er een aangepaste verbeterde DSDT kan worden "
+"gebruikt om bepaalde problemen op te lossen."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:27
@@ -135,103 +149,107 @@ msgstr ""
 #: Resources/templates/Description.html:28
 #, no-wrap
 msgid "- hybrid boot0 / boot1h for MBR and GPT partitioned disks."
-msgstr ""
+msgstr "- Hybride boot0 / boot1h voor MBR en GPT gepartitioneerde schijven."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:29
 #, no-wrap
 msgid "- Automatic FSB detection code even for recent AMD CPUs."
-msgstr ""
+msgstr "- automatische FSB detectie code, zelfs voor recente AMD processoren."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:30
 #, no-wrap
 msgid "- Apple Software RAID support."
-msgstr ""
+msgstr "- Apple Software RAID ondersteuning."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:31
 #, no-wrap
 msgid "- Nvidia &amp; ATI/AMD Graphics Card Enabler."
-msgstr ""
+msgstr "- Nvidia & ATI/AMD graphische kaart autodetectie."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:32
 #, no-wrap
 msgid "- Module support"
-msgstr ""
+msgstr "- Module ondersteuning"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:33
 #, no-wrap
 msgid "- Memory detection adapted from memtest86:&nbsp;"
-msgstr ""
+msgstr "- Geheugen detectie overgenomen van memtest86:&nbsp;"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:34
 #, no-wrap
 msgid "- Automatic P-State &amp; C-State generation for native power management."
 msgstr ""
+"- Automatisch P-State's & C-State's aangemaakt voor automatisch "
+"stroombeheer."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:35
 #, no-wrap
 msgid "- Message logging."
-msgstr ""
+msgstr "- Bericht logboek."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:37
 #, no-wrap
 msgid "The code is released under version 2 of the Gnu Public License."
-msgstr ""
+msgstr "De code is vrijgegeven onder versie 2 van de Gnu Public License."
 
 #. type: Content of: <html><body><p><span>
 #: Resources/templates/Description.html:40
 #, no-wrap
 msgid "FAQ's:&nbsp;"
-msgstr ""
+msgstr "Voor meer informatie, bezoek:&nbsp;"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:22
 #, no-wrap
 msgid "The scripts have completed and a file named&nbsp;"
-msgstr ""
+msgstr "De installatie is klaar en het bestand&nbsp;"
 
 #. type: Content of: <html><body><div><p><span>
 #: Resources/templates/Conclusion.html:22
 #, no-wrap
 msgid "@LOG_FILENAME@"
-msgstr ""
+msgstr "@LOG_FILENAME@"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:23
 #, no-wrap
 msgid "&nbsp;has been written to the root of your chosen partition."
-msgstr ""
+msgstr "&nbsp;is geschreven naar de root van de door u gekozen partitie."
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:25
 #, no-wrap
 msgid "Please&nbsp;"
-msgstr ""
+msgstr "Alstublieft"
 
 #. type: Content of: <html><body><div><p><span>
 #: Resources/templates/Conclusion.html:25
 #, no-wrap
 msgid "read it"
-msgstr ""
+msgstr "lees het document "
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:26
 #, no-wrap
 msgid "&nbsp;to find out if the installation was successful and keep it for a record of what was done."
 msgstr ""
+"&nbsp;om te zien of de installatie goed verlopen is en bewaar het als "
+"registratie."
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:28
 #, no-wrap
 msgid "Chameleon v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
-msgstr ""
+msgstr "Chameleon v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
 
 #. type: "Chameleon_Package_Title"
 #: Resources/templates/Localizable.strings:4
