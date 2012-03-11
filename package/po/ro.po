@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Chameleon 2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-04 10:37+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-03-06 22:38+0000\n"
+"PO-Revision-Date: 2012-03-11 03:04-0000\n"
+"Last-Translator: ErmaC\n"
 "Language-Team: ro <ro@li.org>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
@@ -18,226 +18,203 @@ msgstr ""
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:22
-#, fuzzy, no-wrap
-#| msgid "Chameleon Bootloader"
 msgid "Chameleon"
 msgstr "Bootloaderul Chameleon"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:23
-#, no-wrap
 msgid "v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
-msgstr ""
+msgstr "v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:25
-#, no-wrap
 msgid "Do not install to an Apple Macintosh computer"
-msgstr ""
+msgstr "Nu instalati acest software pe un computer Apple Macintosh"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:27
-#, no-wrap
 msgid "Developers :"
-msgstr ""
+msgstr "Developeri :"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:28
-#, no-wrap
 msgid "%DEVELOP%"
-msgstr ""
+msgstr "%DEVELOP%"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:30
-#, no-wrap
 msgid "Thanks to :"
-msgstr ""
+msgstr "Multumiri :"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:31
-#, no-wrap
 msgid "%CREDITS%"
-msgstr ""
+msgstr "%CREDITS%"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:33
-#, no-wrap
 msgid "Package :"
-msgstr ""
+msgstr "Pachet :"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:34
-#, no-wrap
 msgid "%PKGDEV%"
-msgstr ""
+msgstr "%PKGDEV%"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:36 Resources/templates/Conclusion.html:30
-#, no-wrap
 msgid "Package built by: %WHOBUILD%, language translated by: blackosx"
-msgstr ""
+msgstr "Pachet compilat de: %WHOBUILD%, Tradus de : RvXtm"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:37 Resources/templates/Conclusion.html:31
-#, no-wrap
 msgid "Copyright © %CPRYEAR%"
-msgstr ""
+msgstr "Copyright © %CPRYEAR%"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:18
-#, no-wrap
-msgid "Chameleon is a boot loader built using a combination of components which evolved from the development of David Elliott's fake EFI implementation added to Apple's boot-132 project."
+msgid ""
+"Chameleon is a boot loader built using a combination of components which "
+"evolved from the development of David Elliott's fake EFI implementation "
+"added to Apple's boot-132 project."
 msgstr ""
+"Chameleon este un bootloader cu elemente combinate, derivat din "
+"implementarea fake EFI a lui David Elliott si proiectul Apple's boot-132."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:20
-#, no-wrap
 msgid "Chameleon v2 is extended with many features. For example:"
-msgstr ""
+msgstr "Chameleon v2 ofera un numar de facilitati, cum ar fi:"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:22
-#, no-wrap
 msgid "- Fully customizable GUI to bring some color to the Darwin Bootloader."
-msgstr ""
+msgstr "- Interfata grafica complet modificabila dupa preferintele userului."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:23
-#, no-wrap
-msgid "- Load a ramdisk to directly boot retail DVDs without additional programs."
-msgstr ""
+msgid ""
+"- Load a ramdisk to directly boot retail DVDs without additional programs."
+msgstr "- RamDisk pentru boot cu versiuni retail Mac OS X."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:24
-#, no-wrap
 msgid "- Hibernation. Enjoy resuming your Mac OS X with a preview image."
-msgstr ""
+msgstr "- Hibernare folosind imaginea de hibernare."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:25
-#, no-wrap
 msgid "- SMBIOS override to modify the factory SMBIOS values."
 msgstr ""
+"- SMBIOS modificabil pentru a extinde compatibilitatea cu diferite computere."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:26
-#, no-wrap
-msgid "- DSDT override to use a modified fixed DSDT which can solve several issues."
+msgid ""
+"- DSDT override to use a modified fixed DSDT which can solve several issues."
 msgstr ""
+"- DSDT modificabil, oferind avantajul de a corecta posibilele "
+"incompatibilitati hardware."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:27
-#, no-wrap
 msgid "- Device Property Injection via device-properties string."
-msgstr ""
+msgstr "- Injectare de proprietati pentru diferite hardware-uri."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:28
-#, no-wrap
 msgid "- hybrid boot0 / boot1h for MBR and GPT partitioned disks."
-msgstr ""
+msgstr "- boot0 / boot1h hibrid, pentru partiti MBR precum si GPT."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:29
-#, no-wrap
 msgid "- Automatic FSB detection code even for recent AMD CPUs."
-msgstr ""
+msgstr "- FSB detectabil automat, chiar si pentru procesoare AMD noi."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:30
-#, no-wrap
 msgid "- Apple Software RAID support."
-msgstr ""
+msgstr "- Suport nativ RAID in OS X."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:31
-#, no-wrap
 msgid "- Nvidia &amp; ATI/AMD Graphics Card Enabler."
-msgstr ""
+msgstr "- Activare mod video pentru nVidia si ATI/AMD."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:32
-#, fuzzy, no-wrap
-#| msgid "Modules"
 msgid "- Module support"
-msgstr "Module"
+msgstr "- Suport pentru module"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:33
-#, no-wrap
 msgid "- Memory detection adapted from memtest86:&nbsp;"
-msgstr ""
+msgstr "- Detectare automata a memoriei bazata pe memtest86:&nbsp;"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:34
-#, no-wrap
-msgid "- Automatic P-State &amp; C-State generation for native power management."
+msgid ""
+"- Automatic P-State &amp; C-State generation for native power management."
 msgstr ""
+"- Generare automata P-states si C-states pentru management al energiei."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:35
-#, no-wrap
 msgid "- Message logging."
-msgstr ""
+msgstr "- Logare mesaje."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:37
-#, no-wrap
 msgid "The code is released under version 2 of the Gnu Public License."
-msgstr ""
+msgstr "Acest cod este acoperit de versiunea 2 a Gnu Public License."
 
 #. type: Content of: <html><body><p><span>
 #: Resources/templates/Description.html:40
-#, no-wrap
 msgid "FAQ's:&nbsp;"
-msgstr ""
+msgstr "FAQ's:&nbsp;"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:22
-#, no-wrap
 msgid "The scripts have completed and a file named&nbsp;"
-msgstr ""
+msgstr "Scripturiile au fost executate iar un fisier numit&nbsp;"
 
 #. type: Content of: <html><body><div><p><span>
 #: Resources/templates/Conclusion.html:22
-#, no-wrap
 msgid "@LOG_FILENAME@"
-msgstr ""
+msgstr "@LOG_FILENAME@"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:23
-#, no-wrap
 msgid "&nbsp;has been written to the root of your chosen partition."
-msgstr ""
+msgstr "&nbsp;a fost salvat in directorul principal al partitiei selectate."
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:25
-#, no-wrap
 msgid "Please&nbsp;"
-msgstr ""
+msgstr "Va rugam&nbsp;"
 
 #. type: Content of: <html><body><div><p><span>
 #: Resources/templates/Conclusion.html:25
-#, no-wrap
 msgid "read it"
-msgstr ""
+msgstr "sa il cititi"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:26
-#, no-wrap
-msgid "&nbsp;to find out if the installation was successful and keep it for a record of what was done."
+msgid ""
+"&nbsp;to find out if the installation was successful and keep it for a "
+"record of what was done."
 msgstr ""
+"&nbsp;pentru a afla daca instalarea a fost facuta cu succes si pentru a tine "
+"evidenta modificariilor facute."
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:28
-#, no-wrap
 msgid "Chameleon v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
-msgstr ""
+msgstr "Chameleon v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
 
 #. type: "Chameleon_Package_Title"
 #: Resources/templates/Localizable.strings:4
-#, fuzzy, no-wrap
-#| msgid "Chameleon Bootloader"
+#, no-wrap
 msgid "Chameleon Bootloader Package"
 msgstr "Bootloaderul Chameleon"
 
@@ -287,10 +264,10 @@ msgstr ""
 
 #. type: "Default_title"
 #: Resources/templates/Localizable.strings:25
-#: Resources/templates/Localizable.strings:239
+#: Resources/templates/Localizable.strings:242
 #, no-wrap
 msgid "Standard"
-msgstr ""
+msgstr "Standard"
 
 #. type: "Standard_description"
 #: Resources/templates/Localizable.strings:26
@@ -326,7 +303,7 @@ msgstr "Sistemul modular al bootloaderului Chameleon permite developeriilor sa e
 #: Resources/templates/Localizable.strings:38
 #, no-wrap
 msgid "klibc"
-msgstr ""
+msgstr "klibc"
 
 #. type: "klibc_description"
 #: Resources/templates/Localizable.strings:39
@@ -342,7 +319,7 @@ msgstr ""
 
 #. type: "Resolution_title"
 #: Resources/templates/Localizable.strings:43
-#: Resources/templates/Localizable.strings:267
+#: Resources/templates/Localizable.strings:270
 #, no-wrap
 msgid "Resolution"
 msgstr "Rezolutie"
@@ -362,7 +339,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:48
 #, no-wrap
 msgid "uClibc++"
-msgstr ""
+msgstr "uClibc++"
 
 #. type: "uClibc_description"
 #: Resources/templates/Localizable.strings:49
@@ -394,7 +371,7 @@ msgstr "Creaza un fisier /Extra/org.chameleon.Boot.plist prin selelectarea orica
 #: Resources/templates/Localizable.strings:61
 #, no-wrap
 msgid "BootBanner=No"
-msgstr ""
+msgstr "BootBanner=No"
 
 #. type: "BootBanner_description"
 #: Resources/templates/Localizable.strings:62
@@ -406,7 +383,7 @@ msgstr "Ascunde informatiile din partea stranga sus, precum ar fi versiunea Cham
 #: Resources/templates/Localizable.strings:64
 #, no-wrap
 msgid "GUI=No"
-msgstr ""
+msgstr "GUI=No"
 
 #. type: "GUI_description"
 #: Resources/templates/Localizable.strings:65
@@ -418,7 +395,7 @@ msgstr "Dezactiveaza interfata grafica implicit activa."
 #: Resources/templates/Localizable.strings:67
 #, no-wrap
 msgid "LegacyLogo=Yes"
-msgstr ""
+msgstr "LegacyLogo=Yes"
 
 #. type: "LegacyLogo_description"
 #: Resources/templates/Localizable.strings:68
@@ -430,7 +407,7 @@ msgstr "Folosirea logoului apple normal, gri pe fundal gri deschis, in loc de ce
 #: Resources/templates/Localizable.strings:70
 #, no-wrap
 msgid "InstantMenu=Yes"
-msgstr ""
+msgstr "InstantMenu=Yes"
 
 #. type: "InstantMenu_description"
 #: Resources/templates/Localizable.strings:71
@@ -444,7 +421,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:73
 #, no-wrap
 msgid "QuietBoot=Yes"
-msgstr ""
+msgstr "QuietBoot=Yes"
 
 #. type: "QuietBoot_description"
 #: Resources/templates/Localizable.strings:74
@@ -456,7 +433,7 @@ msgstr "Activeaza modul silentios de boot (nici un mesaj sau notificare)."
 #: Resources/templates/Localizable.strings:76
 #, no-wrap
 msgid "ShowInfo=Yes"
-msgstr ""
+msgstr "ShowInfo=Yes"
 
 #. type: "ShowInfo_description"
 #: Resources/templates/Localizable.strings:77
@@ -468,7 +445,7 @@ msgstr "Activeaza afisarea de informatii in partea stanga sub boot banner, cum a
 #: Resources/templates/Localizable.strings:79
 #, no-wrap
 msgid "Wait=Yes"
-msgstr ""
+msgstr "Wait=Yes"
 
 #. type: "Wait_description"
 #: Resources/templates/Localizable.strings:80
@@ -482,7 +459,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:84
 #, no-wrap
 msgid "arch=i386"
-msgstr ""
+msgstr "arch=i386"
 
 #. type: "arch_description"
 #: Resources/templates/Localizable.strings:85
@@ -494,7 +471,7 @@ msgstr "Porneste kernelul in modul 32 bit in loc de modul natural 64bit."
 #: Resources/templates/Localizable.strings:87
 #, no-wrap
 msgid "EHCIacquire=Yes"
-msgstr ""
+msgstr "EHCIacquire=Yes"
 
 #. type: "EHCIacquire_description"
 #: Resources/templates/Localizable.strings:88
@@ -506,7 +483,7 @@ msgstr "Activati optiunea pentru a repara orice problema de access EHCI in cazul
 #: Resources/templates/Localizable.strings:90
 #, no-wrap
 msgid "EthernetBuiltIn=Yes"
-msgstr ""
+msgstr "EthernetBuiltIn=Yes"
 
 #. type: "EthernetBuiltIn_description"
 #: Resources/templates/Localizable.strings:91
@@ -518,7 +495,7 @@ msgstr "Activati aceasta optiune pentru a seta modul integrat al placiilor de re
 #: Resources/templates/Localizable.strings:93
 #, no-wrap
 msgid "ForceHPET=Yes"
-msgstr ""
+msgstr "ForceHPET=Yes"
 
 #. type: "ForceHPET_description"
 #: Resources/templates/Localizable.strings:94
@@ -530,7 +507,7 @@ msgstr "Activeaza modul HPET pe chipseturi Intel care nu au optiunea HPET in bio
 #: Resources/templates/Localizable.strings:96
 #, no-wrap
 msgid "ForceWake=Yes"
-msgstr ""
+msgstr "ForceWake=Yes"
 
 #. type: "ForceWake_description"
 #: Resources/templates/Localizable.strings:97
@@ -542,7 +519,7 @@ msgstr "Aceasta optiune permite sistemului sa ignore imaginiie de sleep defecte.
 #: Resources/templates/Localizable.strings:99
 #, no-wrap
 msgid "RestartFix=No"
-msgstr ""
+msgstr "RestartFix=No"
 
 #. type: "RestartFix_description"
 #: Resources/templates/Localizable.strings:100
@@ -554,7 +531,7 @@ msgstr "Dezactiveaza patchul pentru restart prezent implicit."
 #: Resources/templates/Localizable.strings:102
 #, no-wrap
 msgid "UHCIreset=Yes"
-msgstr ""
+msgstr "UHCIreset=Yes"
 
 #. type: "UHCIreset_description"
 #: Resources/templates/Localizable.strings:103
@@ -566,7 +543,7 @@ msgstr "Activati optiunea pentru a reseta controlerele UHCI inainte de pornirea 
 #: Resources/templates/Localizable.strings:105
 #, no-wrap
 msgid "UseMemDetect=No"
-msgstr ""
+msgstr "UseMemDetect=No"
 
 #. type: "UseMemDetect_description"
 #: Resources/templates/Localizable.strings:106
@@ -578,7 +555,7 @@ msgstr "Dezactiveaza auto-detectarea memoriei RAM."
 #: Resources/templates/Localizable.strings:108
 #, no-wrap
 msgid "UseKernelCache=Yes"
-msgstr ""
+msgstr "UseKernelCache=Yes"
 
 #. type: "UseKernelCache_description"
 #: Resources/templates/Localizable.strings:109
@@ -590,7 +567,7 @@ msgstr "Pentru Lion doar, sistemul va incarca kernelul deja configurat cu extens
 #: Resources/templates/Localizable.strings:111
 #, no-wrap
 msgid "Wake=Yes"
-msgstr ""
+msgstr "Wake=Yes"
 
 #. type: "Wake_description"
 #: Resources/templates/Localizable.strings:112
@@ -602,7 +579,7 @@ msgstr "Incercare de a incarca imaginea salvata la ultima hibernare."
 #: Resources/templates/Localizable.strings:116
 #, no-wrap
 msgid "CSTUsingSystemIO=Yes"
-msgstr ""
+msgstr "CSTUsingSystemIO=Yes"
 
 #. type: "CSTUsingSystemIO_description"
 #: Resources/templates/Localizable.strings:117
@@ -614,7 +591,7 @@ msgstr "Noul mod de generare C-State _CST folosind registrele SystemIO in loc de
 #: Resources/templates/Localizable.strings:119
 #, no-wrap
 msgid "DropSSDT=Yes"
-msgstr ""
+msgstr "DropSSDT=Yes"
 
 #. type: "DropSSDT_description"
 #: Resources/templates/Localizable.strings:120
@@ -626,7 +603,7 @@ msgstr "Ingorarea tabelelor SSDT incluse in biosul placii de baza."
 #: Resources/templates/Localizable.strings:122
 #, no-wrap
 msgid "EnableC2State=Yes"
-msgstr ""
+msgstr "EnableC2State=Yes"
 
 #. type: "EnableC2State_description"
 #: Resources/templates/Localizable.strings:123
@@ -638,7 +615,7 @@ msgstr "Activeaza modul de energie al procesorului, C2."
 #: Resources/templates/Localizable.strings:125
 #, no-wrap
 msgid "EnableC3State=Yes"
-msgstr ""
+msgstr "EnableC3State=Yes"
 
 #. type: "EnableC3State_description"
 #: Resources/templates/Localizable.strings:126
@@ -650,7 +627,7 @@ msgstr "Activeaza modul de energie al procesorului, C3."
 #: Resources/templates/Localizable.strings:128
 #, no-wrap
 msgid "EnableC4State=Yes"
-msgstr ""
+msgstr "EnableC4State=Yes"
 
 #. type: "EnableC4State_description"
 #: Resources/templates/Localizable.strings:129
@@ -662,7 +639,7 @@ msgstr "Activeaza modul de energie al procesorului, C4."
 #: Resources/templates/Localizable.strings:131
 #, no-wrap
 msgid "GenerateCStates=Yes"
-msgstr ""
+msgstr "GenerateCStates=Yes"
 
 #. type: "GenerateCStates_description"
 #: Resources/templates/Localizable.strings:132
@@ -674,7 +651,7 @@ msgstr "Activeaza timpii 'idle' ai procesorului (C-States)."
 #: Resources/templates/Localizable.strings:134
 #, no-wrap
 msgid "GeneratePStates=Yes"
-msgstr ""
+msgstr "GeneratePStates=Yes"
 
 #. type: "GeneratePStates_description"
 #: Resources/templates/Localizable.strings:135
@@ -686,7 +663,7 @@ msgstr "Activeaza auto-generarea moduriilor de energie ale procesorului (P-State
 #: Resources/templates/Localizable.strings:139
 #, no-wrap
 msgid "1024x600x32"
-msgstr ""
+msgstr "1024x600x32"
 
 #. type: "1024x600x32_description"
 #: Resources/templates/Localizable.strings:140
@@ -698,7 +675,7 @@ msgstr "Setarea rezolutiei la 1024x600x32"
 #: Resources/templates/Localizable.strings:142
 #, no-wrap
 msgid "1024x768x32"
-msgstr ""
+msgstr "1024x768x32"
 
 #. type: "1024x768x32_description"
 #: Resources/templates/Localizable.strings:143
@@ -710,7 +687,7 @@ msgstr "Setarea rezolutiei la 1024x768x32"
 #: Resources/templates/Localizable.strings:145
 #, no-wrap
 msgid "1280x768x32"
-msgstr ""
+msgstr "1280x768x32"
 
 #. type: "1280x768x32_description"
 #: Resources/templates/Localizable.strings:146
@@ -722,7 +699,7 @@ msgstr "Setarea rezolutiei la 1280x768x32"
 #: Resources/templates/Localizable.strings:148
 #, no-wrap
 msgid "1280x800x32"
-msgstr ""
+msgstr "1280x800x32"
 
 #. type: "1280x800x32_description"
 #: Resources/templates/Localizable.strings:149
@@ -734,7 +711,7 @@ msgstr "Setarea rezolutiei la 1280x800x32"
 #: Resources/templates/Localizable.strings:151
 #, no-wrap
 msgid "1280x1024x32"
-msgstr ""
+msgstr "1280x1024x32"
 
 #. type: "1280x1024x32_description"
 #: Resources/templates/Localizable.strings:152
@@ -746,7 +723,7 @@ msgstr "Setarea rezolutiei la 1280x1024x32"
 #: Resources/templates/Localizable.strings:154
 #, no-wrap
 msgid "1280x960x32"
-msgstr ""
+msgstr "1280x960x32"
 
 #. type: "1280x960x32_description"
 #: Resources/templates/Localizable.strings:155
@@ -758,7 +735,7 @@ msgstr "Setarea rezolutiei la 1280x960x32"
 #: Resources/templates/Localizable.strings:157
 #, no-wrap
 msgid "1440x900x32"
-msgstr ""
+msgstr "1440x900x32"
 
 #. type: "1440x900x32_description"
 #: Resources/templates/Localizable.strings:158
@@ -770,7 +747,7 @@ msgstr "Setarea rezolutiei la 1440x900x32"
 #: Resources/templates/Localizable.strings:160
 #, no-wrap
 msgid "1600x900x32"
-msgstr ""
+msgstr "1600x900x32"
 
 #. type: "1600x900x32_description"
 #: Resources/templates/Localizable.strings:161
@@ -778,362 +755,374 @@ msgstr ""
 msgid "Set Graphics Mode to 1600x900x32"
 msgstr "Setarea rezolutiei la 1600x900x32"
 
-#. type: "1680x1050x32_title"
+#. type: "1600x1200x32_title"
 #: Resources/templates/Localizable.strings:163
 #, no-wrap
+msgid "1600x1200x32"
+msgstr "1600x1200x32"
+
+#. type: "1600x1200x32_description"
+#: Resources/templates/Localizable.strings:164
+#, no-wrap
+msgid "Set Graphics Mode to 1600x1200x32"
+msgstr "Setarea rezolutiei la 1600x1200x32"
+
+#. type: "1680x1050x32_title"
+#: Resources/templates/Localizable.strings:166
+#, no-wrap
 msgid "1680x1050x32"
-msgstr ""
+msgstr "1680x1050x32"
 
 #. type: "1680x1050x32_description"
-#: Resources/templates/Localizable.strings:164
+#: Resources/templates/Localizable.strings:167
 #, no-wrap
 msgid "Set Graphics Mode to 1680x1050x32"
 msgstr "Setarea rezolutiei la 1680x1050x32"
 
 #. type: "1920x1080x32_title"
-#: Resources/templates/Localizable.strings:166
+#: Resources/templates/Localizable.strings:169
 #, no-wrap
 msgid "1920x1080x32"
-msgstr ""
+msgstr "1920x1080x32"
 
 #. type: "1920x1080x32_description"
-#: Resources/templates/Localizable.strings:167
+#: Resources/templates/Localizable.strings:170
 #, no-wrap
 msgid "Set Graphics Mode to 1920x1080x32"
 msgstr "Setarea rezolutiei la1920x1080x32"
 
 #. type: "1920x1200x32_title"
-#: Resources/templates/Localizable.strings:169
+#: Resources/templates/Localizable.strings:172
 #, no-wrap
 msgid "1920x1200x32"
-msgstr ""
+msgstr "1920x1200x32"
 
 #. type: "1920x1200x32_description"
-#: Resources/templates/Localizable.strings:170
+#: Resources/templates/Localizable.strings:173
 #, no-wrap
 msgid "Set Graphics Mode to 1920x1200x32"
 msgstr "Setarea rezolutiei la 1920x1200x32"
 
 #. type: "GraphicsEnabler_title"
-#: Resources/templates/Localizable.strings:174
+#: Resources/templates/Localizable.strings:177
 #, no-wrap
 msgid "GraphicsEnabler=Yes"
-msgstr ""
+msgstr "GraphicsEnabler=Yes"
 
 #. type: "GraphicsEnabler_description"
-#: Resources/templates/Localizable.strings:175
+#: Resources/templates/Localizable.strings:178
 #, no-wrap
 msgid "Enables the option to autodetect NVIDIA based GPUs and inject the correct info."
 msgstr "Activeaza auto-detectarea placii video nVidia si injectarea proprietatiilor."
 
 #. type: "UseAtiROM_title"
-#: Resources/templates/Localizable.strings:177
+#: Resources/templates/Localizable.strings:180
 #, no-wrap
 msgid "UseAtiROM=Yes"
-msgstr ""
+msgstr "UseAtiROM=Yes"
 
 #. type: "UseAtiROM_description"
-#: Resources/templates/Localizable.strings:178
+#: Resources/templates/Localizable.strings:181
 #, no-wrap
 msgid "Enables UseAtiROM options."
 msgstr "Activeaza optiuniile UseAtiROM."
 
 #. type: "UseNvidiaROM_title"
-#: Resources/templates/Localizable.strings:180
+#: Resources/templates/Localizable.strings:183
 #, no-wrap
 msgid "UseNvidiaROM=Yes"
-msgstr ""
+msgstr "UseNvidiaROM=Yes"
 
 #. type: "UseNvidiaROM_description"
-#: Resources/templates/Localizable.strings:181
+#: Resources/templates/Localizable.strings:184
 #, no-wrap
 msgid "Enables UseNvidiaROM options."
 msgstr "Activeaza optiuniile UseNvidiaROM."
 
 #. type: "VBIOS_title"
-#: Resources/templates/Localizable.strings:183
+#: Resources/templates/Localizable.strings:186
 #, no-wrap
 msgid "VBIOS=Yes"
-msgstr ""
+msgstr "VBIOS=Yes"
 
 #. type: "VBIOS_description"
-#: Resources/templates/Localizable.strings:184
+#: Resources/templates/Localizable.strings:187
 #, no-wrap
 msgid "Enables VBIOS option"
 msgstr "Activeaza optiunea VBIOS"
 
 #. type: "Verbose_title"
-#: Resources/templates/Localizable.strings:189
+#: Resources/templates/Localizable.strings:192
 #, no-wrap
 msgid "Verbose Mode"
 msgstr "Modul Verbose"
 
 #. type: "Verbose_description"
-#: Resources/templates/Localizable.strings:190
+#: Resources/templates/Localizable.strings:193
 #, no-wrap
 msgid "Turns on verbose logging and allows you to see messages from both Chameleon and the OS X kernel at boot time. Essential for troubleshooting."
 msgstr "Activeaza afisarea de informatii detalitate in timpul procesului de boot, optiune vitala pentru depistarea problemelor."
 
 #. type: "Singleusermode_title"
-#: Resources/templates/Localizable.strings:192
+#: Resources/templates/Localizable.strings:195
 #, no-wrap
 msgid "Single User Mode"
-msgstr ""
+msgstr "Single User Mode"
 
 #. type: "Singleusermode_description"
-#: Resources/templates/Localizable.strings:193
+#: Resources/templates/Localizable.strings:196
 #, no-wrap
 msgid "A troubleshooting option used for booting into OS X's BSD/Unix command line."
 msgstr "Optiune pentru depistare a problemelor, care porneste direct in consola BSD/UNIX a sistemului OS X."
 
 #. type: "Ignorecaches_title"
-#: Resources/templates/Localizable.strings:195
+#: Resources/templates/Localizable.strings:198
 #, no-wrap
 msgid "Ignore Caches"
-msgstr ""
+msgstr "Ignore Caches"
 
 #. type: "Ignorecaches_description"
-#: Resources/templates/Localizable.strings:196
+#: Resources/templates/Localizable.strings:199
 #, no-wrap
 msgid "Not an option that's needed for everyday booting, but it can be useful if you want OS X to load all files from it's system folders, rather than relying on it's pre-built caches."
 msgstr "O optiune rar folosita, dar practica in cazul in care se doreste pornirea sistemului cu toate fisierele si ignorand cache-uriile prezente."
 
 #. type: "Npci_title"
-#: Resources/templates/Localizable.strings:198
+#: Resources/templates/Localizable.strings:201
 #, no-wrap
 msgid "npci=0x2000"
-msgstr ""
+msgstr "npci=0x2000"
 
 #. type: "Npci_description"
-#: Resources/templates/Localizable.strings:199
+#: Resources/templates/Localizable.strings:202
 #, no-wrap
 msgid "For overcoming a hang at 'PCI configuration begin' on some systems. 0x2000 is the kIOPCIConfiguratorPFM64 flag, as seen in the IOPCIFamily source code."
 msgstr "Pentru rezolvarea blocarii la 'PCI configuration begin' pe unele sisteme. 0x2000 este flagul kIOPCIConfiguratorPFM64, precum este prezentat in codul sursa IOPCIFamily."
 
 #. type: "Npci3_title"
-#: Resources/templates/Localizable.strings:201
+#: Resources/templates/Localizable.strings:204
 #, no-wrap
 msgid "npci=0x3000"
-msgstr ""
+msgstr "npci=0x3000"
 
 #. type: "Npci3_description"
-#: Resources/templates/Localizable.strings:202
+#: Resources/templates/Localizable.strings:205
 #, no-wrap
 msgid "For overcoming a hang at 'PCI configuration begin' on some systems. 0x3000 is the kIOPCIConfiguratorPFM64 flag, as seen in the IOPCIFamily source code."
 msgstr "Pentru rezolvarea blocarii la 'PCI configuration begin' pe unele sisteme. 0x3000 este flagul kIOPCIConfiguratorPFM64, precum este prezentat in codul sursa IOPCIFamily."
 
 #. type: "Darkwake_title"
-#: Resources/templates/Localizable.strings:204
+#: Resources/templates/Localizable.strings:207
 #, no-wrap
 msgid "darkwake=0"
-msgstr ""
+msgstr "darkwake=0"
 
 #. type: "Darkwake_description"
-#: Resources/templates/Localizable.strings:205
+#: Resources/templates/Localizable.strings:208
 #, no-wrap
 msgid "Lion only. Disables the 'low power wake' feature which can sometimes leave the screen black after wake from sleep."
 msgstr "Pentru Lion doar, dezactiveaza modul de revenire 'low power' care uneori lasa ecranul negru."
 
 #. type: "mac-de_title"
-#: Resources/templates/Localizable.strings:211
+#: Resources/templates/Localizable.strings:214
 #, no-wrap
 msgid "German Mac Keyboard"
-msgstr ""
+msgstr "German Mac Keyboard"
 
 #. type: "mac-de_description"
-#: Resources/templates/Localizable.strings:212
+#: Resources/templates/Localizable.strings:215
 #, no-wrap
 msgid "Use the keyboard layout for a German Mac keyboard"
 msgstr "Tastatura MAC in limba Germana"
 
 #. type: "mac-es_title"
-#: Resources/templates/Localizable.strings:214
+#: Resources/templates/Localizable.strings:217
 #, no-wrap
 msgid "Spanish Mac Keyboard"
-msgstr ""
+msgstr "Spanish Mac Keyboard"
 
 #. type: "mac-es_description"
-#: Resources/templates/Localizable.strings:215
+#: Resources/templates/Localizable.strings:218
 #, no-wrap
 msgid "Use the keyboard layout for a Spanish Mac keyboard"
 msgstr "Tastatura MAC in limba Spaniola"
 
 #. type: "mac-fr_title"
-#: Resources/templates/Localizable.strings:217
+#: Resources/templates/Localizable.strings:220
 #, no-wrap
 msgid "French Mac Keyboard"
-msgstr ""
+msgstr "French Mac Keyboard"
 
 #. type: "mac-fr_description"
-#: Resources/templates/Localizable.strings:218
+#: Resources/templates/Localizable.strings:221
 #, no-wrap
 msgid "Use the keyboard layout for a French Mac keyboard"
 msgstr "Tastatura MAC in limba Franceza"
 
 #. type: "mac-it_title"
-#: Resources/templates/Localizable.strings:220
+#: Resources/templates/Localizable.strings:223
 #, no-wrap
 msgid "Italian Mac Keyboard"
-msgstr ""
+msgstr "Italian Mac Keyboard"
 
 #. type: "mac-it_description"
-#: Resources/templates/Localizable.strings:221
+#: Resources/templates/Localizable.strings:224
 #, no-wrap
 msgid "Use the keyboard layout for an Italian Mac keyboard"
 msgstr "Tastatura MAC in limba Italiana"
 
 #. type: "mac-se_title"
-#: Resources/templates/Localizable.strings:223
+#: Resources/templates/Localizable.strings:226
 #, no-wrap
 msgid "Swedish Mac Keyboard"
-msgstr ""
+msgstr "Swedish Mac Keyboard"
 
 #. type: "mac-se_description"
-#: Resources/templates/Localizable.strings:224
+#: Resources/templates/Localizable.strings:227
 #, no-wrap
 msgid "Use the keyboard layout for a Swedish Mac keyboard"
 msgstr "Tastatura MAC in limba Suedeza"
 
 #. type: "pc-fr_title"
-#: Resources/templates/Localizable.strings:226
+#: Resources/templates/Localizable.strings:229
 #, no-wrap
 msgid "French PC Keyboard"
-msgstr ""
+msgstr "French PC Keyboard"
 
 #. type: "pc-fr_description"
-#: Resources/templates/Localizable.strings:227
+#: Resources/templates/Localizable.strings:230
 #, no-wrap
 msgid "Use the keyboard layout for a French PC keyboard"
 msgstr "Tastatura PC in limba Franceza"
 
 #. type: "Embed_title"
-#: Resources/templates/Localizable.strings:233
+#: Resources/templates/Localizable.strings:236
 #, no-wrap
 msgid "Embed"
-msgstr ""
+msgstr "Embed"
 
 #. type: "Embed_description"
-#: Resources/templates/Localizable.strings:234
+#: Resources/templates/Localizable.strings:237
 #, no-wrap
 msgid "A smaller simple version of the new default theme used when building a version of Chameleon which requires an embedded theme."
 msgstr "O versiune minimala a temei inregrate in chameleon."
 
 #. type: "Legacy_title"
-#: Resources/templates/Localizable.strings:236
+#: Resources/templates/Localizable.strings:239
 #, no-wrap
 msgid "Legacy"
-msgstr ""
+msgstr "Legacy"
 
 #. type: "Legacy_description"
-#: Resources/templates/Localizable.strings:237
+#: Resources/templates/Localizable.strings:240
 #, no-wrap
 msgid "Chameleon's original default theme introduced for v2.0 RC1"
 msgstr "Tema originala Chameleon introdusa in versiunea v2.0 RC1"
 
 #. type: "Default_description"
-#: Resources/templates/Localizable.strings:240
+#: Resources/templates/Localizable.strings:243
 #, no-wrap
 msgid "Chameleon default theme introduced for v2.0 RC5"
 msgstr "Tema originala Chameleon introdusa in versiunea v2.0 RC5"
 
 #. type: "Bullet_title"
-#: Resources/templates/Localizable.strings:242
+#: Resources/templates/Localizable.strings:245
 #, no-wrap
 msgid "Bullet"
-msgstr ""
+msgstr "Bullet"
 
 #. type: "Bullet_description"
-#: Resources/templates/Localizable.strings:243
+#: Resources/templates/Localizable.strings:246
 #, no-wrap
 msgid "A lovely simple theme by NoSmokingBandit from April 2009."
 msgstr "O tema simpla creata de NoSmokingBandit din Aprilie 2009."
 
 #. type: "Control_title"
-#: Resources/templates/Localizable.strings:251
+#: Resources/templates/Localizable.strings:254
 #, no-wrap
 msgid "Control Options"
 msgstr "Optiuni pentru control"
 
 #. type: "Control_description"
-#: Resources/templates/Localizable.strings:252
+#: Resources/templates/Localizable.strings:255
 #, no-wrap
 msgid "Settings to control how Chameleon works."
 msgstr "Optiuni pentru a controla modul de functionare a bootloaderului Chameleon."
 
 #. type: "General_title"
-#: Resources/templates/Localizable.strings:255
+#: Resources/templates/Localizable.strings:258
 #, no-wrap
 msgid "General Options"
 msgstr "Optiuni Generale"
 
 #. type: "General_description"
-#: Resources/templates/Localizable.strings:256
+#: Resources/templates/Localizable.strings:259
 #, no-wrap
 msgid "Choose from a selection of base options."
 msgstr "Alegeti din o gama de optiuni de baza."
 
 #. type: "KernelFlags_title"
-#: Resources/templates/Localizable.strings:259
+#: Resources/templates/Localizable.strings:262
 #, no-wrap
 msgid "Kernel Flags"
 msgstr "Flag-uri pentru kernel"
 
 #. type: "KernelFlags_description"
-#: Resources/templates/Localizable.strings:260
+#: Resources/templates/Localizable.strings:263
 #, no-wrap
 msgid "Choose from a selection of kernel flags."
 msgstr "Alegeti din o gama de flag-uri pentru kernel."
 
 #. type: "PowerManagement_title"
-#: Resources/templates/Localizable.strings:263
+#: Resources/templates/Localizable.strings:266
 #, no-wrap
 msgid "Power Management"
 msgstr "Management al energiei"
 
 #. type: "PowerManagement_description"
-#: Resources/templates/Localizable.strings:264
+#: Resources/templates/Localizable.strings:267
 #, no-wrap
 msgid "A selection of options that deal with power management and speedstep."
 msgstr "O selectie de optiuni care au de aface cu speedstep si consumul de energie."
 
 #. type: "Resolution_description"
-#: Resources/templates/Localizable.strings:268
+#: Resources/templates/Localizable.strings:271
 #, no-wrap
 msgid "Set one resolution to use."
 msgstr "Setati o rezolutie implicita."
 
 #. type: "Video_title"
-#: Resources/templates/Localizable.strings:271
+#: Resources/templates/Localizable.strings:274
 #, no-wrap
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 #. type: "Video_description"
-#: Resources/templates/Localizable.strings:272
+#: Resources/templates/Localizable.strings:275
 #, no-wrap
 msgid "A selection of options that deal with video."
 msgstr "O selectie de optiuni care au de aface cu functionarea video."
 
 #. type: "Keymaps_title"
-#: Resources/templates/Localizable.strings:275
+#: Resources/templates/Localizable.strings:278
 #, no-wrap
 msgid "KeyLayout"
 msgstr "Tastatura"
 
 #. type: "Keymaps_description"
-#: Resources/templates/Localizable.strings:276
+#: Resources/templates/Localizable.strings:279
 #, no-wrap
 msgid "Select one keylayout to use. This will also install the Keylayout module and keymaps."
 msgstr "Selectati o limba a tastaturii, aceasta va instala si modulul pentru diverse limbi."
 
 #. type: "Themes_title"
-#: Resources/templates/Localizable.strings:279
+#: Resources/templates/Localizable.strings:282
 #, no-wrap
 msgid "Themes"
 msgstr "Teme"
 
 #. type: "Themes_description"
-#: Resources/templates/Localizable.strings:280
+#: Resources/templates/Localizable.strings:283
 #, no-wrap
 msgid ""
 "A collection of sample themes\n"
@@ -1143,23 +1132,47 @@ msgstr "O colectie de teme exemplu, pentru mai multe teme vizitati adresa: http:
 #~ msgid "Install Type"
 #~ msgstr "Tipul Instalarii"
 
-#~ msgid "Choose to perform a new installation or upgrade an existing installation."
-#~ msgstr "Alegeti intre o instalare noua sau un upgrade al unei instalari prezente."
+#~ msgid ""
+#~ "Choose to perform a new installation or upgrade an existing installation."
+#~ msgstr ""
+#~ "Alegeti intre o instalare noua sau un upgrade al unei instalari prezente."
 
 #~ msgid "New Installation"
 #~ msgstr "Instalare Noua"
 
-#~ msgid "Backup an existing /Extra folder, if found on the target partition. A new one will be created if any options are chosen from the installer, other than the Bootloader."
-#~ msgstr "Se va face backup folderului /Extra de pe partitia aleasa, va fi creat un folder /Extra nou in cazul in care este aleasa orice alta optiune in afara de bootloader."
+#~ msgid ""
+#~ "Backup an existing /Extra folder, if found on the target partition. A new "
+#~ "one will be created if any options are chosen from the installer, other "
+#~ "than the Bootloader."
+#~ msgstr ""
+#~ "Se va face backup folderului /Extra de pe partitia aleasa, va fi creat un "
+#~ "folder /Extra nou in cazul in care este aleasa orice alta optiune in "
+#~ "afara de bootloader."
 
-#~ msgid "Merge an existing /Extra folder, if found on the target, with any options chosen from the installer, other than the Bootloader. The original /Extra folder will be backed up."
-#~ msgstr "Setariile selectate vor fi combinate cu cele prezente deja din folderul /Extra, dar pentru siguranta, se va face un backup folderului /Extra prezent."
+#~ msgid ""
+#~ "Merge an existing /Extra folder, if found on the target, with any options "
+#~ "chosen from the installer, other than the Bootloader. The original /Extra "
+#~ "folder will be backed up."
+#~ msgstr ""
+#~ "Setariile selectate vor fi combinate cu cele prezente deja din folderul /"
+#~ "Extra, dar pentru siguranta, se va face un backup folderului /Extra "
+#~ "prezent."
 
-#~ msgid "Install Chameleon's files to the normally hidden EFI system partition using either boot0 or boot0md depending on your system and without destroying any existing Windows installation if you have one."
-#~ msgstr "Instalarea Chameleon in partitia EFI (de obicei ascunsa) folosind boot0 sau boot0md in functie de configuratia sistemului, fara a distruge o instalare de Windows daca aceasta e prezenta."
+#~ msgid ""
+#~ "Install Chameleon's files to the normally hidden EFI system partition "
+#~ "using either boot0 or boot0md depending on your system and without "
+#~ "destroying any existing Windows installation if you have one."
+#~ msgstr ""
+#~ "Instalarea Chameleon in partitia EFI (de obicei ascunsa) folosind boot0 "
+#~ "sau boot0md in functie de configuratia sistemului, fara a distruge o "
+#~ "instalare de Windows daca aceasta e prezenta."
 
-#~ msgid "This module permits the user to define the keyboard key mappings. This module and associated keymaps are installed by default."
-#~ msgstr "Acest modul ofera posibilitatea folosirii aranjamentelor de tastaturi diferite."
+#~ msgid ""
+#~ "This module permits the user to define the keyboard key mappings. This "
+#~ "module and associated keymaps are installed by default."
+#~ msgstr ""
+#~ "Acest modul ofera posibilitatea folosirii aranjamentelor de tastaturi "
+#~ "diferite."
 
 #~ msgid "Utilities"
 #~ msgstr "Utilitati"
@@ -1174,7 +1187,8 @@ msgstr "O colectie de teme exemplu, pentru mai multe teme vizitati adresa: http:
 #~ msgstr "Instaleaza panoul de preferinte pentru Chameleon."
 
 #~ msgid "Copies an example smbios.plist in /Extra/Configuration."
-#~ msgstr "Copiaza un exemplu al fisierului smbios.plist in /Extra/Configuration."
+#~ msgstr ""
+#~ "Copiaza un exemplu al fisierului smbios.plist in /Extra/Configuration."
 
 #~ msgid "Documentation"
 #~ msgstr "Documentatie"
@@ -1208,35 +1222,3 @@ msgstr "O colectie de teme exemplu, pentru mai multe teme vizitati adresa: http:
 
 #~ msgid "Don't choose a keylayout."
 #~ msgstr "Nu alegeti un mod al tastaturii."
-
-#, fuzzy
-#~| msgid ""
-#~| "A collection of sample themes\n"
-#~| "More themes can be found at http://forum.voodooprojects.org/index.php/"
-#~| "board,7.0.html"
-#~ msgid "http://forge.voodooprojects.org/p/chameleon"
-#~ msgstr ""
-#~ "O colectie de teme exemplu, pentru mai multe teme vizitati adresa: http://"
-#~ "forum.voodooprojects.org/index.php/board,7.0.html"
-
-#, fuzzy
-#~| msgid ""
-#~| "A collection of sample themes\n"
-#~| "More themes can be found at http://forum.voodooprojects.org/index.php/"
-#~| "board,7.0.html"
-#~ msgid "http://forum.voodooprojects.org/index.php/topic,754.0.html"
-#~ msgstr ""
-#~ "O colectie de teme exemplu, pentru mai multe teme vizitati adresa: http://"
-#~ "forum.voodooprojects.org/index.php/board,7.0.html"
-
-#, fuzzy
-#~| msgid ""
-#~| "A collection of sample themes\n"
-#~| "More themes can be found at http://forum.voodooprojects.org/index.php/"
-#~| "board,7.0.html"
-#~ msgid ""
-#~ "<span class=\"s2\">http://forum.voodooprojects.org/index.php/topic,754.0."
-#~ "html</span>"
-#~ msgstr ""
-#~ "O colectie de teme exemplu, pentru mai multe teme vizitati adresa: http://"
-#~ "forum.voodooprojects.org/index.php/board,7.0.html"
