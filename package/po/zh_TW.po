@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Chameleon 2.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-06 22:38+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2012-03-15 19:36-0000\n"
+"Last-Translator: ErmaC\n"
 "Language-Team: zh_TW <zh_TW@li.org>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,6 @@ msgstr ""
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:22
-#, fuzzy
 #| msgid "Chameleon Bootloader"
 msgid "Chameleon"
 msgstr "Chameleon"
@@ -26,191 +25,184 @@ msgstr "Chameleon"
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:23
 msgid "v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
-msgstr ""
+msgstr "v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:25
 msgid "Do not install to an Apple Macintosh computer"
-msgstr ""
+msgstr "請勿安裝到 Apple 的 Macintosh 電腦"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:27
 msgid "Developers :"
-msgstr ""
+msgstr "開發者 :"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:28
 msgid "%DEVELOP%"
-msgstr ""
+msgstr "%DEVELOP%"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:30
 msgid "Thanks to :"
-msgstr ""
+msgstr "感謝 :"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:31
 msgid "%CREDITS%"
-msgstr ""
+msgstr "%CREDITS%"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:33
 msgid "Package :"
-msgstr ""
+msgstr "封裝者 :"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:34
 msgid "%PKGDEV%"
-msgstr ""
+msgstr "%PKGDEV%"
 
 #. type: Content of: <html><body><div><p>
-#: Resources/templates/Welcome.html:36 Resources/templates/Conclusion.html:30
+#: Resources/templates/Welcome.html:36
+#: Resources/templates/Conclusion.html:30
 msgid "Package built by: %WHOBUILD%, language translated by: blackosx"
-msgstr ""
+msgstr "Package built by: %WHOBUILD%, language 翻譯 : crazybirdy, Ulimate"
 
 #. type: Content of: <html><body><div><p>
-#: Resources/templates/Welcome.html:37 Resources/templates/Conclusion.html:31
+#: Resources/templates/Welcome.html:37
+#: Resources/templates/Conclusion.html:31
 msgid "Copyright © %CPRYEAR%"
-msgstr ""
+msgstr "Copyright © %CPRYEAR%"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:18
-msgid ""
-"Chameleon is a boot loader built using a combination of components which "
-"evolved from the development of David Elliott's fake EFI implementation "
-"added to Apple's boot-132 project."
-msgstr ""
+msgid "Chameleon is a boot loader built using a combination of components which evolved from the development of David Elliott's fake EFI implementation added to Apple's boot-132 project."
+msgstr "Chameleon 是一個結合許多組件的開機引導器。這些組件的演變來自於 David Elliott 加入 Apple 的 boot-132 程式項目的 fake EFI 安裝工具。"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:20
 msgid "Chameleon v2 is extended with many features. For example:"
-msgstr ""
+msgstr "Chameleon v2 現在已經擴充了許多功能。例如："
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:22
 msgid "- Fully customizable GUI to bring some color to the Darwin Bootloader."
-msgstr ""
+msgstr "- 客製化的圖形使用者介面，為 Darwin Bootloader 帶來更多的色彩。"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:23
-msgid ""
-"- Load a ramdisk to directly boot retail DVDs without additional programs."
-msgstr ""
+msgid "- Load a ramdisk to directly boot retail DVDs without additional programs."
+msgstr "- 無須其他程式，即可載入 ramdisk 來直接啓動 零售版 DVD。"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:24
 msgid "- Hibernation. Enjoy resuming your Mac OS X with a preview image."
-msgstr ""
+msgstr "- 支持睡眠。 可使用睡眠映像恢復繼續使用 Mac OS X 。"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:25
 msgid "- SMBIOS override to modify the factory SMBIOS values."
-msgstr ""
+msgstr "- 可使用修改過的 SMBIOS 覆蓋 SMBIOS 之出廠設定值。"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:26
-msgid ""
-"- DSDT override to use a modified fixed DSDT which can solve several issues."
-msgstr ""
+msgid "- DSDT override to use a modified fixed DSDT which can solve several issues."
+msgstr "- 可使用修正過的 DSDT 覆蓋原始 DSDT，並可解決許多問題。"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:27
 msgid "- Device Property Injection via device-properties string."
-msgstr ""
+msgstr "- 可透過 device-properties string 自動注入設備屬性。"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:28
 msgid "- hybrid boot0 / boot1h for MBR and GPT partitioned disks."
-msgstr ""
+msgstr "- 支持 MBR 及 GPT 分割區磁盤的  boot0 / boot1h 多重開機功能。"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:29
 msgid "- Automatic FSB detection code even for recent AMD CPUs."
-msgstr ""
+msgstr "- 具有自動偵測 FSB 碼功能，並可用於新式的 AMD CPU。"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:30
 msgid "- Apple Software RAID support."
-msgstr ""
+msgstr "- 支持 Apple Software RAID 功能。"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:31
 msgid "- Nvidia &amp; ATI/AMD Graphics Card Enabler."
-msgstr ""
+msgstr "- 支持 Nvidia &amp; ATI/AMD 顯示卡啓用功能。"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:32
-#, fuzzy
 #| msgid "Modules"
 msgid "- Module support"
-msgstr "模組選項"
+msgstr "- 支持模組功能。"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:33
 msgid "- Memory detection adapted from memtest86:&nbsp;"
-msgstr ""
+msgstr "- 支持改編自 memtest86:&nbsp;的記憶體偵測功能。&nbsp;"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:34
-msgid ""
-"- Automatic P-State &amp; C-State generation for native power management."
-msgstr ""
+msgid "- Automatic P-State &amp; C-State generation for native power management."
+msgstr "- 具有自動生成 P-State 及 C-State 的原生電源管理之功能。"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:35
 msgid "- Message logging."
-msgstr ""
+msgstr "- 具有訊息紀錄之功能。"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:37
 msgid "The code is released under version 2 of the Gnu Public License."
-msgstr ""
+msgstr "源代碼依照 Gnu Public License v2 的原則釋放於以下網站上。"
 
 #. type: Content of: <html><body><p><span>
 #: Resources/templates/Description.html:40
 msgid "FAQ's:&nbsp;"
-msgstr ""
+msgstr "常見問題:&nbsp;"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:22
 msgid "The scripts have completed and a file named&nbsp;"
-msgstr ""
+msgstr "安裝程序已經完成並在選擇安裝的分割區建立&nbsp;"
 
 #. type: Content of: <html><body><div><p><span>
 #: Resources/templates/Conclusion.html:22
 msgid "@LOG_FILENAME@"
-msgstr ""
+msgstr "@LOG_FILENAME@"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:23
 msgid "&nbsp;has been written to the root of your chosen partition."
-msgstr ""
+msgstr "&nbsp;紀錄文件。"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:25
 msgid "Please&nbsp;"
-msgstr ""
+msgstr "請&nbsp;"
 
 #. type: Content of: <html><body><div><p><span>
 #: Resources/templates/Conclusion.html:25
 msgid "read it"
-msgstr ""
+msgstr "詳閱紀錄文件"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:26
-msgid ""
-"&nbsp;to find out if the installation was successful and keep it for a "
-"record of what was done."
-msgstr ""
+msgid "&nbsp;to find out if the installation was successful and keep it for a record of what was done."
+msgstr "&nbsp;確認安裝是否成功，並保留安裝紀錄文件備查。"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:28
 msgid "Chameleon v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
-msgstr ""
+msgstr "Chameleon v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
 
 #. type: "Chameleon_Package_Title"
 #: Resources/templates/Localizable.strings:4
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "Chameleon Bootloader"
 msgid "Chameleon Bootloader Package"
 msgstr "Chameleon"
@@ -294,13 +286,13 @@ msgstr "模組選項"
 #: Resources/templates/Localizable.strings:36
 #, no-wrap
 msgid "The modules system incorporated in chameleon allows for a user or developer to extend the core functionality of chameleon without replacing the main boot file."
-msgstr ""
+msgstr "The modules system incorporated in chameleon allows for a user or developer to extend the core functionality of chameleon without replacing the main boot file."
 
 #. type: "klibc_title"
 #: Resources/templates/Localizable.strings:38
 #, no-wrap
 msgid "klibc"
-msgstr ""
+msgstr "klibc"
 
 #. type: "klibc_description"
 #: Resources/templates/Localizable.strings:39
@@ -339,7 +331,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:48
 #, no-wrap
 msgid "uClibc++"
-msgstr ""
+msgstr "uClibc++"
 
 #. type: "uClibc_description"
 #: Resources/templates/Localizable.strings:49
@@ -373,7 +365,7 @@ msgstr "創建 /Extra/org.chameleon.Boot.plist 及選用您需要的 Chameleon �
 #: Resources/templates/Localizable.strings:61
 #, no-wrap
 msgid "BootBanner=No"
-msgstr ""
+msgstr "BootBanner=No"
 
 #. type: "BootBanner_description"
 #: Resources/templates/Localizable.strings:62
@@ -385,7 +377,7 @@ msgstr "(預設是 Yes) 隱藏 圖形使用者介面的 Chameleon 開機選單�
 #: Resources/templates/Localizable.strings:64
 #, no-wrap
 msgid "GUI=No"
-msgstr ""
+msgstr "GUI=No"
 
 #. type: "GUI_description"
 #: Resources/templates/Localizable.strings:65
@@ -397,7 +389,7 @@ msgstr "(預設是 Yes) 停用 預設開啟之圖形使用者介面。"
 #: Resources/templates/Localizable.strings:67
 #, no-wrap
 msgid "LegacyLogo=Yes"
-msgstr ""
+msgstr "LegacyLogo=Yes"
 
 #. type: "LegacyLogo_description"
 #: Resources/templates/Localizable.strings:68
@@ -409,7 +401,7 @@ msgstr "(預設是 No) 開機畫面使用傳統的 Apple 圖示(白底灰蘋果)
 #: Resources/templates/Localizable.strings:70
 #, no-wrap
 msgid "InstantMenu=Yes"
-msgstr ""
+msgstr "InstantMenu=Yes"
 
 #. type: "InstantMenu_description"
 #: Resources/templates/Localizable.strings:71
@@ -421,7 +413,7 @@ msgstr "(預設是 No) 跳過倒數畫面，直接顯示分割區開機選擇畫
 #: Resources/templates/Localizable.strings:73
 #, no-wrap
 msgid "QuietBoot=Yes"
-msgstr ""
+msgstr "QuietBoot=Yes"
 
 #. type: "QuietBoot_description"
 #: Resources/templates/Localizable.strings:74
@@ -433,7 +425,7 @@ msgstr "(預設是 No) 啟用安靜開機模式(不會出現訊息或提示)。"
 #: Resources/templates/Localizable.strings:76
 #, no-wrap
 msgid "ShowInfo=Yes"
-msgstr ""
+msgstr "ShowInfo=Yes"
 
 #. type: "ShowInfo_description"
 #: Resources/templates/Localizable.strings:77
@@ -445,7 +437,7 @@ msgstr "(預設是 No) 啟用 在開機圖示選單左上方顯示分割區及�
 #: Resources/templates/Localizable.strings:79
 #, no-wrap
 msgid "Wait=Yes"
-msgstr ""
+msgstr "Wait=Yes"
 
 #. type: "Wait_description"
 #: Resources/templates/Localizable.strings:80
@@ -457,7 +449,7 @@ msgstr "(預設是 No) 在 Chameleon 載入完畢後暫停，並在 按任意鍵
 #: Resources/templates/Localizable.strings:84
 #, no-wrap
 msgid "arch=i386"
-msgstr ""
+msgstr "arch=i386"
 
 #. type: "arch_description"
 #: Resources/templates/Localizable.strings:85
@@ -469,7 +461,7 @@ msgstr "(預設是 64 位) 啓用 32 位模式引導內核開機，而非預設�
 #: Resources/templates/Localizable.strings:87
 #, no-wrap
 msgid "EHCIacquire=Yes"
-msgstr ""
+msgstr "EHCIacquire=Yes"
 
 #. type: "EHCIacquire_description"
 #: Resources/templates/Localizable.strings:88
@@ -481,7 +473,7 @@ msgstr "(預設是 No) 啟用 EHCI 修正功能，可修復任何不良 BIOS 造
 #: Resources/templates/Localizable.strings:90
 #, no-wrap
 msgid "EthernetBuiltIn=Yes"
-msgstr ""
+msgstr "EthernetBuiltIn=Yes"
 
 #. type: "EthernetBuiltIn_description"
 #: Resources/templates/Localizable.strings:91
@@ -493,7 +485,7 @@ msgstr "(預設是 No) 啟用將乙太網路卡設定成『內建』的功能。
 #: Resources/templates/Localizable.strings:93
 #, no-wrap
 msgid "ForceHPET=Yes"
-msgstr ""
+msgstr "ForceHPET=Yes"
 
 #. type: "ForceHPET_description"
 #: Resources/templates/Localizable.strings:94
@@ -505,7 +497,7 @@ msgstr "(預設是 No) 對 BIOS 中無 HPET 選項之 Intel 晶片組主機板�
 #: Resources/templates/Localizable.strings:96
 #, no-wrap
 msgid "ForceWake=Yes"
-msgstr ""
+msgstr "ForceWake=Yes"
 
 #. type: "ForceWake_description"
 #: Resources/templates/Localizable.strings:97
@@ -517,7 +509,7 @@ msgstr "(預設是 No) 啟用強制覆蓋睡眠資料映像功能，此選項可
 #: Resources/templates/Localizable.strings:99
 #, no-wrap
 msgid "RestartFix=No"
-msgstr ""
+msgstr "RestartFix=No"
 
 #. type: "RestartFix_description"
 #: Resources/templates/Localizable.strings:100
@@ -529,7 +521,7 @@ msgstr "(預設是 Yes) 停用 自動啟用的重新開機修正功能 (Intel CP
 #: Resources/templates/Localizable.strings:102
 #, no-wrap
 msgid "UHCIreset=Yes"
-msgstr ""
+msgstr "UHCIreset=Yes"
 
 #. type: "UHCIreset_description"
 #: Resources/templates/Localizable.strings:103
@@ -541,7 +533,7 @@ msgstr "(預設是 No) 啟用 UHCI 修正功能。可在進入 OS X 之前，先
 #: Resources/templates/Localizable.strings:105
 #, no-wrap
 msgid "UseMemDetect=No"
-msgstr ""
+msgstr "UseMemDetect=No"
 
 #. type: "UseMemDetect_description"
 #: Resources/templates/Localizable.strings:106
@@ -553,7 +545,7 @@ msgstr "(預設是 Yes) 停用 自動啟用的記憶體識別功能。"
 #: Resources/templates/Localizable.strings:108
 #, no-wrap
 msgid "UseKernelCache=Yes"
-msgstr ""
+msgstr "UseKernelCache=Yes"
 
 #. type: "UseKernelCache_description"
 #: Resources/templates/Localizable.strings:109
@@ -565,7 +557,7 @@ msgstr "(預設是 No) Lion 專用，選用 Yes 將載入預鏈接的 KernelCach
 #: Resources/templates/Localizable.strings:111
 #, no-wrap
 msgid "Wake=Yes"
-msgstr ""
+msgstr "Wake=Yes"
 
 #. type: "Wake_description"
 #: Resources/templates/Localizable.strings:112
@@ -577,7 +569,7 @@ msgstr "(預設是 No) 啟用睡眠喚醒功能，嘗試載入最後一次休眠
 #: Resources/templates/Localizable.strings:116
 #, no-wrap
 msgid "CSTUsingSystemIO=Yes"
-msgstr ""
+msgstr "CSTUsingSystemIO=Yes"
 
 #. type: "CSTUsingSystemIO_description"
 #: Resources/templates/Localizable.strings:117
@@ -589,7 +581,7 @@ msgstr "(預設是 No) 採用 SystemIO registers 生成 C-States _CST 的新方�
 #: Resources/templates/Localizable.strings:119
 #, no-wrap
 msgid "DropSSDT=Yes"
-msgstr ""
+msgstr "DropSSDT=Yes"
 
 #. type: "DropSSDT_description"
 #: Resources/templates/Localizable.strings:120
@@ -601,7 +593,7 @@ msgstr "(預設是 No) 設定 Yes 忽略主機板 BIOS 內建之 SSDT 表，可�
 #: Resources/templates/Localizable.strings:122
 #, no-wrap
 msgid "EnableC2State=Yes"
-msgstr ""
+msgstr "EnableC2State=Yes"
 
 #. type: "EnableC2State_description"
 #: Resources/templates/Localizable.strings:123
@@ -613,7 +605,7 @@ msgstr "(預設是 No) 強制生成 C2 State 為管理 CPU 電源狀態，可以
 #: Resources/templates/Localizable.strings:125
 #, no-wrap
 msgid "EnableC3State=Yes"
-msgstr ""
+msgstr "EnableC3State=Yes"
 
 #. type: "EnableC3State_description"
 #: Resources/templates/Localizable.strings:126
@@ -625,7 +617,7 @@ msgstr "(預設是 No) 強制生成 C3 State 為管理 CPU 電源狀態，可以
 #: Resources/templates/Localizable.strings:128
 #, no-wrap
 msgid "EnableC4State=Yes"
-msgstr ""
+msgstr "EnableC4State=Yes"
 
 #. type: "EnableC4State_description"
 #: Resources/templates/Localizable.strings:129
@@ -637,7 +629,7 @@ msgstr "(預設是 No) 強制生成 C4 State 為管理 CPU 電源狀態，可以
 #: Resources/templates/Localizable.strings:131
 #, no-wrap
 msgid "GenerateCStates=Yes"
-msgstr ""
+msgstr "GenerateCStates=Yes"
 
 #. type: "GenerateCStates_description"
 #: Resources/templates/Localizable.strings:132
@@ -649,7 +641,7 @@ msgstr "(預設是 No) 啟用自動生成 CPU 閒置休眠狀態的功能 (C-Sta
 #: Resources/templates/Localizable.strings:134
 #, no-wrap
 msgid "GeneratePStates=Yes"
-msgstr ""
+msgstr "GeneratePStates=Yes"
 
 #. type: "GeneratePStates_description"
 #: Resources/templates/Localizable.strings:135
@@ -661,7 +653,7 @@ msgstr "(預設是 No) 啟用自動生成 CPU 功耗表現狀態的功能 (P-Sta
 #: Resources/templates/Localizable.strings:139
 #, no-wrap
 msgid "1024x600x32"
-msgstr ""
+msgstr "1024x600x32"
 
 #. type: "1024x600x32_description"
 #: Resources/templates/Localizable.strings:140
@@ -673,7 +665,7 @@ msgstr "設定螢幕解析度為 1024x600x32"
 #: Resources/templates/Localizable.strings:142
 #, no-wrap
 msgid "1024x768x32"
-msgstr ""
+msgstr "1024x768x32"
 
 #. type: "1024x768x32_description"
 #: Resources/templates/Localizable.strings:143
@@ -685,7 +677,7 @@ msgstr "設定螢幕解析度為 1024x768x32"
 #: Resources/templates/Localizable.strings:145
 #, no-wrap
 msgid "1280x768x32"
-msgstr ""
+msgstr "1280x768x32"
 
 #. type: "1280x768x32_description"
 #: Resources/templates/Localizable.strings:146
@@ -697,7 +689,7 @@ msgstr "設定螢幕解析度為 1280x768x32"
 #: Resources/templates/Localizable.strings:148
 #, no-wrap
 msgid "1280x800x32"
-msgstr ""
+msgstr "1280x800x32"
 
 #. type: "1280x800x32_description"
 #: Resources/templates/Localizable.strings:149
@@ -709,7 +701,7 @@ msgstr "設定螢幕解析度為 1280x800x32"
 #: Resources/templates/Localizable.strings:151
 #, no-wrap
 msgid "1280x1024x32"
-msgstr ""
+msgstr "1280x1024x32"
 
 #. type: "1280x1024x32_description"
 #: Resources/templates/Localizable.strings:152
@@ -721,7 +713,7 @@ msgstr "設定螢幕解析度為 1280x1024x32"
 #: Resources/templates/Localizable.strings:154
 #, no-wrap
 msgid "1280x960x32"
-msgstr ""
+msgstr "1280x960x32"
 
 #. type: "1280x960x32_description"
 #: Resources/templates/Localizable.strings:155
@@ -733,7 +725,7 @@ msgstr "設定螢幕解析度為 1280x960x32"
 #: Resources/templates/Localizable.strings:157
 #, no-wrap
 msgid "1440x900x32"
-msgstr ""
+msgstr "1440x900x32"
 
 #. type: "1440x900x32_description"
 #: Resources/templates/Localizable.strings:158
@@ -745,7 +737,7 @@ msgstr "設定螢幕解析度為 1440x900x32"
 #: Resources/templates/Localizable.strings:160
 #, no-wrap
 msgid "1600x900x32"
-msgstr ""
+msgstr "1600x900x32"
 
 #. type: "1600x900x32_description"
 #: Resources/templates/Localizable.strings:161
@@ -757,20 +749,20 @@ msgstr "設定螢幕解析度為 1600x900x32"
 #: Resources/templates/Localizable.strings:163
 #, no-wrap
 msgid "1600x1200x32"
-msgstr ""
+msgstr "1600x1200x32"
 
 #. type: "1600x1200x32_description"
 #: Resources/templates/Localizable.strings:164
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "Set Graphics Mode to 1600x900x32"
 msgid "Set Graphics Mode to 1600x1200x32"
-msgstr "設定螢幕解析度為 1600x900x32"
+msgstr "設定螢幕解析度為 1600x1200x32"
 
 #. type: "1680x1050x32_title"
 #: Resources/templates/Localizable.strings:166
 #, no-wrap
 msgid "1680x1050x32"
-msgstr ""
+msgstr "1680x1050x32"
 
 #. type: "1680x1050x32_description"
 #: Resources/templates/Localizable.strings:167
@@ -782,7 +774,7 @@ msgstr "設定螢幕解析度為 1680x1050x32"
 #: Resources/templates/Localizable.strings:169
 #, no-wrap
 msgid "1920x1080x32"
-msgstr ""
+msgstr "1920x1080x32"
 
 #. type: "1920x1080x32_description"
 #: Resources/templates/Localizable.strings:170
@@ -794,7 +786,7 @@ msgstr "設定螢幕解析度為 1920x1080x32"
 #: Resources/templates/Localizable.strings:172
 #, no-wrap
 msgid "1920x1200x32"
-msgstr ""
+msgstr "1920x1200x32"
 
 #. type: "1920x1200x32_description"
 #: Resources/templates/Localizable.strings:173
@@ -806,7 +798,7 @@ msgstr "設定螢幕解析度為 1920x1200x32"
 #: Resources/templates/Localizable.strings:177
 #, no-wrap
 msgid "GraphicsEnabler=Yes"
-msgstr ""
+msgstr "GraphicsEnabler=Yes"
 
 #. type: "GraphicsEnabler_description"
 #: Resources/templates/Localizable.strings:178
@@ -818,7 +810,7 @@ msgstr "(預設是 No) 啟用顯示卡偵測功能。自動識別 顯示卡 GPU 
 #: Resources/templates/Localizable.strings:180
 #, no-wrap
 msgid "UseAtiROM=Yes"
-msgstr ""
+msgstr "UseAtiROM=Yes"
 
 #. type: "UseAtiROM_description"
 #: Resources/templates/Localizable.strings:181
@@ -830,7 +822,7 @@ msgstr "(預設是 No) 啟用 ATI EEPRom 功能，可在不刷顯示卡 BIOS 的
 #: Resources/templates/Localizable.strings:183
 #, no-wrap
 msgid "UseNvidiaROM=Yes"
-msgstr ""
+msgstr "UseNvidiaROM=Yes"
 
 #. type: "UseNvidiaROM_description"
 #: Resources/templates/Localizable.strings:184
@@ -842,7 +834,7 @@ msgstr "(預設是 No) 啟用 Nvidia EEPRom 功能，可在不刷顯示卡 BIOS 
 #: Resources/templates/Localizable.strings:186
 #, no-wrap
 msgid "VBIOS=Yes"
-msgstr ""
+msgstr "VBIOS=Yes"
 
 #. type: "VBIOS_description"
 #: Resources/templates/Localizable.strings:187
@@ -890,7 +882,7 @@ msgstr "使用 (-f) 忽略 Caches 模式登入，並非每日開機必備的的�
 #: Resources/templates/Localizable.strings:201
 #, no-wrap
 msgid "npci=0x2000"
-msgstr ""
+msgstr "npci=0x2000"
 
 #. type: "Npci_description"
 #: Resources/templates/Localizable.strings:202
@@ -902,7 +894,7 @@ msgstr "可在某些系統上排除 'PCI configuration begin' 的錯誤。0x2000
 #: Resources/templates/Localizable.strings:204
 #, no-wrap
 msgid "npci=0x3000"
-msgstr ""
+msgstr "npci=0x3000"
 
 #. type: "Npci3_description"
 #: Resources/templates/Localizable.strings:205
@@ -914,7 +906,7 @@ msgstr "可在某些系統上排除 'PCI configuration begin' 的錯誤。0x3000
 #: Resources/templates/Localizable.strings:207
 #, no-wrap
 msgid "darkwake=0"
-msgstr ""
+msgstr "darkwake=0"
 
 #. type: "Darkwake_description"
 #: Resources/templates/Localizable.strings:208
@@ -1088,7 +1080,7 @@ msgstr "一些設定電源管理和 speedstep 的選項。"
 #: Resources/templates/Localizable.strings:271
 #, no-wrap
 msgid "Set one resolution to use."
-msgstr ""
+msgstr "Set one resolution to use."
 
 #. type: "Video_title"
 #: Resources/templates/Localizable.strings:274
@@ -1112,7 +1104,7 @@ msgstr "鍵盤佈局"
 #: Resources/templates/Localizable.strings:279
 #, no-wrap
 msgid "Select one keylayout to use. This will also install the Keylayout module and keymaps."
-msgstr ""
+msgstr "Select one keylayout to use. This will also install the Keylayout module and keymaps."
 
 #. type: "Themes_title"
 #: Resources/templates/Localizable.strings:282
@@ -1205,38 +1197,3 @@ msgstr ""
 
 #~ msgid "Don't choose a keylayout."
 #~ msgstr "不選取安裝任何鍵盤佈局。"
-
-#, fuzzy
-#~| msgid ""
-#~| "A collection of sample themes\n"
-#~| "More themes can be found at http://forum.voodooprojects.org/index.php/"
-#~| "board,7.0.html"
-#~ msgid "http://forge.voodooprojects.org/p/chameleon"
-#~ msgstr ""
-#~ "收集的一些主題範例。\n"
-#~ "可在 http://forum.voodooprojects.org/index.php/board,7.0.html 找到更多的主"
-#~ "題。"
-
-#, fuzzy
-#~| msgid ""
-#~| "A collection of sample themes\n"
-#~| "More themes can be found at http://forum.voodooprojects.org/index.php/"
-#~| "board,7.0.html"
-#~ msgid "http://forum.voodooprojects.org/index.php/topic,754.0.html"
-#~ msgstr ""
-#~ "收集的一些主題範例。\n"
-#~ "可在 http://forum.voodooprojects.org/index.php/board,7.0.html 找到更多的主"
-#~ "題。"
-
-#, fuzzy
-#~| msgid ""
-#~| "A collection of sample themes\n"
-#~| "More themes can be found at http://forum.voodooprojects.org/index.php/"
-#~| "board,7.0.html"
-#~ msgid ""
-#~ "<span class=\"s2\">http://forum.voodooprojects.org/index.php/topic,754.0."
-#~ "html</span>"
-#~ msgstr ""
-#~ "收集的一些主題範例。\n"
-#~ "可在 http://forum.voodooprojects.org/index.php/board,7.0.html 找到更多的主"
-#~ "題。"

@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Chameleon 2.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-06 22:38+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2012-03-15 20:22-0000\n"
+"Last-Translator: ErmaC\n"
 "Language-Team: sr <sr@li.org>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,6 @@ msgstr ""
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:22
-#, fuzzy
 #| msgid "Chameleon Bootloader"
 msgid "Chameleon"
 msgstr "Chameleon"
@@ -26,191 +25,184 @@ msgstr "Chameleon"
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:23
 msgid "v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
-msgstr ""
+msgstr "v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:25
 msgid "Do not install to an Apple Macintosh computer"
-msgstr ""
+msgstr "Instalacija nije prilagođena za Apple Macintosh računare"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:27
 msgid "Developers :"
-msgstr ""
+msgstr "Programeri :"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:28
 msgid "%DEVELOP%"
-msgstr ""
+msgstr "%DEVELOP%"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:30
 msgid "Thanks to :"
-msgstr ""
+msgstr "Hvala :"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:31
 msgid "%CREDITS%"
-msgstr ""
+msgstr "%CREDITS%"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:33
 msgid "Package :"
-msgstr ""
+msgstr "Paket :"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:34
 msgid "%PKGDEV%"
-msgstr ""
+msgstr "%PKGDEV%"
 
 #. type: Content of: <html><body><div><p>
-#: Resources/templates/Welcome.html:36 Resources/templates/Conclusion.html:30
+#: Resources/templates/Welcome.html:36
+#: Resources/templates/Conclusion.html:30
 msgid "Package built by: %WHOBUILD%, language translated by: blackosx"
-msgstr ""
+msgstr "Package built by: %WHOBUILD%, language translated by: mistudio"
 
 #. type: Content of: <html><body><div><p>
-#: Resources/templates/Welcome.html:37 Resources/templates/Conclusion.html:31
+#: Resources/templates/Welcome.html:37
+#: Resources/templates/Conclusion.html:31
 msgid "Copyright © %CPRYEAR%"
-msgstr ""
+msgstr "Copyright © %CPRYEAR%"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:18
-msgid ""
-"Chameleon is a boot loader built using a combination of components which "
-"evolved from the development of David Elliott's fake EFI implementation "
-"added to Apple's boot-132 project."
-msgstr ""
+msgid "Chameleon is a boot loader built using a combination of components which evolved from the development of David Elliott's fake EFI implementation added to Apple's boot-132 project."
+msgstr "Chameleon je kombinacija različitih komponenti bootloadera. On je zasnovan na David Elliottovoj lažnoj EFI implementaciji dodanoj u Apple boot-132 projekat."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:20
 msgid "Chameleon v2 is extended with many features. For example:"
-msgstr ""
+msgstr "Nove funkcije u Chameleon 2.0"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:22
 msgid "- Fully customizable GUI to bring some color to the Darwin Bootloader."
-msgstr ""
+msgstr "- Potpuno prilagođen grafički korisinički interfejs donosi vizuelna poboljšanja u Darwin Bootloaderu."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:23
-msgid ""
-"- Load a ramdisk to directly boot retail DVDs without additional programs."
-msgstr ""
+msgid "- Load a ramdisk to directly boot retail DVDs without additional programs."
+msgstr "- Start sa retail DVD-om direktno učitava ramdisk slike bez pomoći dodatnih programa."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:24
 msgid "- Hibernation. Enjoy resuming your Mac OS X with a preview image."
-msgstr ""
+msgstr "- Hibernacija. Uživajte u nastavaku rada vašeg Mac OS X-a sa pregledom slike."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:25
 msgid "- SMBIOS override to modify the factory SMBIOS values."
-msgstr ""
+msgstr "- SMBIOS zamena tvorničkih za modifikovanu SMBIOS vrednost."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:26
-msgid ""
-"- DSDT override to use a modified fixed DSDT which can solve several issues."
-msgstr ""
+msgid "- DSDT override to use a modified fixed DSDT which can solve several issues."
+msgstr "- DSDT zamena za korišćenje modifikovanog, ispravljenog DSDT-a koji može rešiti nekoliko problema."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:27
 msgid "- Device Property Injection via device-properties string."
-msgstr ""
+msgstr "- Implementacija svojstva uređaja putem svojstva niza."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:28
 msgid "- hybrid boot0 / boot1h for MBR and GPT partitioned disks."
-msgstr ""
+msgstr "- hibridni boot0 / boot1h za MBR i GPT particijske diskove."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:29
 msgid "- Automatic FSB detection code even for recent AMD CPUs."
-msgstr ""
+msgstr "- Automatsko FSB kodno otkrivanje čak i za poslednje AMD procesore. "
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:30
 msgid "- Apple Software RAID support."
-msgstr ""
+msgstr "- Apple softver RAID podrška."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:31
 msgid "- Nvidia &amp; ATI/AMD Graphics Card Enabler."
-msgstr ""
+msgstr "- Nvidia &amp; ATI/AMD Grafički Aktivator."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:32
-#, fuzzy
 #| msgid "Modules"
 msgid "- Module support"
-msgstr "Chameleon Moduli"
+msgstr "- Modul podrška"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:33
 msgid "- Memory detection adapted from memtest86:&nbsp;"
-msgstr ""
+msgstr "- Detekcija memorije prilagođena iz memtest86:&nbsp;"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:34
-msgid ""
-"- Automatic P-State &amp; C-State generation for native power management."
-msgstr ""
+msgid "- Automatic P-State &amp; C-State generation for native power management."
+msgstr "- Automatsko generisanje P-State i C-State za izvorno upravljanje energijom."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:35
 msgid "- Message logging."
-msgstr ""
+msgstr "- Prijava porukama."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:37
 msgid "The code is released under version 2 of the Gnu Public License."
-msgstr ""
+msgstr "Kod je objavljen pod verzijom 2 GNU javna licenca."
 
 #. type: Content of: <html><body><p><span>
 #: Resources/templates/Description.html:40
 msgid "FAQ's:&nbsp;"
-msgstr ""
+msgstr "Za detaljne informacije posetite:&nbsp;"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:22
 msgid "The scripts have completed and a file named&nbsp;"
-msgstr ""
+msgstr "Skripte su završene i mapa pod nazivom&nbsp;"
 
 #. type: Content of: <html><body><div><p><span>
 #: Resources/templates/Conclusion.html:22
 msgid "@LOG_FILENAME@"
-msgstr ""
+msgstr "@LOG_FILENAME@"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:23
 msgid "&nbsp;has been written to the root of your chosen partition."
-msgstr ""
+msgstr "&nbsp;je snimljena u koren particije diska  koje ste odabrali."
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:25
 msgid "Please&nbsp;"
-msgstr ""
+msgstr "Molimo&nbsp;"
 
 #. type: Content of: <html><body><div><p><span>
 #: Resources/templates/Conclusion.html:25
 msgid "read it"
-msgstr ""
+msgstr "pročitajte"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:26
-msgid ""
-"&nbsp;to find out if the installation was successful and keep it for a "
-"record of what was done."
-msgstr ""
+msgid "&nbsp;to find out if the installation was successful and keep it for a record of what was done."
+msgstr "&nbsp;kako biste saznali da li je instalacija bila uspešna i čuvajte log radi evidencije o tome šta je učinjeno"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:28
 msgid "Chameleon v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
-msgstr ""
+msgstr "Chameleon v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
 
 #. type: "Chameleon_Package_Title"
 #: Resources/templates/Localizable.strings:4
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "Chameleon Bootloader"
 msgid "Chameleon Bootloader Package"
 msgstr "Chameleon"
@@ -264,7 +256,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:242
 #, no-wrap
 msgid "Standard"
-msgstr ""
+msgstr "Standard"
 
 #. type: "Standard_description"
 #: Resources/templates/Localizable.strings:26
@@ -294,13 +286,13 @@ msgstr "Chameleon Moduli"
 #: Resources/templates/Localizable.strings:36
 #, no-wrap
 msgid "The modules system incorporated in chameleon allows for a user or developer to extend the core functionality of chameleon without replacing the main boot file."
-msgstr ""
+msgstr "The modules system incorporated in chameleon allows for a user or developer to extend the core functionality of chameleon without replacing the main boot file."
 
 #. type: "klibc_title"
 #: Resources/templates/Localizable.strings:38
 #, no-wrap
 msgid "klibc"
-msgstr ""
+msgstr "klibc"
 
 #. type: "klibc_description"
 #: Resources/templates/Localizable.strings:39
@@ -319,7 +311,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:270
 #, no-wrap
 msgid "Resolution"
-msgstr ""
+msgstr "Resolution"
 
 #. type: "AutoReso_description"
 #: Resources/templates/Localizable.strings:44
@@ -337,7 +329,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:48
 #, no-wrap
 msgid "uClibc++"
-msgstr ""
+msgstr "uClibc++"
 
 #. type: "uClibc_description"
 #: Resources/templates/Localizable.strings:49
@@ -370,7 +362,7 @@ msgstr "Kreira /Extra/org.chameleon.Boot.plist i omogučuje izbor željene opcij
 #: Resources/templates/Localizable.strings:61
 #, no-wrap
 msgid "BootBanner=No"
-msgstr ""
+msgstr "BootBanner=No"
 
 #. type: "BootBanner_description"
 #: Resources/templates/Localizable.strings:62
@@ -382,7 +374,7 @@ msgstr "Skriva Cameleon boot banner u grafičkom korisničkom inferfejsu (GUI)."
 #: Resources/templates/Localizable.strings:64
 #, no-wrap
 msgid "GUI=No"
-msgstr ""
+msgstr "GUI=No"
 
 #. type: "GUI_description"
 #: Resources/templates/Localizable.strings:65
@@ -394,7 +386,7 @@ msgstr "Onemogućava uključeni zadati korisnički grafički interfejs."
 #: Resources/templates/Localizable.strings:67
 #, no-wrap
 msgid "LegacyLogo=Yes"
-msgstr ""
+msgstr "LegacyLogo=Yes"
 
 #. type: "LegacyLogo_description"
 #: Resources/templates/Localizable.strings:68
@@ -406,7 +398,7 @@ msgstr "Koristite legacy (sivi i beli) apple logo prilikom podizanja radije nego
 #: Resources/templates/Localizable.strings:70
 #, no-wrap
 msgid "InstantMenu=Yes"
-msgstr ""
+msgstr "InstantMenu=Yes"
 
 #. type: "InstantMenu_description"
 #: Resources/templates/Localizable.strings:71
@@ -418,7 +410,7 @@ msgstr "Prikaz ekrana za izbor particije bez prikazivanja timeout ekrana."
 #: Resources/templates/Localizable.strings:73
 #, no-wrap
 msgid "QuietBoot=Yes"
-msgstr ""
+msgstr "QuietBoot=Yes"
 
 #. type: "QuietBoot_description"
 #: Resources/templates/Localizable.strings:74
@@ -430,7 +422,7 @@ msgstr "Omogućava mod mirnog pokretanja (bez poruka ili redova)."
 #: Resources/templates/Localizable.strings:76
 #, no-wrap
 msgid "ShowInfo=Yes"
-msgstr ""
+msgstr "ShowInfo=Yes"
 
 #. type: "ShowInfo_description"
 #: Resources/templates/Localizable.strings:77
@@ -442,7 +434,7 @@ msgstr "Onemogućava prikaz detalja o particiji i rezoluciji."
 #: Resources/templates/Localizable.strings:79
 #, no-wrap
 msgid "Wait=Yes"
-msgstr ""
+msgstr "Wait=Yes"
 
 #. type: "Wait_description"
 #: Resources/templates/Localizable.strings:80
@@ -454,7 +446,7 @@ msgstr "Pauzira boot proces nakon što je Cameleon završio postavljanje, onda �
 #: Resources/templates/Localizable.strings:84
 #, no-wrap
 msgid "arch=i386"
-msgstr ""
+msgstr "arch=i386"
 
 #. type: "arch_description"
 #: Resources/templates/Localizable.strings:85
@@ -466,7 +458,7 @@ msgstr "Pokreće jezgru (kernel) u 32bitnom modu radije nego u zadatom 64bitnom 
 #: Resources/templates/Localizable.strings:87
 #, no-wrap
 msgid "EHCIacquire=Yes"
-msgstr ""
+msgstr "EHCIacquire=Yes"
 
 #. type: "EHCIacquire_description"
 #: Resources/templates/Localizable.strings:88
@@ -478,7 +470,7 @@ msgstr "Omogućava opciju za popravku bilo kojih EHCI vlasničkih prava zbog lo�
 #: Resources/templates/Localizable.strings:90
 #, no-wrap
 msgid "EthernetBuiltIn=Yes"
-msgstr ""
+msgstr "EthernetBuiltIn=Yes"
 
 #. type: "EthernetBuiltIn_description"
 #: Resources/templates/Localizable.strings:91
@@ -490,7 +482,7 @@ msgstr "Omogućava mogućnost dodavanja \"ugrađeno\" na vaše Ethernet uređaje
 #: Resources/templates/Localizable.strings:93
 #, no-wrap
 msgid "ForceHPET=Yes"
-msgstr ""
+msgstr "ForceHPET=Yes"
 
 #. type: "ForceHPET_description"
 #: Resources/templates/Localizable.strings:94
@@ -502,7 +494,7 @@ msgstr "Omogućuje HPET na Intel čipsetima, za biose koje ne uključuju ovu opc
 #: Resources/templates/Localizable.strings:96
 #, no-wrap
 msgid "ForceWake=Yes"
-msgstr ""
+msgstr "ForceWake=Yes"
 
 #. type: "ForceWake_description"
 #: Resources/templates/Localizable.strings:97
@@ -514,7 +506,7 @@ msgstr "Ova opcija Omogućuje vam da zaobiđete loše uspavane slike (sleep imag
 #: Resources/templates/Localizable.strings:99
 #, no-wrap
 msgid "RestartFix=No"
-msgstr ""
+msgstr "RestartFix=No"
 
 #. type: "RestartFix_description"
 #: Resources/templates/Localizable.strings:100
@@ -526,7 +518,7 @@ msgstr "Isključuje automatsko omogućavanje restart fix opcije"
 #: Resources/templates/Localizable.strings:102
 #, no-wrap
 msgid "UHCIreset=Yes"
-msgstr ""
+msgstr "UHCIreset=Yes"
 
 #. type: "UHCIreset_description"
 #: Resources/templates/Localizable.strings:103
@@ -538,7 +530,7 @@ msgstr "Omogućava opciju za reset UHCI kontrolera pre početka podizanja. "
 #: Resources/templates/Localizable.strings:105
 #, no-wrap
 msgid "UseMemDetect=No"
-msgstr ""
+msgstr "UseMemDetect=No"
 
 #. type: "UseMemDetect_description"
 #: Resources/templates/Localizable.strings:106
@@ -550,7 +542,7 @@ msgstr "Isključuje omogućeno automatsko RAM prepoznavanje."
 #: Resources/templates/Localizable.strings:108
 #, no-wrap
 msgid "UseKernelCache=Yes"
-msgstr ""
+msgstr "UseKernelCache=Yes"
 
 #. type: "UseKernelCache_description"
 #: Resources/templates/Localizable.strings:109
@@ -562,7 +554,7 @@ msgstr "Samo za Lion. Omogućuje učitavanje prethodno povezanog kernela. Ovo ć
 #: Resources/templates/Localizable.strings:111
 #, no-wrap
 msgid "Wake=Yes"
-msgstr ""
+msgstr "Wake=Yes"
 
 #. type: "Wake_description"
 #: Resources/templates/Localizable.strings:112
@@ -574,7 +566,7 @@ msgstr "Pokušava da učita uspavanu sliku snimljenu iz prethodne hibernacije"
 #: Resources/templates/Localizable.strings:116
 #, no-wrap
 msgid "CSTUsingSystemIO=Yes"
-msgstr ""
+msgstr "CSTUsingSystemIO=Yes"
 
 #. type: "CSTUsingSystemIO_description"
 #: Resources/templates/Localizable.strings:117
@@ -586,7 +578,7 @@ msgstr "Nova C-state _CST generacija metodom SystemIO registracije umjesto Fixed
 #: Resources/templates/Localizable.strings:119
 #, no-wrap
 msgid "DropSSDT=Yes"
-msgstr ""
+msgstr "DropSSDT=Yes"
 
 #. type: "DropSSDT_description"
 #: Resources/templates/Localizable.strings:120
@@ -598,7 +590,7 @@ msgstr "Odbacuje SSDT tabele ugrađene na matičnoj ploči."
 #: Resources/templates/Localizable.strings:122
 #, no-wrap
 msgid "EnableC2State=Yes"
-msgstr ""
+msgstr "EnableC2State=Yes"
 
 #. type: "EnableC2State_description"
 #: Resources/templates/Localizable.strings:123
@@ -610,7 +602,7 @@ msgstr "Uključuje posebno Processorsko stanje napajanja, C2."
 #: Resources/templates/Localizable.strings:125
 #, no-wrap
 msgid "EnableC3State=Yes"
-msgstr ""
+msgstr "EnableC3State=Yes"
 
 #. type: "EnableC3State_description"
 #: Resources/templates/Localizable.strings:126
@@ -622,7 +614,7 @@ msgstr "Uključuje posebno Processorsko stanje napajanja, C3."
 #: Resources/templates/Localizable.strings:128
 #, no-wrap
 msgid "EnableC4State=Yes"
-msgstr ""
+msgstr "EnableC4State=Yes"
 
 #. type: "EnableC4State_description"
 #: Resources/templates/Localizable.strings:129
@@ -634,7 +626,7 @@ msgstr "Uključuje posebno Processorsko stanje napajanja, C4."
 #: Resources/templates/Localizable.strings:131
 #, no-wrap
 msgid "GenerateCStates=Yes"
-msgstr ""
+msgstr "GenerateCStates=Yes"
 
 #. type: "GenerateCStates_description"
 #: Resources/templates/Localizable.strings:132
@@ -646,7 +638,7 @@ msgstr "Uključuje automatsko generisanje procesora u stanju mirovanja (C-States
 #: Resources/templates/Localizable.strings:134
 #, no-wrap
 msgid "GeneratePStates=Yes"
-msgstr ""
+msgstr "GeneratePStates=Yes"
 
 #. type: "GeneratePStates_description"
 #: Resources/templates/Localizable.strings:135
@@ -658,7 +650,7 @@ msgstr "Omogućava automatsko generirisanje snage procesora stanja performansi (
 #: Resources/templates/Localizable.strings:139
 #, no-wrap
 msgid "1024x600x32"
-msgstr ""
+msgstr "1024x600x32"
 
 #. type: "1024x600x32_description"
 #: Resources/templates/Localizable.strings:140
@@ -670,7 +662,7 @@ msgstr "Podesite Grafičku Rezoluciju na 1024x600x32"
 #: Resources/templates/Localizable.strings:142
 #, no-wrap
 msgid "1024x768x32"
-msgstr ""
+msgstr "1024x768x32"
 
 #. type: "1024x768x32_description"
 #: Resources/templates/Localizable.strings:143
@@ -682,7 +674,7 @@ msgstr "Podesite Grafičku Rezoluciju na 1024x768x32"
 #: Resources/templates/Localizable.strings:145
 #, no-wrap
 msgid "1280x768x32"
-msgstr ""
+msgstr "1280x768x32"
 
 #. type: "1280x768x32_description"
 #: Resources/templates/Localizable.strings:146
@@ -694,7 +686,7 @@ msgstr "Podesite Grafičku Rezoluciju na 1280x768x32"
 #: Resources/templates/Localizable.strings:148
 #, no-wrap
 msgid "1280x800x32"
-msgstr ""
+msgstr "1280x800x32"
 
 #. type: "1280x800x32_description"
 #: Resources/templates/Localizable.strings:149
@@ -706,7 +698,7 @@ msgstr "Podesite Grafičku Rezoluciju na 1280x800x32"
 #: Resources/templates/Localizable.strings:151
 #, no-wrap
 msgid "1280x1024x32"
-msgstr ""
+msgstr "1280x1024x32"
 
 #. type: "1280x1024x32_description"
 #: Resources/templates/Localizable.strings:152
@@ -718,7 +710,7 @@ msgstr "Podesite Grafičku Rezoluciju na 1280x1024x32"
 #: Resources/templates/Localizable.strings:154
 #, no-wrap
 msgid "1280x960x32"
-msgstr ""
+msgstr "1280x960x32"
 
 #. type: "1280x960x32_description"
 #: Resources/templates/Localizable.strings:155
@@ -730,7 +722,7 @@ msgstr "Podesite Grafičku Rezoluciju na 1280x960x32"
 #: Resources/templates/Localizable.strings:157
 #, no-wrap
 msgid "1440x900x32"
-msgstr ""
+msgstr "1440x900x32"
 
 #. type: "1440x900x32_description"
 #: Resources/templates/Localizable.strings:158
@@ -742,7 +734,7 @@ msgstr "Podesite Grafičku Rezoluciju na 1440x900x32"
 #: Resources/templates/Localizable.strings:160
 #, no-wrap
 msgid "1600x900x32"
-msgstr ""
+msgstr "1600x900x32"
 
 #. type: "1600x900x32_description"
 #: Resources/templates/Localizable.strings:161
@@ -754,20 +746,20 @@ msgstr "Podesite Grafičku Rezoluciju na 1600x900x32"
 #: Resources/templates/Localizable.strings:163
 #, no-wrap
 msgid "1600x1200x32"
-msgstr ""
+msgstr "1600x1200x32"
 
 #. type: "1600x1200x32_description"
 #: Resources/templates/Localizable.strings:164
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "Set Graphics Mode to 1600x900x32"
 msgid "Set Graphics Mode to 1600x1200x32"
-msgstr "Podesite Grafičku Rezoluciju na 1600x900x32"
+msgstr "Podesite Grafičku Rezoluciju na 1600x1200x32"
 
 #. type: "1680x1050x32_title"
 #: Resources/templates/Localizable.strings:166
 #, no-wrap
 msgid "1680x1050x32"
-msgstr ""
+msgstr "1680x1050x32"
 
 #. type: "1680x1050x32_description"
 #: Resources/templates/Localizable.strings:167
@@ -779,7 +771,7 @@ msgstr "Podesite Grafičku Rezoluciju na 1680x1050x32"
 #: Resources/templates/Localizable.strings:169
 #, no-wrap
 msgid "1920x1080x32"
-msgstr ""
+msgstr "1920x1080x32"
 
 #. type: "1920x1080x32_description"
 #: Resources/templates/Localizable.strings:170
@@ -791,7 +783,7 @@ msgstr "Podesite Grafičku Rezoluciju na 1920x1080x32"
 #: Resources/templates/Localizable.strings:172
 #, no-wrap
 msgid "1920x1200x32"
-msgstr ""
+msgstr "v"
 
 #. type: "1920x1200x32_description"
 #: Resources/templates/Localizable.strings:173
@@ -803,7 +795,7 @@ msgstr "Podesite Grafičku Rezoluciju na 1920x1200x32"
 #: Resources/templates/Localizable.strings:177
 #, no-wrap
 msgid "GraphicsEnabler=Yes"
-msgstr ""
+msgstr "GraphicsEnabler=Yes"
 
 #. type: "GraphicsEnabler_description"
 #: Resources/templates/Localizable.strings:178
@@ -815,7 +807,7 @@ msgstr "Omogućava opciju auto prepoznavanja NVIDIA baziranih grafičkih video k
 #: Resources/templates/Localizable.strings:180
 #, no-wrap
 msgid "UseAtiROM=Yes"
-msgstr ""
+msgstr "UseAtiROM=Yes"
 
 #. type: "UseAtiROM_description"
 #: Resources/templates/Localizable.strings:181
@@ -827,7 +819,7 @@ msgstr "Uključuje UseAtiROM opciju."
 #: Resources/templates/Localizable.strings:183
 #, no-wrap
 msgid "UseNvidiaROM=Yes"
-msgstr ""
+msgstr "UseNvidiaROM=Yes"
 
 #. type: "UseNvidiaROM_description"
 #: Resources/templates/Localizable.strings:184
@@ -839,7 +831,7 @@ msgstr "Uključuje UseNvidiaROM opciju."
 #: Resources/templates/Localizable.strings:186
 #, no-wrap
 msgid "VBIOS=Yes"
-msgstr ""
+msgstr "VBIOS=Yes"
 
 #. type: "VBIOS_description"
 #: Resources/templates/Localizable.strings:187
@@ -851,7 +843,7 @@ msgstr "Uključuje VBIOS opciju"
 #: Resources/templates/Localizable.strings:192
 #, no-wrap
 msgid "Verbose Mode"
-msgstr ""
+msgstr "Verbose Mode"
 
 #. type: "Verbose_description"
 #: Resources/templates/Localizable.strings:193
@@ -863,7 +855,7 @@ msgstr "Uključuje verbose prijavu i omogućava vam da vidite poruke iz oba Cham
 #: Resources/templates/Localizable.strings:195
 #, no-wrap
 msgid "Single User Mode"
-msgstr ""
+msgstr "Single User Mode"
 
 #. type: "Singleusermode_description"
 #: Resources/templates/Localizable.strings:196
@@ -875,7 +867,7 @@ msgstr "Opcija za rješavanje problema koja se koristi za podizanje OS X BSD / U
 #: Resources/templates/Localizable.strings:198
 #, no-wrap
 msgid "Ignore Caches"
-msgstr ""
+msgstr "Ignore Caches"
 
 #. type: "Ignorecaches_description"
 #: Resources/templates/Localizable.strings:199
@@ -887,7 +879,7 @@ msgstr "Opcija koja nije potrebna za svakodnevno podizanje, ali može biti koris
 #: Resources/templates/Localizable.strings:201
 #, no-wrap
 msgid "npci=0x2000"
-msgstr ""
+msgstr "npci=0x2000"
 
 #. type: "Npci_description"
 #: Resources/templates/Localizable.strings:202
@@ -899,7 +891,7 @@ msgstr "Postavlja zastave npci = 0x2000 za Kernel Zastave"
 #: Resources/templates/Localizable.strings:204
 #, no-wrap
 msgid "npci=0x3000"
-msgstr ""
+msgstr "npci=0x3000"
 
 #. type: "Npci3_description"
 #: Resources/templates/Localizable.strings:205
@@ -911,7 +903,7 @@ msgstr "Postavlja zastave npci = 0x3000 za Kernel Zastave"
 #: Resources/templates/Localizable.strings:207
 #, no-wrap
 msgid "darkwake=0"
-msgstr ""
+msgstr "darkwake=0"
 
 #. type: "Darkwake_description"
 #: Resources/templates/Localizable.strings:208
@@ -923,7 +915,7 @@ msgstr "Samo Lion. Isključuje 'low power wake' opciju koja ponekad ostavi crni 
 #: Resources/templates/Localizable.strings:214
 #, no-wrap
 msgid "German Mac Keyboard"
-msgstr ""
+msgstr "German Mac Keyboard"
 
 #. type: "mac-de_description"
 #: Resources/templates/Localizable.strings:215
@@ -935,7 +927,7 @@ msgstr "Korištenje tastature za Njemačku Mac tastaturu"
 #: Resources/templates/Localizable.strings:217
 #, no-wrap
 msgid "Spanish Mac Keyboard"
-msgstr ""
+msgstr "Spanish Mac Keyboard"
 
 #. type: "mac-es_description"
 #: Resources/templates/Localizable.strings:218
@@ -947,7 +939,7 @@ msgstr "Korištenje tastature za Španjolsku Mac tastaturu"
 #: Resources/templates/Localizable.strings:220
 #, no-wrap
 msgid "French Mac Keyboard"
-msgstr ""
+msgstr "French Mac Keyboard"
 
 #. type: "mac-fr_description"
 #: Resources/templates/Localizable.strings:221
@@ -959,7 +951,7 @@ msgstr "Korištenje tastature za Francusku Mac tastaturu"
 #: Resources/templates/Localizable.strings:223
 #, no-wrap
 msgid "Italian Mac Keyboard"
-msgstr ""
+msgstr "Italian Mac Keyboard"
 
 #. type: "mac-it_description"
 #: Resources/templates/Localizable.strings:224
@@ -971,7 +963,7 @@ msgstr "Korištenje tastature za Italijansku Mac tastaturu"
 #: Resources/templates/Localizable.strings:226
 #, no-wrap
 msgid "Swedish Mac Keyboard"
-msgstr ""
+msgstr "Swedish Mac Keyboard"
 
 #. type: "mac-se_description"
 #: Resources/templates/Localizable.strings:227
@@ -983,7 +975,7 @@ msgstr "Korištenje tastature za Svedsku Mac tastaturu"
 #: Resources/templates/Localizable.strings:229
 #, no-wrap
 msgid "French PC Keyboard"
-msgstr ""
+msgstr "French PC Keyboard"
 
 #. type: "pc-fr_description"
 #: Resources/templates/Localizable.strings:230
@@ -995,7 +987,7 @@ msgstr "Korištenje tastature za Francusku PC tastaturu"
 #: Resources/templates/Localizable.strings:236
 #, no-wrap
 msgid "Embed"
-msgstr ""
+msgstr "Embed"
 
 #. type: "Embed_description"
 #: Resources/templates/Localizable.strings:237
@@ -1007,7 +999,7 @@ msgstr "Manja, jednostavnija verzija nove podrazumevane teme koja se koristi pri
 #: Resources/templates/Localizable.strings:239
 #, no-wrap
 msgid "Legacy"
-msgstr ""
+msgstr "Legacy"
 
 #. type: "Legacy_description"
 #: Resources/templates/Localizable.strings:240
@@ -1025,7 +1017,7 @@ msgstr "Chameleonova trenutno zadata tema."
 #: Resources/templates/Localizable.strings:245
 #, no-wrap
 msgid "Bullet"
-msgstr ""
+msgstr "Bullet"
 
 #. type: "Bullet_description"
 #: Resources/templates/Localizable.strings:246
@@ -1037,7 +1029,7 @@ msgstr "Predivna jednostavna tema od NoSmokingBandit iz Aprila 2009."
 #: Resources/templates/Localizable.strings:254
 #, no-wrap
 msgid "Control Options"
-msgstr ""
+msgstr "Control Options"
 
 #. type: "Control_description"
 #: Resources/templates/Localizable.strings:255
@@ -1049,7 +1041,7 @@ msgstr "Opcije za kontrolu rada Chameleona."
 #: Resources/templates/Localizable.strings:258
 #, no-wrap
 msgid "General Options"
-msgstr ""
+msgstr "General Options"
 
 #. type: "General_description"
 #: Resources/templates/Localizable.strings:259
@@ -1061,7 +1053,7 @@ msgstr "Izaberite od selekcije iz baze opcija."
 #: Resources/templates/Localizable.strings:262
 #, no-wrap
 msgid "Kernel Flags"
-msgstr ""
+msgstr "Kernel Flags"
 
 #. type: "KernelFlags_description"
 #: Resources/templates/Localizable.strings:263
@@ -1073,7 +1065,7 @@ msgstr "Izaberite od selekcije iz kernel zastava."
 #: Resources/templates/Localizable.strings:266
 #, no-wrap
 msgid "Power Management"
-msgstr ""
+msgstr "Power Management"
 
 #. type: "PowerManagement_description"
 #: Resources/templates/Localizable.strings:267
@@ -1085,13 +1077,13 @@ msgstr "Izbor opcija koje se bave upravljanjem potrošnjom energije i SpeedStep-
 #: Resources/templates/Localizable.strings:271
 #, no-wrap
 msgid "Set one resolution to use."
-msgstr ""
+msgstr "Set one resolution to use."
 
 #. type: "Video_title"
 #: Resources/templates/Localizable.strings:274
 #, no-wrap
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 #. type: "Video_description"
 #: Resources/templates/Localizable.strings:275
@@ -1103,19 +1095,19 @@ msgstr "Izbor opcija koje se bave videom."
 #: Resources/templates/Localizable.strings:278
 #, no-wrap
 msgid "KeyLayout"
-msgstr ""
+msgstr "KeyLayout"
 
 #. type: "Keymaps_description"
 #: Resources/templates/Localizable.strings:279
 #, no-wrap
 msgid "Select one keylayout to use. This will also install the Keylayout module and keymaps."
-msgstr ""
+msgstr "Select one keylayout to use. This will also install the Keylayout module and keymaps."
 
 #. type: "Themes_title"
 #: Resources/templates/Localizable.strings:282
 #, no-wrap
 msgid "Themes"
-msgstr ""
+msgstr "Themes"
 
 #. type: "Themes_description"
 #: Resources/templates/Localizable.strings:283
@@ -1200,38 +1192,3 @@ msgstr ""
 
 #~ msgid "Don't choose a keylayout."
 #~ msgstr "Izbor bez keylayouta."
-
-#, fuzzy
-#~| msgid ""
-#~| "A collection of sample themes\n"
-#~| "More themes can be found at http://forum.voodooprojects.org/index.php/"
-#~| "board,7.0.html"
-#~ msgid "http://forge.voodooprojects.org/p/chameleon"
-#~ msgstr ""
-#~ "Skup predloženih tema\n"
-#~ "Više tema možete pronaći na http://forum.voodooprojects.org/index.php/"
-#~ "board,7.0.html"
-
-#, fuzzy
-#~| msgid ""
-#~| "A collection of sample themes\n"
-#~| "More themes can be found at http://forum.voodooprojects.org/index.php/"
-#~| "board,7.0.html"
-#~ msgid "http://forum.voodooprojects.org/index.php/topic,754.0.html"
-#~ msgstr ""
-#~ "Skup predloženih tema\n"
-#~ "Više tema možete pronaći na http://forum.voodooprojects.org/index.php/"
-#~ "board,7.0.html"
-
-#, fuzzy
-#~| msgid ""
-#~| "A collection of sample themes\n"
-#~| "More themes can be found at http://forum.voodooprojects.org/index.php/"
-#~| "board,7.0.html"
-#~ msgid ""
-#~ "<span class=\"s2\">http://forum.voodooprojects.org/index.php/topic,754.0."
-#~ "html</span>"
-#~ msgstr ""
-#~ "Skup predloženih tema\n"
-#~ "Više tema možete pronaći na http://forum.voodooprojects.org/index.php/"
-#~ "board,7.0.html"
