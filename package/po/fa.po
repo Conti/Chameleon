@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Chameleon 2.1svn-r1870\n"
 "POT-Creation-Date: 2012-03-06 22:38+0000\n"
-"PO-Revision-Date: 2012-03-16 11:27+0200\n"
+"PO-Revision-Date: 2012-03-16 11:33+0200\n"
 "Last-Translator: JrCs <d2t56xxptp@snkmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fa\n"
@@ -172,7 +172,7 @@ msgstr ""
 #. type: Content of: <html><body><div><p><span>
 #: Resources/templates/Conclusion.html:22
 msgid "@LOG_FILENAME@"
-msgstr ""
+msgstr "@LOG_FILENAME@"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:23
