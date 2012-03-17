@@ -230,7 +230,7 @@ long LoadKernelCache(const char* cacheFile, void **binary) {
 
     if((gBootMode & kBootModeSafe) != 0)
     {
-		verbose("Kernel Cache ignored\n", kernelCacheFile);
+		verbose("Kernel Cache ignored.\n");
 		return -1;
     }
 
