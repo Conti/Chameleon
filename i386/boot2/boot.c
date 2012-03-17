@@ -228,7 +228,7 @@ long LoadKernelCache(const char* cacheFile, void **binary) {
 	long		flags, time, cachetime, kerneltime, exttime, ret=-1;
     unsigned long adler32;
 
-    if((gBootMode & kBootModeSafe) == 0)
+    if((gBootMode & kBootModeSafe) != 0)
     {
 		verbose("Kernel Cache ignored\n", kernelCacheFile);
 		return -1;
