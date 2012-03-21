@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Chameleon 2.1svn-r1870\n"
 "POT-Creation-Date: 2012-03-06 22:38+0000\n"
-"PO-Revision-Date: 2012-03-16 11:33+0200\n"
-"Last-Translator: JrCs <d2t56xxptp@snkmail.com>\n"
+"PO-Revision-Date: 2012-03-16 15:34+0200\n"
+"Last-Translator: cyrus <pmbok.solution@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
@@ -29,12 +29,12 @@ msgstr "v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:25
 msgid "Do not install to an Apple Macintosh computer"
-msgstr ""
+msgstr "بر روی کامپیوتر های مکینتاش نصب نکنید."
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:27
 msgid "Developers :"
-msgstr ""
+msgstr "توسعه دهندگان :"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:28
@@ -44,7 +44,7 @@ msgstr "%DEVELOP%"
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:30
 msgid "Thanks to :"
-msgstr ""
+msgstr "تشکر از :"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:31
@@ -54,7 +54,7 @@ msgstr "%CREDITS%"
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:33
 msgid "Package :"
-msgstr ""
+msgstr "بسته :"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:34
@@ -64,12 +64,12 @@ msgstr "%PKGDEV%"
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:36 Resources/templates/Conclusion.html:30
 msgid "Package built by: %WHOBUILD%, language translated by: blackosx"
-msgstr ""
+msgstr "ساختن بسته توسط :%WHOBUILD% , ترجمه زبان توسط : cyrus"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:37 Resources/templates/Conclusion.html:31
 msgid "Copyright © %CPRYEAR%"
-msgstr ""
+msgstr "Copyright © %CPRYEAR%"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:18
@@ -78,96 +78,108 @@ msgid ""
 "evolved from the development of David Elliott's fake EFI implementation "
 "added to Apple's boot-132 project."
 msgstr ""
+"کامیلیون یک بوت لودر است که توسعه یافته ترکیب fake efi توسط دیوید الیوت با "
+"Apple boot-132 می باشد."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:20
 msgid "Chameleon v2 is extended with many features. For example:"
-msgstr ""
+msgstr "در کامیلیون نسخه دوم  خصوصیات زیادی توسعه یافته است . مانند:"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:22
 msgid "- Fully customizable GUI to bring some color to the Darwin Bootloader."
 msgstr ""
+"-ظاهری با قابلیت شخصی سازی کامل برای افزودن تعدای از رنگ ها به بوت لودر "
+"داروین."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:23
 msgid "- Load a ramdisk to directly boot retail DVDs without additional programs."
 msgstr ""
+"بارگیری یک ramdisk برای بوت مستقیم دی وی دی اصلی بدونه نیاز به برنامه های "
+"اضافی ."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:24
 msgid "- Hibernation. Enjoy resuming your Mac OS X with a preview image."
 msgstr ""
+"-قابلیت هایبر نت . از قابلیت شروع مجدد سیستم عامل مک خود با یک تصویر پیش "
+"نمایش لذت ببرید."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:25
 msgid "- SMBIOS override to modify the factory SMBIOS values."
 msgstr ""
+"-قابیلت نادیده گرفتن smbios تعریف شده توسط کارخانه و جایگزینی با smbios "
+"دیگر."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:26
 msgid "- DSDT override to use a modified fixed DSDT which can solve several issues."
 msgstr ""
+"-نادیده گرفتن DSDT . برای استفاده از یک DSDT ویرایش شده که می تواند تعدادی "
+"از مشکلات را حل کند."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:27
 msgid "- Device Property Injection via device-properties string."
-msgstr ""
+msgstr "-تزریق مشخصات دستگاه ها توسط device-properties sting"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:28
 msgid "- hybrid boot0 / boot1h for MBR and GPT partitioned disks."
-msgstr ""
+msgstr "-boot0/boot1h پیوندی برای دیسک MBR و GPT"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:29
 msgid "- Automatic FSB detection code even for recent AMD CPUs."
-msgstr ""
+msgstr "-تشخیص خودکار FSB حتی برای سی پی یو های AMD"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:30
 msgid "- Apple Software RAID support."
-msgstr ""
+msgstr "-پشتیبانی از قابلیت نرم افزاری RAID اپل ."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:31
 msgid "- Nvidia &amp; ATI/AMD Graphics Card Enabler."
-msgstr ""
+msgstr "-فعال سازی کار ت گرافیک های ;Nvidia&amp,ATI/AMD"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:32
 msgid "- Module support"
-msgstr ""
+msgstr "-پشتیبانی از ماژول."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:33
 msgid "- Memory detection adapted from memtest86:&nbsp;"
-msgstr ""
+msgstr "-تشخیص کارت حافظه بهینه سازی شده memtest86:&nbsp;"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:34
 msgid "- Automatic P-State &amp; C-State generation for native power management."
-msgstr ""
+msgstr "-مدیریت انرژی به صورت بومی با استفاده از ایجاد c-state,pstate&amp"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:35
 msgid "- Message logging."
-msgstr ""
+msgstr "-نمایش پیغامهای که هنگام بوت نمایش داده می شوند بعد از ورود به سیستم ."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:37
 msgid "The code is released under version 2 of the Gnu Public License."
-msgstr ""
+msgstr "کد تحت نسخه 2 از لایسنس عمومی Gnu منتشر می شود."
 
 #. type: Content of: <html><body><p><span>
 #: Resources/templates/Description.html:40
 msgid "FAQ's:&nbsp;"
-msgstr ""
+msgstr "پرسش و پاسخ ها:&nbsp;"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:22
 msgid "The scripts have completed and a file named&nbsp;"
-msgstr ""
+msgstr "اسکریپت ها کامل شده و تحت یک فایل که نامیده شده است &nbsp;"
 
 #. type: Content of: <html><body><div><p><span>
 #: Resources/templates/Conclusion.html:22
@@ -177,17 +189,17 @@ msgstr "@LOG_FILENAME@"
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:23
 msgid "&nbsp;has been written to the root of your chosen partition."
-msgstr ""
+msgstr "&nbsp;در ریشه پارتیشن انتخاب شده نوشته می شود."
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:25
 msgid "Please&nbsp;"
-msgstr ""
+msgstr "لطفا&nbsp;"
 
 #. type: Content of: <html><body><div><p><span>
 #: Resources/templates/Conclusion.html:25
 msgid "read it"
-msgstr ""
+msgstr "آن را بخوانید"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:26
@@ -195,47 +207,49 @@ msgid ""
 "&nbsp;to find out if the installation was successful and keep it for a "
 "record of what was done."
 msgstr ""
+"&nbsp;برای اینکه فهمیدن این موضوع که نصب موفقیت آمیز بوده است و نگهداشتن آن "
+"برای اینکه مشخص شود چه عملیاتی انجام شده است."
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:28
 msgid "Chameleon v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
-msgstr ""
+msgstr "Chameleon v%نسخه کامیلیون% r%نسخه کامیلیون%"
 
 #. type: "Chameleon_Package_Title"
 #: Resources/templates/Localizable.strings:4
 #, no-wrap
 msgid "Chameleon Bootloader Package"
-msgstr ""
+msgstr "بسته بوت لودر کامیلیون"
 
 #. type: "ERROR_BOOTVOL"
 #: Resources/templates/Localizable.strings:9
 #, no-wrap
 msgid "This software must be installed on the startup volume."
-msgstr ""
+msgstr "این نرم افزار باید در دیسک راه انداز نصب شود."
 
 #. type: "ERROR_INSTALL"
 #: Resources/templates/Localizable.strings:10
 #, no-wrap
 msgid "This volume does not meet the requirements for this update."
-msgstr ""
+msgstr "این دیسک پیش نیازهای این آپدیت را برآورده نمی کند."
 
 #. type: "Newer_Package_Installed_message"
 #: Resources/templates/Localizable.strings:12
 #, no-wrap
 msgid "A newer version of Chameleon is already installed"
-msgstr ""
+msgstr "نسخه جدیدتری از کامیلیون بر روی سیستم نصب است"
 
 #. type: "Intel_Mac_message"
 #: Resources/templates/Localizable.strings:13
 #, no-wrap
 msgid "This software cannot be installed on this computer."
-msgstr ""
+msgstr "این نرم افزار بر روی این کامپیوتر نصب نمی شود ."
 
 #. type: "Chameleon_title"
 #: Resources/templates/Localizable.strings:19
 #, no-wrap
 msgid "Chameleon Bootloader"
-msgstr ""
+msgstr "بوت لودر کامیلیون"
 
 #. type: "Chameleon_description"
 #: Resources/templates/Localizable.strings:20
@@ -246,12 +260,16 @@ msgid ""
 "boot1 (On the partition's boot-sector) to finding boot2.\n"
 "boot2 (On the partition's root directory) for loading kernel etc."
 msgstr ""
+"کامیلیون نیازمند سه فایل ضروری است. (به شکل ساده)\n"
+"boot0 (بر روی درایو MBR) ;که boot1را بار گیری می کند .\n"
+"boot1 (بر روی بوت سکتور پارتیشن) برای اینکه boot2 را پیدا کند .\n"
+"boot2 (در پارتیشن ریشه ) بر بارگیری کرنل و غیره."
 
 #. type: "Default_title"
 #: Resources/templates/Localizable.strings:25 Resources/templates/Localizable.strings:242
 #, no-wrap
 msgid "Standard"
-msgstr ""
+msgstr "استاندارد"
 
 #. type: "Standard_description"
 #: Resources/templates/Localizable.strings:26
@@ -261,24 +279,29 @@ msgid ""
 "boot0 or boot0md depending on your system without destroying any existing "
 "Windows installation if you have one."
 msgstr ""
+"فایل های کامیلیون را در ریشه پارتیشن انتخاب شده با استفاده از boot0 یا "
+"boot0mdبسته به سیستم شما بدونه آسیب زدن به نسخه های نصب شده ویندوز (در صورت "
+"وجود )نصب می کند ."
 
 #. type: "noboot_title"
 #: Resources/templates/Localizable.strings:28
 #, no-wrap
 msgid "Don't install the Bootloader"
-msgstr ""
+msgstr "بوت لودر را نصب نکن"
 
 #. type: "noboot_description"
 #: Resources/templates/Localizable.strings:29
 #, no-wrap
 msgid "Useful if you only want to install the extra's."
 msgstr ""
+"برای مواردی که شما فقط می خواهید فایل های جانبی کامیلیون را نصب کنید مناسب "
+"است ."
 
 #. type: "Module_title"
 #: Resources/templates/Localizable.strings:35
 #, no-wrap
 msgid "Modules"
-msgstr ""
+msgstr "ماژول ها"
 
 #. type: "Module_description"
 #: Resources/templates/Localizable.strings:36
@@ -288,12 +311,14 @@ msgid ""
 "to extend the core functionality of chameleon without replacing the main "
 "boot file."
 msgstr ""
+"سیستم ماژول ها به توسعه دهندگان یا کاربران اجازه توسعه قابلیت های کامیلیون "
+"بدونه جایگزین کردن فایل بوت اصلی را می دهد."
 
 #. type: "klibc_title"
 #: Resources/templates/Localizable.strings:38
 #, no-wrap
 msgid "klibc"
-msgstr ""
+msgstr "klibc"
 
 #. type: "klibc_description"
 #: Resources/templates/Localizable.strings:39
@@ -304,12 +329,16 @@ msgid ""
 "This is currently only used by the uClibc++ library.\n"
 "Source: http://www.kernel.org/pub/linux/libs/klibc/"
 msgstr ""
+"این ماژول یک کتابخانه استاندارد c برای ماژول ها فراهم می آورد تا در صورتی که "
+"کتابخانه کامیلیون ناکافی بود به آن لینک شوند.این در حال حاضر تنها توسط "
+"کتابخانه uClibc++ استفاده می "
+"شود.منبع:http://www.kernel.org/pub/linux/libs/klibc/"
 
 #. type: "Resolution_title"
 #: Resources/templates/Localizable.strings:43 Resources/templates/Localizable.strings:270
 #, no-wrap
 msgid "Resolution"
-msgstr ""
+msgstr "تفکیک پذیری"
 
 #. type: "AutoReso_description"
 #: Resources/templates/Localizable.strings:44
@@ -322,12 +351,16 @@ msgid ""
 "Additionally, the module will patch the vesa modes available in pre intel hd "
 "graphics cards to provide proper resolution while booting."
 msgstr ""
+"این ماژول edid را از مانیتور متصل به پورت می خواند .\n"
+"این ماژول در حال حاضر با کامیلیون یک پارچه نشده و استفاده کمی نیز دارد .\n"
+"علاوه بر این , این ماژول حالت vesa که در کارت های گرافیک اینتل وجود دارد را "
+"پتچ می کند تا تفکیک پذیری بهتری را در هنگام بوت فراهم کند."
 
 #. type: "uClibc_title"
 #: Resources/templates/Localizable.strings:48
 #, no-wrap
 msgid "uClibc++"
-msgstr ""
+msgstr "uClibc++"
 
 #. type: "uClibc_description"
 #: Resources/templates/Localizable.strings:49
@@ -340,12 +373,18 @@ msgid ""
 "Source: http://cxx.uclibc.org/\n"
 "Dependencies: klibc"
 msgstr ""
+"این ماژول کتابخانه زمان اجرا C++ برای استفاده در سایر ماژول ها را فراهم می "
+"کند.این خودش کارکردی ندارد , در عوض به سایر ماژول ها این اجازه را می دهد که "
+"از زبان C++ را می دهد.\n"
+"*لطفا توجه کنید که rtti و استثنا ها هر دو غیر فعال شده اند .\n"
+"منبع:http://cxx.uclibc.org/\n"
+"وابستگی ها :klibc"
 
 #. type: "Options_title"
 #: Resources/templates/Localizable.strings:58
 #, no-wrap
 msgid "Settings"
-msgstr ""
+msgstr "تنظیمات"
 
 #. type: "Options_description"
 #: Resources/templates/Localizable.strings:59
@@ -354,12 +393,14 @@ msgid ""
 "Create an /Extra/org.chameleon.Boot.plist by selecting any of these boot "
 "options and kernel flags."
 msgstr ""
+"با انتخاب هر یک از گزینه های بوت یا کرنل یک /Extra/org.chameleon.Boot.plist "
+"ایجاد می شود."
 
 #. type: "BootBanner_title"
 #: Resources/templates/Localizable.strings:61
 #, no-wrap
 msgid "BootBanner=No"
-msgstr ""
+msgstr "BootBanner=No"
 
 #. type: "BootBanner_description"
 #: Resources/templates/Localizable.strings:62
@@ -368,24 +409,26 @@ msgid ""
 "Hides Chameleon's boot banner in GUI. This is the text that is drawn at the "
 "top left corner of the screen displaying the release version etc."
 msgstr ""
+"نشان کامیلیون را در حالت GUI مخفی می کند .این نشان یک متن در گوشه بالا سمت "
+"چپ صفحه نمایش ترسیم می شود و نسخه انتشار یافته و غیره را نشان می دهد."
 
 #. type: "GUI_title"
 #: Resources/templates/Localizable.strings:64
 #, no-wrap
 msgid "GUI=No"
-msgstr ""
+msgstr "GUI=No"
 
 #. type: "GUI_description"
 #: Resources/templates/Localizable.strings:65
 #, no-wrap
 msgid "Disables the default enabled graphic user interface."
-msgstr ""
+msgstr "رابط کاربر گرافیکی را که به طور پیش فرض فعال است را غیر فعال می کند."
 
 #. type: "LegacyLogo_title"
 #: Resources/templates/Localizable.strings:67
 #, no-wrap
 msgid "LegacyLogo=Yes"
-msgstr ""
+msgstr "LegacyLogo=Yes"
 
 #. type: "LegacyLogo_description"
 #: Resources/templates/Localizable.strings:68
@@ -394,12 +437,14 @@ msgid ""
 "Use the legacy 'dark grey' apple logo on the light grey screen for the boot "
 "process rather than the boot.png in the theme."
 msgstr ""
+"از لوگوی خاکستری تیره قدیمی اپل در صفحه خاکستری روشن بوت به فایل boot.png "
+"موجوی در پوشه theme استفاده می کند."
 
 #. type: "InstantMenu_title"
 #: Resources/templates/Localizable.strings:70
 #, no-wrap
 msgid "InstantMenu=Yes"
-msgstr ""
+msgstr "InstantMenu=Yes"
 
 #. type: "InstantMenu_description"
 #: Resources/templates/Localizable.strings:71
