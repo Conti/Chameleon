@@ -79,6 +79,7 @@ const char *nvidia_compatible_1[]	=	{ "@1,compatible",	"NVDA,NVMac"	 };
 const char *nvidia_device_type_0[]	=	{ "@0,device_type", "display"		 };
 const char *nvidia_device_type_1[]	=	{ "@1,device_type", "display"		 };
 const char *nvidia_device_type[]	=	{ "device_type",	"NVDA,Parent"	 };
+const char *nvidia_device_type_child[]	=	{ "device_type",	"NVDA,Child"	 };
 const char *nvidia_name_0[]			=	{ "@0,name",		"NVDA,Display-A" };
 const char *nvidia_name_1[]			=	{ "@1,name",		"NVDA,Display-B" };
 const char *nvidia_slot_name[]		=	{ "AAPL,slot-name", "Slot-1"		 };
@@ -1190,8 +1191,16 @@ static int devprop_add_nvidia_template(struct DevPropDevice *device)
 		return 0;
 	if (!DP_ADD_TEMP_VAL(device, nvidia_name_1))
 		return 0;
-	if (!DP_ADD_TEMP_VAL(device, nvidia_device_type))
-		return 0;
+	if (devices_number == 1)
+	{
+	  if (!DP_ADD_TEMP_VAL(device, nvidia_device_type))
+		  return 0;
+	}
+	else
+	{
+	  if (!DP_ADD_TEMP_VAL(device, nvidia_device_type_child))
+		  return 0;
+	}
 	
 	// Rek : Dont use sprintf return, it does not WORK !! our custom sprintf() always return 0!
 	// len = sprintf(tmp, "Slot-%x", devices_number);
@@ -1403,13 +1412,16 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 	
 	/* FIXME: for primary graphics card only */
 	boot_display = 1;
-	devprop_add_value(device, "@0,AAPL,boot-display", (uint8_t*)&boot_display, 4);
+	if (devices_number == 1)
+	{
+	  devprop_add_value(device, "@0,AAPL,boot-display", (uint8_t*)&boot_display, 4);
+	}
 	
 	if (nvPatch == PATCH_ROM_SUCCESS_HAS_LVDS) {
 		uint8_t built_in = 0x01;
 		devprop_add_value(device, "@0,built-in", &built_in, 1);
 	}
-	
+
 	// get bios version
 	const int MAX_BIOS_VERSION_LENGTH = 32;
 	char* version_str = (char*)malloc(MAX_BIOS_VERSION_LENGTH);
