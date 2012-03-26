@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Chameleon 2.1svn-r1870\n"
 "POT-Creation-Date: 2012-03-06 22:38+0000\n"
-"PO-Revision-Date: 2012-03-16 15:34+0200\n"
+"PO-Revision-Date: 2012-03-22 19:30+0200\n"
 "Last-Translator: cyrus <pmbok.solution@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fa\n"
@@ -455,24 +455,28 @@ msgid ""
 "down before Chameleon automatically boots that partition. This options skips "
 "that and takes you directly to the device selection screen."
 msgstr ""
+"در حالت پیش فرض وقتی که کامیلیون بارگیری می شود شما یک آیکون برای پارتیشن "
+"پیش فرض کنونی می بینید ، همراه با یک تایمر که تا زمانی که کایمیلون به صورت "
+"خودکار لود شود باقی می ماند .این گزینه تایمر مذکور را لغو و به صورت مستقیم "
+"شما را ببه صفحه انتخاب پارتیشن برای بوت هدایت می کند."
 
 #. type: "QuietBoot_title"
 #: Resources/templates/Localizable.strings:73
 #, no-wrap
 msgid "QuietBoot=Yes"
-msgstr ""
+msgstr "QuietBoot=Yes"
 
 #. type: "QuietBoot_description"
 #: Resources/templates/Localizable.strings:74
 #, no-wrap
 msgid "Enable quiet boot mode (no messages or prompt)."
-msgstr ""
+msgstr "فعال سازی حالت بوت سریع"
 
 #. type: "ShowInfo_title"
 #: Resources/templates/Localizable.strings:76
 #, no-wrap
 msgid "ShowInfo=Yes"
-msgstr ""
+msgstr "ShowInfo=Yes"
 
 #. type: "ShowInfo_description"
 #: Resources/templates/Localizable.strings:77
@@ -482,12 +486,14 @@ msgid ""
 "of the GUI under the boot banner. This is useful information for "
 "troubleshooting, though can clash with certain themes."
 msgstr ""
+"فعال سازی نمایش اطلاعات مربوط به پارتیشن و تفکیک پذیری در گوشه بالا سمت چپ "
+".برای مشکل یابی مناسب است . ممکن است در بعضی از تم ها مشکل داشته باشد."
 
 #. type: "Wait_title"
 #: Resources/templates/Localizable.strings:79
 #, no-wrap
 msgid "Wait=Yes"
-msgstr ""
+msgstr "Wait=Yes"
 
 #. type: "Wait_description"
 #: Resources/templates/Localizable.strings:80
