@@ -1,6 +1,6 @@
 # SOME DESCRIPTIVE TITLE
 # Copyright (C) YEAR Free Software Foundation, Inc.
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the Chameleon package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
@@ -8,14 +8,13 @@ msgstr ""
 "Project-Id-Version: Chameleon 2.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-06 22:38+0000\n"
-"PO-Revision-Date: 2012-04-10 17:48+0200\n"
-"Last-Translator: ltodoto <ltodoto@live.ru>\n"
-"Language-Team: ru <ru@li.org>\n"
-"Language: ru\n"
+"PO-Revision-Date: 2012-04-11 02:08-0000\n"
+"Last-Translator: ErmaC\n"
+"Language-Team: hu <hu@li.org>\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Pootle 2.1.6\n"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:22
@@ -30,12 +29,12 @@ msgstr "v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:25
 msgid "Do not install to an Apple Macintosh computer"
-msgstr "Не предназначен для установки на компьютеры Apple Macintosh"
+msgstr "Ne telepísd eredeti Macintosh számítógépen"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:27
 msgid "Developers :"
-msgstr "Разработчики:"
+msgstr "Fejlesztők :"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:28
@@ -45,7 +44,7 @@ msgstr "%DEVELOP%"
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:30
 msgid "Thanks to :"
-msgstr "Благодарности:"
+msgstr "Külön köszönet :"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:31
@@ -55,7 +54,7 @@ msgstr "%CREDITS%"
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:33
 msgid "Package :"
-msgstr "Пакет:"
+msgstr "Csomag :"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:34
@@ -66,7 +65,7 @@ msgstr "%PKGDEV%"
 #: Resources/templates/Welcome.html:36
 #: Resources/templates/Conclusion.html:30
 msgid "Package built by: %WHOBUILD%, language translated by: blackosx"
-msgstr "Пакет был собран %WHOBUILD%, перевод на русский: ltodoto"
+msgstr "A csomagot készítette: %WHOBUILD%, lefordította: majonéz"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:37
@@ -77,109 +76,97 @@ msgstr "Copyright © %CPRYEAR%"
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:18
 msgid "Chameleon is a boot loader built using a combination of components which evolved from the development of David Elliott's fake EFI implementation added to Apple's boot-132 project."
-msgstr "Chameleon &mdash; начальный загрузчик, построенный на основе сочетания компонентов, разработка которых была начата в рамках проекта Дэвида Эллиотта (David Elliott) по эмуляции прикладного интерфейса EFI в качестве дополнения к оригинальному проекту загрузчика Apple boot-132."
+msgstr "A Chameleon egy rendszerbetöltőszoftver."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:20
 msgid "Chameleon v2 is extended with many features. For example:"
-msgstr "Chameleon v2 обладает широкими возможностями. В том числе:"
+msgstr "A Chameleon 2-es verziója tucatnyi kiegészítővel van felszerelve, mint például:"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:22
 msgid "- Fully customizable GUI to bring some color to the Darwin Bootloader."
-msgstr ""
-"- Полностью настраиваемый графический интерфейс пользователя (для внесения "
-"разнообразия в процесс загрузки)."
+msgstr "- Testreszabható felület, hogy egy kis színt vihess a rendszerbetöltődbe."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:23
 msgid "- Load a ramdisk to directly boot retail DVDs without additional programs."
-msgstr ""
-"- Загрузка с помощью временного диска для непосредственной поддержки "
-"загрузки с официальных DVD."
+msgstr "- Rendszerindítás gyári DVD-ről, ramdisk használatával."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:24
 msgid "- Hibernation. Enjoy resuming your Mac OS X with a preview image."
-msgstr ""
-"- Спящий режим. Позволяет выключить компьютер на непродолжительное время с "
-"последующей быстрой загрузкой."
+msgstr "- Hibernáció. Segítségével Mac OS X rendszered visszatölt a lementett adatokból."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:25
 msgid "- SMBIOS override to modify the factory SMBIOS values."
-msgstr "- Замена значений параметров SMBIOS."
+msgstr "- SMBIOS felülírás a gyári értékekkel"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:26
 msgid "- DSDT override to use a modified fixed DSDT which can solve several issues."
-msgstr ""
-"- Замена содержимого DSDT для корректировки некоторых параметров с целью "
-"улучшения совместимости."
+msgstr "- DSDT felülírás a javított DSDT-vel, mellyel több hibát is orvosolhatsz."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:27
 msgid "- Device Property Injection via device-properties string."
-msgstr "- Встраивание значений device-properties в образ эмулятора EFI."
+msgstr "- Eszköztulajdonságok meghatározása a 'device-properties' string segítségével."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:28
 msgid "- hybrid boot0 / boot1h for MBR and GPT partitioned disks."
-msgstr ""
-"- Гибридный загрузчик нулевого этапа (MBR) для поддержки различных методов "
-"разметки диска."
+msgstr "- Hibrid boot0 / boot1h az MBR és a GPT lemezekhez."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:29
 msgid "- Automatic FSB detection code even for recent AMD CPUs."
-msgstr ""
-"- Автоматическое распознавание параметров FSB, в том числе для последних "
-"процессоров AMD."
+msgstr "- Automatikus FSB észlelés a legújabb AMD processzorokon is."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:30
 msgid "- Apple Software RAID support."
-msgstr "- Поддержка Apple Software RAID."
+msgstr "- Apple Szoftveres RAID támogatás."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:31
 msgid "- Nvidia &amp; ATI/AMD Graphics Card Enabler."
-msgstr "- Поддержка мультиканальных карт nVidia &amp; ATI/AMD"
+msgstr "- Nvidia és ATI/AMD GPU felismerés."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:32
 msgid "- Module support"
-msgstr "- Поддержка дополнительных модулей"
+msgstr "- Modulok támogatása."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:33
 msgid "- Memory detection adapted from memtest86:&nbsp;"
-msgstr "- Код управления памятью, заимствованный из проекта memtest86:&nbsp;"
+msgstr "- Memória felismerés:&nbsp;"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:34
 msgid "- Automatic P-State &amp; C-State generation for native power management."
-msgstr "- Автоматическое включение P- &amp; C-состояний процессора."
+msgstr "- Automatikus P-State és C-State generálás a natív energiagazdálkodáshoz."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:35
 msgid "- Message logging."
-msgstr "- Ведение журнала начального этапа загрузки."
+msgstr "- Naplózott rendszertöltés."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:37
 msgid "The code is released under version 2 of the Gnu Public License."
-msgstr "Код публикуется в рамках публичной лицензии GNU версии 2."
+msgstr "Ezen csomag a GPL (General Public License) 2-es verziója alatt jelent meg."
 
 #. type: Content of: <html><body><p><span>
 #: Resources/templates/Description.html:40
 msgid "FAQ's:&nbsp;"
-msgstr "ЧаВо:&nbsp;"
+msgstr "FAQ's:&nbsp;"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:22
 msgid "The scripts have completed and a file named&nbsp;"
-msgstr "Работа сценариев завершена. Файл под именем&nbsp;"
+msgstr "A script-ek sikeresen lefutottak, valamint a&nbsp;"
 
 #. type: Content of: <html><body><div><p><span>
 #: Resources/templates/Conclusion.html:22
@@ -189,22 +176,22 @@ msgstr "@LOG_FILENAME@"
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:23
 msgid "&nbsp;has been written to the root of your chosen partition."
-msgstr "&nbsp;был записан в корневой каталог выбранного Вами раздела."
+msgstr "&nbsp;nevű log sikeresen kiírva, az általad választott partíció gyökerébe."
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:25
 msgid "Please&nbsp;"
-msgstr "Пожалуйста,&nbsp;"
+msgstr "&nbsp;"
 
 #. type: Content of: <html><body><div><p><span>
 #: Resources/templates/Conclusion.html:25
 msgid "read it"
-msgstr "прочтите его "
+msgstr "Ellenőrizd"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:26
 msgid "&nbsp;to find out if the installation was successful and keep it for a record of what was done."
-msgstr "&nbsp;чтобы узнать, была ли установка успешной, а также для того, чтобы узнать, что было проделано в процессе установки."
+msgstr ",&nbsp;hogy a telepítés sikeresen lefutott!"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:28
@@ -215,37 +202,37 @@ msgstr "Chameleon v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
 #: Resources/templates/Localizable.strings:4
 #, no-wrap
 msgid "Chameleon Bootloader Package"
-msgstr "Пакет начального загрузчика Chameleon"
+msgstr "Chameleon Rendszerbetöltő"
 
 #. type: "ERROR_BOOTVOL"
 #: Resources/templates/Localizable.strings:9
 #, no-wrap
 msgid "This software must be installed on the startup volume."
-msgstr "Это ПО необходимо устанавливать на загрузочный раздел."
+msgstr "Ezt a szoftvert az indító partícióra kell telepíteni."
 
 #. type: "ERROR_INSTALL"
 #: Resources/templates/Localizable.strings:10
 #, no-wrap
 msgid "This volume does not meet the requirements for this update."
-msgstr "Этот том не отвечает требованиям этого обновления."
+msgstr "Ez a partíció nem felelmeg a frissítés követelményeinek"
 
 #. type: "Newer_Package_Installed_message"
 #: Resources/templates/Localizable.strings:12
 #, no-wrap
 msgid "A newer version of Chameleon is already installed"
-msgstr "Уже установлена более новая версия Chameleon"
+msgstr "Egy újabb verzió már telepítve van a Chameleon-ból."
 
 #. type: "Intel_Mac_message"
 #: Resources/templates/Localizable.strings:13
 #, no-wrap
 msgid "This software cannot be installed on this computer."
-msgstr "Это ПО не может быть установлено на данном компьютере."
+msgstr "Ez a szoftver nem telepíthető erre a számítógépre."
 
 #. type: "Chameleon_title"
 #: Resources/templates/Localizable.strings:19
 #, no-wrap
 msgid "Chameleon Bootloader"
-msgstr "Начальный загрузчик Chameleon"
+msgstr "Chameleon Rendszerbetöltő"
 
 #. type: "Chameleon_description"
 #: Resources/templates/Localizable.strings:20
@@ -256,49 +243,47 @@ msgid ""
 "boot1 (On the partition's boot-sector) to finding boot2.\n"
 "boot2 (On the partition's root directory) for loading kernel etc."
 msgstr ""
-"Chameleon необходимы три основных файла. (проще говоря)\n"
-"boot0 (Содержимое MBR) загружает стадию boot1.\n"
-"boot1 (Содержимое первых секторов загрузочного раздела) находит и загружает boot2.\n"
-"boot2 (В корневом каталоге раздела) это собственно загрузчик."
+"A Chameleon működéséhez 3 fájl nélkülözhetetlen.\n"
+"boot0 (Az MBR kódban a meghajtó elején), megkeresi és betölti a 'boot1'-et.\n"
+"boot1 (A partíció elején a boot-sector-ban) megkeresi és betölti a 'boot2'-t.\n"
+"boot2 (A partíció gyökér könyvtárában), betölti a kernelt és kiegészítőit."
 
 #. type: "Default_title"
 #: Resources/templates/Localizable.strings:25
 #: Resources/templates/Localizable.strings:242
 #, no-wrap
 msgid "Standard"
-msgstr "Обыкновенный"
+msgstr "Alapértelmezett"
 
 #. type: "Standard_description"
 #: Resources/templates/Localizable.strings:26
 #, no-wrap
 msgid "Install Chameleon's files to the root of the selected partition using either boot0 or boot0md depending on your system without destroying any existing Windows installation if you have one."
-msgstr "Обычная установка Chameleon"
+msgstr "Telepíti a Chameleon a kijelölt partícióra, a rendswzeredtől függően boot0-t vagy boot0md-t, valamint megtartja a telepített Windows rendszereid indíthatóságát is."
 
 #. type: "noboot_title"
 #: Resources/templates/Localizable.strings:28
 #, no-wrap
 msgid "Don't install the Bootloader"
-msgstr "Не устанавливать загрузчик"
+msgstr "Nem telepíti a Chameleon-t."
 
 #. type: "noboot_description"
 #: Resources/templates/Localizable.strings:29
 #, no-wrap
 msgid "Useful if you only want to install the extra's."
-msgstr "Полезно, если необходимо установить только содержимое каталога /Extra/"
+msgstr "Akkor hasznos ha csak '.kext'-eket szeretnél telepíteni"
 
 #. type: "Module_title"
 #: Resources/templates/Localizable.strings:35
 #, no-wrap
 msgid "Modules"
-msgstr "Модули"
+msgstr "Modulok"
 
 #. type: "Module_description"
 #: Resources/templates/Localizable.strings:36
 #, no-wrap
 msgid "The modules system incorporated in chameleon allows for a user or developer to extend the core functionality of chameleon without replacing the main boot file."
-msgstr ""
-"Система модулей, используемая загрузчиком Chameleon, позволяет расширять его "
-"возможности без изменения основного файла загрузчика."
+msgstr "A modulok segítségével újabb funkciókat adhatsz a Chameleon-hoz, amelyeket alapból nem tartalmaz. Csak haladó felhasználók számára lehet hasznos."
 
 #. type: "klibc_title"
 #: Resources/templates/Localizable.strings:38
@@ -314,17 +299,16 @@ msgid ""
 "This is currently only used by the uClibc++ library.\n"
 "Source: http://www.kernel.org/pub/linux/libs/klibc/"
 msgstr ""
-"Этот модуль предоставляет функции стандартной библиотеки C (в случае, если "
-"встроенных в загрузчик функций окажется недостаточно).\n"
-"На данный момент этот модуль используется только модулем uClibc++.\n"
-"Исходный код: http://www.kernel.org/pub/linux/libs/klibc/"
+"Egy alapértelmezett C futtatókörnyezetet biztosít más modulok számára.\n"
+"Egyenlőre csak a uClibc++ modul használja.\n"
+"Forrás: http://www.kernel.org/pub/linux/libs/klibc/"
 
 #. type: "Resolution_title"
 #: Resources/templates/Localizable.strings:43
 #: Resources/templates/Localizable.strings:270
 #, no-wrap
 msgid "Resolution"
-msgstr "Разрешение"
+msgstr "Felbontás"
 
 #. type: "AutoReso_description"
 #: Resources/templates/Localizable.strings:44
@@ -334,9 +318,9 @@ msgid ""
 "The module is currently not integrated into trunk and has minimal uses as it stands.\n"
 "Additionally, the module will patch the vesa modes available in pre intel hd graphics cards to provide proper resolution while booting."
 msgstr ""
-"Этот модуль извлекает информацию EDID из основного монитора.\n"
-"Данный модуль не является частью основной ветки и выполняет только указанные функции.\n"
-"Кроме того, данный модуль может изменять режимы VESA в графических картах на основе микросхем Intel pre-HD серии для обеспечения установки правильного разрешения на этапе загрузки ОС."
+"Kiolvassa az 'EDID' információkat az elsődleges monitorból.\n"
+"Nem tartozik szervesen a Chameleon csomaghoz.\n"
+"Továbbá, a modul kijavítja az elérhető VESA módokat a korai Intel HD videokártyákon, hogy a megfelelő felbontással indíthasd a rendszered."
 
 #. type: "uClibc_title"
 #: Resources/templates/Localizable.strings:48
@@ -353,25 +337,22 @@ msgid ""
 "Source: http://cxx.uclibc.org/\n"
 "Dependencies: klibc"
 msgstr ""
-"Этот модуль предоставляет набор функций стандартной библиотеки C++ для "
-"использования в других модулях. Собственно модуль не несёт в себе никакой "
-"полезной функциональности, он предназначен лишь для поддержки других "
-"модулей.\n"
-"*Примечание: Механизмы RTTI и обработки исключений были намеренно отключены.\n"
-"Исходный код: http://cxx.uclibc.org/\n"
-"Зависимости: klibc"
+"Ez a modul egy minimális c++ futtatókörnyezetet tartalmaz, más modulokban történő felhasználásra. Önmagában nem befojásol semmit, csak lehetővé teszi a c++ nyelv használatát más modulokban.\n"
+"*Az rtti és a kivételek letiltásra kerülnek.\n"
+"Forrás: http://cxx.uclibc.org/\n"
+"Függőségek: klibc"
 
 #. type: "Options_title"
 #: Resources/templates/Localizable.strings:58
 #, no-wrap
 msgid "Settings"
-msgstr "Настройки"
+msgstr "Beállítások"
 
 #. type: "Options_description"
 #: Resources/templates/Localizable.strings:59
 #, no-wrap
 msgid "Create an /Extra/org.chameleon.Boot.plist by selecting any of these boot options and kernel flags."
-msgstr "Стандартные настройки"
+msgstr "Létrehozza az '/Extra/org.chameleon.Boot.plist'-et az alábbiakban megadott beállításokkal."
 
 #. type: "BootBanner_title"
 #: Resources/templates/Localizable.strings:61
@@ -383,9 +364,7 @@ msgstr "BootBanner=No"
 #: Resources/templates/Localizable.strings:62
 #, no-wrap
 msgid "Hides Chameleon's boot banner in GUI. This is the text that is drawn at the top left corner of the screen displaying the release version etc."
-msgstr ""
-"Скрывать информацию о версии Chameleon. (Текст, отображаемый в верхнем левом "
-"углу экрана начального загрузчика)."
+msgstr "Eltünteti a Chameleon képernyőjéről a verziószámot"
 
 #. type: "GUI_title"
 #: Resources/templates/Localizable.strings:64
@@ -397,7 +376,7 @@ msgstr "GUI=No"
 #: Resources/templates/Localizable.strings:65
 #, no-wrap
 msgid "Disables the default enabled graphic user interface."
-msgstr "Отключает (включённый по умолчанию) графический интерфейс пользователя."
+msgstr "Lecseréli az amúgy alapértelmezett grafikus Chameleon felületet a karakteres módra. (Fordító: Ajánlott beállítás, ha szeretnéd, hogy gyorsabban induljon a Chameleon.)"
 
 #. type: "LegacyLogo_title"
 #: Resources/templates/Localizable.strings:67
@@ -409,9 +388,7 @@ msgstr "LegacyLogo=Yes"
 #: Resources/templates/Localizable.strings:68
 #, no-wrap
 msgid "Use the legacy 'dark grey' apple logo on the light grey screen for the boot process rather than the boot.png in the theme."
-msgstr ""
-"Использовать стандартное 'серое' изображение яблока при загрузке вместо "
-"указанного в теме файла boot.png."
+msgstr "Jelöld be, ha a témában lévő helyett, az eredeti almát szeretnéd látni a boot képernyőn."
 
 #. type: "InstantMenu_title"
 #: Resources/templates/Localizable.strings:70
@@ -423,9 +400,7 @@ msgstr "InstantMenu=Yes"
 #: Resources/templates/Localizable.strings:71
 #, no-wrap
 msgid "By default, when Chameleon loads you'll see the icon for the current default partition, along with a timeout progress bar which left alone will count down before Chameleon automatically boots that partition. This options skips that and takes you directly to the device selection screen."
-msgstr ""
-"Позволяет отключить экран ожидания загрузки (немедленный переход к экрану "
-"выбора устройств)."
+msgstr "A Chameleon nem számol vissza, és nem indítja az alapértelmezett rendszert. Helyette azonnal az indítható rendszerek listáját mutatja"
 
 #. type: "QuietBoot_title"
 #: Resources/templates/Localizable.strings:73
@@ -437,7 +412,7 @@ msgstr "QuietBoot=Yes"
 #: Resources/templates/Localizable.strings:74
 #, no-wrap
 msgid "Enable quiet boot mode (no messages or prompt)."
-msgstr "Тихий режим (без сообщений и подтверждений)"
+msgstr "Mindenféle információ vagy várakozás nélkül indítja a rendszert."
 
 #. type: "ShowInfo_title"
 #: Resources/templates/Localizable.strings:76
@@ -449,10 +424,7 @@ msgstr "ShowInfo=Yes"
 #: Resources/templates/Localizable.strings:77
 #, no-wrap
 msgid "Enables display of partition and resolution details shown on the left side of the GUI under the boot banner. This is useful information for troubleshooting, though can clash with certain themes."
-msgstr ""
-"Включает отображение информации о выбранном разделе и текущем разрешении "
-"экрана слева от логотипа загрузчика. Полезно для устранения проблем с "
-"загрузкой (может отображаться некорректно при использовании некоторых тем)."
+msgstr "Kiírja a partició és a felbontás infóit a GUI bal oldalára a Chameleon logó alá. Hasznos témák készítésénél."
 
 #. type: "Wait_title"
 #: Resources/templates/Localizable.strings:79
@@ -464,10 +436,7 @@ msgstr "Wait=Yes"
 #: Resources/templates/Localizable.strings:80
 #, no-wrap
 msgid "Pauses the boot process after Chameleon has finished it's setup then waits for a key press before it starts the mach kernel. Useful when combined with verbose boot for troubleshooting."
-msgstr ""
-"Включение приостановки процесса загрузки (ожидания нажатия клавиши) перед "
-"передачей управления ядру ОС. Полезно в сочетании с ведением журнала "
-"загрузки для устранения проблем."
+msgstr "Mikor a Chameleon befejezte a rendszer előtöltését (kernel, driverek, stb.) egy billentyű lenyomásáig megáll, ha ezt a beállítást bepipálod."
 
 #. type: "arch_title"
 #: Resources/templates/Localizable.strings:84
@@ -479,7 +448,7 @@ msgstr "arch=i386"
 #: Resources/templates/Localizable.strings:85
 #, no-wrap
 msgid "Boots the kernel in 32bit mode rather than the default 64bit mode."
-msgstr "Загрузить ядро в 32-разрядном режиме."
+msgstr "A 32bites kernelt tölti be, az alapértelmezett 64bites helyett."
 
 #. type: "EHCIacquire_title"
 #: Resources/templates/Localizable.strings:87
@@ -491,7 +460,7 @@ msgstr "EHCIacquire=Yes"
 #: Resources/templates/Localizable.strings:88
 #, no-wrap
 msgid "Enables the option to fix any EHCI ownership issues due to bad bioses."
-msgstr "Устранение неполадок, связанных с выделенным доступом к контроллеру EHCI (некорректная настройка BIOS)"
+msgstr "Kijavítja az EHCI jogokat. Hasznos, ha problémáid vannak az USB-vel, vagy az alvó móddal."
 
 #. type: "EthernetBuiltIn_title"
 #: Resources/templates/Localizable.strings:90
@@ -503,9 +472,7 @@ msgstr "EthernetBuiltIn=Yes"
 #: Resources/templates/Localizable.strings:91
 #, no-wrap
 msgid "Enables the option of adding 'built-in' to your ethernet devices."
-msgstr ""
-"Включение замены информации о сетевой карте (добавление параметра 'built-"
-"in')."
+msgstr "A hálózati kártyát beépítettként segít betöltetni."
 
 #. type: "ForceHPET_title"
 #: Resources/templates/Localizable.strings:93
@@ -517,7 +484,7 @@ msgstr "ForceHPET=Yes"
 #: Resources/templates/Localizable.strings:94
 #, no-wrap
 msgid "Enables HPET on intel chipsets, for bioses that dont include the option."
-msgstr "Включение HPET на платах на основе набора микросхем Intel, которые не имеют настроек HPET в BIOS."
+msgstr "Engedélyezi a 'HPET'-et azokon az intel lapokon, amelyeken nincs lehetőség ezt bekapcsolni."
 
 #. type: "ForceWake_title"
 #: Resources/templates/Localizable.strings:96
@@ -529,7 +496,7 @@ msgstr "ForceWake=Yes"
 #: Resources/templates/Localizable.strings:97
 #, no-wrap
 msgid "This option enables you to bypass bad sleep images."
-msgstr "Эта опция позволяет отклонять некорректные снимки памяти ждущего режима."
+msgstr "Ez a beállítás engedi, hogy betölthesd a hibás sleep képeket."
 
 #. type: "RestartFix_title"
 #: Resources/templates/Localizable.strings:99
@@ -541,7 +508,7 @@ msgstr "RestartFix=No"
 #: Resources/templates/Localizable.strings:100
 #, no-wrap
 msgid "Disables the automatically enabled restart fix."
-msgstr "Отключение включённой по умолчанию корректировки ACPI для перезагрузки."
+msgstr "Letiltja az alapértelmezetten engedélyezett, 'újraindítás javítása' funkciót"
 
 #. type: "UHCIreset_title"
 #: Resources/templates/Localizable.strings:102
@@ -553,7 +520,7 @@ msgstr "UHCIreset=Yes"
 #: Resources/templates/Localizable.strings:103
 #, no-wrap
 msgid "Enables the option to reset UHCI controllers before starting OS X."
-msgstr "Позволяет производить сброс контроллеров UHCI перед загрузкой OS X."
+msgstr "Újraindítja az UHCI kontollereket a Mac OS X indítása előtt. Hasznos, ha problémáid vannak az alvó móddal."
 
 #. type: "UseMemDetect_title"
 #: Resources/templates/Localizable.strings:105
@@ -565,9 +532,7 @@ msgstr "UseMemDetect=No"
 #: Resources/templates/Localizable.strings:106
 #, no-wrap
 msgid "Disables the automatically enabled RAM recognition."
-msgstr ""
-"Отключение включённой по умолчанию функции определения объёма оперативной "
-"памяти."
+msgstr "Kikapcsolja az alapértelmezett memória észlelést."
 
 #. type: "UseKernelCache_title"
 #: Resources/templates/Localizable.strings:108
@@ -579,10 +544,7 @@ msgstr "UseKernelCache=Yes"
 #: Resources/templates/Localizable.strings:109
 #, no-wrap
 msgid "For Lion only. Enables loading of the pre-linked kernel. This will ignore /E/E and /S/L/E. ONLY use this is you have know it contains everything you need."
-msgstr ""
-"Только OSX Lion. Обеспечивает загрузку предварительно скомпонованного ядра. "
-"При этом будут проигнорированы кеши /E/E и /S/L/E. Используйте ТОЛЬКО если "
-"вы знаете, что оно содержит всё, что Вам нужно."
+msgstr "Csak Lion-hoz. Engedélyezi a gyorsítótárazott kernel betöltését. Nem tölti be a következő mappákat: /E/E és /S/L/E. CSAK akkor endegélyezd ha úgy érzed minden a helyén van!"
 
 #. type: "Wake_title"
 #: Resources/templates/Localizable.strings:111
@@ -594,7 +556,7 @@ msgstr "Wake=Yes"
 #: Resources/templates/Localizable.strings:112
 #, no-wrap
 msgid "Attempts to load the sleep image saved from last hibernation."
-msgstr "Попытаться загрузить снимок памяти ждущего режима."
+msgstr "Engedélyezi a hibernációs fájl betöltését."
 
 #. type: "CSTUsingSystemIO_title"
 #: Resources/templates/Localizable.strings:116
@@ -606,9 +568,7 @@ msgstr "CSTUsingSystemIO=Yes"
 #: Resources/templates/Localizable.strings:117
 #, no-wrap
 msgid "New C-State _CST generation method using SystemIO registers instead of FixedHW."
-msgstr ""
-"Новый метод генерации C-State _CST с использованием регистров SystemIO "
-"вместо FixedHW."
+msgstr "Új C-State _CST generálás a SystemIO regiszterek használatával, a fix hardveres helyett"
 
 #. type: "DropSSDT_title"
 #: Resources/templates/Localizable.strings:119
@@ -620,7 +580,7 @@ msgstr "DropSSDT=Yes"
 #: Resources/templates/Localizable.strings:120
 #, no-wrap
 msgid "Discard the motherboard's built-in SSDT tables."
-msgstr "Не учитывать встроенные таблицы SSDT мат. платы"
+msgstr "Eldobja az alaplap SSDT tábláját."
 
 #. type: "EnableC2State_title"
 #: Resources/templates/Localizable.strings:122
@@ -632,7 +592,7 @@ msgstr "EnableC2State=Yes"
 #: Resources/templates/Localizable.strings:123
 #, no-wrap
 msgid "Enable specific Processor power state, C2."
-msgstr "Включить возможность использования особого состояния процессора (C2)."
+msgstr "Lehetővé teszi a processzor C2-es módba való kapcsolását"
 
 #. type: "EnableC3State_title"
 #: Resources/templates/Localizable.strings:125
@@ -644,7 +604,7 @@ msgstr "EnableC3State=Yes"
 #: Resources/templates/Localizable.strings:126
 #, no-wrap
 msgid "Enable specific Processor power state, C3."
-msgstr "Включить возможность использования особого состояния процессора (C3)."
+msgstr "Lehetővé teszi a processzor C3-es módba való kapcsolását"
 
 #. type: "EnableC4State_title"
 #: Resources/templates/Localizable.strings:128
@@ -656,7 +616,7 @@ msgstr "EnableC4State=Yes"
 #: Resources/templates/Localizable.strings:129
 #, no-wrap
 msgid "Enable specific Processor power state, C4."
-msgstr "Включить возможность использования особого состояния процессора (C4)."
+msgstr "Lehetővé teszi a processzor C4-es módba való kapcsolását"
 
 #. type: "GenerateCStates_title"
 #: Resources/templates/Localizable.strings:131
@@ -668,7 +628,7 @@ msgstr "GenerateCStates=Yes"
 #: Resources/templates/Localizable.strings:132
 #, no-wrap
 msgid "Enable auto generation of processor idle sleep states (C-States)."
-msgstr "Включить автоматическую генерацию состояний ожидания процессора (C - состояния)."
+msgstr "Automatikusan létrehozza a processzor C módjait (energiatakarékossági-lépcsők)."
 
 #. type: "GeneratePStates_title"
 #: Resources/templates/Localizable.strings:134
@@ -680,7 +640,7 @@ msgstr "GeneratePStates=Yes"
 #: Resources/templates/Localizable.strings:135
 #, no-wrap
 msgid "Enable auto generation of processor power performance states (P-States)."
-msgstr "Включить автоматическую генерацию состояний производительности процессора (P - состояния)."
+msgstr "Automatikusan létrehozza a processzor P módjait (sebesség-lépcsők)."
 
 #. type: "1024x600x32_title"
 #: Resources/templates/Localizable.strings:139
@@ -692,7 +652,7 @@ msgstr "1024x600x32"
 #: Resources/templates/Localizable.strings:140
 #, no-wrap
 msgid "Set Graphics Mode to 1024x600x32"
-msgstr "Установить графический режим экрана загрузки ОС в 1024x600x32."
+msgstr "A felbontást a következőre állítja: 1024x600x32"
 
 #. type: "1024x768x32_title"
 #: Resources/templates/Localizable.strings:142
@@ -704,7 +664,7 @@ msgstr "1024x768x32"
 #: Resources/templates/Localizable.strings:143
 #, no-wrap
 msgid "Set Graphics Mode to 1024x768x32"
-msgstr "Установить графический режим экрана загрузки ОС в 1024x768x32."
+msgstr "A felbontást a következőre állítja: 1024x768x32"
 
 #. type: "1280x768x32_title"
 #: Resources/templates/Localizable.strings:145
@@ -716,7 +676,7 @@ msgstr "1280x768x32"
 #: Resources/templates/Localizable.strings:146
 #, no-wrap
 msgid "Set Graphics Mode to 1280x768x32"
-msgstr "Установить графический режим экрана загрузки ОС в 1280x768x32."
+msgstr "A felbontást a következőre állítja: 1280x768x32"
 
 #. type: "1280x800x32_title"
 #: Resources/templates/Localizable.strings:148
@@ -728,7 +688,7 @@ msgstr "1280x800x32"
 #: Resources/templates/Localizable.strings:149
 #, no-wrap
 msgid "Set Graphics Mode to 1280x800x32"
-msgstr "Установить графический режим экрана загрузки ОС в 1280x800x32."
+msgstr "A felbontást a következőre állítja: 1280x800x32"
 
 #. type: "1280x1024x32_title"
 #: Resources/templates/Localizable.strings:151
@@ -740,7 +700,7 @@ msgstr "1280x1024x32"
 #: Resources/templates/Localizable.strings:152
 #, no-wrap
 msgid "Set Graphics Mode to 1280x1024x32"
-msgstr "Установить графический режим экрана загрузки ОС в 1280x1024x32."
+msgstr "A felbontást a következőre állítja: 1280x1024x32"
 
 #. type: "1280x960x32_title"
 #: Resources/templates/Localizable.strings:154
@@ -752,7 +712,7 @@ msgstr "1280x960x32"
 #: Resources/templates/Localizable.strings:155
 #, no-wrap
 msgid "Set Graphics Mode to 1280x960x32"
-msgstr "Установить графический режим экрана загрузки ОС в 1280x960x32."
+msgstr "A felbontást a következőre állítja: 1280x960x32"
 
 #. type: "1440x900x32_title"
 #: Resources/templates/Localizable.strings:157
@@ -764,7 +724,7 @@ msgstr "1440x900x32"
 #: Resources/templates/Localizable.strings:158
 #, no-wrap
 msgid "Set Graphics Mode to 1440x900x32"
-msgstr "Установить графический режим экрана загрузки ОС в 1440x900x32."
+msgstr "A felbontást a következőre állítja: 1440x900x32"
 
 #. type: "1600x900x32_title"
 #: Resources/templates/Localizable.strings:160
@@ -776,7 +736,7 @@ msgstr "1600x900x32"
 #: Resources/templates/Localizable.strings:161
 #, no-wrap
 msgid "Set Graphics Mode to 1600x900x32"
-msgstr "Установить графический режим экрана загрузки ОС в 1600x900x32."
+msgstr "A felbontást a következőre állítja: 1600x900x32"
 
 #. type: "1600x1200x32_title"
 #: Resources/templates/Localizable.strings:163
@@ -788,7 +748,7 @@ msgstr "1600x1200x32"
 #: Resources/templates/Localizable.strings:164
 #, no-wrap
 msgid "Set Graphics Mode to 1600x1200x32"
-msgstr "Установить графический режим экрана загрузки ОС в 1600x1200x32."
+msgstr "A felbontást a következőre állítja: 1600x1200x32"
 
 #. type: "1680x1050x32_title"
 #: Resources/templates/Localizable.strings:166
@@ -800,7 +760,7 @@ msgstr "1680x1050x32"
 #: Resources/templates/Localizable.strings:167
 #, no-wrap
 msgid "Set Graphics Mode to 1680x1050x32"
-msgstr "Установить графический режим экрана загрузки ОС в 1680x1050x32."
+msgstr "A felbontást a következőre állítja: 1680x1050x32"
 
 #. type: "1920x1080x32_title"
 #: Resources/templates/Localizable.strings:169
@@ -812,7 +772,7 @@ msgstr "1920x1080x32"
 #: Resources/templates/Localizable.strings:170
 #, no-wrap
 msgid "Set Graphics Mode to 1920x1080x32"
-msgstr "Установить графический режим экрана загрузки ОС в 1920x1080x32."
+msgstr "A felbontást a következőre állítja: 1920x1080x32"
 
 #. type: "1920x1200x32_title"
 #: Resources/templates/Localizable.strings:172
@@ -824,7 +784,7 @@ msgstr "1920x1200x32"
 #: Resources/templates/Localizable.strings:173
 #, no-wrap
 msgid "Set Graphics Mode to 1920x1200x32"
-msgstr "Установить графический режим экрана загрузки ОС в 1920x1200x32."
+msgstr "A felbontást a következőre állítja: 1920x1200x32"
 
 #. type: "GraphicsEnabler_title"
 #: Resources/templates/Localizable.strings:177
@@ -836,9 +796,7 @@ msgstr "GraphicsEnabler=Yes"
 #: Resources/templates/Localizable.strings:178
 #, no-wrap
 msgid "Enables the option to autodetect NVIDIA based GPUs and inject the correct info."
-msgstr ""
-"Включение автоматического обнаружения и корректировки данных EFI для "
-"графических карт nVidia."
+msgstr "Lehetővé teszi az NVIDIA alapú videókártyák automatikus felismerését."
 
 #. type: "UseAtiROM_title"
 #: Resources/templates/Localizable.strings:180
@@ -850,7 +808,7 @@ msgstr "UseAtiROM=Yes"
 #: Resources/templates/Localizable.strings:181
 #, no-wrap
 msgid "Enables UseAtiROM options."
-msgstr "Включение параметра UseAtiROM."
+msgstr "Engedélyezi a UseAtiROM opciót."
 
 #. type: "UseNvidiaROM_title"
 #: Resources/templates/Localizable.strings:183
@@ -862,7 +820,7 @@ msgstr "UseNvidiaROM=Yes"
 #: Resources/templates/Localizable.strings:184
 #, no-wrap
 msgid "Enables UseNvidiaROM options."
-msgstr "Включение параметра UseNvidiaROM."
+msgstr "Engedélyezi a UseNvidiaROM opciót."
 
 #. type: "VBIOS_title"
 #: Resources/templates/Localizable.strings:186
@@ -874,47 +832,43 @@ msgstr "VBIOS=Yes"
 #: Resources/templates/Localizable.strings:187
 #, no-wrap
 msgid "Enables VBIOS option"
-msgstr "Включение параметра VBIOS."
+msgstr "Engedélyezi a VBIOS opciót."
 
 #. type: "Verbose_title"
 #: Resources/templates/Localizable.strings:192
 #, no-wrap
 msgid "Verbose Mode"
-msgstr "Информационный режим"
+msgstr "Verbose Mode"
 
 #. type: "Verbose_description"
 #: Resources/templates/Localizable.strings:193
 #, no-wrap
 msgid "Turns on verbose logging and allows you to see messages from both Chameleon and the OS X kernel at boot time. Essential for troubleshooting."
-msgstr "Включить ведение журнала загрузки. Необходимо для устранения проблем."
+msgstr "A rendszert az alma logó helyett, karakteres módban indítja így figyelemmel kísérheted a rendszer betöltődését. Hibaelhárításnál hasznos."
 
 #. type: "Singleusermode_title"
 #: Resources/templates/Localizable.strings:195
 #, no-wrap
 msgid "Single User Mode"
-msgstr "Однопользовательский режим"
+msgstr "Single User mód"
 
 #. type: "Singleusermode_description"
 #: Resources/templates/Localizable.strings:196
 #, no-wrap
 msgid "A troubleshooting option used for booting into OS X's BSD/Unix command line."
-msgstr ""
-"Используется в качестве безопасного режима для устранения неполадок. (Вызов "
-"текстовой консоли BSD)"
+msgstr "A rendszert parancssoros módban indítja."
 
 #. type: "Ignorecaches_title"
 #: Resources/templates/Localizable.strings:198
 #, no-wrap
 msgid "Ignore Caches"
-msgstr "Не использовать кеш системных модулей"
+msgstr "Gyorsítótárak kihagyása"
 
 #. type: "Ignorecaches_description"
 #: Resources/templates/Localizable.strings:199
 #, no-wrap
 msgid "Not an option that's needed for everyday booting, but it can be useful if you want OS X to load all files from it's system folders, rather than relying on it's pre-built caches."
-msgstr ""
-"Пропуск загрузки расширений ядра из системного кэша (загрузка всех "
-"расширений ядра из файловой системы)."
+msgstr "Ez egy nem mindennaposan használandó mód. A rendszer az összes rendszerfájlt úrjatölti. Akkor használd ha a géped nem indulna megfelelően."
 
 #. type: "Npci_title"
 #: Resources/templates/Localizable.strings:201
@@ -926,10 +880,7 @@ msgstr "npci=0x2000"
 #: Resources/templates/Localizable.strings:202
 #, no-wrap
 msgid "For overcoming a hang at 'PCI configuration begin' on some systems. 0x2000 is the kIOPCIConfiguratorPFM64 flag, as seen in the IOPCIFamily source code."
-msgstr ""
-"Предназначено для предотвращения зависания на строке 'PCI configuration "
-"begin' на некоторых системах. 0x2000 является одним из возможных значений "
-"kIOPCIConfiguratorPFM64, согласно исходному коду IOPCIFamily."
+msgstr "Orvosolja néhány gépen a 'PCI configuration begin'-nél történő lefagyást. 0x2000 is the kIOPCIConfiguratorPFM64 flag, as seen in the IOPCIFamily source code."
 
 #. type: "Npci3_title"
 #: Resources/templates/Localizable.strings:204
@@ -941,10 +892,7 @@ msgstr "npci=0x3000"
 #: Resources/templates/Localizable.strings:205
 #, no-wrap
 msgid "For overcoming a hang at 'PCI configuration begin' on some systems. 0x3000 is the kIOPCIConfiguratorPFM64 flag, as seen in the IOPCIFamily source code."
-msgstr ""
-"Предназначено для предотвращения зависания на строке 'PCI configuration "
-"begin' на некоторых системах. 0x3000 является одним из возможных значений "
-"kIOPCIConfiguratorPFM64, согласно исходному коду IOPCIFamily."
+msgstr "Orvosolja néhány gépen a 'PCI configuration begin'-nél történő lefagyást. 0x3000 is the kIOPCIConfiguratorPFM64 flag, as seen in the IOPCIFamily source code."
 
 #. type: "Darkwake_title"
 #: Resources/templates/Localizable.strings:207
@@ -956,86 +904,79 @@ msgstr "darkwake=0"
 #: Resources/templates/Localizable.strings:208
 #, no-wrap
 msgid "Lion only. Disables the 'low power wake' feature which can sometimes leave the screen black after wake from sleep."
-msgstr ""
-"Только OSX Lion. Отключение функции 'low power wake', которая иногда может "
-"оставить экран в выключенном состоянии после выхода из спящего режима."
+msgstr "Csak Lion-hoz. Kikapcsolja a 'low power wake' funkciót, ami néha üres, vagy fekete képernyőt okoz alvó módból való ébresztés után."
 
 #. type: "mac-de_title"
 #: Resources/templates/Localizable.strings:214
 #, no-wrap
 msgid "German Mac Keyboard"
-msgstr "Германская раскладка клавиатуры (Mac)"
+msgstr "Német Mac kiosztás"
 
 #. type: "mac-de_description"
 #: Resources/templates/Localizable.strings:215
 #, no-wrap
 msgid "Use the keyboard layout for a German Mac keyboard"
-msgstr ""
-"Использовать германскую (Mac) раскладку клавиатуры при начальной загрузке"
+msgstr "Használd ezt a kiosztást a német Mac billentyűzetekhez"
 
 #. type: "mac-es_title"
 #: Resources/templates/Localizable.strings:217
 #, no-wrap
 msgid "Spanish Mac Keyboard"
-msgstr "Испанская раскладка клавиатуры (Mac)"
+msgstr "Spanyol Mac kiosztás"
 
 #. type: "mac-es_description"
 #: Resources/templates/Localizable.strings:218
 #, no-wrap
 msgid "Use the keyboard layout for a Spanish Mac keyboard"
-msgstr ""
-"Использовать испанскую (Mac) раскладку клавиатуры при начальной загрузке"
+msgstr "Használd ezt a kiosztást a spanyol Mac billentyűzetekhez."
 
 #. type: "mac-fr_title"
 #: Resources/templates/Localizable.strings:220
 #, no-wrap
 msgid "French Mac Keyboard"
-msgstr "Французская раскладка клавиатуры (Mac)"
+msgstr "Francia Mac kiosztás"
 
 #. type: "mac-fr_description"
 #: Resources/templates/Localizable.strings:221
 #, no-wrap
 msgid "Use the keyboard layout for a French Mac keyboard"
-msgstr ""
-"Использовать французскую (Mac) раскладку клавиатуры при начальной загрузке"
+msgstr "Használd ezt a kiosztást a francia Mac billentyűzetekhez."
 
 #. type: "mac-it_title"
 #: Resources/templates/Localizable.strings:223
 #, no-wrap
 msgid "Italian Mac Keyboard"
-msgstr "Итальянская раскладка клавиатуры (Mac)"
+msgstr "Olasz Mac kiosztás"
 
 #. type: "mac-it_description"
 #: Resources/templates/Localizable.strings:224
 #, no-wrap
 msgid "Use the keyboard layout for an Italian Mac keyboard"
-msgstr ""
-"Использовать итальянскую (Mac) раскладку клавиатуры при начальной загрузке"
+msgstr "Használd ezt a kiosztást a olasz Mac billentyűzetekhez."
 
 #. type: "mac-se_title"
 #: Resources/templates/Localizable.strings:226
 #, no-wrap
 msgid "Swedish Mac Keyboard"
-msgstr "Шведская раскладка клавиатуры (Mac)"
+msgstr "Svéd Mac kiosztás"
 
 #. type: "mac-se_description"
 #: Resources/templates/Localizable.strings:227
 #, no-wrap
 msgid "Use the keyboard layout for a Swedish Mac keyboard"
-msgstr "Использовать шведскую (Mac) раскладку клавиатуры при начальной загрузке"
+msgstr "Használd ezt a kiosztást a svéd Mac billentyűzetekhez"
 
 #. type: "pc-fr_title"
 #: Resources/templates/Localizable.strings:229
 #, no-wrap
 msgid "French PC Keyboard"
-msgstr "Французская раскладка клавиатуры (PC)"
+msgstr "Francia PC kiosztás"
 
 #. type: "pc-fr_description"
 #: Resources/templates/Localizable.strings:230
 #, no-wrap
 msgid "Use the keyboard layout for a French PC keyboard"
-msgstr ""
-"Использовать французскую (PC) раскладку клавиатуры при начальной загрузке"
+msgstr "Használd ezt a kiosztást a francia PC billentyűzetekhez."
 
 #. type: "Embed_title"
 #: Resources/templates/Localizable.strings:236
@@ -1045,30 +986,27 @@ msgstr "Embed"
 
 #. type: "Embed_description"
 #: Resources/templates/Localizable.strings:237
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "A smaller simple version of the new default theme used when building a version of Chameleon which requires an embedded theme."
-msgstr ""
-"Упрощённый вариант новой темы по умолчанию, используемый при построении "
-"версии Chameleon, которая требует встроенную тему."
+msgstr "A smaller simple version of the new default theme used when building a version of Chameleon which requires an embedded theme."
 
 #. type: "Legacy_title"
 #: Resources/templates/Localizable.strings:239
 #, no-wrap
 msgid "Legacy"
-msgstr "Legacy"
+msgstr "Örökölt"
 
 #. type: "Legacy_description"
 #: Resources/templates/Localizable.strings:240
 #, no-wrap
 msgid "Chameleon's original default theme introduced for v2.0 RC1"
-msgstr ""
-"Оригинальная тема Chameleon по умолчанию, которая появилась в версии 2.0 RC1"
+msgstr "Chameleon's eredeti témája a v2.0 RC1 verzióból"
 
 #. type: "Default_description"
 #: Resources/templates/Localizable.strings:243
 #, no-wrap
 msgid "Chameleon default theme introduced for v2.0 RC5"
-msgstr "Тема Chameleon по умолчанию, которая появилась в версии 2.0 RC5"
+msgstr "Az alapértelmezett téma a v2.0 RC5 verzióhoz"
 
 #. type: "Bullet_title"
 #: Resources/templates/Localizable.strings:245
@@ -1080,94 +1018,91 @@ msgstr "Bullet"
 #: Resources/templates/Localizable.strings:246
 #, no-wrap
 msgid "A lovely simple theme by NoSmokingBandit from April 2009."
-msgstr "Прелестная простая тема, выпущенная NoSmokingBandit в апреле 2009 года."
+msgstr "Egy egyszerű téma NoSmokingBandit-tól"
 
 #. type: "Control_title"
 #: Resources/templates/Localizable.strings:254
 #, no-wrap
 msgid "Control Options"
-msgstr "Настройки управления"
+msgstr "Vezérlés"
 
 #. type: "Control_description"
 #: Resources/templates/Localizable.strings:255
 #, no-wrap
 msgid "Settings to control how Chameleon works."
-msgstr "Настройки поведения Chameleon."
+msgstr "Beállítások a Chameleon vezerléséhez."
 
 #. type: "General_title"
 #: Resources/templates/Localizable.strings:258
 #, no-wrap
 msgid "General Options"
-msgstr "Общие настройки"
+msgstr "Általános beállítások"
 
 #. type: "General_description"
 #: Resources/templates/Localizable.strings:259
 #, no-wrap
 msgid "Choose from a selection of base options."
-msgstr "Выберите одну из категорий основных настроек."
+msgstr "Válaszd ki a szükségek alapbeállításokat."
 
 #. type: "KernelFlags_title"
 #: Resources/templates/Localizable.strings:262
 #, no-wrap
 msgid "Kernel Flags"
-msgstr "Параметры, передаваемые ядру"
+msgstr "Kernel paraméterek"
 
 #. type: "KernelFlags_description"
 #: Resources/templates/Localizable.strings:263
 #, no-wrap
 msgid "Choose from a selection of kernel flags."
-msgstr "Выберите параметры передаваемые ядру ОС."
+msgstr "Válaszd ki milyen paraméterekkel induljon a kernel"
 
 #. type: "PowerManagement_title"
 #: Resources/templates/Localizable.strings:266
 #, no-wrap
 msgid "Power Management"
-msgstr "Управление питанием"
+msgstr "Energiagazdálkodás"
 
 #. type: "PowerManagement_description"
 #: Resources/templates/Localizable.strings:267
 #, no-wrap
 msgid "A selection of options that deal with power management and speedstep."
-msgstr ""
-"Параметры, контролирующие систему управления питанием и разгоном процессора."
+msgstr "\"Beállítások az energiagazdálkodáshoz és a sebesség-lépcsőkhöz."
 
 #. type: "Resolution_description"
 #: Resources/templates/Localizable.strings:271
 #, no-wrap
 msgid "Set one resolution to use."
-msgstr "Выберете разрешение, используемое по умолчанию."
+msgstr "Jelölj ki egy a monitorodnak leginkább megfelelő felbontást."
 
 #. type: "Video_title"
 #: Resources/templates/Localizable.strings:274
 #, no-wrap
 msgid "Video"
-msgstr "Видео"
+msgstr "Video"
 
 #. type: "Video_description"
 #: Resources/templates/Localizable.strings:275
 #, no-wrap
 msgid "A selection of options that deal with video."
-msgstr "Параметры отображения."
+msgstr "Videóhoz kapcsolódó beállítások."
 
 #. type: "Keymaps_title"
 #: Resources/templates/Localizable.strings:278
 #, no-wrap
 msgid "KeyLayout"
-msgstr "Раскладка"
+msgstr "Billentyűzet kiosztás"
 
 #. type: "Keymaps_description"
 #: Resources/templates/Localizable.strings:279
 #, no-wrap
 msgid "Select one keylayout to use. This will also install the Keylayout module and keymaps."
-msgstr ""
-"Выберите основную раскладку клавиатуры. Эта опция также позволит установить "
-"модуль Keylayout и различные раскладки."
+msgstr "Válassz ki egy kiosztást a használatához. Ez egyúttal telepíti a billentyűzet kiosztás modult is"
 
 #. type: "Themes_title"
 #: Resources/templates/Localizable.strings:282
 #, no-wrap
 msgid "Themes"
-msgstr "Темы"
+msgstr "Témák"
 
 #. type: "Themes_description"
 #: Resources/templates/Localizable.strings:283
@@ -1176,6 +1111,6 @@ msgid ""
 "A collection of sample themes\n"
 "More themes can be found at http://forum.voodooprojects.org/index.php/board,7.0.html"
 msgstr ""
-"Коллекция тем\n"
-"Дополнительные темы можно найти по адресу: "
-"http://forum.voodooprojects.org/index.php/board,7.0.html"
+"Az alapértelmezett témákat itt találod, a többit a\n"
+"http://forum.voodooprojects.org/index.php/board,7.0.html címen érheted el."
+
