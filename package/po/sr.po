@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Chameleon 2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-06 22:38+0000\n"
+"POT-Creation-Date: 2012-04-30 04:13+0200\n"
 "PO-Revision-Date: 2012-03-15 20:22-0000\n"
 "Last-Translator: ErmaC\n"
 "Language-Team: sr <sr@li.org>\n"
@@ -18,7 +18,6 @@ msgstr ""
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:22
-#| msgid "Chameleon Bootloader"
 msgid "Chameleon"
 msgstr "Chameleon"
 
@@ -63,21 +62,25 @@ msgid "%PKGDEV%"
 msgstr "%PKGDEV%"
 
 #. type: Content of: <html><body><div><p>
-#: Resources/templates/Welcome.html:36
-#: Resources/templates/Conclusion.html:30
+#: Resources/templates/Welcome.html:36 Resources/templates/Conclusion.html:30
 msgid "Package built by: %WHOBUILD%, language translated by: blackosx"
 msgstr "Package built by: %WHOBUILD%, language translated by: mistudio"
 
 #. type: Content of: <html><body><div><p>
-#: Resources/templates/Welcome.html:37
-#: Resources/templates/Conclusion.html:31
+#: Resources/templates/Welcome.html:37 Resources/templates/Conclusion.html:31
 msgid "Copyright © %CPRYEAR%"
 msgstr "Copyright © %CPRYEAR%"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:18
-msgid "Chameleon is a boot loader built using a combination of components which evolved from the development of David Elliott's fake EFI implementation added to Apple's boot-132 project."
-msgstr "Chameleon je kombinacija različitih komponenti bootloadera. On je zasnovan na David Elliottovoj lažnoj EFI implementaciji dodanoj u Apple boot-132 projekat."
+msgid ""
+"Chameleon is a boot loader built using a combination of components which "
+"evolved from the development of David Elliott's fake EFI implementation "
+"added to Apple's boot-132 project."
+msgstr ""
+"Chameleon je kombinacija različitih komponenti bootloadera. On je zasnovan "
+"na David Elliottovoj lažnoj EFI implementaciji dodanoj u Apple boot-132 "
+"projekat."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:20
@@ -87,17 +90,23 @@ msgstr "Nove funkcije u Chameleon 2.0"
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:22
 msgid "- Fully customizable GUI to bring some color to the Darwin Bootloader."
-msgstr "- Potpuno prilagođen grafički korisinički interfejs donosi vizuelna poboljšanja u Darwin Bootloaderu."
+msgstr ""
+"- Potpuno prilagođen grafički korisinički interfejs donosi vizuelna "
+"poboljšanja u Darwin Bootloaderu."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:23
-msgid "- Load a ramdisk to directly boot retail DVDs without additional programs."
-msgstr "- Start sa retail DVD-om direktno učitava ramdisk slike bez pomoći dodatnih programa."
+msgid ""
+"- Load a ramdisk to directly boot retail DVDs without additional programs."
+msgstr ""
+"- Start sa retail DVD-om direktno učitava ramdisk slike bez pomoći dodatnih "
+"programa."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:24
 msgid "- Hibernation. Enjoy resuming your Mac OS X with a preview image."
-msgstr "- Hibernacija. Uživajte u nastavaku rada vašeg Mac OS X-a sa pregledom slike."
+msgstr ""
+"- Hibernacija. Uživajte u nastavaku rada vašeg Mac OS X-a sa pregledom slike."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:25
@@ -106,8 +115,11 @@ msgstr "- SMBIOS zamena tvorničkih za modifikovanu SMBIOS vrednost."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:26
-msgid "- DSDT override to use a modified fixed DSDT which can solve several issues."
-msgstr "- DSDT zamena za korišćenje modifikovanog, ispravljenog DSDT-a koji može rešiti nekoliko problema."
+msgid ""
+"- DSDT override to use a modified fixed DSDT which can solve several issues."
+msgstr ""
+"- DSDT zamena za korišćenje modifikovanog, ispravljenog DSDT-a koji može "
+"rešiti nekoliko problema."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:27
@@ -136,7 +148,6 @@ msgstr "- Nvidia &amp; ATI/AMD Grafički Aktivator."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:32
-#| msgid "Modules"
 msgid "- Module support"
 msgstr "- Modul podrška"
 
@@ -147,8 +158,10 @@ msgstr "- Detekcija memorije prilagođena iz memtest86:&nbsp;"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:34
-msgid "- Automatic P-State &amp; C-State generation for native power management."
-msgstr "- Automatsko generisanje P-State i C-State za izvorno upravljanje energijom."
+msgid ""
+"- Automatic P-State &amp; C-State generation for native power management."
+msgstr ""
+"- Automatsko generisanje P-State i C-State za izvorno upravljanje energijom."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:35
@@ -192,8 +205,12 @@ msgstr "pročitajte"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:26
-msgid "&nbsp;to find out if the installation was successful and keep it for a record of what was done."
-msgstr "&nbsp;kako biste saznali da li je instalacija bila uspešna i čuvajte log radi evidencije o tome šta je učinjeno"
+msgid ""
+"&nbsp;to find out if the installation was successful and keep it for a "
+"record of what was done."
+msgstr ""
+"&nbsp;kako biste saznali da li je instalacija bila uspešna i čuvajte log "
+"radi evidencije o tome šta je učinjeno"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:28
@@ -203,7 +220,6 @@ msgstr "Chameleon v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
 #. type: "Chameleon_Package_Title"
 #: Resources/templates/Localizable.strings:4
 #, no-wrap
-#| msgid "Chameleon Bootloader"
 msgid "Chameleon Bootloader Package"
 msgstr "Chameleon"
 
@@ -751,7 +767,6 @@ msgstr "1600x1200x32"
 #. type: "1600x1200x32_description"
 #: Resources/templates/Localizable.strings:164
 #, no-wrap
-#| msgid "Set Graphics Mode to 1600x900x32"
 msgid "Set Graphics Mode to 1600x1200x32"
 msgstr "Podesite Grafičku Rezoluciju na 1600x1200x32"
 

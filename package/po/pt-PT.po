@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Chameleon 2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-06 22:38+0000\n"
+"POT-Creation-Date: 2012-04-30 04:13+0200\n"
 "PO-Revision-Date: 2012-03-15 20:34-0000\n"
 "Last-Translator: ErmaC\n"
 "Language-Team: pt-PT <pt-PT@li.org>\n"
@@ -62,41 +62,54 @@ msgid "%PKGDEV%"
 msgstr "%PKGDEV%"
 
 #. type: Content of: <html><body><div><p>
-#: Resources/templates/Welcome.html:36
-#: Resources/templates/Conclusion.html:30
+#: Resources/templates/Welcome.html:36 Resources/templates/Conclusion.html:30
 msgid "Package built by: %WHOBUILD%, language translated by: blackosx"
 msgstr "Package built by: %WHOBUILD%, language translated by: artur-pt"
 
 #. type: Content of: <html><body><div><p>
-#: Resources/templates/Welcome.html:37
-#: Resources/templates/Conclusion.html:31
+#: Resources/templates/Welcome.html:37 Resources/templates/Conclusion.html:31
 msgid "Copyright © %CPRYEAR%"
 msgstr "Copyright © %CPRYEAR%"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:18
-msgid "Chameleon is a boot loader built using a combination of components which evolved from the development of David Elliott's fake EFI implementation added to Apple's boot-132 project."
-msgstr "O Chameleon é um boot loader que combina vários componentes. Ele é baseado na implementação de fake EFI feita por David Elliott, adicionada ao projeto boot-132 da Apple."
+msgid ""
+"Chameleon is a boot loader built using a combination of components which "
+"evolved from the development of David Elliott's fake EFI implementation "
+"added to Apple's boot-132 project."
+msgstr ""
+"O Chameleon é um boot loader que combina vários componentes. Ele é baseado "
+"na implementação de fake EFI feita por David Elliott, adicionada ao projeto "
+"boot-132 da Apple."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:20
 msgid "Chameleon v2 is extended with many features. For example:"
-msgstr "O Chameleon é extendido com as seguintes características chave. Novos recursos no Chameleon 2.0:"
+msgstr ""
+"O Chameleon é extendido com as seguintes características chave. Novos "
+"recursos no Chameleon 2.0:"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:22
 msgid "- Fully customizable GUI to bring some color to the Darwin Bootloader."
-msgstr "- Interface gráfica (GUI) totalmente personalizável para trazer algumas cores ao Bootloader Darwin."
+msgstr ""
+"- Interface gráfica (GUI) totalmente personalizável para trazer algumas "
+"cores ao Bootloader Darwin."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:23
-msgid "- Load a ramdisk to directly boot retail DVDs without additional programs."
-msgstr "- Inicializa DVDs retail lendo uma imagem ramdisk directamente, sem ajuda de nenhum programa adicional."
+msgid ""
+"- Load a ramdisk to directly boot retail DVDs without additional programs."
+msgstr ""
+"- Inicializa DVDs retail lendo uma imagem ramdisk directamente, sem ajuda de "
+"nenhum programa adicional."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:24
 msgid "- Hibernation. Enjoy resuming your Mac OS X with a preview image."
-msgstr "- Hibernação. Desfrute de continuar o seu Mac OS X com uma amostra de imagem da tela."
+msgstr ""
+"- Hibernação. Desfrute de continuar o seu Mac OS X com uma amostra de imagem "
+"da tela."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:25
@@ -105,13 +118,18 @@ msgstr "- Substituição de SMBIOS para modificar os valores de fábrica."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:26
-msgid "- DSDT override to use a modified fixed DSDT which can solve several issues."
-msgstr "- Substituicção de DSDT para usar uma tabela modificada que pode resolver diversos problemas."
+msgid ""
+"- DSDT override to use a modified fixed DSDT which can solve several issues."
+msgstr ""
+"- Substituicção de DSDT para usar uma tabela modificada que pode resolver "
+"diversos problemas."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:27
 msgid "- Device Property Injection via device-properties string."
-msgstr "- Injecção de propriedades de dispositivo através do string device-properties."
+msgstr ""
+"- Injecção de propriedades de dispositivo através do string device-"
+"properties."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:28
@@ -135,7 +153,6 @@ msgstr "- Ativação Placas Gráficas Nvidia &amp; ATI/AMD."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:32
-#| msgid "Modules"
 msgid "- Module support"
 msgstr "- Suporte de Modulos"
 
@@ -146,8 +163,10 @@ msgstr "- Deteção Memoria adaptada de memtest86:&nbsp;"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:34
-msgid "- Automatic P-State &amp; C-State generation for native power management."
-msgstr "- P-State automático &amp; Geração C-State para gestão de energia nativa."
+msgid ""
+"- Automatic P-State &amp; C-State generation for native power management."
+msgstr ""
+"- P-State automático &amp; Geração C-State para gestão de energia nativa."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:35
@@ -157,7 +176,8 @@ msgstr "- Protocolo Mensagens."
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:37
 msgid "The code is released under version 2 of the Gnu Public License."
-msgstr "Este código é distribuido sobre os termos da versão 2 da Gnu Public License."
+msgstr ""
+"Este código é distribuido sobre os termos da versão 2 da Gnu Public License."
 
 #. type: Content of: <html><body><p><span>
 #: Resources/templates/Description.html:40
@@ -191,8 +211,12 @@ msgstr "leia-o"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:26
-msgid "&nbsp;to find out if the installation was successful and keep it for a record of what was done."
-msgstr "&nbsp;para verificar se a instalação foi realizada com sucesso e guarde como relatório do que foi realizado."
+msgid ""
+"&nbsp;to find out if the installation was successful and keep it for a "
+"record of what was done."
+msgstr ""
+"&nbsp;para verificar se a instalação foi realizada com sucesso e guarde como "
+"relatório do que foi realizado."
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:28
@@ -749,7 +773,6 @@ msgstr "1600x1200x32"
 #. type: "1600x1200x32_description"
 #: Resources/templates/Localizable.strings:164
 #, no-wrap
-#| msgid "Set Graphics Mode to 1600x900x32"
 msgid "Set Graphics Mode to 1600x1200x32"
 msgstr "Seleciona Modo Gráfico 1600x1200x32"
 

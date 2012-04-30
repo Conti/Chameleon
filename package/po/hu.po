@@ -1066,7 +1066,7 @@ msgstr "Energiagazdálkodás"
 #: Resources/templates/Localizable.strings:267
 #, no-wrap
 msgid "A selection of options that deal with power management and speedstep."
-msgstr "\"Beállítások az energiagazdálkodáshoz és a sebesség-lépcsőkhöz."
+msgstr "Beállítások az energiagazdálkodáshoz és a sebesség-lépcsőkhöz."
 
 #. type: "Resolution_description"
 #: Resources/templates/Localizable.strings:271

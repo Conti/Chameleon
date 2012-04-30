@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Chameleon 2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-06 22:38+0000\n"
+"POT-Creation-Date: 2012-04-30 04:13+0200\n"
 "PO-Revision-Date: 2012-04-11 04:34+0200\n"
 "Last-Translator: crazybirdy <crazybirdy@ms96.url.com.tw>\n"
 "Language-Team: zh_CN <zh_CN@li.org>\n"
@@ -19,7 +19,6 @@ msgstr ""
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:22
-#| msgid "Chameleon Bootloader"
 msgid "Chameleon"
 msgstr "Chameleon"
 
@@ -64,21 +63,24 @@ msgid "%PKGDEV%"
 msgstr "%PKGDEV%"
 
 #. type: Content of: <html><body><div><p>
-#: Resources/templates/Welcome.html:36
-#: Resources/templates/Conclusion.html:30
+#: Resources/templates/Welcome.html:36 Resources/templates/Conclusion.html:30
 msgid "Package built by: %WHOBUILD%, language translated by: blackosx"
 msgstr "Package built by: %WHOBUILD%, language 翻译: crazybirdy, Ulimate"
 
 #. type: Content of: <html><body><div><p>
-#: Resources/templates/Welcome.html:37
-#: Resources/templates/Conclusion.html:31
+#: Resources/templates/Welcome.html:37 Resources/templates/Conclusion.html:31
 msgid "Copyright © %CPRYEAR%"
 msgstr "Copyright © %CPRYEAR%"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:18
-msgid "Chameleon is a boot loader built using a combination of components which evolved from the development of David Elliott's fake EFI implementation added to Apple's boot-132 project."
-msgstr "Chameleon 是一个结合许多组件的开机引导器。这些组件的演变来自于 David Elliott 加入 Apple 的 boot-132 程序项目的 fake EFI 安装工具。"
+msgid ""
+"Chameleon is a boot loader built using a combination of components which "
+"evolved from the development of David Elliott's fake EFI implementation "
+"added to Apple's boot-132 project."
+msgstr ""
+"Chameleon 是一个结合许多组件的开机引导器。这些组件的演变来自于 David Elliott "
+"加入 Apple 的 boot-132 程序项目的 fake EFI 安装工具。"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:20
@@ -92,7 +94,8 @@ msgstr "- 客制化的图形用户介面，为 Darwin Bootloader 带来更多的
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:23
-msgid "- Load a ramdisk to directly boot retail DVDs without additional programs."
+msgid ""
+"- Load a ramdisk to directly boot retail DVDs without additional programs."
 msgstr "- 无须其他程序，即可载入 ramdisk 来直接启动 零售版 DVD。"
 
 #. type: Content of: <html><body><p>
@@ -107,7 +110,8 @@ msgstr "- 可使用修改过的 SMBIOS 覆盖 SMBIOS 之出厂设定值。"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:26
-msgid "- DSDT override to use a modified fixed DSDT which can solve several issues."
+msgid ""
+"- DSDT override to use a modified fixed DSDT which can solve several issues."
 msgstr "- 可使用修正过的 DSDT 覆盖原始 DSDT，并可解决许多问题。"
 
 #. type: Content of: <html><body><p>
@@ -137,7 +141,6 @@ msgstr "- 支持 Nvidia &amp; ATI/AMD 显示卡启用功能。"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:32
-#| msgid "Modules"
 msgid "- Module support"
 msgstr "- 支持模组功能。"
 
@@ -148,7 +151,8 @@ msgstr "- 支持改编自 memtest86:&nbsp;的内存侦测功能。&nbsp;"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:34
-msgid "- Automatic P-State &amp; C-State generation for native power management."
+msgid ""
+"- Automatic P-State &amp; C-State generation for native power management."
 msgstr "- 具有自动生成 P-State 及 C-State 的原生电源管理之功能。"
 
 #. type: Content of: <html><body><p>
@@ -193,7 +197,9 @@ msgstr "详阅纪录文件"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:26
-msgid "&nbsp;to find out if the installation was successful and keep it for a record of what was done."
+msgid ""
+"&nbsp;to find out if the installation was successful and keep it for a "
+"record of what was done."
 msgstr "&nbsp;确认安装是否成功，并保留安装纪录文件备查。"
 
 #. type: Content of: <html><body><div><p>
@@ -204,7 +210,6 @@ msgstr "Chameleon v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
 #. type: "Chameleon_Package_Title"
 #: Resources/templates/Localizable.strings:4
 #, no-wrap
-#| msgid "Chameleon Bootloader"
 msgid "Chameleon Bootloader Package"
 msgstr "Chameleon"
 
@@ -755,7 +760,6 @@ msgstr "1600x1200x32"
 #. type: "1600x1200x32_description"
 #: Resources/templates/Localizable.strings:164
 #, no-wrap
-#| msgid "Set Graphics Mode to 1600x900x32"
 msgid "Set Graphics Mode to 1600x1200x32"
 msgstr "设置显示器分辨率为 1600x1200x32"
 
