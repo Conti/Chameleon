@@ -586,7 +586,8 @@ static radeon_card_info_t radeon_cards[] = {
 	{ 0x68F9,	0x301317AF, CHIP_FAMILY_CEDAR,		"ATI Radeon HD 5470",				kNull		},
 
 	{ 0x68F9,	0xE145174B, CHIP_FAMILY_CEDAR,		"ATI Radeon HD 5450",				kEulemur	}, 
-	{ 0x68F9,	0xE153174B, CHIP_FAMILY_CEDAR,		"ATI Radeon HD 5450",				kEulemur	}, 
+	{ 0x68F9,	0xE153174B, CHIP_FAMILY_CEDAR,		"ATI Radeon HD 5450",				kEulemur	},
+	{ 0x68E1,	0x3000174B, CHIP_FAMILY_CEDAR,		"ATI Radeon HD 5450",				kEulemur	},
 
 	/* Northen Islands */
 	{ 0x6718,	0x0B001002, CHIP_FAMILY_CAYMAN,		"AMD Radeon HD 6970",				kNull		},
@@ -1373,7 +1374,12 @@ static bool init_card(pci_dt_t *pci_dev)
 		}
 	}
 	
-	if (!card->info->device_id || !card->info->cfg_name)
+    
+    //why can't this check go down to 1411?
+    //If we move it down we would still allow the cfg_name check
+    
+	//if (!card->info->device_id || !card->info->cfg_name)
+    if (!card->info->device_id)
 	{
 		verbose("Unsupported ATI card! Device ID: [%04x:%04x] Subsystem ID: [%08x] \n", 
 				pci_dev->vendor_id, pci_dev->device_id, pci_dev->subsys_id);
