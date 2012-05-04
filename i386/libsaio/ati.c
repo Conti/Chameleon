@@ -758,6 +758,7 @@ static radeon_card_info_t radeon_cards[] = {
 
 	{ 0x6758,	0x00000000, CHIP_FAMILY_TURKS,		"AMD Radeon HD 6670 Series",			kBulrushes	},
 	{ 0x6759,	0x00000000, CHIP_FAMILY_TURKS,		"AMD Radeon HD 6500 Series",			kNull		},
+	{ 0x675F,	0x00000000, CHIP_FAMILY_TURKS,		"AMD Radeon HD 5570 Series",			kNull		},
 
 	{ 0x6760,	0x00000000, CHIP_FAMILY_CAICOS,		"AMD Radeon HD 6400M Series",			kNull		},
 	{ 0x6761,	0x00000000, CHIP_FAMILY_CAICOS,		"AMD Radeon HD 6430M Series",			kNull		},
