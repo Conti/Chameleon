@@ -599,6 +599,7 @@ static radeon_card_info_t radeon_cards[] = {
 	{ 0x6719,	0x20101787, CHIP_FAMILY_CAYMAN,		"AMD Radeon HD 6950",				kGibba		}, 
 
 	{ 0x6720,	0x04BA1028, CHIP_FAMILY_BARTS,		"AMD Radeon HD 6970M",				kElodea		}, 
+	{ 0x6720,	0x51041558, CHIP_FAMILY_BARTS,		"AMD Radeon HD 6990M",				kElodea		},
 
 	{ 0x6738,	0x00D01002, CHIP_FAMILY_BARTS,		"AMD Radeon HD 6870",				kDuckweed	},
 	{ 0x6738,	0x174B174B, CHIP_FAMILY_BARTS,		"Sapphire Radeon HD6870",			kDuckweed	}, // ?? kBulrushes ??
