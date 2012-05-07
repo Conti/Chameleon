@@ -158,10 +158,14 @@ void get_acpi_cpu_names(unsigned char* dsdt, uint32_t length)
 {
 	uint32_t i;
 	
+    DBG("start finding cpu names. length %d\n", length);
+    
 	for (i=0; i<length-7; i++) 
 	{
 		if (dsdt[i] == 0x5B && dsdt[i+1] == 0x83) // ProcessorOP
 		{
+            DBG("dsdt: %x%x\n", dsdt[i], dsdt[i+1]);
+
 			uint32_t offset = i + 3 + (dsdt[i+2] >> 6);
 			
 			bool add_name = true;
@@ -195,6 +199,8 @@ void get_acpi_cpu_names(unsigned char* dsdt, uint32_t length)
 			}
 		}
 	}
+    
+    DBG("end finding cpu names: cpu names found: %d\n", acpi_cpu_count);
 }
 
 struct acpi_2_ssdt *generate_cst_ssdt(struct acpi_2_fadt* fadt)
@@ -385,7 +391,7 @@ struct acpi_2_ssdt *generate_cst_ssdt(struct acpi_2_fadt* fadt)
 		
 		aml_destroy_node(root);
 		
-		//dumpPhysAddr("C-States SSDT content: ", ssdt, ssdt->Length);
+		// dumpPhysAddr("C-States SSDT content: ", ssdt, ssdt->Length);
 		
 		verbose ("SSDT with CPU C-States generated successfully\n");
 		
@@ -416,7 +422,7 @@ struct acpi_2_ssdt *generate_pss_ssdt(struct acpi_2_dsdt* dsdt)
 	}
 	
 	if (!(Platform.CPU.Features & CPU_FEATURE_MSR)) {
-		verbose ("Unsupported CPU: P-States will not be generated !!!\n");
+		verbose ("Unsupported CPU: P-States will not be generated !!! No MSR support\n");
 		return NULL;
 	}
 	
@@ -568,8 +574,14 @@ struct acpi_2_ssdt *generate_pss_ssdt(struct acpi_2_dsdt* dsdt)
 					case CPU_MODEL_JAKETOWN:	// Intel Core i7, Xeon E5 LGA2011 (32nm)
 
 					{
-						maximum.Control = rdmsr64(MSR_IA32_PERF_STATUS) & 0xff; // Seems it always contains maximum multiplier value (with turbo, that's we need)...
-						minimum.Control = (rdmsr64(MSR_PLATFORM_INFO) >> 40) & 0xff;
+						if ((Platform.CPU.Model == CPU_MODEL_SANDYBRIDGE) ||
+                            (Platform.CPU.Model == CPU_MODEL_JAKETOWN))
+                        {
+                            maximum.Control = (rdmsr64(MSR_IA32_PERF_STATUS) >> 8) & 0xff;
+                        } else {
+                            maximum.Control = rdmsr64(MSR_IA32_PERF_STATUS) & 0xff; 
+                        }
+                        minimum.Control = (rdmsr64(MSR_PLATFORM_INFO) >> 40) & 0xff;
 						
 						verbose("P-States: min 0x%x, max 0x%x\n", minimum.Control, maximum.Control);			
 						
@@ -596,7 +608,7 @@ struct acpi_2_ssdt *generate_pss_ssdt(struct acpi_2_dsdt* dsdt)
 						break;
 					}	
 					default:
-						verbose ("Unsupported CPU: P-States not generated !!!\n");
+						verbose ("Unsupported CPU: P-States not generated !!! Unknown CPU Type\n");
 						break;
 				}
 			}
@@ -779,10 +791,14 @@ int setupAcpi(void)
 	int version;
 	void *new_dsdt;
 
+    
 	const char *filename;
 	char dirSpec[128];
 	int len = 0;
 
+    // always reset cpu count to 0 when injecting new acpi
+    acpi_cpu_count = 0;
+    
 	// Try using the file specified with the DSDT option
 	if (getValueForKey(kDSDT, &filename, &len, &bootInfo->chameleonConfig))
 	{
@@ -812,6 +828,9 @@ int setupAcpi(void)
 	getBoolForKey(kGeneratePStates, &generate_pstates, &bootInfo->chameleonConfig);
 	getBoolForKey(kGenerateCStates, &generate_cstates, &bootInfo->chameleonConfig);
 	
+    DBG("generating p-states config: %d\n", generate_pstates);
+    DBG("generating c-states config: %d\n", generate_cstates);
+    
 	{
 		int i;
 		
@@ -919,6 +938,7 @@ int setupAcpi(void)
 					// Generate _CST SSDT
 					if (generate_cstates && (new_ssdt[ssdt_count] = generate_cst_ssdt(fadt_mod)))
 					{
+                        DBG("c-states generated\n");
 						generate_cstates = false; // Generate SSDT only once!
 						ssdt_count++;
 					}
@@ -926,6 +946,7 @@ int setupAcpi(void)
 					// Generating _PSS SSDT
 					if (generate_pstates && (new_ssdt[ssdt_count] = generate_pss_ssdt((void*)fadt_mod->DSDT)))
 					{
+                        DBG("p-states generated\n");
 						generate_pstates = false; // Generate SSDT only once!
 						ssdt_count++;
 					}
