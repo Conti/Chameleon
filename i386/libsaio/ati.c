@@ -540,7 +540,7 @@ static radeon_card_info_t radeon_cards[] = {
 	{ 0x68C8,	0x2306103C, CHIP_FAMILY_REDWOOD,	"ATI FirePro V4800 (FireGL)",			kNull		},
 
 	{ 0x68D8,	0x03561043, CHIP_FAMILY_REDWOOD,	"ATI Radeon HD 5670",				kBaboon		},
-
+	{ 0x68D8,	0x68e01028, CHIP_FAMILY_REDWOOD,	"ATI Radeon HD 5670", 				kBaboon		},
 	{ 0x68D8,	0x21D91458, CHIP_FAMILY_REDWOOD,	"ATI Radeon HD 5670",				kBaboon		},
 
 	{ 0x68D8,	0x5690174B, CHIP_FAMILY_REDWOOD,	"ATI Radeon HD 5690",				kNull		},
