@@ -333,8 +333,9 @@ void setDefaultSMBData(void)
 								defaultSystemInfo.family		= kDefaultiMacFamily;
 								break;
 
-							case CPU_MODEL_SANDY:			// Intel Core i3, i5, i7 LGA1155 (32nm)
-							case CPU_MODEL_SANDY_XEON:		// Intel Xeon E3
+							case CPU_MODEL_SANDYBRIDGE:			// Intel Core i3, i5, i7 LGA1155 (32nm)
+							case CPU_MODEL_JAKETOWN:			// Intel Core i7, Xeon E5 LGA2011 (32nm)
+							case CPU_MODEL_IVYBRIDGE:			// Intel Core i3, i5, i7 LGA1155 (22nm)
 								defaultBIOSInfo.version			= kDefaultiMacSandyBIOSVersion;
 								defaultSystemInfo.productName	= kDefaultiMacSandy;
 								defaultSystemInfo.family		= kDefaultiMacFamily;

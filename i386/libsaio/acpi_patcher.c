@@ -563,8 +563,10 @@ struct acpi_2_ssdt *generate_pss_ssdt(struct acpi_2_dsdt* dsdt)
 					case CPU_MODEL_NEHALEM_EX:	// Intel Xeon X75xx, Xeon X65xx, Xeon E75xx, Xeon E65xx
 					case CPU_MODEL_WESTMERE:	// Intel Core i7, Xeon X56xx, Xeon E56xx, Xeon W36xx LGA1366 (32nm) 6 Core
 					case CPU_MODEL_WESTMERE_EX:	// Intel Xeon E7
-					case CPU_MODEL_SANDY:		// Intel Core i3, i5, i7 LGA1155 (32nm)
-					case CPU_MODEL_SANDY_XEON:	// Intel Xeon E3
+					case CPU_MODEL_SANDYBRIDGE:	// Intel Core i3, i5, i7 LGA1155 (32nm)
+					case CPU_MODEL_IVYBRIDGE:	// Intel Core i3, i5, i7 LGA1155 (22nm)
+					case CPU_MODEL_JAKETOWN:	// Intel Core i7, Xeon E5 LGA2011 (32nm)
+
 					{
 						maximum.Control = rdmsr64(MSR_IA32_PERF_STATUS) & 0xff; // Seems it always contains maximum multiplier value (with turbo, that's we need)...
 						minimum.Control = (rdmsr64(MSR_PLATFORM_INFO) >> 40) & 0xff;

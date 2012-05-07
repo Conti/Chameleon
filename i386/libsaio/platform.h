@@ -38,11 +38,12 @@ extern void dumpPhysAddr(const char * title, void * a, int len);
 #define CPU_MODEL_FIELDS		0x1E			// Lynnfield, Clarksfield, Jasper Forest
 #define CPU_MODEL_DALES			0x1F			// Havendale, Auburndale
 #define CPU_MODEL_DALES_32NM	0x25			// Clarkdale, Arrandale
-#define CPU_MODEL_SANDY			0x2A			// Sandy Bridge
+#define CPU_MODEL_SANDYBRIDGE	0x2A			// Sandy Bridge
 #define CPU_MODEL_WESTMERE		0x2C			// Gulftown, Westmere-EP, Westmere-WS
-#define CPU_MODEL_SANDY_XEON	0x2D			// Sandy Bridge Xeon
+#define CPU_MODEL_JAKETOWN		0x2D			// Sandy Bridge-E, Sandy Bridge-EP 
 #define CPU_MODEL_NEHALEM_EX	0x2E			// Beckton
 #define CPU_MODEL_WESTMERE_EX	0x2F
+#define CPU_MODEL_IVYBRIDGE		0x3A			// Ivy Bridge
 
 /* CPU Features */
 #define CPU_FEATURE_MMX			0x00000001		// MMX Instruction Set
