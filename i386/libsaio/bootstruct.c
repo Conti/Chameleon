@@ -110,7 +110,7 @@ void
 reserveKernBootStruct(void)
 {
 	if ((gMacOSVersion[0] == '1') && (gMacOSVersion[1] == '0')
-		&& (gMacOSVersion[2] == '.') && (gMacOSVersion[3] == '7'))
+		&& (gMacOSVersion[2] == '.') && (gMacOSVersion[3] == '7' || gMacOSVersion[3] == '8'))
 	{
 		void *oldAddr = bootArgs;
 		bootArgs = (boot_args *)AllocateKernelMemory(sizeof(boot_args));
