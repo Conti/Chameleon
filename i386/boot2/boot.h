@@ -118,6 +118,7 @@
 
 #define kEthernetBuiltIn	"EthernetBuiltIn"	/* pci_setup.c */
 #define kGraphicsEnabler	"GraphicsEnabler"	/* pci_setup.c */
+#define kEnableHDMIAudio	"EnableHDMIAudio"	/*ati.c && nvidia.c */
 #define kForceHPET			"ForceHPET"			/* pci_setup.c */
 
 #define kMD0Image			"md0"				/* ramdisk.h */
