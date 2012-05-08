@@ -164,4 +164,70 @@ static inline unsigned long poll_PIT2_gate(void)
     return count;
 }
 
+
+inline static void
+set_PIT2(int value)
+{
+/*
+ * First, tell the clock we are going to write 16 bits to the counter
+ * and enable one-shot mode (command 0xB8 to port 0x43)
+ * Then write the two bytes into the PIT2 clock register (port 0x42).
+ * Loop until the value is "realized" in the clock,
+ * this happens on the next tick.
+ */
+    asm volatile(
+        " movb  $0xB8,%%al      \n\t"
+        " outb  %%al,$0x43      \n\t"
+        " movb  %%dl,%%al       \n\t"
+        " outb  %%al,$0x42      \n\t"
+        " movb  %%dh,%%al       \n\t"
+        " outb  %%al,$0x42      \n"
+"1:       inb   $0x42,%%al      \n\t" 
+        " inb   $0x42,%%al      \n\t"
+        " cmp   %%al,%%dh       \n\t"
+        " jne   1b"
+        : : "d"(value) : "%al");
+}
+
+
+inline static uint64_t
+get_PIT2(unsigned int *value)
+{
+    register uint64_t   result;
+/*
+ * This routine first latches the time (command 0x80 to port 0x43),
+ * then gets the time stamp so we know how long the read will take later.
+ * Read (from port 0x42) and return the current value of the timer.
+ */
+#ifdef __i386__
+    asm volatile(
+        " xorl  %%ecx,%%ecx     \n\t"
+        " movb  $0x80,%%al      \n\t"
+        " outb  %%al,$0x43      \n\t"
+        " rdtsc                 \n\t"
+        " pushl %%eax           \n\t"
+        " inb   $0x42,%%al      \n\t"
+        " movb  %%al,%%cl       \n\t"
+        " inb   $0x42,%%al      \n\t"
+        " movb  %%al,%%ch       \n\t"
+        " popl  %%eax   "
+        : "=A"(result), "=c"(*value));
+#else /* __x86_64__ */
+    asm volatile(
+		" xorq  %%rcx,%%rcx     \n\t"
+		" movb  $0x80,%%al      \n\t"
+		" outb  %%al,$0x43      \n\t"
+		" rdtsc                 \n\t"
+		" pushq  %%rax          \n\t"
+		" inb   $0x42,%%al      \n\t"
+		" movb  %%al,%%cl       \n\t"
+		" inb   $0x42,%%al      \n\t"
+		" movb  %%al,%%ch       \n\t"
+		" popq  %%rax   "
+		: "=A"(result), "=c"(*value));
+#endif
+
+    return result;
+}
+
 #endif /* !__LIBSAIO_CPU_H */
