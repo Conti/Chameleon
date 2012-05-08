@@ -202,6 +202,7 @@ menuitem_t infoMenuItems[] =
 };
 
 int  initFont(font_t *font, image_t *image);
+int  destroyFont(font_t *font);
 void colorFont(font_t *font, uint32_t color);
 void makeRoundedCorners(pixmap_t *p);
 
@@ -432,6 +433,25 @@ static int loadGraphics(void)
 	return 0;
 }
  
+static int unloadGraphics(void)
+{
+    int i;
+
+    destroyFont(&font_console);
+    destroyFont(&font_small);
+
+	for (i = 0; i < sizeof(images) / sizeof(images[0]); i++)
+	{
+	    if (images[i].image)
+	    {
+	    	if (images[i].image->pixels) free(images[i].image->pixels);
+	    	free (images[i].image);
+	    	images[i].image = 0;
+	    }
+	}
+	return 0;
+}
+
 pixmap_t *getCroppedPixmapAtPosition( pixmap_t *from, position_t pos, uint16_t width, uint16_t height )
 {
 	
@@ -476,6 +496,19 @@ int createBackBuffer( window_t *window )
 	gui.backbuffer->height = gui.screen.height;
  
 	return 0;
+}
+
+int freeBackBuffer( window_t *window )
+{
+	if (gui.backbuffer && gui.backbuffer->pixels)
+    {
+		free(gui.backbuffer->pixels);
+		free(gui.backbuffer);
+		gui.backbuffer = 0;
+		return 0;
+	}
+
+	return 1;
 }
 
 int createWindowBuffer( window_t *window )
@@ -826,6 +859,14 @@ int initGUI(void)
 			}
 		}
 	}
+	// not available memory, freeing resources
+	freeWindowBuffer(&gui.menu);
+	freeWindowBuffer(&gui.infobox);
+	freeWindowBuffer(&gui.bootprompt);
+	freeWindowBuffer(&gui.devicelist);
+	freeWindowBuffer(&gui.screen);
+	freeBackBuffer(&gui.screen);
+	unloadGraphics();
 	return 1;
 }
 
@@ -1564,6 +1605,21 @@ int initFont(font_t *font, image_t *data)
 	font->count = count;
 
 	return 0;
+}
+
+int destroyFont(font_t *font)
+{
+	int i;
+    for (i = 0; i < CHARACTERS_COUNT; i++)
+    {
+		if (font->chars[i])
+		{
+			if (font->chars[i]->pixels) free (font->chars[i]->pixels);
+			free (font->chars[i]);
+			font->chars[i] = 0;
+		}
+    }
+    return 0;
 }
 
 void colorFont(font_t *font, uint32_t color)
