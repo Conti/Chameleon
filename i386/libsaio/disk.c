@@ -897,7 +897,8 @@ static BVRef diskScanFDiskBootVolumes( int biosdev, int * countPtr )
                       biosdev, partno,
                       part->relsect,
                       part,
-                      0, 0, 0, 0, 0, 0,
+                      0, 0, 0, 0, 0,
+                      EX2GetUUID,
                       EX2GetDescription,
                       (BVFree)free,
                       0, kBIOSDevTypeHardDrive, 0);
