@@ -71,6 +71,11 @@
 #define PATCH_ROM_FAILED			0
 #define MAX_NUM_DCB_ENTRIES			16
 #define TYPE_GROUPED				0xff
+#define READ_BYTE(rom, offset) (*(u_char *)(rom + offset))
+#define READ_LE_SHORT(rom, offset) (READ_BYTE(rom, offset+1) << 8 | READ_BYTE(rom, offset))
+#define READ_LE_INT(rom, offset)   (READ_LE_SHORT(rom, offset+2) << 16 | READ_LE_SHORT(rom, offset))
+#define WRITE_LE_SHORT(data)       (((data) << 8 & 0xff00) | ((data) >> 8 & 0x00ff ))
+#define WRITE_LE_INT(data)         (WRITE_LE_SHORT(data) << 16 | WRITE_LE_SHORT(data >> 16))
 
 extern uint32_t devices_number;
 
@@ -872,44 +877,7 @@ static struct nv_chipsets_t NVKnownChipsets[] = {
 	{ 0x10DE1251, "GeForce GTX 560M" }, 
 };
 
-static uint16_t swap16(uint16_t x)
-{
-	return (((x & 0x00FF) << 8) | ((x & 0xFF00) >> 8));
-}
 
-static uint16_t read16(uint8_t *ptr, uint16_t offset)
-{
-	uint8_t ret[2];
-
-	ret[0] = ptr[offset+1];
-	ret[1] = ptr[offset];
-
-	return *((uint16_t*)&ret);
-}
-
-#if 0
-static uint32_t swap32(uint32_t x)
-{
-	return ((x & 0x000000FF) << 24) | ((x & 0x0000FF00) << 8 ) | ((x & 0x00FF0000) >> 8 ) | ((x & 0xFF000000) >> 24);
-}
-
-static uint8_t	read8(uint8_t *ptr, uint16_t offset)
-{ 
-	return ptr[offset];
-}
-
-static uint32_t read32(uint8_t *ptr, uint16_t offset)
-{
-	uint8_t ret[4];
-
-	ret[0] = ptr[offset+3];
-	ret[1] = ptr[offset+2];
-	ret[2] = ptr[offset+1];
-	ret[3] = ptr[offset];
-
-	return *((uint32_t*)&ret);
-}
-#endif
 
 static int patch_nvidia_rom(uint8_t *rom)
 {
@@ -918,7 +886,7 @@ static int patch_nvidia_rom(uint8_t *rom)
 		return PATCH_ROM_FAILED;
 	}
 	
-	uint16_t dcbptr = swap16(read16(rom, 0x36));
+	uint16_t dcbptr = READ_LE_SHORT(rom, 0x36);
 
 	if (!dcbptr) {
 		printf("no dcb table found\n");
@@ -943,11 +911,11 @@ static int patch_nvidia_rom(uint8_t *rom)
 			numentries	 = dcbtable[2];
 			recordlength = dcbtable[3];
 
-			sig = *(uint32_t *)&dcbtable[6];
+			sig = READ_LE_INT(dcbtable, 6);
 		}
 		else
 		{
-			sig = *(uint32_t *)&dcbtable[4];
+			sig = READ_LE_INT(dcbtable, 4);
 			headerlength = 8;
 		}
 		
@@ -991,7 +959,7 @@ static int patch_nvidia_rom(uint8_t *rom)
 	for (i = 0; i < numentries; i++)
 	{
 		uint32_t connection;
-		connection = *(uint32_t *)&dcbtable[headerlength + recordlength * i];
+		connection = READ_LE_INT(dcbtable,headerlength + recordlength * i);
 
 		/* Should we allow discontinuous DCBs? Certainly DCB I2C tables can be discontinuous */
 		if ((connection & 0x0000000f) == 0x0000000f) /* end of records */ 
@@ -1172,6 +1140,7 @@ static uint32_t load_nvidia_bios_file(const char *filename, uint8_t *buf, int bu
 	return size > 0 ? size : 0;
 }
 
+
 static int devprop_add_nvidia_template(struct DevPropDevice *device)
 {
 	char tmp[16];
@@ -1274,6 +1243,10 @@ unsigned long long mem_detect(volatile uint8_t *regs, uint8_t nvCardType, pci_dt
 	return vram_size;
 }
 
+static bool checkNvRomSig(uint8_t * aRom){
+    return aRom != NULL && (aRom[0] == 0x55 && aRom[1] == 0xaa);
+}
+
 bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 {
 	struct DevPropDevice	*device;
@@ -1307,10 +1280,10 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 	videoRam = mem_detect(regs, nvCardType, nvda_dev);
 	model = get_nvidia_model((nvda_dev->vendor_id << 16) | nvda_dev->device_id);
 	
-	verbose("nVidia %s %dMB NV%02x [%04x:%04x] :: %s\n",
-			model, (uint32_t)(videoRam / 1024 / 1024),
-			(REG32(0) >> 20) & 0x1ff, nvda_dev->vendor_id, nvda_dev->device_id,
-			devicepath);
+    verbose("nVidia %s %dMB NV%02x [%04x:%04x] :: %s device number: %d\n",
+                model, (uint32_t)(videoRam / 1024 / 1024),
+                (REG32(0) >> 20) & 0x1ff, nvda_dev->vendor_id, nvda_dev->device_id,
+    			devicepath, devices_number);
 	
 	rom = malloc(NVIDIA_ROM_SIZE);
 	sprintf(nvFilename, "/Extra/%04x_%04x.rom", (uint16_t)nvda_dev->vendor_id,
@@ -1337,52 +1310,52 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 		// Otherwise read bios from card
 		nvBiosOveride = 0;
 		
-		// TODO: we should really check for the signature before copying the rom, i think.
-		
-		// PRAMIN first
-		nvRom = (uint8_t*)&regs[NV_PRAMIN_OFFSET];
-		bcopy((uint32_t *)nvRom, rom, NVIDIA_ROM_SIZE);
-		
-		// Valid Signature ?
-		if (rom[0] != 0x55 && rom[1] != 0xaa)
+        // PROM first
+        // Enable PROM access
+        (REG32(NV_PBUS_PCI_NV_20)) = NV_PBUS_PCI_NV_20_ROM_SHADOW_DISABLED;
+        nvRom = (uint8_t*)&regs[NV_PROM_OFFSET];
+        
+        // Valid Signature ?
+		if (checkNvRomSig(nvRom))
 		{
-			// PROM next
-			// Enable PROM access
-			(REG32(NV_PBUS_PCI_NV_20)) = NV_PBUS_PCI_NV_20_ROM_SHADOW_DISABLED;
-			
-			nvRom = (uint8_t*)&regs[NV_PROM_OFFSET];
-			bcopy((uint8_t *)nvRom, rom, NVIDIA_ROM_SIZE);
-			
-			// disable PROM access
-			(REG32(NV_PBUS_PCI_NV_20)) = NV_PBUS_PCI_NV_20_ROM_SHADOW_ENABLED;
-			
-			// Valid Signature ?
-			if (rom[0] != 0x55 && rom[1] != 0xaa)
-			{
+            bcopy((uint8_t *)nvRom, rom, NVIDIA_ROM_SIZE);
+            DBG("PROM Address 0x%x Signature 0x%02x%02x\n", nvRom, rom[0], rom[1]);
+        }
+        else
+        {
+
+            // disable PROM access
+            (REG32(NV_PBUS_PCI_NV_20)) = NV_PBUS_PCI_NV_20_ROM_SHADOW_ENABLED;
+        
+		    //PRAM next
+            nvRom = (uint8_t*)&regs[NV_PRAMIN_OFFSET];
+            
+            if(checkNvRomSig(nvRom))
+            {
+                bcopy((uint32_t *)nvRom, rom, NVIDIA_ROM_SIZE);
+                DBG("PRAM Address 0x%x Signature 0x%02x%02x\n", nvRom, rom[0], rom[1]);
+            }
+            else
+    		{
 				// 0xC0000 last
 				bcopy((char *)0xc0000, rom, NVIDIA_ROM_SIZE);
 				
 				// Valid Signature ?
-				if (rom[0] != 0x55 && rom[1] != 0xaa)
+				if (!checkNvRomSig(rom))
 				{
 					printf("ERROR: Unable to locate nVidia Video BIOS\n");
 					return false;
 				}
-				else
-				{
-					DBG("ROM Address 0x%x Signature 0x%02x%02x\n", nvRom, rom[0], rom[1]);
-				}
-			}
-			else
-			{
-				DBG("PROM Address 0x%x Signature 0x%02x%02x\n", nvRom, rom[0], rom[1]);
-			}
-		}
-		else
-		{
-			DBG("PRAM Address 0x%x Signature 0x%02x%02x\n", nvRom, rom[0], rom[1]);
-		}
-	}
+                else
+                {
+                    DBG("ROM Address 0x%x Signature 0x%02x%02x\n", nvRom, rom[0], rom[1]);
+                }
+                
+			}//end PRAM check
+            
+        }//end PROM check
+        
+	}//end load rom from bios
 	
 	if ((nvPatch = patch_nvidia_rom(rom)) == PATCH_ROM_FAILED) {
 		printf("ERROR: nVidia ROM Patching Failed!\n");
