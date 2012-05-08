@@ -1,6 +1,8 @@
 /*
 	Original patch by Nawcom
 	http://forum.voodooprojects.org/index.php/topic,1029.0.html
+ 
+    Original Intel HDx000 code from valv
 */
 
 #include "libsa.h"
@@ -20,7 +22,6 @@
 #else
 #define DBG(x...)
 #endif
-
 
 uint8_t GMAX3100_vals[22][4] = {
 	{ 0x01,0x00,0x00,0x00 },
@@ -46,6 +47,66 @@ uint8_t GMAX3100_vals[22][4] = {
 	{ 0x00,0x00,0x00,0x00 }
 };
 
+uint8_t HD2000_vals[16][4] = {
+	{ 0x00,0x00,0x00,0x00 },
+	{ 0x00,0x00,0x00,0x00 },
+	{ 0x14,0x00,0x00,0x00 },
+	{ 0xfa,0x00,0x00,0x00 },
+	{ 0x2c,0x01,0x00,0x00 },
+	{ 0x00,0x00,0x00,0x00 },
+	{ 0x14,0x00,0x00,0x00 },
+	{ 0xf4,0x01,0x00,0x00 },
+	{ 0x00,0x00,0x00,0x00 },
+	{ 0x00,0x00,0x00,0x00 },
+	{ 0x00,0x00,0x00,0x00 },
+	{ 0x00,0x00,0x00,0x00 },
+	{ 0x00,0x00,0x00,0x00 },
+	{ 0x00,0x00,0x00,0x00 },
+	{ 0x00,0x00,0x00,0x00 },
+	{ 0x01,0x00,0x00,0x00 },
+};
+
+uint8_t HD3000_vals[16][4] = {
+	{ 0x00,0x00,0x00,0x00 },
+	{ 0x00,0x00,0x00,0x00 },
+	{ 0x14,0x00,0x00,0x00 },
+	{ 0xfa,0x00,0x00,0x00 },
+	{ 0x2c,0x01,0x00,0x00 },
+	{ 0x00,0x00,0x00,0x00 },
+	{ 0x14,0x00,0x00,0x00 },
+	{ 0xf4,0x01,0x00,0x00 },
+	{ 0x00,0x00,0x00,0x00 },
+	{ 0x00,0x00,0x00,0x00 },
+	{ 0x00,0x00,0x00,0x00 },
+	{ 0x00,0x00,0x00,0x00 },
+	{ 0x00,0x00,0x00,0x00 },
+	{ 0x00,0x00,0x00,0x00 },
+	{ 0x00,0x00,0x00,0x00 },
+	{ 0x01,0x00,0x00,0x00 },
+};
+
+uint8_t HD2000_tbl_info[18] = {
+	0x30,0x44,0x02,0x02,0x02,0x02,0x00,0x00,0x00,
+	0x00,0x01,0x02,0x02,0x02,0x00,0x01,0x02,0x02
+};
+uint8_t HD2000_os_info[20] = {
+	0x30,0x49,0x01,0x11,0x11,0x11,0x08,0x00,0x00,0x01,
+	0xf0,0x1f,0x01,0x00,0x00,0x00,0x10,0x07,0x00,0x00
+};
+
+// The following values came from a Sandy Bridge MacBook Air
+uint8_t HD3000_tbl_info[18] = {
+	0x30,0x44,0x02,0x02,0x02,0x02,0x00,0x00,0x00,
+	0x00,0x02,0x02,0x02,0x02,0x01,0x01,0x01,0x01
+};
+
+// The following values came from a Sandy Bridge MacBook Air
+uint8_t HD3000_os_info[20] = {
+	0x30,0x49,0x01,0x12,0x12,0x12,0x08,0x00,0x00,0x01,
+	0xf0,0x1f,0x01,0x00,0x00,0x00,0x10,0x07,0x00,0x00
+};
+
+
 uint8_t reg_TRUE[]	= { 0x01, 0x00, 0x00, 0x00 };
 uint8_t reg_FALSE[] = { 0x00, 0x00, 0x00, 0x00 };
 
@@ -67,6 +128,12 @@ static struct gma_gpu_t KnownGPUS[] = {
 	{ 0x80862A13, "GMAX3100"		},
 	{ 0x80862A42, "GMAX3100"		},
 	{ 0x80862A43, "GMAX3100"		},
+	{ 0x80860102, "Intel HD Graphics 2000"			},
+	{ 0x80860106, "Intel HD Graphics 2000 Mobile"	},
+	{ 0x80860112, "Intel HD Graphics 3000"			},
+	{ 0x80860116, "Intel HD Graphics 3000 Mobile"	},
+	{ 0x80860122, "Intel HD Graphics 3000"			},
+	{ 0x80860126, "Intel HD Graphics 3000 Mobile"	},
 };
 
 char *get_gma_model(uint32_t id) {
@@ -88,6 +155,7 @@ bool setup_gma_devprop(pci_dt_t *gma_dev)
 	char					*model;
 	uint8_t BuiltIn =		0x00;
 	uint8_t ClassFix[4] =	{ 0x00, 0x00, 0x03, 0x00 };
+	unsigned int			device_id;	
 	
 	devicepath = get_pci_dev_path(gma_dev);
 	
@@ -95,6 +163,7 @@ bool setup_gma_devprop(pci_dt_t *gma_dev)
 	regs = (uint8_t *) (bar[0] & ~0x0f);
 	
 	model = get_gma_model((gma_dev->vendor_id << 16) | gma_dev->device_id);
+	device_id = gma_dev->device_id;
 	
 	verbose("Intel %s [%04x:%04x] :: %s\n",
 			model, gma_dev->vendor_id, gma_dev->device_id, devicepath);
@@ -115,21 +184,21 @@ bool setup_gma_devprop(pci_dt_t *gma_dev)
 	devprop_add_value(device, "model", (uint8_t*)model, (strlen(model) + 1));
 	devprop_add_value(device, "device_type", (uint8_t*)"display", 8);	
 	
-	if ((strcmp("Mobile GMA950", model) == 0) ||
-		(strcmp("Mobile GMA3150",model) == 0))
+	if ((model == (char *)"Mobile GMA950")
+		|| (model == (char *)"Mobile GMA3150"))
 	{
 		devprop_add_value(device, "AAPL,HasPanel", reg_TRUE, 4);
 		devprop_add_value(device, "built-in", &BuiltIn, 1);
 		devprop_add_value(device, "class-code", ClassFix, 4);
 	}
-	else if ((strcmp("Desktop GMA950", model) == 0) ||
-			 (strcmp("Desktop GMA3150",model) == 0))
+	else if ((model == (char *)"Desktop GMA950")
+			|| (model == (char *)"Desktop GMA3150"))
 	{
 		BuiltIn = 0x01;
 		devprop_add_value(device, "built-in", &BuiltIn, 1);
 		devprop_add_value(device, "class-code", ClassFix, 4);
 	}
-	else if (strcmp("GMAX3100",model) == 0)
+	else if (model == (char *)"GMAX3100")
 	{
 		devprop_add_value(device, "AAPL,HasPanel",					GMAX3100_vals[0], 4);
 		devprop_add_value(device, "AAPL,SelfRefreshSupported",		GMAX3100_vals[1], 4);
@@ -154,6 +223,67 @@ bool setup_gma_devprop(pci_dt_t *gma_dev)
 		devprop_add_value(device, "AAPL01,Refresh",					GMAX3100_vals[20], 4);
 		devprop_add_value(device, "AAPL01,Stretch",					GMAX3100_vals[21], 4);
 		devprop_add_value(device, "class-code",						ClassFix, 4);
+	}
+	else if (model == (char *)"Intel HD Graphics 2000 Mobile")
+	{
+		devprop_add_value(device, "class-code", ClassFix, 4);
+		devprop_add_value(device, "hda-gfx", (uint8_t *)"onboard-1", 10); 
+		devprop_add_value(device, "AAPL00,PixelFormat", HD2000_vals[0], 4);
+		devprop_add_value(device, "AAPL00,T1", HD2000_vals[1], 4);
+		devprop_add_value(device, "AAPL00,T2", HD2000_vals[2], 4);
+		devprop_add_value(device, "AAPL00,T3", HD2000_vals[3], 4);
+		devprop_add_value(device, "AAPL00,T4", HD2000_vals[4], 4);
+		devprop_add_value(device, "AAPL00,T5", HD2000_vals[5], 4);
+		devprop_add_value(device, "AAPL00,T6", HD2000_vals[6], 4);
+		devprop_add_value(device, "AAPL00,T7", HD2000_vals[7], 4);
+		devprop_add_value(device, "AAPL00,LinkType", HD2000_vals[8], 4);
+		devprop_add_value(device, "AAPL00,LinkFormat", HD2000_vals[9], 4);
+		devprop_add_value(device, "AAPL00,DualLink", HD2000_vals[10], 4);
+		devprop_add_value(device, "AAPL00,Dither", HD2000_vals[11], 4);
+		devprop_add_value(device, "AAPL00,DataJustify", HD3000_vals[12], 4);
+		devprop_add_value(device, "graphic-options", HD2000_vals[13], 4);
+		devprop_add_value(device, "AAPL,tbl-info", HD2000_tbl_info, 18);
+		devprop_add_value(device, "AAPL,os-info", HD2000_os_info, 20);
+	}
+	else if (model == (char *)"Intel HD Graphics 3000 Mobile")
+	{
+		devprop_add_value(device, "class-code", ClassFix, 4);
+		devprop_add_value(device, "hda-gfx", (uint8_t *)"onboard-1", 10); 
+		devprop_add_value(device, "AAPL00,PixelFormat", HD3000_vals[0], 4);
+		devprop_add_value(device, "AAPL00,T1", HD3000_vals[1], 4);
+		devprop_add_value(device, "AAPL00,T2", HD3000_vals[2], 4);
+		devprop_add_value(device, "AAPL00,T3", HD3000_vals[3], 4);
+		devprop_add_value(device, "AAPL00,T4", HD3000_vals[4], 4);
+		devprop_add_value(device, "AAPL00,T5", HD3000_vals[5], 4);
+		devprop_add_value(device, "AAPL00,T6", HD3000_vals[6], 4);
+		devprop_add_value(device, "AAPL00,T7", HD3000_vals[7], 4);
+		devprop_add_value(device, "AAPL00,LinkType", HD3000_vals[8], 4);
+		devprop_add_value(device, "AAPL00,LinkFormat", HD3000_vals[9], 4);
+		devprop_add_value(device, "AAPL00,DualLink", HD3000_vals[10], 4);
+		devprop_add_value(device, "AAPL00,Dither", HD3000_vals[11], 4);
+		devprop_add_value(device, "AAPL00,DataJustify", HD3000_vals[12], 4);
+		devprop_add_value(device, "graphic-options", HD3000_vals[13], 4);
+		devprop_add_value(device, "AAPL,tbl-info", HD3000_tbl_info, 18);
+		devprop_add_value(device, "AAPL,os-info", HD3000_os_info, 20);
+	}
+	else if (model == (char *)"Intel HD Graphics 2000")
+	{
+		devprop_add_value(device, "built-in", &BuiltIn, 1);
+		devprop_add_value(device, "class-code", ClassFix, 4);
+		devprop_add_value(device, "device-id", (uint8_t*)&device_id, sizeof(device_id));
+		devprop_add_value(device, "hda-gfx", (uint8_t *)"onboard-1", 10); 
+		devprop_add_value(device, "AAPL,tbl-info", HD2000_tbl_info, 18);
+		devprop_add_value(device, "AAPL,os-info", HD2000_os_info, 20);
+	}
+	else if (model == (char *)"Intel HD Graphics 3000")
+	{
+		devprop_add_value(device, "built-in", &BuiltIn, 1);
+		devprop_add_value(device, "class-code", ClassFix, 4);
+		device_id = 0x00000126;											// Inject a valid mobile GPU device id instead of patching kexts
+		devprop_add_value(device, "device-id", (uint8_t*)&device_id, sizeof(device_id));
+		devprop_add_value(device, "hda-gfx", (uint8_t *)"onboard-1", 10); 
+		devprop_add_value(device, "AAPL,tbl-info", HD3000_tbl_info, 18);
+		devprop_add_value(device, "AAPL,os-info", HD3000_os_info, 20);
 	}
 	
 	stringdata = malloc(sizeof(uint8_t) * string->length);
