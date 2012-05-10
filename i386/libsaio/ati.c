@@ -831,6 +831,7 @@ bool get_sclk_val(value_t *val);
 bool get_refclk_val(value_t *val);
 bool get_platforminfo_val(value_t *val);
 bool get_vramtotalsize_val(value_t *val);
+bool get_hdmiaudio(value_t * val);
 
 typedef struct {
 	uint32_t				flags;
@@ -871,9 +872,26 @@ dev_prop_t ati_devprop_list[] = {
 	{FLAGTRUE,	false,	"device_type",				get_nameparent_val,		NULVAL							},
 	{FLAGTRUE,	false,	"model",					get_model_val,			STRVAL("ATI Radeon")			},
 //	{FLAGTRUE,	false,	"VRAM,totalsize",			get_vramtotalsize_val,	NULVAL							},
+	{FLAGTRUE,	false, "hda-gfx",					get_hdmiaudio,	NULVAL},
 	
 	{FLAGTRUE,	false,	NULL,						NULL,					NULVAL							}
 };
+
+bool get_hdmiaudio(value_t * val)
+{
+	bool doit = false;
+	if(getBoolForKey(kEnableHDMIAudio, &doit, &bootInfo->chameleonConfig) && doit){
+		val->type = kStr;
+		val->size = strlen("onboard-1") + 1;
+		val->data = (uint8_t *)"onboard-1";
+		
+		return true;
+		
+		
+		
+	}
+	return false;
+}
 
 bool get_bootdisplay_val(value_t *val)
 {
