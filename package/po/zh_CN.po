@@ -259,7 +259,7 @@ msgstr ""
 
 #. type: "Default_title"
 #: Resources/templates/Localizable.strings:25
-#: Resources/templates/Localizable.strings:242
+#: Resources/templates/Localizable.strings:245
 #, no-wrap
 msgid "Standard"
 msgstr "标准安装"
@@ -315,7 +315,7 @@ msgstr ""
 
 #. type: "Resolution_title"
 #: Resources/templates/Localizable.strings:43
-#: Resources/templates/Localizable.strings:270
+#: Resources/templates/Localizable.strings:273
 #, no-wrap
 msgid "Resolution"
 msgstr "分辨率"
@@ -811,314 +811,326 @@ msgstr "GraphicsEnabler=Yes"
 msgid "Enables the option to autodetect NVIDIA based GPUs and inject the correct info."
 msgstr "(默认是 No) 启用显卡侦测功能。自动识别 显卡 GPU 并注入正确的设备属性信息。"
 
-#. type: "UseAtiROM_title"
+#. type: "EnableHDMIAudio_title"
 #: Resources/templates/Localizable.strings:180
+#, no-wrap
+msgid "EnableHDMIAudio=Yes"
+msgstr ""
+
+#. type: "EnableHDMIAudio_description"
+#: Resources/templates/Localizable.strings:181
+#, no-wrap
+msgid "Inject HDMi audio for NVIDIA or AMD/ATI."
+msgstr ""
+
+#. type: "UseAtiROM_title"
+#: Resources/templates/Localizable.strings:183
 #, no-wrap
 msgid "UseAtiROM=Yes"
 msgstr "UseAtiROM=Yes"
 
 #. type: "UseAtiROM_description"
-#: Resources/templates/Localizable.strings:181
+#: Resources/templates/Localizable.strings:184
 #, no-wrap
 msgid "Enables UseAtiROM options."
 msgstr "(默认是 No) 启用 ATI EEPRom 功能，可在不刷显卡 BIOS 的情况下使用修改的 Rom。请命名为 “VenderID_DeviceID_SubsysID.rom” 放置 Extra 文件夹。如：/Extra/1002_68C1_FD501179.rom。"
 
 #. type: "UseNvidiaROM_title"
-#: Resources/templates/Localizable.strings:183
+#: Resources/templates/Localizable.strings:186
 #, no-wrap
 msgid "UseNvidiaROM=Yes"
 msgstr "UseNvidiaROM=Yes"
 
 #. type: "UseNvidiaROM_description"
-#: Resources/templates/Localizable.strings:184
+#: Resources/templates/Localizable.strings:187
 #, no-wrap
 msgid "Enables UseNvidiaROM options."
 msgstr "(默认是 No) 启用 Nvidia EEPRom 功能，可在不刷显卡 BIOS 的情况下使用修改的 Rom。请命名为 “VenderID_DeviceID.rom” 放置 Extra 文件夹。如：/Extra/10de_0614.rom。"
 
 #. type: "VBIOS_title"
-#: Resources/templates/Localizable.strings:186
+#: Resources/templates/Localizable.strings:189
 #, no-wrap
 msgid "VBIOS=Yes"
 msgstr "VBIOS=Yes"
 
 #. type: "VBIOS_description"
-#: Resources/templates/Localizable.strings:187
+#: Resources/templates/Localizable.strings:190
 #, no-wrap
 msgid "Enables VBIOS option"
 msgstr "(默认是 No) 启用 Nvidia VBIOS 功能。仅针对 Nvidia 显卡的参数选项，ATI 显卡请勿使用。启用读取显卡参数，可在显卡信息中显示 ROM 修正版 信息。"
 
 #. type: "Verbose_title"
-#: Resources/templates/Localizable.strings:192
+#: Resources/templates/Localizable.strings:195
 #, no-wrap
 msgid "Verbose Mode"
 msgstr "-v 啰唆模式"
 
 #. type: "Verbose_description"
-#: Resources/templates/Localizable.strings:193
+#: Resources/templates/Localizable.strings:196
 #, no-wrap
 msgid "Turns on verbose logging and allows you to see messages from both Chameleon and the OS X kernel at boot time. Essential for troubleshooting."
 msgstr "使用 (-v) 啰唆模式进入，允许您在显示器上读取 变色龙 和 OS X 内核 两者在开机时产生的纪录信息。这是在开机时排除问题的基本用法。"
 
 #. type: "Singleusermode_title"
-#: Resources/templates/Localizable.strings:195
+#: Resources/templates/Localizable.strings:198
 #, no-wrap
 msgid "Single User Mode"
 msgstr "-s 单用户模式"
 
 #. type: "Singleusermode_description"
-#: Resources/templates/Localizable.strings:196
+#: Resources/templates/Localizable.strings:199
 #, no-wrap
 msgid "A troubleshooting option used for booting into OS X's BSD/Unix command line."
 msgstr "使用 (-s) 单用户模式进入，在排除问题时，可于在开机使用 (-s) 进入 OS X 的 BSD/Unix 命令模式。"
 
 #. type: "Ignorecaches_title"
-#: Resources/templates/Localizable.strings:198
+#: Resources/templates/Localizable.strings:201
 #, no-wrap
 msgid "Ignore Caches"
 msgstr "-f 忽略 Caches"
 
 #. type: "Ignorecaches_description"
-#: Resources/templates/Localizable.strings:199
+#: Resources/templates/Localizable.strings:202
 #, no-wrap
 msgid "Not an option that's needed for everyday booting, but it can be useful if you want OS X to load all files from it's system folders, rather than relying on it's pre-built caches."
 msgstr "使用 (-f) 忽略 Caches 模式进入，并非每日开机必备的的选项，但可经由忽略预制的 Caches ，以使 OS X 可以重新载入所有位于系统目录的 kext 文件。"
 
 #. type: "Npci_title"
-#: Resources/templates/Localizable.strings:201
+#: Resources/templates/Localizable.strings:204
 #, no-wrap
 msgid "npci=0x2000"
 msgstr "npci=0x2000"
 
 #. type: "Npci_description"
-#: Resources/templates/Localizable.strings:202
+#: Resources/templates/Localizable.strings:205
 #, no-wrap
 msgid "For overcoming a hang at 'PCI configuration begin' on some systems. 0x2000 is the kIOPCIConfiguratorPFM64 flag, as seen in the IOPCIFamily source code."
 msgstr "可在某些系统上排除 'PCI configuration begin' 的错误。0x2000 是 kIOPCIConfiguratorPFM64 flag，可在 IOPCIFamily 的 source code 中找到相关信息。"
 
 #. type: "Npci3_title"
-#: Resources/templates/Localizable.strings:204
+#: Resources/templates/Localizable.strings:207
 #, no-wrap
 msgid "npci=0x3000"
 msgstr "npci=0x3000"
 
 #. type: "Npci3_description"
-#: Resources/templates/Localizable.strings:205
+#: Resources/templates/Localizable.strings:208
 #, no-wrap
 msgid "For overcoming a hang at 'PCI configuration begin' on some systems. 0x3000 is the kIOPCIConfiguratorPFM64 flag, as seen in the IOPCIFamily source code."
 msgstr "可在某些系统上排除 'PCI configuration begin' 的错误。0x3000 是 kIOPCIConfiguratorPFM64 flag，可在 IOPCIFamily 的 source code 中找到相关信息。"
 
 #. type: "Darkwake_title"
-#: Resources/templates/Localizable.strings:207
+#: Resources/templates/Localizable.strings:210
 #, no-wrap
 msgid "darkwake=0"
 msgstr "darkwake=0"
 
 #. type: "Darkwake_description"
-#: Resources/templates/Localizable.strings:208
+#: Resources/templates/Localizable.strings:211
 #, no-wrap
 msgid "Lion only. Disables the 'low power wake' feature which can sometimes leave the screen black after wake from sleep."
 msgstr "Lion 专用。禁用 'low power wake' 的功能，在显示器睡眠唤醒之后，有时可能会发生显示器黑屏的状况。"
 
 #. type: "mac-de_title"
-#: Resources/templates/Localizable.strings:214
+#: Resources/templates/Localizable.strings:217
 #, no-wrap
 msgid "German Mac Keyboard"
 msgstr "德语 Mac 键盘布局"
 
 #. type: "mac-de_description"
-#: Resources/templates/Localizable.strings:215
+#: Resources/templates/Localizable.strings:218
 #, no-wrap
 msgid "Use the keyboard layout for a German Mac keyboard"
 msgstr "使用德国的 Mac 键盘的键盘布局"
 
 #. type: "mac-es_title"
-#: Resources/templates/Localizable.strings:217
+#: Resources/templates/Localizable.strings:220
 #, no-wrap
 msgid "Spanish Mac Keyboard"
 msgstr "西班牙语 Mac 键盘布局"
 
 #. type: "mac-es_description"
-#: Resources/templates/Localizable.strings:218
+#: Resources/templates/Localizable.strings:221
 #, no-wrap
 msgid "Use the keyboard layout for a Spanish Mac keyboard"
 msgstr "使用西班牙的 Mac 键盘的键盘布局"
 
 #. type: "mac-fr_title"
-#: Resources/templates/Localizable.strings:220
+#: Resources/templates/Localizable.strings:223
 #, no-wrap
 msgid "French Mac Keyboard"
 msgstr "法语 Mac 键盘布局"
 
 #. type: "mac-fr_description"
-#: Resources/templates/Localizable.strings:221
+#: Resources/templates/Localizable.strings:224
 #, no-wrap
 msgid "Use the keyboard layout for a French Mac keyboard"
 msgstr "使用法国的 Mac 键盘的键盘布局"
 
 #. type: "mac-it_title"
-#: Resources/templates/Localizable.strings:223
+#: Resources/templates/Localizable.strings:226
 #, no-wrap
 msgid "Italian Mac Keyboard"
 msgstr "意大利语 Mac 键盘布局"
 
 #. type: "mac-it_description"
-#: Resources/templates/Localizable.strings:224
+#: Resources/templates/Localizable.strings:227
 #, no-wrap
 msgid "Use the keyboard layout for an Italian Mac keyboard"
 msgstr "使用意大利的 Mac 键盘的键盘布局"
 
 #. type: "mac-se_title"
-#: Resources/templates/Localizable.strings:226
+#: Resources/templates/Localizable.strings:229
 #, no-wrap
 msgid "Swedish Mac Keyboard"
 msgstr "瑞典语 Mac 键盘布局"
 
 #. type: "mac-se_description"
-#: Resources/templates/Localizable.strings:227
+#: Resources/templates/Localizable.strings:230
 #, no-wrap
 msgid "Use the keyboard layout for a Swedish Mac keyboard"
 msgstr "使用瑞典的 Mac 键盘的键盘布局"
 
 #. type: "pc-fr_title"
-#: Resources/templates/Localizable.strings:229
+#: Resources/templates/Localizable.strings:232
 #, no-wrap
 msgid "French PC Keyboard"
 msgstr "法语 PC 键盘布局"
 
 #. type: "pc-fr_description"
-#: Resources/templates/Localizable.strings:230
+#: Resources/templates/Localizable.strings:233
 #, no-wrap
 msgid "Use the keyboard layout for a French PC keyboard"
 msgstr "使用法国的 PC 键盘的键盘布局"
 
 #. type: "Embed_title"
-#: Resources/templates/Localizable.strings:236
+#: Resources/templates/Localizable.strings:239
 #, no-wrap
 msgid "Embed"
 msgstr "内崁主题"
 
 #. type: "Embed_description"
-#: Resources/templates/Localizable.strings:237
+#: Resources/templates/Localizable.strings:240
 #, no-wrap
 msgid "A smaller simple version of the new default theme used when building a version of Chameleon which requires an embedded theme."
 msgstr "Embed：小而简单且可于编译 boot 时，内崁在 Chameleon 里的主题."
 
 #. type: "Legacy_title"
-#: Resources/templates/Localizable.strings:239
+#: Resources/templates/Localizable.strings:242
 #, no-wrap
 msgid "Legacy"
 msgstr "传统主题"
 
 #. type: "Legacy_description"
-#: Resources/templates/Localizable.strings:240
+#: Resources/templates/Localizable.strings:243
 #, no-wrap
 msgid "Chameleon's original default theme introduced for v2.0 RC1"
 msgstr "Legacy：Chameleon v2.0 RC1 的原始默认主题."
 
 #. type: "Default_description"
-#: Resources/templates/Localizable.strings:243
+#: Resources/templates/Localizable.strings:246
 #, no-wrap
 msgid "Chameleon default theme introduced for v2.0 RC5"
 msgstr "Default：Chameleon v2.0 RC5 的新版默认主题."
 
 #. type: "Bullet_title"
-#: Resources/templates/Localizable.strings:245
+#: Resources/templates/Localizable.strings:248
 #, no-wrap
 msgid "Bullet"
 msgstr "子弹主题"
 
 #. type: "Bullet_description"
-#: Resources/templates/Localizable.strings:246
+#: Resources/templates/Localizable.strings:249
 #, no-wrap
 msgid "A lovely simple theme by NoSmokingBandit from April 2009."
 msgstr "Bullet：来自 NoSmokingBandit 2009.4 的一个小巧可爱的子弹主题."
 
 #. type: "Control_title"
-#: Resources/templates/Localizable.strings:254
+#: Resources/templates/Localizable.strings:257
 #, no-wrap
 msgid "Control Options"
 msgstr "控制选项"
 
 #. type: "Control_description"
-#: Resources/templates/Localizable.strings:255
+#: Resources/templates/Localizable.strings:258
 #, no-wrap
 msgid "Settings to control how Chameleon works."
 msgstr "设置控制 Chameleon 的运作方式。"
 
 #. type: "General_title"
-#: Resources/templates/Localizable.strings:258
+#: Resources/templates/Localizable.strings:261
 #, no-wrap
 msgid "General Options"
 msgstr "一般选项"
 
 #. type: "General_description"
-#: Resources/templates/Localizable.strings:259
+#: Resources/templates/Localizable.strings:262
 #, no-wrap
 msgid "Choose from a selection of base options."
 msgstr "选取一些基本的选项。"
 
 #. type: "KernelFlags_title"
-#: Resources/templates/Localizable.strings:262
+#: Resources/templates/Localizable.strings:265
 #, no-wrap
 msgid "Kernel Flags"
 msgstr "内核参数"
 
 #. type: "KernelFlags_description"
-#: Resources/templates/Localizable.strings:263
+#: Resources/templates/Localizable.strings:266
 #, no-wrap
 msgid "Choose from a selection of kernel flags."
 msgstr "选取有关 kernel flags 的各种内核参数设置。另可于开机时，键入以下命令配合使用。"
 
 #. type: "PowerManagement_title"
-#: Resources/templates/Localizable.strings:266
+#: Resources/templates/Localizable.strings:269
 #, no-wrap
 msgid "Power Management"
 msgstr "电源管理"
 
 #. type: "PowerManagement_description"
-#: Resources/templates/Localizable.strings:267
+#: Resources/templates/Localizable.strings:270
 #, no-wrap
 msgid "A selection of options that deal with power management and speedstep."
 msgstr "一些设置电源管理和 speedstep 的选项。"
 
 #. type: "Resolution_description"
-#: Resources/templates/Localizable.strings:271
+#: Resources/templates/Localizable.strings:274
 #, no-wrap
 msgid "Set one resolution to use."
 msgstr "设置选用一个分辨率。"
 
 #. type: "Video_title"
-#: Resources/templates/Localizable.strings:274
+#: Resources/templates/Localizable.strings:277
 #, no-wrap
 msgid "Video"
 msgstr "显卡选项"
 
 #. type: "Video_description"
-#: Resources/templates/Localizable.strings:275
+#: Resources/templates/Localizable.strings:278
 #, no-wrap
 msgid "A selection of options that deal with video."
 msgstr "一些设置显卡的选项。"
 
 #. type: "Keymaps_title"
-#: Resources/templates/Localizable.strings:278
+#: Resources/templates/Localizable.strings:281
 #, no-wrap
 msgid "KeyLayout"
 msgstr "键盘布局"
 
 #. type: "Keymaps_description"
-#: Resources/templates/Localizable.strings:279
+#: Resources/templates/Localizable.strings:282
 #, no-wrap
 msgid "Select one keylayout to use. This will also install the Keylayout module and keymaps."
 msgstr "设置选用一个键盘布局。将会安装键盘布局模组与键盘映射文件。"
 
 #. type: "Themes_title"
-#: Resources/templates/Localizable.strings:282
+#: Resources/templates/Localizable.strings:285
 #, no-wrap
 msgid "Themes"
 msgstr "主题选项"
 
 #. type: "Themes_description"
-#: Resources/templates/Localizable.strings:283
+#: Resources/templates/Localizable.strings:286
 #, no-wrap
 msgid ""
 "A collection of sample themes\n"

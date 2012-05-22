@@ -177,6 +177,9 @@ Dependencies: klibc";
 "GraphicsEnabler_title" = "GraphicsEnabler=Yes";
 "GraphicsEnabler_description" = "Enables the option to autodetect NVIDIA based GPUs and inject the correct info.";
 
+"EnableHDMIAudio_title" = "EnableHDMIAudio=Yes";
+"EnableHDMIAudio_description" = "Inject HDMi audio for NVIDIA or AMD/ATI.";
+
 "UseAtiROM_title" = "UseAtiROM=Yes";
 "UseAtiROM_description" = "Enables UseAtiROM options.";
 

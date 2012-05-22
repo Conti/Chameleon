@@ -63,21 +63,26 @@ msgid "%PKGDEV%"
 msgstr "%PKGDEV%"
 
 #. type: Content of: <html><body><div><p>
-#: Resources/templates/Welcome.html:36
-#: Resources/templates/Conclusion.html:30
+#: Resources/templates/Welcome.html:36 Resources/templates/Conclusion.html:30
 msgid "Package built by: %WHOBUILD%, language translated by: blackosx"
 msgstr "Пакет был собран %WHOBUILD%, перевод на русский: ltodoto"
 
 #. type: Content of: <html><body><div><p>
-#: Resources/templates/Welcome.html:37
-#: Resources/templates/Conclusion.html:31
+#: Resources/templates/Welcome.html:37 Resources/templates/Conclusion.html:31
 msgid "Copyright © %CPRYEAR%"
 msgstr "Copyright © %CPRYEAR%"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:18
-msgid "Chameleon is a boot loader built using a combination of components which evolved from the development of David Elliott's fake EFI implementation added to Apple's boot-132 project."
-msgstr "Chameleon &mdash; начальный загрузчик, построенный на основе сочетания компонентов, разработка которых была начата в рамках проекта Дэвида Эллиотта (David Elliott) по эмуляции прикладного интерфейса EFI в качестве дополнения к оригинальному проекту загрузчика Apple boot-132."
+msgid ""
+"Chameleon is a boot loader built using a combination of components which "
+"evolved from the development of David Elliott's fake EFI implementation "
+"added to Apple's boot-132 project."
+msgstr ""
+"Chameleon &mdash; начальный загрузчик, построенный на основе сочетания "
+"компонентов, разработка которых была начата в рамках проекта Дэвида Эллиотта "
+"(David Elliott) по эмуляции прикладного интерфейса EFI в качестве дополнения "
+"к оригинальному проекту загрузчика Apple boot-132."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:20
@@ -93,7 +98,8 @@ msgstr ""
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:23
-msgid "- Load a ramdisk to directly boot retail DVDs without additional programs."
+msgid ""
+"- Load a ramdisk to directly boot retail DVDs without additional programs."
 msgstr ""
 "- Загрузка с помощью временного диска для непосредственной поддержки "
 "загрузки с официальных DVD."
@@ -112,7 +118,8 @@ msgstr "- Замена значений параметров SMBIOS."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:26
-msgid "- DSDT override to use a modified fixed DSDT which can solve several issues."
+msgid ""
+"- DSDT override to use a modified fixed DSDT which can solve several issues."
 msgstr ""
 "- Замена содержимого DSDT для корректировки некоторых параметров с целью "
 "улучшения совместимости."
@@ -158,7 +165,8 @@ msgstr "- Код управления памятью, заимствованны
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:34
-msgid "- Automatic P-State &amp; C-State generation for native power management."
+msgid ""
+"- Automatic P-State &amp; C-State generation for native power management."
 msgstr "- Автоматическое включение P- &amp; C-состояний процессора."
 
 #. type: Content of: <html><body><p>
@@ -203,8 +211,12 @@ msgstr "прочтите его "
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:26
-msgid "&nbsp;to find out if the installation was successful and keep it for a record of what was done."
-msgstr "&nbsp;чтобы узнать, была ли установка успешной, а также для того, чтобы узнать, что было проделано в процессе установки."
+msgid ""
+"&nbsp;to find out if the installation was successful and keep it for a "
+"record of what was done."
+msgstr ""
+"&nbsp;чтобы узнать, была ли установка успешной, а также для того, чтобы "
+"узнать, что было проделано в процессе установки."
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:28
@@ -263,7 +275,7 @@ msgstr ""
 
 #. type: "Default_title"
 #: Resources/templates/Localizable.strings:25
-#: Resources/templates/Localizable.strings:242
+#: Resources/templates/Localizable.strings:245
 #, no-wrap
 msgid "Standard"
 msgstr "Обыкновенный"
@@ -296,9 +308,7 @@ msgstr "Модули"
 #: Resources/templates/Localizable.strings:36
 #, no-wrap
 msgid "The modules system incorporated in chameleon allows for a user or developer to extend the core functionality of chameleon without replacing the main boot file."
-msgstr ""
-"Система модулей, используемая загрузчиком Chameleon, позволяет расширять его "
-"возможности без изменения основного файла загрузчика."
+msgstr "Система модулей, используемая загрузчиком Chameleon, позволяет расширять его возможности без изменения основного файла загрузчика."
 
 #. type: "klibc_title"
 #: Resources/templates/Localizable.strings:38
@@ -314,14 +324,13 @@ msgid ""
 "This is currently only used by the uClibc++ library.\n"
 "Source: http://www.kernel.org/pub/linux/libs/klibc/"
 msgstr ""
-"Этот модуль предоставляет функции стандартной библиотеки C (в случае, если "
-"встроенных в загрузчик функций окажется недостаточно).\n"
+"Этот модуль предоставляет функции стандартной библиотеки C (в случае, если встроенных в загрузчик функций окажется недостаточно).\n"
 "На данный момент этот модуль используется только модулем uClibc++.\n"
 "Исходный код: http://www.kernel.org/pub/linux/libs/klibc/"
 
 #. type: "Resolution_title"
 #: Resources/templates/Localizable.strings:43
-#: Resources/templates/Localizable.strings:270
+#: Resources/templates/Localizable.strings:273
 #, no-wrap
 msgid "Resolution"
 msgstr "Разрешение"
@@ -353,10 +362,7 @@ msgid ""
 "Source: http://cxx.uclibc.org/\n"
 "Dependencies: klibc"
 msgstr ""
-"Этот модуль предоставляет набор функций стандартной библиотеки C++ для "
-"использования в других модулях. Собственно модуль не несёт в себе никакой "
-"полезной функциональности, он предназначен лишь для поддержки других "
-"модулей.\n"
+"Этот модуль предоставляет набор функций стандартной библиотеки C++ для использования в других модулях. Собственно модуль не несёт в себе никакой полезной функциональности, он предназначен лишь для поддержки других модулей.\n"
 "*Примечание: Механизмы RTTI и обработки исключений были намеренно отключены.\n"
 "Исходный код: http://cxx.uclibc.org/\n"
 "Зависимости: klibc"
@@ -383,9 +389,7 @@ msgstr "BootBanner=No"
 #: Resources/templates/Localizable.strings:62
 #, no-wrap
 msgid "Hides Chameleon's boot banner in GUI. This is the text that is drawn at the top left corner of the screen displaying the release version etc."
-msgstr ""
-"Скрывать информацию о версии Chameleon. (Текст, отображаемый в верхнем левом "
-"углу экрана начального загрузчика)."
+msgstr "Скрывать информацию о версии Chameleon. (Текст, отображаемый в верхнем левом углу экрана начального загрузчика)."
 
 #. type: "GUI_title"
 #: Resources/templates/Localizable.strings:64
@@ -409,9 +413,7 @@ msgstr "LegacyLogo=Yes"
 #: Resources/templates/Localizable.strings:68
 #, no-wrap
 msgid "Use the legacy 'dark grey' apple logo on the light grey screen for the boot process rather than the boot.png in the theme."
-msgstr ""
-"Использовать стандартное 'серое' изображение яблока при загрузке вместо "
-"указанного в теме файла boot.png."
+msgstr "Использовать стандартное 'серое' изображение яблока при загрузке вместо указанного в теме файла boot.png."
 
 #. type: "InstantMenu_title"
 #: Resources/templates/Localizable.strings:70
@@ -423,9 +425,7 @@ msgstr "InstantMenu=Yes"
 #: Resources/templates/Localizable.strings:71
 #, no-wrap
 msgid "By default, when Chameleon loads you'll see the icon for the current default partition, along with a timeout progress bar which left alone will count down before Chameleon automatically boots that partition. This options skips that and takes you directly to the device selection screen."
-msgstr ""
-"Позволяет отключить экран ожидания загрузки (немедленный переход к экрану "
-"выбора устройств)."
+msgstr "Позволяет отключить экран ожидания загрузки (немедленный переход к экрану выбора устройств)."
 
 #. type: "QuietBoot_title"
 #: Resources/templates/Localizable.strings:73
@@ -449,10 +449,7 @@ msgstr "ShowInfo=Yes"
 #: Resources/templates/Localizable.strings:77
 #, no-wrap
 msgid "Enables display of partition and resolution details shown on the left side of the GUI under the boot banner. This is useful information for troubleshooting, though can clash with certain themes."
-msgstr ""
-"Включает отображение информации о выбранном разделе и текущем разрешении "
-"экрана слева от логотипа загрузчика. Полезно для устранения проблем с "
-"загрузкой (может отображаться некорректно при использовании некоторых тем)."
+msgstr "Включает отображение информации о выбранном разделе и текущем разрешении экрана слева от логотипа загрузчика. Полезно для устранения проблем с загрузкой (может отображаться некорректно при использовании некоторых тем)."
 
 #. type: "Wait_title"
 #: Resources/templates/Localizable.strings:79
@@ -464,10 +461,7 @@ msgstr "Wait=Yes"
 #: Resources/templates/Localizable.strings:80
 #, no-wrap
 msgid "Pauses the boot process after Chameleon has finished it's setup then waits for a key press before it starts the mach kernel. Useful when combined with verbose boot for troubleshooting."
-msgstr ""
-"Включение приостановки процесса загрузки (ожидания нажатия клавиши) перед "
-"передачей управления ядру ОС. Полезно в сочетании с ведением журнала "
-"загрузки для устранения проблем."
+msgstr "Включение приостановки процесса загрузки (ожидания нажатия клавиши) перед передачей управления ядру ОС. Полезно в сочетании с ведением журнала загрузки для устранения проблем."
 
 #. type: "arch_title"
 #: Resources/templates/Localizable.strings:84
@@ -503,9 +497,7 @@ msgstr "EthernetBuiltIn=Yes"
 #: Resources/templates/Localizable.strings:91
 #, no-wrap
 msgid "Enables the option of adding 'built-in' to your ethernet devices."
-msgstr ""
-"Включение замены информации о сетевой карте (добавление параметра 'built-"
-"in')."
+msgstr "Включение замены информации о сетевой карте (добавление параметра 'built-in')."
 
 #. type: "ForceHPET_title"
 #: Resources/templates/Localizable.strings:93
@@ -565,9 +557,7 @@ msgstr "UseMemDetect=No"
 #: Resources/templates/Localizable.strings:106
 #, no-wrap
 msgid "Disables the automatically enabled RAM recognition."
-msgstr ""
-"Отключение включённой по умолчанию функции определения объёма оперативной "
-"памяти."
+msgstr "Отключение включённой по умолчанию функции определения объёма оперативной памяти."
 
 #. type: "UseKernelCache_title"
 #: Resources/templates/Localizable.strings:108
@@ -579,10 +569,7 @@ msgstr "UseKernelCache=Yes"
 #: Resources/templates/Localizable.strings:109
 #, no-wrap
 msgid "For Lion only. Enables loading of the pre-linked kernel. This will ignore /E/E and /S/L/E. ONLY use this is you have know it contains everything you need."
-msgstr ""
-"Только OSX Lion. Обеспечивает загрузку предварительно скомпонованного ядра. "
-"При этом будут проигнорированы кеши /E/E и /S/L/E. Используйте ТОЛЬКО если "
-"вы знаете, что оно содержит всё, что Вам нужно."
+msgstr "Только OSX Lion. Обеспечивает загрузку предварительно скомпонованного ядра. При этом будут проигнорированы кеши /E/E и /S/L/E. Используйте ТОЛЬКО если вы знаете, что оно содержит всё, что Вам нужно."
 
 #. type: "Wake_title"
 #: Resources/templates/Localizable.strings:111
@@ -606,9 +593,7 @@ msgstr "CSTUsingSystemIO=Yes"
 #: Resources/templates/Localizable.strings:117
 #, no-wrap
 msgid "New C-State _CST generation method using SystemIO registers instead of FixedHW."
-msgstr ""
-"Новый метод генерации C-State _CST с использованием регистров SystemIO "
-"вместо FixedHW."
+msgstr "Новый метод генерации C-State _CST с использованием регистров SystemIO вместо FixedHW."
 
 #. type: "DropSSDT_title"
 #: Resources/templates/Localizable.strings:119
@@ -836,346 +821,332 @@ msgstr "GraphicsEnabler=Yes"
 #: Resources/templates/Localizable.strings:178
 #, no-wrap
 msgid "Enables the option to autodetect NVIDIA based GPUs and inject the correct info."
+msgstr "Включение автоматического обнаружения и корректировки данных EFI для графических карт nVidia."
+
+#. type: "EnableHDMIAudio_title"
+#: Resources/templates/Localizable.strings:180
+#, no-wrap
+msgid "EnableHDMIAudio=Yes"
 msgstr ""
-"Включение автоматического обнаружения и корректировки данных EFI для "
-"графических карт nVidia."
+
+#. type: "EnableHDMIAudio_description"
+#: Resources/templates/Localizable.strings:181
+#, no-wrap
+msgid "Inject HDMi audio for NVIDIA or AMD/ATI."
+msgstr ""
 
 #. type: "UseAtiROM_title"
-#: Resources/templates/Localizable.strings:180
+#: Resources/templates/Localizable.strings:183
 #, no-wrap
 msgid "UseAtiROM=Yes"
 msgstr "UseAtiROM=Yes"
 
 #. type: "UseAtiROM_description"
-#: Resources/templates/Localizable.strings:181
+#: Resources/templates/Localizable.strings:184
 #, no-wrap
 msgid "Enables UseAtiROM options."
 msgstr "Включение параметра UseAtiROM."
 
 #. type: "UseNvidiaROM_title"
-#: Resources/templates/Localizable.strings:183
+#: Resources/templates/Localizable.strings:186
 #, no-wrap
 msgid "UseNvidiaROM=Yes"
 msgstr "UseNvidiaROM=Yes"
 
 #. type: "UseNvidiaROM_description"
-#: Resources/templates/Localizable.strings:184
+#: Resources/templates/Localizable.strings:187
 #, no-wrap
 msgid "Enables UseNvidiaROM options."
 msgstr "Включение параметра UseNvidiaROM."
 
 #. type: "VBIOS_title"
-#: Resources/templates/Localizable.strings:186
+#: Resources/templates/Localizable.strings:189
 #, no-wrap
 msgid "VBIOS=Yes"
 msgstr "VBIOS=Yes"
 
 #. type: "VBIOS_description"
-#: Resources/templates/Localizable.strings:187
+#: Resources/templates/Localizable.strings:190
 #, no-wrap
 msgid "Enables VBIOS option"
 msgstr "Включение параметра VBIOS."
 
 #. type: "Verbose_title"
-#: Resources/templates/Localizable.strings:192
+#: Resources/templates/Localizable.strings:195
 #, no-wrap
 msgid "Verbose Mode"
 msgstr "Информационный режим"
 
 #. type: "Verbose_description"
-#: Resources/templates/Localizable.strings:193
+#: Resources/templates/Localizable.strings:196
 #, no-wrap
 msgid "Turns on verbose logging and allows you to see messages from both Chameleon and the OS X kernel at boot time. Essential for troubleshooting."
 msgstr "Включить ведение журнала загрузки. Необходимо для устранения проблем."
 
 #. type: "Singleusermode_title"
-#: Resources/templates/Localizable.strings:195
+#: Resources/templates/Localizable.strings:198
 #, no-wrap
 msgid "Single User Mode"
 msgstr "Однопользовательский режим"
 
 #. type: "Singleusermode_description"
-#: Resources/templates/Localizable.strings:196
+#: Resources/templates/Localizable.strings:199
 #, no-wrap
 msgid "A troubleshooting option used for booting into OS X's BSD/Unix command line."
-msgstr ""
-"Используется в качестве безопасного режима для устранения неполадок. (Вызов "
-"текстовой консоли BSD)"
+msgstr "Используется в качестве безопасного режима для устранения неполадок. (Вызов текстовой консоли BSD)"
 
 #. type: "Ignorecaches_title"
-#: Resources/templates/Localizable.strings:198
+#: Resources/templates/Localizable.strings:201
 #, no-wrap
 msgid "Ignore Caches"
 msgstr "Не использовать кеш системных модулей"
 
 #. type: "Ignorecaches_description"
-#: Resources/templates/Localizable.strings:199
+#: Resources/templates/Localizable.strings:202
 #, no-wrap
 msgid "Not an option that's needed for everyday booting, but it can be useful if you want OS X to load all files from it's system folders, rather than relying on it's pre-built caches."
-msgstr ""
-"Пропуск загрузки расширений ядра из системного кэша (загрузка всех "
-"расширений ядра из файловой системы)."
+msgstr "Пропуск загрузки расширений ядра из системного кэша (загрузка всех расширений ядра из файловой системы)."
 
 #. type: "Npci_title"
-#: Resources/templates/Localizable.strings:201
+#: Resources/templates/Localizable.strings:204
 #, no-wrap
 msgid "npci=0x2000"
 msgstr "npci=0x2000"
 
 #. type: "Npci_description"
-#: Resources/templates/Localizable.strings:202
+#: Resources/templates/Localizable.strings:205
 #, no-wrap
 msgid "For overcoming a hang at 'PCI configuration begin' on some systems. 0x2000 is the kIOPCIConfiguratorPFM64 flag, as seen in the IOPCIFamily source code."
-msgstr ""
-"Предназначено для предотвращения зависания на строке 'PCI configuration "
-"begin' на некоторых системах. 0x2000 является одним из возможных значений "
-"kIOPCIConfiguratorPFM64, согласно исходному коду IOPCIFamily."
+msgstr "Предназначено для предотвращения зависания на строке 'PCI configuration begin' на некоторых системах. 0x2000 является одним из возможных значений kIOPCIConfiguratorPFM64, согласно исходному коду IOPCIFamily."
 
 #. type: "Npci3_title"
-#: Resources/templates/Localizable.strings:204
+#: Resources/templates/Localizable.strings:207
 #, no-wrap
 msgid "npci=0x3000"
 msgstr "npci=0x3000"
 
 #. type: "Npci3_description"
-#: Resources/templates/Localizable.strings:205
+#: Resources/templates/Localizable.strings:208
 #, no-wrap
 msgid "For overcoming a hang at 'PCI configuration begin' on some systems. 0x3000 is the kIOPCIConfiguratorPFM64 flag, as seen in the IOPCIFamily source code."
-msgstr ""
-"Предназначено для предотвращения зависания на строке 'PCI configuration "
-"begin' на некоторых системах. 0x3000 является одним из возможных значений "
-"kIOPCIConfiguratorPFM64, согласно исходному коду IOPCIFamily."
+msgstr "Предназначено для предотвращения зависания на строке 'PCI configuration begin' на некоторых системах. 0x3000 является одним из возможных значений kIOPCIConfiguratorPFM64, согласно исходному коду IOPCIFamily."
 
 #. type: "Darkwake_title"
-#: Resources/templates/Localizable.strings:207
+#: Resources/templates/Localizable.strings:210
 #, no-wrap
 msgid "darkwake=0"
 msgstr "darkwake=0"
 
 #. type: "Darkwake_description"
-#: Resources/templates/Localizable.strings:208
+#: Resources/templates/Localizable.strings:211
 #, no-wrap
 msgid "Lion only. Disables the 'low power wake' feature which can sometimes leave the screen black after wake from sleep."
-msgstr ""
-"Только OSX Lion. Отключение функции 'low power wake', которая иногда может "
-"оставить экран в выключенном состоянии после выхода из спящего режима."
+msgstr "Только OSX Lion. Отключение функции 'low power wake', которая иногда может оставить экран в выключенном состоянии после выхода из спящего режима."
 
 #. type: "mac-de_title"
-#: Resources/templates/Localizable.strings:214
+#: Resources/templates/Localizable.strings:217
 #, no-wrap
 msgid "German Mac Keyboard"
 msgstr "Германская раскладка клавиатуры (Mac)"
 
 #. type: "mac-de_description"
-#: Resources/templates/Localizable.strings:215
+#: Resources/templates/Localizable.strings:218
 #, no-wrap
 msgid "Use the keyboard layout for a German Mac keyboard"
-msgstr ""
-"Использовать германскую (Mac) раскладку клавиатуры при начальной загрузке"
+msgstr "Использовать германскую (Mac) раскладку клавиатуры при начальной загрузке"
 
 #. type: "mac-es_title"
-#: Resources/templates/Localizable.strings:217
+#: Resources/templates/Localizable.strings:220
 #, no-wrap
 msgid "Spanish Mac Keyboard"
 msgstr "Испанская раскладка клавиатуры (Mac)"
 
 #. type: "mac-es_description"
-#: Resources/templates/Localizable.strings:218
+#: Resources/templates/Localizable.strings:221
 #, no-wrap
 msgid "Use the keyboard layout for a Spanish Mac keyboard"
-msgstr ""
-"Использовать испанскую (Mac) раскладку клавиатуры при начальной загрузке"
+msgstr "Использовать испанскую (Mac) раскладку клавиатуры при начальной загрузке"
 
 #. type: "mac-fr_title"
-#: Resources/templates/Localizable.strings:220
+#: Resources/templates/Localizable.strings:223
 #, no-wrap
 msgid "French Mac Keyboard"
 msgstr "Французская раскладка клавиатуры (Mac)"
 
 #. type: "mac-fr_description"
-#: Resources/templates/Localizable.strings:221
+#: Resources/templates/Localizable.strings:224
 #, no-wrap
 msgid "Use the keyboard layout for a French Mac keyboard"
-msgstr ""
-"Использовать французскую (Mac) раскладку клавиатуры при начальной загрузке"
+msgstr "Использовать французскую (Mac) раскладку клавиатуры при начальной загрузке"
 
 #. type: "mac-it_title"
-#: Resources/templates/Localizable.strings:223
+#: Resources/templates/Localizable.strings:226
 #, no-wrap
 msgid "Italian Mac Keyboard"
 msgstr "Итальянская раскладка клавиатуры (Mac)"
 
 #. type: "mac-it_description"
-#: Resources/templates/Localizable.strings:224
+#: Resources/templates/Localizable.strings:227
 #, no-wrap
 msgid "Use the keyboard layout for an Italian Mac keyboard"
-msgstr ""
-"Использовать итальянскую (Mac) раскладку клавиатуры при начальной загрузке"
+msgstr "Использовать итальянскую (Mac) раскладку клавиатуры при начальной загрузке"
 
 #. type: "mac-se_title"
-#: Resources/templates/Localizable.strings:226
+#: Resources/templates/Localizable.strings:229
 #, no-wrap
 msgid "Swedish Mac Keyboard"
 msgstr "Шведская раскладка клавиатуры (Mac)"
 
 #. type: "mac-se_description"
-#: Resources/templates/Localizable.strings:227
+#: Resources/templates/Localizable.strings:230
 #, no-wrap
 msgid "Use the keyboard layout for a Swedish Mac keyboard"
 msgstr "Использовать шведскую (Mac) раскладку клавиатуры при начальной загрузке"
 
 #. type: "pc-fr_title"
-#: Resources/templates/Localizable.strings:229
+#: Resources/templates/Localizable.strings:232
 #, no-wrap
 msgid "French PC Keyboard"
 msgstr "Французская раскладка клавиатуры (PC)"
 
 #. type: "pc-fr_description"
-#: Resources/templates/Localizable.strings:230
+#: Resources/templates/Localizable.strings:233
 #, no-wrap
 msgid "Use the keyboard layout for a French PC keyboard"
-msgstr ""
-"Использовать французскую (PC) раскладку клавиатуры при начальной загрузке"
+msgstr "Использовать французскую (PC) раскладку клавиатуры при начальной загрузке"
 
 #. type: "Embed_title"
-#: Resources/templates/Localizable.strings:236
+#: Resources/templates/Localizable.strings:239
 #, no-wrap
 msgid "Embed"
 msgstr "Embed"
 
 #. type: "Embed_description"
-#: Resources/templates/Localizable.strings:237
+#: Resources/templates/Localizable.strings:240
 #, no-wrap
 msgid "A smaller simple version of the new default theme used when building a version of Chameleon which requires an embedded theme."
-msgstr ""
-"Упрощённый вариант новой темы по умолчанию, используемый при построении "
-"версии Chameleon, которая требует встроенную тему."
+msgstr "Упрощённый вариант новой темы по умолчанию, используемый при построении версии Chameleon, которая требует встроенную тему."
 
 #. type: "Legacy_title"
-#: Resources/templates/Localizable.strings:239
+#: Resources/templates/Localizable.strings:242
 #, no-wrap
 msgid "Legacy"
 msgstr "Legacy"
 
 #. type: "Legacy_description"
-#: Resources/templates/Localizable.strings:240
+#: Resources/templates/Localizable.strings:243
 #, no-wrap
 msgid "Chameleon's original default theme introduced for v2.0 RC1"
-msgstr ""
-"Оригинальная тема Chameleon по умолчанию, которая появилась в версии 2.0 RC1"
+msgstr "Оригинальная тема Chameleon по умолчанию, которая появилась в версии 2.0 RC1"
 
 #. type: "Default_description"
-#: Resources/templates/Localizable.strings:243
+#: Resources/templates/Localizable.strings:246
 #, no-wrap
 msgid "Chameleon default theme introduced for v2.0 RC5"
 msgstr "Тема Chameleon по умолчанию, которая появилась в версии 2.0 RC5"
 
 #. type: "Bullet_title"
-#: Resources/templates/Localizable.strings:245
+#: Resources/templates/Localizable.strings:248
 #, no-wrap
 msgid "Bullet"
 msgstr "Bullet"
 
 #. type: "Bullet_description"
-#: Resources/templates/Localizable.strings:246
+#: Resources/templates/Localizable.strings:249
 #, no-wrap
 msgid "A lovely simple theme by NoSmokingBandit from April 2009."
 msgstr "Прелестная простая тема, выпущенная NoSmokingBandit в апреле 2009 года."
 
 #. type: "Control_title"
-#: Resources/templates/Localizable.strings:254
+#: Resources/templates/Localizable.strings:257
 #, no-wrap
 msgid "Control Options"
 msgstr "Настройки управления"
 
 #. type: "Control_description"
-#: Resources/templates/Localizable.strings:255
+#: Resources/templates/Localizable.strings:258
 #, no-wrap
 msgid "Settings to control how Chameleon works."
 msgstr "Настройки поведения Chameleon."
 
 #. type: "General_title"
-#: Resources/templates/Localizable.strings:258
+#: Resources/templates/Localizable.strings:261
 #, no-wrap
 msgid "General Options"
 msgstr "Общие настройки"
 
 #. type: "General_description"
-#: Resources/templates/Localizable.strings:259
+#: Resources/templates/Localizable.strings:262
 #, no-wrap
 msgid "Choose from a selection of base options."
 msgstr "Выберите одну из категорий основных настроек."
 
 #. type: "KernelFlags_title"
-#: Resources/templates/Localizable.strings:262
+#: Resources/templates/Localizable.strings:265
 #, no-wrap
 msgid "Kernel Flags"
 msgstr "Параметры, передаваемые ядру"
 
 #. type: "KernelFlags_description"
-#: Resources/templates/Localizable.strings:263
+#: Resources/templates/Localizable.strings:266
 #, no-wrap
 msgid "Choose from a selection of kernel flags."
 msgstr "Выберите параметры передаваемые ядру ОС."
 
 #. type: "PowerManagement_title"
-#: Resources/templates/Localizable.strings:266
+#: Resources/templates/Localizable.strings:269
 #, no-wrap
 msgid "Power Management"
 msgstr "Управление питанием"
 
 #. type: "PowerManagement_description"
-#: Resources/templates/Localizable.strings:267
+#: Resources/templates/Localizable.strings:270
 #, no-wrap
 msgid "A selection of options that deal with power management and speedstep."
-msgstr ""
-"Параметры, контролирующие систему управления питанием и разгоном процессора."
+msgstr "Параметры, контролирующие систему управления питанием и разгоном процессора."
 
 #. type: "Resolution_description"
-#: Resources/templates/Localizable.strings:271
+#: Resources/templates/Localizable.strings:274
 #, no-wrap
 msgid "Set one resolution to use."
 msgstr "Выберете разрешение, используемое по умолчанию."
 
 #. type: "Video_title"
-#: Resources/templates/Localizable.strings:274
+#: Resources/templates/Localizable.strings:277
 #, no-wrap
 msgid "Video"
 msgstr "Видео"
 
 #. type: "Video_description"
-#: Resources/templates/Localizable.strings:275
+#: Resources/templates/Localizable.strings:278
 #, no-wrap
 msgid "A selection of options that deal with video."
 msgstr "Параметры отображения."
 
 #. type: "Keymaps_title"
-#: Resources/templates/Localizable.strings:278
+#: Resources/templates/Localizable.strings:281
 #, no-wrap
 msgid "KeyLayout"
 msgstr "Раскладка"
 
 #. type: "Keymaps_description"
-#: Resources/templates/Localizable.strings:279
+#: Resources/templates/Localizable.strings:282
 #, no-wrap
 msgid "Select one keylayout to use. This will also install the Keylayout module and keymaps."
-msgstr ""
-"Выберите основную раскладку клавиатуры. Эта опция также позволит установить "
-"модуль Keylayout и различные раскладки."
+msgstr "Выберите основную раскладку клавиатуры. Эта опция также позволит установить модуль Keylayout и различные раскладки."
 
 #. type: "Themes_title"
-#: Resources/templates/Localizable.strings:282
+#: Resources/templates/Localizable.strings:285
 #, no-wrap
 msgid "Themes"
 msgstr "Темы"
 
 #. type: "Themes_description"
-#: Resources/templates/Localizable.strings:283
+#: Resources/templates/Localizable.strings:286
 #, no-wrap
 msgid ""
 "A collection of sample themes\n"
 "More themes can be found at http://forum.voodooprojects.org/index.php/board,7.0.html"
 msgstr ""
 "Коллекция тем\n"
-"Дополнительные темы можно найти по адресу: "
-"http://forum.voodooprojects.org/index.php/board,7.0.html"
+"Дополнительные темы можно найти по адресу: http://forum.voodooprojects.org/index.php/board,7.0.html"

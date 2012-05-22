@@ -26,6 +26,7 @@ Exclusive=False
 # Note: There must be a carriage return at end of last line
 # ---------------------------------------------
 Bool@GraphicsEnabler:GraphicsEnabler=Yes
+Bool@EnableHDMIAudio:EnableHDMIAudio=Yes
 Bool@UseAtiROM:UseAtiROM=Yes
 Bool@UseNvidiaROM:UseNvidiaROM=Yes
 Bool@VBIOS:VBIOS=Yes
