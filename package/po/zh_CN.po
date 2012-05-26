@@ -815,13 +815,13 @@ msgstr "(默认是 No) 启用显卡侦测功能。自动识别 显卡 GPU 并注
 #: Resources/templates/Localizable.strings:180
 #, no-wrap
 msgid "EnableHDMIAudio=Yes"
-msgstr ""
+msgstr "EnableHDMIAudio=Yes"
 
 #. type: "EnableHDMIAudio_description"
 #: Resources/templates/Localizable.strings:181
 #, no-wrap
 msgid "Inject HDMi audio for NVIDIA or AMD/ATI."
-msgstr ""
+msgstr "(默认是 No) 启用 HDMI Audio 功能。适用 Nvidia 及 AMD/ATI 显卡。"
 
 #. type: "UseAtiROM_title"
 #: Resources/templates/Localizable.strings:183
