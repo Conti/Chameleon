@@ -78,6 +78,7 @@
 #define kDSDT				"DSDT"				/* acpi_patcher.c */
 #define kDropSSDT			"DropSSDT"			/* acpi_patcher.c */
 #define kRestartFix			"RestartFix"		/* acpi_patcher.c */
+#define kPS2RestartFix		"PS2RestartFix"		/* acpi_patcher.c */
 #define kGeneratePStates	"GeneratePStates"	/* acpi_patcher.c */
 #define kGenerateCStates	"GenerateCStates"	/* acpi_patcher.c */
 #define kCSTUsingSystemIO	"CSTUsingSystemIO"	/* acpi_patcher.c */
