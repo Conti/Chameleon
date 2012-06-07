@@ -17,25 +17,25 @@
 #include "graphic_utils.h"
 #include "picopng.h"
 
-#define CHARACTERS_COUNT	223
+#define CHARACTERS_COUNT		223
 
 #define BOOT_NORMAL			0
-#define BOOT_VERBOSE		1
-#define BOOT_IGNORECACHE	2
-#define BOOT_SINGLEUSER		3
+#define BOOT_VERBOSE			1
+#define BOOT_IGNORECACHE		2
+#define BOOT_SINGLEUSER			3
 #define DO_NOT_BOOT			4
-#define CLOSE_INFO_MENU		5
+#define CLOSE_INFO_MENU			5
 
 #define INFOMENU_NATIVEBOOT_START	1
 #define INFOMENU_NATIVEBOOT_END		3
 
 #define MENU_SHOW_MEMORY_INFO		4
 #define MENU_SHOW_VIDEO_INFO		5
-#define MENU_SHOW_HELP				6
+#define MENU_SHOW_HELP			6
 
 enum {
 	HorizontalLayout	= 0,
-	VerticalLayout		= 1
+	VerticalLayout		= 1,
 };
 
 /*
