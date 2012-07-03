@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Chameleon 2.1svn-r1870\n"
-"POT-Creation-Date: 2012-03-06 22:38+0000\n"
-"PO-Revision-Date: 2012-04-28 21:53+0200\n"
+"POT-Creation-Date: 2012-05-27 02:57+0200\n"
+"PO-Revision-Date: 2012-05-31 01:03-0000\n"
 "Last-Translator: martin63 <martin.badin@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: cs <cs@li.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,12 +29,12 @@ msgstr "v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:25
 msgid "Do not install to an Apple Macintosh computer"
-msgstr "Neinstalujte na poÄÃ­taÄ znaÄky Apple Macintosh"
+msgstr "Neinstalujte na počítač značky Apple Macintosh"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:27
 msgid "Developers :"
-msgstr "VÃ½vojÃ¡Å™i :"
+msgstr "Vývojáři :"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:28
@@ -44,7 +44,7 @@ msgstr "%DEVELOP%"
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:30
 msgid "Thanks to :"
-msgstr "PodÄ›kovÃ¡nÃ­ :"
+msgstr "Poděkování :"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:31
@@ -64,14 +64,12 @@ msgstr "%PKGDEV%"
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:36 Resources/templates/Conclusion.html:30
 msgid "Package built by: %WHOBUILD%, language translated by: blackosx"
-msgstr "Program sestavil: %WHOBUILD%, jazyk pÅ™eloÅ¾il: vaLin, martin63"
+msgstr "Program sestavil: %WHOBUILD%, jazyk přeložil: vaLin,  martin63"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:37 Resources/templates/Conclusion.html:31
-#, fuzzy
-#| msgid "Copyright Â© %CPRYEAR%"
 msgid "Copyright © %CPRYEAR%"
-msgstr "Copyright Â© %CPRYEAR%"
+msgstr "Copyright © %CPRYEAR%"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:18
@@ -80,62 +78,60 @@ msgid ""
 "evolved from the development of David Elliott's fake EFI implementation "
 "added to Apple's boot-132 project."
 msgstr ""
-"Chameleon je zavadÄ›Ä systÃ©mu kterÃ½ vznikl kombinacÃ­ komponent, kterÃ© vzeÅ"
-"¡ly z vÃ½voje fake EFI implementace Davida Elliota pouÅ¾itÃ© v projektu "
-"Apple boot-132"
+"Chameleon je zavaděč systému který vznikl kombinací komponent, které vzešly "
+"z vývoje fake EFI implementace Davida Elliota použité v projektu Apple "
+"boot-132"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:20
 msgid "Chameleon v2 is extended with many features. For example:"
-msgstr "Chameleon v2 je rozÅ¡Ã­Å™en o mnohÃ© funkce. NapÅ™Ã­klad:"
+msgstr "Chameleon v2 je rozšířen o mnohé funkce. Například:"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:22
 msgid "- Fully customizable GUI to bring some color to the Darwin Bootloader."
-msgstr "- PlnÄ› nastavitelnÃ© GUI, kterÃ© pÅ™inÃ¡Å¡Ã­ barvy do zavadÄ›Äe Darwin"
+msgstr "- Plně nastavitelné GUI, které přináší barvy do zavaděče Darwin"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:23
 msgid ""
 "- Load a ramdisk to directly boot retail DVDs without additional programs."
 msgstr ""
-"- NaÄÃ­st ramdisk k umoÅ¾nÄ›nÃ­ pÅ™Ã­mÃ©ho bootu retail DVD bez potÅ™eby dalÅ¡Ã­"
-"ch programÅ¯."
+"- Načíst ramdisk k umožnění přímého bootu retail DVD bez potřeby dalších "
+"programů."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:24
 msgid "- Hibernation. Enjoy resuming your Mac OS X with a preview image."
 msgstr ""
-"- Hybernace. UÅ¾ijte si obnovenÃ­ vaÅ¡eho Mac OS X za pouÅ¾itÃ­ preview image."
+"- Hybernace. Užijte si obnovení vašeho Mac OS X za použití preview image."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:25
 msgid "- SMBIOS override to modify the factory SMBIOS values."
-msgstr "- MoÅ¾nost zmÄ›ny tovÃ¡rnÃ­ch parametrÅ¯ SMBIOS."
+msgstr "- Možnost změny továrních parametrů SMBIOS."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:26
 msgid ""
 "- DSDT override to use a modified fixed DSDT which can solve several issues."
 msgstr ""
-"- MoÅ¾nost zmÄ›ny parametrÅ¯ DSDT, kterÃ© mohou pomoct vyÅ™eÅ¡it nÄ›kterÃ© "
-"problÃ©my."
+"- Možnost změny parametrů DSDT, které mohou pomoct vyřešit některé problémy."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:27
 msgid "- Device Property Injection via device-properties string."
-msgstr ""
-"- InjektovÃ¡nÃ­ parametrÅ¯ zaÅ™Ã­zenÃ­ pomocÃ­ Å™etÄ›zce device-properties."
+msgstr "- Injektování parametrů zařízení pomocí řetězce device-properties."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:28
 msgid "- hybrid boot0 / boot1h for MBR and GPT partitioned disks."
-msgstr "- hybridnÃ­ boot0 / boot1h pro disky rozdÄ›lenÃ© pomocÃ­ MBR a GPT."
+msgstr "- hybridní boot0 / boot1h pro disky rozdělené pomocí MBR a GPT."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:29
 msgid "- Automatic FSB detection code even for recent AMD CPUs."
-msgstr "- KÃ³d automaticky detekujÃ­cÃ­ FSB i u novÄ›jÅ¡Ã­ch procesorÅ¯ AMD."
+msgstr "- Kód automaticky detekující FSB i u novějších procesorů AMD."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:30
@@ -150,30 +146,29 @@ msgstr "- Nvidia &amp; ATI/AMD Graphics Card Enabler."
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:32
 msgid "- Module support"
-msgstr "- Podpora modulÅ¯"
+msgstr "- Podpora modulů"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:33
 msgid "- Memory detection adapted from memtest86:&nbsp;"
-msgstr "- Detekce pamÄ›Å¥ovÃ½ch modulÅ¯ adaptovanÃ¡ z memtest86:&nbsp;"
+msgstr "- Detekce paměťových modulů adaptovaná z memtest86:&nbsp;"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:34
 msgid ""
 "- Automatic P-State &amp; C-State generation for native power management."
 msgstr ""
-"- AutomatickÃ© generovÃ¡nÃ­ P-State &amp; C-State pro nativnÃ­ sprÃ¡vu napÃ"
-"¡jenÃ­."
+"- Automatické generování P-State &amp; C-State pro nativní správu napájení."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:35
 msgid "- Message logging."
-msgstr "- LogovÃ¡nÃ­ zprÃ¡v."
+msgstr "- Logování zpráv."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:37
 msgid "The code is released under version 2 of the Gnu Public License."
-msgstr "KÃ³d je vydÃ¡n pod licencÃ­ Gnu Public Licence verze 2."
+msgstr "Kód je vydán pod licencí Gnu Public Licence verze 2."
 
 #. type: Content of: <html><body><p><span>
 #: Resources/templates/Description.html:40
@@ -183,7 +178,7 @@ msgstr "FAQ's:&nbsp;"
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:22
 msgid "The scripts have completed and a file named&nbsp;"
-msgstr "Skripty byly dokonÄeny a soubor s nÃ¡zvem&nbsp;"
+msgstr "Skripty byly dokončeny a soubor s názvem&nbsp;"
 
 #. type: Content of: <html><body><div><p><span>
 #: Resources/templates/Conclusion.html:22
@@ -193,18 +188,17 @@ msgstr "@LOG_FILENAME@"
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:23
 msgid "&nbsp;has been written to the root of your chosen partition."
-msgstr ""
-"&nbsp;byl zapsÃ¡n do koÅ™enovÃ©ho adresÃ¡Å™e zvolenÃ© diskovÃ© oblasti."
+msgstr "&nbsp;byl zapsán do kořenového adresáře zvolené diskové oblasti."
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:25
 msgid "Please&nbsp;"
-msgstr "ProsÃ­m&nbsp;"
+msgstr "Prosím&nbsp;"
 
 #. type: Content of: <html><body><div><p><span>
 #: Resources/templates/Conclusion.html:25
 msgid "read it"
-msgstr "pÅ™eÄtÄ›te si ho"
+msgstr "přečtěte si ho"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:26
@@ -213,8 +207,8 @@ msgid ""
 "record of what was done."
 msgstr ""
 "&nbsp;to find out if the installation was successful and keep it for a "
-"record of what was done.&nbsp;aby jste zjistili zda instalace probÄ›hla v "
-"poÅ™Ã¡dku a uchovejte jej pro pÅ™Ã­padnou potÅ™ebu."
+"record of what was done.&nbsp;aby jste zjistili zda instalace proběhla v "
+"pořádku a uchovejte jej pro případnou potřebu."
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:28
@@ -225,37 +219,37 @@ msgstr "Chameleon v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
 #: Resources/templates/Localizable.strings:4
 #, no-wrap
 msgid "Chameleon Bootloader Package"
-msgstr "ZavadÄ›Ä systÃ©mu Chameleon"
+msgstr "Zavaděč systému Chameleon"
 
 #. type: "ERROR_BOOTVOL"
 #: Resources/templates/Localizable.strings:9
 #, no-wrap
 msgid "This software must be installed on the startup volume."
-msgstr "Tento software musÃ­ bÃ½t nainstalovÃ¡n na spouÅ¡tÄ›cÃ­m oddÃ­lu."
+msgstr "Tento software musí být nainstalován na spouštěcím oddílu."
 
 #. type: "ERROR_INSTALL"
 #: Resources/templates/Localizable.strings:10
 #, no-wrap
 msgid "This volume does not meet the requirements for this update."
-msgstr "Tento oddÃ­l nesplÅˆuje poÅ¾adavky pro update."
+msgstr "Tento oddíl nesplňuje požadavky pro update."
 
 #. type: "Newer_Package_Installed_message"
 #: Resources/templates/Localizable.strings:12
 #, no-wrap
 msgid "A newer version of Chameleon is already installed"
-msgstr "NovÄ›jÅ¡Ã­ verze programu Chameleon je jiÅ¾ nainstalovÃ¡na"
+msgstr "Novější verze programu Chameleon je již nainstalována"
 
 #. type: "Intel_Mac_message"
 #: Resources/templates/Localizable.strings:13
 #, no-wrap
 msgid "This software cannot be installed on this computer."
-msgstr "Software nelze nainstalovat na tento poÄÃ­taÄ."
+msgstr "Software nelze nainstalovat na tento počítač."
 
 #. type: "Chameleon_title"
 #: Resources/templates/Localizable.strings:19
 #, no-wrap
 msgid "Chameleon Bootloader"
-msgstr "ZavadÄ›Ä Chameleon"
+msgstr "Zavaděč Chameleon"
 
 #. type: "Chameleon_description"
 #: Resources/templates/Localizable.strings:20
@@ -266,35 +260,35 @@ msgid ""
 "boot1 (On the partition's boot-sector) to finding boot2.\n"
 "boot2 (On the partition's root directory) for loading kernel etc."
 msgstr ""
-"Chameleon vyÅ¾aduje tÅ™i zÃ¡kladnÃ­ soubory. (jednoduÅ¡e reÄeno)\n"
-"boot0 (v MBR disku) zodpovÄ›dnÃ½ za naÄtenÃ­ boot1.\n"
-"boot1 (v boot-sektoru diskovÃ©ho oddÃ­lu) k nalezenÃ­ boot2.\n"
-"boot2 (v koÅ™enovÃ©m adresÃ¡Å™i diskovÃ©ho oddÃ­lu) k naÄtenÃ­ kernelu atd."
+"Chameleon vyžaduje tři základní soubory. (jednoduše rečeno)\n"
+"boot0 (v MBR disku) zodpovědný za načtení boot1.\n"
+"boot1 (v boot-sektoru diskového oddílu) k nalezení boot2.\n"
+"boot2 (v kořenovém adresáři diskového oddílu) k načtení kernelu atd."
 
 #. type: "Default_title"
 #: Resources/templates/Localizable.strings:25
 #: Resources/templates/Localizable.strings:245
 #, no-wrap
 msgid "Standard"
-msgstr "StandartnÃ­"
+msgstr "Standartní"
 
 #. type: "Standard_description"
 #: Resources/templates/Localizable.strings:26
 #, no-wrap
 msgid "Install Chameleon's files to the root of the selected partition using either boot0 or boot0md depending on your system without destroying any existing Windows installation if you have one."
-msgstr "Nainstaluje soubory Chameleona do koÅ™enovÃ©ho adresÃ¡Å™e zvolenÃ©ho oddÃ­lu za pouÅ¾itÃ­ buÄ boot0 nebo boot0md, v zÃ¡vislosti na vaÅ¡em systÃ©mu, aniÅ¾ by zniÄil existujÃ­cÃ­ instalaci Windows, pokud nÄ›jakou mÃ¡te."
+msgstr "Nainstaluje soubory Chameleona do kořenového adresáře zvoleného oddílu za použití buď boot0 nebo boot0md, v závislosti na vašem systému, aniž by zničil existující instalaci Windows, pokud nějakou máte."
 
 #. type: "noboot_title"
 #: Resources/templates/Localizable.strings:28
 #, no-wrap
 msgid "Don't install the Bootloader"
-msgstr "Neinstalovat zavadÄ›Ä"
+msgstr "Neinstalovat zavaděč"
 
 #. type: "noboot_description"
 #: Resources/templates/Localizable.strings:29
 #, no-wrap
 msgid "Useful if you only want to install the extra's."
-msgstr "UÅ¾iteÄnÃ© pokud chcete instalovat pouze doplÅˆky."
+msgstr "Užitečné pokud chcete instalovat pouze doplňky."
 
 #. type: "Module_title"
 #: Resources/templates/Localizable.strings:35
@@ -306,7 +300,7 @@ msgstr "Moduly"
 #: Resources/templates/Localizable.strings:36
 #, no-wrap
 msgid "The modules system incorporated in chameleon allows for a user or developer to extend the core functionality of chameleon without replacing the main boot file."
-msgstr "SystÃ©m modulÅ¯, zaÄlenÄ›nÃ½ v Chameleonu, dovoluje uÅ¾ivateli Äi vÃ½vojÃ¡Å™i rozÅ¡Ã­Å™it primÃ¡rnÃ­ funkce zavadÄ›Äe, bez nutnosti mÄ›nit zÃ¡kladnÃ­ boot soubor."
+msgstr "Systém modulů, začleněný v Chameleonu, dovoluje uživateli či vývojáři rozšířit primární funkce zavaděče, bez nutnosti měnit základní boot soubor."
 
 #. type: "klibc_title"
 #: Resources/templates/Localizable.strings:38
@@ -322,8 +316,8 @@ msgid ""
 "This is currently only used by the uClibc++ library.\n"
 "Source: http://www.kernel.org/pub/linux/libs/klibc/"
 msgstr ""
-"Tento modul poskytuje standardnÃ­ c knihovnu modulÅ¯m ke slinkovÃ¡nÃ­ v pÅ™Ã­padÄ›, Å¾e knihovna obsaÅ¾enÃ¡ v chameleonu nedostaÄuje.\n"
-"MomentÃ¡lnÄ› ji pouÅ¾Ã­vÃ¡ pouze knihovna uClibc++.\n"
+"Tento modul poskytuje standardní c knihovnu modulům ke slinkování v případě, že knihovna obsažená v chameleonu nedostačuje.\n"
+"Momentálně ji používá pouze knihovna uClibc++.\n"
 "Zdroj: http://www.kernel.org/pub/linux/libs/klibc/"
 
 #. type: "Resolution_title"
@@ -331,7 +325,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:273
 #, no-wrap
 msgid "Resolution"
-msgstr "RozlÃ­Å¡enÃ­"
+msgstr "Rozlíšení"
 
 #. type: "AutoReso_description"
 #: Resources/templates/Localizable.strings:44
@@ -341,9 +335,9 @@ msgid ""
 "The module is currently not integrated into trunk and has minimal uses as it stands.\n"
 "Additionally, the module will patch the vesa modes available in pre intel hd graphics cards to provide proper resolution while booting."
 msgstr ""
-"Tento modul Äte edid informace z monitoru pÅ™ipojenÃ©ho k hlavnÃ­ grafickÃ© kartÄ›.\n"
-"Modul prozatÃ­m nenÃ­ souÄÃ¡stÃ­ vÃ½vojovÃ© vÄ›tve trunk a mÃ¡ v nynÄ›jÅ¡Ã­ podobÄ› minimum vyuÅ¾Ã­tÃ­.\n"
-"KromÄ› toho modul zpÅ™Ã­stupnÃ­ vesa mÃ³dy dostupnÃ© v grafickÃ½ch kartÃ¡ch pÅ™edchÃ¡zejÃ­cÃ­ch Ã©Å™e intel hd a poskytne tak korektnÃ­ rozliÅ¡enÃ­ obrazu bÄ›hem bootovÃ¡nÃ­."
+"Tento modul čte edid informace z monitoru připojeného k hlavní grafické kartě.\n"
+"Modul prozatím není součástí vývojové větve trunk a má v nynější podobě minimum využítí.\n"
+"Kromě toho modul zpřístupní vesa módy dostupné v grafických kartách předcházejících éře intel hd a poskytne tak korektní rozlišení obrazu během bootování."
 
 #. type: "uClibc_title"
 #: Resources/templates/Localizable.strings:48
@@ -360,22 +354,22 @@ msgid ""
 "Source: http://cxx.uclibc.org/\n"
 "Dependencies: klibc"
 msgstr ""
-"Tento modul poskytuje minimalistickou c++ runtime knihovnu pro pouÅ¾itÃ­ v jinÃ½ch modulech. To samo o sobÄ› neposkytuje Å¾Ã¡dnou funkcionalitu, ale mÃ­sto toho dovoluje pouÅ¾itÃ­ jazyka c++ v jinÃ½ch modulech.\n"
-"*Vemte prosÃ­m na vÄ›domÃ­, Å¾e rtti a vyjÃ­mky jsou vypnuty.\n"
+"Tento modul poskytuje minimalistickou c++ runtime knihovnu pro použití v jiných modulech. To samo o sobě neposkytuje žádnou funkcionalitu, ale místo toho dovoluje použití jazyka c++ v jiných modulech.\n"
+"*Vemte prosím na vědomí, že rtti a vyjímky jsou vypnuty.\n"
 "Zdroj: http://cxx.uclibc.org/\n"
-"ZÃ¡vislosti: klibc"
+"Závislosti: klibc"
 
 #. type: "Options_title"
 #: Resources/templates/Localizable.strings:58
 #, no-wrap
 msgid "Settings"
-msgstr "NastavenÃ­"
+msgstr "Nastavení"
 
 #. type: "Options_description"
 #: Resources/templates/Localizable.strings:59
 #, no-wrap
 msgid "Create an /Extra/org.chameleon.Boot.plist by selecting any of these boot options and kernel flags."
-msgstr "Soubor /Extra/org.chameleon.Boot.plist se vytvoÅ™Ã­ zvolenÃ­m kterÃ©koliv z tÄ›chto boot a kernel moÅ¾nostÃ­."
+msgstr "Soubor /Extra/org.chameleon.Boot.plist se vytvoří zvolením kterékoliv z těchto boot a kernel možností."
 
 #. type: "BootBanner_title"
 #: Resources/templates/Localizable.strings:61
@@ -387,7 +381,7 @@ msgstr "BootBanner=No"
 #: Resources/templates/Localizable.strings:62
 #, no-wrap
 msgid "Hides Chameleon's boot banner in GUI. This is the text that is drawn at the top left corner of the screen displaying the release version etc."
-msgstr "SchovÃ¡ ChameleonÅ¯v boot banner v GUI. To je text kterÃ½ je vykreslen v hornÃ­m levÃ©m rohu obrazovky zobrazujÃ­cÃ­ verzi release atd."
+msgstr "Schová Chameleonův boot banner v GUI. To je text který je vykreslen v horním levém rohu obrazovky zobrazující verzi release atd."
 
 #. type: "GUI_title"
 #: Resources/templates/Localizable.strings:64
@@ -399,7 +393,7 @@ msgstr "GUI=No"
 #: Resources/templates/Localizable.strings:65
 #, no-wrap
 msgid "Disables the default enabled graphic user interface."
-msgstr "Vypne standartnÄ› zapnutÃ© grafickÃ© uÅ¾ivatelskÃ© rohranÃ­."
+msgstr "Vypne standartně zapnuté grafické uživatelské rohraní."
 
 #. type: "LegacyLogo_title"
 #: Resources/templates/Localizable.strings:67
@@ -411,7 +405,7 @@ msgstr "LegacyLogo=Yes"
 #: Resources/templates/Localizable.strings:68
 #, no-wrap
 msgid "Use the legacy 'dark grey' apple logo on the light grey screen for the boot process rather than the boot.png in the theme."
-msgstr "PouÅ¾ije pro bootovÃ¡nÃ­ pÅ¯vodnÃ­ 'tmavoÅ¡edÃ©' apple logo na svÄ›tleÅ¡edÃ©m pozadÃ­ namÃ­sto souboru boot.png ze zvolenÃ©ho tÃ©ma."
+msgstr "Použije pro bootování původní 'tmavošedé' apple logo na světlešedém pozadí namísto souboru boot.png ze zvoleného téma."
 
 #. type: "InstantMenu_title"
 #: Resources/templates/Localizable.strings:70
@@ -423,7 +417,7 @@ msgstr "InstantMenu=Yes"
 #: Resources/templates/Localizable.strings:71
 #, no-wrap
 msgid "By default, when Chameleon loads you'll see the icon for the current default partition, along with a timeout progress bar which left alone will count down before Chameleon automatically boots that partition. This options skips that and takes you directly to the device selection screen."
-msgstr "Ve vÃ½chozÃ­m nastavenÃ­, kdyÅ¾ se Chameleon spustÃ­, uvidÃ­te ikonu vÃ½chozÃ­ho oddÃ­lu spolu s ukazatelem zbÃ½vajÃ­cÃ­ho Äasu, kterÃ½, pokud nevyvolÃ¡te Å¾Ã¡dnou akci, bude odpoÄÃ­tÃ¡vat neÅ¾ Chameleon automaticky zaÄne bootovat tento oddÃ­l. Tato volba to zruÅ¡Ã­ a zobrazÃ­ se pÅ™Ã­mo obrazovka s vÃ½bÄ›rem oddÃ­lÅ¯."
+msgstr "Ve výchozím nastavení, když se Chameleon spustí, uvidíte ikonu výchozího oddílu spolu s ukazatelem zbývajícího času, který, pokud nevyvoláte žádnou akci, bude odpočítávat než Chameleon automaticky začne bootovat tento oddíl. Tato volba to zruší a zobrazí se přímo obrazovka s výběrem oddílů."
 
 #. type: "QuietBoot_title"
 #: Resources/templates/Localizable.strings:73
@@ -435,7 +429,7 @@ msgstr "QuietBoot=Yes"
 #: Resources/templates/Localizable.strings:74
 #, no-wrap
 msgid "Enable quiet boot mode (no messages or prompt)."
-msgstr "Zapne tichÃ½ boot mÃ³d (Å¾Ã¡dnÃ© vÃ½pisy nebo nÃ¡povÄ›da)."
+msgstr "Zapne tichý boot mód (žádné výpisy nebo nápověda)."
 
 #. type: "ShowInfo_title"
 #: Resources/templates/Localizable.strings:76
@@ -447,7 +441,7 @@ msgstr "ShowInfo=Yes"
 #: Resources/templates/Localizable.strings:77
 #, no-wrap
 msgid "Enables display of partition and resolution details shown on the left side of the GUI under the boot banner. This is useful information for troubleshooting, though can clash with certain themes."
-msgstr "Zapne zobrazenÃ­ detailÅ¯ o oddÃ­lu a rozliÅ¡enÃ­ obrazu na levÃ© stranÄ› GUI pod boot bannerem. To je uÅ¾iteÄnÃ© pÅ™i Å™eÅ¡enÃ­ problÃ©mÅ¯, ale nemusÃ­ fungovat sprÃ¡vnÄ› s nÄ›kterÃ½mi tÃ©maty."
+msgstr "Zapne zobrazení detailů o oddílu a rozlišení obrazu na levé straně GUI pod boot bannerem. To je užitečné při řešení problémů, ale nemusí fungovat správně s některými tématy."
 
 #. type: "Wait_title"
 #: Resources/templates/Localizable.strings:79
@@ -459,7 +453,7 @@ msgstr "Wait=Yes"
 #: Resources/templates/Localizable.strings:80
 #, no-wrap
 msgid "Pauses the boot process after Chameleon has finished it's setup then waits for a key press before it starts the mach kernel. Useful when combined with verbose boot for troubleshooting."
-msgstr "PozastavÃ­ proces zavÃ¡dÄ›nÃ­ po tÃ© co Chameleon dokonÄÃ­ svÃ© nastavenÃ­ a pak ÄekÃ¡ na stisk klÃ¡vesy neÅ¾ spustÃ­ mach kernel. UÅ¾iteÄnÃ© v kombinaci s verbose boot pÅ™i Å™eÅ¡enÃ­ problÃ©mÅ¯."
+msgstr "Pozastaví proces zavádění po té co Chameleon dokončí své nastavení a pak čeká na stisk klávesy než spustí mach kernel. Užitečné v kombinaci s verbose boot při řešení problémů."
 
 #. type: "arch_title"
 #: Resources/templates/Localizable.strings:84
@@ -471,7 +465,7 @@ msgstr "arch=i386"
 #: Resources/templates/Localizable.strings:85
 #, no-wrap
 msgid "Boots the kernel in 32bit mode rather than the default 64bit mode."
-msgstr "SpustÃ­ kernel ve 32bit mÃ³du namÃ­sto vÃ½chozÃ­ho 64bit mÃ³du."
+msgstr "Spustí kernel ve 32bit módu namísto výchozího 64bit módu."
 
 #. type: "EHCIacquire_title"
 #: Resources/templates/Localizable.strings:87
@@ -483,7 +477,7 @@ msgstr "EHCIacquire=Yes"
 #: Resources/templates/Localizable.strings:88
 #, no-wrap
 msgid "Enables the option to fix any EHCI ownership issues due to bad bioses."
-msgstr "PovolÃ­ moÅ¾nost opravit problÃ©my tÃ½kajÃ­cÃ­ se vlastnickÃ½ch prÃ¡v v EHCI zpÅ¯sobenÃ© vadnÃ½mi BIOSy."
+msgstr "Povolí možnost opravit problémy týkající se vlastnických práv v EHCI způsobené vadnými BIOSy."
 
 #. type: "EthernetBuiltIn_title"
 #: Resources/templates/Localizable.strings:90
@@ -495,7 +489,7 @@ msgstr "EthernetBuiltIn=Yes"
 #: Resources/templates/Localizable.strings:91
 #, no-wrap
 msgid "Enables the option of adding 'built-in' to your ethernet devices."
-msgstr "PovolÃ­ moÅ¾nost pÅ™idÃ¡nÃ­ 'built-in' do vaÅ¡ich sÃ­Å¥ovÃ½ch karet."
+msgstr "Povolí možnost přidání 'built-in' do vašich síťových karet."
 
 #. type: "ForceHPET_title"
 #: Resources/templates/Localizable.strings:93
@@ -507,7 +501,7 @@ msgstr "ForceHPET=Yes"
 #: Resources/templates/Localizable.strings:94
 #, no-wrap
 msgid "Enables HPET on intel chipsets, for bioses that dont include the option."
-msgstr "PovolÃ­ HPET na intel chipsetech, pro BIOSy kterÃ© tuto moÅ¾nost neobsahujÃ­."
+msgstr "Povolí HPET na intel chipsetech, pro BIOSy které tuto možnost neobsahují."
 
 #. type: "ForceWake_title"
 #: Resources/templates/Localizable.strings:96
@@ -519,7 +513,7 @@ msgstr "ForceWake=Yes"
 #: Resources/templates/Localizable.strings:97
 #, no-wrap
 msgid "This option enables you to bypass bad sleep images."
-msgstr "Tato moÅ¾nost vÃ¡m dovolÃ­ obejÃ­t vadnÃ© sleep images."
+msgstr "Tato možnost vám dovolí obejít vadné sleep images."
 
 #. type: "RestartFix_title"
 #: Resources/templates/Localizable.strings:99
@@ -543,7 +537,7 @@ msgstr "UHCIreset=Yes"
 #: Resources/templates/Localizable.strings:103
 #, no-wrap
 msgid "Enables the option to reset UHCI controllers before starting OS X."
-msgstr "PovolÃ­ moÅ¾nost resetu UHCI Å™adiÄe pÅ™ed startem OS X."
+msgstr "Povolí možnost resetu UHCI řadiče před startem OS X."
 
 #. type: "UseMemDetect_title"
 #: Resources/templates/Localizable.strings:105
@@ -555,7 +549,7 @@ msgstr "UseMemDetect=No"
 #: Resources/templates/Localizable.strings:106
 #, no-wrap
 msgid "Disables the automatically enabled RAM recognition."
-msgstr "Vypne automaticky povolenÃ© rozpoznÃ¡vÃ¡nÃ­ RAM."
+msgstr "Vypne automaticky povolené rozpoznávání RAM."
 
 #. type: "UseKernelCache_title"
 #: Resources/templates/Localizable.strings:108
@@ -567,7 +561,7 @@ msgstr "UseKernelCache=Yes"
 #: Resources/templates/Localizable.strings:109
 #, no-wrap
 msgid "For Lion only. Enables loading of the pre-linked kernel. This will ignore /E/E and /S/L/E. ONLY use this is you have know it contains everything you need."
-msgstr "Pouze pro Lion. PovolÃ­ naÄtenÃ­ pre-linked kernelu. Ignoruje /E/E a /S/L/E. NEPOUÅ½ÃVEJTE pokud nevÃ­te zda obsahuje vÅ¡e co potÅ™ebujete."
+msgstr "Pouze pro Lion. Povolí načtení pre-linked kernelu. Ignoruje /E/E a /S/L/E. NEPOUŽÍVEJTE pokud nevíte zda obsahuje vše co potřebujete."
 
 #. type: "Wake_title"
 #: Resources/templates/Localizable.strings:111
@@ -579,7 +573,7 @@ msgstr "Wake=Yes"
 #: Resources/templates/Localizable.strings:112
 #, no-wrap
 msgid "Attempts to load the sleep image saved from last hibernation."
-msgstr "PokusÃ­ se naÄÃ­st sleep image uloÅ¾enÃ½ z poslednÃ­ hibernace."
+msgstr "Pokusí se načíst sleep image uložený z poslední hibernace."
 
 #. type: "CSTUsingSystemIO_title"
 #: Resources/templates/Localizable.strings:116
@@ -591,7 +585,7 @@ msgstr "CSTUsingSystemIO=Yes"
 #: Resources/templates/Localizable.strings:117
 #, no-wrap
 msgid "New C-State _CST generation method using SystemIO registers instead of FixedHW."
-msgstr "NovÃ¡ metoda generovÃ¡nÃ­ C-State _CST za pouÅ¾itÃ­ SystemIO registrÅ¯ namÃ­sto FixedHW."
+msgstr "Nová metoda generování C-State _CST za použití SystemIO registrů namísto FixedHW."
 
 #. type: "DropSSDT_title"
 #: Resources/templates/Localizable.strings:119
@@ -603,7 +597,7 @@ msgstr "DropSSDT=Yes"
 #: Resources/templates/Localizable.strings:120
 #, no-wrap
 msgid "Discard the motherboard's built-in SSDT tables."
-msgstr "VyÅ™adÃ­ SSDT tabulky obsaÅ¾enÃ© v zÃ¡kladnÃ­ desce."
+msgstr "Vyřadí SSDT tabulky obsažené v základní desce."
 
 #. type: "EnableC2State_title"
 #: Resources/templates/Localizable.strings:122
@@ -615,7 +609,7 @@ msgstr "EnableC2State=Yes"
 #: Resources/templates/Localizable.strings:123
 #, no-wrap
 msgid "Enable specific Processor power state, C2."
-msgstr "PovolÃ­ specifickÃ½ stav napÃ¡jenÃ­ procesoru, C2."
+msgstr "Povolí specifický stav napájení procesoru, C2."
 
 #. type: "EnableC3State_title"
 #: Resources/templates/Localizable.strings:125
@@ -627,7 +621,7 @@ msgstr "EnableC3State=Yes"
 #: Resources/templates/Localizable.strings:126
 #, no-wrap
 msgid "Enable specific Processor power state, C3."
-msgstr "PovolÃ­ specifickÃ½ stav napÃ¡jenÃ­ procesoru, C3."
+msgstr "Povolí specifický stav napájení procesoru, C3."
 
 #. type: "EnableC4State_title"
 #: Resources/templates/Localizable.strings:128
@@ -639,7 +633,7 @@ msgstr "EnableC4State=Yes"
 #: Resources/templates/Localizable.strings:129
 #, no-wrap
 msgid "Enable specific Processor power state, C4."
-msgstr "PovolÃ­ specifickÃ½ stav napÃ¡jenÃ­ procesoru, C4."
+msgstr "Povolí specifický stav napájení procesoru, C4."
 
 #. type: "GenerateCStates_title"
 #: Resources/templates/Localizable.strings:131
@@ -651,7 +645,7 @@ msgstr "GenerateCStates=Yes"
 #: Resources/templates/Localizable.strings:132
 #, no-wrap
 msgid "Enable auto generation of processor idle sleep states (C-States)."
-msgstr "Zapne automatickÃ© generovÃ¡nÃ­ procesorovÃ½ch idle sleep stavÅ¯ (C-States)."
+msgstr "Zapne automatické generování procesorových idle sleep stavů (C-States)."
 
 #. type: "GeneratePStates_title"
 #: Resources/templates/Localizable.strings:134
@@ -663,7 +657,7 @@ msgstr "GeneratePStates=Yes"
 #: Resources/templates/Localizable.strings:135
 #, no-wrap
 msgid "Enable auto generation of processor power performance states (P-States)."
-msgstr "Zapne automatickÃ© generovÃ¡nÃ­ procesorovÃ½ch power performance stavÅ¯ (P-States)."
+msgstr "Zapne automatické generování procesorových power performance stavů (P-States)."
 
 #. type: "1024x600x32_title"
 #: Resources/templates/Localizable.strings:139
@@ -675,7 +669,7 @@ msgstr "1024x600x32"
 #: Resources/templates/Localizable.strings:140
 #, no-wrap
 msgid "Set Graphics Mode to 1024x600x32"
-msgstr "Nastavit rozliÅ¡enÃ­ na 1024x600x32"
+msgstr "Nastavit rozlišení na 1024x600x32"
 
 #. type: "1024x768x32_title"
 #: Resources/templates/Localizable.strings:142
@@ -687,7 +681,7 @@ msgstr "1024x768x32"
 #: Resources/templates/Localizable.strings:143
 #, no-wrap
 msgid "Set Graphics Mode to 1024x768x32"
-msgstr "Nastavit rozliÅ¡enÃ­ na 1024x768x32"
+msgstr "Nastavit rozlišení na 1024x768x32"
 
 #. type: "1280x768x32_title"
 #: Resources/templates/Localizable.strings:145
@@ -699,7 +693,7 @@ msgstr "1280x768x32"
 #: Resources/templates/Localizable.strings:146
 #, no-wrap
 msgid "Set Graphics Mode to 1280x768x32"
-msgstr "Nastavit rozliÅ¡enÃ­ na 1280x768x32"
+msgstr "Nastavit rozlišení na 1280x768x32"
 
 #. type: "1280x800x32_title"
 #: Resources/templates/Localizable.strings:148
@@ -711,7 +705,7 @@ msgstr "1280x800x32"
 #: Resources/templates/Localizable.strings:149
 #, no-wrap
 msgid "Set Graphics Mode to 1280x800x32"
-msgstr "Nastavit rozliÅ¡enÃ­ na 1280x800x32"
+msgstr "Nastavit rozlišení na 1280x800x32"
 
 #. type: "1280x1024x32_title"
 #: Resources/templates/Localizable.strings:151
@@ -723,7 +717,7 @@ msgstr "1280x1024x32"
 #: Resources/templates/Localizable.strings:152
 #, no-wrap
 msgid "Set Graphics Mode to 1280x1024x32"
-msgstr "Nastavit rozliÅ¡enÃ­ na 1280x1024x32"
+msgstr "Nastavit rozlišení na 1280x1024x32"
 
 #. type: "1280x960x32_title"
 #: Resources/templates/Localizable.strings:154
@@ -735,7 +729,7 @@ msgstr "1280x960x32"
 #: Resources/templates/Localizable.strings:155
 #, no-wrap
 msgid "Set Graphics Mode to 1280x960x32"
-msgstr "Nastavit rozliÅ¡enÃ­ na 1280x960x32"
+msgstr "Nastavit rozlišení na 1280x960x32"
 
 #. type: "1440x900x32_title"
 #: Resources/templates/Localizable.strings:157
@@ -747,7 +741,7 @@ msgstr "1440x900x32"
 #: Resources/templates/Localizable.strings:158
 #, no-wrap
 msgid "Set Graphics Mode to 1440x900x32"
-msgstr "Nastavit rozliÅ¡enÃ­ na 1440x900x32"
+msgstr "Nastavit rozlišení na 1440x900x32"
 
 #. type: "1600x900x32_title"
 #: Resources/templates/Localizable.strings:160
@@ -759,7 +753,7 @@ msgstr "1600x900x32"
 #: Resources/templates/Localizable.strings:161
 #, no-wrap
 msgid "Set Graphics Mode to 1600x900x32"
-msgstr "Nastavit rozliÅ¡enÃ­ na 1600x900x32"
+msgstr "Nastavit rozlišení na 1600x900x32"
 
 #. type: "1600x1200x32_title"
 #: Resources/templates/Localizable.strings:163
@@ -771,7 +765,7 @@ msgstr "1600x1200x32"
 #: Resources/templates/Localizable.strings:164
 #, no-wrap
 msgid "Set Graphics Mode to 1600x1200x32"
-msgstr "Nastavit rozliÅ¡enÃ­ na 1600x1200x32"
+msgstr "Nastavit rozlišení na 1600x1200x32"
 
 #. type: "1680x1050x32_title"
 #: Resources/templates/Localizable.strings:166
@@ -783,7 +777,7 @@ msgstr "1680x1050x32"
 #: Resources/templates/Localizable.strings:167
 #, no-wrap
 msgid "Set Graphics Mode to 1680x1050x32"
-msgstr "Nastavit rozliÅ¡enÃ­ na 1680x1050x32"
+msgstr "Nastavit rozlišení na 1680x1050x32"
 
 #. type: "1920x1080x32_title"
 #: Resources/templates/Localizable.strings:169
@@ -795,7 +789,7 @@ msgstr "1920x1080x32"
 #: Resources/templates/Localizable.strings:170
 #, no-wrap
 msgid "Set Graphics Mode to 1920x1080x32"
-msgstr "Nastavit rozliÅ¡enÃ­ na 1920x1080x32"
+msgstr "Nastavit rozlišení na 1920x1080x32"
 
 #. type: "1920x1200x32_title"
 #: Resources/templates/Localizable.strings:172
@@ -807,7 +801,7 @@ msgstr "1920x1200x32"
 #: Resources/templates/Localizable.strings:173
 #, no-wrap
 msgid "Set Graphics Mode to 1920x1200x32"
-msgstr "Nastavit rozliÅ¡enÃ­ na 1920x1200x32"
+msgstr "Nastavit rozlišení na 1920x1200x32"
 
 #. type: "GraphicsEnabler_title"
 #: Resources/templates/Localizable.strings:177
@@ -819,13 +813,13 @@ msgstr "GraphicsEnabler=Yes"
 #: Resources/templates/Localizable.strings:178
 #, no-wrap
 msgid "Enables the option to autodetect NVIDIA based GPUs and inject the correct info."
-msgstr "PovolÃ­ moÅ¾nost autodetekce graf. karet NVIDIA a vloÅ¾it o nÃ­ korektnÃ­ informace."
+msgstr "Povolí možnost autodetekce graf. karet NVIDIA a vložit o ní korektní informace."
 
 #. type: "EnableHDMIAudio_title"
 #: Resources/templates/Localizable.strings:180
 #, no-wrap
 msgid "EnableHDMIAudio=Yes"
-msgstr ""
+msgstr "EnableHDMIAudio=Yes"
 
 #. type: "EnableHDMIAudio_description"
 #: Resources/templates/Localizable.strings:181
@@ -843,7 +837,7 @@ msgstr "UseAtiROM=Yes"
 #: Resources/templates/Localizable.strings:184
 #, no-wrap
 msgid "Enables UseAtiROM options."
-msgstr "Zapnout UseAtiROM nastavenÃ­"
+msgstr "Zapnout UseAtiROM nastavení"
 
 #. type: "UseNvidiaROM_title"
 #: Resources/templates/Localizable.strings:186
@@ -855,7 +849,7 @@ msgstr "UseNvidiaROM=Yes"
 #: Resources/templates/Localizable.strings:187
 #, no-wrap
 msgid "Enables UseNvidiaROM options."
-msgstr "Zapnout UseNvidiaROM nastavenÃ­"
+msgstr "Zapnout UseNvidiaROM nastavení"
 
 #. type: "VBIOS_title"
 #: Resources/templates/Localizable.strings:189
@@ -867,13 +861,13 @@ msgstr "VBIOS=Yes"
 #: Resources/templates/Localizable.strings:190
 #, no-wrap
 msgid "Enables VBIOS option"
-msgstr "Zapnout VBIOS nastavenÃ­"
+msgstr "Zapnout VBIOS nastavení"
 
 #. type: "Verbose_title"
 #: Resources/templates/Localizable.strings:195
 #, no-wrap
 msgid "Verbose Mode"
-msgstr "PodrobnÃ½ reÅ¾im"
+msgstr "Podrobný režim"
 
 #. type: "Verbose_description"
 #: Resources/templates/Localizable.strings:196
@@ -945,79 +939,79 @@ msgstr ""
 #: Resources/templates/Localizable.strings:217
 #, no-wrap
 msgid "German Mac Keyboard"
-msgstr "NÄ›meckÃ½ Mac klÃ¡vesnice"
+msgstr "Německý Mac klávesnice"
 
 #. type: "mac-de_description"
 #: Resources/templates/Localizable.strings:218
 #, no-wrap
 msgid "Use the keyboard layout for a German Mac keyboard"
-msgstr "PouÅ¾itÃ­ rozloÅ¾enÃ­ klÃ¡vesnice pro nÄ›meckou klÃ¡vesnici Mac"
+msgstr "Použití rozložení klávesnice pro německou klávesnici Mac"
 
 #. type: "mac-es_title"
 #: Resources/templates/Localizable.strings:220
 #, no-wrap
 msgid "Spanish Mac Keyboard"
-msgstr "Å panÄ›lskÃ¡ Mac klÃ¡vesnice"
+msgstr "Španělská Mac klávesnice"
 
 #. type: "mac-es_description"
 #: Resources/templates/Localizable.strings:221
 #, no-wrap
 msgid "Use the keyboard layout for a Spanish Mac keyboard"
-msgstr "PouÅ¾itÃ­ rozloÅ¾enÃ­ klÃ¡vesnice pro Å¡panÄ›lskou klÃ¡vesnici Mac"
+msgstr "Použití rozložení klávesnice pro španělskou klávesnici Mac"
 
 #. type: "mac-fr_title"
 #: Resources/templates/Localizable.strings:223
 #, no-wrap
 msgid "French Mac Keyboard"
-msgstr "Francouzsky Mac klÃ¡vesnice"
+msgstr "Francouzsky Mac klávesnice"
 
 #. type: "mac-fr_description"
 #: Resources/templates/Localizable.strings:224
 #, no-wrap
 msgid "Use the keyboard layout for a French Mac keyboard"
-msgstr "PouÅ¾itÃ­ rozloÅ¾enÃ­ klÃ¡vesnice pro francouzskou klÃ¡vesnici Mac"
+msgstr "Použití rozložení klávesnice pro francouzskou klávesnici Mac"
 
 #. type: "mac-it_title"
 #: Resources/templates/Localizable.strings:226
 #, no-wrap
 msgid "Italian Mac Keyboard"
-msgstr "ItalskÃ¡ Mac klÃ¡vesnice"
+msgstr "Italská Mac klávesnice"
 
 #. type: "mac-it_description"
 #: Resources/templates/Localizable.strings:227
 #, no-wrap
 msgid "Use the keyboard layout for an Italian Mac keyboard"
-msgstr "PouÅ¾itÃ­ rozloÅ¾enÃ­ klÃ¡vesnice pro italskou klÃ¡vesnici Mac"
+msgstr "Použití rozložení klávesnice pro italskou klávesnici Mac"
 
 #. type: "mac-se_title"
 #: Resources/templates/Localizable.strings:229
 #, no-wrap
 msgid "Swedish Mac Keyboard"
-msgstr "Å vÃ©dskÃ¡ Mac klÃ¡vesnice"
+msgstr "Švédská Mac klávesnice"
 
 #. type: "mac-se_description"
 #: Resources/templates/Localizable.strings:230
 #, no-wrap
 msgid "Use the keyboard layout for a Swedish Mac keyboard"
-msgstr "PouÅ¾itÃ­ rozloÅ¾enÃ­ klÃ¡vesnice pro Å¡vÃ©dskou klÃ¡vesnici Mac"
+msgstr "Použití rozložení klávesnice pro švédskou klávesnici Mac"
 
 #. type: "pc-fr_title"
 #: Resources/templates/Localizable.strings:232
 #, no-wrap
 msgid "French PC Keyboard"
-msgstr "Francouzsky PC klÃ¡vesnice"
+msgstr "Francouzsky PC klávesnice"
 
 #. type: "pc-fr_description"
 #: Resources/templates/Localizable.strings:233
 #, no-wrap
 msgid "Use the keyboard layout for a French PC keyboard"
-msgstr "PouÅ¾itÃ­ rozloÅ¾enÃ­ klÃ¡vesnice pro francouzskou klÃ¡vesnici Mac"
+msgstr "Použití rozložení klávesnice pro francouzskou klávesnici Mac"
 
 #. type: "Embed_title"
 #: Resources/templates/Localizable.strings:239
 #, no-wrap
 msgid "Embed"
-msgstr ""
+msgstr "Embed"
 
 #. type: "Embed_description"
 #: Resources/templates/Localizable.strings:240
@@ -1029,7 +1023,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:242
 #, no-wrap
 msgid "Legacy"
-msgstr ""
+msgstr "Legacy"
 
 #. type: "Legacy_description"
 #: Resources/templates/Localizable.strings:243
@@ -1047,7 +1041,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:248
 #, no-wrap
 msgid "Bullet"
-msgstr ""
+msgstr "Bullet"
 
 #. type: "Bullet_description"
 #: Resources/templates/Localizable.strings:249
@@ -1137,7 +1131,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:285
 #, no-wrap
 msgid "Themes"
-msgstr "TÃ©mata"
+msgstr "Témata"
 
 #. type: "Themes_description"
 #: Resources/templates/Localizable.strings:286
