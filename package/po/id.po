@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Chameleon 2.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-06 22:38+0000\n"
-"PO-Revision-Date: 2012-03-11 02:03-0000\n"
-"Last-Translator: ErmaC\n"
+"PO-Revision-Date: 2012-07-13 22:20+0700\n"
+"Last-Translator: Regi Yassin <regae.yassin@gmail.com>\n"
 "Language-Team: id <id@li.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgstr "v%CHAMELEONVERSION% r%CHAMELEONREVISION%"
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:25
 msgid "Do not install to an Apple Macintosh computer"
-msgstr "Jangan dinstall Apple Macintosh ASLI"
+msgstr "Jangan install di Apple Macintosh ASLI"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:27
@@ -44,7 +44,7 @@ msgstr "%DEVELOP%"
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:30
 msgid "Thanks to :"
-msgstr "Berterima kasih kepada :"
+msgstr "Terima kasih kepada :"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:31
@@ -54,7 +54,7 @@ msgstr "%CREDITS%"
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:33
 msgid "Package :"
-msgstr "Pakete :"
+msgstr "Paket :"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:34
@@ -62,67 +62,51 @@ msgid "%PKGDEV%"
 msgstr "%PKGDEV%"
 
 #. type: Content of: <html><body><div><p>
-#: Resources/templates/Welcome.html:36 Resources/templates/Conclusion.html:30
+#: Resources/templates/Welcome.html:36
+#: Resources/templates/Conclusion.html:30
 msgid "Package built by: %WHOBUILD%, language translated by: blackosx"
-msgstr ""
-"Package built by: %WHOBUILD%, language translated by: Rudolf Tingginehe & "
-"Babiloe"
+msgstr "Paket dibuat oleh: %WHOBUILD%, alih bahasa oleh: Rudolf Tingginehe & Babiloe, perbaikan bahasa oleh: Regi Yassin (regae) OSX-iNDO.com."
 
 #. type: Content of: <html><body><div><p>
-#: Resources/templates/Welcome.html:37 Resources/templates/Conclusion.html:31
+#: Resources/templates/Welcome.html:37
+#: Resources/templates/Conclusion.html:31
 msgid "Copyright © %CPRYEAR%"
-msgstr "Hak kopi © %CPRYEAR%"
+msgstr "Hak Cipta © %CPRYEAR%"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:18
-msgid ""
-"Chameleon is a boot loader built using a combination of components which "
-"evolved from the development of David Elliott's fake EFI implementation "
-"added to Apple's boot-132 project."
-msgstr ""
-"Chameleon adalah kombinasi dari berbagai macam komponen boot loader. "
-"Berbasiskan implementasi EFI palsu oleh David Elliott yang ditambahkan pada "
-"proyek Apple’s Boot-132"
+msgid "Chameleon is a boot loader built using a combination of components which evolved from the development of David Elliott's fake EFI implementation added to Apple's boot-132 project."
+msgstr "Chameleon adalah kombinasi dari berbagai macam komponen boot loader. Berbasiskan pada implementasi EFI palsu oleh David Elliott yang ditambahkan pada projek Apple’s Boot-132"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:20
 msgid "Chameleon v2 is extended with many features. For example:"
-msgstr "Fitur terbaru di Chameleon 2.0"
+msgstr "Chameleon 2.0 memiliki banyak fitur. Sebagai contoh:"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:22
 msgid "- Fully customizable GUI to bring some color to the Darwin Bootloader."
-msgstr ""
-"- GUI yang dapat diubah-suaikan dengan bebas untuk mewarnai Bootloader "
-"Darwin."
+msgstr "- GUI yang dapat diubah-sesuaikan dengan bebas untuk mewarnai Bootloader Darwin."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:23
-msgid ""
-"- Load a ramdisk to directly boot retail DVDs without additional programs."
-msgstr ""
-"- Jalankan DVD retail secara langsung dengan memuat sebuah image ramdisk "
-"tanpa bantuan program lain."
+msgid "- Load a ramdisk to directly boot retail DVDs without additional programs."
+msgstr "- Jalankan DVD retail secara langsung dengan memuat sebuah image ramdisk tanpa bantuan program lain."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:24
 msgid "- Hibernation. Enjoy resuming your Mac OS X with a preview image."
-msgstr ""
-"- Hibernasi. Nikmati melanjutkan pekerjaan pada Mac OS X anda dengan "
-"“pratinjau image”."
+msgstr "- Hibernasi. Nikmati melanjutkan pekerjaan pada Mac OS X anda dengan “pratinjau image”."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:25
 msgid "- SMBIOS override to modify the factory SMBIOS values."
-msgstr "- SMBIOS override unutk memodifikasi SMBIOS bawaan."
+msgstr "- Mengganti SMBIOS untuk merubah SMBIOS bawaan."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:26
-msgid ""
-"- DSDT override to use a modified fixed DSDT which can solve several issues."
-msgstr ""
-"- DSDT override unutk menggunakan modifikasi tertentu dari DSDT yang dapat "
-"menyelesaikan isu-isu tertentu."
+msgid "- DSDT override to use a modified fixed DSDT which can solve several issues."
+msgstr "- Mengganti DSDT untuk memakai modifikasi tertentu dari DSDT yang dapat menyelesaikan isu-isu tertentu."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:27
@@ -132,7 +116,7 @@ msgstr "- Device Property Injection melalui string device-properties."
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:28
 msgid "- hybrid boot0 / boot1h for MBR and GPT partitioned disks."
-msgstr "- hybrid boot0 / boot1h for MBR dan Media partisi GPT."
+msgstr "- hybrid boot0 / boot1h untuk MBR dan Media partisi GPT."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:29
@@ -157,24 +141,22 @@ msgstr "- Modul Chameleon"
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:33
 msgid "- Memory detection adapted from memtest86:&nbsp;"
-msgstr "- Memory detection adapted from memtest86:&nbsp;"
+msgstr "- Pendeteksian Memory diadaptasi dari memtest86:&nbsp;"
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:34
-msgid ""
-"- Automatic P-State &amp; C-State generation for native power management."
-msgstr ""
-"- Automatic P-State &amp; C-State generation for native power management."
+msgid "- Automatic P-State &amp; C-State generation for native power management."
+msgstr "- Menghasilkan P-State &amp; C-State secara otomatis untuk native power management."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:35
 msgid "- Message logging."
-msgstr "- Message logging."
+msgstr "- Pencatatan pesan."
 
 #. type: Content of: <html><body><p>
 #: Resources/templates/Description.html:37
 msgid "The code is released under version 2 of the Gnu Public License."
-msgstr "The code is released under version 2 of the Gnu Public License."
+msgstr "Kode ini dirilis di bawah versi 2 dari Lisensi Publik GNU."
 
 #. type: Content of: <html><body><p><span>
 #: Resources/templates/Description.html:40
@@ -208,12 +190,8 @@ msgstr "baca"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:26
-msgid ""
-"&nbsp;to find out if the installation was successful and keep it for a "
-"record of what was done."
-msgstr ""
-"&nbsp;berkas itu dan perhatikan apakah instalasi telah sukses, dan simpan "
-"berkas tersebut jika selesai."
+msgid "&nbsp;to find out if the installation was successful and keep it for a record of what was done."
+msgstr "&nbsp;berkas itu dan perhatikan apakah instalasi telah sukses, dan simpan berkas tersebut jika selesai."
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Conclusion.html:28
@@ -275,7 +253,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:245
 #, no-wrap
 msgid "Standard"
-msgstr "Chameleon Standard"
+msgstr "Standar"
 
 #. type: "Standard_description"
 #: Resources/templates/Localizable.strings:26
@@ -289,7 +267,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:28
 #, no-wrap
 msgid "Don't install the Bootloader"
-msgstr "Nihil"
+msgstr "Jangan install Bootloader"
 
 #. type: "noboot_description"
 #: Resources/templates/Localizable.strings:29
@@ -307,7 +285,7 @@ msgstr "Modul Chameleon"
 #: Resources/templates/Localizable.strings:36
 #, no-wrap
 msgid "The modules system incorporated in chameleon allows for a user or developer to extend the core functionality of chameleon without replacing the main boot file."
-msgstr "The modules system incorporated in chameleon allows for a user or developer to extend the core functionality of chameleon without replacing the main boot file."
+msgstr "Sistem modul yang tergabung dalam chameleon memungkinkan pengguna atau pengembang untuk memperluas fungsionalitas inti dari chameleon tanpa mengganti file boot utama."
 
 #. type: "klibc_title"
 #: Resources/templates/Localizable.strings:38
@@ -398,7 +376,7 @@ msgstr "GUI=No"
 #: Resources/templates/Localizable.strings:65
 #, no-wrap
 msgid "Disables the default enabled graphic user interface."
-msgstr "Menonaktifkan GUI."
+msgstr "Menonaktifkan GUI (Tampilan Dasar Pengguna)"
 
 #. type: "LegacyLogo_title"
 #: Resources/templates/Localizable.strings:67
@@ -410,7 +388,7 @@ msgstr "LegacyLogo=Yes"
 #: Resources/templates/Localizable.strings:68
 #, no-wrap
 msgid "Use the legacy 'dark grey' apple logo on the light grey screen for the boot process rather than the boot.png in the theme."
-msgstr "Menggunakan logo asli apple (abu-abu pada latar belakang putih) pada saat proses booting daripada berkas boot.png yang ada pada tema."
+msgstr "Menggunakan logo asli apple (abu-abu pada latar belakang putih) pada saat proses booting dan mengabaikan berkas boot.png yang ada pada tema."
 
 #. type: "InstantMenu_title"
 #: Resources/templates/Localizable.strings:70
@@ -842,7 +820,7 @@ msgstr "UseAtiROM=Yes"
 #: Resources/templates/Localizable.strings:184
 #, no-wrap
 msgid "Enables UseAtiROM options."
-msgstr "Mengaktifkan opsi 'Gunakan ROM ATi'."
+msgstr "Mengaktifkan opsi 'UseAtiROM'."
 
 #. type: "UseNvidiaROM_title"
 #: Resources/templates/Localizable.strings:186
@@ -854,7 +832,7 @@ msgstr "UseNvidiaROM=Yes"
 #: Resources/templates/Localizable.strings:187
 #, no-wrap
 msgid "Enables UseNvidiaROM options."
-msgstr "Mengaktifkan opsi 'Gunakan ROM nVidia'."
+msgstr "Mengaktifkan opsi 'UseNvidiaROM'."
 
 #. type: "VBIOS_title"
 #: Resources/templates/Localizable.strings:189
@@ -872,7 +850,7 @@ msgstr "Mengaktifkan opsi VBIOS."
 #: Resources/templates/Localizable.strings:195
 #, no-wrap
 msgid "Verbose Mode"
-msgstr "Verbose Mode"
+msgstr "Mode Verbose."
 
 #. type: "Verbose_description"
 #: Resources/templates/Localizable.strings:196
@@ -884,7 +862,7 @@ msgstr "Menyalakan modus terlampir (verbose) dari Chameleon dan kernel OS X kern
 #: Resources/templates/Localizable.strings:198
 #, no-wrap
 msgid "Single User Mode"
-msgstr "Single User Mode"
+msgstr "Mode Single User"
 
 #. type: "Singleusermode_description"
 #: Resources/templates/Localizable.strings:199
@@ -896,7 +874,7 @@ msgstr "Modus opsi penyelesaian masalah dengan booting S X's BSD/Unix ke modus t
 #: Resources/templates/Localizable.strings:201
 #, no-wrap
 msgid "Ignore Caches"
-msgstr "Ignore Caches"
+msgstr "Abaikan Cache"
 
 #. type: "Ignorecaches_description"
 #: Resources/templates/Localizable.strings:202
@@ -1106,7 +1084,7 @@ msgstr "Pilihan yang berhubungan dengan manajemen daya prosesor dan perubahan ke
 #: Resources/templates/Localizable.strings:274
 #, no-wrap
 msgid "Set one resolution to use."
-msgstr "Set one resolution to use."
+msgstr "Pilih salah satu resolusi yang ingin di gunakan."
 
 #. type: "Video_title"
 #: Resources/templates/Localizable.strings:277
@@ -1130,7 +1108,7 @@ msgstr "Layout keyboard"
 #: Resources/templates/Localizable.strings:282
 #, no-wrap
 msgid "Select one keylayout to use. This will also install the Keylayout module and keymaps."
-msgstr "Select one keylayout to use. This will also install the Keylayout module and keymaps."
+msgstr "Pilih salah satu keylayout yang ingin digunakan. Ini juga akan menginstal modul keylayout dan keymap."
 
 #. type: "Themes_title"
 #: Resources/templates/Localizable.strings:285
