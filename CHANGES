@@ -1,3 +1,6 @@
+- cparm : Added a Sata module, known as YellowIconFixer in my branch, useful to fix yellow icon issue (can also fix an issue with the apple's dvd player application in moutain lion)
+  , for now not added in the pkg script !!! 
+
 - cparm : Ported the OS detection to the trunk, updated the default theme to v 1.1 (credit to blackosx) 
 
 - Added AtiPorts option to GraphicsEnabler, so users can override the default number of ports. It proved

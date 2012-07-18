@@ -33,6 +33,10 @@ ifdef CONFIG_KEYLAYOUT_MODULE
 SUBDIRS += Keylayout
 endif
 
+ifdef CONFIG_SATA_MODULE
+SUBDIRS += sata
+endif
+
 CFLAGS= -O3 $(MORECPP) -arch i386 -g -static
 DEFINES=
 CONFIG = hd

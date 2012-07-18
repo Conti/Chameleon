@@ -1116,6 +1116,9 @@
 		A396E5761502D0580025A245 /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.rtfd; name = zh_TW; path = zh_TW.lproj/Welcome.rtfd; sourceTree = "<group>"; };
 		A396E5821502D3320025A245 /* Conclusion.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Conclusion.html; sourceTree = "<group>"; };
 		A3F1F267141B9B3B00DDA709 /* Readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme.txt; sourceTree = "<group>"; };
+		AB1DE71815B6E2D00088E06B /* Cconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cconfig; sourceTree = "<group>"; };
+		AB1DE71A15B6E2D00088E06B /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		AB1DE71B15B6E2D00088E06B /* Sata.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Sata.c; sourceTree = "<group>"; };
 		B0056CE711F3868000754B65 /* boot0.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = boot0.s; sourceTree = "<group>"; };
 		B0056CE811F3868000754B65 /* chain0.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = chain0.s; sourceTree = "<group>"; };
 		B0056CE911F3868000754B65 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
@@ -2685,6 +2688,7 @@
 				A3561D021414024D00E9B51E /* MakeInc.dir */,
 				A3561D031414024D00E9B51E /* Modules.txt */,
 				A3561D041414024D00E9B51E /* Resolution */,
+				AB1DE71715B6E2D00088E06B /* Sata */,
 				A3561D0F1414024D00E9B51E /* uClibcxx */,
 			);
 			path = modules;
@@ -3041,6 +3045,24 @@
 				A354B62B149514DE00D81AA5 /* Sub */,
 			);
 			path = Scripts;
+			sourceTree = "<group>";
+		};
+		AB1DE71715B6E2D00088E06B /* Sata */ = {
+			isa = PBXGroup;
+			children = (
+				AB1DE71815B6E2D00088E06B /* Cconfig */,
+				AB1DE71915B6E2D00088E06B /* include */,
+				AB1DE71A15B6E2D00088E06B /* Makefile */,
+				AB1DE71B15B6E2D00088E06B /* Sata.c */,
+			);
+			path = Sata;
+			sourceTree = "<group>";
+		};
+		AB1DE71915B6E2D00088E06B /* include */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = include;
 			sourceTree = "<group>";
 		};
 		B0056CE511F3868000754B65 /* i386 */ = {
