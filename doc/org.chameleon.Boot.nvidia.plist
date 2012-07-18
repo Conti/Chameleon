@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Default Partition</key>
+	<string></string>
+	<key>GraphicsEnabler</key>
+	<string>Yes</string>
+	<key>Kernel</key>
+	<string>mach_kernel</string>
+	<key>Kernel Flags</key>
+	<string></string>
+	<key>NVIDIA</key>
+	<array>
+		<dict>
+			<key>Chipset Name</key>
+			<string>Quadro FX 380</string>
+			<key>IOPCIPrimaryMatch</key>
+			<string>0x10DE0658</string>
+			<key>IOPCISubDevId</key>
+			<string>0x00000000</string>
+			<key>VRam Size</key>
+			<string>256</string>
+		</dict>
+	</array>
+	<key>Quiet Boot</key>
+	<string>No</string>
+	<key>Timeout</key>
+	<string>5</string>
+</dict>
+</plist>

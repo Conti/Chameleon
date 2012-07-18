@@ -1119,6 +1119,9 @@
 		AB1DE71815B6E2D00088E06B /* Cconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cconfig; sourceTree = "<group>"; };
 		AB1DE71A15B6E2D00088E06B /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		AB1DE71B15B6E2D00088E06B /* Sata.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Sata.c; sourceTree = "<group>"; };
+		AB47D38A15B702F00083D898 /* org.chameleon.Boot.nvidia.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = org.chameleon.Boot.nvidia.plist; sourceTree = "<group>"; };
+		ABE4A59C15B6EA73007812A6 /* nvidia_helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nvidia_helper.h; sourceTree = "<group>"; };
+		ABE4A59D15B6EA73007812A6 /* nvidia_helper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = nvidia_helper.c; sourceTree = "<group>"; };
 		B0056CE711F3868000754B65 /* boot0.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = boot0.s; sourceTree = "<group>"; };
 		B0056CE811F3868000754B65 /* chain0.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = chain0.s; sourceTree = "<group>"; };
 		B0056CE911F3868000754B65 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
@@ -3253,6 +3256,8 @@
 				B0056D5811F3868000754B65 /* ntfs_private.h */,
 				B0056D5911F3868000754B65 /* nvidia.c */,
 				B0056D5A11F3868000754B65 /* nvidia.h */,
+				ABE4A59C15B6EA73007812A6 /* nvidia_helper.h */,
+				ABE4A59D15B6EA73007812A6 /* nvidia_helper.c */,
 				B0056D5B11F3868000754B65 /* pci.c */,
 				B0056D5C11F3868000754B65 /* pci.h */,
 				B0056D5D11F3868000754B65 /* pci_root.c */,
@@ -3479,6 +3484,7 @@
 			children = (
 				B0056E0711F3868000754B65 /* archive */,
 				B0056E0B11F3868000754B65 /* BootHelp.txt */,
+				AB47D38A15B702F00083D898 /* org.chameleon.Boot.nvidia.plist */,
 				B0056E0C11F3868000754B65 /* README */,
 				B0056E0D11F3868000754B65 /* themeinfo.png */,
 				B0056E0E11F3868000754B65 /* User_Guide_src */,
