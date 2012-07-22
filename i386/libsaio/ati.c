@@ -273,7 +273,8 @@ static radeon_card_info_t radeon_cards[] = {
 	{ 0x9490,	0x300017AF, CHIP_FAMILY_RV730,		"ATI Radeon HD 4710",				kNull		},
 	
 	{ 0x9498,	0x21CF1458, CHIP_FAMILY_RV730,		"ATI Radeon HD 4600 Series",			kNull		},
-	
+ 	{ 0x9498,	0x10001043, CHIP_FAMILY_RV730,		"ASUS EAHG4670",                   		kNull		},
+	{ 0x9498,	0x20091787, CHIP_FAMILY_RV730,		"ATI Radeon HD 4650", 				kNull		},
 	{ 0x9498,	0x24511682, CHIP_FAMILY_RV730,		"ATI Radeon HD 4650",				kNull		},
 	{ 0x9498,	0x24521682, CHIP_FAMILY_RV730,		"ATI Radeon HD 4650",				kNull		},
 	{ 0x9498,	0x24541682, CHIP_FAMILY_RV730,		"ATI Radeon HD 4650",				kNull		},

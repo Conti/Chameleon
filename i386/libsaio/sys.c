@@ -343,6 +343,7 @@ long GetFileInfo(const char * dirSpec, const char * name,
         } else {
             idx++;
             strncpy(gMakeDirSpec, name, idx);
+            gMakeDirSpec[idx] = '\0';
             name += idx;
         }
         dirSpec = gMakeDirSpec;

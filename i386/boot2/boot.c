@@ -272,15 +272,6 @@ long LoadKernelCache(const char* cacheFile, void **binary) {
 		}
 	}
 
-	// kernelCacheFile must start with a /
-	if (kernelCacheFile[0] != '/') {
-		char *str = strdup(kernelCacheFile);
-		if (str == NULL)
-			return -1;
-		sprintf(kernelCacheFile, "/%s", str);
-		free(str);
-	}
-
 	// Check if the kernel cache file exists
 	ret = -1;
 
