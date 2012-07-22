@@ -40,6 +40,10 @@ boot2 (On the partition's root directory) for loading kernel etc.";
 This is currently only used by the uClibc++ library.
 Source: http://www.kernel.org/pub/linux/libs/klibc/";
 
+"Sata_title" = "Sata";
+"Sata_description" = "Sata module, known as YellowIconFixer in cparm's branch.
+Useful to fix yellow icon issue (can also fix an issue with the Apple's dvd player application in Mountain lion).";
+
 "AutoReso_title" = "Resolution";
 "AutoReso_description" = "This module reads the edid information from the monitor attached to the main display.
 The module is currently not integrated into trunk and has minimal uses as it stands.
