@@ -37,6 +37,10 @@ ifdef CONFIG_SATA_MODULE
 SUBDIRS += sata
 endif
 
+ifdef CONFIG_ACPICODEC_MODULE
+SUBDIRS += ACPICodec
+endif
+
 CFLAGS= -O3 $(MORECPP) -arch i386 -g -static
 DEFINES=
 CONFIG = hd

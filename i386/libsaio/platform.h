@@ -23,11 +23,12 @@ extern void dumpPhysAddr(const char * title, void * a, int len);
 #define CPUID_2				2
 #define CPUID_3				3
 #define CPUID_4				4
-#define CPUID_6				5
-#define CPUID_80			6
-#define CPUID_81			7
-#define CPUID_88			8
-#define CPUID_MAX			9
+#define CPUID_5				5
+#define CPUID_6				6
+#define CPUID_80			7
+#define CPUID_81			8
+#define CPUID_88			9
+#define CPUID_MAX			10
 
 #define CPU_MODEL_DOTHAN		0x0D			// Dothan
 #define CPU_MODEL_YONAH			0x0E			// Sossaman, Yonah

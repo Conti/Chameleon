@@ -238,6 +238,12 @@ void scan_cpu(PlatformInfo_t *p)
 	do_cpuid(0x00000003, p->CPU.CPUID[CPUID_3]);
 	do_cpuid2(0x00000004, 0, p->CPU.CPUID[CPUID_4]);
 	do_cpuid(0x80000000, p->CPU.CPUID[CPUID_80]);
+	if (p->CPU.CPUID[CPUID_0][0] >= 0x5) {		
+		do_cpuid(5,  p->CPU.CPUID[CPUID_5]);        	
+	}	
+	if (p->CPU.CPUID[CPUID_0][0] >= 6) {
+		do_cpuid(6, p->CPU.CPUID[CPUID_6]);		
+	}
 	if ((p->CPU.CPUID[CPUID_80][0] & 0x0000000f) >= 8) {
 		do_cpuid(0x80000008, p->CPU.CPUID[CPUID_88]);
 		do_cpuid(0x80000001, p->CPU.CPUID[CPUID_81]);
