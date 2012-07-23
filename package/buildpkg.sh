@@ -28,6 +28,7 @@ CONFIG_MODULES=""
 CONFIG_KLIBC_MODULE=""
 CONFIG_UCLIBCXX_MODULE=""
 CONFIG_SATA_MODULE=""
+CONFIG_ACPICODEC_MODULE=""
 CONFIG_RESOLUTION_MODULE=""
 CONFIG_KEYLAYOUT_MODULE=""
 source "${SRCROOT}/auto.conf"
@@ -524,6 +525,7 @@ if [[ "${CONFIG_MODULES}" == 'y' ]];then
     # Resolution.dylib            #
     # uClibcxx.dylib              #
     # Sata.dylib                  #
+    # ACPICodec.dylib             #
     # Keylayout.dylib             #
     ###############################
     if [ "$(ls -A "${SYMROOT}/i386/modules")" ]; then
@@ -616,7 +618,26 @@ if [[ "${CONFIG_MODULES}" == 'y' ]];then
         fi
 
 # -
-        # Warning Keylayout module need additional files
+        if [[ "${CONFIG_ACPICODEC_MODULE}" == 'm' && -f "${SYMROOT}/i386/modules/ACPICodec.dylib" ]]; then
+        {
+            # Start build ACPICodec package module
+            choiceId="ACPICodec"
+            moduleFile="ACPICodec.dylib"
+            mkdir -p "${PKG_BUILD_DIR}/${choiceId}/Root"
+            ditto --noextattr --noqtn "${SYMROOT}/i386/modules/$moduleFile" "${PKG_BUILD_DIR}/${choiceId}/Root"
+            addTemplateScripts --pkg-rootdir="${PKG_BUILD_DIR}/${choiceId}" \
+                               --subst="moduleName=$choiceId"               \
+                               --subst="moduleFile=$moduleFile"             \
+                               InstallModule
+
+            packageRefId=$(getPackageRefId "${modules_packages_identity}" "${choiceId}")
+            buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/Extra/modules"
+            addChoice --group="Module"  --start-selected="false"  --pkg-refs="$packageRefId" "${choiceId}"
+            # End build ACPICodec package module
+        }
+        fi
+
+# -        # Warning Keylayout module need additional files
         if [[ "${CONFIG_KEYLAYOUT_MODULE}" = 'm' && -f "${SYMROOT}/i386/modules/Keylayout.dylib" ]]; then
         {
             # Start build Keylayout package module
