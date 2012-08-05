@@ -389,14 +389,19 @@ bool getSMBValueForKey(SMBStructHeader *structHeader, const char *keyString, con
 		current = structHeader->handle;
 	}
 
-	sprintf(key, "%s%d", keyString, idx);
-
-	if (value)
-		if (getIntForKey(key, (int *)&(value->dword), SMBPlist))
-			return true;
-	else
-		if (getValueForKey(key, string, &len, SMBPlist))
-			return true;
+	sprintf(key, "%s%d", keyString, idx);	
+    
+    if (value) 
+    {
+        if (getIntForKey(key, (int *)&(value->dword), SMBPlist))
+            return true;
+    }
+    else 
+    {
+        if (getValueForKey(key, string, &len, SMBPlist))
+            return true;
+    }
+    
 	return false;
 }
 

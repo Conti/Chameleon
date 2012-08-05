@@ -63,8 +63,13 @@ struct Tag {
 };
 typedef struct Tag Tag, *TagPtr;
 
+/*
+ * Max size fo config data array, in bytes.
+ */
+#define IO_CONFIG_DATA_SIZE		40960 // was 4096 // was 163840
+
 typedef struct {
-	char	plist[16384];	// buffer for plist
+	char	plist[IO_CONFIG_DATA_SIZE];	// buffer for plist
 	TagPtr	dictionary;		// buffer for xml dictionary
 	bool	canOverride;	// flag to mark a dictionary can be overriden
 } config_file_t;

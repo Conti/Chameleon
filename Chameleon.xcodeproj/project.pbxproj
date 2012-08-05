@@ -1120,6 +1120,23 @@
 		AB1DE71A15B6E2D00088E06B /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		AB1DE71B15B6E2D00088E06B /* Sata.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Sata.c; sourceTree = "<group>"; };
 		AB47D38A15B702F00083D898 /* org.chameleon.Boot.nvidia.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = org.chameleon.Boot.nvidia.plist; sourceTree = "<group>"; };
+		AB4DDA8D15CEFF2100E77157 /* acpi_codec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = acpi_codec.c; sourceTree = "<group>"; };
+		AB4DDA8E15CEFF2100E77157 /* acpi_tools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = acpi_tools.c; sourceTree = "<group>"; };
+		AB4DDA8F15CEFF2100E77157 /* acpicode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = acpicode.c; sourceTree = "<group>"; };
+		AB4DDA9015CEFF2100E77157 /* ACPICodec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ACPICodec.c; sourceTree = "<group>"; };
+		AB4DDA9115CEFF2100E77157 /* acpidecode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = acpidecode.c; sourceTree = "<group>"; };
+		AB4DDA9215CEFF2100E77157 /* Cconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cconfig; sourceTree = "<group>"; };
+		AB4DDA9415CEFF2100E77157 /* acpi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = acpi.h; sourceTree = "<group>"; };
+		AB4DDA9515CEFF2100E77157 /* acpi_codec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = acpi_codec.h; sourceTree = "<group>"; };
+		AB4DDA9615CEFF2100E77157 /* acpi_tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = acpi_tools.h; sourceTree = "<group>"; };
+		AB4DDA9715CEFF2100E77157 /* acpicode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = acpicode.h; sourceTree = "<group>"; };
+		AB4DDA9815CEFF2100E77157 /* acpidecode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = acpidecode.h; sourceTree = "<group>"; };
+		AB4DDA9915CEFF2100E77157 /* datatype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = datatype.h; sourceTree = "<group>"; };
+		AB4DDA9A15CEFF2100E77157 /* intel_acpi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = intel_acpi.h; sourceTree = "<group>"; };
+		AB4DDA9B15CEFF2100E77157 /* ppm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ppm.h; sourceTree = "<group>"; };
+		AB4DDA9C15CEFF2100E77157 /* ppmsetup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ppmsetup.h; sourceTree = "<group>"; };
+		AB4DDA9D15CEFF2100E77157 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		AB4DDA9E15CEFF2100E77157 /* Readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme.txt; sourceTree = "<group>"; };
 		ABE4A59C15B6EA73007812A6 /* nvidia_helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nvidia_helper.h; sourceTree = "<group>"; };
 		ABE4A59D15B6EA73007812A6 /* nvidia_helper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = nvidia_helper.c; sourceTree = "<group>"; };
 		B0056CE711F3868000754B65 /* boot0.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = boot0.s; sourceTree = "<group>"; };
@@ -2682,6 +2699,7 @@
 		A3561CAB1414024C00E9B51E /* modules */ = {
 			isa = PBXGroup;
 			children = (
+				AB4DDA8C15CEFF2100E77157 /* AcpiCodec */,
 				A3561CAC1414024C00E9B51E /* Cconfig */,
 				A3561CAD1414024C00E9B51E /* HelloWorld */,
 				A3561CB21414024C00E9B51E /* include */,
@@ -3064,6 +3082,38 @@
 		AB1DE71915B6E2D00088E06B /* include */ = {
 			isa = PBXGroup;
 			children = (
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		AB4DDA8C15CEFF2100E77157 /* AcpiCodec */ = {
+			isa = PBXGroup;
+			children = (
+				AB4DDA8D15CEFF2100E77157 /* acpi_codec.c */,
+				AB4DDA8E15CEFF2100E77157 /* acpi_tools.c */,
+				AB4DDA8F15CEFF2100E77157 /* acpicode.c */,
+				AB4DDA9015CEFF2100E77157 /* ACPICodec.c */,
+				AB4DDA9115CEFF2100E77157 /* acpidecode.c */,
+				AB4DDA9215CEFF2100E77157 /* Cconfig */,
+				AB4DDA9315CEFF2100E77157 /* include */,
+				AB4DDA9D15CEFF2100E77157 /* Makefile */,
+				AB4DDA9E15CEFF2100E77157 /* Readme.txt */,
+			);
+			path = AcpiCodec;
+			sourceTree = "<group>";
+		};
+		AB4DDA9315CEFF2100E77157 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				AB4DDA9415CEFF2100E77157 /* acpi.h */,
+				AB4DDA9515CEFF2100E77157 /* acpi_codec.h */,
+				AB4DDA9615CEFF2100E77157 /* acpi_tools.h */,
+				AB4DDA9715CEFF2100E77157 /* acpicode.h */,
+				AB4DDA9815CEFF2100E77157 /* acpidecode.h */,
+				AB4DDA9915CEFF2100E77157 /* datatype.h */,
+				AB4DDA9A15CEFF2100E77157 /* intel_acpi.h */,
+				AB4DDA9B15CEFF2100E77157 /* ppm.h */,
+				AB4DDA9C15CEFF2100E77157 /* ppmsetup.h */,
 			);
 			path = include;
 			sourceTree = "<group>";
