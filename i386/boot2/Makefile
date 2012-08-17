@@ -1,4 +1,5 @@
 SRCROOT = $(abspath $(CURDIR)/../..)
+BINROOT = $(SRCROOT)/bin
 OBJROOT = $(SRCROOT)/obj/i386/boot2
 SYMROOT = $(SRCROOT)/sym/i386
 DSTROOT = $(SRCROOT)/dst/i386
@@ -36,7 +37,7 @@ THEMEDIR = ../../artwork/themes/$(THEME)
 INC = -I. -I$(SRCROOT) -I$(SYMDIR) -I$(LIBSADIR) -I$(LIBSAIODIR) -I${SRCROOT}/i386/include
 
 LIBS= -L$(SYMDIR) -lsaio -lsa -lklibc
-LIBDEP= libsaio.a libsa.a libklibc.a
+LIBDEP= libsaio.a libsa.a libklibc.a 
 
 OTHER_FILES =
 
@@ -80,9 +81,9 @@ endif
 
 	@${MKDIRS} $(OBJROOT)/../boot2_modules/
 	@echo "\t[LD] boot.sys"
-	@$(CC) -Wl,-segaddr,__INIT,$(BOOT2ADDR) -Wl,-segalign,20 -Wl,-preload \
-			-nostdlib -arch i386 -static \
-			-o $(SYMROOT)/boot.sys $(filter %.o,$^) `find $(OBJROOT)/../boot2_modules/ -name \*.o`  $(LIBS) -lcc_kext
+	@$(BINROOT)/ld_classic -static -segalign 20 -segaddr __INIT $(BOOT2ADDR) -preload \
+			-arch i386 -e boot2  \
+			-o $(SYMROOT)/boot.sys $(filter %.o,$^) `find $(OBJROOT)/../boot2_modules/ -name \*.o`  $(LIBS) `find /usr/llvm-gcc-*/lib/gcc/*/*/ -name \libcc_kext.a`
 
 ifeq (${CONFIG_MODULES}, y)
 
@@ -93,10 +94,10 @@ ifeq (${CONFIG_MODULES}, y)
 	@$(SYMROOT)/dyldsymboltool $(SYMROOT)/boot.sys $(SYMROOT)/${SYMBOLS_MODULE}
 
 	@echo "\t[LD] boot.sys"
-	@$(CC) -static -Wl,-preload -Wl,-segaddr,__INIT,$(BOOT2ADDR) \
-	        -nostdlib -arch i386 -Wl,-segalign,20 \
-		-Wl,-sectcreate,__DATA,__Symbols,$(SYMROOT)/Symbols.dylib \
-		-o $(SYMROOT)/boot.sys $(filter %.o,$^) `find $(OBJROOT)/../boot2_modules/ -name \*.o` $(LIBS)  -lcc_kext
+	@$(BINROOT)/ld_classic -static -segalign 20 -segaddr __INIT $(BOOT2ADDR) -preload \
+	        -arch i386  -e boot2\
+		-sectcreate __DATA __Symbols $(SYMROOT)/Symbols.dylib \
+		-o $(SYMROOT)/boot.sys $(filter %.o,$^) `find $(OBJROOT)/../boot2_modules/ -name \*.o` $(LIBS) `find /usr/llvm-gcc-*/lib/gcc/*/*/ -name \libcc_kext.a`
 
 	@# Second pass, fixup global var locations
 	@${RM} $(SYMROOT)/${SYMBOLS_MODULE}
@@ -107,10 +108,10 @@ ifeq (${CONFIG_MODULES}, y)
 
 	@${RM} $(SYMROOT)/boot.sys
 	@echo "\t[LD] boot.sys"
-	@$(CC) -static -Wl,-preload -Wl,-segaddr,__INIT,$(BOOT2ADDR) \
-	        -nostdlib -arch i386 -Wl,-segalign,20 \
-		-Wl,-sectcreate,__DATA,__Symbols,$(SYMROOT)/Symbols.dylib \
-		-o $(SYMROOT)/boot.sys $(filter %.o,$^) `find $(OBJROOT)/../boot2_modules/ -name \*.o` $(LIBS)  -lcc_kext
+	@$(BINROOT)/ld_classic -static -segalign 20 -segaddr __INIT $(BOOT2ADDR) -preload \
+	        -arch i386  \
+		-sectcreate __DATA __Symbols $(SYMROOT)/Symbols.dylib \
+		-o $(SYMROOT)/boot.sys $(filter %.o,$^) `find $(OBJROOT)/../boot2_modules/ -name \*.o` $(LIBS) `find /usr/llvm-gcc-*/lib/gcc/*/*/ -name \libcc_kext.a`
 
 	@${RM} $(SYMROOT)/${SYMBOLS_MODULE}
 

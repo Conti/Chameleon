@@ -39,49 +39,76 @@ DIST_SUBDIRS += $(SUBDIRS)
 #OMIT_FRAME_POINTER_CFLAG=-fomit-frame-pointer
 OMIT_FRAME_POINTER_CFLAG=
 
+$(OBJROOT)/%.o32_nodep: %.c
+	@echo "\t[CC32] $<"
+	@$(CC) $(CFLAGS) $(DEFINES) -c $(INC) -arch i386 $< -o $@ 
+
+$(OBJROOT)/%.o64_nodep: %.c
+	@echo "\t[CC64] $<"
+	@$(CC) $(CFLAGS) $(DEFINES) -c $(INC) -arch x86_64 $< -o $@ 
+
+
+ifeq ($(CONFIG_MD),y)
 
 $(OBJROOT)/%.o: %.c
 	@echo "\t[CC] $<"
-	@$(CC) $(CFLAGS) $(DEFINES) -c $(INC) $< -o $@ \
-	    -MD -dependency-file $(OBJROOT)/$*.d
-	@md -u $(OBJROOT)/Makedep -f -d $(OBJROOT)/$*.d
+	@$(CC) $(CFLAGS) $(DEFINES) -c $(INC) $< -o $@ 
 
 $(OBJROOT)/%.o32: %.c
 	@echo "\t[CC32] $<"
-	@$(CC) $(CFLAGS) $(DEFINES) -c $(INC) -arch i386 $< -o $@ \
-	    -MD -dependency-file $(OBJROOT)/$*.d
-	@md -u $(OBJROOT)/Makedep -f -d $(OBJROOT)/$*.d
+	@$(CC) $(CFLAGS) $(DEFINES) -c $(INC) -arch i386 $< -o $@ 
 
 $(OBJROOT)/%.o64: %.c
 	@echo "\t[CC64] $<"
-	@$(CC) $(CFLAGS) $(DEFINES) -c $(INC) -arch x86_64 $< -o $@ \
-	    -MD -dependency-file $(OBJROOT)/$*.d
-	@md -u $(OBJROOT)/Makedep -f -d $(OBJROOT)/$*.d
+	@$(CC) $(CFLAGS) $(DEFINES) -c $(INC) -arch x86_64 $< -o $@ 
 
 $(OBJROOT)/%.o: %.m
 	@echo "\t[M] $<"
-	@$(CC) $(CFLAGS) $(DEFINES) -c $(INC) $< -o $@ \
-	    -MD -dependency-file $(OBJROOT)/$*.d
-	@md -u $(OBJROOT)/Makedep -f -d $(OBJROOT)/$*.d
+	@$(CC) $(CFLAGS) $(DEFINES) -c $(INC) $< -o $@ 
 
 $(OBJROOT)/%.o: %.cpp
 	@echo "\t[CPP] $<"
-	@$(CPP) $(CPPFLAGS) $(CFLAGS) -c "$<" $(INC) -o $@ \
-	    -MD -dependency-file $(OBJROOT)/$*.d
-	@md -u $(OBJROOT)/Makedep -f -d $(OBJROOT)/$*.d
+	@$(CPP) $(CPPFLAGS) $(CFLAGS) -c "$<" $(INC) -o $@ 
 
 $(OBJROOT)/boot2.o:
 	@echo "\t[AS] boot2.s"
-	@$(CC) -Wa,-n -c $(INC) -arch i386 -o $(OBJROOT)/$(@F) boot2.s \
-		    -MD -dependency-file $*.d
-	@md -u $(OBJROOT)/Makedep -f -d $*.d
+	@$(CC) -Wa,-n -c $(INC) -arch i386 -o $(OBJROOT)/$(@F) boot2.s 
 
 $(OBJROOT)/%.o: %.s
 	@echo "\t[AS] $<"
-	@$(CC) $(CPPFLAGS) -c $(INC) -arch i386 -o $@ $< \
-		    -MD -dependency-file $*.d
-	@md -u $(OBJROOT)/Makedep -f -d $*.d
+	@$(CC) $(CPPFLAGS) -c $(INC) -arch i386 -o $@ $< 
 
+else
+
+$(OBJROOT)/%.o: %.c
+	@echo "\t[CC] $<"
+	@$(CC) $(CFLAGS) $(DEFINES) -c $(INC) $< -o $@ 
+
+$(OBJROOT)/%.o32: %.c
+	@echo "\t[CC32] $<"
+	@$(CC) $(CFLAGS) $(DEFINES) -c $(INC) -arch i386 $< -o $@ 
+
+$(OBJROOT)/%.o64: %.c
+	@echo "\t[CC64] $<"
+	@$(CC) $(CFLAGS) $(DEFINES) -c $(INC) -arch x86_64 $< -o $@ 
+
+$(OBJROOT)/%.o: %.m
+	@echo "\t[M] $<"
+	@$(CC) $(CFLAGS) $(DEFINES) -c $(INC) $< -o $@ 
+
+$(OBJROOT)/%.o: %.cpp
+	@echo "\t[CPP] $<"
+	@$(CPP) $(CPPFLAGS) $(CFLAGS) -c "$<" $(INC) -o $@ 
+
+$(OBJROOT)/boot2.o:
+	@echo "\t[AS] boot2.s"
+	@$(CC) -Wa,-n -c $(INC) -arch i386 -o $(OBJROOT)/$(@F) boot2.s 
+
+$(OBJROOT)/%.o: %.s
+	@echo "\t[AS] $<"
+	@$(CC) $(CPPFLAGS) -c $(INC) -arch i386 -o $@ $< 
+
+endif
 
 CONFIG_FILES=$(SRCROOT)/auto.conf $(SRCROOT)/autoconf.h $(SRCROOT)/autoconf.inc $(SRCROOT)/.config
 $(CONFIG_FILES): $(SRCROOT)/.config
@@ -149,9 +176,17 @@ clean-dep:
 
 FIND_IGNORE := \( -name .git -o -name .svn \) -prune -o -name Cconfig -o
 
-# clean: remove most generated files
+# clean: remove almost everything (execpt auto.conf, autoconf.h, autoconf.inc)
 clean: clean-recursive clean-dep
-
+	@if [ -d "$(OBJROOT)" ];then echo "\t[RMDIR] $(OBJROOT)"; fi
+	@if [ -d "$(SYMROOT)" ];then echo "\t[RMDIR] $(SYMROOT)"; fi
+	@if [ -d "$(DSTROOT)" ];then echo "\t[RMDIR] $(DSTROOT)"; fi
+	@if [ -d "$(SRCROOT)/i386/modules/module_includes" ];then \
+		echo "\t[RMDIR] $(SRCROOT)/i386/modules/module_includes"; \
+	 fi
+	@rm -rf $(OBJROOT) $(SYMROOT) $(DSTROOT)        \
+            $(SRCROOT)/i386/modules/module_includes 
+            
 distclean: distclean-recursive clean-local clean-dep
 		@find . $(FIND_IGNORE) \
 				\( -name '*.orig' -o -name '*.rej' -o -name '*~' \

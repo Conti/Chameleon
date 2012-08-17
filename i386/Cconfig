@@ -8,6 +8,8 @@ config OPTIMIZATION_LEVEL
 	---help---
 	  Specify the level to compile chameleon with.
 
+source "i386/md/Cconfig"
+
 source "i386/util/Cconfig"
 
 source "i386/boot0/Cconfig"

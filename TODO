@@ -15,7 +15,7 @@ TODO List for Chameleon Boot Loader
  - Case insensitive parsing for the bootConfig options:
    should help the common/novice user to setup more easily.
 
-
+- Find out how we can avoid section overlap with the xcode4.4 LD version (we must first reduce the size of the bootloader but it's not enought, maybe we should use a thing comparable to the gnu ld.script, QUESTION: is the xcode4.4 linker still suitable to build standalone app ? )
 ====================================
 
 DONE

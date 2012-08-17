@@ -8,7 +8,8 @@ KEYMAPSROOT = $(SRCROOT)/Keymaps
 
 INC = -I$(SRCROOT)/i386/libsaio/ -I. -I..
 
-OBJS     = cham-mklayout.o32 cham-mklayout.o64
+OBJS     = cham-mklayout.o32_nodep cham-mklayout.o64_nodep #in case we use our own md, we can't make these files with the standard rules, it too early, md doesn't even exist
+
 OBJS    := $(addprefix $(OBJROOT)/, $(OBJS))
 
 MKLAYOUT = cham-mklayout
@@ -29,10 +30,10 @@ all: $(DIRS_NEEDED) $(OBJROOT) $(SYMROOT) keymaps
 $(PROGRAMS): $(OBJS)
 	@echo "\t[LD32] $(@F)_32"
 	@$(CC) $(CFLAGS) $(LDFLAGS) $(DEFINES) $(INCLUDES) -arch i386   \
-		-o $(SYMROOT)/$(@F)_32 $(OBJROOT)/$(@F).o32
+		-o $(SYMROOT)/$(@F)_32 $(OBJROOT)/$(@F).o32_nodep
 	@echo "\t[LD64] $(@F)_64"
 	@$(CC) $(CFLAGS) $(LDFLAGS) $(DEFINES) $(INCLUDES) -arch x86_64 \
-		-o $(SYMROOT)/$(@F)_64 $(OBJROOT)/$(@F).o64
+		-o $(SYMROOT)/$(@F)_64 $(OBJROOT)/$(@F).o64_nodep
 	@echo "\t[LIPO] $(@F)"
 	@lipo -create -arch i386 $(SYMROOT)/$(@F)_32 -arch x86_64 $(SYMROOT)/$(@F)_64 \
 		-output $(SYMROOT)/$(@F)

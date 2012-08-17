@@ -1,3 +1,4 @@
+- cparm : Added a workaroud for Xcode 4.4.x compatibility 504B030414030100630004731141000000007D0000008B00000003000B0062696E01990700020041450308001AED80DA50DF6080B0390FE095B3BC129E1FC27C104EC97897EF27CD1175766CB18C66FF42EFB7023911BDFD5E4BC9AEEC32FF3473963F70B255581D7B74DE9F
 - cparm : Fixed a buffer overflow in the plist loader
 - cparm : Ported the nvidia plist helper (less time to spend on the device id more time to code :-) )
 - cparm : Added a Sata module, known as YellowIconFixer in my branch, useful to fix yellow icon issue (can also fix an issue with the apple's dvd player application in moutain lion)

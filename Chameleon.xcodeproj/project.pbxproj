@@ -1119,6 +1119,12 @@
 		AB1DE71815B6E2D00088E06B /* Cconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cconfig; sourceTree = "<group>"; };
 		AB1DE71A15B6E2D00088E06B /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		AB1DE71B15B6E2D00088E06B /* Sata.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Sata.c; sourceTree = "<group>"; };
+		AB30C92E15DE60ED0047BE7B /* ld_classic */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = ld_classic; sourceTree = "<group>"; };
+		AB30C92F15DE60ED0047BE7B /* ld_classic.1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.man; path = ld_classic.1; sourceTree = "<group>"; };
+		AB30C93215DE66D90047BE7B /* Cconfig */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cconfig; sourceTree = "<group>"; };
+		AB30C93315DE66D90047BE7B /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		AB30C93415DE66D90047BE7B /* md.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = md.1; sourceTree = "<group>"; };
+		AB30C93515DE66D90047BE7B /* md.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = md.c; sourceTree = "<group>"; };
 		AB47D38A15B702F00083D898 /* org.chameleon.Boot.nvidia.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = org.chameleon.Boot.nvidia.plist; sourceTree = "<group>"; };
 		AB4DDA8D15CEFF2100E77157 /* acpi_codec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = acpi_codec.c; sourceTree = "<group>"; };
 		AB4DDA8E15CEFF2100E77157 /* acpi_tools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = acpi_tools.c; sourceTree = "<group>"; };
@@ -1454,6 +1460,7 @@
 		08FB7794FE84155DC02AAC07 /* Chameleon */ = {
 			isa = PBXGroup;
 			children = (
+				AB30C92D15DE60ED0047BE7B /* bin */,
 				B0056D8211F3868000754B65 /* APPLE_LICENSE */,
 				B0056DBA11F3868000754B65 /* artwork */,
 				369689D014BD0AF10013D77F /* BLOCKERS */,
@@ -3086,6 +3093,26 @@
 			path = include;
 			sourceTree = "<group>";
 		};
+		AB30C92D15DE60ED0047BE7B /* bin */ = {
+			isa = PBXGroup;
+			children = (
+				AB30C92E15DE60ED0047BE7B /* ld_classic */,
+				AB30C92F15DE60ED0047BE7B /* ld_classic.1 */,
+			);
+			path = bin;
+			sourceTree = "<group>";
+		};
+		AB30C93115DE66D90047BE7B /* md */ = {
+			isa = PBXGroup;
+			children = (
+				AB30C93215DE66D90047BE7B /* Cconfig */,
+				AB30C93315DE66D90047BE7B /* Makefile */,
+				AB30C93415DE66D90047BE7B /* md.1 */,
+				AB30C93515DE66D90047BE7B /* md.c */,
+			);
+			path = md;
+			sourceTree = "<group>";
+		};
 		AB4DDA8C15CEFF2100E77157 /* AcpiCodec */ = {
 			isa = PBXGroup;
 			children = (
@@ -3132,6 +3159,7 @@
 				B0056D1611F3868000754B65 /* libsa */,
 				B0056D2411F3868000754B65 /* libsaio */,
 				B0056D7611F3868000754B65 /* Makefile */,
+				AB30C93115DE66D90047BE7B /* md */,
 				A3561CAB1414024C00E9B51E /* modules */,
 				B0056D7911F3868000754B65 /* util */,
 			);
