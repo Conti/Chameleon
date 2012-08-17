@@ -52,31 +52,45 @@ ifeq ($(CONFIG_MD),y)
 
 $(OBJROOT)/%.o: %.c
 	@echo "\t[CC] $<"
-	@$(CC) $(CFLAGS) $(DEFINES) -c $(INC) $< -o $@ 
+	@$(CC) $(CFLAGS) $(DEFINES) -c $(INC) $< -o $@ \
+	    -MD -dependency-file $(OBJROOT)/$*.d
+	@$(SYMROOT)/md -u $(OBJROOT)/Makedep -f -d $(OBJROOT)/$*.d
 
 $(OBJROOT)/%.o32: %.c
 	@echo "\t[CC32] $<"
-	@$(CC) $(CFLAGS) $(DEFINES) -c $(INC) -arch i386 $< -o $@ 
+	@$(CC) $(CFLAGS) $(DEFINES) -c $(INC) -arch i386 $< -o $@ \
+	    -MD -dependency-file $(OBJROOT)/$*.d
+	@$(SYMROOT)/md -u $(OBJROOT)/Makedep -f -d $(OBJROOT)/$*.d
 
 $(OBJROOT)/%.o64: %.c
 	@echo "\t[CC64] $<"
-	@$(CC) $(CFLAGS) $(DEFINES) -c $(INC) -arch x86_64 $< -o $@ 
+	@$(CC) $(CFLAGS) $(DEFINES) -c $(INC) -arch x86_64 $< -o $@ \
+	    -MD -dependency-file $(OBJROOT)/$*.d
+	@$(SYMROOT)/md -u $(OBJROOT)/Makedep -f -d $(OBJROOT)/$*.d
 
 $(OBJROOT)/%.o: %.m
 	@echo "\t[M] $<"
-	@$(CC) $(CFLAGS) $(DEFINES) -c $(INC) $< -o $@ 
+	@$(CC) $(CFLAGS) $(DEFINES) -c $(INC) $< -o $@ \
+	    -MD -dependency-file $(OBJROOT)/$*.d
+	@$(SYMROOT)/md -u $(OBJROOT)/Makedep -f -d $(OBJROOT)/$*.d
 
 $(OBJROOT)/%.o: %.cpp
 	@echo "\t[CPP] $<"
-	@$(CPP) $(CPPFLAGS) $(CFLAGS) -c "$<" $(INC) -o $@ 
+	@$(CPP) $(CPPFLAGS) $(CFLAGS) -c "$<" $(INC) -o $@ \
+	    -MD -dependency-file $(OBJROOT)/$*.d
+	@$(SYMROOT)/md -u $(OBJROOT)/Makedep -f -d $(OBJROOT)/$*.d
 
 $(OBJROOT)/boot2.o:
 	@echo "\t[AS] boot2.s"
-	@$(CC) -Wa,-n -c $(INC) -arch i386 -o $(OBJROOT)/$(@F) boot2.s 
+	@$(CC) -Wa,-n -c $(INC) -arch i386 -o $(OBJROOT)/$(@F) boot2.s \
+		    -MD -dependency-file $*.d
+	@$(SYMROOT)/md -u $(OBJROOT)/Makedep -f -d $*.d
 
 $(OBJROOT)/%.o: %.s
 	@echo "\t[AS] $<"
-	@$(CC) $(CPPFLAGS) -c $(INC) -arch i386 -o $@ $< 
+	@$(CC) $(CPPFLAGS) -c $(INC) -arch i386 -o $@ $< \
+		    -MD -dependency-file $*.d
+	@$(SYMROOT)/md -u $(OBJROOT)/Makedep -f -d $*.d
 
 else
 
