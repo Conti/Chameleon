@@ -212,7 +212,7 @@ static void showBootPrompt(int row, bool visible)
 		clearScreenRows( row, kScreenLastRow );
 	}
 
-	//clearBootArgs();
+  clearBootArgs();
 
 	if (visible) {
 		if (bootArgs->Video.v_display == VGA_TEXT_MODE) {
@@ -225,7 +225,7 @@ static void showBootPrompt(int row, bool visible)
 		}
 	} else {
 		if (bootArgs->Video.v_display != VGA_TEXT_MODE) {
-//			clearGraphicBootPrompt();
+      clearGraphicBootPrompt();
 		} else {
 			printf("Press Enter to start up the foreign OS. ");
 		}
