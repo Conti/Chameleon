@@ -541,6 +541,7 @@ static radeon_card_info_t radeon_cards[] = {
 	{ 0x68C1,	0x033E1025, CHIP_FAMILY_REDWOOD,	"ATI Mobility Radeon HD 5650",			kNull		},
 
 	{ 0x68C1,	0x9071104D, CHIP_FAMILY_REDWOOD,	"ATI Mobility Radeon HD 5650",			kEulemur	},
+	{ 0x68C1, 	0x1449103C, CHIP_FAMILY_REDWOOD, 	"ATI Mobility Radeon HD 5650",			kEulemur	},
 
 	{ 0x68C8,	0x2306103C, CHIP_FAMILY_REDWOOD,	"ATI FirePro V4800 (FireGL)",			kNull		},
 
