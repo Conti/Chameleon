@@ -371,9 +371,11 @@ static struct smbus_controllers_t smbus_controllers[] = {
 	{0x8086, 0x2930, "ICH9",		read_smb_intel },	
 	{0x8086, 0x3A30, "ICH10R",		read_smb_intel },
 	{0x8086, 0x3A60, "ICH10B",		read_smb_intel },
-	{0x8086, 0x3B30, "5 Series",	read_smb_intel },
-	{0x8086, 0x1C22, "6 Series",	read_smb_intel },
-	{0x8086, 0x5032, "EP80579",		read_smb_intel }
+	{0x8086, 0x3B30, "5 Series",		read_smb_intel },
+	{0x8086, 0x1C22, "6 Series",		read_smb_intel },
+	{0x8086, 0x1E22, "7 Series",		read_smb_intel },
+	{0x8086, 0x5032, "EP80579",		read_smb_intel },
+	{0x8086, 0x1D22, "X79 Series",		read_smb_intel },
 
 };
 
