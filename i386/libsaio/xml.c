@@ -261,7 +261,7 @@ XMLDecode(const char* src)
             int i;
             
             s++;
-            for ( i = 0; i < sizeof(ents); i++)
+            for ( i = 0; i < sizeof(ents)/sizeof(ents[0]); i++)
             {
                 if ( strncmp(s, ents[i].name, ents[i].nameLen) == 0 )
                 {

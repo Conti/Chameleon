@@ -3326,5 +3326,6 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 	memcpy(stringdata, (uint8_t*)devprop_generate_string(string), string->length);
 	stringlength = string->length;
 
+	free(rom);
 	return true;
 }
