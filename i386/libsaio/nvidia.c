@@ -1024,6 +1024,7 @@ static nvidia_card_info_t nvidia_cards[] = {
 	{ 0x10DE0DC4,	0x1ACC4513,	"Point of View GeForce GTS 450" },
 	{ 0x10DE0DC4,	0x1ACC4523,	"Point of View GeForce GTS 450" },
 	{ 0x10DE0DC4,	0x1ACC45C2,	"Point of View GeForce GTS 450" },
+	{ 0x10DE0DC4,	0x38421351,	"EVGA GeForce GTS 450" },
 	{ 0x10DE0DC4,	0x38421452,	"EVGA GeForce GTS 450" },
 
 	{ 0x10DE0DCD,	0x10280491,	"Dell GeForce GT 555M" },
@@ -1588,7 +1589,7 @@ static nvidia_card_info_t nvidia_cards[] = {
 
 	{ 0x10DE1183,	0x10DE1000,	"nVidia GTX 660 Ti" },
 	{ 0x10DE1183,	0x14622843,	"MSi GTX 660 Ti" },
-	{ 0x10DE1183,	0x19DA1280,	"Zoac GTX 660 Ti" },
+	{ 0x10DE1183,	0x19DA1280,	"Zotac GTX 660 Ti" },
 
 	{ 0x10DE1185,	0x174B2260,	"PC Partner GeForce GTX 660" },
 
@@ -1620,6 +1621,7 @@ static nvidia_card_info_t nvidia_cards[] = {
 	{ 0x10DE11BE,	0x15585105,	"Clevo Quadro K3000M" },
 	{ 0x10DE11BE,	0x15587102,	"Clevo Quadro K3000M" },
 	// 11C0 - 11CF
+	{ 0x10DE11C0,	0x10DE0995,	"Inno3D GeForce GTX660" },
 	// 11D0 - 11DF
 	// 11E0 - 11EF
 	// 11F0 - 11FF
@@ -1695,7 +1697,7 @@ static nvidia_card_info_t nvidia_cards[] = {
 	{ 0x10DE1246,	0x10280571,	"Dell GeForce GT 550M" },
 
 	{ 0x10DE1247,	0x10431407,	"Asus GeForce GT 555M" },
-	{ 0x10DE1247,	0x10431752,	"Asus GeForce GT 635M" },
+	{ 0x10DE1247,	0x10431752,	"Asus GeForce GT 555M" },
 	{ 0x10DE1247,	0x10432050,	"Asus GeForce GT 555M" },
 	{ 0x10DE1247,	0x10432051,	"Asus GeForce GT 555M" },
 	{ 0x10DE1247,	0x10432119,	"Asus GeForce GT 670M" },
@@ -2703,6 +2705,7 @@ static nvidia_card_info_t nvidia_cards[] = {
 	{ 0x10DE11BD,	NV_SUB_IDS,	"Quadro K4000M" },
 	{ 0x10DE11BE,	NV_SUB_IDS,	"Quadro K3000M" },
 	// 11C0 - 11CF
+	{ 0x10DE11C0,	NV_SUB_IDS,	"GeForce GTX 660" },
 	// 11D0 - 11DF
 	// 11E0 - 11EF
 	// 11F0 - 11FF
@@ -2725,9 +2728,9 @@ static nvidia_card_info_t nvidia_cards[] = {
 	{ 0x10DE1244,	NV_SUB_IDS,	"GeForce GTX 550 Ti" },
 	{ 0x10DE1245,	NV_SUB_IDS,	"GeForce GTS 450" },
 	{ 0x10DE1246,	NV_SUB_IDS,	"GeForce GTX 550M" },
-	{ 0x10DE1247,	NV_SUB_IDS,	"GeForce GT 635M" }, // 555M ?
+	{ 0x10DE1247,	NV_SUB_IDS,	"GeForce GT 555M" },
 	{ 0x10DE1248,	NV_SUB_IDS,	"GeForce GTX 555M" },
-	{ 0x10DE1249,	NV_SUB_IDS,	"GeForce GTS 450M" }, // no M?
+	{ 0x10DE1249,	NV_SUB_IDS,	"GeForce GTS 450" }, // 450M?
 	{ 0x10DE124B,	NV_SUB_IDS,	"GeForce GT 640" },
 	{ 0x10DE124D,	NV_SUB_IDS,	"GeForce GTX 555M" },
 	//  { 0x10DE1250,	NV_SUB_IDS,	"GF116-INT" },
@@ -2750,7 +2753,7 @@ static int patch_nvidia_rom(uint8_t *rom)
 		printf("False ROM signature: 0x%02x%02x\n", rom[0], rom[1]);
 		return PATCH_ROM_FAILED;
 	}
-	
+
 	uint16_t dcbptr = READ_LE_SHORT(rom, 0x36);
 
 	if (!dcbptr) {
@@ -2760,7 +2763,7 @@ static int patch_nvidia_rom(uint8_t *rom)
 //	else
 //		printf("dcb table at offset 0x%04x\n", dcbptr);
 
-	uint8_t *dcbtable		 = &rom[dcbptr];
+	uint8_t *dcbtable	 = &rom[dcbptr];
 	uint8_t dcbtable_version = dcbtable[0];
 	uint8_t headerlength	 = 0;
 	uint8_t numentries	 = 0;
@@ -2811,7 +2814,7 @@ static int patch_nvidia_rom(uint8_t *rom)
 	
 	if (numentries >= MAX_NUM_DCB_ENTRIES)
 		numentries = MAX_NUM_DCB_ENTRIES;
-	
+
 	uint8_t num_outputs = 0, i = 0;
 
 	struct dcbentry
@@ -2833,7 +2836,7 @@ static int patch_nvidia_rom(uint8_t *rom)
 			continue;
 		if ((connection & 0xf) == 0x6) /* we skip type 6 as it doesnt appear on macbook nvcaps */
 			continue;
-		
+
 		entries[num_outputs].type = connection & 0xf;
 		entries[num_outputs].index = num_outputs;
 		entries[num_outputs++].heads = (uint8_t*)&(dcbtable[(headerlength + recordlength * i) + 1]);
@@ -2842,7 +2845,7 @@ static int patch_nvidia_rom(uint8_t *rom)
 	
 	int has_lvds = false;
 	uint8_t channel1 = 0, channel2 = 0;
-	
+
 	for (i = 0; i < num_outputs; i++)
 	{
 		if (entries[i].type == 3)
@@ -2972,7 +2975,7 @@ static int patch_nvidia_rom(uint8_t *rom)
 static char *get_nvidia_model(uint32_t device_id, uint32_t subsys_id)
 {
 	int i;
-	
+
 	// First check in the plist, (for e.g this can override any hardcoded devices)
 	cardList_t * nvcard = FindCardWithIds(device_id, subsys_id);
 	if (nvcard) 
@@ -2982,7 +2985,7 @@ static char *get_nvidia_model(uint32_t device_id, uint32_t subsys_id)
 			return nvcard->model;
 		}
 	}
-	
+
 	for (i = 1; i < (sizeof(nvidia_cards) / sizeof(nvidia_cards[0])); i++) // size of nvidia_cards array for-loop
 	{
 		if ((nvidia_cards[i].device == device_id) && (nvidia_cards[i].subdev == subsys_id))
@@ -3100,21 +3103,20 @@ unsigned long long mem_detect(volatile uint8_t *regs, uint8_t nvCardType, pci_dt
 		if (nvcard->videoRam > 0) 
 		{
 			vram_size = nvcard->videoRam * 1024 * 1024;
-			
+
 			return vram_size;
 		}
 	}
-	
-	
+
 	// Then, Workaround for 9600M GT, GT 210/420/430/440/525M/540M & GTX 560M
 	switch (nvda_dev->device_id)
 	{
 		case 0x0647: // 9600M GT 0647
 			vram_size = 512*1024*1024;
 			break;
-			/*case 0x0649:	// 9600M GT 0649
-			 vram_size = 1024*1024*1024;
-			 break;*/
+		/*case 0x0649:	// 9600M GT 0649
+			vram_size = 1024*1024*1024;
+			break;*/
 		case 0x0A65: // GT 210
 		case 0x0DE0: // GT 440
 		case 0x0DE1: // GT 430
@@ -3130,7 +3132,7 @@ unsigned long long mem_detect(volatile uint8_t *regs, uint8_t nvCardType, pci_dt
 		default:
 			break;
 	}
-	
+
 	if (!vram_size) 
 	{ // Finally, if vram_size still not set do the calculation with our own method
 		if (nvCardType < NV_ARCH_50)
@@ -3150,7 +3152,7 @@ unsigned long long mem_detect(volatile uint8_t *regs, uint8_t nvCardType, pci_dt
 			vram_size *= REG32(NVC0_MEM_CTRLR_COUNT);
 		}
 	}
-	
+
 	return vram_size;
 }
 
@@ -3179,13 +3181,13 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 	char					*model;
 	const char				*value;
 	bool					doit;
-	
+
 	fill_card_list();
-	
+
 	devicepath = get_pci_dev_path(nvda_dev);
 	bar[0] = pci_config_read32(nvda_dev->dev.addr, 0x10 );
 	regs = (uint8_t *) (bar[0] & ~0x0f);
-	
+
 	// get card type
 	nvCardType = (REG32(0) >> 20) & 0x1ff;
 
@@ -3193,7 +3195,7 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 
 	// Amount of VRAM in kilobytes
 	videoRam = mem_detect(regs, nvCardType, nvda_dev,((nvda_dev->vendor_id << 16) | nvda_dev->device_id),((nvda_dev->subsys_id.subsys.vendor_id << 16) | nvda_dev->subsys_id.subsys.device_id) );
-	
+
 	rom = malloc(NVIDIA_ROM_SIZE);
 	sprintf(nvFilename, "/Extra/%04x_%04x.rom", (uint16_t)nvda_dev->vendor_id,
 			(uint16_t)nvda_dev->device_id);
@@ -3278,7 +3280,7 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 		{
 			// Get Model from the OpROM
 			model = get_nvidia_model(((rom_pci_header->vendor_id << 16) | rom_pci_header->device_id), NV_SUB_IDS);
-			
+
 			// Get VRAM again
 			videoRam = mem_detect(regs, nvCardType, nvda_dev,((rom_pci_header->vendor_id << 16) | rom_pci_header->device_id), NV_SUB_IDS );
 
@@ -3288,7 +3290,7 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 			printf("nVidia incorrect PCI ROM signature: 0x%x\n", rom_pci_header->signature);
 		}
 	}
-	
+
 	verbose("%s %dMB NV%02x [%04x:%04x]-[%04x:%04x] :: %s device number: %d\n",
 			model, (uint32_t)(videoRam / 1024 / 1024),
 			(REG32(0) >> 20) & 0x1ff, nvda_dev->vendor_id, nvda_dev->device_id,
@@ -3331,14 +3333,14 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 			if (crlf_count == 2)
 			{
 				if (rom[i-1] == 0x20) i--; // strip last " "
-				
+
 				for (version_start = i; version_start > (i-MAX_BIOS_VERSION_LENGTH); version_start--)
 				{
 					// find start
 					if (rom[version_start] == 0x00)
 					{
 						version_start++;
-						
+
 						// strip "Version "
 						if (strncmp((const char*)rom+version_start, "Version ", 8) == 0)
 						{
@@ -3360,7 +3362,7 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 	if (getValueForKey(kNVCAP, &value, &len, &bootInfo->chameleonConfig) && len == NVCAP_LEN * 2)
 	{
 		uint8_t new_NVCAP[NVCAP_LEN];
-		
+
 		if (hex2bin(value, new_NVCAP, NVCAP_LEN) == 0)
 		{
 			verbose("Using user supplied NVCAP for %s :: %s\n", model, devicepath);
@@ -3375,13 +3377,13 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 		if (hex2bin(value, new_dcfg0, DCFG0_LEN) == 0)
 		{
 			memcpy(default_dcfg_0, new_dcfg0, DCFG0_LEN);
-			
+
 			verbose("Using user supplied @0,display-cfg\n");
 			printf("@0,display-cfg: %02x%02x%02x%02x\n",
 				   default_dcfg_0[0], default_dcfg_0[1], default_dcfg_0[2], default_dcfg_0[3]);
 		}
 	}
-	
+
 	if (getValueForKey(kDcfg1, &value, &len, &bootInfo->chameleonConfig) && len == DCFG1_LEN * 2)
 	{
 		uint8_t new_dcfg1[DCFG1_LEN];
@@ -3413,7 +3415,6 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 	devprop_add_value(device, "rom-revision", (uint8_t*)biosVersion, strlen(biosVersion) + 1);
 	devprop_add_value(device, "@0,display-cfg", default_dcfg_0, DCFG0_LEN);
 	devprop_add_value(device, "@1,display-cfg", default_dcfg_1, DCFG1_LEN);
-	
 
 	if (getBoolForKey(kVBIOS, &doit, &bootInfo->chameleonConfig) && doit)
 	{
