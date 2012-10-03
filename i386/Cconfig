@@ -8,6 +8,15 @@ config OPTIMIZATION_LEVEL
 	---help---
 	  Specify the level to compile chameleon with.
 
+config USE_GCC
+	bool "Use GCC"
+	default y
+	help
+	  Say Y here if you want to compile the project with gcc (if available).
+	  Set this to N, can be usefull to debug the project with the clang-static-analizer,
+	  or simply to use the default compiler.
+	  When in doubt, say "Y".
+
 source "i386/md/Cconfig"
 
 source "i386/util/Cconfig"

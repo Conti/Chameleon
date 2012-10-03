@@ -10,8 +10,10 @@ else
 endif
 AS = as
 LD = ld
+ifeq ($(USE_GCC),y)
 CC = gcc
 CPP = g++
+endif
 PAX = /bin/pax
 NASM = $(shell which nasm) -p $(SRCROOT)/autoconf.inc
 

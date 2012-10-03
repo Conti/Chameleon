@@ -5088,45 +5088,48 @@ EFI_STATUS setup_Acpi(void)
         }
     }    
 	
-	if ((rsdp_mod != (void *)0ul) && (rsdp_mod->Length >= ACPI_RSDP_REV0_SIZE) ) 
+	if (rsdp_mod == (void *)0ul)
+	{		
+		printf("Error: rsdp_mod == null \n");
+		return EFI_ABORTED;
+	}
+	
+	if (!(rsdp_mod->Length >= ACPI_RSDP_REV0_SIZE)) 
 	{
-		if ((rsdp_mod->Revision == 0) || (gen_xsdt == true))
-		{
-			process_rsdt(rsdp_mod, gen_xsdt, new_table_list);
-			goto out;
-		}
+		printf("Error: rsdp_mod size is incorrect \n");
+		return EFI_ABORTED;
 		
 	}
-	else 
-	{
-		printf("Error: Incorect ACPI RSD PTR or not found \n");
-		return EFI_UNSUPPORTED;
-	}
-    
-	if ((GetChecksum(rsdp_mod, sizeof(ACPI_TABLE_RSDP)) == 0) &&
-		(Revision == 2) &&
-		(rsdplength == sizeof(ACPI_TABLE_RSDP)))
-	{
-		process_xsdt(rsdp_mod, new_table_list);
-        
-	} 
-	else 
-	{
-		printf("Warning : ACPI RSD PTR Revision 2 is incorrect, \n");
-		printf("          trying to fallback to Revision 1\n");
-		if ((rsdp_mod != (void *)0ul) && (rsdp_mod->Length >= ACPI_RSDP_REV0_SIZE) ) 
-		{			
-			process_rsdt(rsdp_mod, false, new_table_list);
-            
-		} 
-		else 
+	
+	do {
+		
+		if ((rsdp_mod->Revision == 0) || (gen_xsdt == true))
 		{
-			printf("Error: Incorect ACPI RSD PTR or not found \n");
-			return EFI_UNSUPPORTED;
+			if (process_rsdt(rsdp_mod, gen_xsdt, new_table_list))
+				break;
+			printf("Error : ACPI RSD PTR Revision 1 is incorrect, \n");
 		}
-	}
-    
-out:
+		
+		if ((GetChecksum(rsdp_mod, sizeof(ACPI_TABLE_RSDP)) == 0) &&
+			(Revision == 2) &&
+			(rsdplength == sizeof(ACPI_TABLE_RSDP)))
+		{
+			if (process_xsdt(rsdp_mod, new_table_list))
+				break;
+			printf("Error : ACPI RSD PTR Revision 2 is incorrect \n");
+		}		
+		
+		Revision = 0; // fallback to Revision 0
+		
+		if (process_rsdt(rsdp_mod, false, new_table_list))
+			break;			
+		
+		printf("Error: Incorect ACPI RSD PTR or not found \n");
+		return EFI_ABORTED;
+		
+	} while (0); 
+	
+	
 	// Correct the checksum of RSDP      
 	
 	DBG("RSDP: Original checksum %d\n", rsdp_mod->Checksum);		
