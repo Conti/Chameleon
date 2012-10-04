@@ -10,7 +10,7 @@ else
 endif
 AS = as
 LD = ld
-ifeq ($(USE_GCC),y)
+ifeq ($(CONFIG_USE_GCC),y)
 CC = gcc
 CPP = g++
 endif
