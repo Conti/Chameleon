@@ -2891,7 +2891,7 @@ static int patch_nvidia_rom(uint8_t *rom)
 							channel1 |= ( 0x1 << entries[i].index);
 							entries[i].type = TYPE_GROUPED;
 
-							if ((entries[i-1].type == 0x0))
+							if (entries[i-1].type == 0x0)
 							{
 								channel1 |= ( 0x1 << entries[i-1].index);
 								entries[i-1].type = TYPE_GROUPED;
@@ -2910,7 +2910,7 @@ static int patch_nvidia_rom(uint8_t *rom)
 							channel2 |= ( 0x1 << entries[i].index);
 							entries[i].type = TYPE_GROUPED;
 
-							if ((entries[i - 1].type == 0x0))
+							if (entries[i - 1].type == 0x0)
 							{
 								channel2 |= ( 0x1 << entries[i-1].index);
 								entries[i-1].type = TYPE_GROUPED;

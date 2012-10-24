@@ -91,7 +91,7 @@ cardList_t* FindCardWithIds(uint32_t id, uint32_t subid)
 	entry = cardList;
 	while(entry)
 	{		
-		if((entry->id == id))
+		if(entry->id == id)
 		{
 			return entry;
 		}
