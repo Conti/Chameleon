@@ -16,8 +16,8 @@ CDBOOT = ${IMGROOT}/usr/standalone/i386/cdboot
 DIR = util
 include ${SRCROOT}/Make.rules
 
-PROGRAMS = machOconv dyldsymboltool
-OBJS = dyldsymboltool.o32 dyldsymboltool.o64 machOconv.o32 machOconv.o64
+PROGRAMS = machOconv dyldsymboltool segsize
+OBJS = dyldsymboltool.o32 dyldsymboltool.o64 machOconv.o32 machOconv.o64 segsize.o32 segsize.o64
 
 
 ifeq (${CONFIG_BDMESG}, y)
