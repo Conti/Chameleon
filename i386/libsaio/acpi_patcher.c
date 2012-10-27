@@ -90,7 +90,7 @@ static struct acpi_2_rsdp* getAddressOfAcpi20Table()
 int search_and_get_acpi_fd(const char * filename, const char ** outDirspec)
 {
 	int fd = 0;
-	char dirSpec[512] = "";
+	char dirSpec[512];
 	
 	// Try finding 'filename' in the usual places
 	// Start searching any potential location for ACPI Table
