@@ -26,8 +26,6 @@
 UInt64 textAddress = 0;
 UInt64 textSection = 0;
 
-void* symbols_module_start = (void*)0xFFFFFFFF;	// Global, value is populated by the makefile with actual address
-
 /** Internal symbols, however there are accessor methods **/
 moduleHook_t* moduleCallbacks = NULL;
 moduleList_t* loadedModules = NULL;
@@ -48,10 +46,12 @@ int init_module_system()
     
 	int retVal = 0;
 	void (*module_start)(void) = NULL;
-	char* module_data = symbols_module_start + BOOT2_ADDR;
+	
+	extern char  symbols_start  __asm("section$start$__DATA$__Symbols");
+	char* module_data = &symbols_start;
     
 	// Intialize module system
-	if(symbols_module_start != (void*)0xFFFFFFFF)
+	if(module_data)
 	{
 		// Module system  was compiled in (Symbols.dylib addr known)
 		module_start = parse_mach(module_data, &load_module, &add_symbol, NULL);
@@ -60,7 +60,6 @@ int init_module_system()
 		{
 			// Notify the system that it was laoded
 			module_loaded(SYMBOLS_MODULE, SYMBOLS_AUTHOR, SYMBOLS_DESCRIPTION, SYMBOLS_VERSION, SYMBOLS_COMPAT);
-			
 			(*module_start)();	// Start the module. This will point to load_all_modules due to the way the dylib was constructed.
 			execute_hook("ModulesLoaded", NULL, NULL, NULL, NULL);
 			DBG("Module %s Loaded.\n", SYMBOLS_MODULE);
@@ -69,25 +68,8 @@ int init_module_system()
 		}
 		else
 		{
-            module_data -= 0x10;    // XCODE 4 HACK
-            module_start = parse_mach(module_data, &load_module, &add_symbol, NULL);
-            
-            if(module_start && module_start != (void*)0xFFFFFFFF)
-            {
-                // Notify the system that it was laoded
-                module_loaded(SYMBOLS_MODULE, SYMBOLS_AUTHOR, SYMBOLS_DESCRIPTION, SYMBOLS_VERSION, SYMBOLS_COMPAT);
-                
-                (*module_start)();	// Start the module. This will point to load_all_modules due to the way the dylib was constructed.
-                execute_hook("ModulesLoaded", NULL, NULL, NULL, NULL);
-                DBG("Module %s Loaded.\n", SYMBOLS_MODULE);
-                retVal = 1;
-                
-            }
-            else
-            {
-                // The module does not have a valid start function
-                printf("Unable to start %s\n", SYMBOLS_MODULE); getchar();
-            }		
+			// The module does not have a valid start function
+			printf("Unable to start %s at 0x%x\n", SYMBOLS_MODULE, module_data); pause();
 		}		
 	}
 	return retVal;

@@ -95,7 +95,7 @@ endif
 			-nostdlib -arch i386  -Wl,-pie \
 			-Wl,-segaddr,__INIT,`echo obase=16\; $$((0x${BOOT2ADDR})) | bc` \
 			-Wl,-segaddr,__TEXT,`echo obase=16\; $$((0x${BOOT2ADDR})) + \`${SYMROOT}/segsize ${SYMROOT}/$@.sys __INIT\` | bc` \
-			-Wl,-segaddr,__DATA,`echo obase=16\; $$((0x${BOOT2ADDR})) + 3582 + \`${SYMROOT}/segsize ${SYMROOT}/$@.sys __INIT\` + \`${SYMROOT}/segsize ${SYMROOT}/$@.sys __TEXT\` | bc` \
+			-Wl,-segaddr,__DATA,`echo obase=16\; $$((0x${BOOT2ADDR})) + ${DATA_PAD} + \`${SYMROOT}/segsize ${SYMROOT}/$@.sys __INIT\` + \`${SYMROOT}/segsize ${SYMROOT}/$@.sys __TEXT\` | bc` \
 			-Wl,-read_only_relocs,suppress \
 			-lcc_kext \
 			$(filter %.o,$^) `find $(OBJROOT)/../boot2_modules/ -name \*.o`  $(LIBS) \
@@ -103,8 +103,6 @@ endif
 
 
 ifeq (${CONFIG_MODULES}, y)
-
-	@cp  $(SYMROOT)/boot.sys  $(SYMROOT)/boot2.sys
 
 	@# Generate the Symbols.dylib file
 	@echo "\t[dyldsymboltool] Symbols.dylib"
@@ -116,7 +114,7 @@ ifeq (${CONFIG_MODULES}, y)
 			-Wl,-sectcreate,__DATA,__Symbols,$(SYMROOT)/Symbols.dylib \
 			-Wl,-segaddr,__INIT,`echo obase=16\; $$((0x${BOOT2ADDR})) | bc` \
 			-Wl,-segaddr,__TEXT,`echo obase=16\; $$((0x${BOOT2ADDR})) + \`${SYMROOT}/segsize ${SYMROOT}/$@.sys __INIT\` | bc` \
-			-Wl,-segaddr,__DATA,`echo obase=16\; $$((0x${BOOT2ADDR})) + 3582 + \`${SYMROOT}/segsize ${SYMROOT}/$@.sys __INIT\` + \`${SYMROOT}/segsize ${SYMROOT}/$@.sys __TEXT\` | bc` \
+			-Wl,-segaddr,__DATA,`echo obase=16\; $$((0x${BOOT2ADDR})) + ${DATA_PAD} + \`${SYMROOT}/segsize ${SYMROOT}/$@.sys __INIT\` + \`${SYMROOT}/segsize ${SYMROOT}/$@.sys __TEXT\` | bc` \
 			-Wl,-read_only_relocs,suppress \
 			-lcc_kext \
 			$(filter %.o,$^) `find $(OBJROOT)/../boot2_modules/ -name \*.o`  $(LIBS) \
@@ -136,13 +134,13 @@ ifeq (${CONFIG_MODULES}, y)
 			-Wl,-sectcreate,__DATA,__Symbols,$(SYMROOT)/Symbols.dylib \
 			-Wl,-segaddr,__INIT,`echo obase=16\; $$((0x${BOOT2ADDR})) | bc` \
 			-Wl,-segaddr,__TEXT,`echo obase=16\; $$((0x${BOOT2ADDR})) + \`${SYMROOT}/segsize ${SYMROOT}/$@.sys __INIT\` | bc` \
-			-Wl,-segaddr,__DATA,`echo obase=16\; $$((0x${BOOT2ADDR})) + 3582 + \`${SYMROOT}/segsize ${SYMROOT}/$@.sys __INIT\` + \`${SYMROOT}/segsize ${SYMROOT}/$@.sys __TEXT\` | bc` \
+			-Wl,-segaddr,__DATA,`echo obase=16\; $$((0x${BOOT2ADDR})) + ${DATA_PAD} + \`${SYMROOT}/segsize ${SYMROOT}/$@.sys __INIT\` + \`${SYMROOT}/segsize ${SYMROOT}/$@.sys __TEXT\` | bc` \
 			-Wl,-read_only_relocs,suppress \
 			-lcc_kext \
 			$(filter %.o,$^) `find $(OBJROOT)/../boot2_modules/ -name \*.o`  $(LIBS) \
 			-o ${SYMROOT}/$@.sys
 
-	@${RM} $(SYMROOT)/${SYMBOLS_MODULE}
+	@#${RM} $(SYMROOT)/${SYMBOLS_MODULE}
 
 	@$(LD) -arch i386 \
 	-undefined dynamic_lookup \
@@ -156,10 +154,9 @@ ifeq (${CONFIG_MODULES}, y)
 
 endif
 
-	@# this is done in a sub process after boot.sys exists so the strings are populated correctly
-	@make embed_symbols
 
-	@${RM} $(SYMROOT)/boot2.sys
+	@echo "\t[MACHOCONV] boot"
+	@$(SYMROOT)/machOconv ${SYMROOT}/$@.sys $(SYMROOT)/$@ &> /dev/null
 
 	@( size=`ls -l $(SYMROOT)/boot | awk '{ print $$5}'` ; \
 	  if expr "$$size" ">" "$(MAXBOOTSIZE)" > /dev/null ;\
@@ -171,18 +168,6 @@ endif
 	  else \
 	  	echo "\t******* boot is $$size bytes *******"; \
 	  fi)
-
-embed_symbols:
-ifeq (${CONFIG_MODULES}, y)
-	@echo ================= Embedding Symbols.dylib =================
-	@echo "\t[MACHOCONV] boot"
-	@$(SYMROOT)/machOconv $(SYMROOT)/boot2.sys $(SYMROOT)/boot &> /dev/null
-
-	@echo "\t******* Patching at $(PATCH_ADDR) ******"
-	@stat -f%z $(SYMROOT)/boot | perl -ane "print pack('V',@F[0]);" | dd conv=notrunc of=${SYMROOT}/boot.sys bs=1 count=4 seek=$(PATCH_ADDR) &> /dev/null
-endif
-	@echo "\t[MACHOCONV] boot"
-	@$(SYMROOT)/machOconv $(SYMROOT)/boot.sys $(SYMROOT)/boot
 
 $(SYMROOT)/art.h:
 	@if [ "$(PNGCRUSH)" ]; then	\
