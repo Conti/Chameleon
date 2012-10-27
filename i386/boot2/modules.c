@@ -2,16 +2,16 @@
  * Copyright 2010 Evan Lojewski. All rights reserved.
  *
  */
-#ifdef CONFIG_MODULES
-#ifndef CONFIG_MODULE_DEBUG
-#define CONFIG_MODULE_DEBUG 0
-#endif
-
 #include "boot.h"
 #include "bootstruct.h"
 #include "modules.h"
 #include "boot_modules.h"
 #include <vers.h>
+
+#ifdef CONFIG_MODULES
+#ifndef CONFIG_MODULE_DEBUG
+#define CONFIG_MODULE_DEBUG 0
+#endif
 
 
 #if CONFIG_MODULE_DEBUG
@@ -73,18 +73,6 @@ int init_module_system()
 		}		
 	}
 	return retVal;
-}
-
-void start_built_in_module(const char* name, 
-                           const char* author, 
-                           const char* description,
-                           UInt32 version,
-                           UInt32 compat,
-                           void(*start_function)(void))
-{
-    start_function();
-    // Notify the module system that this module really exists, specificaly, let other module link with it
-    module_loaded(name, author, description, version, compat);
 }
 
 
@@ -1133,4 +1121,28 @@ int execute_hook(const char* name, void* arg1, void* arg2, void* arg3, void* arg
 {
     return 0;
 }
+
+void register_hook_callback(const char* name, void(*callback)(void*, void*, void*, void*))
+{
+	printf("WARNING: register_hook_callback is not supported when compiled in.\n");
+	pause();
+}
+
+int replace_function(const char* symbol, void* newAddress)
+{
+	printf("WARNING: replace_functions is not supported when compiled in.\n");
+	pause();
+	return 0;
+}
+
+void start_built_in_module(const char* name, 
+                           const char* author, 
+                           const char* description,
+                           UInt32 version,
+                           UInt32 compat,
+                           void(*start_function)(void))
+{
+    start_function();
+}
+
 #endif
