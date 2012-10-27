@@ -1,7 +1,0 @@
-config MD
-	bool "md utility"
-	default y
-	help
-	  Say Y here if you want to compile the md utility.
-	  md is used to process the raw dependency files produced by the compiler -MD option.
-	  When in doubt, say "Y".

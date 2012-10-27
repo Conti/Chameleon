@@ -18,10 +18,6 @@ include ${SRCROOT}/Make.rules
 # The order of building is important.
 SUBDIRS_PRE =
 
-ifeq ($(CONFIG_MD),y)
-SUBDIRS_PRE += md 
-endif
-
 SUBDIRS_PRE += util
 
 SUBDIRS = $(SUBDIRS_PRE) klibc libsa libsaio boot0 boot1 boot2 cdboot modules
