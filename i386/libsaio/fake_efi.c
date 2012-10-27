@@ -639,7 +639,7 @@ void setupChosenNode()
  */
 static void setupSmbiosConfigFile(const char *filename)
 {
-	char		dirSpecSMBIOS[128] = "";
+	char		dirSpecSMBIOS[128];
 	const char *override_pathname = NULL;
 	int			len = 0, err = 0;
 	extern void scan_mem();
