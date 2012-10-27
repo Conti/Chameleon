@@ -34,11 +34,11 @@ SUBDIRS += Keylayout
 endif
 
 ifdef CONFIG_SATA_MODULE
-SUBDIRS += sata
+SUBDIRS += Sata
 endif
 
 ifdef CONFIG_ACPICODEC_MODULE
-SUBDIRS += ACPICodec
+SUBDIRS += AcpiCodec
 endif
 
 CFLAGS= -O3 $(MORECPP) -arch i386 -g -static
