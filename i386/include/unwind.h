@@ -32,7 +32,9 @@
 #define _UNWIND_H
 
 #ifndef HIDE_EXPORTS
+#ifdef __GCC__
 #pragma GCC visibility push(default)
+#endif
 #endif
 
 #ifdef __cplusplus
@@ -235,7 +237,9 @@ extern void * _Unwind_FindEnclosingFunction (void *pc);
 #endif
 
 #ifndef HIDE_EXPORTS
+#ifdef __GCC__
 #pragma GCC visibility pop
+#endif
 #endif
 
 #endif /* unwind.h */
