@@ -469,6 +469,7 @@ static radeon_card_info_t radeon_cards[] = {
 	{ 0x6898,	0x0B001002, CHIP_FAMILY_CYPRESS,	"ATI Radeon HD 5870",			kZonalis	},
 	{ 0x6898,	0x29611682, CHIP_FAMILY_CYPRESS,	"ATI Radeon HD 5870",			kUakari		},
 	{ 0x6898,	0xE140174B, CHIP_FAMILY_CYPRESS,	"ATI Radeon HD 5870",			kUakari		},
+	{ 0x6898,	0x21E51458, CHIP_FAMILY_CYPRESS,	"ATI Radeon HD 5870",			kUakari		},
 
 	{ 0x6899,	0x200A1787, CHIP_FAMILY_CYPRESS,	"ATI Radeon HD 5850",			kUakari		},
 	{ 0x6899,	0x21E41458, CHIP_FAMILY_CYPRESS,	"ATI Radeon HD 5850",			kUakari		},
