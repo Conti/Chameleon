@@ -173,9 +173,6 @@ main(int argc, char *argv[])
 					exit(1);
 				}
 				
-				// seeking output file
-				printf("Seek Load Address: 0x%0.8lx\n", swap(scp->vmaddr) - vmstart);
-
 				lseek(outfile, swap(scp->vmaddr) - vmstart, L_SET);
 				nc = write(outfile, (void *)data, vmsize);
 				if (nc < (int)vmsize) {
