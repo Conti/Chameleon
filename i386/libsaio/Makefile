@@ -19,10 +19,9 @@ DEFINES = -DNOTHING
 
 CFLAGS	:= $(CFLAGS) $(RC_CFLAGS) $(MORECPP) -arch i386 \
     -D__ARCHITECTURE__=\"i386\" -DSAIO_INTERNAL_USER \
-    -DRCZ_COMPRESSED_FILE_SUPPORT \
-    -fno-builtin -static $(OMIT_FRAME_POINTER_CFLAG) \
-    -mpreferred-stack-boundary=2 -fno-align-functions -fno-stack-protector \
-    -march=pentium4 -msse2 -mfpmath=sse -msoft-float -nostdinc -include $(SRCROOT)/autoconf.h
+    -DRCZ_COMPRESSED_FILE_SUPPORT -fno-stack-protector \
+    -fno-builtin -static $(OMIT_FRAME_POINTER_CFLAG) -fno-stack-protector \
+    -march=pentium4 -msse2 -msoft-float -nostdinc -include $(SRCROOT)/autoconf.h
 
 CPPFLAGS := $(CPPFLAGS) -nostdinc++
 
