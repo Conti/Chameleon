@@ -95,12 +95,14 @@ void showTextBuffer(char *buf, int size);
 
 static void zeroBSS(void)
 {
-	extern char _DATA__bss__begin, _DATA__bss__end;
-	extern char _DATA__common__begin, _DATA__common__end;
+	extern char  bss_start  __asm("section$start$__DATA$__bss");
+    extern char  bss_end    __asm("section$end$__DATA$__bss");
+    extern char  common_start  __asm("section$start$__DATA$__common");
+    extern char  common_end    __asm("section$end$__DATA$__common");
 	
-	bzero(&_DATA__bss__begin, (&_DATA__bss__end - &_DATA__bss__begin));
-	bzero(&_DATA__common__begin, (&_DATA__common__end - &_DATA__common__begin));
-}
+	bzero(&bss_start, (&bss_end - &bss_start));
+	bzero(&common_start, (&common_end - &common_start));
+} 
 
 //==========================================================================
 // Malloc error function
