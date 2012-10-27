@@ -20,6 +20,8 @@ private:
 public:
 	virtual void setId( int id );
 	virtual void printHello( void );
+	virtual ~HW();
+
 };
 
 void helloWorld(void* binary, void* arg2, void* arg3, void* arg4)
@@ -54,4 +56,8 @@ void HW::printHello()
 void HW::setId(int id)
 {
 	this->id = id;
+}
+
+HW::~HW()
+{
 }
