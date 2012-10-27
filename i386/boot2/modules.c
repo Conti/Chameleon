@@ -75,6 +75,17 @@ int init_module_system()
 	return retVal;
 }
 
+void start_built_in_module(const char* name, 
+                           const char* author, 
+                           const char* description,
+                           UInt32 version,
+                           UInt32 compat,
+                           void(*start_function)(void))
+{
+    start_function();
+    // Notify the module system that this module really exists, specificaly, let other module link with it
+    module_loaded(name, author, description, version, compat);
+}
 
 /*
  * Load all modules in the /Extra/modules/ directory
