@@ -18,28 +18,24 @@ include ${SRCROOT}/Make.rules
 ifeq ($(BUILT_IN),yes)
 
 CFLAGS	:= $(RC_CFLAGS) $(OPTIM) $(MORECPP) -arch i386 -g -Wmost -Werror \
-		-fno-builtin -DSAIO_INTERNAL_USER -static $(OMIT_FRAME_POINTER_CFLAG) \
-		-mpreferred-stack-boundary=2 -fno-align-functions -fno-stack-protector \
-		-march=pentium4 -msse2 -mfpmath=sse -msoft-float -nostdinc -include $(SRCROOT)/autoconf.h
+		-fno-builtin -DSAIO_INTERNAL_USER -static $(OMIT_FRAME_POINTER_CFLAG) -fno-stack-protector \
+		-march=pentium4 -msse2 -msoft-float -nostdinc -include $(SRCROOT)/autoconf.h
 
 CPPFLAGS := $(CPPFLAGS) -arch i386 -static -nostdinc++ -Wmost -Werror \
-	-fno-builtin -mpreferred-stack-boundary=2 \
-	-fno-align-functions -fno-stack-protector \
-	-march=pentium4 -msse2 -mfpmath=sse -msoft-float \
+	-fno-builtin -fno-stack-protector \
+	-march=pentium4 -msse2  -msoft-float \
 	-arch i386 -include $(SRCROOT)/autoconf.h
 
 else
 
 CFLAGS := $(CLFAGS) -nostdinc -Wmost -Werror \
-	-fno-builtin -mpreferred-stack-boundary=2 \
-	-fno-align-functions -fno-stack-protector \
-	-march=pentium4 -msse2 -mfpmath=sse -msoft-float \
+	-fno-builtin -fno-stack-protector \
+	-march=pentium4 -msse2 -msoft-float \
 	-arch i386 -include $(SRCROOT)/autoconf.h
 
 CPPFLAGS := $(CPPFLAGS) -nostdinc++ -Wmost -Werror \
-	-fno-builtin -mpreferred-stack-boundary=2 \
-	-fno-align-functions -fno-stack-protector \
-	-march=pentium4 -msse2 -mfpmath=sse -msoft-float \
+	-fno-builtin -fno-stack-protector \
+	-march=pentium4 -msse2 -msoft-float \
 	-arch i386 -include $(SRCROOT)/autoconf.h
 
 endif
