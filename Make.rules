@@ -68,11 +68,6 @@ $(OBJROOT)/%.o: %.cpp
 	@$(CPP) $(CPPFLAGS) $(CFLAGS) -c "$<" $(INC) -MM -M -o $@.Makedep
 	@$(CPP) $(CPPFLAGS) $(CFLAGS) -c "$<" $(INC) -o $@ 
 
-$(OBJROOT)/boot2.o:
-	@echo "\t[AS] boot2.s"
-	@$(CC) -Wa,-n -c $(INC) -arch i386 boot2.s -MM -M -o $@.Makedep
-	@$(CC) -Wa,-n -c $(INC) -arch i386 boot2.s -o $(OBJROOT)/$(@F) 
-
 $(OBJROOT)/%.o: %.s
 	@echo "\t[AS] $<"
 	@$(CC) $(CPPFLAGS) -c $(INC) -arch i386 $< -MM -M -o $@.Makedep

@@ -90,17 +90,6 @@ endif
 			$(filter %.o,$^) `find $(OBJROOT)/../boot2_modules/ -name \*.o`  $(LIBS) \
 			-o ${SYMROOT}/$@.sys
 
-	@echo "\t[LD] boot.sys"
-	@$(CC) -Wl,-preload -Wl,-alias,boot2,start \
-			-nostdlib -arch i386  -Wl,-pie \
-			-Wl,-segaddr,__INIT,`echo obase=16\; $$((0x${BOOT2ADDR})) | bc` \
-			-Wl,-segaddr,__TEXT,`echo obase=16\; $$((0x${BOOT2ADDR})) + \`${SYMROOT}/segsize ${SYMROOT}/$@.sys __INIT\` | bc` \
-			-Wl,-segaddr,__DATA,`echo obase=16\; $$((0x${BOOT2ADDR})) + ${DATA_PAD} + \`${SYMROOT}/segsize ${SYMROOT}/$@.sys __INIT\` + \`${SYMROOT}/segsize ${SYMROOT}/$@.sys __TEXT\` | bc` \
-			-Wl,-read_only_relocs,suppress \
-			-lcc_kext \
-			$(filter %.o,$^) `find $(OBJROOT)/../boot2_modules/ -name \*.o`  $(LIBS) \
-			-o ${SYMROOT}/$@.sys
-
 
 ifeq (${CONFIG_MODULES}, y)
 
@@ -152,6 +141,17 @@ ifeq (${CONFIG_MODULES}, y)
 	-macosx_version_min 10.6 \
 	-o $(OBJROOT)/Symbols_LINKER_ONLY.dylib
 
+else
+	@echo "\t[LD] boot.sys"
+	@$(CC) -Wl,-preload -Wl,-alias,boot2,start \
+			-nostdlib -arch i386  -Wl,-pie \
+			-Wl,-segaddr,__INIT,`echo obase=16\; $$((0x${BOOT2ADDR})) | bc` \
+			-Wl,-segaddr,__TEXT,`echo obase=16\; $$((0x${BOOT2ADDR})) + \`${SYMROOT}/segsize ${SYMROOT}/$@.sys __INIT\` | bc` \
+			-Wl,-segaddr,__DATA,`echo obase=16\; $$((0x${BOOT2ADDR})) + ${DATA_PAD} + \`${SYMROOT}/segsize ${SYMROOT}/$@.sys __INIT\` + \`${SYMROOT}/segsize ${SYMROOT}/$@.sys __TEXT\` | bc` \
+			-Wl,-read_only_relocs,suppress \
+			-lcc_kext \
+			$(filter %.o,$^) `find $(OBJROOT)/../boot2_modules/ -name \*.o`  $(LIBS) \
+			-o ${SYMROOT}/$@.sys
 endif
 
 
