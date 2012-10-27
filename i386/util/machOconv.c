@@ -78,11 +78,14 @@ main(int argc, char *argv[])
 		perror("read mach header");
 		exit(1);
     }
+	
     if (nc < (int)sizeof (mh))
 	{
 		fprintf(stderr, "read mach header: premature EOF %d\n", nc);
 		exit(1);
     }
+	
+	
     if (mh.magic == MH_MAGIC)		swap_ends = false;
     else if (mh.magic == MH_CIGAM)	swap_ends = true;
     else
@@ -118,25 +121,9 @@ main(int argc, char *argv[])
 #define lcp	((struct load_command *)cp)    
 #define scp	((struct segment_command *)cp)
 		
-	    bool	isDATA;
-	    unsigned	vmsize;
-	    unsigned	vmaddr;
-		
 		switch(swap(lcp->cmd))
 		{
 			case LC_SEGMENT:
-				isDATA = (strcmp(scp->segname, "__DATA") == 0);
-				if (isDATA)
-				{
-					vmaddr = swap(scp->vmaddr);
-					vmsize = swap(scp->filesize);
-				}
-				else
-				{
-					vmaddr = swap(scp->vmaddr);
-					vmsize = swap(scp->vmsize);
-				}
-
 				if(vmstart > swap(scp->vmaddr)) 
 				{
 					vmstart = swap(scp->vmaddr);
@@ -155,7 +142,6 @@ main(int argc, char *argv[])
 
 	    bool	isDATA;
 	    unsigned	vmsize;
-	    unsigned	vmaddr;
 		
 		switch(swap(lcp->cmd))
 		{
@@ -163,12 +149,10 @@ main(int argc, char *argv[])
 				isDATA = (strcmp(scp->segname, "__DATA") == 0);
 				if (isDATA)
 				{
-					vmaddr = swap(scp->vmaddr);
 					vmsize = swap(scp->filesize);
 				}
 				else
 				{
-					vmaddr = swap(scp->vmaddr);
 					vmsize = swap(scp->vmsize);
 				}
 				
