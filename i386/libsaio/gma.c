@@ -184,21 +184,21 @@ bool setup_gma_devprop(pci_dt_t *gma_dev)
 	devprop_add_value(device, "model", (uint8_t*)model, (strlen(model) + 1));
 	devprop_add_value(device, "device_type", (uint8_t*)"display", 8);	
 	
-	if ((model == (char *)"Mobile GMA950")
-		|| (model == (char *)"Mobile GMA3150"))
+	if ((model == (char *)&"Mobile GMA950")
+		|| (model == (char *)&"Mobile GMA3150"))
 	{
 		devprop_add_value(device, "AAPL,HasPanel", reg_TRUE, 4);
 		devprop_add_value(device, "built-in", &BuiltIn, 1);
 		devprop_add_value(device, "class-code", ClassFix, 4);
 	}
-	else if ((model == (char *)"Desktop GMA950")
-			|| (model == (char *)"Desktop GMA3150"))
+	else if ((model == (char *)&"Desktop GMA950")
+			|| (model == (char *)&"Desktop GMA3150"))
 	{
 		BuiltIn = 0x01;
 		devprop_add_value(device, "built-in", &BuiltIn, 1);
 		devprop_add_value(device, "class-code", ClassFix, 4);
 	}
-	else if (model == (char *)"GMAX3100")
+	else if (model == (char *)&"GMAX3100")
 	{
 		devprop_add_value(device, "AAPL,HasPanel",					GMAX3100_vals[0], 4);
 		devprop_add_value(device, "AAPL,SelfRefreshSupported",		GMAX3100_vals[1], 4);
@@ -224,7 +224,7 @@ bool setup_gma_devprop(pci_dt_t *gma_dev)
 		devprop_add_value(device, "AAPL01,Stretch",					GMAX3100_vals[21], 4);
 		devprop_add_value(device, "class-code",						ClassFix, 4);
 	}
-	else if (model == (char *)"Intel HD Graphics 2000 Mobile")
+	else if (model == (char *)&"Intel HD Graphics 2000 Mobile")
 	{
 		devprop_add_value(device, "class-code", ClassFix, 4);
 		devprop_add_value(device, "hda-gfx", (uint8_t *)"onboard-1", 10); 
@@ -245,7 +245,7 @@ bool setup_gma_devprop(pci_dt_t *gma_dev)
 		devprop_add_value(device, "AAPL,tbl-info", HD2000_tbl_info, 18);
 		devprop_add_value(device, "AAPL,os-info", HD2000_os_info, 20);
 	}
-	else if (model == (char *)"Intel HD Graphics 3000 Mobile")
+	else if (model == (char *)&"Intel HD Graphics 3000 Mobile")
 	{
 		devprop_add_value(device, "class-code", ClassFix, 4);
 		devprop_add_value(device, "hda-gfx", (uint8_t *)"onboard-1", 10); 
@@ -266,7 +266,7 @@ bool setup_gma_devprop(pci_dt_t *gma_dev)
 		devprop_add_value(device, "AAPL,tbl-info", HD3000_tbl_info, 18);
 		devprop_add_value(device, "AAPL,os-info", HD3000_os_info, 20);
 	}
-	else if (model == (char *)"Intel HD Graphics 2000")
+	else if (model == (char *)&"Intel HD Graphics 2000")
 	{
 		devprop_add_value(device, "built-in", &BuiltIn, 1);
 		devprop_add_value(device, "class-code", ClassFix, 4);
@@ -275,7 +275,7 @@ bool setup_gma_devprop(pci_dt_t *gma_dev)
 		devprop_add_value(device, "AAPL,tbl-info", HD2000_tbl_info, 18);
 		devprop_add_value(device, "AAPL,os-info", HD2000_os_info, 20);
 	}
-	else if (model == (char *)"Intel HD Graphics 3000")
+	else if (model == (char *)&"Intel HD Graphics 3000")
 	{
 		devprop_add_value(device, "built-in", &BuiltIn, 1);
 		devprop_add_value(device, "class-code", ClassFix, 4);
