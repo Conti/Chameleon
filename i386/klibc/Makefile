@@ -14,8 +14,7 @@ include ${SRCROOT}/Make.rules
 
 CFLAGS	:= $(CFLAGS) $(RC_CFLAGS) $(MORECPP) -arch i386 \
 	      -fno-builtin -static $(OMIT_FRAME_POINTER_CFLAG) \
-	      -mpreferred-stack-boundary=2 -fno-align-functions -fno-stack-protector \
-	      -march=pentium4 -msse2 -mfpmath=sse -msoft-float \
+	      -march=pentium4 -msse2 -msoft-float -fno-stack-protector \
 	      -nostdinc -include $(SRCROOT)/autoconf.h
 
 CPPFLAGS := $(CPPFLAGS) -nostdinc++
