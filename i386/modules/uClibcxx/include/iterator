@@ -28,10 +28,6 @@
 #ifndef __STD_HEADER_ITERATOR
 #define __STD_HEADER_ITERATOR 1
 
-#ifdef __GCC__
-#pragma GCC visibility push(default)
-#endif
-
 namespace std{
 
   // subclause _lib.stream.iterators_, stream iterators:
@@ -166,7 +162,7 @@ namespace std{
 		}
 
 		bool equal(const istreambuf_iterator& b) const{
-			return sbuf == b.sbuf || is_eof() && b.is_eof();
+			return sbuf == b.sbuf || (is_eof() && b.is_eof());
 		}
 	private:
 		streambuf_type* sbuf;
@@ -223,10 +219,6 @@ namespace std{
 	};
 
 }
-
-#ifdef __GCC__
-#pragma GCC visibility pop
-#endif
 
 #endif
 

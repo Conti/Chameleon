@@ -33,10 +33,6 @@
 #ifndef __HEADER_STD_STRING
 #define __HEADER_STD_STRING 1
 
-#ifdef __GCC__
-#pragma GCC visibility push(default)
-#endif
-
 namespace std{
 
 	//Basic basic_string
@@ -428,7 +424,7 @@ public:
 	}
 	_UCXXEXPORT size_type find (Ch c, size_type pos = 0) const{
 		for(size_type i = pos; i < length(); ++i){
-			if(operator[](i) == c){
+			if(this->operator[](i) == c){
 				return i;
 			}
 		}
@@ -458,7 +454,7 @@ public:
 	_UCXXEXPORT size_type find_first_of(const basic_string& str, size_type pos = 0) const{
 		for(size_type i = pos; i < length(); ++i){
 			for(size_type j = 0; j < str.length() ; ++j){
-				if( Tr::eq(str[j], operator[](i)) ){
+				if( Tr::eq(str[j], this->operator[](i)) ){
 					return i;
 				}
 			}
@@ -474,7 +470,7 @@ public:
 	}
 	_UCXXEXPORT size_type find_first_of(Ch c, size_type pos = 0) const{
 		for(size_type i = pos; i< length(); ++i){
-			if( Tr::eq(operator[](i), c) ){
+			if( Tr::eq(this->operator[](i), c) ){
 				return i;
 			}
 		}
@@ -487,7 +483,7 @@ public:
 		}
 		for(size_type i = pos; i >0 ; --i){
 			for(size_type j = 0 ; j < str.length(); ++j){
-				if( Tr::eq(operator[](i-1), str[j]) ){
+				if( Tr::eq(this->operator[](i-1), str[j]) ){
 					return i-1;
 				}
 			}
@@ -505,7 +501,7 @@ public:
 			pos = length();
 		}
 		for(size_type i = pos; i >0 ; --i){
-			if( Tr::eq(operator[](i-1), c) ){
+			if( Tr::eq(this->operator[](i-1), c) ){
 				return i-1;
 			}
 		}
@@ -517,7 +513,7 @@ public:
 		for(size_type i = pos; i < length(); ++i){
 			foundCharacter = false;
                         for(size_type j = 0; j < str.length() ; ++j){
-                                if( Tr::eq(str[j], operator[](i)) ){
+                                if( Tr::eq(str[j], this->operator[](i)) ){
 					foundCharacter = true;
                                 }
                         }
@@ -536,7 +532,7 @@ public:
 	}
 	_UCXXEXPORT size_type find_first_not_of(Ch c, size_type pos = 0) const{
 		for(size_type i = pos; i < length() ; ++i){
-			if(operator[](i) != c){
+			if(this->operator[](i) != c){
 				return i;
 			}
 		}
@@ -1019,11 +1015,11 @@ template<class charT, class traits, class Allocator> _UCXXEXPORT void
 
 template <> _UCXXEXPORT bool operator==(const string & lhs, const string & rhs);
 template <> _UCXXEXPORT bool operator==(const char * lhs, const string & rhs);
-template <> _UCXXEXPORT bool operator==(const string & rhs, const char * rhs);
+template <> _UCXXEXPORT bool operator==(const string & lhs, const char * rhs);
 
 template <> _UCXXEXPORT bool operator!=(const string & lhs, const string & rhs);
 template <> _UCXXEXPORT bool operator!=(const char * lhs, const string & rhs);
-template <> _UCXXEXPORT bool operator!=(const string & rhs, const char * rhs);
+template <> _UCXXEXPORT bool operator!=(const string & lhs, const char * rhs);
 
 template <> _UCXXEXPORT string operator+(const string & lhs, const char* rhs);
 template <> _UCXXEXPORT string operator+(const char* lhs, const string & rhs);
@@ -1038,9 +1034,5 @@ template <> _UCXXEXPORT bool operator< (const string & lhs, const string & rhs);
 
 
 }
-
-#ifdef __GCC__
-#pragma GCC visibility pop
-#endif
 
 #endif

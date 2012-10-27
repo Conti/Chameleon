@@ -24,10 +24,6 @@
 #ifndef __STD_HEADER_LIST
 #define __STD_HEADER_LIST 1
 
-#ifdef __GCC__
-#pragma GCC visibility push(default)
-#endif
-
 namespace std{
 
 	template <class T, class Allocator = allocator<T> > class _UCXXEXPORT list {
@@ -64,18 +60,7 @@ namespace std{
 		list(const list<T,Allocator>& x);
 		~list();
 
-		list<T,Allocator>& operator=(const list<T,Allocator>& x){
-			if(&x == this){
-				return *this;
-			}
-			clear();
-			iterator i = x.begin();
-			while(i != x.end()){
-				push_back(*i);
-				++i;
-			}
-			return *this;
-		}
+		list<T,Allocator>& operator=(const list<T,Allocator>& x);
 
 		template <class InputIterator> void assign(InputIterator first, InputIterator last);
 		template <class Size, class U> void assign(Size n, const U& u = U());
@@ -549,6 +534,20 @@ namespace std{
 		}
 	}
 
+	template<class T, class Allocator> list<T,Allocator>& list<T, Allocator>:: operator=(const list<T,Allocator>& x){
+			if(&x == this){
+				return *this;
+			}
+			clear();
+			iterator i = x.begin();
+			while(i != x.end()){
+				push_back(*i);
+				++i;
+			}
+			return *this;
+		}
+
+
 	template<class T, class Allocator>
 		void list<T, Allocator>::splice(iterator position, list<T,Allocator>& x)
 	{
@@ -921,10 +920,6 @@ namespace std{
 	}
 
 }
-
-#ifdef __GCC__
-#pragma GCC visibility pop
-#endif
 
 #endif
 

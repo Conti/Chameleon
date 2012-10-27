@@ -27,10 +27,6 @@
 #undef min
 #undef max
 
-#ifdef __GCC__
-#pragma GCC visibility push(default)
-#endif
-
 namespace std{
 
 	// subclause _lib.alg.nonmodifying_, non-modifying sequence operations:
@@ -1688,10 +1684,6 @@ namespace std{
 	}
 
 }
-
-#ifdef __GCC__
-#pragma GCC visibility pop
-#endif
 
 #endif
 

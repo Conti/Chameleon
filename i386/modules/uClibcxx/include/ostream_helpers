@@ -21,14 +21,11 @@
 #include <cstddef>
 #include <ios>
 #include <cctype>
+#include <cstdio>
 #include <string>
 
 #ifndef __STD_HEADER_OSTREAM_HELPERS
 #define __STD_HEADER_OSTREAM_HELPERS 1
-
-#ifdef __GCC__
-#pragma GCC visibility push(default)
-#endif
 
 namespace std{
 
@@ -483,10 +480,6 @@ namespace std{
 #endif //__UCLIBCXX_HAS_WCHAR__
 
 }
-
-#ifdef __GCC__
-#pragma GCC visibility pop
-#endif
 
 #endif
 

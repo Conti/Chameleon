@@ -25,13 +25,9 @@
 #ifndef __HEADER_STD_IOSFWD
 #define __HEADER_STD_IOSFWD 1
 
-#ifdef __GCC__
-#pragma GCC visibility push(default)
-#endif
-
 namespace std {
 	class ios_base;
-	template<> class char_traits<char>;
+	template<> struct char_traits<char>;
 
 #ifdef __UCLIBCXX_HAS_WCHAR__
 	template<> class char_traits<wchar_t>;
@@ -110,9 +106,5 @@ namespace std {
 	typedef fpos<char_traits<wchar_t>::state_type> wstreampos;
 #endif
 }
-
-#ifdef __GCC__
-#pragma GCC visibility pop
-#endif
 
 #endif

@@ -24,10 +24,6 @@
 #ifndef HEADER_IMPLEMENTATION_FUNC_EXCEPTION
 #define HEADER_IMPLEMENTATION_FUNC_EXCEPTION
 
-#ifdef __GCC__
-#pragma GCC visibility push(default)
-#endif
-
 namespace std{
 
 	_UCXXEXPORT void __throw_bad_alloc();
@@ -36,10 +32,6 @@ namespace std{
 	_UCXXEXPORT void __throw_length_error(const char * message = 0);
 	_UCXXEXPORT void __throw_invalid_argument(const char * message = 0);
 }
-
-#ifdef __GCC__
-#pragma GCC visibility pop
-#endif
 
 #endif
 

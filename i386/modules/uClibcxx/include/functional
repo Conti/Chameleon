@@ -21,10 +21,6 @@
 
 #include <basic_definitions>
 
-#ifdef __GCC__
-#pragma GCC visibility push(default)
-#endif
-
 namespace std{
 
 	template <class Arg, class Result> struct unary_function;
@@ -48,9 +44,9 @@ namespace std{
 	template <class T> struct logical_or;
 	template <class T> struct logical_not;
 
-	template <class Predicate> struct unary_negate;
+	template <class Predicate> class unary_negate;
 	template <class Predicate> unary_negate<Predicate>  not1(const Predicate&);
-	template <class Predicate> struct binary_negate;
+	template <class Predicate> class binary_negate;
 	template <class Predicate> binary_negate<Predicate> not2(const Predicate&);
 
 
@@ -432,10 +428,6 @@ template <class Op1, class Op2, class Op3> inline _UCXXEXPORT binary_compose<Op1
 compose2(const Op1 & fn1, const Op2 & fn2, const Op3 & fn3){
 	return binary_compose<Op1, Op2, Op3>(fn1, fn2, fn3);
 }
-
-#ifdef __GCC__
-#pragma GCC visibility pop
-#endif
 
 #endif
 

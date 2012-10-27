@@ -25,10 +25,6 @@
 #include <cstddef>
 #include <cmath>
 
-#ifdef __GCC__
-#pragma GCC visibility push(default)
-#endif
-
 namespace std{
 
 	template<class T> class valarray;
@@ -992,9 +988,5 @@ namespace std{
 	}
 	
 }
-
-#ifdef __GCC__
-#pragma GCC visibility pop
-#endif
 
 #endif

@@ -21,10 +21,6 @@
 #ifndef __HEADER_STD_STACK
 #define __HEADER_STD_STACK 1
 
-#ifdef __GCC__
-#pragma GCC visibility push(default)
-#endif
-
 namespace std{
 
 	template <class T, class Container = deque<T> > class _UCXXEXPORT stack{
@@ -78,10 +74,6 @@ namespace std{
 	}
 
 }
-
-#ifdef __GCC__
-#pragma GCC visibility pop
-#endif
 
 #endif
 

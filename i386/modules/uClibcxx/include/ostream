@@ -27,10 +27,6 @@
 #include <cstdio>
 #include <ostream_helpers>
 
-#ifdef __GCC__
-#pragma GCC visibility push(default)
-#endif
-
 namespace std {
 	template <class charT, class traits > class basic_ostream;
 	typedef basic_ostream<char> ostream;
@@ -93,7 +89,7 @@ namespace std {
 				basic_ios<charT, traits>::mstreambuf->sputc(c),
 				basic_ostream<charT,traits>::traits_type::eof()))
 			{
-				basic_ios<charT,traits>::setstate(ios_base::eofbit);
+				//basic_ios<charT,traits>::setstate(ios_base::eofbit);
 			}
 			return *this;
 		}
@@ -102,13 +98,13 @@ namespace std {
 				basic_ios<charT, traits>::mstreambuf->sputn(s, n), 
 				basic_ostream<charT,traits>::traits_type::eof())
 			){
-				basic_ios<charT,traits>::setstate(ios_base::eofbit);
+				//basic_ios<charT,traits>::setstate(ios_base::eofbit);
 			}
 			return *this;
 		}
 		_UCXXEXPORT basic_ostream<charT,traits>& flush(){
 			if(basic_ios<charT, traits>::mstreambuf->pubsync() == -1){
-				basic_ios<charT,traits>::setstate(ios_base::badbit);
+				//basic_ios<charT,traits>::setstate(ios_base::badbit);
 			}
 			return *this;
 		}
@@ -233,7 +229,7 @@ namespace std {
 	{
 		sentry s(*this);
 		if(sb == 0){
-			basic_ios<charT,traits>::setstate(ios_base::badbit);
+			//basic_ios<charT,traits>::setstate(ios_base::badbit);
 			return *this;
 		}
 
@@ -277,7 +273,7 @@ namespace std {
 #endif
 #endif
 
-	template <class charT,class traits = char_traits<charT> >
+	template <class charT,class traits/* = char_traits<charT>*/ >
 		class _UCXXEXPORT basic_ostream<charT,traits>::sentry
 	{
 		bool ok;
@@ -478,10 +474,6 @@ template<class Ch, class Tr> _UCXXEXPORT basic_ostream<Ch, Tr>&
 
 
 }
-
-#ifdef __GCC__
-#pragma GCC visibility pop
-#endif
 
 #endif
 

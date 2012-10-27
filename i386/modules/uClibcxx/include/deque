@@ -21,10 +21,6 @@
 #include <iterator>
 #include <stdexcept>
 
-#ifdef __GCC__
-#pragma GCC visibility push(default)
-#endif
-
 #ifndef __STD_HEADER_DEQUE
 #define __STD_HEADER_DEQUE
 
@@ -803,10 +799,6 @@ namespace std{
 
 
 }
-
-#ifdef __GCC__
-#pragma GCC visibility pop
-#endif
 
 #endif
 

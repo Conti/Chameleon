@@ -23,10 +23,6 @@
 #ifndef __STD_IOMANIP
 #define __STD_IOMANIP 1
 
-#ifdef __GCC__
-#pragma GCC visibility push(default)
-#endif
-
 namespace std{
 
 // These are the helper classes which we are going to be using to
@@ -165,10 +161,6 @@ template<class Ch, class Tr> _UCXXEXPORT basic_ostream<Ch, Tr>&
 
 
 }
-
-#ifdef __GCC__
-#pragma GCC visibility pop
-#endif
 
 #endif
 

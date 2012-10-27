@@ -29,8 +29,6 @@
 #include <iostream>
 #include <string>
 
-#pragma GCC visibility push(default)
-
 namespace std{
 
 	template <class charT, class traits, class Allocator>
@@ -375,8 +373,6 @@ namespace std{
 
 #endif
 #endif
-
-#pragma GCC visibility pop
 
 }
 

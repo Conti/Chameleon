@@ -29,10 +29,6 @@
 #ifndef __STD_HEADER_VECTOR
 #define __STD_HEADER_VECTOR
 
-#ifdef __GCC__
-#pragma GCC visibility push(default)
-#endif
-
 namespace std{
 
 	template <class T, class Allocator = allocator<T> > class vector;
@@ -512,10 +508,6 @@ namespace std{
 	}
 
 }
-
-#ifdef __GCC__
-#pragma GCC visibility pop
-#endif
 
 #endif
 

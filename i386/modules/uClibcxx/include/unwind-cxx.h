@@ -38,11 +38,7 @@
 #include <typeinfo>
 #include <exception>
 #include <cstddef>
-#include "unwind.h"
-
-#ifdef __GCC__
-#pragma GCC visibility push(default)
-#endif
+//#include <unwind.h>
 
 namespace __cxxabiv1
 {
@@ -137,30 +133,6 @@ extern void __unexpected(std::unexpected_handler) __attribute__((noreturn));
 // The current installed user handlers.
 extern std::terminate_handler __terminate_handler;
 extern std::unexpected_handler __unexpected_handler;
-
-// These are explicitly GNU C++ specific.
-
-// This is the exception class we report -- "GNUCC++\0".
-const _Unwind_Exception_Class __gxx_exception_class
-= ((((((((_Unwind_Exception_Class) 'G' 
-	 << 8 | (_Unwind_Exception_Class) 'N')
-	<< 8 | (_Unwind_Exception_Class) 'U')
-       << 8 | (_Unwind_Exception_Class) 'C')
-      << 8 | (_Unwind_Exception_Class) 'C')
-     << 8 | (_Unwind_Exception_Class) '+')
-    << 8 | (_Unwind_Exception_Class) '+')
-   << 8 | (_Unwind_Exception_Class) '\0');
-
-// GNU C++ personality routine, Version 0.
-extern "C" _Unwind_Reason_Code __gxx_personality_v0
-     (int, _Unwind_Action, _Unwind_Exception_Class,
-      struct _Unwind_Exception *, struct _Unwind_Context *);
-
-// GNU C++ sjlj personality routine, Version 0.
-extern "C" _Unwind_Reason_Code __gxx_personality_sj0
-     (int, _Unwind_Action, _Unwind_Exception_Class,
-      struct _Unwind_Exception *, struct _Unwind_Context *);
-
 	
 #ifdef __UCLIBCXX_EXCEPTION_SUPPORT__
 // Acquire the C++ exception header from the C++ object.
@@ -178,9 +150,5 @@ __get_exception_header_from_ue (_Unwind_Exception *exc)
 }
 #endif
 } /* namespace __cxxabiv1 */
-
-#ifdef __GCC__
-#pragma GCC visibility pop
-#endif
 
 #endif // _UNWIND_CXX_H

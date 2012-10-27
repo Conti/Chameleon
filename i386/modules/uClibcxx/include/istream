@@ -26,10 +26,6 @@
 #ifndef __STD_HEADER_ISTREAM
 #define __STD_HEADER_ISTREAM 1
 
-#ifdef __GCC__
-#pragma GCC visibility push(default)
-#endif
-
 namespace std{
 
 	typedef basic_istream<char> istream;
@@ -100,15 +96,15 @@ namespace std{
 				basic_ios<charT, traits>::mstreambuf->sbumpc();
 				if(c == traits::eof() ){
 					if(i==0){
-						basic_ios<charT,traits>::setstate(ios_base::failbit);
+						//basic_ios<charT,traits>::setstate(ios_base::failbit);
 					}else{
-						basic_ios<charT,traits>::setstate(ios_base::eofbit);
+						//basic_ios<charT,traits>::setstate(ios_base::eofbit);
 					}
 					break;
 				}
 				if(c == delim){
 					if(i==0){
-						basic_ios<charT,traits>::setstate(ios_base::failbit);
+						//basic_ios<charT,traits>::setstate(ios_base::failbit);
 					}
 					basic_ios<charT, traits>::mstreambuf->sputbackc(c);
 					break;
@@ -132,16 +128,16 @@ namespace std{
 				c = basic_ios<charT, traits>::mstreambuf->sgetc();
 				if(c == traits::eof()){
 					if(i==0){
-						basic_ios<charT,traits>::setstate(ios_base::failbit);
+						//basic_ios<charT,traits>::setstate(ios_base::failbit);
 					}else{
-						basic_ios<charT,traits>::setstate(ios_base::eofbit);
+						//basic_ios<charT,traits>::setstate(ios_base::eofbit);
 					}
 					count_last_ufmt_input = i;
 					return *this;
 				}
 				if(c == delim){
 					if(i==0){
-						basic_ios<charT,traits>::setstate(ios_base::failbit);
+						//basic_ios<charT,traits>::setstate(ios_base::failbit);
 					}
 					count_last_ufmt_input = i;
 					return *this;
@@ -167,16 +163,16 @@ namespace std{
 				c = basic_ios<charT, traits>::mstreambuf->sgetc();
 				if(c == traits::eof() ){
 					if( basic_ios<charT,traits>::eof() ){
-						basic_ios<charT,traits>::setstate(ios_base::failbit);
+						//basic_ios<charT,traits>::setstate(ios_base::failbit);
 					}else{
-						basic_ios<charT,traits>::setstate(ios_base::eofbit);
+						//basic_ios<charT,traits>::setstate(ios_base::eofbit);
 					}
 					count_last_ufmt_input = i;
 					s[i] = traits::eos();
 					return *this;
 				}
 				if(basic_ios<charT, traits>::mstreambuf->sbumpc()==traits::eof() ){
-					basic_ios<charT,traits>::setstate(ios_base::eofbit);
+					//basic_ios<charT,traits>::setstate(ios_base::eofbit);
 				}
 				if(c == delim){
 					count_last_ufmt_input = i+1;
@@ -196,7 +192,7 @@ namespace std{
 			for(i=0;i<n;++i){
 				c = basic_ios<charT, traits>::mstreambuf->sgetc();
 				if(c == traits::eof()){
-					basic_ios<charT,traits>::setstate(ios_base::eofbit);
+					//basic_ios<charT,traits>::setstate(ios_base::eofbit);
 					return *this;
 				}
 				basic_ios<charT, traits>::mstreambuf->sbumpc();
@@ -213,7 +209,7 @@ namespace std{
 			}else{
 				int_type c = basic_ios<charT, traits>::mstreambuf->sgetc();
 				if(c == traits::eof()){
-					basic_ios<charT,traits>::setstate(ios_base::eofbit);
+					//basic_ios<charT,traits>::setstate(ios_base::eofbit);
 				}
 				return basic_ios<charT, traits>::mstreambuf->sgetc();
 			}
@@ -227,8 +223,8 @@ namespace std{
 				c = basic_ios<charT, traits>::mstreambuf->sgetc();
 
 				if(c == traits::eof()){
-					basic_ios<charT,traits>::setstate(ios_base::failbit);
-					basic_ios<charT,traits>::setstate(ios_base::eofbit);
+					//basic_ios<charT,traits>::setstate(ios_base::failbit);
+					//basic_ios<charT,traits>::setstate(ios_base::eofbit);
 					count_last_ufmt_input = i;
 					return *this;
 				}
@@ -243,13 +239,13 @@ namespace std{
 			sentry(*this, true);
 			if(!basic_ios<charT,traits>::good()){
 				count_last_ufmt_input = 0;
-				basic_ios<charT,traits>::setstate(ios_base::failbit);
+				//basic_ios<charT,traits>::setstate(ios_base::failbit);
 				return 0;
 			}
 			
 			if( basic_ios<charT, traits>::mstreambuf->in_avail()  ==  -1){
 				count_last_ufmt_input=0;
-				basic_ios<charT,traits>::setstate(ios_base::eofbit);
+				//basic_ios<charT,traits>::setstate(ios_base::eofbit);
 				return 0;
 			}
 			
@@ -272,15 +268,15 @@ namespace std{
 		_UCXXEXPORT basic_istream<charT,traits>& putback(char_type c){
 			sentry(*this, true);
 			if(!basic_ios<charT,traits>::good()){
-				basic_ios<charT,traits>::setstate(ios_base::failbit);
+				//basic_ios<charT,traits>::setstate(ios_base::failbit);
 				return *this;
 			}
 			if(basic_ios<charT, traits>::mstreambuf == 0){
-				basic_ios<charT,traits>::setstate(ios_base::badbit);
+				//basic_ios<charT,traits>::setstate(ios_base::badbit);
 				return *this;
 			}
 			if(basic_ios<charT, traits>::mstreambuf->sputbackc(c) == traits::eof()){
-				basic_ios<charT,traits>::setstate(ios_base::badbit);
+				//basic_ios<charT,traits>::setstate(ios_base::badbit);
 				return *this;
 			}
 			return *this;
@@ -289,15 +285,15 @@ namespace std{
 		_UCXXEXPORT basic_istream<charT,traits>& unget(){
 			sentry(*this, true);
 			if(!basic_ios<charT,traits>::good()){
-				basic_ios<charT,traits>::setstate(ios_base::failbit);
+				//basic_ios<charT,traits>::setstate(ios_base::failbit);
 				return *this;
 			}
 			if(basic_ios<charT, traits>::mstreambuf == 0){
-				basic_ios<charT,traits>::setstate(ios_base::failbit);
+				//basic_ios<charT,traits>::setstate(ios_base::failbit);
 				return *this;
 			}
 			if(basic_ios<charT, traits>::mstreambuf->sungetc() == traits::eof()){
-				basic_ios<charT,traits>::setstate(ios_base::failbit);
+				//basic_ios<charT,traits>::setstate(ios_base::failbit);
 			}
 			return *this;
 		}
@@ -308,7 +304,7 @@ namespace std{
 				return -1;
 			}
 			if(basic_ios<charT, traits>::mstreambuf->pubsync() == -1){
-				basic_ios<charT,traits>::setstate(ios_base::badbit);
+				//basic_ios<charT,traits>::setstate(ios_base::badbit);
 				return traits::eof();
 			}
 			return 0;
@@ -342,7 +338,7 @@ namespace std{
 
 	};
 	
-	template <class charT,class traits = char_traits<charT> > class _UCXXEXPORT basic_istream<charT,traits>::sentry {
+	template <class charT,class traits /*= char_traits<charT>*/ > class _UCXXEXPORT basic_istream<charT,traits>::sentry {
 		bool ok;
 	public:
 		explicit _UCXXEXPORT sentry(basic_istream<charT,traits>& os, bool noskipws = false){
@@ -374,7 +370,7 @@ namespace std{
 		int_type retval = basic_ios<charT, traits>::mstreambuf->sgetc();
 		if(retval == traits::eof()){
 			count_last_ufmt_input = 0;
-			basic_ios<charT,traits>::setstate(ios_base::eofbit);
+			//basic_ios<charT,traits>::setstate(ios_base::eofbit);
 		}else{
 			count_last_ufmt_input = 1;
 			basic_ios<charT, traits>::mstreambuf->sbumpc();
@@ -388,8 +384,8 @@ namespace std{
 		int_type retval = basic_ios<charT, traits>::mstreambuf->sgetc();
 		if(retval == traits::eof()){
 			count_last_ufmt_input = 0;
-			basic_ios<charT,traits>::setstate(ios_base::eofbit);
-			basic_ios<charT,traits>::setstate(ios_base::failbit);
+			//basic_ios<charT,traits>::setstate(ios_base::eofbit);
+			//basic_ios<charT,traits>::setstate(ios_base::failbit);
 		}else{
 			count_last_ufmt_input = 1;
 			c = traits::to_char_type(retval);
@@ -596,10 +592,6 @@ namespace std{
 
 
 }
-
-#ifdef __GCC__
-#pragma GCC visibility pop
-#endif
 
 #endif
 

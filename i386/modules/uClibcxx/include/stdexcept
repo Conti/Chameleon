@@ -27,8 +27,6 @@
 //Don't include support if not needed
 #ifdef __UCLIBCXX_EXCEPTION_SUPPORT__
 
-#pragma GCC visibility push(default)
-
 namespace std{
 
 //typedef basic_string<char> string;
@@ -110,8 +108,6 @@ public:
 
 
 }
-
-#pragma GCC visibility pop
 
 #endif
 #endif

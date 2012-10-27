@@ -27,10 +27,6 @@
 
 #include <ios>
 
-#ifdef __GCC__
-#pragma GCC visibility push(default)
-#endif
-
 namespace std{
 
 	template <class charT, class traits> class _UCXXEXPORT basic_streambuf{
@@ -325,9 +321,5 @@ namespace std{
 
 
 }
-
-#ifdef __GCC__
-#pragma GCC visibility pop
-#endif
 
 #endif
