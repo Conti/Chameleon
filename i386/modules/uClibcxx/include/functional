@@ -21,7 +21,9 @@
 
 #include <basic_definitions>
 
+#ifdef __GCC__
 #pragma GCC visibility push(default)
+#endif
 
 namespace std{
 
@@ -431,7 +433,9 @@ compose2(const Op1 & fn1, const Op2 & fn2, const Op3 & fn3){
 	return binary_compose<Op1, Op2, Op3>(fn1, fn2, fn3);
 }
 
+#ifdef __GCC__
 #pragma GCC visibility pop
+#endif
 
 #endif
 

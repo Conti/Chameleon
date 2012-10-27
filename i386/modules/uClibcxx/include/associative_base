@@ -28,7 +28,9 @@
 #ifndef __STD_HEADER_ASSOCIATIVE_BASE
 #define __STD_HEADER_ASSOCIATIVE_BASE
 
+#ifdef __GCC__
 #pragma GCC visibility push(default)
+#endif
 
 namespace std{
 
@@ -636,7 +638,9 @@ public:
 
 }
 
+#ifdef __GCC__
 #pragma GCC visibility pop
+#endif
 
 #endif	//__STD_HEADER_ASSOCIATIVE_BASE
 

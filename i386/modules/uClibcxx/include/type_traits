@@ -25,7 +25,9 @@
 #ifndef __HEADER_TYPE_TRAITS
 #define __HEADER_TYPE_TRAITS 1
 
+#ifdef __GCC__
 #pragma GCC visibility push(default)
+#endif
 
 namespace std{
 
@@ -86,7 +88,9 @@ namespace std{
 
 }
 
+#ifdef __GCC__
 #pragma GCC visibility pop
+#endif
 
 #endif
 

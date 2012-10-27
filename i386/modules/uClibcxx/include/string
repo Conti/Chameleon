@@ -33,7 +33,9 @@
 #ifndef __HEADER_STD_STRING
 #define __HEADER_STD_STRING 1
 
+#ifdef __GCC__
 #pragma GCC visibility push(default)
+#endif
 
 namespace std{
 
@@ -1037,6 +1039,8 @@ template <> _UCXXEXPORT bool operator< (const string & lhs, const string & rhs);
 
 }
 
+#ifdef __GCC__
 #pragma GCC visibility pop
+#endif
 
 #endif

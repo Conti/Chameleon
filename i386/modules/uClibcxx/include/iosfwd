@@ -25,7 +25,9 @@
 #ifndef __HEADER_STD_IOSFWD
 #define __HEADER_STD_IOSFWD 1
 
+#ifdef __GCC__
 #pragma GCC visibility push(default)
+#endif
 
 namespace std {
 	class ios_base;
@@ -109,6 +111,8 @@ namespace std {
 #endif
 }
 
+#ifdef __GCC__
 #pragma GCC visibility pop
+#endif
 
 #endif

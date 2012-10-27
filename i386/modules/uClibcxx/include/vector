@@ -29,7 +29,9 @@
 #ifndef __STD_HEADER_VECTOR
 #define __STD_HEADER_VECTOR
 
+#ifdef __GCC__
 #pragma GCC visibility push(default)
+#endif
 
 namespace std{
 
@@ -511,7 +513,9 @@ namespace std{
 
 }
 
+#ifdef __GCC__
 #pragma GCC visibility pop
+#endif
 
 #endif
 

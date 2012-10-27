@@ -25,7 +25,9 @@
 #ifndef __HEADER_STD_IOS
 #define __HEADER_STD_IOS 1
 
+#ifdef __GCC__
 #pragma GCC visibility push(default)
+#endif
 
 namespace std{
 	typedef signed long int streamoff;
@@ -495,7 +497,9 @@ namespace std{
 
 }
 
+#ifdef __GCC__
 #pragma GCC visibility pop
+#endif
 
 #endif
 

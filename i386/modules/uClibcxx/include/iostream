@@ -29,7 +29,9 @@
 #include <fstream>
 #include <string_iostream>
 
+#ifdef __GCC__
 #pragma GCC visibility push(default)
+#endif
 
 namespace std{
 #ifdef __UCLIBCXX_SUPPORT_CIN__
@@ -96,6 +98,8 @@ namespace std{
 
 }
 
+#ifdef __GCC__
 #pragma GCC visibility pop
+#endif
 
 #endif

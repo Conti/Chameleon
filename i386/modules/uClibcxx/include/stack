@@ -21,7 +21,9 @@
 #ifndef __HEADER_STD_STACK
 #define __HEADER_STD_STACK 1
 
+#ifdef __GCC__
 #pragma GCC visibility push(default)
+#endif
 
 namespace std{
 
@@ -77,7 +79,9 @@ namespace std{
 
 }
 
+#ifdef __GCC__
 #pragma GCC visibility pop
+#endif
 
 #endif
 

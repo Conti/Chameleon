@@ -28,7 +28,9 @@
 #ifndef __STD_HEADER_SET
 #define __STD_HEADER_SET
 
+#ifdef __GCC__
 #pragma GCC visibility push(default)
+#endif
 
 namespace std{
 
@@ -400,7 +402,9 @@ protected:
 
 }
 
+#ifdef __GCC__
 #pragma GCC visibility pop
+#endif
 
 #endif
 

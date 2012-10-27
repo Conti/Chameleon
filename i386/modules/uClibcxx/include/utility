@@ -24,7 +24,9 @@
 #ifndef __STD_HEADER_UTILITY
 #define __STD_HEADER_UTILITY 1
 
+#ifdef __GCC__
 #pragma GCC visibility push(default)
+#endif
 
 namespace std{
 
@@ -83,6 +85,8 @@ namespace std{
 
 }
 
+#ifdef __GCC__
 #pragma GCC visibility pop
+#endif
 
 #endif	//__STD_HEADER_UTILITY

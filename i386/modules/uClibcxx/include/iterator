@@ -28,7 +28,9 @@
 #ifndef __STD_HEADER_ITERATOR
 #define __STD_HEADER_ITERATOR 1
 
+#ifdef __GCC__
 #pragma GCC visibility push(default)
+#endif
 
 namespace std{
 
@@ -222,7 +224,9 @@ namespace std{
 
 }
 
+#ifdef __GCC__
 #pragma GCC visibility pop
+#endif
 
 #endif
 
