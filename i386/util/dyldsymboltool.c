@@ -91,8 +91,15 @@ int main(int argc, char *argv[])
                 char* name = strtok(NULL, " ");
                 name[strlen(name)-1] = 0;	// remove newline
                 sscanf(addr, "%x", &address);
-                if(strcmp(name, VOID_SYMBOL) == 0) start_addr = address;
-                add_symbol(&symbols, name, address);
+                if(strcmp(name, VOID_SYMBOL) == 0) 
+				{
+					start_addr = address;
+				}
+				if(strcmp(name, START_SYMBOL) == 0)
+				{
+					if(!start_addr) start_addr = address;
+				}
+                else add_symbol(&symbols, name, address);
             }
         }        
         
