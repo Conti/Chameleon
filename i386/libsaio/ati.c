@@ -569,7 +569,7 @@ static radeon_card_info_t radeon_cards[] = {
 	{ 0x68F9,	0x5530174B, CHIP_FAMILY_CEDAR,		"ATI Radeon HD 5530",			kNull		},
 	{ 0x68F9,	0xE145174B, CHIP_FAMILY_CEDAR,		"ATI Radeon HD 5450",			kEulemur	},
 	{ 0x68F9,	0xE153174B, CHIP_FAMILY_CEDAR,		"ATI Radeon HD 5450",			kEulemur	},
-	{ 0x69F9,	0xE164174B, CHIP_FAMILY_CEDAR,		"ATI Radeon HD 5450",			kEulemur	},
+	{ 0x68F9,	0xE164174B, CHIP_FAMILY_CEDAR,		"ATI Radeon HD 5450",			kEulemur	},
 
 	/* Northen Islands */
 	{ 0x6718,	0x0B001002, CHIP_FAMILY_CAYMAN,		"AMD Radeon HD 6970",			kGibba		},
