@@ -197,7 +197,9 @@ struct BootVolume {
 	bool			 filtered;		  /* newFilteredBVChain() will set to TRUE */
 	bool			 visible;		  /* will shown in the device list */
     char			 OSVersion[8];
-    bool             OSisServer;        /* 1 = OS X server , 0 = OS X client */
+    bool             OSisServer;      /* 1 = OS X server , 0 = OS X client */
+	bool             OSisInstaller;   /* 1 = OS X Install partition / recover partition , 0 = OS X Install */
+
 };
 
 enum {
