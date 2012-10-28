@@ -618,6 +618,7 @@ int loadSystemConfig(config_file_t *config)
 {
 	char *dirspec[] = {
 		"/Library/Preferences/SystemConfiguration/com.apple.Boot.plist",
+		"/OS X Install Data/com.apple.Boot.plist",
 	};
 
 	int i, fd, count, ret=-1;
