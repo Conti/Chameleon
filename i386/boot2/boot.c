@@ -331,12 +331,7 @@ long LoadKernelCache(const char* cacheFile, void **binary) {
 	// Since the kernel cache file exists and is the most recent try to load it
 	verbose("Loading kernel cache %s\n", kernelCachePath);
 
-	if (checkOSVersion("10.7") || checkOSVersion("10.8")) {
-		ret = LoadThinFatFile(kernelCachePath, binary);
-	} else {
-		ret = LoadFile(kernelCachePath);
-		*binary = (void *)kLoadAddr;
-	}
+	ret = LoadThinFatFile(kernelCachePath, binary);
 	return ret; // ret contain the length of the binary
 }
 
@@ -480,7 +475,7 @@ void common_boot(int biosdev)
 	while (1)
 	{
 		bool		tryresume, tryresumedefault, forceresume;
-		bool		useKernelCache = false; // by default don't use prelink kernel cache
+		bool		useKernelCache = true; // by default try to use the prelinked kernel
 		const char	*val;
 		int			len, ret = -1;
 		long		flags, sleeptime, time;
@@ -606,15 +601,7 @@ void common_boot(int biosdev)
 		
 		verbose("Loading Darwin %s\n", gMacOSVersion);
 
-		// If boot from boot helper partitions and OS is Lion use prelink kernel.
-		// We need to find a solution to load extra mkext with a prelink kernel.
-		if (gBootVolume->flags & kBVFlagBooter && (checkOSVersion("10.7") || checkOSVersion("10.8")))
-			useKernelCache = true;
-		else
-			useKernelCache = false; // by default don't use prelink kernel cache
-
 		getBoolForKey(kUseKernelCache, &useKernelCache, &bootInfo->chameleonConfig);
-
 		if (useKernelCache) do {
 
 			// Determine the name of the Kernel Cache
@@ -645,7 +632,7 @@ void common_boot(int biosdev)
 				useKernelCache = false;
 
 		} while(0);
-
+		
 		do {
 			if (useKernelCache) {
 				ret = LoadKernelCache(kernelCacheFile, &binary);

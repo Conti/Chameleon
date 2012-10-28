@@ -11,7 +11,7 @@ CDBOOT = ${IMGROOT}/usr/standalone/i386/cdboot
 include ${SRCROOT}/Make.rules
 
 # The order of building modules is important.
-SUBDIRS =
+SUBDIRS = KernelPatcher
 
 ifdef CONFIG_KLIBC_MODULE
 SUBDIRS += klibc
