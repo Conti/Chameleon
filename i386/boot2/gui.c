@@ -286,15 +286,12 @@ static int loadThemeImage(const char *image, int alt_image)
 	uint16_t	height;
 	uint8_t		*imagedata;
 
-	if ((strlen(image) + strlen(theme_name) + 20 ) > sizeof(dirspec)) {
+	if ((strlen(image) + strlen(theme_name) + 20) > sizeof(dirspec))
 		return 1;
-	}
-
-    if ((i = getImageIndexByName(image)) >= 0)
-    {
-        if (images[i].image == NULL) {
-            images[i].image = malloc(sizeof(pixmap_t));
-        }
+	if ((i = getImageIndexByName(image)) < 0)
+		return 1;
+	if (!images[i].image && !(images[i].image = malloc(sizeof(pixmap_t))))
+		return 1;
         sprintf(dirspec, "/Extra/Themes/%s/%s.png", theme_name, image);
         width = 0;
         height = 0;
@@ -323,43 +320,25 @@ static int loadThemeImage(const char *image, int alt_image)
                 flipRB(images[i].image);
                 return 0;
             }
-
-            return 0;
         }
 #endif
-        else if (alt_image != IMG_REQUIRED)
+        else if (alt_image != IMG_REQUIRED && is_image_loaded(alt_image))
         {
-			if (images[alt_image].image->pixels != NULL) {
-				
-				// Using the passed alternate image for non-mandatory images.
-				// We don't clone the already existing pixmap, but using its properties instead!
-				images[i].image->width = images[alt_image].image->width;
-				images[i].image->height = images[alt_image].image->height;
-				images[i].image->pixels = images[alt_image].image->pixels;
-				
-			} else {
-
-				// Unable to load or to find the image, this image not vital anyway, reseting and returning success !!
-
-				free(images[i].image);
-				images[i].image = NULL;
-			} 
-			
+            // Using the passed alternate image for non-mandatory images.
+            // We don't clone the already existing pixmap, but using its properties instead!
+            images[i].image->width = images[alt_image].image->width;
+            images[i].image->height = images[alt_image].image->height;
+            images[i].image->pixels = images[alt_image].image->pixels;
             return 0;
         }
-        else
-        {
+
+	// If we got here it's an error
 #ifndef CONFIG_EMBED_THEME
-            printf("ERROR: GUI: could not open '%s/%s.png'!\n", theme_name, image);
-			sleep(2);
+	printf("ERROR: GUI: could not open '%s/%s.png'!\n", theme_name, image);
+	sleep(2);
 #endif
-			free(images[i].image);
-			images[i].image = NULL;
-			return 1;
-
-        }      
-
-    }
+	free(images[i].image);
+	images[i].image = NULL;
 	return 1;
 }
 
@@ -372,29 +351,29 @@ static int loadGraphics(void)
 	LOADPNG(device_generic_o,               iDeviceGeneric);
 	LOADPNG(device_hfsplus,                 iDeviceGeneric);
 	LOADPNG(device_hfsplus_o,               iDeviceHFS);
-	LOADPNG(device_hfsplus_ml,              iDeviceHFS_ML);
-	LOADPNG(device_hfsplus_ml_o,            iDeviceHFS_ML_o);
-	LOADPNG(device_hfsplus_lion,            iDeviceHFS_Lion);
-	LOADPNG(device_hfsplus_lion_o,          iDeviceHFS_Lion_o);
-	LOADPNG(device_hfsplus_sl,              iDeviceHFS_SL);
-	LOADPNG(device_hfsplus_sl_o,            iDeviceHFS_SL_o);
-	LOADPNG(device_hfsplus_leo,             iDeviceHFS_Leo);
-	LOADPNG(device_hfsplus_leo_o,           iDeviceHFS_Leo_o);
-	LOADPNG(device_hfsplus_tiger,           iDeviceHFS_Tiger);
-	LOADPNG(device_hfsplus_tiger_o,         iDeviceHFS_Tiger_o);
+	LOADPNG(device_hfsplus_ml,              iDeviceHFS);
+	LOADPNG(device_hfsplus_ml_o,            iDeviceHFS_ML);
+	LOADPNG(device_hfsplus_lion,            iDeviceHFS);
+	LOADPNG(device_hfsplus_lion_o,          iDeviceHFS_Lion);
+	LOADPNG(device_hfsplus_sl,              iDeviceHFS);
+	LOADPNG(device_hfsplus_sl_o,            iDeviceHFS_SL);
+	LOADPNG(device_hfsplus_leo,             iDeviceHFS);
+	LOADPNG(device_hfsplus_leo_o,           iDeviceHFS_Leo);
+	LOADPNG(device_hfsplus_tiger,           iDeviceHFS);
+	LOADPNG(device_hfsplus_tiger_o,         iDeviceHFS_Tiger);
 
-	LOADPNG(device_hfsraid,                 iDeviceGeneric);
+	LOADPNG(device_hfsraid,                 iDeviceHFS);
 	LOADPNG(device_hfsraid_o,               iDeviceHFSRAID);
-	LOADPNG(device_hfsraid_ml,              iDeviceHFSRAID_ML);
-	LOADPNG(device_hfsraid_ml_o,            iDeviceHFSRAID_ML_o);
-	LOADPNG(device_hfsraid_lion,            iDeviceHFSRAID_Lion);
-	LOADPNG(device_hfsraid_lion_o,          iDeviceHFSRAID_Lion_o);
-	LOADPNG(device_hfsraid_sl,              iDeviceHFSRAID_SL);
-	LOADPNG(device_hfsraid_sl_o,            iDeviceHFSRAID_SL_o);
-	LOADPNG(device_hfsraid_leo,             iDeviceHFSRAID_Leo);
-	LOADPNG(device_hfsraid_leo_o,           iDeviceHFSRAID_Leo_o);
-	LOADPNG(device_hfsraid_tiger,           iDeviceHFSRAID_Tiger);
-	LOADPNG(device_hfsraid_tiger_o,         iDeviceHFSRAID_Tiger_o);
+	LOADPNG(device_hfsraid_ml,              iDeviceHFSRAID);
+	LOADPNG(device_hfsraid_ml_o,            iDeviceHFSRAID_ML);
+	LOADPNG(device_hfsraid_lion,            iDeviceHFSRAID);
+	LOADPNG(device_hfsraid_lion_o,          iDeviceHFSRAID_Lion);
+	LOADPNG(device_hfsraid_sl,              iDeviceHFSRAID);
+	LOADPNG(device_hfsraid_sl_o,            iDeviceHFSRAID_SL);
+	LOADPNG(device_hfsraid_leo,             iDeviceHFSRAID);
+	LOADPNG(device_hfsraid_leo_o,           iDeviceHFSRAID_Leo);
+	LOADPNG(device_hfsraid_tiger,           iDeviceHFSRAID);
+	LOADPNG(device_hfsraid_tiger_o,         iDeviceHFSRAID_Tiger);
 	LOADPNG(device_ext3,                    iDeviceGeneric);
 	LOADPNG(device_ext3_o,                  iDeviceEXT3);
 	LOADPNG(device_freebsd,                 iDeviceGeneric);        /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
@@ -406,9 +385,9 @@ static int loadGraphics(void)
 	LOADPNG(device_fat,                     iDeviceGeneric);
 	LOADPNG(device_fat_o,                   iDeviceFAT);
 	LOADPNG(device_fat16,                   iDeviceFAT);
-	LOADPNG(device_fat16_o,                 iDeviceFAT_o);
+	LOADPNG(device_fat16_o,                 iDeviceFAT16);
 	LOADPNG(device_fat32,                   iDeviceFAT);
-	LOADPNG(device_fat32_o,                 iDeviceFAT_o);
+	LOADPNG(device_fat32_o,                 iDeviceFAT32);
 	LOADPNG(device_ntfs,                    iDeviceGeneric);
 	LOADPNG(device_ntfs_o,                  iDeviceNTFS);
 	LOADPNG(device_cdrom,                   iDeviceGeneric);
@@ -898,91 +877,62 @@ void drawDeviceIcon(BVRef device, pixmap_t *buffer, position_t p, bool isSelecte
 	if( diskIsCDROM(device) )
 		devicetype = iDeviceCDROM;				// Use CDROM icon
 	else
-	{	
+	{
 		switch (device->part_type)
 		{
 			case kPartitionTypeHFS:
-			{				
-
-				// Use HFS or HFSRAID icon depending on bvr flags.
-				if (device->flags & kBVFlagBooter)
-				{
-                    
-					switch (device->OSVersion[3]) {
-						case '8':
-							devicetype = is_image_loaded(iDeviceHFSRAID_ML) ? iDeviceHFSRAID_ML : is_image_loaded(iDeviceHFSRAID) ? iDeviceHFSRAID  : iDeviceGeneric;
-							break;
-						case '7':
-							devicetype = is_image_loaded(iDeviceHFSRAID_Lion) ? iDeviceHFSRAID_Lion : is_image_loaded(iDeviceHFSRAID) ? iDeviceHFSRAID  : iDeviceGeneric;
-							break;
-						case '6':
-							devicetype = is_image_loaded(iDeviceHFSRAID_SL) ? iDeviceHFSRAID_SL : is_image_loaded(iDeviceHFSRAID) ? iDeviceHFSRAID  : iDeviceGeneric;
-							break;
-						case '5':
-							devicetype = is_image_loaded(iDeviceHFSRAID_Leo) ? iDeviceHFSRAID_Leo : is_image_loaded(iDeviceHFSRAID) ? iDeviceHFSRAID  : iDeviceGeneric;
-							break;
-						case '4':
-							devicetype = is_image_loaded(iDeviceHFSRAID_Tiger) ? iDeviceHFSRAID_Tiger : is_image_loaded(iDeviceHFSRAID) ? iDeviceHFSRAID  : iDeviceGeneric;
-							break;
-						default:
-							devicetype = is_image_loaded(iDeviceHFSRAID) ? iDeviceHFSRAID  : iDeviceGeneric;
-							break;
-					}
-					
-				} else {					
-
-					switch (device->OSVersion[3]) {
-						case '8':
-							devicetype = is_image_loaded(iDeviceHFS_ML) ? iDeviceHFS_ML : is_image_loaded(iDeviceHFS) ? iDeviceHFS : iDeviceGeneric;
-							break;
-						case '7':
-							devicetype = is_image_loaded(iDeviceHFS_Lion) ? iDeviceHFS_Lion : is_image_loaded(iDeviceHFS) ? iDeviceHFS : iDeviceGeneric;
-							break;
-						case '6':
-							devicetype = is_image_loaded(iDeviceHFS_SL) ? iDeviceHFS_SL : is_image_loaded(iDeviceHFS) ? iDeviceHFS : iDeviceGeneric;
-							break;
-						case '5':
-							devicetype = is_image_loaded(iDeviceHFS_Leo) ? iDeviceHFS_Leo : is_image_loaded(iDeviceHFS) ? iDeviceHFS : iDeviceGeneric;
-							break;
-						case '4':
-							devicetype = is_image_loaded(iDeviceHFS_Tiger) ? iDeviceHFS_Tiger : is_image_loaded(iDeviceHFS) ? iDeviceHFS : iDeviceGeneric;
-							break;
-						default:
-							devicetype = is_image_loaded(iDeviceHFS) ? iDeviceHFS : iDeviceGeneric;
-							break;
-					}						
-					
+			{
+				// Use HFS or HFSRAID icon depending on bvr flags. Fallbacks are handled by alt_image above.
+				switch (device->OSVersion[3]) {
+					case '8':
+						devicetype = (device->flags & kBVFlagBooter ? iDeviceHFSRAID_ML : iDeviceHFS_ML);
+						break;
+					case '7':
+						devicetype = (device->flags & kBVFlagBooter ? iDeviceHFSRAID_Lion : iDeviceHFS_Lion);
+						break;
+					case '6':
+						devicetype = (device->flags & kBVFlagBooter ? iDeviceHFSRAID_SL : iDeviceHFS_SL);
+						break;
+					case '5':
+						devicetype = (device->flags & kBVFlagBooter ? iDeviceHFSRAID_Leo : iDeviceHFS_Leo);
+						break;
+					case '4':
+						devicetype = (device->flags & kBVFlagBooter ? iDeviceHFSRAID_Tiger : iDeviceHFS_Tiger);
+						break;
+					default:
+						devicetype = (device->flags & kBVFlagBooter ? iDeviceHFSRAID : iDeviceHFS);
+						break;
 				}
 				
 				break;
 				
 			}				
 			case kPartitionTypeHPFS:
-				devicetype = is_image_loaded(iDeviceNTFS) ? iDeviceNTFS : iDeviceGeneric;		// Use HPFS / NTFS icon
+				devicetype = iDeviceNTFS;		// Use HPFS / NTFS icon
 				break;
 
 			case kPartitionTypeFAT16:
-				devicetype = is_image_loaded(iDeviceFAT16) ? iDeviceFAT16 : iDeviceGeneric;		// Use FAT16 icon
+				devicetype = iDeviceFAT16;		// Use FAT16 icon
 				break;
 
 			case kPartitionTypeFAT32:
-				devicetype = is_image_loaded(iDeviceFAT32) ? iDeviceFAT32 : iDeviceGeneric;		// Use FAT32 icon
+				devicetype = iDeviceFAT32;		// Use FAT32 icon
 				break;
 
 			case kPartitionTypeEXT3:
-				devicetype = is_image_loaded(iDeviceEXT3) ? iDeviceEXT3 : iDeviceGeneric;		// Use EXT2/3 icon
+				devicetype = iDeviceEXT3;		// Use EXT2/3 icon
 				break;
 
 			case kPartitionTypeFreeBSD:                     /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
-				devicetype = is_image_loaded(iDeviceFreeBSD) ? iDeviceFreeBSD : iDeviceGeneric;		// Use FreeBSD icon
+				devicetype = iDeviceFreeBSD;		// Use FreeBSD icon
 				break;
 
 			case kPartitionTypeOpenBSD:                     /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
-				devicetype = is_image_loaded(iDeviceOpenBSD) ? iDeviceOpenBSD : iDeviceGeneric;		// Use OpenBSD icon
+				devicetype = iDeviceOpenBSD;		// Use OpenBSD icon
 				break;
 
 			case kPartitionTypeBEFS:                        /* Haiku detection and Icon credits to scorpius  */
-				devicetype = is_image_loaded(iDeviceBEFS) ? iDeviceBEFS : iDeviceGeneric;// Use BEFS / Haiku icon
+				devicetype = iDeviceBEFS;		// Use BEFS / Haiku icon
 				break;
 
 			default:
@@ -992,14 +942,14 @@ void drawDeviceIcon(BVRef device, pixmap_t *buffer, position_t p, bool isSelecte
 	}
 	
 	// Draw the selection image and use the next (device_*_o) image for the selected item.
-    if (isSelected)
+	if (isSelected)
 	{
 		blend(images[iSelection].image, buffer, centeredAt(images[iSelection].image, p));
-		devicetype++; // selec override image 
+		devicetype++; // select override image 
 	}
 
 	// draw icon
-	blend( images[devicetype].image, buffer, centeredAt( images[devicetype].image, p ));
+	blend(images[devicetype].image, buffer, centeredAt(images[devicetype].image, p));
 	
 	p.y += (images[iSelection].image->height / 2) + font_console.chars[0]->height;
 	
