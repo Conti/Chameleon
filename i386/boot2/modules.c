@@ -307,7 +307,7 @@ unsigned int lookup_all_symbols(const char* name)
 void* parse_mach(void* binary, 
                  int(*dylib_loader)(char*), 
                  long long(*symbol_handler)(char*, long long, char),
-                 void (*section_handler)(char* section, char* segment, long long offset, long long address)
+                 void (*section_handler)(char* section, char* segment, long long cmd, long long offset, long long address)
 )
 {	
 	char is64 = false;
@@ -392,7 +392,7 @@ void* parse_mach(void* binary,
                         
                         sectionIndex += sizeof(struct section);
                         
-                        if(section_handler) section_handler(sect->sectname, segCommand->segname, sect->offset, sect->addr);
+                        if(section_handler) section_handler(sect->sectname, segCommand->segname, (long long)sect, sect->offset, sect->addr);
                         
                         
                         
@@ -420,10 +420,10 @@ void* parse_mach(void* binary,
                         
                         sectionIndex += sizeof(struct section_64);
                         
-                        if(section_handler) section_handler(sect->sectname, segCommand->segname, sect->offset, sect->addr);
+                        if(section_handler) section_handler(sect->sectname, segCommand64->segname, (long long)sect, sect->offset, sect->addr);
                         
                         
-                        if((strcmp("__TEXT", segCommand->segname) == 0) && (strcmp("__text", sect->sectname) == 0))
+                        if((strcmp("__TEXT", segCommand64->segname) == 0) && (strcmp("__text", sect->sectname) == 0))
                         {
                             // __TEXT,__text found, save the offset and address for when looking for the calls.
                             textSection = sect->offset;
