@@ -23,8 +23,8 @@
 #endif
 
 // NOTE: Global so that modules can link with this
-UInt64 textAddress = 0;
-UInt64 textSection = 0;
+static UInt64 textAddress = 0;
+static UInt64 textSection = 0;
 
 /** Internal symbols, however there are accessor methods **/
 moduleHook_t* moduleCallbacks = NULL;
@@ -307,7 +307,7 @@ unsigned int lookup_all_symbols(const char* name)
 void* parse_mach(void* binary, 
                  int(*dylib_loader)(char*), 
                  long long(*symbol_handler)(char*, long long, char),
-                 void (*section_handler)(char* section, char* segment, long long cmd, long long offset, long long address)
+                 void (*section_handler)(char* section, char* segment, void* cmd, UInt64 offset, UInt64 address)
 )
 {	
 	char is64 = false;
@@ -342,14 +342,13 @@ void* parse_mach(void* binary,
 	}
 	else if(((struct mach_header_64*)binary)->magic == MH_MAGIC_64)
 	{
-		// NOTE: modules cannot be 64bit...
+		// NOTE: modules cannot be 64bit. This is used to parse the kernel and kexts
 		is64 = true;
 		binaryIndex += sizeof(struct mach_header_64);
 	}
 	else
 	{
 		verbose("Invalid mach magic 0x%X\n", ((struct mach_header*)binary)->magic);
-		//getchar();
 		return NULL;
 	}
 	
@@ -392,11 +391,9 @@ void* parse_mach(void* binary,
                         
                         sectionIndex += sizeof(struct section);
                         
-                        if(section_handler) section_handler(sect->sectname, segCommand->segname, (long long)sect, sect->offset, sect->addr);
+                        if(section_handler) section_handler(sect->sectname, segCommand->segname, (void*)sect, sect->offset, sect->addr);
                         
-                        
-                        
-                        if((strcmp("__TEXT", segCommand->segname) == 0) && (strcmp("__text", sect->sectname) == 0))
+						if((strcmp("__TEXT", segCommand->segname) == 0) && (strcmp("__text", sect->sectname) == 0))
                         {
                             // __TEXT,__text found, save the offset and address for when looking for the calls.
                             textSection = sect->offset;
@@ -420,9 +417,8 @@ void* parse_mach(void* binary,
                         
                         sectionIndex += sizeof(struct section_64);
                         
-                        if(section_handler) section_handler(sect->sectname, segCommand64->segname, (long long)sect, sect->offset, sect->addr);
-                        
-                        
+                        if(section_handler) section_handler(sect->sectname, segCommand64->segname, (void*)sect, sect->offset, sect->addr);
+
                         if((strcmp("__TEXT", segCommand64->segname) == 0) && (strcmp("__text", sect->sectname) == 0))
                         {
                             // __TEXT,__text found, save the offset and address for when looking for the calls.
