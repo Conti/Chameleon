@@ -4,7 +4,7 @@
 
 config KERNELPATCHER_MODULE
 	bool "KernelPatcher Module"
-	default y
+	default y	
 	---help---
 	  Say Y here if you want to enable to use of this module.
 
