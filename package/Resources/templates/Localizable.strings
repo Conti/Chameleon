@@ -60,6 +60,18 @@ Additionally, the module will patch the vesa modes available in pre intel hd gra
 Source: http://cxx.uclibc.org/
 Dependencies: klibc";
 
+"KernelPatcher_title" = "Kernel Patcher";
+"KernelPatcher_description" = "The KernelPatcher module provides patches for the following:
+Enables the use of the kernelcache with /Extra/Extensions and /Extra/Extensions.mkext
+Removed the CPUID check
+Removes an LAPIC panic
+Removes a panic in commpage_stuff_routine
+Dependencies: none";
+
+"KextPatcher_title" = "Kext Patcher";
+"KernelPatcher_description" = "The KextPatcher module provides patches for the following:
+Dependencies: none";
+
 // ============================================================================
 // Boot Options - The follow options are split to match the layout OptionalSettings text files.
 // but they can be changed to suit however anyone wants to do it.
