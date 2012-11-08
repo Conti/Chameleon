@@ -6,7 +6,7 @@
 #ifndef __LIBSAIO_CPU_H
 #define __LIBSAIO_CPU_H
 
-//#include "libsaio.h"
+#include "platform.h"
 
 extern void scan_cpu(PlatformInfo_t *);
 
