@@ -23,14 +23,21 @@ fi
 set -u  # Abort with unset variables
 #set -e # Abort with any error can be suppressed locally using EITHER cmd||true OR set -e;cmd;set +e
 
+# ====== LANGUAGE SETUP ======
+export LANG='en_US.UTF-8'
+export LC_COLLATE='C'
+export LC_CTYPE='C'
+
 # ====== CONFIGURATION ======
 CONFIG_MODULES=""
-CONFIG_KLIBC_MODULE=""
-CONFIG_UCLIBCXX_MODULE=""
-CONFIG_SATA_MODULE=""
 CONFIG_ACPICODEC_MODULE=""
-CONFIG_RESOLUTION_MODULE=""
+CONFIG_KERNELPATCHER_MODULE=""
+CONFIG_KEXTPATCHER_MODULE=""
 CONFIG_KEYLAYOUT_MODULE=""
+CONFIG_KLIBC_MODULE=""
+CONFIG_RESOLUTION_MODULE=""
+CONFIG_SATA_MODULE=""
+CONFIG_UCLIBCXX_MODULE=""
 source "${SRCROOT}/auto.conf"
 
 # ====== COLORS ======
@@ -554,7 +561,7 @@ if [[ "${CONFIG_MODULES}" == 'y' ]];then
         }
         fi
 # -
-        if [[ "${CONFIG_RESOLUTION_MODULE}" == 'm' && -f "${SYMROOT}/i386/modules/KernelPatcher.dylib" ]]; then
+        if [[ "${CONFIG_KERNELPATCHER_MODULE}" == 'y' && -f "${SYMROOT}/i386/modules/KernelPatcher.dylib" ]]; then
         {
             # Start build KernelPatcher package module
             choiceId="KernelPatcher"
@@ -573,7 +580,7 @@ if [[ "${CONFIG_MODULES}" == 'y' ]];then
         }
         fi
 # -
-        if [[ "${CONFIG_RESOLUTION_MODULE}" == 'm' && -f "${SYMROOT}/i386/modules/KextPatcher.dylib" ]]; then
+        if [[ "${CONFIG_KEXTPATCHER_MODULE}" == 'y' && -f "${SYMROOT}/i386/modules/KextPatcher.dylib" ]]; then
         {
             # Start build KextPatcher package module
             choiceId="KextPatcher"

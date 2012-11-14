@@ -62,14 +62,14 @@ Dependencies: klibc";
 
 "KernelPatcher_title" = "Kernel Patcher";
 "KernelPatcher_description" = "The KernelPatcher module provides patches for the following:
-Enables the use of the kernelcache with /Extra/Extensions and /Extra/Extensions.mkext
-Removed the CPUID check
-Removes an LAPIC panic
-Removes a panic in commpage_stuff_routine
+*Enables the use of the kernelcache with /Extra/Extensions and /Extra/Extensions.mkext
+*Removed the CPUID check
+*Removes an LAPIC panic
+*Removes a panic in commpage_stuff_routine
 Dependencies: none";
 
 "KextPatcher_title" = "Kext Patcher";
-"KernelPatcher_description" = "The KextPatcher module provides patches for the following:
+"KextPatcher_description" = "The KextPatcher module provides patches for the following:
 Dependencies: none";
 
 // ============================================================================
