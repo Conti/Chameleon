@@ -2,7 +2,7 @@
 /*
  * Copyright 2007 David F. Elliott.	 All rights reserved.
  */
-
+#include "saio_types.h"
 #include "libsaio.h"
 #include "boot.h"
 #include "bootstruct.h"
@@ -172,7 +172,7 @@ void setupEfiTables32(void)
 	struct fake_efi_pages *fakeEfiPages = (struct fake_efi_pages*)AllocateKernelMemory(sizeof(struct fake_efi_pages));
 	
 	// Zero out all the tables in case fields are added later
-	bzero(fakeEfiPages, sizeof(struct fake_efi_pages));
+	//bzero(fakeEfiPages, sizeof(struct fake_efi_pages));
 	
 	// --------------------------------------------------------------------
 	// Initialize some machine code that will return EFI_UNSUPPORTED for
@@ -282,7 +282,7 @@ void setupEfiTables64(void)
 	struct fake_efi_pages *fakeEfiPages = (struct fake_efi_pages*)AllocateKernelMemory(sizeof(struct fake_efi_pages));
 	
 	// Zero out all the tables in case fields are added later
-	bzero(fakeEfiPages, sizeof(struct fake_efi_pages));
+	//bzero(fakeEfiPages, sizeof(struct fake_efi_pages));
 	
 	// --------------------------------------------------------------------
 	// Initialize some machine code that will return EFI_UNSUPPORTED for
