@@ -1622,6 +1622,14 @@ static nvidia_card_info_t nvidia_cards[] = {
 	{ 0x10DE11A0,	0x15580372,	"Clevo GeForce GTX 680M" },
 	{ 0x10DE11A0,	0x15585105,	"Clevo GeForce GTX 680M" },
 	{ 0x10DE11A0,	0x15587102,	"Clevo GeForce GTX 680M" },
+	{ 0x10DE11A1,	0x104310AD,	"Asus GeForce GTX 670MX" },
+	{ 0x10DE11A1,	0x104321AB,	"Asus GeForce GTX 670MX" },
+	{ 0x10DE11A1,	0x15580270,	"Clevo GeForce GTX 670MX" },
+	{ 0x10DE11A1,	0x15580371,	"Clevo GeForce GTX 670MX" },
+	{ 0x10DE11A1,	0x15585105,	"Clevo GeForce GTX 670MX" },
+	{ 0x10DE11A1,	0x15587102,	"Clevo N13E-GR" },
+	{ 0x10DE11A7,	0x15585105,	"Clevo GeForce GTX 675MX" },
+	{ 0x10DE11A7,	0x15587102,	"Clevo GeForce GTX 675MX" },
 	// 11B0 - 11BF
 	{ 0x10DE11BC,	0x1028053F,	"Dell Quadro K5000M" },
 	{ 0x10DE11BC,	0x1028153F,	"Dell Quadro K5000M" },
@@ -2627,6 +2635,7 @@ static nvidia_card_info_t nvidia_cards[] = {
 	{ 0x10DE0FC0,	NV_SUB_IDS,	"GeForce GT 640" },
 	{ 0x10DE0FC1,	NV_SUB_IDS,	"GeForce GT 640" },
 	{ 0x10DE0FC2,	NV_SUB_IDS,	"GeForce GT 630" },
+	{ 0x10DE0FC6,	NV_SUB_IDS,	"GeForce GTX 650" },
 	// 0FD0 - 0FDF
 	{ 0x10DE0FD1,	NV_SUB_IDS,	"GeForce GT 650M" },
 	{ 0x10DE0FD2,	NV_SUB_IDS,	"GeForce GT 640M" },
@@ -2727,15 +2736,20 @@ static nvidia_card_info_t nvidia_cards[] = {
 	// 1190 - 119F
 	// 11A0 - 11AF
 	{ 0x10DE11A0,	NV_SUB_IDS,	"GeForce GTX 680M" },
+	{ 0x10DE11A1,   NV_SUB_IDS,     "GeForce GTX 670MX" },
+	{ 0x10DE11A7,   NV_SUB_IDS,     "GeForce GTX 675MX" },
 	// 11B0 - 11BF
+	{ 0x10DE11BA,   NV_SUB_IDS,     "Quadro K5000" },
 	{ 0x10DE11BC,	NV_SUB_IDS,	"Quadro K5000M" },
 	{ 0x10DE11BD,	NV_SUB_IDS,	"Quadro K4000M" },
 	{ 0x10DE11BE,	NV_SUB_IDS,	"Quadro K3000M" },
 	// 11C0 - 11CF
 	{ 0x10DE11C0,	NV_SUB_IDS,	"GeForce GTX 660" },
+	{ 0x10DE11C6,   NV_SUB_IDS,     "GeForce GTX 650" },
 	// 11D0 - 11DF
 	// 11E0 - 11EF
 	// 11F0 - 11FF
+	{ 0x10DE11FA,   NV_SUB_IDS,     "Quadro K4000" },
 	// 1200 - 120F
 	{ 0x10DE1200,	NV_SUB_IDS,	"GeForce GTX 560 Ti" },
 	{ 0x10DE1201,	NV_SUB_IDS,	"GeForce GTX 560" },
