@@ -28,12 +28,13 @@
 
 #include <vers.h>
 
-char bootBanner[] = "\nDarwin/x86 boot v" I386BOOT_VERSION " - Chameleon v" I386BOOT_CHAMELEONVERSION " r" I386BOOT_CHAMELEONREVISION "\n"
+char bootBanner[] = "\nDarwin/x86 boot v" I386BOOT_VERSION " | Chameleon " I386BOOT_CHAMELEONVERSION " | myHack " I386BOOT_MYHACKVERSION "\n"
                     "Build date: " I386BOOT_BUILDDATE "\n"
                     "%dMB memory\n";
 
 char bootPrompt[] =
     "Press Enter to start up Darwin/x86 with no options, or you can:\n"
+    "  Type -f and press Enter to start up skipping system caches\n"
     "  Type -v and press Enter to start up with diagnostic messages\n"
     "  Type ? and press Enter to learn about advanced startup options\n\n"
     "boot: ";
@@ -41,6 +42,7 @@ char bootPrompt[] =
 char bootRescanPrompt[] =
     "Press Enter to start up Darwin/x86 with no options, or you can:\n"
     "  Press F5 after you swapped the media. The drive will be rescanned.\n"
+    "  Type -f and press Enter to start up skipping system caches\n"
     "  Type -v and press Enter to start up with diagnostic messages\n"
     "  Type ? and press Enter to learn about advanced startup options\n\n"
     "boot: ";
