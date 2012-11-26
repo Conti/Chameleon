@@ -1,0 +1,11 @@
+Chameleon.xcodeproj
+obj
+package
+sym
+autoconf.inc
+vers.h
+auto.conf
+autoconf.h
+.config.old
+.config
+Keymaps
