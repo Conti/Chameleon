@@ -20,85 +20,91 @@
 /* Per ACPI 3.0a spec */
 
 // TODO Migrate
-struct acpi_2_rsdp {
-    char            Signature[8];
-    uint8_t         Checksum;
-    char            OEMID[6];
-    uint8_t         Revision;
-    uint32_t        RsdtAddress;
-    uint32_t        Length;
-    uint64_t        XsdtAddress;
-    uint8_t         ExtendedChecksum;
-    char            Reserved[3];
+struct acpi_2_rsdp
+{
+	char			Signature[8];
+	uint8_t			Checksum;
+	char			OEMID[6];
+	uint8_t			Revision;
+	uint32_t		RsdtAddress;
+	uint32_t		Length;
+	uint64_t		XsdtAddress;
+	uint8_t			ExtendedChecksum;
+	char			Reserved[3];
 } __attribute__((packed));
 
 // TODO Migrate
-struct acpi_2_rsdt {
-	char            Signature[4];
-	uint32_t        Length;
-	uint8_t         Revision;
-	uint8_t         Checksum;
-	char            OEMID[6];
-	char            OEMTableId[8];
-	uint32_t        OEMRevision;
-	uint32_t        CreatorId;
-	uint32_t        CreatorRevision;
+struct acpi_2_rsdt
+{
+	char			Signature[4];
+	uint32_t		Length;
+	uint8_t			Revision;
+	uint8_t			Checksum;
+	char			OEMID[6];
+	char			OEMTableId[8];
+	uint32_t		OEMRevision;
+	uint32_t		CreatorId;
+	uint32_t		CreatorRevision;
 } __attribute__((packed));
 
 // TODO Migrate
-struct acpi_2_xsdt {
-	char            Signature[4];
-	uint32_t        Length;
-	uint8_t         Revision;
-	uint8_t         Checksum;
-	char            OEMID[6];
-	char            OEMTableId[8];
-	uint32_t        OEMRevision;
-	uint32_t        CreatorId;
-	uint32_t        CreatorRevision;
+struct acpi_2_xsdt
+{
+	char			Signature[4];
+	uint32_t		Length;
+	uint8_t			Revision;
+	uint8_t			Checksum;
+	char			OEMID[6];
+	char			OEMTableId[8];
+	uint32_t		OEMRevision;
+	uint32_t		CreatorId;
+	uint32_t		CreatorRevision;
 } __attribute__((packed));
 
 // TODO Migrate
-struct acpi_2_ssdt {
-	char            Signature[4];
-	uint32_t        Length;
-	uint8_t         Revision;
-	uint8_t         Checksum;
-	char            OEMID[6];
-	char            OEMTableId[8];
-	uint32_t        OEMRevision;
-	uint32_t        CreatorId;
-	uint32_t        CreatorRevision;
+struct acpi_2_ssdt
+{
+	char			Signature[4];
+	uint32_t		Length;
+	uint8_t			Revision;
+	uint8_t			Checksum;
+	char			OEMID[6];
+	char			OEMTableId[8];
+	uint32_t		OEMRevision;
+	uint32_t		CreatorId;
+	uint32_t		CreatorRevision;
 } __attribute__((packed));
 
 // TODO Migrate
-struct acpi_2_dsdt {
-	char            Signature[4];
-	uint32_t        Length;
-	uint8_t         Revision;
-	uint8_t         Checksum;
-	char            OEMID[6];
-	char            OEMTableId[8];
-	uint32_t        OEMRevision;
-	uint32_t        CreatorId;
-	uint32_t        CreatorRevision;
+struct acpi_2_dsdt
+{
+	char			Signature[4];
+	uint32_t		Length;
+	uint8_t			Revision;
+	uint8_t			Checksum;
+	char			OEMID[6];
+	char			OEMTableId[8];
+	uint32_t		OEMRevision;
+	uint32_t		CreatorId;
+	uint32_t		CreatorRevision;
 } __attribute__((packed));
 
 // TODO Migrate
-struct acpi_2_fadt {
-	char            Signature[4];
-	uint32_t        Length;
-	uint8_t         Revision;
-	uint8_t         Checksum;
-	char            OEMID[6];
-	char            OEMTableId[8];
-	uint32_t        OEMRevision;
-	uint32_t        CreatorId;
-	uint32_t        CreatorRevision;
-	uint32_t        FIRMWARE_CTRL;
-	uint32_t        DSDT;
-	uint8_t         Model;			// JrCs
-	uint8_t         PM_Profile;		// JrCs
+struct acpi_2_fadt
+{
+	char			Signature[4];
+	uint32_t		Length;
+	uint8_t			Revision;
+	uint8_t			Checksum;
+	char			OEMID[6];
+	char			OEMTableId[8];
+	uint32_t		OEMRevision;
+	uint32_t		CreatorId;
+	uint32_t		CreatorRevision;
+	uint32_t		FIRMWARE_CTRL;
+	uint32_t		DSDT;
+	uint8_t			Model;			// JrCs
+	uint8_t			PM_Profile;		// JrCs
 	uint16_t		SCI_Interrupt;
 	uint32_t		SMI_Command_Port;
 	uint8_t			ACPI_Enable;

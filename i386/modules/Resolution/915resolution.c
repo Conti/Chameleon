@@ -20,8 +20,8 @@ void patchVideoBios()
 {		
 	UInt32 x = 0, y = 0, bp = 0;
 	
+	verbose("Resolution:\n");
 	getResolution(&x, &y, &bp);
-	verbose("getResolution: %dx%dx%d\n", (int)x, (int)y, (int)bp);
 	
 	if (x != 0 &&
 		y != 0 && 
@@ -177,6 +177,28 @@ chipset_type get_chipset(UInt32 id)
 			type = CT_GM45;
 			break;
 			
+			//
+			// Core processors
+			// http://pci-ids.ucw.cz/read/PC/8086
+			//
+		case 0x00408086: // Core Processor DRAM Controller
+		case 0x00448086: // Core Processor DRAM Controller
+		case 0x00488086: // Core Processor DRAM Controller
+		case 0x00698086: // Core Processor DRAM Controller
+			
+		case 0x01008086: // 2nd Generation Core Processor Family DRAM Controller
+		case 0x01048086: // 2nd Generation Core Processor Family DRAM Controller
+		case 0x01088086: // Xeon E3-1200 2nd Generation Core Processor Family DRAM Controller
+		case 0x010c8086: // Xeon E3-1200 2nd Generation Core Processor Family DRAM Controller
+			
+		case 0x01508086: // 3rd Generation Core Processor Family DRAM Controller
+		case 0x01548086: // 3rd Generation Core Processor Family DRAM Controller
+		case 0x01588086: // 3rd Generation Core Processor Family DRAM Controller
+		case 0x015c8086: // 3rd Generation Core Processor Family DRAM Controller
+			verbose(" core proc identified\n");
+			type = CT_CORE_PROC;
+			break;
+			
 			
 		default:
 			if((id & 0x0000FFFF) == 0x00008086) // Intel chipset
@@ -271,14 +293,17 @@ vbios_map * open_vbios(chipset_type forced_chipset)
 	
 	if (map->chipset == CT_UNKNOWN)
 	{
-		//verbose("Unknown chipset type.\n");
+		verbose(" Unknown chipset type: %08x.\n", map->chipset_id);
 		//verbose("915resolution only works with Intel 800/900 series graphic chipsets.\n");
 		//verbose("Chipset Id: %x\n", map->chipset_id);
 		close_vbios(map);
 		return 0;
+	} else {
+		verbose(" Detected chipset/proc id (DRAM controller): %08x\n", map->chipset_id);
 	}
 	
 	
+	verbose(" VBios: ");
 	/*
 	 *  Map the video bios to memory
 	 */
@@ -291,6 +316,7 @@ vbios_map * open_vbios(chipset_type forced_chipset)
 	map->ati_tables.AtomRomHeader = (ATOM_ROM_HEADER *) (map->bios_ptr + *(unsigned short *) (map->bios_ptr + OFFSET_TO_POINTER_TO_ATOM_ROM_HEADER)); 
 	if (strcmp ((char *) map->ati_tables.AtomRomHeader->uaFirmWareSignature, "ATOM") == 0)
 	{
+		verbose("ATI");
 		// ATI Radeon Card
 		map->bios = BT_ATI_1;
 		
@@ -312,6 +338,11 @@ vbios_map * open_vbios(chipset_type forced_chipset)
 		
 		if (!detect_ati_bios_type(map)) map->bios = BT_ATI_2;
 		
+		if (map->bios == BT_ATI_1) {
+			verbose(", BT_ATI_1\n");
+		} else {
+			verbose(", BT_ATI_2\n");
+		}
 	}
 	else {
 		
@@ -327,6 +358,7 @@ vbios_map * open_vbios(chipset_type forced_chipset)
 				&& (map->bios_ptr[i+2] == 'I') 
 				&& (map->bios_ptr[i+3] == 'D')) 
 			{
+				verbose("nVidia\n");
 				map->bios = BT_NVDA;
 				unsigned short nv_data_table_offset = 0;
 				unsigned short * nv_data_table;
@@ -393,11 +425,12 @@ vbios_map * open_vbios(chipset_type forced_chipset)
 	/*
 	 * Figure out where the mode table is 
 	 */
-	if ((map->bios != BT_ATI_1) && (map->bios != BT_NVDA)) 
+	if ((map->bios != BT_ATI_1) && (map->bios != BT_ATI_2) && (map->bios != BT_NVDA)) 
 	{
 		char* p = map->bios_ptr + 16;
 		char* limit = map->bios_ptr + VBIOS_SIZE - (3 * sizeof(vbios_mode));
 		
+		verbose("Other");
 		while (p < limit && map->mode_table == 0)
 		{
 			vbios_mode * mode_ptr = (vbios_mode *) p;
@@ -442,16 +475,20 @@ vbios_map * open_vbios(chipset_type forced_chipset)
 		if (detect_bios_type(map, TRUE, sizeof(vbios_modeline_type3)))
 		{
 			map->bios = BT_3;
+			verbose(", BT_3\n");
 		}
 		else if (detect_bios_type(map, TRUE, sizeof(vbios_modeline_type2)))
 		{
 			map->bios = BT_2;
+			verbose(", BT_2\n");
 		}
 		else if (detect_bios_type(map, FALSE, sizeof(vbios_resolution_type1)))
 		{
 			map->bios = BT_1;
+			verbose(", BT_1\n");
 		}
 		else {
+			verbose(" - unknown\n");
 			return 0;
 		}
 	}
@@ -504,11 +541,19 @@ void unlock_vbios(vbios_map * map)
 		case CT_G31:
 		case CT_500:
 		case CT_3150:
-		case CT_UNKNOWN_INTEL:	// Assume newer intel chipset is the same as before
 			outl(CONFIG_MECH_ONE_ADDR, 0x80000090);
 			map->b1 = inb(CONFIG_MECH_ONE_DATA + 1);
 			map->b2 = inb(CONFIG_MECH_ONE_DATA + 2);
 			outl(CONFIG_MECH_ONE_ADDR, 0x80000090);
+			outb(CONFIG_MECH_ONE_DATA + 1, 0x33);
+			outb(CONFIG_MECH_ONE_DATA + 2, 0x33);
+			break;
+		case CT_CORE_PROC:	    // Core procs - PAM regs are 80h - 86h
+		case CT_UNKNOWN_INTEL:	// Assume newer intel chipset is the same as before
+			outl(CONFIG_MECH_ONE_ADDR, 0x80000080);
+			map->b1 = inb(CONFIG_MECH_ONE_DATA + 1);
+			map->b2 = inb(CONFIG_MECH_ONE_DATA + 2);
+			outl(CONFIG_MECH_ONE_ADDR, 0x80000080);
 			outb(CONFIG_MECH_ONE_DATA + 1, 0x33);
 			outb(CONFIG_MECH_ONE_DATA + 2, 0x33);
 			break;
@@ -560,8 +605,13 @@ void relock_vbios(vbios_map * map)
 		case CT_G31:
 		case CT_500:
 		case CT_3150:
-		case CT_UNKNOWN_INTEL:
 			outl(CONFIG_MECH_ONE_ADDR, 0x80000090);
+			outb(CONFIG_MECH_ONE_DATA + 1, map->b1);
+			outb(CONFIG_MECH_ONE_DATA + 2, map->b2);
+			break;
+		case CT_CORE_PROC:
+		case CT_UNKNOWN_INTEL:
+			outl(CONFIG_MECH_ONE_ADDR, 0x80000080);
 			outb(CONFIG_MECH_ONE_DATA + 1, map->b1);
 			outb(CONFIG_MECH_ONE_DATA + 2, map->b2);
 			break;
@@ -582,7 +632,7 @@ int getMode(edid_mode *mode)
 			
 	if(!edidInfo) return 1;
 //Slice
-	if(!fb_parse_edid((struct EDID *)edidInfo, mode)) 
+	if(!fb_parse_edid((struct EDID *)edidInfo, mode) || !mode->h_active) 
 	{
 		free( edidInfo );
 		return 1;
@@ -600,8 +650,6 @@ int getMode(edid_mode *mode)
 		
 	free( edidInfo );
 		
-	if(!mode->h_active) return 1;
-	
 	return 0;
 		
 }
@@ -635,12 +683,15 @@ void set_mode(vbios_map * map, /*UInt32 mode,*/ UInt32 x, UInt32 y, UInt32 bp, U
 	
 	//	for (i=0; i < map->mode_table_size; i++) {
 	//		if (map->mode_table[0].mode == mode) {
+	verbose(" Patching: ");
 	switch(map->bios) {
 		case BT_INTEL:
+			verbose("BT_INTEL - not supported\n");
 			return;
 
 		case BT_1:
 		{
+			verbose("BT_1 patched.\n");
 			vbios_resolution_type1 * res = map_type1_resolution(map, map->mode_table[i].resolution);
 			
 			if (bp) {
@@ -692,6 +743,7 @@ void set_mode(vbios_map * map, /*UInt32 mode,*/ UInt32 x, UInt32 y, UInt32 bp, U
 						modeline->vtotal = modeline->vblank;
 				}
 			}
+			verbose("BT_1 patched.\n");
 			break;
 		}
 		case BT_3:
@@ -725,16 +777,19 @@ void set_mode(vbios_map * map, /*UInt32 mode,*/ UInt32 x, UInt32 y, UInt32 bp, U
 					modeline->timing_v   = x-1;
 				}
 			}
+			verbose("BT_3 patched.\n");
 			break;
 		}
 		case BT_ATI_1:
 		{
+			verbose("BT_ATI_1");
 			edid_mode mode;
 				
 			ATOM_MODE_TIMING *mode_timing = (ATOM_MODE_TIMING *) map->ati_mode_table;
 
 			//if (mode.pixel_clock && (mode.h_active == x) && (mode.v_active == y) && !force) {
 			if (!getMode(&mode)) {
+				verbose("\n Edid detailed timing descriptor found: %dx%d\n vbios mode 0 patched!\n", mode.h_active, mode.v_active);
 				mode_timing->usCRTC_H_Total = mode.h_active + mode.h_blanking;
 				mode_timing->usCRTC_H_Disp = mode.h_active;
 				mode_timing->usCRTC_H_SyncStart = mode.h_active + mode.h_sync_offset;
@@ -746,6 +801,8 @@ void set_mode(vbios_map * map, /*UInt32 mode,*/ UInt32 x, UInt32 y, UInt32 bp, U
 				mode_timing->usCRTC_V_SyncWidth = mode.v_sync_width;
 
 				mode_timing->usPixelClock = mode.pixel_clock;
+			} else {
+				verbose(" Edid not found or invalid - vbios not patched!\n");
 			}
 			/*else
 			{
@@ -773,12 +830,14 @@ void set_mode(vbios_map * map, /*UInt32 mode,*/ UInt32 x, UInt32 y, UInt32 bp, U
 		}
 		case BT_ATI_2:
 		{
+			verbose("BT_ATI_2");
 			edid_mode mode;
 						
 			ATOM_DTD_FORMAT *mode_timing = (ATOM_DTD_FORMAT *) map->ati_mode_table;
 			
 			/*if (mode.pixel_clock && (mode.h_active == x) && (mode.v_active == y) && !force) {*/
 			if (!getMode(&mode)) {
+				verbose("\n Edid detailed timing descriptor found: %dx%d\n vbios mode 0 patched!\n", mode.h_active, mode.v_active);
 				mode_timing->usHBlanking_Time = mode.h_blanking;
 				mode_timing->usHActive = mode.h_active;
 				mode_timing->usHSyncOffset = mode.h_sync_offset;
@@ -790,6 +849,8 @@ void set_mode(vbios_map * map, /*UInt32 mode,*/ UInt32 x, UInt32 y, UInt32 bp, U
 				mode_timing->usVSyncWidth = mode.v_sync_width;
 										
 				mode_timing->usPixClk = mode.pixel_clock;
+			} else {
+				verbose(" Edid not found or invalid - vbios not patched!\n");
 			}
 			/*else
 			{
@@ -818,12 +879,14 @@ void set_mode(vbios_map * map, /*UInt32 mode,*/ UInt32 x, UInt32 y, UInt32 bp, U
 		}
 		case BT_NVDA:
 		{
+			verbose("BT_NVDA");
 			edid_mode mode;
 			
 			NV_MODELINE *mode_timing = (NV_MODELINE *) map->nv_mode_table;
 			
 			/*if (mode.pixel_clock && (mode.h_active == x) && (mode.v_active == y) && !force) {*/
 			if (!getMode(&mode)) {
+				verbose("\n Edid detailed timing descriptor found: %dx%d\n vbios mode %d patched!\n", mode.h_active, mode.v_active, i);
 				mode_timing[i].usH_Total = mode.h_active + mode.h_blanking;
 				mode_timing[i].usH_Active = mode.h_active;
 				mode_timing[i].usH_SyncStart = mode.h_active + mode.h_sync_offset;
@@ -835,6 +898,8 @@ void set_mode(vbios_map * map, /*UInt32 mode,*/ UInt32 x, UInt32 y, UInt32 bp, U
 				mode_timing[i].usV_SyncEnd = mode.v_active + mode.v_sync_offset + mode.v_sync_width;
 				
 				mode_timing[i].usPixel_Clock = mode.pixel_clock;
+			} else {
+				verbose(" Edid not found or invalid - vbios not patched!\n");
 			}
 			/*else
 			 {
@@ -861,6 +926,7 @@ void set_mode(vbios_map * map, /*UInt32 mode,*/ UInt32 x, UInt32 y, UInt32 bp, U
 		}
 		case BT_UNKNOWN:
 		{
+			verbose(" Unknown - vbios not patched\n");
 			break;
 		}
 	}
