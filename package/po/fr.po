@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Chameleon 2.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-06 22:38+0000\n"
-"PO-Revision-Date: 2012-03-07 00:08-0000\n"
-"Last-Translator: ErmaC\n"
+"PO-Revision-Date: 2012-12-11 09:49+0200\n"
+"Last-Translator: JrCs <d2t56xxptp@snkmail.com>\n"
 "Language-Team: fr <fr@li.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -834,7 +834,7 @@ msgstr "Active l'autodétection des GPU NVIDIA. Injecte ensuite une information 
 #: Resources/templates/Localizable.strings:180
 #, no-wrap
 msgid "EnableHDMIAudio=Yes"
-msgstr ""
+msgstr "EnableHDMIAudio=Yes"
 
 #. type: "EnableHDMIAudio_description"
 #: Resources/templates/Localizable.strings:181
