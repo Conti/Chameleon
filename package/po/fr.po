@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Chameleon 2.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-06 22:38+0000\n"
-"PO-Revision-Date: 2012-12-11 09:49+0200\n"
+"PO-Revision-Date: 2012-12-11 09:59+0200\n"
 "Last-Translator: JrCs <d2t56xxptp@snkmail.com>\n"
 "Language-Team: fr <fr@li.org>\n"
 "Language: fr\n"
@@ -94,7 +94,7 @@ msgstr ""
 #: Resources/templates/Description.html:22
 msgid "- Fully customizable GUI to bring some color to the Darwin Bootloader."
 msgstr ""
-"- Interface utilisateur customisable, pour donner un peu de piment au "
+"- Interface utilisateur personalisable, pour donner un peu de piment au "
 "chargeur d'amorçage Darwin."
 
 #. type: Content of: <html><body><p>
@@ -251,7 +251,7 @@ msgstr "Ce volume n'a pas les caractéristiques requises pour cette mise à jour
 #: Resources/templates/Localizable.strings:12
 #, no-wrap
 msgid "A newer version of Chameleon is already installed"
-msgstr "Une version plus récente de Chameleon est déjà installée."
+msgstr "Une version plus récente de Chameleon est déjà installée"
 
 #. type: "Intel_Mac_message"
 #: Resources/templates/Localizable.strings:13
@@ -368,8 +368,10 @@ msgid ""
 "Source: http://cxx.uclibc.org/\n"
 "Dependencies: klibc"
 msgstr ""
-"Ce module fournit une simple bibliothèque d'éxecution C++ pour une utilisation dans d'autres modules.\n"
-"Cela ne procure aucune fonctionnalité concrète, cependant il peut être utilisé pour permettre l'usage du langage C++ dans d'autres modules.\n"
+"Ce module fournit une simple bibliothèque d’exécution C++ pour une "
+"utilisation dans d'autres modules.\n"
+"Cela ne procure aucune fonctionnalité concrète, cependant il peut être "
+"utilisé pour permettre l'usage du langage C++ dans d'autres modules.\n"
 "*Veuillez noter que RTTI et Exceptions ont été désactivés.\n"
 "Source: http://cxx.uclibc.org/\n"
 "Dépendances : klibc"
@@ -841,6 +843,8 @@ msgstr "EnableHDMIAudio=Yes"
 #, no-wrap
 msgid "Inject HDMi audio for NVIDIA or AMD/ATI."
 msgstr ""
+"Injection pour avoir l'audio via le câble HDMI pour les cartes nVidia ou "
+"AMD/ATI."
 
 #. type: "UseAtiROM_title"
 #: Resources/templates/Localizable.strings:183
