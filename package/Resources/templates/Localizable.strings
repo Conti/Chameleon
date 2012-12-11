@@ -228,6 +228,11 @@ Dependencies: none";
 "Npci3_title" = "npci=0x3000";
 "Npci3_description" = "For overcoming a hang at 'PCI configuration begin' on some systems. 0x3000 is the kIOPCIConfiguratorPFM64 flag, as seen in the IOPCIFamily source code.";
 
+"WaitingRootDevice_title" = "ahcidisk=1 debug=8";
+"WaitingRootDevice_description" = "Info here: Waiting for root device when kernel cache used only with some disks +FIX
+http://www.insanelymac.com/forum/topic/280062-waiting-for-root-device-when-kernel-cache-used-only-with-some-disks-fix/
+Findings credits to bcc9.";
+
 "Darkwake_title" = "darkwake=0";
 "Darkwake_description" = "Lion only. Disables the 'low power wake' feature which can sometimes leave the screen black after wake from sleep.";
 

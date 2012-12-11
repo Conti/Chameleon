@@ -41,7 +41,7 @@ logFile="${targetVolume}/$logName"
 backupRootDir="${targetVolume}/Chameleon.Backups"
 backupDir="${backupRootDir}/"$( date -j "+%F-%Hh%M" )
 
-# Create the backup dirextory
+# Create the backup directory
 mkdir -p "$backupDir"
 
 [[ -f "$logFile" ]] && mv "$logFile" "${backupDir}/${logName}" # Backup old log file
@@ -57,12 +57,12 @@ diskutil list >>"${logFile}"
 echo "======================================================" >>"${logFile}"
 
 # ---------------------------------------------
-# Backing up Chameleon files
+# Backup Chameleon files
 # ---------------------------------------------
-echo "Backing up Chameleon files" >>"${logFile}"
+echo "Backup Chameleon files" >>"${logFile}"
 # Backup stage2
 if [[ -f "${targetVolume}/boot" ]];then
-    echo "Backing up stage2 file ${targetVolume}/boot to ${backupDir}/boot" >>"${logFile}"
+    echo "Backup stage2 file ${targetVolume}/boot to ${backupDir}/boot" >>"${logFile}"
     cp -p "${targetVolume}/boot" "${backupDir}/boot"
 fi
 # Backup /Extra directory
