@@ -310,7 +310,7 @@ bool setup_gma_devprop(pci_dt_t *gma_dev)
 				break;
 			default:
 				printf("Please specify 96, 64, or 32MB RAM for the HD4000 in the bios.\n"
-					  "The selected %dMB RAM ocnfiguration is not supported for the  HD4000.\n", ram);
+					  "The selected %dMB RAM configuration is not supported for the  HD4000.\n", ram);
 				pause();
 				return false;	// Exit early before the AAPL,ig-platform-id property is set.
 				break;
