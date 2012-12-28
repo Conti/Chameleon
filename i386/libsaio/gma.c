@@ -12,6 +12,8 @@
 #include "platform.h"
 #include "device_inject.h"
 #include "gma.h"
+#include "vbe.h"
+#include "graphics.h"
 
 #ifndef DEBUG_GMA
 #define DEBUG_GMA 0
@@ -128,12 +130,14 @@ static struct gma_gpu_t KnownGPUS[] = {
 	{ 0x80862A13, "GMAX3100"		},
 	{ 0x80862A42, "GMAX3100"		},
 	{ 0x80862A43, "GMAX3100"		},
-	{ 0x80860102, "Intel HD Graphics 2000"			},
-	{ 0x80860106, "Intel HD Graphics 2000 Mobile"	},
-	{ 0x80860112, "Intel HD Graphics 3000"			},
-	{ 0x80860116, "Intel HD Graphics 3000 Mobile"	},
-	{ 0x80860122, "Intel HD Graphics 3000"			},
-	{ 0x80860126, "Intel HD Graphics 3000 Mobile"	},
+	{ 0x80860102, "HD Graphics 2000"			},
+	{ 0x80860106, "HD Graphics 2000 Mobile"	},
+	{ 0x80860112, "HD Graphics 3000"			},
+	{ 0x80860116, "HD Graphics 3000 Mobile"	},
+	{ 0x80860122, "HD Graphics 3000"			},
+	{ 0x80860126, "HD Graphics 3000 Mobile"	},
+	{ 0x80860162, "HD Graphics 4000"          },
+	{ 0x80860166, "HD Graphics 4000 Mobile"   },
 };
 
 char *get_gma_model(uint32_t id) {
@@ -224,7 +228,7 @@ bool setup_gma_devprop(pci_dt_t *gma_dev)
 		devprop_add_value(device, "AAPL01,Stretch",					GMAX3100_vals[21], 4);
 		devprop_add_value(device, "class-code",						ClassFix, 4);
 	}
-	else if (model == (char *)&"Intel HD Graphics 2000 Mobile")
+	else if (model == (char *)&"HD Graphics 2000 Mobile")
 	{
 		devprop_add_value(device, "class-code", ClassFix, 4);
 		devprop_add_value(device, "hda-gfx", (uint8_t *)"onboard-1", 10); 
@@ -245,7 +249,7 @@ bool setup_gma_devprop(pci_dt_t *gma_dev)
 		devprop_add_value(device, "AAPL,tbl-info", HD2000_tbl_info, 18);
 		devprop_add_value(device, "AAPL,os-info", HD2000_os_info, 20);
 	}
-	else if (model == (char *)&"Intel HD Graphics 3000 Mobile")
+	else if (model == (char *)&"HD Graphics 3000 Mobile")
 	{
 		devprop_add_value(device, "class-code", ClassFix, 4);
 		devprop_add_value(device, "hda-gfx", (uint8_t *)"onboard-1", 10); 
@@ -266,7 +270,7 @@ bool setup_gma_devprop(pci_dt_t *gma_dev)
 		devprop_add_value(device, "AAPL,tbl-info", HD3000_tbl_info, 18);
 		devprop_add_value(device, "AAPL,os-info", HD3000_os_info, 20);
 	}
-	else if (model == (char *)&"Intel HD Graphics 2000")
+	else if (model == (char *)&"HD Graphics 2000")
 	{
 		devprop_add_value(device, "built-in", &BuiltIn, 1);
 		devprop_add_value(device, "class-code", ClassFix, 4);
@@ -275,7 +279,7 @@ bool setup_gma_devprop(pci_dt_t *gma_dev)
 		devprop_add_value(device, "AAPL,tbl-info", HD2000_tbl_info, 18);
 		devprop_add_value(device, "AAPL,os-info", HD2000_os_info, 20);
 	}
-	else if (model == (char *)&"Intel HD Graphics 3000")
+	else if (model == (char *)&"HD Graphics 3000")
 	{
 		devprop_add_value(device, "built-in", &BuiltIn, 1);
 		devprop_add_value(device, "class-code", ClassFix, 4);
@@ -284,6 +288,38 @@ bool setup_gma_devprop(pci_dt_t *gma_dev)
 		devprop_add_value(device, "hda-gfx", (uint8_t *)"onboard-1", 10); 
 		devprop_add_value(device, "AAPL,tbl-info", HD3000_tbl_info, 18);
 		devprop_add_value(device, "AAPL,os-info", HD3000_os_info, 20);
+	}
+	else if(model == (char*)&"HD Graphics 4000" ||
+			model == (char*)&"HD Graphics 4000 Mobile")
+	{
+		uint32_t ram = (((getVBEVideoRam() + 512) / 1024) + 512) / 1024;
+		uint32_t ig_platform_id;
+		
+		switch (ram)
+		{
+			case 96:
+				ig_platform_id = 0x01660000; // 96mb
+				break;
+					
+			case 64:
+				ig_platform_id = 0x01660009; // 64mb
+				break;
+				
+			case 32:					
+				ig_platform_id = 0x01620005; // 32mb
+				break;
+			default:
+				printf("Please specify 96, 64, or 32MB RAM for the HD4000 in the bios.\n"
+					  "The selected %dMB RAM ocnfiguration is not supported for the  HD4000.\n", ram);
+				pause();
+				return false;	// Exit early before the AAPL,ig-platform-id property is set.
+				break;
+		}
+
+		devprop_add_value(device, "built-in", &BuiltIn, 1);
+		devprop_add_value(device, "class-code", ClassFix, 4);
+		devprop_add_value(device, "hda-gfx", (uint8_t *)"onboard-1", 10);
+		devprop_add_value(device, "AAPL,ig-platform-id", (uint8_t*)&ig_platform_id, 4);
 	}
 	
 	stringdata = malloc(sizeof(uint8_t) * string->length);
