@@ -37,7 +37,7 @@ void blendImage(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint8_t
 
 int loadEmbeddedPngImage(uint8_t *pngData, int pngSize, uint16_t *width, uint16_t *height, uint8_t **imageData);
 
-
+uint32_t getVBEVideoRam();
 char *getVBEInfoString();
 char *getVBEModeInfoString();
 void getGraphicModeParams(unsigned long params[]);

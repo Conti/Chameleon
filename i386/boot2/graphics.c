@@ -44,6 +44,30 @@ uint8_t *previewSaveunder = 0;
 #define VIDEO(x) (bootArgs->Video.v_ ## x)
  
 //==========================================================================
+// getVBEVideoRam
+
+uint32_t getVBEVideoRam()
+{
+	VBEInfoBlock vbeInfo;
+	int err, small;
+	char *buff = malloc(sizeof(char)*256);
+	if(!buff) return 0;
+	
+	bzero( &vbeInfo, sizeof(vbeInfo) );
+	strcpy( (char*)&vbeInfo, "VBE2" );
+	err = getVBEInfo( &vbeInfo );
+	if (err != errSuccess)
+		return 0;
+	
+	if ( strncmp( (char *)vbeInfo.VESASignature, "VESA", 4 ) )
+		return 0;
+	
+	small = (vbeInfo.TotalMemory < 16);
+	
+	return vbeInfo.TotalMemory * 64 * 1024;
+}
+
+//==========================================================================
 // getVBEInfoString
 
 char *getVBEInfoString()
