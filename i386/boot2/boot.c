@@ -145,7 +145,7 @@ static int ExecKernel(void *binary)
 	reserveKernBootStruct();
 	
 	// Notify modules that the kernel has been decoded
-	execute_hook("DecodedKernel", (void*)binary, NULL, NULL, NULL);
+	execute_hook("DecodedKernel", (void*)binary, (void*)bootArgs->kaddr, (void*)bootArgs->ksize, NULL);
 	
 	setupFakeEfi();
 	
