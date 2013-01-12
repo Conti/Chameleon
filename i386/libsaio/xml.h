@@ -97,7 +97,7 @@ long XMLCastStringOffset(TagPtr dict);
 int XMLCastInteger ( TagPtr dict );
 TagPtr XMLCastDict ( TagPtr dict );
 TagPtr XMLCastArray( TagPtr dict );
-char* XMLCastData( TagPtr dict );
+char* XMLCastData( TagPtr dict, int* length );
 
 bool XMLIsBoolean(TagPtr entry);
 bool XMLIsString (TagPtr entry);
