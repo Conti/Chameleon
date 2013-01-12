@@ -812,7 +812,7 @@ ParseTagData( char * buffer, TagPtr * tag )
     tmpTag->type = kTagTypeData;
     tmpTag->string = string;
     tmpTag->tag = 0;
-	tmpTag->offset = buffer_start ? buffer - buffer_start: 0;
+	tmpTag->offset = length; // buffer_start ? buffer - buffer_start: 0;
     tmpTag->tagNext = 0;
     
     *tag = tmpTag;
@@ -1114,6 +1114,10 @@ bool XMLIsDict(TagPtr entry)
     return entry && (entry->type == kTagTypeDict);
 }
 
+bool XMLIsData(TagPtr entry)
+{
+    return entry && (entry->type == kTagTypeData);
+}
 
 TagPtr XMLCastDict(TagPtr dict)
 {
@@ -1138,6 +1142,21 @@ char* XMLCastString(TagPtr dict)
 	
 	return NULL;
 }
+
+char* XMLCastData(TagPtr dict, int* length)
+{
+	if(!dict) return NULL;
+    
+	if((dict->type == kTagTypeData) ||
+	   (dict->type == kTagTypeKey))
+    {
+        *length = dict->offset;
+        return dict->string;
+    }
+	*length = 0;
+	return NULL;
+}
+
 
 long XMLCastStringOffset(TagPtr dict)
 {
