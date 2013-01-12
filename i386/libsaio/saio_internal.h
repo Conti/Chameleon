@@ -218,4 +218,7 @@ extern int (*p_ramdiskReadBytes)( int biosdev, unsigned int blkno,
                       unsigned int byteoff,
                       unsigned int byteCount, void * buffer );
 
+// Base64-decode.c
+char *BASE64Decode(const char* src, int in_len, int* out_len);
+
 #endif /* !__LIBSAIO_SAIO_INTERNAL_H */

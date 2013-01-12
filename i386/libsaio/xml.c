@@ -793,6 +793,7 @@ ParseTagInteger( char * buffer, TagPtr * tag )
 static long
 ParseTagData( char * buffer, TagPtr * tag )
 {
+    int actuallen = 0;
     long   length;
     TagPtr tmpTag;
 
@@ -808,11 +809,11 @@ ParseTagData( char * buffer, TagPtr * tag )
 	
 	// TODO: base64 decode
 	
-	char* string = NewSymbol(buffer);
+	char* string = BASE64Decode(NewSymbol(buffer), length, &actuallen);
     tmpTag->type = kTagTypeData;
     tmpTag->string = string;
     tmpTag->tag = 0;
-	tmpTag->offset = length; // buffer_start ? buffer - buffer_start: 0;
+	tmpTag->offset = actuallen; // buffer_start ? buffer - buffer_start: 0;
     tmpTag->tagNext = 0;
     
     *tag = tmpTag;
