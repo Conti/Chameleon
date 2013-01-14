@@ -18,7 +18,7 @@
 #define DBG(x...)	printf(x)
 #define DBGPAUSE()	getchar()
 #else
-#define DBG(x...)   verbose(x)
+#define DBG(x...)
 #define DBGPAUSE()
 #endif
 
