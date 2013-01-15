@@ -809,7 +809,7 @@ ParseTagData( char * buffer, TagPtr * tag )
 	
 	// TODO: base64 decode
 	
-	char* string = BASE64Decode(NewSymbol(buffer), length, &actuallen);
+	char* string = BASE64Decode(buffer, strlen(buffer), &actuallen);
     tmpTag->type = kTagTypeData;
     tmpTag->string = string;
     tmpTag->tag = 0;
