@@ -54,8 +54,13 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev);
 
 typedef struct {
 	uint32_t    device; // VendorID + DeviceID
+	char        *name;
+} nvidia_pci_info_t;
+
+typedef struct {
+	uint32_t    device; // VendorID + DeviceID
 	uint32_t    subdev; // SubdeviceID + SubvendorID
-	char        *name_model;
+	char        *name;
 	//bool        kEnableHDMIAudio   //	HDMi
 	//VRAM
 } nvidia_card_info_t;
@@ -70,7 +75,6 @@ struct bios {
 	uint8_t		size;			/* Size in multiples of 512 */
 };
 
-#define NV_SUB_IDS                              0x00000000
 #define NV_PMC_OFFSET							0x000000
 #define NV_PMC_SIZE                             0x2ffff
 #define NV_PDISPLAY_OFFSET						0x610000

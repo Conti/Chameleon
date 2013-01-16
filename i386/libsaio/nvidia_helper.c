@@ -110,7 +110,7 @@ void fill_card_list(void)
 	unsigned int	i, count;
 	TagPtr NVDIATag;                           
 	char *model_name = NULL, *match_id = NULL, *sub_id = NULL, *vram_size = NULL;	
-	uint32_t dev_id = 0, subdev_id = NV_SUB_IDS;	
+	uint32_t dev_id = 0, subdev_id = 0;	
 	uint64_t  VramSize = 0;	
 	
 	if ((NVDIATag = XMLCastArray(XMLGetProperty(bootInfo->chameleonConfig.dictionary, (const char*)"NVIDIA"))))
