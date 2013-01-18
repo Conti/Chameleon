@@ -30,6 +30,7 @@
 #include "term.h"
 #include "embedded.h"
 #include "pci.h"
+#include "modules.h"
 
 bool showBootBanner = true; //Azi:showinfo
 static bool shouldboot = false;
