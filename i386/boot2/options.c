@@ -189,13 +189,15 @@ static void clearBootArgs(void)
 	if (bootArgs->Video.v_display != VGA_TEXT_MODE) {
 		clearGraphicBootPrompt();
 	}
+    
+    execute_hook("ClearArgs", NULL, NULL, NULL, NULL);
 }
 
-static void addBootArg(const char * argStr)
+void addBootArg(const char * argStr)
 {
 	if ( (gBootArgsPtr + strlen(argStr) + 1) < gBootArgsEnd)
 	{
-		*gBootArgsPtr++ = ' ';
+		if(gBootArgsPtr != gBootArgs) *gBootArgsPtr++ = ' ';
 		strcat(gBootArgs, argStr);
 		gBootArgsPtr += strlen(argStr);
 	}
@@ -1059,7 +1061,7 @@ done:
 		free(menuItems);
 		menuItems = NULL;
 	}
-    execute_hook("BootOptions", NULL, NULL, NULL, NULL);
+    execute_hook("BootOptions", gBootArgs, gBootArgsPtr, NULL, NULL);
 	return 0;
 }
 
