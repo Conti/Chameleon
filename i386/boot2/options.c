@@ -1058,6 +1058,7 @@ done:
 		free(menuItems);
 		menuItems = NULL;
 	}
+    execute_hook("BootOptions", NULL, NULL, NULL, NULL);
 	return 0;
 }
 
