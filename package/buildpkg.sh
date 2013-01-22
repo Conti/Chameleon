@@ -36,6 +36,8 @@ CONFIG_KEXTPATCHER_MODULE=""
 CONFIG_KEYLAYOUT_MODULE=""
 CONFIG_KLIBC_MODULE=""
 CONFIG_RESOLUTION_MODULE=""
+CONFIG_HDAENABLER_MODULE=""
+CONFIG_FILENVRAM_MODULE=""
 CONFIG_SATA_MODULE=""
 CONFIG_UCLIBCXX_MODULE=""
 source "${SRCROOT}/auto.conf"
@@ -534,6 +536,8 @@ if [[ "${CONFIG_MODULES}" == 'y' ]];then
     # Keylayout.dylib             #
     # klibc.dylib                 #
     # Resolution.dylib            #
+    # HDAEnabler.dylib            #
+    # FileNVRAM.dylib             #
     # Sata.dylib                  #
     # uClibcxx.dylib              #
     ###############################
@@ -669,6 +673,44 @@ if [[ "${CONFIG_MODULES}" == 'y' ]];then
             buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/Extra/modules"
             addChoice --group="Module"  --start-selected="false"  --pkg-refs="$packageRefId" "${choiceId}"
             # End build Resolution package module
+        }
+        fi
+# -
+        if [[ "${CONFIG_HDAENABLER_MODULE}" == 'm' && -f "${SYMROOT}/i386/modules/HDAEnabler.dylib" ]]; then
+        {
+            # Start build HDAEnabler package module
+            choiceId="HDAEnabler"
+            moduleFile="HDAEnabler.dylib"
+            mkdir -p "${PKG_BUILD_DIR}/${choiceId}/Root"
+            ditto --noextattr --noqtn "${SYMROOT}/i386/modules/$moduleFile" "${PKG_BUILD_DIR}/${choiceId}/Root"
+            addTemplateScripts --pkg-rootdir="${PKG_BUILD_DIR}/${choiceId}" \
+                               --subst="moduleName=$choiceId"               \
+                               --subst="moduleFile=$moduleFile"             \
+                               InstallModule
+
+            packageRefId=$(getPackageRefId "${modules_packages_identity}" "${choiceId}")
+            buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/Extra/modules"
+            addChoice --group="Module"  --start-selected="false"  --pkg-refs="$packageRefId" "${choiceId}"
+            # End build HDAEnabler package module
+        }
+        fi
+# -
+        if [[ "${CONFIG_FILENVRAM_MODULE}" == 'y' && -f "${SYMROOT}/i386/modules/FileNVRAM.dylib" ]]; then
+        {
+            # Start build FileNVRAM package module
+            choiceId="FileNVRAM"
+            moduleFile="FileNVRAM.dylib"
+            mkdir -p "${PKG_BUILD_DIR}/${choiceId}/Root"
+            ditto --noextattr --noqtn "${SYMROOT}/i386/modules/$moduleFile" "${PKG_BUILD_DIR}/${choiceId}/Root"
+            addTemplateScripts --pkg-rootdir="${PKG_BUILD_DIR}/${choiceId}" \
+                               --subst="moduleName=$choiceId"               \
+                               --subst="moduleFile=$moduleFile"             \
+                               InstallModule
+
+            packageRefId=$(getPackageRefId "${modules_packages_identity}" "${choiceId}")
+            buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/Extra/modules"
+            addChoice --group="Module"  --start-selected="false"  --pkg-refs="$packageRefId" "${choiceId}"
+            # End build FileNVRAM package module
         }
         fi
 # -
