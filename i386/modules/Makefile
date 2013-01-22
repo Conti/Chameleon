@@ -41,6 +41,11 @@ ifdef CONFIG_ACPICODEC_MODULE
 SUBDIRS += AcpiCodec
 endif
 
+ifdef CONFIG_FILENVRAM_MODULE
+SUBDIRS += FileNVRAM
+endif
+
+
 CFLAGS= -O3 $(MORECPP) -arch i386 -g -static
 DEFINES=
 CONFIG = hd
