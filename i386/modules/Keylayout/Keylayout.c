@@ -117,7 +117,7 @@ void Keylayout_start()
 		sprintf(layoutPath, "/Extra/Keymaps/%s", val);
 		// Add the extension if needed
 		if (len <= 4 || strcmp(val+len-4,".lyt") != 0)
-			strncat(layoutPath, ".lyt", sizeof(layoutPath));
+			strncat(layoutPath, ".lyt", sizeof(layoutPath) - strlen(layoutPath) - 1);
 
 		if (!load_keyboard_layout_file(layoutPath)) {
 			printf("Can't load %s keyboard layout file. Keylayout will not be used !\n",

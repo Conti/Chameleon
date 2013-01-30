@@ -1769,7 +1769,7 @@ static U32 BuildCstateInfo(CPU_DETAILS * cpu, U32 pmbase)
 {
 	{ 
         
-		TagPtr CstateTag;		
+		TagPtr CstateTag = NULL;
         U32 entry_count = 0;
         
         if (bootInfo->chameleonConfig.dictionary) 
