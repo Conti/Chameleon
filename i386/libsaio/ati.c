@@ -56,7 +56,16 @@ typedef enum {
 	CHIP_FAMILY_CAICOS,
 	CHIP_FAMILY_CAYMAN,
 	CHIP_FAMILY_TURKS,
+	
+	/*Southern Islands */
+	CHIP_FAMILY_TAHITI,
+	CHIP_FAMILY_PITCAIRN,
+    //	CHIP_FAMILY_VERDE,
+    //	CHIP_FAMILY_THAMES,
+    CHIP_FAMILY_LOMBOK,
+    //	CHIP_FAMILY_NEWZEALAND,
 	CHIP_FAMILY_LAST
+
 } chip_family_t;
 
 static const char *chip_family_name[] = {
@@ -90,6 +99,13 @@ static const char *chip_family_name[] = {
 	"Caicos",
 	"Cayman",
 	"Turks",
+	/* Southern Islands */
+	"Tahiti",
+	"Pitcairn",
+	//	"CapeVerde",
+	//	"Thames",
+	//	"Lombok",
+	//	"NewZealand",
 	""
 };
 
@@ -99,53 +115,79 @@ typedef struct {
 } card_config_t;
 
 static card_config_t card_configs[] = {
-	{NULL,			0},
-	{"Alopias",		2},
-	{"Alouatta",	4},
-	{"Baboon",		3},
-	{"Cardinal",	2},
-	{"Caretta",		1},
-	{"Colobus",		2},
-	{"Douc",		2},
-	{"Eulemur",		3},
-	{"Flicker",		3},
-	{"Galago",		2},
-	{"Gliff",		3},
-	{"Hoolock",		3},
-	{"Hypoprion",	2},
-	{"Iago",		2},
-	{"Kakapo",		3},
-	{"Kipunji",		4},
-	{"Lamna",		2},
-	{"Langur",		3},
-	{"Megalodon",	3},
-	{"Motmot",		2},
-	{"Nomascus",	5},
-	{"Orangutan",	2},
+	{NULL,		0},
+	/* OLDController */
+	{"Wormy",	2},
+	{"Alopias",	2},
+	{"Caretta",	1},
+	{"Kakapo",	3},
+	{"Kipunji",	4},
 	{"Peregrine",	2},
-	{"Quail",		3},
-	{"Raven",		3},
-	{"Shrike",		3},
-	{"Sphyrna",		1},
-	{"Triakis",		2},
-	{"Uakari",		4},
-	{"Vervet",		4},
-	{"Zonalis",		6},
+	{"Raven",	3},
+	{"Sphyrna",	1},
+	/* AMD2400Controller */
+	{"Iago",	2},
+	/* AMD2600Controller */
+	{"Hypoprion",	2},
+	{"Lamna",	2},
+	/* AMD3800Controller */
+	{"Megalodon",	3},
+	{"Triakis",	2},
+	/* AMD4600Controller */
+	{"Flicker",	3},
+	{"Gliff",	3},
+	{"Shrike",	3},
+	/* AMD4800Controller */
+	{"Cardinal",	2},
+	{"Motmot",	2},
+	{"Quail",	3},
+	/* AMD5000Controller */
+	{"Douc",	2},
+	{"Langur",	3},
+	{"Uakari",	4},
+	{"Zonalis",	6},
+	{"Alouatta",	4},
+	{"Hoolock",	3},
+	{"Vervet",	4},
+	{"Baboon",	3},
+	{"Eulemur",	3},
+	{"Galago",	2},
+	{"Colobus",	2},
+	{"Mangabey",	2},
+	{"Nomascus",	4},
+	{"Orangutan",	2},
+	/* AMD6000Controller */
 	{"Pithecia",	3},
 	{"Bulrushes",	6},
-	{"Cattail",		4},
+	{"Cattail",	4},
 	{"Hydrilla",	5},
 	{"Duckweed",	4},
-	{"Fanwort",		4},
-	{"Elodea",		5},
-	{"Kudzu",		2},
-	{"Gibba",		5},
-	{"Lotus",		3},
-	{"Ipomoea",		3},
-	{"Mangabey",	2},
+	{"Fanwort",	4},
+	{"Elodea",	5},
+	{"Kudzu",	2},
+	{"Gibba",	5},
+	{"Lotus",	3},
+	{"Ipomoea",	3},
 	{"Muskgrass",	4},
-	{"Juncus",		4}
+	{"Juncus",	4},
+	{"Osmunda",     4},
+	{"Pondweed",    3},
+	{"Spikerush",   4},
+	{"Typha",       5},
+	/* AMD7000Controller */
+	{"Aji",         4},
+	{"Buri",        4},
+	{"Chutoro",     5},
+	{"Dashimaki",   4},
+	{"Ebi",         5},
+	{"Gari",        5},
+	{"Futomaki",    4},
+	{"Hamachi",     4},
+	{"OPM",         6},
+	{"Ikura",       6},
+	{"IkuraS",      1}
 };
+
 
 typedef enum {
 	kNull,
@@ -194,6 +236,21 @@ typedef enum {
 	kMangabey,
 	kMuskgrass,
 	kJuncus,
+	kOsmunda,
+	kPondweed,
+	kSpikerush,
+	kTypha,
+	kAji, // TESTING
+	kBuri, // TESTING
+	kChutoro, // TESTING
+	kDashimaki, // TESTING
+	kEbi, // TESTING
+	kGari, // TESTING
+	kFutomaki, // TESTING
+	kHamachi, // TESTING
+	kOPM, // TESTING
+	kIkura, // TESTING
+	kIkuraS, // TESTING
 	kCfgEnd
 } config_name_t;
 
@@ -737,8 +794,160 @@ static radeon_card_info_t radeon_cards[] = {
 	
 	{ 0x6770,	0x00000000, CHIP_FAMILY_CAICOS,		"AMD Radeon HD 6400 Series",			kNull		},
 	{ 0x6779,	0x00000000, CHIP_FAMILY_CAICOS,		"AMD Radeon HD 6450 Series",			kBulrushes	},
+	
+	/* Southern Islands Defaults */
+	{ 0x6798,	0x00000000, CHIP_FAMILY_TAHITI,		"Radeon HD 7970",                   kAji  },
 
 	/* Southen Islands */
+	
+	{ 0x6798,	0x04181043, CHIP_FAMILY_TAHITI,		"Asus HD7970 7970",                   kAji  },
+	{ 0x6798,	0x04201043, CHIP_FAMILY_TAHITI,		"Asus HD7970 7970",                   kAji	},
+	{ 0x6798,	0x044A1043, CHIP_FAMILY_TAHITI,		"Asus HD7970 7970",                   kAji	},
+	{ 0x6798,	0x044C1043, CHIP_FAMILY_TAHITI,		"Asus HD7970 7970",                   kAji	},
+	{ 0x6798,	0x044E1043, CHIP_FAMILY_TAHITI,		"Asus HD7970 7970",                   kAji	},
+	{ 0x6798,	0x0B001002, CHIP_FAMILY_TAHITI,		"AMD Radeon HD 7970",                   kAji	},
+	{ 0x6798,	0x201C1787, CHIP_FAMILY_TAHITI,		"AMD Radeon HD 7970",                   kAji	},
+	{ 0x6798,	0x23171787, CHIP_FAMILY_TAHITI,		"AMD Radeon HD 7970",                   kAji	},
+	{ 0x6798,	0x254D1458, CHIP_FAMILY_TAHITI,		"AMD Radeon HD 7970",                   kAji	},
+	{ 0x6798,	0x27701462, CHIP_FAMILY_TAHITI,		"AMD Radeon HD 7970",                   kAji	},
+	{ 0x6798,	0x30001002, CHIP_FAMILY_TAHITI,		"AMD Radeon HD 7970",                   kAji	},
+	{ 0x6798,	0x32101682, CHIP_FAMILY_TAHITI,		"AMD Radeon HD 7970",                   kAji	},
+	{ 0x6798,	0x32111682, CHIP_FAMILY_TAHITI,		"AMD Radeon HD 7970",                   kAji	},
+	{ 0x6798,	0x32121682, CHIP_FAMILY_TAHITI,		"AMD Radeon HD 7970",                   kAji    },
+	{ 0x6798,	0x32131682, CHIP_FAMILY_TAHITI,		"AMD Radeon HD 7970",                   kAji	},
+	{ 0x6798,	0xE208174B, CHIP_FAMILY_TAHITI,		"AMD Radeon HD 7970",                   kAji	},
+	
+	{ 0x679A,	0x0B001002, CHIP_FAMILY_TAHITI,		"AMD Radeon HD 7950",                   kAji	},
+	{ 0x679A,	0x0B011002, CHIP_FAMILY_TAHITI,		"AMD Radeon HD 8900",                   kAji	},
+	{ 0x679A,	0x23161787, CHIP_FAMILY_TAHITI,		"AMD Radeon HD 7950",                   kAji	},
+	{ 0x679A,	0x254C1458, CHIP_FAMILY_TAHITI,		"AMD Radeon HD 7950",                   kAji	},
+	{ 0x679A,	0x27601462, CHIP_FAMILY_TAHITI,		"AMD Radeon HD 7950",                   kAji	},
+	{ 0x679A,	0x32211682, CHIP_FAMILY_TAHITI,		"AMD Radeon HD 7950",                   kAji	},
+	{ 0x679A,	0x6616103C, CHIP_FAMILY_TAHITI,		"HP Radeon HD 7950",                    kAji	},
+	{ 0x679A,	0xE207174B, CHIP_FAMILY_TAHITI,		"AMD Radeon HD 7950",                   kAji	},
+	
+	{ 0x6818,	0x042F1043, CHIP_FAMILY_TAHITI,		"Asus HD 7870",                         kAji		},
+	{ 0x6818,	0x04311043, CHIP_FAMILY_TAHITI,		"Asus HD 7870",                         kAji		},
+	{ 0x6818,	0x0B041002, CHIP_FAMILY_TAHITI,		"ATI Radeon HD 7870",                   kAji		},
+	{ 0x6818,	0x0B051002, CHIP_FAMILY_TAHITI,		"ATI Radeon HD 8800",                   kAji		},
+	{ 0x6818,	0x201C1787, CHIP_FAMILY_TAHITI,		"ATI Radeon HD 7870",                   kAji		},
+	{ 0x6818,	0x23211787, CHIP_FAMILY_TAHITI,		"ATI Radeon HD 7870",                   kAji		},
+	{ 0x6818,	0x25541458, CHIP_FAMILY_TAHITI,		"Gigabyte HD 7870",                     kAji		},
+	{ 0x6818,	0x27401462, CHIP_FAMILY_TAHITI,		"ATI Radeon HD 7870",                   kAji		},
+	{ 0x6818,	0x32501682, CHIP_FAMILY_TAHITI,		"ATI Radeon HD 7870",                   kAji		},
+	{ 0x6818,	0xE217174B, CHIP_FAMILY_TAHITI,		"ATI Radeon HD 7870",                   kAji		},
+	
+	{ 0x6819,	0x04311043, CHIP_FAMILY_TAHITI,		"Asus HD 7850",                         kAji		}, // Asus
+	{ 0x6819,	0x04331043, CHIP_FAMILY_TAHITI,		"Asus HD 7850",                         kAji		}, // Asus
+	{ 0x6819,	0x0B041002, CHIP_FAMILY_TAHITI,		"AMD Radeon HD 7850",                   kAji		}, // ATI
+	{ 0x6819,	0x201C1787, CHIP_FAMILY_TAHITI,		"AMD Radeon HD 7850",                   kAji		}, // HIS
+	{ 0x6819,	0x23201787, CHIP_FAMILY_TAHITI,		"AMD Radeon HD 7850",                   kAji		}, // HIS
+	{ 0x6819,	0x25531458, CHIP_FAMILY_TAHITI,		"AMD Radeon HD 7850",                   kAji		}, // Gigabyte
+	{ 0x6819,	0x32601682, CHIP_FAMILY_TAHITI,		"AMD Radeon HD 7850",                   kAji		}, // XFX
+	{ 0x6819,	0xE218174B, CHIP_FAMILY_TAHITI,		"AMD Radeon HD 7850",                   kAji		}, // Sapphire
+	
+	{ 0x682F,	0x15271043, CHIP_FAMILY_TAHITI,		"Asus Radeon HD 7700M",                kAji		},
+	{ 0x682F,	0x1831103C, CHIP_FAMILY_TAHITI,		"HP Radeon HD 7730M",                  kAji		},
+	{ 0x682F,	0x1832103C, CHIP_FAMILY_TAHITI,		"HP Radeon HD 7730M",                  kAji		},
+	{ 0x682F,	0x1834103C, CHIP_FAMILY_TAHITI,		"HP Radeon HD 7730M",                  kAji		},
+	{ 0x682F,	0x18A7103C, CHIP_FAMILY_TAHITI,		"HP Radeon HD 7730M",                  kAji		},
+	{ 0x682F,	0xC0DA144D, CHIP_FAMILY_TAHITI,		"Samsung Radeon HD 7730M",             kAji		},
+	
+	{ 0x683D,	0x04211043, CHIP_FAMILY_TAHITI,		"Asus Radeon HD 7770",                  kAji		},
+	{ 0x683D,	0x23041002, CHIP_FAMILY_TAHITI,		"AMD Radeon HD 7700",                   kAji		},
+	{ 0x683D,	0x25561458, CHIP_FAMILY_TAHITI,		"AMD Radeon HD 7770",                   kAji		},
+	{ 0x683D,	0x27101462, CHIP_FAMILY_TAHITI,		"AMD Radeon HD 7770",                   kAji		},
+	{ 0x683D,	0x2B301002, CHIP_FAMILY_TAHITI,		"AMD Radeon HD 7770",                   kAji		},
+	{ 0x683D,	0x32331682, CHIP_FAMILY_TAHITI,		"AMD Radeon HD 7770",                   kAji		},
+	{ 0x683D,	0x6886103C, CHIP_FAMILY_TAHITI,		"HP Radeon HD 7700",                    kAji		},
+	{ 0x683D,	0xE214174B, CHIP_FAMILY_TAHITI,		"AMD Radeon HD 7770",                   kAji		},
+	
+	{ 0x683F,	0x04231043, CHIP_FAMILY_TAHITI,		"Asus HD 7750",                         kChutoro		},
+	{ 0x683F,	0x04271043, CHIP_FAMILY_TAHITI,		"Asus HD 7750",                         kChutoro		},
+	{ 0x683F,	0x04591043, CHIP_FAMILY_TAHITI,		"Asus HD 7750",                         kChutoro		},
+	{ 0x683F,	0x200B1787, CHIP_FAMILY_TAHITI,		"AMD Radeon HD 7750",                   kChutoro		},
+	{ 0x683F,	0x23181787, CHIP_FAMILY_TAHITI,		"Vertex3D HD 7750",                     kChutoro		},
+	{ 0x683F,	0x25511458, CHIP_FAMILY_TAHITI,		"Gigabyte HD 7750",                     kChutoro		},
+	{ 0x683F,	0x27921462, CHIP_FAMILY_TAHITI,		"AMD Radeon HD 7750",                   kChutoro		},
+	{ 0x683F,	0x2B301002, CHIP_FAMILY_TAHITI,		"Ati HD 7750",                          kChutoro		},
+	{ 0x683F,	0x32411682, CHIP_FAMILY_TAHITI,		"XFX HD 7750",                          kChutoro		},
+	{ 0x683F,	0x32421682, CHIP_FAMILY_TAHITI,		"XFX HD 7750",                          kChutoro		},
+	{ 0x683F,	0x32451682, CHIP_FAMILY_TAHITI,		"XFX HD 7750",                          kChutoro		},
+	{ 0x683F,	0xE2131019, CHIP_FAMILY_TAHITI,		"Diamond HD 7750",                      kChutoro		},
+	{ 0x683F,	0xE213174B, CHIP_FAMILY_TAHITI,		"AMD Radeon HD 7750",                   kChutoro		},
+	{ 0x683F,	0xE215174B, CHIP_FAMILY_TAHITI,		"Sapphire HD 7750",                     kChutoro		},
+	
+	{ 0x6840,	0x01241002, CHIP_FAMILY_LOMBOK,		"AMD Radeon HD 7600M Series",           kPondweed   },
+	{ 0x6840,	0x01341002, CHIP_FAMILY_LOMBOK,		"AMD Radeon HD 7600M Series",           kPondweed   },
+	{ 0x6840,	0x050E1025, CHIP_FAMILY_LOMBOK,		"Acer HD 7670M",           kPondweed   },
+	{ 0x6840,	0x050F1025, CHIP_FAMILY_LOMBOK,		"Acer HD 7670M",           kPondweed   },
+	{ 0x6840,	0x05131025, CHIP_FAMILY_LOMBOK,		"Acer HD 7670M",           kPondweed   },
+	{ 0x6840,	0x05141025, CHIP_FAMILY_LOMBOK,		"Acer HD 7670M",           kPondweed   },
+	{ 0x6840,	0x056D1025, CHIP_FAMILY_LOMBOK,		"Acer HD 7670M",           kPondweed   },
+	{ 0x6840,	0x059A1025, CHIP_FAMILY_LOMBOK,		"Acer HD 7670M",           kPondweed   },
+	{ 0x6840,	0x059B1025, CHIP_FAMILY_LOMBOK,		"Acer HD 7670M",           kPondweed   },
+	{ 0x6840,	0x059E1025, CHIP_FAMILY_LOMBOK,		"Acer HD 7670M",           kPondweed   },
+	{ 0x6840,	0x06001025, CHIP_FAMILY_LOMBOK,		"Acer HD 7670M",           kPondweed   },
+	{ 0x6840,	0x06061025, CHIP_FAMILY_LOMBOK,		"Acer HD 7670M",           kPondweed   },
+	{ 0x6840,	0x06961025, CHIP_FAMILY_LOMBOK,		"Acer HD 7670M",           kPondweed   },
+	{ 0x6840,	0x06971025, CHIP_FAMILY_LOMBOK,		"Acer HD 7670M",           kPondweed   },
+	{ 0x6840,	0x06981025, CHIP_FAMILY_LOMBOK,		"Acer HD 7670M",           kPondweed   },
+	{ 0x6840,	0x06991025, CHIP_FAMILY_LOMBOK,		"Acer HD 7670M",           kPondweed   },
+	{ 0x6840,	0x100A1043, CHIP_FAMILY_LOMBOK,		"Asus HD 7670M",           kPondweed   },
+	{ 0x6840,	0x104B1043, CHIP_FAMILY_LOMBOK,		"Asus HD 7670M",           kPondweed   },
+	{ 0x6840,	0x10DC1043, CHIP_FAMILY_LOMBOK,		"Asus HD 7670M",           kPondweed   },
+	{ 0x6840,	0x1813103C, CHIP_FAMILY_LOMBOK,		"HP HD 7590M",           kPondweed   },
+	{ 0x6840,	0x182F103C, CHIP_FAMILY_LOMBOK,		"HP HD 7670M",           kPondweed   },
+	{ 0x6840,	0x1830103C, CHIP_FAMILY_LOMBOK,		"HP HD 7670M",           kPondweed   },
+	{ 0x6840,	0x1835103C, CHIP_FAMILY_LOMBOK,		"HP HD 7670M",           kPondweed   },
+	{ 0x6840,	0x183A103C, CHIP_FAMILY_LOMBOK,		"HP HD 7670M",           kPondweed   },
+	{ 0x6840,	0x183C103C, CHIP_FAMILY_LOMBOK,		"HP HD 7670M",           kPondweed   },
+	{ 0x6840,	0x183E103C, CHIP_FAMILY_LOMBOK,		"HP HD 7670M",           kPondweed   },
+	{ 0x6840,	0x1840103C, CHIP_FAMILY_LOMBOK,		"HP HD 7670M",           kPondweed   },
+	{ 0x6840,	0x1842103C, CHIP_FAMILY_LOMBOK,		"HP HD 7670M",           kPondweed   },
+	{ 0x6840,	0x1844103C, CHIP_FAMILY_LOMBOK,		"HP HD 7670M",           kPondweed   },
+	{ 0x6840,	0x1848103C, CHIP_FAMILY_LOMBOK,		"HP HD 7670M",           kPondweed   },
+	{ 0x6840,	0x184A103C, CHIP_FAMILY_LOMBOK,		"HP HD 7670M",           kPondweed   },
+	{ 0x6840,	0x184C103C, CHIP_FAMILY_LOMBOK,		"HP HD 7670M",           kPondweed   },
+	{ 0x6840,	0x1895103C, CHIP_FAMILY_LOMBOK,		"HP HD 7670M",           kPondweed   },
+	{ 0x6840,	0x1897103C, CHIP_FAMILY_LOMBOK,		"HP HD 7670M",           kPondweed   },
+	{ 0x6840,	0x18A5103C, CHIP_FAMILY_LOMBOK,		"HP HD 7670M",           kPondweed   },
+	{ 0x6840,	0x18A7103C, CHIP_FAMILY_LOMBOK,		"HP HD 7670M",           kPondweed   },
+	{ 0x6840,	0x18F4103C, CHIP_FAMILY_LOMBOK,		"HP HD 7670M",           kPondweed   },
+	{ 0x6840,	0x21211043, CHIP_FAMILY_LOMBOK,		"Asus HD 7670M",           kPondweed   },
+	{ 0x6840,	0x21221043, CHIP_FAMILY_LOMBOK,		"Asus HD 7670M",           kPondweed   },
+	{ 0x6840,	0x21231043, CHIP_FAMILY_LOMBOK,		"Asus HD 7670M",           kPondweed   },
+	{ 0x6840,	0x21251043, CHIP_FAMILY_LOMBOK,		"Asus HD 7670M",           kPondweed   },
+	{ 0x6840,	0x21271043, CHIP_FAMILY_LOMBOK,		"Asus HD 7670M",           kPondweed   },
+	{ 0x6840,	0x397017AA, CHIP_FAMILY_LOMBOK,		"Lenovo HD 7670M",           kPondweed   },
+	{ 0x6840,	0x397B17AA, CHIP_FAMILY_LOMBOK,		"Lenovo HD 7670M",           kPondweed   },
+	{ 0x6840,	0xC0C5144D, CHIP_FAMILY_LOMBOK,		"Samsung HD 6000M series",    kPondweed   },
+	{ 0x6840,	0xC0CE144D, CHIP_FAMILY_LOMBOK,		"Samsung HD 7670M",           kPondweed   },
+	{ 0x6840,	0xC0DA144D, CHIP_FAMILY_LOMBOK,		"Samsung HD 7670M",           kPondweed   },
+	{ 0x6840,	0xFB111179, CHIP_FAMILY_LOMBOK,		"Toshiba HD 7670M",           kPondweed   },
+	{ 0x6840,	0xFB221179, CHIP_FAMILY_LOMBOK,		"Toshiba HD 7670M",           kPondweed   },
+	{ 0x6840,	0xFB231179, CHIP_FAMILY_LOMBOK,		"Toshiba HD 7670M",           kPondweed   },
+	{ 0x6840,	0xFB2C1179, CHIP_FAMILY_LOMBOK,		"Toshiba HD 7670M",           kPondweed   },
+	{ 0x6840,	0xFB311179, CHIP_FAMILY_LOMBOK,		"Toshiba HD 7670M",           kPondweed   },
+	{ 0x6840,	0xFB321179, CHIP_FAMILY_LOMBOK,		"Toshiba HD 7670M",           kPondweed   },
+	{ 0x6840,	0xFB381179, CHIP_FAMILY_LOMBOK,		"Toshiba HD 7670M",           kPondweed   },
+	{ 0x6840,	0xFB391179, CHIP_FAMILY_LOMBOK,		"Toshiba HD 7670M",           kPondweed   },
+	{ 0x6840,	0xFB3A1179, CHIP_FAMILY_LOMBOK,		"Toshiba HD 7670M",           kPondweed   },
+	{ 0x6840,	0xFB401179, CHIP_FAMILY_LOMBOK,		"Toshiba HD 7670M",           kPondweed   },
+	{ 0x6840,	0xFB411179, CHIP_FAMILY_LOMBOK,		"Toshiba HD 7670M",           kPondweed   },
+	{ 0x6840,	0xFB471179, CHIP_FAMILY_LOMBOK,		"Toshiba HD 7670M",           kPondweed   },
+	{ 0x6840,	0xFB481179, CHIP_FAMILY_LOMBOK,		"Toshiba HD 7670M",           kPondweed   },
+	{ 0x6840,	0xFB511179, CHIP_FAMILY_LOMBOK,		"Toshiba HD 7670M",           kPondweed   },
+	{ 0x6840,	0xFB521179, CHIP_FAMILY_LOMBOK,		"Toshiba HD 7670M",           kPondweed   },
+	{ 0x6840,	0xFB531179, CHIP_FAMILY_LOMBOK,		"Toshiba HD 7670M",           kPondweed   },
+	{ 0x6840,	0xFB811179, CHIP_FAMILY_LOMBOK,		"Toshiba HD 7670M",           kPondweed   },
+	{ 0x6840,	0xFB821179, CHIP_FAMILY_LOMBOK,		"Toshiba HD 7670M",           kPondweed   },
+	{ 0x6840,	0xFB831179, CHIP_FAMILY_LOMBOK,		"Toshiba HD 7670M",           kPondweed   },
+	{ 0x6840,	0xFC561179, CHIP_FAMILY_LOMBOK,		"Toshiba HD 7670M",           kPondweed   },
+	{ 0x6840,	0xFCD41179, CHIP_FAMILY_LOMBOK,		"Toshiba HD 7670M",           kPondweed   },
+	{ 0x6840,	0xFCEE1179, CHIP_FAMILY_LOMBOK,		"Toshiba HD 7670M",           kPondweed   },
+	
+
 
 	{ 0x0000,	0x00000000, CHIP_FAMILY_UNKNOW,		NULL,						kNull		}
 };
