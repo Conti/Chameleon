@@ -171,7 +171,7 @@ struct DevPropDevice *devprop_add_device(struct DevPropString *string, char *pat
 	string->length += device->length;
 	
 	if(!string->entries)
-		if((string->entries = (struct DevPropDevice**)malloc(sizeof(device)))== NULL)
+		if((string->entries = (struct DevPropDevice**)malloc(sizeof(device)*DEV_PROP_DEVICE_MAX_ENTRIES))== NULL)
 			return 0;
 	
 	string->entries[string->numentries++] = (struct DevPropDevice*)malloc(sizeof(device));

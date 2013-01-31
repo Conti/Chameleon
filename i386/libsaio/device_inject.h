@@ -12,6 +12,8 @@
 #define DP_ADD_TEMP_VAL_DATA(dev, val) devprop_add_value(dev, (char*)val.name, (uint8_t*)val.data, val.size)
 #define MAX_PCI_DEV_PATHS 4
 
+#define DEV_PROP_DEVICE_MAX_ENTRIES 64
+
 extern struct DevPropString *string;
 extern uint8_t *stringdata;
 extern uint32_t stringlength;
