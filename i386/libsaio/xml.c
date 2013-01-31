@@ -806,9 +806,7 @@ ParseTagData( char * buffer, TagPtr * tag )
 	//printf("ParseTagData unimplimented\n");
 	//printf("Data: %s\n", buffer);
 	//	getchar();
-	
-	// TODO: base64 decode
-	
+		
 	char* string = BASE64Decode(buffer, strlen(buffer), &actuallen);
     tmpTag->type = kTagTypeData;
     tmpTag->string = string;

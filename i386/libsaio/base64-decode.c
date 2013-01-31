@@ -8,8 +8,8 @@
  */
 #include <libsaio.h>
 
-static const char base64_chars[] =
-"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+//static const char base64_chars[] =
+//"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 static const char base64_digits[] =
 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -28,6 +28,7 @@ static const char base64_digits[] =
 
 char *BASE64Decode(const char* src, int in_len, int* out_len)
 {
+    int endpad = 0;
     char* dest;
     char* result;
     
@@ -35,7 +36,8 @@ char *BASE64Decode(const char* src, int in_len, int* out_len)
     {
         /* Wrong base64 string length */
         return NULL;
-    }
+
+    }    
     result = dest = malloc(in_len / 4 * 3 + 1);
     if (result == NULL)
         return NULL; /* out of memory */
@@ -46,14 +48,22 @@ char *BASE64Decode(const char* src, int in_len, int* out_len)
         char d = base64_digits[(unsigned char)*(src++)];
         *(dest++) = (a << 2) | ((b & 0x30) >> 4);
         if (c == (char)-1)
+        {
+            // padding char.
+            endpad += 2;
             break;
+        }
         *(dest++) = ((b & 0x0f) << 4) | ((c & 0x3c) >> 2);
         if (d == (char)-1)
+        {
+            // padding char.
+            endpad += 1;
             break;
+        }
         *(dest++) = ((c & 0x03) << 6) | d;
     }
     *dest = 0;
-    *out_len = in_len / 4 * 3;  // not including NULL terminator
+    *out_len = in_len / 4 * 3 - endpad;  // not including NULL terminator
     return result;
 }
 
