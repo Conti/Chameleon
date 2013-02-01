@@ -292,7 +292,9 @@ bool setup_gma_devprop(pci_dt_t *gma_dev)
 		devprop_add_value(device, "AAPL,os-info", HD3000_os_info, 20);
 	}
 	else if(model == (char*)&"HD Graphics 4000" ||
-			model == (char*)&"HD Graphics 4000 Mobile")
+            model == (char*)&"HD Graphics 4000 Mobile" ||
+            model == (char*)&"Intel HD Graphics 2500" ||
+            model == (char*)&"Intel HD Graphics 2500 Mobile")
 	{
 		uint32_t ram = (((getVBEVideoRam() + 512) / 1024) + 512) / 1024;
 		uint32_t ig_platform_id;
@@ -324,41 +326,7 @@ bool setup_gma_devprop(pci_dt_t *gma_dev)
 		devprop_add_value(device, "AAPL,ig-platform-id", (uint8_t*)&ig_platform_id, 4);
 	}
 	
-	
-	//do the HD4000 common path
-	//i didn't quite get the patch @  http://forge.voodooprojects.org/p/chameleon/issues/303/
-	//so i put it here.. someone correct me if this is wrong
-	if (model == (char*)&"Intel HD Graphics 2500" ||
-		model == (char*)&"Intel HD Graphics 4000")
-	{
-		uint32_t ig_platform_id = 0U;	// Default to 0x01660000
-		getIntForKey("IGPlatformId", (int*)&ig_platform_id, &bootInfo->chameleonConfig);
-		if (ig_platform_id > 11U) ig_platform_id = 0U;
-		if (ig_platform_id >= 5U && ig_platform_id <= 7U)
-			ig_platform_id |= 0x01620000U;
-		else
-			ig_platform_id |= 0x01660000U;
-		devprop_add_value(device, "AAPL,ig-platform-id", (uint8_t*)&ig_platform_id, sizeof ig_platform_id);
-#if 0
-		devprop_add_value(device, "built-in", &BuiltIn, 1);
-		devprop_add_value(device, "class-code", ClassFix, 4);
-		devprop_add_value(device, "hda-gfx", (uint8_t *)"onboard-1", 10);
-#endif
-		
-#if 0
-		{
-			struct DevPropDevice *meiDevice = NULL;
-			uint32_t mei_device_id = 0x1e3aU;
-			meiDevice = devprop_add_device(string, "PciRoot(0x0)/Pci(0x16,0x0)");
-			if (meiDevice)
-				devprop_add_value(meiDevice, "device-id", (uint8_t*)&mei_device_id, sizeof mei_device_id);
-			else
-				printf("Failed initializing dev-prop MEIDevice.\n");
-		}
-#endif
-	}
-	
-	stringdata = malloc(sizeof(uint8_t) * string->length);
+    stringdata = malloc(sizeof(uint8_t) * string->length);
 	if (!stringdata)
 	{
 		printf("No stringdata.\n");
