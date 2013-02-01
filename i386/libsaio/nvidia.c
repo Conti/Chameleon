@@ -1633,7 +1633,7 @@ static char *get_nvidia_model(uint32_t device_id, uint32_t subsys_id)
 	return nvidia_card_generic[0].name;
 }
 
-static uint32_t load_nvidia_bios_file(const char *filename, uint8_t *buf, int bufsize)
+static uint32_t load_nvidia_bios_file(const char *filename, uint8_t **buf)
 {
 	int fd;
 	int size;
@@ -1644,14 +1644,11 @@ static uint32_t load_nvidia_bios_file(const char *filename, uint8_t *buf, int bu
 	}
 
 	size = file_size(fd);
-
-	if (size > bufsize)
-	{
-		printf("Filesize of %s is bigger than expected! Truncating to 0x%x Bytes!\n",
-				filename, bufsize);
-		size = bufsize;
-	}
-	size = read(fd, (char *)buf, size);
+    if(size)
+    {
+        *buf = malloc(size);
+        size = read(fd, (char *)buf, size);
+    }
 	close(fd);
 
 	return size > 0 ? size : 0;
@@ -1831,14 +1828,13 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 	// Amount of VRAM in kilobytes
 	videoRam = mem_detect(regs, nvCardType, nvda_dev,((nvda_dev->vendor_id << 16) | nvda_dev->device_id),((nvda_dev->subsys_id.subsys.vendor_id << 16) | nvda_dev->subsys_id.subsys.device_id) );
 
-	rom = malloc(NVIDIA_ROM_SIZE);
 	sprintf(nvFilename, "/Extra/%04x_%04x.rom", (uint16_t)nvda_dev->vendor_id,
 			(uint16_t)nvda_dev->device_id);
 
 	if (getBoolForKey(kUseNvidiaROM, &doit, &bootInfo->chameleonConfig) && doit)
 	{
 		verbose("Looking for nvidia video bios file %s\n", nvFilename);
-		nvBiosOveride = load_nvidia_bios_file(nvFilename, rom, NVIDIA_ROM_SIZE);
+		nvBiosOveride = load_nvidia_bios_file(nvFilename, &rom);
 
 		if (nvBiosOveride > 0)
 		{
@@ -1853,6 +1849,8 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 	}
 	else
 	{
+        rom = malloc(NVIDIA_ROM_SIZE);
+
 		// Otherwise read bios from card
 		nvBiosOveride = 0;
 
