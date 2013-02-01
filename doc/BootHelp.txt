@@ -86,7 +86,6 @@ Options useful in the org.chameleon.Boot.plist file:
     display_0=<value>     Inject alternate value of display-cfg into NVDA,Display-A@0 (HEX).
     display_1=<value>     Inject alternate value of display-cfg into NVDA,Display-B@1 (HEX).
     EnableHDMIAudio=Yes	  Inject HDMI audio for NVIDIA
-    IGPlatformId=<value>  For Intel Gen7 graphics, range 0-11
 
   EthernetBuiltIn=Yes|No  Automatic "built-in"=yes device-properties generation
                           for ethernet interfaces.
