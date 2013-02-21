@@ -70,8 +70,8 @@ void scan_pci_bus(pci_dt_t *start, uint8_t bus)
 	pci_dt_t	**current = &start->children;
 	uint32_t	id;
 	uint32_t	pci_addr;
-	uint8_t		dev;
-	uint8_t		func;
+	uint8_t		dev = 0;
+	uint8_t		func = 0;
 	uint8_t		secondary_bus;
 	uint8_t		header_type;
 
@@ -87,7 +87,9 @@ void scan_pci_bus(pci_dt_t *start, uint8_t bus)
 			new->dev.addr				= pci_addr;
 			new->vendor_id				= id & 0xffff;
 			new->device_id				= (id >> 16) & 0xffff;
-			new->subsys_id.subsys_id	= pci_config_read32(pci_addr, PCI_SUBSYSTEM_VENDOR_ID);
+			new->progif				= pci_config_read8(pci_addr, PCI_CLASS_PROG);
+			new->revision_id			= pci_config_read8(pci_addr, PCI_CLASS_REVISION);
+			new->subsys_id.subsys_id		= pci_config_read32(pci_addr, PCI_SUBSYSTEM_VENDOR_ID);
 			new->class_id				= pci_config_read16(pci_addr, PCI_CLASS_DEVICE);
 			new->parent	= start;
 
@@ -178,7 +180,7 @@ void dump_pci_dt(pci_dt_t *pci_dt)
 
 	current = pci_dt;
 	while (current) {
-		printf("%02x:%02x.%x [%04x] [%04x:%04x] (subsys [%04x:%04x]):: %s\n", 
+		printf("%02x:%02x.%x [%04x%02x] [%04x:%04x] (subsys [%04x:%04x]):: %s\n", 
 			current->dev.bits.bus, current->dev.bits.dev, current->dev.bits.func, 
 			current->class_id, current->vendor_id, current->device_id, 
 			current->subsys_id.subsys.vendor_id, current->subsys_id.subsys.device_id, 
