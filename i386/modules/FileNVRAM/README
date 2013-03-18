@@ -1,0 +1,31 @@
+===================
+= FileNVRAM.dylib =
+===================
+
+FileNVRAM copyright © 2013 xZeneu LLC.
+FileNVRAM is licensed under the Attribution-NonCommercial 3.0 Unported license.
+	Please see the license file for details
+
+
+===================
+=      Bugs       =
+===================
+
+Please report any bugs at https://public.xzenue.com/bugzilla/
+
+
+===================
+=   Requirements  =
+===================
+
+ - Chameleon r2181 or newer
+
+===================
+=      Usage      =
+===================
+
+- Install the FileNVRAM.dylib to /Extra/modules/
+- Reboot
+
+Use the nvram command to manipulate variables
+
