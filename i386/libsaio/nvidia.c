@@ -205,9 +205,9 @@ static nvidia_pci_info_t nvidia_card_generic[] = {
 	{ 0x10DE00CC,	"Quadro FX Go1400" },
 	{ 0x10DE00CD,	"Quadro FX 3450/4000 SDI" },
 	{ 0x10DE00CE,	"Quadro FX 1400" },
-	// 00D0 - 00DF	
-	// 00E0 - 00EF	
-	// 00F0 - 00FF	
+	// 00D0 - 00DF
+	// 00E0 - 00EF
+	// 00F0 - 00FF
 	{ 0x10DE00F1,	"GeForce 6600 GT" },
 	{ 0x10DE00F2,	"GeForce 6600" },
 	{ 0x10DE00F3,	"GeForce 6200" },
@@ -216,11 +216,11 @@ static nvidia_pci_info_t nvidia_card_generic[] = {
 	{ 0x10DE00F6,	"GeForce 6800 GS/XT" },
 	{ 0x10DE00F8,	"Quadro FX 3400/4400" },
 	{ 0x10DE00F9,	"GeForce 6800 Series GPU" },
-	// 0100 - 010F	
-	// 0110 - 011F	
-	// 0120 - 012F	
-	// 0130 - 013F	
-	// 0140 - 014F	
+	// 0100 - 010F
+	// 0110 - 011F
+	// 0120 - 012F
+	// 0130 - 013F
+	// 0140 - 014F
 	{ 0x10DE0140,	"GeForce 6600 GT" },
 	{ 0x10DE0141,	"GeForce 6600" },
 	{ 0x10DE0142,	"GeForce 6600 LE" },
@@ -236,8 +236,8 @@ static nvidia_pci_info_t nvidia_card_generic[] = {
 	{ 0x10DE014D,	"Quadro FX 550" },
 	{ 0x10DE014E,	"Quadro FX 540" },
 	{ 0x10DE014F,	"GeForce 6200" },
-	// 0150 - 015F	
-	// 0160 - 016F	
+	// 0150 - 015F
+	// 0160 - 016F
 	{ 0x10DE0160,	"GeForce 6500" },
 	{ 0x10DE0161,	"GeForce 6200 TurboCache(TM)" },
 	{ 0x10DE0162,	"GeForce 6200SE TurboCache(TM)" },
@@ -251,9 +251,9 @@ static nvidia_pci_info_t nvidia_card_generic[] = {
 	{ 0x10DE016A,	"GeForce 7100 GS" },
 	{ 0x10DE016C,	"NVIDIA NV44GLM" },
 	{ 0x10DE016D,	"NVIDIA NV44GLM" },
-	// 0170 - 017F	
-	// 0180 - 018F	
-	// 0190 - 019F		
+	// 0170 - 017F
+	// 0180 - 018F
+	// 0190 - 019F
 	{ 0x10DE0191,	"GeForce 8800 GTX" },
 	{ 0x10DE0193,	"GeForce 8800 GTS" },
 	{ 0x10DE0194,	"GeForce 8800 Ultra" },
@@ -278,11 +278,11 @@ static nvidia_pci_info_t nvidia_card_generic[] = {
 	{ 0x10DE01DD,	"GeForce 7500 LE" },
 	{ 0x10DE01DE,	"Quadro FX 350" },
 	{ 0x10DE01DF,	"GeForce 7300 GS" },
-	// 01E0 - 01EF	
+	// 01E0 - 01EF
 	// 01F0 - 01FF
 	{ 0x10DE01F0,	"GeForce4 MX" },
-	// 0200 - 020F	
-	// 0210 - 021F	
+	// 0200 - 020F
+	// 0210 - 021F
 	{ 0x10DE0211,	"GeForce 6800" },
 	{ 0x10DE0212,	"GeForce 6800 LE" },
 	{ 0x10DE0215,	"GeForce 6800 GT" },
@@ -1019,6 +1019,7 @@ static nvidia_pci_info_t nvidia_card_generic[] = {
 	// 0FE0 - 0FEF
 	{ 0x10DE0FE0,	"GeForce GTX 660M" },
 	// 0FF0 - 0FFF
+	{ 0x10DE0FF2,	"VGX K1" },
 	{ 0x10DE0FFB,	"Quadro K2000M" },
 	{ 0x10DE0FFC,	"Quadro K1000M" },
 	{ 0x10DE0FFD,	"NVS 510" },
@@ -1047,7 +1048,7 @@ static nvidia_pci_info_t nvidia_card_generic[] = {
 	{ 0x10DE105A,	"GeForce 610M" },
 	// 1060 - 106F
 	// 1070 - 107F
-	{ 0x10DE107D,	"NVS 310" },
+	{ 0x10DE107D,	"Quadro NVS 310" },
 	//  { 0x10DE107E,	"GF119-INT" },
 	//  { 0x10DE107F,	"GF119-ES" },
 	// 1080 - 108F
@@ -1056,7 +1057,7 @@ static nvidia_pci_info_t nvidia_card_generic[] = {
 	{ 0x10DE1082,	"GeForce GTX 560 Ti" },
 	{ 0x10DE1083,	"D13U" },
 	{ 0x10DE1084,	"GeForce GTX 560" },
-	{ 0x10DE1086,	"GeForce GTX 570" },
+	{ 0x10DE1086,	"GeForce GTX 570 HD" },
 	{ 0x10DE1087,	"GeForce GTX 560 Ti-448" },
 	{ 0x10DE1088,	"GeForce GTX 590" },
 	{ 0x10DE1089,	"GeForce GTX 580" },
@@ -1078,7 +1079,7 @@ static nvidia_pci_info_t nvidia_card_generic[] = {
 	{ 0x10DE10C4,	"ION" },
 	{ 0x10DE10C5,	"GeForce 405" },
 	// 10D0 - 10DF
-	{ 0x10DE10D8,	"NVS 300" },
+	{ 0x10DE10D8,	"Quadro NVS 300" },
 	// 10E0 - 10EF
 	// 10F0 - 10FF
 	// 1100 - 110F
@@ -1117,6 +1118,7 @@ static nvidia_pci_info_t nvidia_card_generic[] = {
 	{ 0x10DE11BC,	"Quadro K5000M" },
 	{ 0x10DE11BD,	"Quadro K4000M" },
 	{ 0x10DE11BE,	"Quadro K3000M" },
+	{ 0x10DE11BF,	"VGX K2" },
 	// 11C0 - 11CF
 	{ 0x10DE11C0,	"GeForce GTX 660" },
 	{ 0x10DE11C6,	"GeForce GTX 650 Ti" },
@@ -1153,6 +1155,7 @@ static nvidia_pci_info_t nvidia_card_generic[] = {
 	// 1260 - 126F
 	// 1270 - 127F
 	// 1280 - 128F
+	{ 0x10DE1280,	"GeForce GT 635" },
 	// 1290 - 129F
 	// 12A0 - 12AF
 	// 12B0 - 12BF
@@ -1266,6 +1269,8 @@ static nvidia_card_info_t nvidia_card_exceptions[] = {
 	{ 0x10DE0873,	0x104319B4,	"Asus GeForce G102M" },
 	// 0900 - 09FF
 	// 0A00 - 0AFF
+	{ 0x10DE0A6F,	0x12974003,	"Shuttle XS 3510MA" },
+
 	{ 0x10DE0A70,	0x17AA3605,	"Lenovo ION" },
 
 	{ 0x10DE0A73,	0x17AA3607,	"Lenovo ION" },
@@ -1343,6 +1348,8 @@ static nvidia_card_info_t nvidia_card_exceptions[] = {
 	{ 0x10DE11A1,	0x15587102,	"Clevo N13E-GR" },
 
 	{ 0x10DE11C0,	0x10DE0995,	"Inno3D GeForce GTX660" },
+
+	{ 0x10DE11C6,	0x1043842A,	"GTX650TI-1GD5" },
 	// 1200 - 12FF
 	{ 0x10DE1247,	0x10432119,	"Asus GeForce GT 670M" },
 	{ 0x10DE1247,	0x10432120,	"Asus GeForce GT 670M" },
