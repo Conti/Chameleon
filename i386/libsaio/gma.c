@@ -1,8 +1,8 @@
 /*
 	Original patch by Nawcom
 	http://forum.voodooprojects.org/index.php/topic,1029.0.html
- 
-    Original Intel HDx000 code from valv
+
+	Original Intel HDx000 code from valv
 */
 
 #include "libsa.h"
@@ -144,7 +144,7 @@ static struct gma_gpu_t KnownGPUS[] = {
 
 char *get_gma_model(uint32_t id) {
 	int i = 0;
-	
+
 	for (i = 0; i < (sizeof(KnownGPUS) / sizeof(KnownGPUS[0])); i++)
 	{
 		if (KnownGPUS[i].device == id)
@@ -155,7 +155,7 @@ char *get_gma_model(uint32_t id) {
 
 bool setup_gma_devprop(pci_dt_t *gma_dev)
 {
-	char					*devicepath;
+	char				*devicepath;
 	volatile uint8_t		*regs;
 	uint32_t				bar[7];
 	char					*model;
