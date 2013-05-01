@@ -119,6 +119,9 @@ Dependencies: none";
 "EthernetBuiltIn_title" = "EthernetBuiltIn=Yes";
 "EthernetBuiltIn_description" = "Enables the option of adding 'built-in' to your ethernet devices.";
 
+"EnableWifi_title" = "EnableWifi=Yes";
+"EnableWifi_description" = "Enables the option of adding AirPort values to your wireless device.";
+
 "ForceHPET_title" = "ForceHPET=Yes";
 "ForceHPET_description" = "Enables HPET on intel chipsets, for bioses that dont include the option.";
 
@@ -203,8 +206,181 @@ Dependencies: none";
 
 // ----------------------------------------------------------------------------
 
+"HDEFLayoutIDx01_title" = "LayoutID=1";
+"HDEFLayoutIDx01_description" = "Set HDEF layout-it to 1:
+001 (0x01, 0x00, 0x00, 0x00).";
+
+"HDEFLayoutIDx02_title" = "LayoutID=2";
+"HDEFLayoutIDx02_description" = "Set HDEF layout-it to 2:
+002 (0x02, 0x00, 0x00, 0x00).";
+
+"HDEFLayoutIDx03_title" = "LayoutID=3";
+"HDEFLayoutIDx03_description" = "Set HDEF layout-it to 3:
+003 (0x03, 0x00, 0x00, 0x00).";
+
+"HDEFLayoutIDx12_title" = "LayoutID=12";
+"HDEFLayoutIDx12_description" = "Set HDEF layout-it to 12:
+00C (0x0C, 0x00, 0x00, 0x00).";
+
+"HDEFLayoutIDx40_title" = "LayoutID=40";
+"HDEFLayoutIDx40_description" = "Set HDEF layout-it to 40:
+028 (0x28, 0x00, 0x00, 0x00).";
+
+"HDEFLayoutIDx65_title" = "LayoutID=65";
+"HDEFLayoutIDx65_description" = "Set HDEF layout-it to 65:
+041 (0x41, 0x00, 0x00, 0x00).";
+
+"HDEFLayoutIDx99_title" = "LayoutID=99";
+"HDEFLayoutIDx99_description" = "Set HDEF layout-it to 99:
+063 (0x63, 0x00, 0x00, 0x00).";
+
+"HDEFLayoutIDx269_title" = "LayoutID=269";
+"HDEFLayoutIDx269_description" = "Set HDEF layout-it to 269:
+10D (0x0D, 0x01, 0x00, 0x00).";
+
+"HDEFLayoutIDx387_title" = "LayoutID=387";
+"HDEFLayoutIDx387_description" = "Set HDEF layout-it to 387:
+183 (0x83, 0x01, 0x00, 0x00).";
+
+"HDEFLayoutIDx388_title" = "LayoutID=388";
+"HDEFLayoutIDx388_description" = "Set HDEF layout-it to 388:
+184 (0x84, 0x01, 0x00, 0x00).";
+
+"HDEFLayoutIDx389_title" = "LayoutID=389";
+"HDEFLayoutIDx389_description" = "Set HDEF layout-it to 389:
+185 (0x85, 0x01, 0x00, 0x00).";
+
+"HDEFLayoutIDx392_title" = "LayoutID=392";
+"HDEFLayoutIDx392_description" = "Set HDEF layout-it to 392:
+188 (0x88, 0x01, 0x00, 0x00).";
+
+"HDEFLayoutIDx398_title" = "LayoutID=398";
+"HDEFLayoutIDx398_description" = "Set HDEF layout-it to 398:
+18E (0x8E, 0x01, 0x00, 0x00).";
+
+"HDEFLayoutIDx662_title" = "LayoutID=662";
+"HDEFLayoutIDx662_description" = "Set HDEF layout-it to 662:
+296 (0x96, 0x02, 0x00, 0x00).";
+
+"HDEFLayoutIDx663_title" = "LayoutID=663";
+"HDEFLayoutIDx663_description" = "Set HDEF layout-it to 663:
+297 (0x97, 0x02, 0x00, 0x00).";
+
+"HDEFLayoutIDx664_title" = "LayoutID=664";
+"HDEFLayoutIDx664_description" = "Set HDEF layout-it to 664:
+298 (0x98, 0x02, 0x00, 0x00).";
+
+"HDEFLayoutIDx885_title" = "LayoutID=885";
+"HDEFLayoutIDx885_description" = "Set HDEF layout-it to 885:
+375 (0x75, 0x03, 0x00, 0x00).";
+
+"HDEFLayoutIDx887_title" = "LayoutID=887";
+"HDEFLayoutIDx887_description" = "Set HDEF layout-it to 887:
+377 (0x77, 0x03, 0x00, 0x00).";
+
+"HDEFLayoutIDx888_title" = "LayoutID=888";
+"HDEFLayoutIDx888_description" = "Set HDEF layout-it to 888:
+378 (0x78, 0x03, 0x00, 0x00).";
+
+"HDEFLayoutIDx889_title" = "LayoutID=889";
+"HDEFLayoutIDx889_description" = "Set HDEF layout-it to 889:
+379 (0x79, 0x03, 0x00, 0x00).";
+
+"HDEFLayoutIDx892_title" = "LayoutID=892";
+"HDEFLayoutIDx892_description" = "Set HDEF layout-it to 892:
+37C (0x7C, 0x03, 0x00, 0x00).";
+
+"HDEFLayoutIDx898_title" = "LayoutID=898";
+"HDEFLayoutIDx898_description" = "Set HDEF layout-it to 898:
+382 (0x82, 0x03, 0x00, 0x00).";
+
+"HDEFLayoutIDxBD7_title" = "LayoutID=1981";
+"HDEFLayoutIDxBD7_description" = "Set HDEF layout-it to 1981:
+7BD (0xBD, 0x07, 0x00, 0x00).";
+
+// ----------------------------------------------------------------------------
+
+"HDAULayoutIDx01_title" = "LayoutID=1";
+"HDAULayoutIDx01_description" = "Set HDAU layout-it to 1:
+001 (0x01, 0x00, 0x00, 0x00).";
+
+"HDAULayoutIDx02_title" = "LayoutID=2";
+"HDAULayoutIDx02_description" = "Set HDAU layout-it to 2:
+002 (0x02, 0x00, 0x00, 0x00).";
+
+"HDAULayoutIDx03_title" = "LayoutID=3";
+"HDAULayoutIDx03_description" = "Set HDAU layout-it to 3:
+003 (0x03, 0x00, 0x00, 0x00).";
+
+"HDAULayoutIDx12_title" = "LayoutID=12";
+"HDAULayoutIDx12_description" = "Set HDAU layout-it to 12:
+00C (0x0C, 0x00, 0x00, 0x00).";
+
+"HDAULayoutIDx40_title" = "LayoutID=40";
+"HDAULayoutIDx40_description" = "Set HDAU layout-it to 40:
+028 (0x28, 0x00, 0x00, 0x00).";
+// ----------------------------------------------------------------------------
+
+"HD4K-igx00_title" = "01660000";
+"HD4K-igx00_description" = "Set 01660000 for Intel HD4000 (Mobile) AAPL,ig-platform-id .";
+
+"HD4K-igx01_title" = "01660001";
+"HD4K-igx01_description" = "Set 01660001 for Intel HD4000 (Mobile) AAPL,ig-platform-id .";
+
+"HD4K-igx02_title" = "01660002";
+"HD4K-igx02_description" = "Set 01660002 for Intel HD4000 (Mobile) AAPL,ig-platform-id .";
+
+"HD4K-igx03_title" = "01660003";
+"HD4K-igx03_description" = "Set 01660003 for Intel HD4000 (Mobile) AAPL,ig-platform-id .";
+
+"HD4K-igx04_title" = "01660004";
+"HD4K-igx04_description" = "Set 01660004 for Intel HD4000 (Mobile) AAPL,ig-platform-id .";
+
+"HD4K-igx05_title" = "01620005";
+"HD4K-igx05_description" = "Set 01620005 for Intel HD4000 (Desktop) AAPL,ig-platform-id .";
+
+"HD4K-igx06_title" = "01620006";
+"HD4K-igx06_description" = "Set 01620006 for Intel HD4000 (Desktop) AAPL,ig-platform-id .";
+
+"HD4K-igx07_title" = "01620007";
+"HD4K-igx07_description" = "Set 01620007 for Intel HD4000 (Desktop) AAPL,ig-platform-id .";
+
+"HD4K-igx08_title" = "01660008";
+"HD4K-igx08_description" = "Set 01660008 for Intel HD4000 (Mobile) AAPL,ig-platform-id .";
+
+"HD4K-igx09_title" = "01660009";
+"HD4K-igx09_description" = "Set 01660009 for Intel HD4000 (Mobile) AAPL,ig-platform-id .";
+
+"HD4K-igx10_title" = "0166000a";
+"HD4K-igx10_description" = "Set 0166000a for Intel HD4000 (Mobile) AAPL,ig-platform-id .";
+
+"HD4K-igx11_title" = "0166000b";
+"HD4K-igx11_description" = "Set 0166000b for Intel HD4000 (Mobile) AAPL,ig-platform-id .";
+
+// ----------------------------------------------------------------------------
+
+"AD2000B_PinConf_title" = "AD2000b";
+"AD2000B_PinConf_description" = "Set HDEF PinConfiguration for Analog Devices AD2000b.";
+
+"AD1981HD_PinConf_title" = "AD1981HD";
+"AD1981HD_PinConf_description" = "Set HDEF PinConfiguration for Analog Devices AD1981HD.";
+
+"AD1988B_PinConf_title" = "AD1988b";
+"AD1988B_PinConf_description" = "Set HDEF PinConfiguration for Analog Devices AD1988b.";
+
+"ALC888_PinConf_title" = "ALC888";
+"ALC888_PinConf_description" = "Set HDEF PinConfiguration for Realtek ALC888.";
+
+"ALC1200_PinConf_title" = "ALC1200";
+"ALC1200_PinConf_description" = "Set HDEF PinConfiguration for Realtek ALC1200.";
+
+"00_PinConf_title" = "00";
+"00_PinConf_description" = "Set HDEF PinConfiguration for ???.";
+
+// ----------------------------------------------------------------------------
+
 "GraphicsEnabler_title" = "GraphicsEnabler=Yes";
-"GraphicsEnabler_description" = "Enables the option to autodetect NVIDIA based GPUs and inject the correct info.";
+"GraphicsEnabler_description" = "Enables the option to autodetect NVIDIA, AMD/ATI or Intel based GPUs and inject the correct info.";
 
 "EnableHDMIAudio_title" = "EnableHDMIAudio=Yes";
 "EnableHDMIAudio_description" = "Inject HDMi audio for NVIDIA or AMD/ATI.";
@@ -217,6 +393,21 @@ Dependencies: none";
 
 "VBIOS_title" = "VBIOS=Yes";
 "VBIOS_description" = "Enables VBIOS option";
+
+"SkipIntelGfx_title" = "SkipIntelGfx=Yes";
+"SkipIntelGfx_description" = "Skip the GraphicsEnbaler autodetect for Intel based GPUs.";
+
+"SkipNvidiaGfx_title" = "SkipNvidiaGfx=Yes";
+"SkipNvidiaGfx_description" = "Skip the GraphicsEnbaler autodetect for NVIDIA based GPUs.";
+
+"SkipAtiGfx_title" = "SkipAtiGfx=Yes";
+"SkipAtiGfx_description" = "Skip the GraphicsEnbaler autodetect for AMD/ATI based GPUs.";
+
+"EnableBacklight_title" = "EnableBacklight=Yes";
+"EnableBacklight_description" = "Enables Backlight options for laptop with nVidia cards.";
+
+"EnableDualLink_title" = "EnableDualLink=Yes";
+"EnableDualLink_description" = "Enables DualLink options for nVidia and ATi cards.";
 
 // ----------------------------------------------------------------------------
 // Boot options - KERNEL FLAGS
@@ -310,6 +501,22 @@ Findings credits to bcc9.";
 // Resolution
 "Resolution_title" = "Resolution";
 "Resolution_description" = "Set one resolution to use.";
+
+// HDEF Layout
+"HDEFLayout_title" = "HDEF Layout";
+"HDEFLayout_description" = "Set one HDEF Layout ID to use for your HDA controller.";
+
+// HDAU Layout
+"HDAULayout_title" = "HDAU Layout";
+"HDAULayout_description" = "Set one HDAU Layout ID to use for your HDMi controller.";
+
+// HD4000 Layout
+"GmaIG_title" = "Intel HD4000 Layout";
+"GmaIG_description" = "Set one AAPL,ig-platform-id to use for your Intel HD4000.";
+
+// PinConfiguration
+"HDEFPinConfiguration_title" = "HDEF PinConfiguration";
+"HDEFPinConfiguration_description" = "Set one HDEF PinConfiguration to use.";
 
 // Video
 "Video_title" = "Video";

@@ -1143,7 +1143,11 @@ makedistribution ()
 #   Create the final package
     pkgutil --flatten "${PKG_BUILD_DIR}/${packagename}" "${distributionFilePath}"
 
-#   Here is the place to assign an icon to the pkg
+##################################################################
+#   Here is the place to assign an icon to the pkg               #
+#   command used to generate the file:                           #
+#   ditto -c -k --sequesterRsrc --keepParent Icon.icns Icon.zip  #
+##################################################################
     ditto -xk "${PKGROOT}/Icons/pkg.zip" "${PKG_BUILD_DIR}/Icons/"
     DeRez -only icns "${PKG_BUILD_DIR}/Icons/Icons/pkg.icns" > "${PKG_BUILD_DIR}/Icons/tempicns.rsrc"
     Rez -append "${PKG_BUILD_DIR}/Icons/tempicns.rsrc" -o "${distributionFilePath}"

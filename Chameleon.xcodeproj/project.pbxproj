@@ -18,6 +18,11 @@
 		1D2A1AF513743A2600787720 /* bootargs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bootargs.h; sourceTree = "<group>"; };
 		361BC70214BD977700236488 /* Changes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Changes.txt; sourceTree = "<group>"; };
 		361BC70B14BD97C800236488 /* pkg.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; name = pkg.zip; path = Icons/pkg.zip; sourceTree = "<group>"; };
+		362D5486172FEA35008CEDFC /* ati.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ati.h; sourceTree = "<group>"; };
+		362D5487172FEA57008CEDFC /* gma.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = gma.c; sourceTree = "<group>"; };
+		362D5488172FEA57008CEDFC /* gma.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = gma.h; sourceTree = "<group>"; };
+		362D5489172FEA6A008CEDFC /* freebsd.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = freebsd.c; sourceTree = "<group>"; };
+		362D548A172FEA6A008CEDFC /* freebsd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = freebsd.h; sourceTree = "<group>"; };
 		369689D014BD0AF10013D77F /* BLOCKERS */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BLOCKERS; sourceTree = "<group>"; };
 		369689D114BD0AF10013D77F /* Cconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cconfig; sourceTree = "<group>"; };
 		369689D214BD0B470013D77F /* version */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = version; sourceTree = "<group>"; };
@@ -3322,6 +3327,7 @@
 				B0056D2911F3868000754B65 /* asm.s */,
 				012E60F7137AC68F00E35218 /* ati_reg.h */,
 				B0056D2A11F3868000754B65 /* ati.c */,
+				362D5486172FEA35008CEDFC /* ati.h */,
 				B0056D2C11F3868000754B65 /* bios.h */,
 				B0056D2D11F3868000754B65 /* bios.s */,
 				B0056D2E11F3868000754B65 /* biosfn.c */,
@@ -3349,10 +3355,14 @@
 				B0056D3F11F3868000754B65 /* fake_efi.c */,
 				B0056D4011F3868000754B65 /* fake_efi.h */,
 				B0056D4111F3868000754B65 /* fdisk.h */,
-				B0056D4211F3868000754B65 /* hfs.c */,
-				B0056D4311F3868000754B65 /* hfs.h */,
+				362D5489172FEA6A008CEDFC /* freebsd.c */,
+				362D548A172FEA6A008CEDFC /* freebsd.h */,
+				362D5487172FEA57008CEDFC /* gma.c */,
+				362D5488172FEA57008CEDFC /* gma.h */,
 				B0056D4411F3868000754B65 /* hfs_CaseTables.h */,
 				B0056D4511F3868000754B65 /* hfs_compare.c */,
+				B0056D4211F3868000754B65 /* hfs.c */,
+				B0056D4311F3868000754B65 /* hfs.h */,
 				B0056D4611F3868000754B65 /* hpet.c */,
 				B0056D4711F3868000754B65 /* hpet.h */,
 				B0056D4811F3868000754B65 /* io_inline.h */,
@@ -3843,7 +3853,7 @@
 		08FB7793FE84155DC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0460;
 			};
 			buildConfigurationList = 1DEB919308733D9F0010E9CD /* Build configuration list for PBXProject "Chameleon" */;
 			compatibilityVersion = "Xcode 3.2";
