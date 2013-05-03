@@ -186,6 +186,9 @@ Dependencies: none";
 "1280x960x32_title" = "1280x960x32";
 "1280x960x32_description" = "Set Graphics Mode to 1280x960x32";
 
+"1366x768x32_title" = "1366x768x32";
+"1366x768x32_description" = "Set Graphics Mode to 1366x768x32";
+
 "1440x900x32_title" = "1440x900x32";
 "1440x900x32_description" = "Set Graphics Mode to 1440x900x32";
 

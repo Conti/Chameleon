@@ -330,6 +330,7 @@ static radeon_card_info_t radeon_cards[] = {
 
 	{ 0x9553,	0x18751043, CHIP_FAMILY_RV710,		"ATI Mobility Radeon HD 4570",			kShrike		},
 	{ 0x9553,	0x1B321043, CHIP_FAMILY_RV710,		"ATI Mobility Radeon HD 4570",			kShrike		},
+	{ 0x9553,	0x215B17AA, CHIP_FAMILY_RV710,		"ATI Mobility Radeon HD 4530/4570",			kShrike		},
 	{ 0x9553,	0x3092174B, CHIP_FAMILY_RV710,		"ATI Radeon HD 4300/4500 Series",		kPeregrine		},
 	{ 0x9553,	0x39291642, CHIP_FAMILY_RV710,		"ATI Mobility Radeon HD 4570",			kPeregrine		},
 	{ 0x9553,	0xFD001179, CHIP_FAMILY_RV710,		"ATI Mobility Radeon HD 5145",			kPeregrine		},
