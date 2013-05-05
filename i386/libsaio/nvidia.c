@@ -1786,9 +1786,25 @@ unsigned long long mem_detect(volatile uint8_t *regs, uint8_t nvCardType, pci_dt
 		case 0x0DE1: // GT 430
 		case 0x0DE2: // GT 420
 		case 0x0DEC: // GT 525M 0DEC
+			vram_size = 1024*1024*1024;
+			break;
+		case 0x0DE9: // GT 630M
+			// 10DE0DE9103C181D 1GB VRAM
+			if (((nvda_dev->subsys_id.subsys.vendor_id << 16) | nvda_dev->subsys_id.subsys.device_id) == 0x103C181D )
+			{
+				vram_size = 1024*1024*1024;
+			}
+			break;
 		case 0x0DF4: // GT 540M
 		case 0x0DF5: // GT 525M 0DF5
 			vram_size = 1024*1024*1024;
+			break;
+		case 0x11C6:	// GTX650TI 11C6
+			// 10DE11C61043842A 1GB VRAM
+			if (((nvda_dev->subsys_id.subsys.vendor_id << 16) | nvda_dev->subsys_id.subsys.device_id) == 0x1043842A )
+			{
+				vram_size = 1024*1024*1024;
+			}
 			break;
 		case 0x1251: // GTX 560M
 			vram_size = 1536*1024*1024;
@@ -1797,7 +1813,7 @@ unsigned long long mem_detect(volatile uint8_t *regs, uint8_t nvCardType, pci_dt
 			break;
 	}
 
-	if (!vram_size) 
+	if (!vram_size)
 	{ // Finally, if vram_size still not set do the calculation with our own method
 		if (nvCardType < NV_ARCH_50)
 		{

@@ -52,7 +52,7 @@ extern Node *gMemoryMapNode;
 
 #define CONFIG_SIZE (40 * 4096)
 
-#define kMemoryMapCountMax 40
+#define kMemoryMapCountMax 1000
 
 /*
  * PCI bus information.
