@@ -319,6 +319,10 @@ Dependencies: none";
 "HDAULayoutIDx12_description" = "Set HDAU layout-it to 12:
 00C (0x0C, 0x00, 0x00, 0x00).";
 
+"HDAULayoutIDx99_title" = "LayoutID=99";
+"HDAULayoutIDx99_description" = "Set HDAU layout-it to 99:
+063 (0x63, 0x00, 0x00, 0x00).";
+
 "HDAULayoutIDx40_title" = "LayoutID=40";
 "HDAULayoutIDx40_description" = "Set HDAU layout-it to 40:
 028 (0x28, 0x00, 0x00, 0x00).";
