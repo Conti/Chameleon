@@ -1,0 +1,10 @@
+#
+# Chameleon Modules
+#
+
+config HDAENABLER_MODULE
+	tristate "HDAEnabler Module"
+	default y
+	---help---
+	  Say Y here if you want to enable the use of this module.
+

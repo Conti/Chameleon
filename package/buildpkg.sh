@@ -676,7 +676,7 @@ if [[ "${CONFIG_MODULES}" == 'y' ]];then
         }
         fi
 # -
-        if [[ "${CONFIG_HDAENABLER_MODULE}" == 'm' && -f "${SYMROOT}/i386/modules/HDAEnabler.dylib" ]]; then
+        if [[ "${CONFIG_HDAENABLER_MODULE}" == 'y' && -f "${SYMROOT}/i386/modules/HDAEnabler.dylib" ]]; then
         {
             # Start build HDAEnabler package module
             choiceId="HDAEnabler"

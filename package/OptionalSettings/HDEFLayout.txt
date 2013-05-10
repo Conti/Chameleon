@@ -1,0 +1,50 @@
+# ---------------------------------------------
+# Chameleon Optional Settings List.
+# ---------------------------------------------
+# Add boot options or kernel flags to the bottom of this file.
+# They will appear under the package installer's Settings menu
+# in a sub menu named with the filename of this file.
+# Use one file or many files - it's flexible to make it easy
+# to group different options under separate sub menus.
+# ---------------------------------------------
+# To add boot option: Structure is:
+#     type@name:key=value
+# example1: Bool@InstantMenu:Instant Menu=Yes
+# example2: Text@1024x600x32:Graphics Mode=1024x600x32
+# example3: List@Npci:Kernel Flags=npci=0x2000
+# ---------------------------------------------
+# type can be: Bool, Text or List
+# ---------------------------------------------
+# The package installer has a setting which controls what
+# the user is allowed to choose.
+# A) User can select every option from the list.
+# B) User can select only one of the options from the list.
+# Set Exclusive=False for A, or Exclusive=True for B.
+#
+Exclusive=True
+# ---------------------------------------------
+# Note: There must be a carriage return at end of last line
+# ---------------------------------------------
+Text@HDEFLayoutIDx01:HDEFLayoutID=1
+Text@HDEFLayoutIDx02:HDEFLayoutID=2
+Text@HDEFLayoutIDx03:HDEFLayoutID=3
+Text@HDEFLayoutIDx12:HDEFLayoutID=12
+Text@HDEFLayoutIDx40:HDEFLayoutID=40
+Text@HDEFLayoutIDx65:HDEFLayoutID=65
+Text@HDEFLayoutIDx99:HDEFLayoutID=99
+Text@HDEFLayoutIDx269:HDEFLayoutID=269
+Text@HDEFLayoutIDx387:HDEFLayoutID=387
+Text@HDEFLayoutIDx388:HDEFLayoutID=388
+Text@HDEFLayoutIDx389:HDEFLayoutID=389
+Text@HDEFLayoutIDx392:HDEFLayoutID=392
+Text@HDEFLayoutIDx398:HDEFLayoutID=398
+Text@HDEFLayoutIDx662:HDEFLayoutID=662
+Text@HDEFLayoutIDx663:HDEFLayoutID=663
+Text@HDEFLayoutIDx664:HDEFLayoutID=664
+Text@HDEFLayoutIDx885:HDEFLayoutID=885
+Text@HDEFLayoutIDx887:HDEFLayoutID=887
+Text@HDEFLayoutIDx888:HDEFLayoutID=888
+Text@HDEFLayoutIDx889:HDEFLayoutID=889
+Text@HDEFLayoutIDx892:HDEFLayoutID=892
+Text@HDEFLayoutIDx898:HDEFLayoutID=898
+Text@HDEFLayoutIDxBD7:HDEFLayoutID=1981
