@@ -1597,11 +1597,8 @@ bool get_hdmiaudio(value_t * val)
 		val->type = kStr;
 		val->size = strlen("onboard-1") + 1;
 		val->data = (uint8_t *)"onboard-1";
-		
+
 		return true;
-		
-		
-		
 	}
 	return false;
 }
@@ -1703,7 +1700,7 @@ bool get_romrevision_val(value_t *val)
 	uint8_t *rev;
 	if (!card->rom)
 		return false;
-	
+
 	rev = card->rom + *(uint8_t *)(card->rom + OFFSET_TO_GET_ATOMBIOS_STRINGS_START);
 
 	val->type = kPtr;
@@ -1712,7 +1709,7 @@ bool get_romrevision_val(value_t *val)
 	
 	if (!val->data)
 		return false;
-	
+
 	memcpy(val->data, rev, val->size);
 	
 	return true;
@@ -1840,7 +1837,7 @@ bool validate_rom(option_rom_header_t *rom_header, pci_dt_t *pci_dev)
 	
 	if (rom_header->signature != 0xaa55)
 		return false;
-	
+
 	rom_pci_header = (option_rom_pci_header_t *)((uint8_t *)rom_header + rom_header->pci_header_offset);
 	
 	if (rom_pci_header->signature != 0x52494350)
@@ -1857,22 +1854,22 @@ bool load_vbios_file(const char *key, uint16_t vendor_id, uint16_t device_id, ui
 	int fd;
 	char file_name[24];
 	bool do_load = false;
-	
+
 	getBoolForKey(key, &do_load, &bootInfo->chameleonConfig);
 	if (!do_load)
 		return false;
-	
+
 	sprintf(file_name, "/Extra/%04x_%04x_%08x.rom", vendor_id, device_id, subsys_id);
 	if ((fd = open_bvdev("bt(0,0)", file_name, 0)) < 0)
 		return false;
-	
+
 	card->rom_size = file_size(fd);
 	card->rom = malloc(card->rom_size);
 	if (!card->rom)
 		return false;
-	
+
 	read(fd, (char *)card->rom, card->rom_size);
-	
+
 	if (!validate_rom((option_rom_header_t *)card->rom, card->pci_dev))
 	{
 		card->rom_size = 0;
@@ -1881,9 +1878,9 @@ bool load_vbios_file(const char *key, uint16_t vendor_id, uint16_t device_id, ui
 	}
 	
 	card->rom_size = ((option_rom_header_t *)card->rom)->rom_size * 512;
-	
+
 	close(fd);
-	
+
 	return true;
 }
 
@@ -1892,7 +1889,7 @@ void get_vram_size(void)
 	ati_chip_family_t chip_family = card->info->chip_family;
 	
 	card->vram_size = 0;
-	
+
 	if (chip_family >= CHIP_FAMILY_CEDAR)
 		// size in MB on evergreen
 		// XXX watch for overflow!!!
@@ -1973,7 +1970,7 @@ bool read_disabled_vbios(void)
 		}
 		else
 			RegWrite32(R600_ROM_CNTL, (rom_cntl | R600_SCK_OVERWRITE));
-		
+
 		ret = read_vbios(true);
 		
 		// restore regs
@@ -2095,26 +2092,24 @@ static bool init_card(pci_dt_t *pci_dev)
 	if (!card)
 		return false;
 	bzero(card, sizeof(card_t));
-	
+
 	card->pci_dev = pci_dev;
 	
 	for (i = 0; radeon_cards[i].device_id ; i++)
 	{
 		if (radeon_cards[i].device_id == pci_dev->device_id)
 		{
-			card->info = &radeon_cards[i];
-			if ((radeon_cards[i].subsys_id == 0x00000000) ||
-				(radeon_cards[i].subsys_id == pci_dev->subsys_id.subsys_id))
+			//card->info = &radeon_cards[i]; // Jief
+			if ((radeon_cards[i].subsys_id == 0x00000000) || (radeon_cards[i].subsys_id == pci_dev->subsys_id.subsys_id))
+				card->info = &radeon_cards[i];
 				break;
 		}
 	}
-	
-    
-    //why can't this check go down to 1411?
-    //If we move it down we would still allow the cfg_name check
-    
-	//if (!card->info->device_id || !card->info->cfg_name)
-    if (!card->info->device_id)
+
+	//why can't this check go down to 1411?
+	//If we move it down we would still allow the cfg_name check
+
+	if (card->info == NULL) // Jief
 	{
 		verbose("Unsupported ATI card! Device ID: [%04x:%04x] Subsystem ID: [%08x] \n", 
 				pci_dev->vendor_id, pci_dev->device_id, pci_dev->subsys_id);
@@ -2124,7 +2119,7 @@ static bool init_card(pci_dt_t *pci_dev)
 	card->fb		= (uint8_t *)(pci_config_read32(pci_dev->dev.addr, PCI_BASE_ADDRESS_0) & ~0x0f);
 	card->mmio		= (uint8_t *)(pci_config_read32(pci_dev->dev.addr, PCI_BASE_ADDRESS_2) & ~0x0f);
 	card->io		= (uint8_t *)(pci_config_read32(pci_dev->dev.addr, PCI_BASE_ADDRESS_4) & ~0x03);
-	
+
 	verbose("Framebuffer @0x%08X  MMIO @0x%08X	I/O Port @0x%08X ROM Addr @0x%08X\n",
 		card->fb, card->mmio, card->io, pci_config_read32(pci_dev->dev.addr, PCI_ROM_ADDRESS));
 	
@@ -2147,14 +2142,14 @@ static bool init_card(pci_dt_t *pci_dev)
 			verbose("\n");
 		}
 	}
-	
-	
+
+
 	if (card->info->chip_family >= CHIP_FAMILY_CEDAR)
 	{
 		card->flags |= EVERGREEN;
 	}
-	
-	
+
+
 	// Check AtiConfig key for a framebuffer name,
 	card->cfg_name = getStringForKey(kAtiConfig, &bootInfo->chameleonConfig);
 
@@ -2172,7 +2167,7 @@ static bool init_card(pci_dt_t *pci_dev)
 		// else, use the fb name returned by AtiConfig.
 		verbose("(AtiConfig) Framebuffer set to: %s\n", card->cfg_name);
 	}
-	
+
 	// Check AtiPorts key for nr of ports,
 	card->ports = getIntForKey(kAtiPorts, &n_ports, &bootInfo->chameleonConfig);
 	// if a value bigger than 0 ?? is found, (do we need >= 0 ?? that's null FB on card_configs)
@@ -2180,18 +2175,18 @@ static bool init_card(pci_dt_t *pci_dev)
 	{
 		card->ports = n_ports; // use it.
 		verbose("(AtiPorts) # of ports set to: %d\n", card->ports);
-    }
+	}
 	else
 	{
 		// else, match cfg_name with card_configs list and retrive default nr of ports.
 		for (i = 0; i < kCfgEnd; i++)
 			if (strcmp(card->cfg_name, card_configs[i].name) == 0)
 				card->ports = card_configs[i].ports; // default
-		
+
 		verbose("# of ports set to framebuffer's default: %d\n", card->ports);
 	}
 
-	
+
 	sprintf(name, "ATY,%s", card->cfg_name);
 	aty_name.type = kStr;
 	aty_name.size = strlen(name) + 1;
@@ -2208,10 +2203,10 @@ static bool init_card(pci_dt_t *pci_dev)
 bool setup_ati_devprop(pci_dt_t *ati_dev)
 {
 	char *devicepath;
-	
+
 	if (!init_card(ati_dev))
 		return false;
-	
+
 	// -------------------------------------------------
 	// Find a better way to do this (in device_inject.c)
 	if (!string)
@@ -2224,16 +2219,16 @@ bool setup_ati_devprop(pci_dt_t *ati_dev)
 	// -------------------------------------------------
 	
 #if 0
-	uint64_t fb		= (uint32_t)card->fb;
+	uint64_t fb	= (uint32_t)card->fb;
 	uint64_t mmio	= (uint32_t)card->mmio;
-	uint64_t io		= (uint32_t)card->io;
+	uint64_t io	= (uint32_t)card->io;
 	devprop_add_value(card->device, "ATY,FrameBufferOffset", &fb, 8);
 	devprop_add_value(card->device, "ATY,RegisterSpaceOffset", &mmio, 8);
 	devprop_add_value(card->device, "ATY,IOSpaceOffset", &io, 8);
 #endif
 	
 	devprop_add_list(ati_devprop_list);
-	
+
 	// -------------------------------------------------
 	// Find a better way to do this (in device_inject.c)
 	//Azi: XXX tried to fix a malloc error in vain; this is related to XCode 4 compilation!
