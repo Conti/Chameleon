@@ -8,13 +8,15 @@ msgstr ""
 "Project-Id-Version: Chameleon 2.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-05-10 18:55+0200\n"
-"PO-Revision-Date: 2013-04-26 01:52+0200\n"
-"Last-Translator: archintosh <ardr_1109@yahoo.com>\n"
+"PO-Revision-Date: 2013-05-11 14:30+0000\n"
+"Last-Translator: ErmaC <ErmaC@insanelymac.com>\n"
 "Language-Team: id <id@li.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 2.5.0-rc1\n"
+"X-POOTLE-MTIME: 1368282607.0\n"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:22
@@ -331,7 +333,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:43
 #, no-wrap
 msgid "ACPICodec"
-msgstr ""
+msgstr "ACPICodec"
 
 #. type: "ACPICodec_description"
 #: Resources/templates/Localizable.strings:44
@@ -340,12 +342,14 @@ msgid ""
 "This module provides a substitute for the internal acpi patcher.\n"
 "Dependencies: none"
 msgstr ""
+"Modul ini menyediakan pengganti untuk internal acpi patcher.\n"
+"Bergantung pada: tidak ada"
 
 #. type: "HDAEnabler_title"
 #: Resources/templates/Localizable.strings:47
 #, no-wrap
 msgid "HDAEnabler"
-msgstr ""
+msgstr "HDAEnabler"
 
 #. type: "HDAEnabler_description"
 #: Resources/templates/Localizable.strings:48
@@ -354,12 +358,15 @@ msgid ""
 "HDAEnabler module, this module provides a substitute for the Hight Definition Audio DSDT Edits.\n"
 "Dependencies: none"
 msgstr ""
+"HDAEnabler, modul ini menyediakan pengganti untuk editan DSDT bagian High "
+"Definition Audio.\n"
+"Bergantung pada: tidak ada"
 
 #. type: "FileNVRAM_title"
 #: Resources/templates/Localizable.strings:51
 #, no-wrap
 msgid "FileNVRAM"
-msgstr ""
+msgstr "FileNVRAM"
 
 #. type: "FileNVRAM_description"
 #: Resources/templates/Localizable.strings:52
@@ -373,7 +380,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:55
 #, no-wrap
 msgid "Sata"
-msgstr ""
+msgstr "Sata"
 
 #. type: "Sata_description"
 #: Resources/templates/Localizable.strings:56
@@ -423,10 +430,10 @@ msgstr ""
 
 #. type: "KernelPatcher_title"
 #: Resources/templates/Localizable.strings:71
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "UseKernelCache=Yes"
 msgid "Kernel Patcher"
-msgstr "UseKernelCache=Yes"
+msgstr "Kernel Patcher"
 
 #. type: "KernelPatcher_description"
 #: Resources/templates/Localizable.strings:72
@@ -444,7 +451,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:79
 #, no-wrap
 msgid "Kext Patcher"
-msgstr ""
+msgstr "Kext Patcher"
 
 #. type: "KextPatcher_description"
 #: Resources/templates/Localizable.strings:80
@@ -588,10 +595,10 @@ msgstr "Mengaktifkan opsi dalam menambah ‘integrasi (built-in)’ ke perangkat
 
 #. type: "EnableWifi_title"
 #: Resources/templates/Localizable.strings:122
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "EnableHDMIAudio=Yes"
 msgid "EnableWifi=Yes"
-msgstr "EnableHDMIAudio=Yes"
+msgstr "EnableWifi=Yes"
 
 #. type: "EnableWifi_description"
 #: Resources/templates/Localizable.strings:123
@@ -842,17 +849,17 @@ msgstr "Menset resolusi ke 1280x960x32"
 
 #. type: "1366x768x32_title"
 #: Resources/templates/Localizable.strings:189
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "1024x768x32"
 msgid "1366x768x32"
-msgstr "1024x768x32"
+msgstr "1366x768x32"
 
 #. type: "1366x768x32_description"
 #: Resources/templates/Localizable.strings:190
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "Set Graphics Mode to 1024x768x32"
 msgid "Set Graphics Mode to 1366x768x32"
-msgstr "Menset resolusi ke 1024x768x32"
+msgstr "Menset resolusi ke 1366x768x32"
 
 #. type: "1440x900x32_title"
 #: Resources/templates/Localizable.strings:192
@@ -929,10 +936,10 @@ msgstr "Menset resolusi ke 1920x1200x32"
 #. type: "HDAULayoutIDx01_title"
 #: Resources/templates/Localizable.strings:212
 #: Resources/templates/Localizable.strings:306
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "KeyLayout"
 msgid "LayoutID=1"
-msgstr "Layout keyboard"
+msgstr "LayoutID=1"
 
 #. type: "HDEFLayoutIDx01_description"
 #: Resources/templates/Localizable.strings:213
@@ -945,10 +952,10 @@ msgstr ""
 #. type: "HDAULayoutIDx02_title"
 #: Resources/templates/Localizable.strings:216
 #: Resources/templates/Localizable.strings:310
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "KeyLayout"
 msgid "LayoutID=2"
-msgstr "Layout keyboard"
+msgstr "LayoutID=2"
 
 #. type: "HDEFLayoutIDx02_description"
 #: Resources/templates/Localizable.strings:217
