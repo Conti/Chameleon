@@ -8,13 +8,15 @@ msgstr ""
 "Project-Id-Version: Chameleon 2.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-05-10 18:55+0200\n"
-"PO-Revision-Date: 2013-04-26 04:15+0200\n"
-"Last-Translator: kyndder <kyndder@icloud.com>\n"
+"PO-Revision-Date: 2013-05-11 14:23+0000\n"
+"Last-Translator: ErmaC <ErmaC@insanelymac.com>\n"
 "Language-Team: pt-PT <pt-PT@li.org>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 2.5.0-rc1\n"
+"X-POOTLE-MTIME: 1368282182.0\n"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:22
@@ -332,7 +334,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:43
 #, no-wrap
 msgid "ACPICodec"
-msgstr ""
+msgstr "ACPICodec"
 
 #. type: "ACPICodec_description"
 #: Resources/templates/Localizable.strings:44
@@ -346,7 +348,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:47
 #, no-wrap
 msgid "HDAEnabler"
-msgstr ""
+msgstr "HDAEnabler"
 
 #. type: "HDAEnabler_description"
 #: Resources/templates/Localizable.strings:48
@@ -360,7 +362,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:51
 #, no-wrap
 msgid "FileNVRAM"
-msgstr ""
+msgstr "FileNVRAM"
 
 #. type: "FileNVRAM_description"
 #: Resources/templates/Localizable.strings:52
@@ -374,7 +376,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:55
 #, no-wrap
 msgid "Sata"
-msgstr ""
+msgstr "Sata"
 
 #. type: "Sata_description"
 #: Resources/templates/Localizable.strings:56
@@ -427,10 +429,10 @@ msgstr ""
 
 #. type: "KernelPatcher_title"
 #: Resources/templates/Localizable.strings:71
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "UseKernelCache=Yes"
 msgid "Kernel Patcher"
-msgstr "UseKernelCache=Yes"
+msgstr "Kernel Patcher"
 
 #. type: "KernelPatcher_description"
 #: Resources/templates/Localizable.strings:72
@@ -448,7 +450,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:79
 #, no-wrap
 msgid "Kext Patcher"
-msgstr ""
+msgstr "Kext Patcher"
 
 #. type: "KextPatcher_description"
 #: Resources/templates/Localizable.strings:80
@@ -592,10 +594,10 @@ msgstr "Ativa a opção que inclui 'built-in' (integrado) nos dispositivos ether
 
 #. type: "EnableWifi_title"
 #: Resources/templates/Localizable.strings:122
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "EnableHDMIAudio=Yes"
 msgid "EnableWifi=Yes"
-msgstr "EnableHDMIAudio=Yes"
+msgstr "EnableWifi=Yes"
 
 #. type: "EnableWifi_description"
 #: Resources/templates/Localizable.strings:123
@@ -846,17 +848,17 @@ msgstr "Seleciona Modo Gráfico 1280x960x32"
 
 #. type: "1366x768x32_title"
 #: Resources/templates/Localizable.strings:189
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "1024x768x32"
 msgid "1366x768x32"
-msgstr "1024x768x32"
+msgstr "1366x768x32"
 
 #. type: "1366x768x32_description"
 #: Resources/templates/Localizable.strings:190
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "Set Graphics Mode to 1024x768x32"
 msgid "Set Graphics Mode to 1366x768x32"
-msgstr "Seleciona Modo Gráfico 1024x768x32"
+msgstr "Seleciona Modo Gráfico 1366x768x32"
 
 #. type: "1440x900x32_title"
 #: Resources/templates/Localizable.strings:192
@@ -933,10 +935,10 @@ msgstr "Seleciona Modo Gráfico 1920x1200x32"
 #. type: "HDAULayoutIDx01_title"
 #: Resources/templates/Localizable.strings:212
 #: Resources/templates/Localizable.strings:306
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "KeyLayout"
 msgid "LayoutID=1"
-msgstr "KeyLayout"
+msgstr "LayoutID=1"
 
 #. type: "HDEFLayoutIDx01_description"
 #: Resources/templates/Localizable.strings:213
@@ -949,10 +951,10 @@ msgstr ""
 #. type: "HDAULayoutIDx02_title"
 #: Resources/templates/Localizable.strings:216
 #: Resources/templates/Localizable.strings:310
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "KeyLayout"
 msgid "LayoutID=2"
-msgstr "KeyLayout"
+msgstr "LayoutID=2"
 
 #. type: "HDEFLayoutIDx02_description"
 #: Resources/templates/Localizable.strings:217
@@ -997,10 +999,10 @@ msgstr ""
 #. type: "HDAULayoutIDx40_title"
 #: Resources/templates/Localizable.strings:228
 #: Resources/templates/Localizable.strings:326
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "KeyLayout"
 msgid "LayoutID=40"
-msgstr "KeyLayout"
+msgstr "LayoutID=40"
 
 #. type: "HDEFLayoutIDx40_description"
 #: Resources/templates/Localizable.strings:229
@@ -1012,10 +1014,10 @@ msgstr ""
 
 #. type: "HDEFLayoutIDx65_title"
 #: Resources/templates/Localizable.strings:232
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "KeyLayout"
 msgid "LayoutID=65"
-msgstr "KeyLayout"
+msgstr "LayoutID=65"
 
 #. type: "HDEFLayoutIDx65_description"
 #: Resources/templates/Localizable.strings:233
@@ -1028,10 +1030,10 @@ msgstr ""
 #. type: "HDAULayoutIDx99_title"
 #: Resources/templates/Localizable.strings:236
 #: Resources/templates/Localizable.strings:322
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "KeyLayout"
 msgid "LayoutID=99"
-msgstr "KeyLayout"
+msgstr "LayoutID=99"
 
 #. type: "HDEFLayoutIDx99_description"
 #: Resources/templates/Localizable.strings:237
@@ -1045,7 +1047,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:240
 #, no-wrap
 msgid "LayoutID=269"
-msgstr ""
+msgstr "LayoutID=269"
 
 #. type: "HDEFLayoutIDx269_description"
 #: Resources/templates/Localizable.strings:241
@@ -1059,7 +1061,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:244
 #, no-wrap
 msgid "LayoutID=387"
-msgstr ""
+msgstr "LayoutID=387"
 
 #. type: "HDEFLayoutIDx387_description"
 #: Resources/templates/Localizable.strings:245
@@ -1115,7 +1117,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:260
 #, no-wrap
 msgid "LayoutID=398"
-msgstr ""
+msgstr "LayoutID=398"
 
 #. type: "HDEFLayoutIDx398_description"
 #: Resources/templates/Localizable.strings:261
@@ -1129,7 +1131,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:264
 #, no-wrap
 msgid "LayoutID=662"
-msgstr ""
+msgstr "LayoutID=662"
 
 #. type: "HDEFLayoutIDx662_description"
 #: Resources/templates/Localizable.strings:265
@@ -1143,7 +1145,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:268
 #, no-wrap
 msgid "LayoutID=663"
-msgstr ""
+msgstr "LayoutID=663"
 
 #. type: "HDEFLayoutIDx663_description"
 #: Resources/templates/Localizable.strings:269
@@ -1157,7 +1159,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:272
 #, no-wrap
 msgid "LayoutID=664"
-msgstr ""
+msgstr "LayoutID=664"
 
 #. type: "HDEFLayoutIDx664_description"
 #: Resources/templates/Localizable.strings:273
@@ -1171,7 +1173,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:276
 #, no-wrap
 msgid "LayoutID=885"
-msgstr ""
+msgstr "LayoutID=885"
 
 #. type: "HDEFLayoutIDx885_description"
 #: Resources/templates/Localizable.strings:277
@@ -1185,7 +1187,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:280
 #, no-wrap
 msgid "LayoutID=887"
-msgstr ""
+msgstr "LayoutID=887"
 
 #. type: "HDEFLayoutIDx887_description"
 #: Resources/templates/Localizable.strings:281
@@ -1199,7 +1201,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:284
 #, no-wrap
 msgid "LayoutID=888"
-msgstr ""
+msgstr "LayoutID=888"
 
 #. type: "HDEFLayoutIDx888_description"
 #: Resources/templates/Localizable.strings:285
@@ -1213,7 +1215,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:288
 #, no-wrap
 msgid "LayoutID=889"
-msgstr ""
+msgstr "LayoutID=889"
 
 #. type: "HDEFLayoutIDx889_description"
 #: Resources/templates/Localizable.strings:289
@@ -1227,7 +1229,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:292
 #, no-wrap
 msgid "LayoutID=892"
-msgstr ""
+msgstr "LayoutID=892"
 
 #. type: "HDEFLayoutIDx892_description"
 #: Resources/templates/Localizable.strings:293
@@ -1241,7 +1243,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:296
 #, no-wrap
 msgid "LayoutID=898"
-msgstr ""
+msgstr "LayoutID=898"
 
 #. type: "HDEFLayoutIDx898_description"
 #: Resources/templates/Localizable.strings:297
@@ -1255,7 +1257,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:300
 #, no-wrap
 msgid "LayoutID=1981"
-msgstr ""
+msgstr "LayoutID=1981"
 
 #. type: "HDEFLayoutIDxBD7_description"
 #: Resources/templates/Localizable.strings:301
@@ -1329,7 +1331,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:334
 #, no-wrap
 msgid "01660001"
-msgstr ""
+msgstr "01660001"
 
 #. type: "HD4K-igx01_description"
 #: Resources/templates/Localizable.strings:335
@@ -1341,7 +1343,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:337
 #, no-wrap
 msgid "01660002"
-msgstr ""
+msgstr "01660002"
 
 #. type: "HD4K-igx02_description"
 #: Resources/templates/Localizable.strings:338
@@ -1353,7 +1355,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:340
 #, no-wrap
 msgid "01660003"
-msgstr ""
+msgstr "01660003"
 
 #. type: "HD4K-igx03_description"
 #: Resources/templates/Localizable.strings:341
@@ -1365,7 +1367,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:343
 #, no-wrap
 msgid "01660004"
-msgstr ""
+msgstr "01660004"
 
 #. type: "HD4K-igx04_description"
 #: Resources/templates/Localizable.strings:344
@@ -1377,7 +1379,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:346
 #, no-wrap
 msgid "01620005"
-msgstr ""
+msgstr "01620005"
 
 #. type: "HD4K-igx05_description"
 #: Resources/templates/Localizable.strings:347
@@ -1401,7 +1403,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:352
 #, no-wrap
 msgid "01620007"
-msgstr ""
+msgstr "01620007"
 
 #. type: "HD4K-igx07_description"
 #: Resources/templates/Localizable.strings:353
@@ -1413,7 +1415,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:355
 #, no-wrap
 msgid "01660008"
-msgstr ""
+msgstr "01660008"
 
 #. type: "HD4K-igx08_description"
 #: Resources/templates/Localizable.strings:356
@@ -1425,7 +1427,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:358
 #, no-wrap
 msgid "01660009"
-msgstr ""
+msgstr "01660009"
 
 #. type: "HD4K-igx09_description"
 #: Resources/templates/Localizable.strings:359
@@ -1437,7 +1439,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:361
 #, no-wrap
 msgid "0166000a"
-msgstr ""
+msgstr "0166000a"
 
 #. type: "HD4K-igx10_description"
 #: Resources/templates/Localizable.strings:362
@@ -1449,7 +1451,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:364
 #, no-wrap
 msgid "0166000b"
-msgstr ""
+msgstr "0166000b"
 
 #. type: "HD4K-igx11_description"
 #: Resources/templates/Localizable.strings:365
@@ -1485,7 +1487,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:375
 #, no-wrap
 msgid "AD1988b"
-msgstr ""
+msgstr "AD1988b"
 
 #. type: "AD1988B_PinConf_description"
 #: Resources/templates/Localizable.strings:376
@@ -1497,7 +1499,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:378
 #, no-wrap
 msgid "ALC888"
-msgstr ""
+msgstr "ALC888"
 
 #. type: "ALC888_PinConf_description"
 #: Resources/templates/Localizable.strings:379
@@ -1509,7 +1511,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:381
 #, no-wrap
 msgid "ALC1200"
-msgstr ""
+msgstr "ALC1200"
 
 #. type: "ALC1200_PinConf_description"
 #: Resources/templates/Localizable.strings:382
@@ -1521,7 +1523,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:384
 #, no-wrap
 msgid "00"
-msgstr ""
+msgstr "00"
 
 #. type: "00_PinConf_description"
 #: Resources/templates/Localizable.strings:385
@@ -1619,7 +1621,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:410
 #, no-wrap
 msgid "SkipAtiGfx=Yes"
-msgstr ""
+msgstr "SkipAtiGfx=Yes"
 
 #. type: "SkipAtiGfx_description"
 #: Resources/templates/Localizable.strings:411
@@ -1629,10 +1631,10 @@ msgstr ""
 
 #. type: "EnableBacklight_title"
 #: Resources/templates/Localizable.strings:413
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "EnableC2State=Yes"
 msgid "EnableBacklight=Yes"
-msgstr "EnableC2State=Yes"
+msgstr "EnableBacklight=Yes"
 
 #. type: "EnableBacklight_description"
 #: Resources/templates/Localizable.strings:414
@@ -1642,10 +1644,10 @@ msgstr ""
 
 #. type: "EnableDualLink_title"
 #: Resources/templates/Localizable.strings:416
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "EnableHDMIAudio=Yes"
 msgid "EnableDualLink=Yes"
-msgstr "EnableHDMIAudio=Yes"
+msgstr "EnableDualLink=Yes"
 
 #. type: "EnableDualLink_description"
 #: Resources/templates/Localizable.strings:417
@@ -1717,7 +1719,7 @@ msgstr "Adiciona o parâmetro npci=0x3000 em Kernel Flags."
 #: Resources/templates/Localizable.strings:437
 #, no-wrap
 msgid "ahcidisk=1 debug=8"
-msgstr ""
+msgstr "ahcidisk=1 debug=8"
 
 #. type: "WaitingRootDevice_description"
 #: Resources/templates/Localizable.strings:438
