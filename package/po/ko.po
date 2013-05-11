@@ -7,13 +7,15 @@ msgstr ""
 "Project-Id-Version: Chameleon 2.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-05-10 18:55+0200\n"
-"PO-Revision-Date: 2013-04-28 17:02+0200\n"
-"Last-Translator: ceruns <ceruns@ymail.com>\n"
+"PO-Revision-Date: 2013-05-11 14:27+0000\n"
+"Last-Translator: ErmaC <ErmaC@insanelymac.com>\n"
 "Language-Team: ko <ko@li.org>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 2.5.0-rc1\n"
+"X-POOTLE-MTIME: 1368282434.0\n"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:22
@@ -843,17 +845,17 @@ msgstr "부팅 해상도 및 색심도를 1280x960x32"
 
 #. type: "1366x768x32_title"
 #: Resources/templates/Localizable.strings:189
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "1024x768x32"
 msgid "1366x768x32"
-msgstr "1024x768x32"
+msgstr "1366x768x32"
 
 #. type: "1366x768x32_description"
 #: Resources/templates/Localizable.strings:190
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "Set Graphics Mode to 1024x768x32"
 msgid "Set Graphics Mode to 1366x768x32"
-msgstr "부팅 해상도 및 색심도를 1024x768x32"
+msgstr "부팅 해상도 및 색심도를 1366x768x32"
 
 #. type: "1440x900x32_title"
 #: Resources/templates/Localizable.strings:192
@@ -1042,6 +1044,8 @@ msgid ""
 "Set HDEF layout-it to 99:\n"
 "063 (0x63, 0x00, 0x00, 0x00)."
 msgstr ""
+"HDEF layout-it을 99로 설정:\n"
+"063 (0x63, 0x00, 0x00, 0x00)."
 
 #. type: "HDEFLayoutIDx269_title"
 #: Resources/templates/Localizable.strings:240
@@ -1056,6 +1060,8 @@ msgid ""
 "Set HDEF layout-it to 269:\n"
 "10D (0x0D, 0x01, 0x00, 0x00)."
 msgstr ""
+"HDEF layout-it 을 269으로 설정:\n"
+"10D (0x0D, 0x01, 0x00, 0x00)."
 
 #. type: "HDEFLayoutIDx387_title"
 #: Resources/templates/Localizable.strings:244
@@ -1070,6 +1076,8 @@ msgid ""
 "Set HDEF layout-it to 387:\n"
 "183 (0x83, 0x01, 0x00, 0x00)."
 msgstr ""
+"HDEF layout-it을 387 으로 설정:\n"
+"183 (0x83, 0x01, 0x00, 0x00)."
 
 #. type: "HDEFLayoutIDx388_title"
 #: Resources/templates/Localizable.strings:248
@@ -1153,9 +1161,9 @@ msgstr ""
 
 #. type: "HDEFLayoutIDx663_title"
 #: Resources/templates/Localizable.strings:268
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "LayoutID=663"
-msgstr "키 레이아웃"
+msgstr "LayoutID=663"
 
 #. type: "HDEFLayoutIDx663_description"
 #: Resources/templates/Localizable.strings:269
@@ -1164,12 +1172,14 @@ msgid ""
 "Set HDEF layout-it to 663:\n"
 "297 (0x97, 0x02, 0x00, 0x00)."
 msgstr ""
+"HDEF layout-it 663 으로 설정:\n"
+"297 (0x97, 0x02, 0x00, 0x00)."
 
 #. type: "HDEFLayoutIDx664_title"
 #: Resources/templates/Localizable.strings:272
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "LayoutID=664"
-msgstr "키 레이아웃"
+msgstr "LayoutID=664"
 
 #. type: "HDEFLayoutIDx664_description"
 #: Resources/templates/Localizable.strings:273
@@ -1178,12 +1188,14 @@ msgid ""
 "Set HDEF layout-it to 664:\n"
 "298 (0x98, 0x02, 0x00, 0x00)."
 msgstr ""
+"HDEF layout-it을 664 으로 설정:\n"
+"298 (0x98, 0x02, 0x00, 0x00)."
 
 #. type: "HDEFLayoutIDx885_title"
 #: Resources/templates/Localizable.strings:276
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "LayoutID=885"
-msgstr "키 레이아웃"
+msgstr "LayoutID=885"
 
 #. type: "HDEFLayoutIDx885_description"
 #: Resources/templates/Localizable.strings:277
@@ -1197,7 +1209,7 @@ msgstr ""
 
 #. type: "HDEFLayoutIDx887_title"
 #: Resources/templates/Localizable.strings:280
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "LayoutID=887"
 msgstr "LayoutID=887"
 
@@ -1213,7 +1225,7 @@ msgstr ""
 
 #. type: "HDEFLayoutIDx888_title"
 #: Resources/templates/Localizable.strings:284
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "LayoutID=888"
 msgstr "LayoutID=888"
 
@@ -1229,7 +1241,7 @@ msgstr ""
 
 #. type: "HDEFLayoutIDx889_title"
 #: Resources/templates/Localizable.strings:288
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "LayoutID=889"
 msgstr "LayoutID=889"
 
@@ -1245,7 +1257,7 @@ msgstr ""
 
 #. type: "HDEFLayoutIDx892_title"
 #: Resources/templates/Localizable.strings:292
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "LayoutID=892"
 msgstr "LayoutID=892"
 
@@ -1400,7 +1412,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:343
 #, no-wrap
 msgid "01660004"
-msgstr ""
+msgstr "01660004"
 
 #. type: "HD4K-igx04_description"
 #: Resources/templates/Localizable.strings:344
@@ -1472,7 +1484,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:361
 #, no-wrap
 msgid "0166000a"
-msgstr ""
+msgstr "0166000a"
 
 #. type: "HD4K-igx10_description"
 #: Resources/templates/Localizable.strings:362
@@ -1484,7 +1496,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:364
 #, no-wrap
 msgid "0166000b"
-msgstr ""
+msgstr "0166000b"
 
 #. type: "HD4K-igx11_description"
 #: Resources/templates/Localizable.strings:365
@@ -1628,7 +1640,7 @@ msgstr "VBIOS를 device-properties에 넣어줌"
 #: Resources/templates/Localizable.strings:404
 #, no-wrap
 msgid "SkipIntelGfx=Yes"
-msgstr ""
+msgstr "SkipIntelGfx=Yes"
 
 #. type: "SkipIntelGfx_description"
 #: Resources/templates/Localizable.strings:405
@@ -1748,7 +1760,7 @@ msgstr "몇몇 시스템에서 볼 수 있는 'PCI configurationbegin'과 함께
 #: Resources/templates/Localizable.strings:437
 #, no-wrap
 msgid "ahcidisk=1 debug=8"
-msgstr ""
+msgstr "ahcidisk=1 debug=8"
 
 #. type: "WaitingRootDevice_description"
 #: Resources/templates/Localizable.strings:438
