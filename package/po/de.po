@@ -8,13 +8,15 @@ msgstr ""
 "Project-Id-Version: Chameleon 2.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-05-10 18:55+0200\n"
-"PO-Revision-Date: 2012-03-07 20:05-0000\n"
-"Last-Translator: ErmaC\n"
+"PO-Revision-Date: 2013-05-11 13:31+0000\n"
+"Last-Translator: !Xabbu <holger_frey07@web.de>\n"
 "Language-Team: de <de@li.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 2.5.0-rc1\n"
+"X-POOTLE-MTIME: 1368279099.0\n"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:22
@@ -332,7 +334,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:43
 #, no-wrap
 msgid "ACPICodec"
-msgstr ""
+msgstr "ACPICodec"
 
 #. type: "ACPICodec_description"
 #: Resources/templates/Localizable.strings:44
@@ -341,12 +343,14 @@ msgid ""
 "This module provides a substitute for the internal acpi patcher.\n"
 "Dependencies: none"
 msgstr ""
+"Dieses Modul stellt einen Ersatz für den Internen ACPI Patcher bereit.\n"
+"Abhängigkeiten: Keine"
 
 #. type: "HDAEnabler_title"
 #: Resources/templates/Localizable.strings:47
 #, no-wrap
 msgid "HDAEnabler"
-msgstr ""
+msgstr "HDA-Enabler"
 
 #. type: "HDAEnabler_description"
 #: Resources/templates/Localizable.strings:48
@@ -355,12 +359,14 @@ msgid ""
 "HDAEnabler module, this module provides a substitute for the Hight Definition Audio DSDT Edits.\n"
 "Dependencies: none"
 msgstr ""
+"HDA-Enabler Modul, ermöglicht High Definition Audio ohne DSDT Konfiguration.\n"
+"Abhängigkeiten: Keine"
 
 #. type: "FileNVRAM_title"
 #: Resources/templates/Localizable.strings:51
 #, no-wrap
 msgid "FileNVRAM"
-msgstr ""
+msgstr "FileNVRAM"
 
 #. type: "FileNVRAM_description"
 #: Resources/templates/Localizable.strings:52
@@ -369,12 +375,14 @@ msgid ""
 "FileNVRAM module for preloading NVRAM values.\n"
 "Dependencies: none"
 msgstr ""
+"FileNVRAM Modul zum laden von NVRAM Werten.\n"
+"Abhängigkeiten: Keine"
 
 #. type: "Sata_title"
 #: Resources/templates/Localizable.strings:55
 #, no-wrap
 msgid "Sata"
-msgstr ""
+msgstr "Sata"
 
 #. type: "Sata_description"
 #: Resources/templates/Localizable.strings:56
@@ -384,6 +392,10 @@ msgid ""
 "Useful to fix yellow icon issue (can also fix an issue with the Apple's dvd player application in Mountain lion).\n"
 "Dependencies: none"
 msgstr ""
+"Sata Modul, auch als IconFix in cparm's Version bekannt.\n"
+"Gut um Festplatten als interne anzuzeigen ( behebt eventuell auch Probleme "
+"mit Apples DVD Player in Mountain Lion).\n"
+"Abhängigkeiten: Keine"
 
 #. type: "Resolution_title"
 #: Resources/templates/Localizable.strings:60
@@ -427,10 +439,10 @@ msgstr ""
 
 #. type: "KernelPatcher_title"
 #: Resources/templates/Localizable.strings:71
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "UseKernelCache=Yes"
 msgid "Kernel Patcher"
-msgstr "UseKernelCache=Yes"
+msgstr "Kernel Patcher"
 
 #. type: "KernelPatcher_description"
 #: Resources/templates/Localizable.strings:72
@@ -443,12 +455,19 @@ msgid ""
 "*Removes a panic in commpage_stuff_routine\n"
 "Dependencies: none"
 msgstr ""
+"Das Kernel Patcher Modul stellt Patches für folgendes bereit:\n"
+"*Ermöglicht die Nutzung des Kernel Caches von /Extra/Extensions und "
+"/Extra/Extensions.mkext\n"
+"*Entfernt die CPUID Überprüfung\n"
+"*Entfernt eine LAPIC Panik\n"
+"*Entfernt eine Panik in commpage_stuff_routine\n"
+"Abhängigkeiten: Keine"
 
 #. type: "KextPatcher_title"
 #: Resources/templates/Localizable.strings:79
 #, no-wrap
 msgid "Kext Patcher"
-msgstr ""
+msgstr "Kext Patcher"
 
 #. type: "KextPatcher_description"
 #: Resources/templates/Localizable.strings:80
@@ -457,6 +476,8 @@ msgid ""
 "The KextPatcher module provides patches for the following:\n"
 "Dependencies: none"
 msgstr ""
+"Das Kext Patcher Modul stellt Patches für folgendes bereit:\n"
+"Abhängigkeiten: Keine"
 
 #. type: "Options_title"
 #: Resources/templates/Localizable.strings:87
@@ -592,17 +613,17 @@ msgstr "Lässt die Netzwerkkarte als 'built-in' erscheinen."
 
 #. type: "EnableWifi_title"
 #: Resources/templates/Localizable.strings:122
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "EnableC2State=Yes"
 msgid "EnableWifi=Yes"
-msgstr "EnableC2State=Ja"
+msgstr "Drahtlose Netzwerkverbindung=Ja"
 
 #. type: "EnableWifi_description"
 #: Resources/templates/Localizable.strings:123
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "Enables the option of adding 'built-in' to your ethernet devices."
 msgid "Enables the option of adding AirPort values to your wireless device."
-msgstr "Lässt die Netzwerkkarte als 'built-in' erscheinen."
+msgstr "Bietet die Option AirPort zur Drahtlos Netzwerkkarte hinzuzufügen."
 
 #. type: "ForceHPET_title"
 #: Resources/templates/Localizable.strings:125
@@ -853,10 +874,10 @@ msgstr "1024x768x32"
 
 #. type: "1366x768x32_description"
 #: Resources/templates/Localizable.strings:190
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "Set Graphics Mode to 1024x768x32"
 msgid "Set Graphics Mode to 1366x768x32"
-msgstr "Setzt die Bildschirmauflösung auf 1024x768x32"
+msgstr "Setzt die Bildschirmauflösung auf 1366x768x32"
 
 #. type: "1440x900x32_title"
 #: Resources/templates/Localizable.strings:192
@@ -933,10 +954,10 @@ msgstr "Setzt die Bildschirmauflösung auf 1920x1200x32"
 #. type: "HDAULayoutIDx01_title"
 #: Resources/templates/Localizable.strings:212
 #: Resources/templates/Localizable.strings:306
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "KeyLayout"
 msgid "LayoutID=1"
-msgstr "Tastaturbelegung"
+msgstr "LayoutID=1"
 
 #. type: "HDEFLayoutIDx01_description"
 #: Resources/templates/Localizable.strings:213
@@ -945,14 +966,16 @@ msgid ""
 "Set HDEF layout-it to 1:\n"
 "001 (0x01, 0x00, 0x00, 0x00)."
 msgstr ""
+"Setzt HDEF Layout auf 1:\n"
+"01 (0x01, 0x00, 0x00,0x00)"
 
 #. type: "HDAULayoutIDx02_title"
 #: Resources/templates/Localizable.strings:216
 #: Resources/templates/Localizable.strings:310
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "KeyLayout"
 msgid "LayoutID=2"
-msgstr "Tastaturbelegung"
+msgstr "LayoutID=2"
 
 #. type: "HDEFLayoutIDx02_description"
 #: Resources/templates/Localizable.strings:217
@@ -961,14 +984,16 @@ msgid ""
 "Set HDEF layout-it to 2:\n"
 "002 (0x02, 0x00, 0x00, 0x00)."
 msgstr ""
+"setzt HDEF Layout auf 2:\n"
+"02 (0x02, 0x00, 0x00, 0x00)"
 
 #. type: "HDAULayoutIDx03_title"
 #: Resources/templates/Localizable.strings:220
 #: Resources/templates/Localizable.strings:314
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "KeyLayout"
 msgid "LayoutID=3"
-msgstr "Tastaturbelegung"
+msgstr "LayoutID=3"
 
 #. type: "HDEFLayoutIDx03_description"
 #: Resources/templates/Localizable.strings:221
@@ -977,14 +1002,16 @@ msgid ""
 "Set HDEF layout-it to 3:\n"
 "003 (0x03, 0x00, 0x00, 0x00)."
 msgstr ""
+"Setzt HDEF Layout auf 3:\n"
+"03 (0x03, 0x00, 0x00, 0x00)"
 
 #. type: "HDAULayoutIDx12_title"
 #: Resources/templates/Localizable.strings:224
 #: Resources/templates/Localizable.strings:318
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "KeyLayout"
 msgid "LayoutID=12"
-msgstr "Tastaturbelegung"
+msgstr "LayoutID=12"
 
 #. type: "HDEFLayoutIDx12_description"
 #: Resources/templates/Localizable.strings:225
@@ -993,6 +1020,8 @@ msgid ""
 "Set HDEF layout-it to 12:\n"
 "00C (0x0C, 0x00, 0x00, 0x00)."
 msgstr ""
+"Setzt HDEF Layout auf 12:\n"
+"0C (0x0C, 0x00, 0x00, 0x00)"
 
 #. type: "HDAULayoutIDx40_title"
 #: Resources/templates/Localizable.strings:228
