@@ -7,14 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Chameleon 2.1svn-r1870\n"
 "POT-Creation-Date: 2013-05-10 18:55+0200\n"
-"PO-Revision-Date: 2012-03-22 19:30+0200\n"
-"Last-Translator: cyrus <pmbok.solution@gmail.com>\n"
+"PO-Revision-Date: 2013-05-11 13:32+0000\n"
+"Last-Translator: minlite <miromarkarian@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0-rc1\n"
+"X-POOTLE-MTIME: 1368280430.0\n"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:22
@@ -323,7 +324,7 @@ msgstr "این ماژول یک کتابخانه استاندارد c برای م
 #: Resources/templates/Localizable.strings:43
 #, no-wrap
 msgid "ACPICodec"
-msgstr ""
+msgstr "‌‍ACPICodec"
 
 #. type: "ACPICodec_description"
 #: Resources/templates/Localizable.strings:44

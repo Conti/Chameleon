@@ -5,7 +5,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Chameleon 2.1\n"
+"Project-Id-Version: Chameleon 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-05-10 18:55+0200\n"
 "PO-Revision-Date: 2013-05-10 19:02-0000\n"
@@ -1349,9 +1349,6 @@ msgstr ""
 #. type: "HDAULayoutIDx99_description"
 #: Resources/templates/Localizable.strings:323
 #, no-wrap
-#| msgid ""
-#| "Set HDEF layout-it to 99:\n"
-#| "063 (0x63, 0x00, 0x00, 0x00)."
 msgid ""
 "Set HDAU layout-it to 99:\n"
 "063 (0x63, 0x00, 0x00, 0x00)."

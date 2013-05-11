@@ -5,11 +5,11 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Chameleon 2.1\n"
+"Project-Id-Version: Chameleon 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-05-10 18:55+0200\n"
-"PO-Revision-Date: 2013-05-11 14:23+0000\n"
-"Last-Translator: ErmaC <ErmaC@insanelymac.com>\n"
+"PO-Revision-Date: 2013-05-11 17:01-0000\n"
+"Last-Translator: artur_pt <artursimoes.pt@gmail.com>\n"
 "Language-Team: pt-PT <pt-PT@li.org>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
@@ -430,7 +430,6 @@ msgstr ""
 #. type: "KernelPatcher_title"
 #: Resources/templates/Localizable.strings:71
 #, no-wrap
-#| msgid "UseKernelCache=Yes"
 msgid "Kernel Patcher"
 msgstr "Kernel Patcher"
 
@@ -595,7 +594,6 @@ msgstr "Ativa a opção que inclui 'built-in' (integrado) nos dispositivos ether
 #. type: "EnableWifi_title"
 #: Resources/templates/Localizable.strings:122
 #, no-wrap
-#| msgid "EnableHDMIAudio=Yes"
 msgid "EnableWifi=Yes"
 msgstr "EnableWifi=Yes"
 
@@ -849,14 +847,12 @@ msgstr "Seleciona Modo Gráfico 1280x960x32"
 #. type: "1366x768x32_title"
 #: Resources/templates/Localizable.strings:189
 #, no-wrap
-#| msgid "1024x768x32"
 msgid "1366x768x32"
 msgstr "1366x768x32"
 
 #. type: "1366x768x32_description"
 #: Resources/templates/Localizable.strings:190
 #, no-wrap
-#| msgid "Set Graphics Mode to 1024x768x32"
 msgid "Set Graphics Mode to 1366x768x32"
 msgstr "Seleciona Modo Gráfico 1366x768x32"
 
@@ -936,7 +932,6 @@ msgstr "Seleciona Modo Gráfico 1920x1200x32"
 #: Resources/templates/Localizable.strings:212
 #: Resources/templates/Localizable.strings:306
 #, no-wrap
-#| msgid "KeyLayout"
 msgid "LayoutID=1"
 msgstr "LayoutID=1"
 
@@ -952,7 +947,6 @@ msgstr ""
 #: Resources/templates/Localizable.strings:216
 #: Resources/templates/Localizable.strings:310
 #, no-wrap
-#| msgid "KeyLayout"
 msgid "LayoutID=2"
 msgstr "LayoutID=2"
 
@@ -967,10 +961,9 @@ msgstr ""
 #. type: "HDAULayoutIDx03_title"
 #: Resources/templates/Localizable.strings:220
 #: Resources/templates/Localizable.strings:314
-#, fuzzy, no-wrap
-#| msgid "KeyLayout"
+#, no-wrap
 msgid "LayoutID=3"
-msgstr "KeyLayout"
+msgstr "LayoutID=3"
 
 #. type: "HDEFLayoutIDx03_description"
 #: Resources/templates/Localizable.strings:221
@@ -983,10 +976,9 @@ msgstr ""
 #. type: "HDAULayoutIDx12_title"
 #: Resources/templates/Localizable.strings:224
 #: Resources/templates/Localizable.strings:318
-#, fuzzy, no-wrap
-#| msgid "KeyLayout"
+#, no-wrap
 msgid "LayoutID=12"
-msgstr "KeyLayout"
+msgstr "LayoutID=12"
 
 #. type: "HDEFLayoutIDx12_description"
 #: Resources/templates/Localizable.strings:225
@@ -1000,7 +992,6 @@ msgstr ""
 #: Resources/templates/Localizable.strings:228
 #: Resources/templates/Localizable.strings:326
 #, no-wrap
-#| msgid "KeyLayout"
 msgid "LayoutID=40"
 msgstr "LayoutID=40"
 
@@ -1015,7 +1006,6 @@ msgstr ""
 #. type: "HDEFLayoutIDx65_title"
 #: Resources/templates/Localizable.strings:232
 #, no-wrap
-#| msgid "KeyLayout"
 msgid "LayoutID=65"
 msgstr "LayoutID=65"
 
@@ -1031,7 +1021,6 @@ msgstr ""
 #: Resources/templates/Localizable.strings:236
 #: Resources/templates/Localizable.strings:322
 #, no-wrap
-#| msgid "KeyLayout"
 msgid "LayoutID=99"
 msgstr "LayoutID=99"
 
@@ -1075,7 +1064,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:248
 #, no-wrap
 msgid "LayoutID=388"
-msgstr ""
+msgstr "LayoutID=388"
 
 #. type: "HDEFLayoutIDx388_description"
 #: Resources/templates/Localizable.strings:249
@@ -1089,7 +1078,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:252
 #, no-wrap
 msgid "LayoutID=389"
-msgstr ""
+msgstr "LayoutID=389"
 
 #. type: "HDEFLayoutIDx389_description"
 #: Resources/templates/Localizable.strings:253
@@ -1103,7 +1092,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:256
 #, no-wrap
 msgid "LayoutID=392"
-msgstr ""
+msgstr "LayoutID=392"
 
 #. type: "HDEFLayoutIDx392_description"
 #: Resources/templates/Localizable.strings:257
@@ -1319,7 +1308,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:331
 #, no-wrap
 msgid "01660000"
-msgstr ""
+msgstr "01660000"
 
 #. type: "HD4K-igx00_description"
 #: Resources/templates/Localizable.strings:332
@@ -1391,7 +1380,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:349
 #, no-wrap
 msgid "01620006"
-msgstr ""
+msgstr "01620006"
 
 #. type: "HD4K-igx06_description"
 #: Resources/templates/Localizable.strings:350
@@ -1463,7 +1452,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:369
 #, no-wrap
 msgid "AD2000b"
-msgstr ""
+msgstr "AD2000b"
 
 #. type: "AD2000B_PinConf_description"
 #: Resources/templates/Localizable.strings:370
@@ -1475,7 +1464,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:372
 #, no-wrap
 msgid "AD1981HD"
-msgstr ""
+msgstr "AD1981HD"
 
 #. type: "AD1981HD_PinConf_description"
 #: Resources/templates/Localizable.strings:373
@@ -1596,7 +1585,7 @@ msgstr "Ativa a opção VBIOS."
 #: Resources/templates/Localizable.strings:404
 #, no-wrap
 msgid "SkipIntelGfx=Yes"
-msgstr ""
+msgstr "SkipIntelGfx=Yes"
 
 #. type: "SkipIntelGfx_description"
 #: Resources/templates/Localizable.strings:405
@@ -1606,10 +1595,9 @@ msgstr ""
 
 #. type: "SkipNvidiaGfx_title"
 #: Resources/templates/Localizable.strings:407
-#, fuzzy, no-wrap
-#| msgid "UseNvidiaROM=Yes"
+#, no-wrap
 msgid "SkipNvidiaGfx=Yes"
-msgstr "UseNvidiaROM=Yes"
+msgstr "SkipNvidiaGfx=Yes"
 
 #. type: "SkipNvidiaGfx_description"
 #: Resources/templates/Localizable.strings:408
@@ -1632,7 +1620,6 @@ msgstr ""
 #. type: "EnableBacklight_title"
 #: Resources/templates/Localizable.strings:413
 #, no-wrap
-#| msgid "EnableC2State=Yes"
 msgid "EnableBacklight=Yes"
 msgstr "EnableBacklight=Yes"
 
@@ -1645,7 +1632,6 @@ msgstr ""
 #. type: "EnableDualLink_title"
 #: Resources/templates/Localizable.strings:416
 #, no-wrap
-#| msgid "EnableHDMIAudio=Yes"
 msgid "EnableDualLink=Yes"
 msgstr "EnableDualLink=Yes"
 
@@ -1925,10 +1911,9 @@ msgstr "Configura a resolução do écran"
 
 #. type: "HDEFLayout_title"
 #: Resources/templates/Localizable.strings:513
-#, fuzzy, no-wrap
-#| msgid "KeyLayout"
+#, no-wrap
 msgid "HDEF Layout"
-msgstr "KeyLayout"
+msgstr "HDEF Layout"
 
 #. type: "HDEFLayout_description"
 #: Resources/templates/Localizable.strings:514
@@ -1938,10 +1923,9 @@ msgstr ""
 
 #. type: "HDAULayout_title"
 #: Resources/templates/Localizable.strings:517
-#, fuzzy, no-wrap
-#| msgid "KeyLayout"
+#, no-wrap
 msgid "HDAU Layout"
-msgstr "KeyLayout"
+msgstr "HDAU Layout"
 
 #. type: "HDAULayout_description"
 #: Resources/templates/Localizable.strings:518
@@ -1953,7 +1937,7 @@ msgstr ""
 #: Resources/templates/Localizable.strings:521
 #, no-wrap
 msgid "Intel HD4000 Layout"
-msgstr ""
+msgstr "Intel HD4000 Layout"
 
 #. type: "GmaIG_description"
 #: Resources/templates/Localizable.strings:522

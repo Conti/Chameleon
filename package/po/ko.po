@@ -4,11 +4,11 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
-"Project-Id-Version: Chameleon 2.1\n"
+"Project-Id-Version: Chameleon 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-05-10 18:55+0200\n"
 "PO-Revision-Date: 2013-05-11 14:27+0000\n"
-"Last-Translator: ErmaC <ErmaC@insanelymac.com>\n"
+"Last-Translator: ceruns <ceruns@ymail.com>\n"
 "Language-Team: ko <ko@li.org>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -846,14 +846,12 @@ msgstr "부팅 해상도 및 색심도를 1280x960x32"
 #. type: "1366x768x32_title"
 #: Resources/templates/Localizable.strings:189
 #, no-wrap
-#| msgid "1024x768x32"
 msgid "1366x768x32"
 msgstr "1366x768x32"
 
 #. type: "1366x768x32_description"
 #: Resources/templates/Localizable.strings:190
 #, no-wrap
-#| msgid "Set Graphics Mode to 1024x768x32"
 msgid "Set Graphics Mode to 1366x768x32"
 msgstr "부팅 해상도 및 색심도를 1366x768x32"
 

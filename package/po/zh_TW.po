@@ -5,11 +5,11 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Chameleon 2.1\n"
+"Project-Id-Version: Chameleon 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-05-10 18:55+0200\n"
 "PO-Revision-Date: 2013-05-11 13:53+0000\n"
-"Last-Translator: ErmaC <ErmaC@insanelymac.com>\n"
+"Last-Translator: crazybirdy <crazybirdy@ms96.url.com.tw>\n"
 "Language-Team: zh_TW <zh_TW@li.org>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
@@ -423,7 +423,6 @@ msgstr ""
 #. type: "KernelPatcher_title"
 #: Resources/templates/Localizable.strings:71
 #, no-wrap
-#| msgid "UseKernelCache=Yes"
 msgid "Kernel Patcher"
 msgstr "Kernel Patcher"
 
@@ -598,7 +597,6 @@ msgstr "(預設是 No) 啟用將乙太網路卡設定成『內建』的功能。
 #. type: "EnableWifi_title"
 #: Resources/templates/Localizable.strings:122
 #, no-wrap
-#| msgid "EnableHDMIAudio=Yes"
 msgid "EnableWifi=Yes"
 msgstr "EnableWifi=Yes"
 
@@ -852,14 +850,12 @@ msgstr "設定螢幕解析度為 1280x960x32"
 #. type: "1366x768x32_title"
 #: Resources/templates/Localizable.strings:189
 #, no-wrap
-#| msgid "1024x768x32"
 msgid "1366x768x32"
 msgstr "1366x768x32"
 
 #. type: "1366x768x32_description"
 #: Resources/templates/Localizable.strings:190
 #, no-wrap
-#| msgid "Set Graphics Mode to 1024x768x32"
 msgid "Set Graphics Mode to 1366x768x32"
 msgstr "設定螢幕解析度為 1366x768x32"
 
@@ -939,7 +935,6 @@ msgstr "設定螢幕解析度為 1920x1200x32"
 #: Resources/templates/Localizable.strings:212
 #: Resources/templates/Localizable.strings:306
 #, no-wrap
-#| msgid "KeyLayout"
 msgid "LayoutID=1"
 msgstr "LayoutID=1"
 
@@ -957,7 +952,6 @@ msgstr ""
 #: Resources/templates/Localizable.strings:216
 #: Resources/templates/Localizable.strings:310
 #, no-wrap
-#| msgid "KeyLayout"
 msgid "LayoutID=2"
 msgstr "LayoutID=2"
 
@@ -975,7 +969,6 @@ msgstr ""
 #: Resources/templates/Localizable.strings:220
 #: Resources/templates/Localizable.strings:314
 #, no-wrap
-#| msgid "KeyLayout"
 msgid "LayoutID=3"
 msgstr "LayoutID=3"
 
@@ -993,7 +986,6 @@ msgstr ""
 #: Resources/templates/Localizable.strings:224
 #: Resources/templates/Localizable.strings:318
 #, no-wrap
-#| msgid "KeyLayout"
 msgid "LayoutID=12"
 msgstr "LayoutID=12"
 
@@ -1011,7 +1003,6 @@ msgstr ""
 #: Resources/templates/Localizable.strings:228
 #: Resources/templates/Localizable.strings:326
 #, no-wrap
-#| msgid "KeyLayout"
 msgid "LayoutID=40"
 msgstr "LayoutID=40"
 
@@ -1028,7 +1019,6 @@ msgstr ""
 #. type: "HDEFLayoutIDx65_title"
 #: Resources/templates/Localizable.strings:232
 #, no-wrap
-#| msgid "KeyLayout"
 msgid "LayoutID=65"
 msgstr "LayoutID=65"
 
@@ -1046,7 +1036,6 @@ msgstr ""
 #: Resources/templates/Localizable.strings:236
 #: Resources/templates/Localizable.strings:322
 #, no-wrap
-#| msgid "KeyLayout"
 msgid "LayoutID=99"
 msgstr "LayoutID=99"
 
@@ -1656,7 +1645,6 @@ msgstr ""
 #. type: "SkipNvidiaGfx_title"
 #: Resources/templates/Localizable.strings:407
 #, no-wrap
-#| msgid "UseNvidiaROM=Yes"
 msgid "SkipNvidiaGfx=Yes"
 msgstr "SkipNvidiaGfx=Yes"
 

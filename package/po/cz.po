@@ -348,8 +348,7 @@ msgid ""
 "HDAEnabler module, this module provides a substitute for the Hight Definition Audio DSDT Edits.\n"
 "Dependencies: none"
 msgstr ""
-"HDAEnabler modul, tento modul poskytuje náhradu za Hight Definition Audio "
-"DSDT úpravy. \n"
+"HDAEnabler modul, tento modul poskytuje náhradu za Hight Definition Audio DSDT úpravy. \n"
 "Závislosti: žiadne"
 
 #. type: "FileNVRAM_title"
@@ -423,7 +422,6 @@ msgstr ""
 #. type: "KernelPatcher_title"
 #: Resources/templates/Localizable.strings:71
 #, no-wrap
-#| msgid "UseKernelCache=Yes"
 msgid "Kernel Patcher"
 msgstr "Kernel Patcher"
 
@@ -588,7 +586,6 @@ msgstr "Povolí možnost přidání 'built-in' do vašich síťových karet."
 #. type: "EnableWifi_title"
 #: Resources/templates/Localizable.strings:122
 #, no-wrap
-#| msgid "EnableHDMIAudio=Yes"
 msgid "EnableWifi=Yes"
 msgstr "EnableWifi=Yes"
 
@@ -842,14 +839,12 @@ msgstr "Nastavit rozlišení na 1280x960x32"
 #. type: "1366x768x32_title"
 #: Resources/templates/Localizable.strings:189
 #, no-wrap
-#| msgid "1024x768x32"
 msgid "1366x768x32"
 msgstr "1366x768x32"
 
 #. type: "1366x768x32_description"
 #: Resources/templates/Localizable.strings:190
 #, no-wrap
-#| msgid "Set Graphics Mode to 1024x768x32"
 msgid "Set Graphics Mode to 1366x768x32"
 msgstr "Nastavit rozlišení na 1366x768x32"
 
@@ -929,7 +924,6 @@ msgstr "Nastavit rozlišení na 1920x1200x32"
 #: Resources/templates/Localizable.strings:212
 #: Resources/templates/Localizable.strings:306
 #, no-wrap
-#| msgid "KeyLayout"
 msgid "LayoutID=1"
 msgstr "LayoutID=1"
 
@@ -945,7 +939,6 @@ msgstr ""
 #: Resources/templates/Localizable.strings:216
 #: Resources/templates/Localizable.strings:310
 #, no-wrap
-#| msgid "KeyLayout"
 msgid "LayoutID=2"
 msgstr "LayoutID=2"
 
@@ -961,7 +954,6 @@ msgstr ""
 #: Resources/templates/Localizable.strings:220
 #: Resources/templates/Localizable.strings:314
 #, no-wrap
-#| msgid "KeyLayout"
 msgid "LayoutID=3"
 msgstr "LayoutID=3"
 
@@ -977,7 +969,6 @@ msgstr ""
 #: Resources/templates/Localizable.strings:224
 #: Resources/templates/Localizable.strings:318
 #, no-wrap
-#| msgid "KeyLayout"
 msgid "LayoutID=12"
 msgstr "LayoutID=12"
 
@@ -993,7 +984,6 @@ msgstr ""
 #: Resources/templates/Localizable.strings:228
 #: Resources/templates/Localizable.strings:326
 #, no-wrap
-#| msgid "KeyLayout"
 msgid "LayoutID=40"
 msgstr "LayoutID=40"
 
@@ -1008,7 +998,6 @@ msgstr ""
 #. type: "HDEFLayoutIDx65_title"
 #: Resources/templates/Localizable.strings:232
 #, no-wrap
-#| msgid "KeyLayout"
 msgid "LayoutID=65"
 msgstr "LayoutID=65"
 
@@ -1024,7 +1013,6 @@ msgstr ""
 #: Resources/templates/Localizable.strings:236
 #: Resources/templates/Localizable.strings:322
 #, no-wrap
-#| msgid "KeyLayout"
 msgid "LayoutID=99"
 msgstr "LayoutID=99"
 
@@ -1533,11 +1521,8 @@ msgstr "GraphicsEnabler=Yes"
 #. type: "GraphicsEnabler_description"
 #: Resources/templates/Localizable.strings:390
 #, no-wrap
-#| msgid "Enables the option to autodetect NVIDIA based GPUs and inject the correct info."
 msgid "Enables the option to autodetect NVIDIA, AMD/ATI or Intel based GPUs and inject the correct info."
-msgstr ""
-"Povolí možnost autodetekce graf. karet NVIDIA, AMD/ATI nebo Intel a vloží o "
-"ní korektní informace."
+msgstr "Povolí možnost autodetekce graf. karet NVIDIA, AMD/ATI nebo Intel a vloží o ní korektní informace."
 
 #. type: "EnableHDMIAudio_title"
 #: Resources/templates/Localizable.strings:392
@@ -1602,7 +1587,6 @@ msgstr "Přeskočit GraphicsEnbaler autodetekci pro graf. karty Intel."
 #. type: "SkipNvidiaGfx_title"
 #: Resources/templates/Localizable.strings:407
 #, no-wrap
-#| msgid "UseNvidiaROM=Yes"
 msgid "SkipNvidiaGfx=Yes"
 msgstr "SkipNvidiaGfx=Yes"
 
@@ -1627,7 +1611,6 @@ msgstr "Přeskočit GraphicsEnbaler autodetekci pro graf. karty AMD/ATI."
 #. type: "EnableBacklight_title"
 #: Resources/templates/Localizable.strings:413
 #, no-wrap
-#| msgid "EnableC2State=Yes"
 msgid "EnableBacklight=Yes"
 msgstr "EnableBacklight=Yes"
 
@@ -1640,7 +1623,6 @@ msgstr "Povolí nastavení podsvícení pro notebook s graf. kartou nVidia."
 #. type: "EnableDualLink_title"
 #: Resources/templates/Localizable.strings:416
 #, no-wrap
-#| msgid "EnableHDMIAudio=Yes"
 msgid "EnableDualLink=Yes"
 msgstr "EnableDualLink=Yes"
 
@@ -1920,7 +1902,6 @@ msgstr "Nastavit jedno použitelné rozlišení."
 #. type: "HDEFLayout_title"
 #: Resources/templates/Localizable.strings:513
 #, no-wrap
-#| msgid "KeyLayout"
 msgid "HDEF Layout"
 msgstr "HDEF Layout"
 
@@ -1933,7 +1914,6 @@ msgstr "Nastavit jednu HDEF Layout ID pužitelný pro váš řadič HDA."
 #. type: "HDAULayout_title"
 #: Resources/templates/Localizable.strings:517
 #, no-wrap
-#| msgid "KeyLayout"
 msgid "HDAU Layout"
 msgstr "HDAU Layout"
 
