@@ -46,7 +46,7 @@ void SaveRefString(char* string, int id)
 		}
 		tmp = tmp->next;
 	}
-	
+
 	string_ref* new_ref = malloc(sizeof(string_ref));
 	new_ref->string = malloc(strlen(string)+1);
 	sprintf(new_ref->string, "%s", string);
@@ -971,7 +971,7 @@ XMLFreeTag( TagPtr tag )
 #if DOFREE
     if (tag == 0) return;
   
-    if (tag->string) FreeSymbol(tag->string);
+    if (!XMLIsInteger(tag) && tag->string) FreeSymbol(tag->string);
   
     XMLFreeTag(tag->tag);
     XMLFreeTag(tag->tagNext);
