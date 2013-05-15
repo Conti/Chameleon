@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Chameleon 2.1svn-r1870\n"
 "POT-Creation-Date: 2013-05-14 23:50+0200\n"
-"PO-Revision-Date: 2013-05-15 00:33+0000\n"
+"PO-Revision-Date: 2013-05-15 10:45+0000\n"
 "Last-Translator: martin63 <martin.badin@gmail.com>\n"
 "Language-Team: cs <cs@li.org>\n"
 "Language: cz\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Pootle 2.5.0-rc1\n"
-"X-POOTLE-MTIME: 1368578022.0\n"
+"X-POOTLE-MTIME: 1368614733.0\n"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:22
@@ -1378,6 +1378,8 @@ msgid ""
 "Set HDAU layout-it to 65:\n"
 "041 (0x41, 0x00, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDAU layout na 65:\n"
+"041 (0x41, 0x00, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx99_description"
 #: Resources/templates/Localizable.strings:331
@@ -1396,6 +1398,8 @@ msgid ""
 "Set HDAU layout-it to 269:\n"
 "10D (0x0D, 0x01, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDAU layout na 269:\n"
+"10D (0x0D, 0x01, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx387_description"
 #: Resources/templates/Localizable.strings:339
@@ -1404,6 +1408,8 @@ msgid ""
 "Set HDAU layout-it to 387:\n"
 "183 (0x83, 0x01, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDAU layout na 387:\n"
+"183 (0x83, 0x01, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx388_description"
 #: Resources/templates/Localizable.strings:343
@@ -1412,6 +1418,8 @@ msgid ""
 "Set HDAU layout-it to 388:\n"
 "184 (0x84, 0x01, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDAU layout na 388:\n"
+"184 (0x84, 0x01, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx389_description"
 #: Resources/templates/Localizable.strings:347
@@ -1420,6 +1428,8 @@ msgid ""
 "Set HDAU layout-it to 389:\n"
 "185 (0x85, 0x01, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDAU layout na 389:\n"
+"185 (0x85, 0x01, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx392_description"
 #: Resources/templates/Localizable.strings:351
@@ -1428,6 +1438,8 @@ msgid ""
 "Set HDAU layout-it to 392:\n"
 "188 (0x88, 0x01, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDAU layout na 392:\n"
+"188 (0x88, 0x01, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx398_description"
 #: Resources/templates/Localizable.strings:355
@@ -1436,6 +1448,8 @@ msgid ""
 "Set HDAU layout-it to 398:\n"
 "18E (0x8E, 0x01, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDAU layout na 398:\n"
+"18E (0x8E, 0x01, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx662_description"
 #: Resources/templates/Localizable.strings:359
@@ -1444,6 +1458,8 @@ msgid ""
 "Set HDAU layout-it to 662:\n"
 "296 (0x96, 0x02, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDAU layout na 662:\n"
+"296 (0x96, 0x02, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx663_description"
 #: Resources/templates/Localizable.strings:363
@@ -1452,6 +1468,8 @@ msgid ""
 "Set HDAU layout-it to 663:\n"
 "297 (0x97, 0x02, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDAU layout na 663:\n"
+"297 (0x97, 0x02, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx664_description"
 #: Resources/templates/Localizable.strings:367
@@ -1460,6 +1478,8 @@ msgid ""
 "Set HDAU layout-it to 664:\n"
 "298 (0x98, 0x02, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDAU layout na 664:\n"
+"298 (0x98, 0x02, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx885_description"
 #: Resources/templates/Localizable.strings:371
@@ -1468,6 +1488,8 @@ msgid ""
 "Set HDAU layout-it to 885:\n"
 "375 (0x75, 0x03, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDAU layout na 885:\n"
+"375 (0x75, 0x03, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx887_description"
 #: Resources/templates/Localizable.strings:375
@@ -1476,6 +1498,8 @@ msgid ""
 "Set HDAU layout-it to 887:\n"
 "377 (0x77, 0x03, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDAU layout na 887:\n"
+"377 (0x77, 0x03, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx888_description"
 #: Resources/templates/Localizable.strings:379
@@ -1484,6 +1508,8 @@ msgid ""
 "Set HDAU layout-it to 888:\n"
 "378 (0x78, 0x03, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDAU layout na 888:\n"
+"378 (0x78, 0x03, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx889_description"
 #: Resources/templates/Localizable.strings:383
@@ -1492,6 +1518,8 @@ msgid ""
 "Set HDAU layout-it to 889:\n"
 "379 (0x79, 0x03, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDAU layout na 889:\n"
+"379 (0x79, 0x03, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx892_description"
 #: Resources/templates/Localizable.strings:387
@@ -1500,6 +1528,8 @@ msgid ""
 "Set HDAU layout-it to 892:\n"
 "37C (0x7C, 0x03, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDAU layout na 892:\n"
+"37C (0x7C, 0x03, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx898_description"
 #: Resources/templates/Localizable.strings:391
@@ -1508,6 +1538,8 @@ msgid ""
 "Set HDAU layout-it to 898:\n"
 "382 (0x82, 0x03, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDAU layout na 898:\n"
+"382 (0x82, 0x03, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDxBD7_description"
 #: Resources/templates/Localizable.strings:395
@@ -1516,6 +1548,8 @@ msgid ""
 "Set HDAU layout-it to 1981:\n"
 "7BD (0xBD, 0x07, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDAU layout na 1981:\n"
+"7BD (0xBD, 0x07, 0x00, 0x00)."
 
 #. type: "HD4K-igx00_title"
 #: Resources/templates/Localizable.strings:400
