@@ -25,9 +25,26 @@ Exclusive=True
 # ---------------------------------------------
 # Note: There must be a carriage return at end of last line
 # ---------------------------------------------
-Text@HDAULayoutIDx01:HDAULayoutID=1
-Text@HDAULayoutIDx02:HDAULayoutID=2
-Text@HDAULayoutIDx03:HDAULayoutID=3
-Text@HDAULayoutIDx12:HDAULayoutID=12
-Text@HDAULayoutIDx99:HDAULayoutID=99
-Text@HDAULayoutIDx40:HDAULayoutID=40
+Text@HDAULayoutIDx01:HDAULayoutID=01000000
+Text@HDAULayoutIDx02:HDAULayoutID=02000000
+Text@HDAULayoutIDx03:HDAULayoutID=03000000
+Text@HDAULayoutIDx12:HDAULayoutID=0C000000
+Text@HDAULayoutIDx40:HDAULayoutID=28000000
+Text@HDAULayoutIDx65:HDAULayoutID=41000000
+Text@HDAULayoutIDx99:HDAULayoutID=63000000
+Text@HDAULayoutIDx269:HDAULayoutID=0D010000
+Text@HDAULayoutIDx387:HDAULayoutID=83010000
+Text@HDAULayoutIDx388:HDAULayoutID=84010000
+Text@HDAULayoutIDx389:HDAULayoutID=85010000
+Text@HDAULayoutIDx392:HDAULayoutID=88010000
+Text@HDAULayoutIDx398:HDAULayoutID=8E010000
+Text@HDAULayoutIDx662:HDAULayoutID=96020000
+Text@HDAULayoutIDx663:HDAULayoutID=97020000
+Text@HDAULayoutIDx664:HDAULayoutID=98020000
+Text@HDAULayoutIDx885:HDAULayoutID=75030000
+Text@HDAULayoutIDx887:HDAULayoutID=77030000
+Text@HDAULayoutIDx888:HDAULayoutID=78030000
+Text@HDAULayoutIDx889:HDAULayoutID=79030000
+Text@HDAULayoutIDx892:HDAULayoutID=7C030000
+Text@HDAULayoutIDx898:HDAULayoutID=82030000
+Text@HDAULayoutIDxBD7:HDAULayoutID=BD070000

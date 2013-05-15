@@ -6,8 +6,8 @@ Dependencies: none
 Usage:
 - Copy the module HDAEnabler.dylib into /Extra/modules folder
 - Set HDAEnabler=Yes (Default value is YES if the module is in modules folder)
-- Set HDEFLayoutID="a decimal value" for HDEF layout to use with a patched AppleHDA kext.
-- Set HDAULayoutID="a decimal value" for HDAU layout to use with a patched AppleHDA kext.
+- Set HDEFLayoutID="a hex value" for HDEF layout to use with a patched AppleHDA kext.
+- Set HDAULayoutID="a hex value" for HDAU layout to use with a patched AppleHDA kext.
 
 -----
 - HDAEnabler=No (Disable the HDAEnabler module with module in modules folder).

@@ -319,13 +319,82 @@ Dependencies: none";
 "HDAULayoutIDx12_description" = "Set HDAU layout-it to 12:
 00C (0x0C, 0x00, 0x00, 0x00).";
 
+"HDAULayoutIDx40_title" = "LayoutID=40";
+"HDAULayoutIDx40_description" = "Set HDAU layout-it to 40:
+028 (0x28, 0x00, 0x00, 0x00).";
+
+"HDAULayoutIDx65_title" = "LayoutID=65";
+"HDAULayoutIDx65_description" = "Set HDAU layout-it to 65:
+041 (0x41, 0x00, 0x00, 0x00).";
+
 "HDAULayoutIDx99_title" = "LayoutID=99";
 "HDAULayoutIDx99_description" = "Set HDAU layout-it to 99:
 063 (0x63, 0x00, 0x00, 0x00).";
 
-"HDAULayoutIDx40_title" = "LayoutID=40";
-"HDAULayoutIDx40_description" = "Set HDAU layout-it to 40:
-028 (0x28, 0x00, 0x00, 0x00).";
+"HDAULayoutIDx269_title" = "LayoutID=269";
+"HDAULayoutIDx269_description" = "Set HDAU layout-it to 269:
+10D (0x0D, 0x01, 0x00, 0x00).";
+
+"HDAULayoutIDx387_title" = "LayoutID=387";
+"HDAULayoutIDx387_description" = "Set HDAU layout-it to 387:
+183 (0x83, 0x01, 0x00, 0x00).";
+
+"HDAULayoutIDx388_title" = "LayoutID=388";
+"HDAULayoutIDx388_description" = "Set HDAU layout-it to 388:
+184 (0x84, 0x01, 0x00, 0x00).";
+
+"HDAULayoutIDx389_title" = "LayoutID=389";
+"HDAULayoutIDx389_description" = "Set HDAU layout-it to 389:
+185 (0x85, 0x01, 0x00, 0x00).";
+
+"HDAULayoutIDx392_title" = "LayoutID=392";
+"HDAULayoutIDx392_description" = "Set HDAU layout-it to 392:
+188 (0x88, 0x01, 0x00, 0x00).";
+
+"HDAULayoutIDx398_title" = "LayoutID=398";
+"HDAULayoutIDx398_description" = "Set HDAU layout-it to 398:
+18E (0x8E, 0x01, 0x00, 0x00).";
+
+"HDAULayoutIDx662_title" = "LayoutID=662";
+"HDAULayoutIDx662_description" = "Set HDAU layout-it to 662:
+296 (0x96, 0x02, 0x00, 0x00).";
+
+"HDAULayoutIDx663_title" = "LayoutID=663";
+"HDAULayoutIDx663_description" = "Set HDAU layout-it to 663:
+297 (0x97, 0x02, 0x00, 0x00).";
+
+"HDAULayoutIDx664_title" = "LayoutID=664";
+"HDAULayoutIDx664_description" = "Set HDAU layout-it to 664:
+298 (0x98, 0x02, 0x00, 0x00).";
+
+"HDAULayoutIDx885_title" = "LayoutID=885";
+"HDAULayoutIDx885_description" = "Set HDAU layout-it to 885:
+375 (0x75, 0x03, 0x00, 0x00).";
+
+"HDAULayoutIDx887_title" = "LayoutID=887";
+"HDAULayoutIDx887_description" = "Set HDAU layout-it to 887:
+377 (0x77, 0x03, 0x00, 0x00).";
+
+"HDAULayoutIDx888_title" = "LayoutID=888";
+"HDAULayoutIDx888_description" = "Set HDAU layout-it to 888:
+378 (0x78, 0x03, 0x00, 0x00).";
+
+"HDAULayoutIDx889_title" = "LayoutID=889";
+"HDAULayoutIDx889_description" = "Set HDAU layout-it to 889:
+379 (0x79, 0x03, 0x00, 0x00).";
+
+"HDAULayoutIDx892_title" = "LayoutID=892";
+"HDAULayoutIDx892_description" = "Set HDAU layout-it to 892:
+37C (0x7C, 0x03, 0x00, 0x00).";
+
+"HDAULayoutIDx898_title" = "LayoutID=898";
+"HDAULayoutIDx898_description" = "Set HDAU layout-it to 898:
+382 (0x82, 0x03, 0x00, 0x00).";
+
+"HDAULayoutIDxBD7_title" = "LayoutID=1981";
+"HDAULayoutIDxBD7_description" = "Set HDAU layout-it to 1981:
+7BD (0xBD, 0x07, 0x00, 0x00).";
+
 // ----------------------------------------------------------------------------
 
 "HD4K-igx00_title" = "01660000";
