@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Chameleon 2.1svn-r1870\n"
 "POT-Creation-Date: 2013-05-14 23:50+0200\n"
-"PO-Revision-Date: 2013-05-11 13:34+0000\n"
+"PO-Revision-Date: 2013-05-15 00:33+0000\n"
 "Last-Translator: martin63 <martin.badin@gmail.com>\n"
 "Language-Team: cs <cs@li.org>\n"
 "Language: cz\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Pootle 2.5.0-rc1\n"
-"X-POOTLE-MTIME: 1368279299.0\n"
+"X-POOTLE-MTIME: 1368578022.0\n"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:22
@@ -334,6 +334,8 @@ msgid ""
 "This module provides a substitute for the internal acpi patcher.\n"
 "Dependencies: none"
 msgstr ""
+"Tento modul poskytuje náhradu za vnitřní acpi Patcher.\n"
+"Závislosti: žádná"
 
 #. type: "HDAEnabler_title"
 #: Resources/templates/Localizable.strings:47
@@ -436,6 +438,12 @@ msgid ""
 "*Removes a panic in commpage_stuff_routine\n"
 "Dependencies: none"
 msgstr ""
+"KernelPatcher modul poskytuje následující záplaty:\n"
+"* Umožňuje použití kernelcache s /Extra/Extensions a/Extra/Extensions.mkext\n"
+"* Odstraněna CPUID kontrolu\n"
+"* Odstraní LAPIC panic\n"
+"* Odstraní paniku commpage_stuff_routine\n"
+"Závislosti: žádná"
 
 #. type: "KextPatcher_title"
 #: Resources/templates/Localizable.strings:79
@@ -450,6 +458,8 @@ msgid ""
 "The KextPatcher module provides patches for the following:\n"
 "Dependencies: none"
 msgstr ""
+"KernelPatcher modul poskytuje následující záplaty:\n"
+"Závislosti: žádná"
 
 #. type: "Options_title"
 #: Resources/templates/Localizable.strings:87
@@ -591,10 +601,10 @@ msgstr "EnableWifi=Yes"
 
 #. type: "EnableWifi_description"
 #: Resources/templates/Localizable.strings:123
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "Enables the option of adding 'built-in' to your ethernet devices."
 msgid "Enables the option of adding AirPort values to your wireless device."
-msgstr "Povolí možnost přidání 'built-in' do vašich síťových karet."
+msgstr "Povolí možnost přidání AirPort hodnoty do vašeho bezdrátového zažízení."
 
 #. type: "ForceHPET_title"
 #: Resources/templates/Localizable.strings:125
@@ -934,6 +944,8 @@ msgid ""
 "Set HDEF layout-it to 1:\n"
 "001 (0x01, 0x00, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDEF layout na 1:\n"
+"001 (0x01, 0x00, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx02_title"
 #: Resources/templates/Localizable.strings:216
@@ -949,6 +961,8 @@ msgid ""
 "Set HDEF layout-it to 2:\n"
 "002 (0x02, 0x00, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDEF layout na 2:\n"
+"002 (0x02, 0x00, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx03_title"
 #: Resources/templates/Localizable.strings:220
@@ -964,6 +978,8 @@ msgid ""
 "Set HDEF layout-it to 3:\n"
 "003 (0x03, 0x00, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDEF layout na 3:\n"
+"003 (0x03, 0x00, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx12_title"
 #: Resources/templates/Localizable.strings:224
@@ -979,6 +995,8 @@ msgid ""
 "Set HDEF layout-it to 12:\n"
 "00C (0x0C, 0x00, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDEF layout na 12:\n"
+"00C (0x0C, 0x00, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx40_title"
 #: Resources/templates/Localizable.strings:228
@@ -994,6 +1012,8 @@ msgid ""
 "Set HDEF layout-it to 40:\n"
 "028 (0x28, 0x00, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDEF layout na 40:\n"
+"028 (0x28, 0x00, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx65_title"
 #: Resources/templates/Localizable.strings:232
@@ -1009,6 +1029,8 @@ msgid ""
 "Set HDEF layout-it to 65:\n"
 "041 (0x41, 0x00, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDEF layout na 65:\n"
+"041 (0x41, 0x00, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx99_title"
 #: Resources/templates/Localizable.strings:236
@@ -1024,6 +1046,8 @@ msgid ""
 "Set HDEF layout-it to 99:\n"
 "063 (0x63, 0x00, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDEF layout na 99:\n"
+"063 (0x63, 0x00, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx269_title"
 #: Resources/templates/Localizable.strings:240
@@ -1039,6 +1063,8 @@ msgid ""
 "Set HDEF layout-it to 269:\n"
 "10D (0x0D, 0x01, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDEF layout na 269:\n"
+"10D (0x0D, 0x01, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx387_title"
 #: Resources/templates/Localizable.strings:244
@@ -1054,6 +1080,8 @@ msgid ""
 "Set HDEF layout-it to 387:\n"
 "183 (0x83, 0x01, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDEF layout na 387:\n"
+"183 (0x83, 0x01, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx388_title"
 #: Resources/templates/Localizable.strings:248
@@ -1069,6 +1097,8 @@ msgid ""
 "Set HDEF layout-it to 388:\n"
 "184 (0x84, 0x01, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDEF layout na 388:\n"
+"184 (0x84, 0x01, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx389_title"
 #: Resources/templates/Localizable.strings:252
@@ -1084,6 +1114,8 @@ msgid ""
 "Set HDEF layout-it to 389:\n"
 "185 (0x85, 0x01, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDEF layout na 389:\n"
+"185 (0x85, 0x01, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx392_title"
 #: Resources/templates/Localizable.strings:256
@@ -1099,6 +1131,8 @@ msgid ""
 "Set HDEF layout-it to 392:\n"
 "188 (0x88, 0x01, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDEF layout na 392:\n"
+"188 (0x88, 0x01, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx398_title"
 #: Resources/templates/Localizable.strings:260
@@ -1114,6 +1148,8 @@ msgid ""
 "Set HDEF layout-it to 398:\n"
 "18E (0x8E, 0x01, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDEF layout na 398:\n"
+"18E (0x8E, 0x01, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx662_title"
 #: Resources/templates/Localizable.strings:264
@@ -1129,6 +1165,8 @@ msgid ""
 "Set HDEF layout-it to 662:\n"
 "296 (0x96, 0x02, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDEF layout na 662:\n"
+"296 (0x96, 0x02, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx663_title"
 #: Resources/templates/Localizable.strings:268
@@ -1144,6 +1182,8 @@ msgid ""
 "Set HDEF layout-it to 663:\n"
 "297 (0x97, 0x02, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDEF layout na 663:\n"
+"297 (0x97, 0x02, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx664_title"
 #: Resources/templates/Localizable.strings:272
@@ -1159,6 +1199,8 @@ msgid ""
 "Set HDEF layout-it to 664:\n"
 "298 (0x98, 0x02, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDEF layout na 664:\n"
+"298 (0x98, 0x02, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx885_title"
 #: Resources/templates/Localizable.strings:276
@@ -1174,6 +1216,8 @@ msgid ""
 "Set HDEF layout-it to 885:\n"
 "375 (0x75, 0x03, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDEF layout na 885:\n"
+"375 (0x75, 0x03, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx887_title"
 #: Resources/templates/Localizable.strings:280
@@ -1189,6 +1233,8 @@ msgid ""
 "Set HDEF layout-it to 887:\n"
 "377 (0x77, 0x03, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDEF layout na 887:\n"
+"377 (0x77, 0x03, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx888_title"
 #: Resources/templates/Localizable.strings:284
@@ -1204,6 +1250,8 @@ msgid ""
 "Set HDEF layout-it to 888:\n"
 "378 (0x78, 0x03, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDEF layout na 888:\n"
+"378 (0x78, 0x03, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx889_title"
 #: Resources/templates/Localizable.strings:288
@@ -1219,6 +1267,8 @@ msgid ""
 "Set HDEF layout-it to 889:\n"
 "379 (0x79, 0x03, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDEF layout na 889:\n"
+"379 (0x79, 0x03, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx892_title"
 #: Resources/templates/Localizable.strings:292
@@ -1234,6 +1284,8 @@ msgid ""
 "Set HDEF layout-it to 892:\n"
 "37C (0x7C, 0x03, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDEF layout na 892:\n"
+"37C (0x7C, 0x03, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx898_title"
 #: Resources/templates/Localizable.strings:296
@@ -1249,6 +1301,8 @@ msgid ""
 "Set HDEF layout-it to 898:\n"
 "382 (0x82, 0x03, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDEF layout na 898:\n"
+"382 (0x82, 0x03, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDxBD7_title"
 #: Resources/templates/Localizable.strings:300
@@ -1264,6 +1318,8 @@ msgid ""
 "Set HDEF layout-it to 1981:\n"
 "7BD (0xBD, 0x07, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDEF layout na 1981:\n"
+"7BD (0xBD, 0x07, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx01_description"
 #: Resources/templates/Localizable.strings:307
@@ -1272,6 +1328,8 @@ msgid ""
 "Set HDAU layout-it to 1:\n"
 "001 (0x01, 0x00, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDAU layout na 1:\n"
+"001 (0x01, 0x00, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx02_description"
 #: Resources/templates/Localizable.strings:311
@@ -1280,6 +1338,8 @@ msgid ""
 "Set HDAU layout-it to 2:\n"
 "002 (0x02, 0x00, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDAU layout na 0:\n"
+"002 (0x02, 0x00, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx03_description"
 #: Resources/templates/Localizable.strings:315
@@ -1288,6 +1348,8 @@ msgid ""
 "Set HDAU layout-it to 3:\n"
 "003 (0x03, 0x00, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDAU layout na 3:\n"
+"003 (0x03, 0x00, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx12_description"
 #: Resources/templates/Localizable.strings:319
@@ -1296,6 +1358,8 @@ msgid ""
 "Set HDAU layout-it to 12:\n"
 "00C (0x0C, 0x00, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDAU layout na 12:\n"
+"00C (0x0C, 0x00, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx40_description"
 #: Resources/templates/Localizable.strings:323
@@ -1304,6 +1368,8 @@ msgid ""
 "Set HDAU layout-it to 40:\n"
 "028 (0x28, 0x00, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDAU layout na 40:\n"
+"028 (0x28, 0x00, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx65_description"
 #: Resources/templates/Localizable.strings:327
@@ -1320,6 +1386,8 @@ msgid ""
 "Set HDAU layout-it to 99:\n"
 "063 (0x63, 0x00, 0x00, 0x00)."
 msgstr ""
+"Nastavit HDAU layout na 99:\n"
+"063 (0x63, 0x00, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx269_description"
 #: Resources/templates/Localizable.strings:335
@@ -1984,7 +2052,7 @@ msgstr "Bullet"
 #: Resources/templates/Localizable.strings:550
 #, no-wrap
 msgid "A lovely simple theme by NoSmokingBandit from April 2009."
-msgstr ""
+msgstr "Krásná jednoduchá téma NoSmokingBandit z dubna 2009."
 
 #. type: "Audio_title"
 #: Resources/templates/Localizable.strings:558
@@ -1996,7 +2064,7 @@ msgstr "Audio"
 #: Resources/templates/Localizable.strings:559
 #, no-wrap
 msgid "A selection of options that deal with audio."
-msgstr ""
+msgstr "Výběr možností, které se zabývají zvukem."
 
 #. type: "Control_title"
 #: Resources/templates/Localizable.strings:562
@@ -2008,7 +2076,7 @@ msgstr "Možnosti ovládání"
 #: Resources/templates/Localizable.strings:563
 #, no-wrap
 msgid "Settings to control how Chameleon works."
-msgstr ""
+msgstr "Nastavení určuje, jak Chameleon funguje."
 
 #. type: "General_title"
 #: Resources/templates/Localizable.strings:566
@@ -2020,7 +2088,7 @@ msgstr "Obecné možnosti"
 #: Resources/templates/Localizable.strings:567
 #, no-wrap
 msgid "Choose from a selection of base options."
-msgstr ""
+msgstr "Vyberte si z nabídky základních možností."
 
 #. type: "KernelFlags_title"
 #: Resources/templates/Localizable.strings:570
@@ -2032,7 +2100,7 @@ msgstr "Kernel Flags"
 #: Resources/templates/Localizable.strings:571
 #, no-wrap
 msgid "Choose from a selection of kernel flags."
-msgstr ""
+msgstr "Vyberte si z nabídky kernel flags."
 
 #. type: "PowerManagement_title"
 #: Resources/templates/Localizable.strings:574
@@ -2044,7 +2112,7 @@ msgstr "Power Management"
 #: Resources/templates/Localizable.strings:575
 #, no-wrap
 msgid "A selection of options that deal with power management and speedstep."
-msgstr ""
+msgstr "Výběr možností, které se zabývají správou napájení a SpeedStep."
 
 #. type: "Resolution_description"
 #: Resources/templates/Localizable.strings:579
@@ -2110,7 +2178,7 @@ msgstr "Video"
 #: Resources/templates/Localizable.strings:599
 #, no-wrap
 msgid "A selection of options that deal with video."
-msgstr ""
+msgstr "Výběr možností, které se zabývají s videem."
 
 #. type: "Keymaps_title"
 #: Resources/templates/Localizable.strings:602
@@ -2137,3 +2205,5 @@ msgid ""
 "A collection of sample themes\n"
 "More themes can be found at http://forum.voodooprojects.org/index.php/board,7.0.html"
 msgstr ""
+"Sbírka vzorku témata \\ nDalší styly lze nalézt na "
+"http://forum.voodooprojects.org/index.php/board,7.0.html"
