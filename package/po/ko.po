@@ -7,15 +7,15 @@ msgstr ""
 "Project-Id-Version: Chameleon 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-05-14 23:50+0200\n"
-"PO-Revision-Date: 2013-05-11 14:27+0000\n"
-"Last-Translator: ceruns <ceruns@ymail.com>\n"
+"PO-Revision-Date: 2013-05-15 01:04+0000\n"
+"Last-Translator: ErmaC <ErmaC@insanelymac.com>\n"
 "Language-Team: ko <ko@li.org>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Pootle 2.5.0-rc1\n"
-"X-POOTLE-MTIME: 1368282434.0\n"
+"X-POOTLE-MTIME: 1368579876.0\n"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:22
@@ -1298,6 +1298,8 @@ msgid ""
 "Set HDEF layout-it to 898:\n"
 "382 (0x82, 0x03, 0x00, 0x00)."
 msgstr ""
+"HDEF Layout-it을 898로 설정:\n"
+"382 (0x82, 0x03, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDxBD7_title"
 #: Resources/templates/Localizable.strings:300
@@ -1313,6 +1315,8 @@ msgid ""
 "Set HDEF layout-it to 1981:\n"
 "7BD (0xBD, 0x07, 0x00, 0x00)."
 msgstr ""
+"HDEF Layout-it을 1981로 설정:\n"
+"7BD (0xBD, 0x07, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx01_description"
 #: Resources/templates/Localizable.strings:307
@@ -1321,6 +1325,8 @@ msgid ""
 "Set HDAU layout-it to 1:\n"
 "001 (0x01, 0x00, 0x00, 0x00)."
 msgstr ""
+"HADU Layout-it을 1로 설정:\n"
+"001 (0x01, 0x00, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx02_description"
 #: Resources/templates/Localizable.strings:311
@@ -1364,7 +1370,7 @@ msgstr ""
 
 #. type: "HDAULayoutIDx65_description"
 #: Resources/templates/Localizable.strings:327
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid ""
 #| "Set HDEF layout-it to 65:\n"
 #| "041 (0x41, 0x00, 0x00, 0x00)."
@@ -1372,12 +1378,12 @@ msgid ""
 "Set HDAU layout-it to 65:\n"
 "041 (0x41, 0x00, 0x00, 0x00)."
 msgstr ""
-"Set HDEF layout-it to 65:\n"
+"Set HDAU layout-it to 65:\n"
 "041 (0x41, 0x00, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx99_description"
 #: Resources/templates/Localizable.strings:331
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid ""
 #| "Set HDAU layout-it to 3:\n"
 #| "003 (0x03, 0x00, 0x00, 0x00)."
@@ -1385,12 +1391,12 @@ msgid ""
 "Set HDAU layout-it to 99:\n"
 "063 (0x63, 0x00, 0x00, 0x00)."
 msgstr ""
-"Set HDAU layout-it to 3:\n"
-"003 (0x03, 0x00, 0x00, 0x00)."
+"HADU Layout-it을 99로 설정:\n"
+"063 (0x63, 0x00, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx269_description"
 #: Resources/templates/Localizable.strings:335
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid ""
 #| "Set HDEF layout-it to 269:\n"
 #| "10D (0x0D, 0x01, 0x00, 0x00)."
@@ -1398,12 +1404,12 @@ msgid ""
 "Set HDAU layout-it to 269:\n"
 "10D (0x0D, 0x01, 0x00, 0x00)."
 msgstr ""
-"HDEF layout-it 을 269으로 설정:\n"
+"HDAU layout-it 을 269으로 설정:\n"
 "10D (0x0D, 0x01, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx387_description"
 #: Resources/templates/Localizable.strings:339
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid ""
 #| "Set HDEF layout-it to 387:\n"
 #| "183 (0x83, 0x01, 0x00, 0x00)."
@@ -1411,12 +1417,12 @@ msgid ""
 "Set HDAU layout-it to 387:\n"
 "183 (0x83, 0x01, 0x00, 0x00)."
 msgstr ""
-"HDEF layout-it을 387 으로 설정:\n"
+"HDAU layout-it을 387 으로 설정:\n"
 "183 (0x83, 0x01, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx388_description"
 #: Resources/templates/Localizable.strings:343
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid ""
 #| "Set HDEF layout-it to 388:\n"
 #| "184 (0x84, 0x01, 0x00, 0x00)."
@@ -1424,12 +1430,12 @@ msgid ""
 "Set HDAU layout-it to 388:\n"
 "184 (0x84, 0x01, 0x00, 0x00)."
 msgstr ""
-"Set HDEF layout-it to 388:\n"
+"Set HDAU layout-it to 388:\n"
 "184 (0x84, 0x01, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx389_description"
 #: Resources/templates/Localizable.strings:347
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid ""
 #| "Set HDEF layout-it to 389:\n"
 #| "185 (0x85, 0x01, 0x00, 0x00)."
@@ -1437,12 +1443,12 @@ msgid ""
 "Set HDAU layout-it to 389:\n"
 "185 (0x85, 0x01, 0x00, 0x00)."
 msgstr ""
-"Set HDEF layout-it to 389:\n"
+"Set HDAU layout-it to 389:\n"
 "185 (0x85, 0x01, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx392_description"
 #: Resources/templates/Localizable.strings:351
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid ""
 #| "Set HDEF layout-it to 392:\n"
 #| "188 (0x88, 0x01, 0x00, 0x00)."
@@ -1450,12 +1456,12 @@ msgid ""
 "Set HDAU layout-it to 392:\n"
 "188 (0x88, 0x01, 0x00, 0x00)."
 msgstr ""
-"Set HDEF layout-it to 392:\n"
+"Set HDAU layout-it to 392:\n"
 "188 (0x88, 0x01, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx398_description"
 #: Resources/templates/Localizable.strings:355
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid ""
 #| "Set HDEF layout-it to 398:\n"
 #| "18E (0x8E, 0x01, 0x00, 0x00)."
@@ -1463,12 +1469,12 @@ msgid ""
 "Set HDAU layout-it to 398:\n"
 "18E (0x8E, 0x01, 0x00, 0x00)."
 msgstr ""
-"Set HDEF layout-it to 398:\n"
+"Set HDAU layout-it to 398:\n"
 "18E (0x8E, 0x01, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx662_description"
 #: Resources/templates/Localizable.strings:359
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid ""
 #| "Set HDEF layout-it to 662:\n"
 #| "296 (0x96, 0x02, 0x00, 0x00)."
@@ -1476,12 +1482,12 @@ msgid ""
 "Set HDAU layout-it to 662:\n"
 "296 (0x96, 0x02, 0x00, 0x00)."
 msgstr ""
-"Set HDEF layout-it to 662:\n"
+"Set HDAU layout-it to 662:\n"
 "296 (0x96, 0x02, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx663_description"
 #: Resources/templates/Localizable.strings:363
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid ""
 #| "Set HDEF layout-it to 663:\n"
 #| "297 (0x97, 0x02, 0x00, 0x00)."
@@ -1489,12 +1495,12 @@ msgid ""
 "Set HDAU layout-it to 663:\n"
 "297 (0x97, 0x02, 0x00, 0x00)."
 msgstr ""
-"HDEF layout-it 663 으로 설정:\n"
+"HDAU layout-it 663 으로 설정:\n"
 "297 (0x97, 0x02, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx664_description"
 #: Resources/templates/Localizable.strings:367
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid ""
 #| "Set HDEF layout-it to 664:\n"
 #| "298 (0x98, 0x02, 0x00, 0x00)."
@@ -1502,12 +1508,12 @@ msgid ""
 "Set HDAU layout-it to 664:\n"
 "298 (0x98, 0x02, 0x00, 0x00)."
 msgstr ""
-"HDEF layout-it을 664 으로 설정:\n"
+"HDAU layout-it을 664 으로 설정:\n"
 "298 (0x98, 0x02, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx885_description"
 #: Resources/templates/Localizable.strings:371
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid ""
 #| "Set HDEF layout-it to 885:\n"
 #| "375 (0x75, 0x03, 0x00, 0x00)."
@@ -1515,12 +1521,12 @@ msgid ""
 "Set HDAU layout-it to 885:\n"
 "375 (0x75, 0x03, 0x00, 0x00)."
 msgstr ""
-"Set HDEF layout-it to 885:\n"
-"375 (0x75, 0x03, 0x00, 0x00)."
+"HDAU layout-it을 885 으로 설정:\n"
+"885 (0x75, 0x03, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx887_description"
 #: Resources/templates/Localizable.strings:375
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid ""
 #| "Set HDEF layout-it to 887:\n"
 #| "377 (0x77, 0x03, 0x00, 0x00)."
@@ -1528,12 +1534,12 @@ msgid ""
 "Set HDAU layout-it to 887:\n"
 "377 (0x77, 0x03, 0x00, 0x00)."
 msgstr ""
-"Set HDEF layout-it to 887:\n"
+"Set HDAU layout-it to 887:\n"
 "377 (0x77, 0x03, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx888_description"
 #: Resources/templates/Localizable.strings:379
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid ""
 #| "Set HDEF layout-it to 888:\n"
 #| "378 (0x78, 0x03, 0x00, 0x00)."
@@ -1541,12 +1547,12 @@ msgid ""
 "Set HDAU layout-it to 888:\n"
 "378 (0x78, 0x03, 0x00, 0x00)."
 msgstr ""
-"Set HDEF layout-it to 888:\n"
+"Set HDAU layout-it to 888:\n"
 "378 (0x78, 0x03, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx889_description"
 #: Resources/templates/Localizable.strings:383
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid ""
 #| "Set HDEF layout-it to 889:\n"
 #| "379 (0x79, 0x03, 0x00, 0x00)."
@@ -1554,12 +1560,12 @@ msgid ""
 "Set HDAU layout-it to 889:\n"
 "379 (0x79, 0x03, 0x00, 0x00)."
 msgstr ""
-"Set HDEF layout-it to 889:\n"
+"Set HDAU layout-it to 889:\n"
 "379 (0x79, 0x03, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx892_description"
 #: Resources/templates/Localizable.strings:387
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid ""
 #| "Set HDEF layout-it to 892:\n"
 #| "37C (0x7C, 0x03, 0x00, 0x00)."
@@ -1567,12 +1573,12 @@ msgid ""
 "Set HDAU layout-it to 892:\n"
 "37C (0x7C, 0x03, 0x00, 0x00)."
 msgstr ""
-"Set HDEF layout-it to 892:\n"
+"Set HDAU layout-it to 892:\n"
 "37C (0x7C, 0x03, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx898_description"
 #: Resources/templates/Localizable.strings:391
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid ""
 #| "Set HDEF layout-it to 888:\n"
 #| "378 (0x78, 0x03, 0x00, 0x00)."
@@ -1580,12 +1586,12 @@ msgid ""
 "Set HDAU layout-it to 898:\n"
 "382 (0x82, 0x03, 0x00, 0x00)."
 msgstr ""
-"Set HDEF layout-it to 888:\n"
-"378 (0x78, 0x03, 0x00, 0x00)."
+"Set HDAU layout-it to 898:\n"
+"382 (0x82, 0x03, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDxBD7_description"
 #: Resources/templates/Localizable.strings:395
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid ""
 #| "Set HDAU layout-it to 12:\n"
 #| "00C (0x0C, 0x00, 0x00, 0x00)."
@@ -1593,8 +1599,8 @@ msgid ""
 "Set HDAU layout-it to 1981:\n"
 "7BD (0xBD, 0x07, 0x00, 0x00)."
 msgstr ""
-"Set HDAU layout-it to 12:\n"
-"00C (0x0C, 0x00, 0x00, 0x00)."
+"Set HDAU layout-it to 1981:\n"
+"07BD (0xBD, 0x07, 0x00, 0x00)."
 
 #. type: "HD4K-igx00_title"
 #: Resources/templates/Localizable.strings:400
@@ -1630,7 +1636,7 @@ msgstr "01660002"
 #: Resources/templates/Localizable.strings:407
 #, no-wrap
 msgid "Set 01660002 for Intel HD4000 (Mobile) AAPL,ig-platform-id ."
-msgstr ""
+msgstr "Intel HD4000 (Mobile) AAPL 를 위해 ig-platform-id를 01660002로 설정."
 
 #. type: "HD4K-igx03_title"
 #: Resources/templates/Localizable.strings:409
@@ -1642,7 +1648,7 @@ msgstr "01660003"
 #: Resources/templates/Localizable.strings:410
 #, no-wrap
 msgid "Set 01660003 for Intel HD4000 (Mobile) AAPL,ig-platform-id ."
-msgstr ""
+msgstr "Intel HD4000 (Mobile) AAPL 를 위해 ig-platform-id를 01660003로 설정."
 
 #. type: "HD4K-igx04_title"
 #: Resources/templates/Localizable.strings:412
@@ -1654,7 +1660,7 @@ msgstr "01660004"
 #: Resources/templates/Localizable.strings:413
 #, no-wrap
 msgid "Set 01660004 for Intel HD4000 (Mobile) AAPL,ig-platform-id ."
-msgstr ""
+msgstr "Intel HD4000 (Mobile) AAPL 를 위해 ig-platform-id를 01660004로 설정."
 
 #. type: "HD4K-igx05_title"
 #: Resources/templates/Localizable.strings:415
@@ -1714,7 +1720,7 @@ msgstr "01660009"
 #: Resources/templates/Localizable.strings:428
 #, no-wrap
 msgid "Set 01660009 for Intel HD4000 (Mobile) AAPL,ig-platform-id ."
-msgstr ""
+msgstr "Intel HD4000 (Mobile) AAPL 를 위해 ig-platform-id를 01660009로 설정."
 
 #. type: "HD4K-igx10_title"
 #: Resources/templates/Localizable.strings:430
@@ -1726,7 +1732,7 @@ msgstr "0166000a"
 #: Resources/templates/Localizable.strings:431
 #, no-wrap
 msgid "Set 0166000a for Intel HD4000 (Mobile) AAPL,ig-platform-id ."
-msgstr ""
+msgstr "Intel HD4000 (Mobile) AAPL 를 위해 ig-platform-id를 0166000a로 설정."
 
 #. type: "HD4K-igx11_title"
 #: Resources/templates/Localizable.strings:433
@@ -1750,7 +1756,7 @@ msgstr "AD2000b"
 #: Resources/templates/Localizable.strings:439
 #, no-wrap
 msgid "Set HDEF PinConfiguration for Analog Devices AD2000b."
-msgstr ""
+msgstr "아날로그 장치 AD2000b 를 위해 HDEF PinConfiguration 설정."
 
 #. type: "AD1981HD_PinConf_title"
 #: Resources/templates/Localizable.strings:441
@@ -1762,7 +1768,7 @@ msgstr "AD1981HD"
 #: Resources/templates/Localizable.strings:442
 #, no-wrap
 msgid "Set HDEF PinConfiguration for Analog Devices AD1981HD."
-msgstr ""
+msgstr "아날로그 장치 AD1981HD 를 위해 HDEF PinConfiguration 설정."
 
 #. type: "AD1988B_PinConf_title"
 #: Resources/templates/Localizable.strings:444
@@ -1774,7 +1780,7 @@ msgstr "AD1988b"
 #: Resources/templates/Localizable.strings:445
 #, no-wrap
 msgid "Set HDEF PinConfiguration for Analog Devices AD1988b."
-msgstr ""
+msgstr "아날로그 장치 AD1988b 를 위해 HDEF PinConfiguration 설정."
 
 #. type: "ALC888_PinConf_title"
 #: Resources/templates/Localizable.strings:447
@@ -1786,7 +1792,7 @@ msgstr "ALC888"
 #: Resources/templates/Localizable.strings:448
 #, no-wrap
 msgid "Set HDEF PinConfiguration for Realtek ALC888."
-msgstr ""
+msgstr "Realtek ALC888 을 위해 HDEF PinConfiguration 설정."
 
 #. type: "ALC1200_PinConf_title"
 #: Resources/templates/Localizable.strings:450
@@ -1798,19 +1804,19 @@ msgstr "ALC1200"
 #: Resources/templates/Localizable.strings:451
 #, no-wrap
 msgid "Set HDEF PinConfiguration for Realtek ALC1200."
-msgstr ""
+msgstr "Realtek ALC1200 를 위해 HDEF PinConfiguration 설정."
 
 #. type: "00_PinConf_title"
 #: Resources/templates/Localizable.strings:453
 #, no-wrap
 msgid "00"
-msgstr ""
+msgstr "00"
 
 #. type: "00_PinConf_description"
 #: Resources/templates/Localizable.strings:454
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "Set HDEF PinConfiguration for ???."
-msgstr "부팅 시 사용될 한 해상도를 선택하거나 고르지 않으려면 선택 안함을 선택하세요."
+msgstr "???를 위한 HDEF PinConfiguration 설정."
 
 #. type: "GraphicsEnabler_title"
 #: Resources/templates/Localizable.strings:458
@@ -1820,9 +1826,9 @@ msgstr "그래픽활성화(GraphicsEnabler=Yes)"
 
 #. type: "GraphicsEnabler_description"
 #: Resources/templates/Localizable.strings:459
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "Enables the option to autodetect NVIDIA, AMD/ATI or Intel based GPUs and inject the correct info."
-msgstr "NVIDIA GPU 기반의 그래픽카드를 자동 탐색하여 OS X에서 인식할 수 있게 잡아줍니다."
+msgstr "NVIDIA, AMD/ATI 또는 Intel GPU 기반의 그래픽카드를 자동 탐색하여 OS X에서 인식할 수 있게 잡아줍니다."
 
 #. type: "EnableHDMIAudio_title"
 #: Resources/templates/Localizable.strings:461
@@ -1882,7 +1888,7 @@ msgstr "SkipIntelGfx=Yes"
 #: Resources/templates/Localizable.strings:474
 #, no-wrap
 msgid "Skip the GraphicsEnbaler autodetect for Intel based GPUs."
-msgstr ""
+msgstr "인텔 GPU를 위한 GraphicsEnabler 자동 인식을 건너뜁니다."
 
 #. type: "SkipNvidiaGfx_title"
 #: Resources/templates/Localizable.strings:476
@@ -1894,7 +1900,7 @@ msgstr "SkipNvidiaGfx=Yes"
 #: Resources/templates/Localizable.strings:477
 #, no-wrap
 msgid "Skip the GraphicsEnbaler autodetect for NVIDIA based GPUs."
-msgstr ""
+msgstr "NVIDIA 기반의 GPUs GraphicsEnabler 자동 인식을 건너뜁니다."
 
 #. type: "SkipAtiGfx_title"
 #: Resources/templates/Localizable.strings:479
@@ -1906,7 +1912,7 @@ msgstr "SkipAtiGfx=Yes"
 #: Resources/templates/Localizable.strings:480
 #, no-wrap
 msgid "Skip the GraphicsEnbaler autodetect for AMD/ATI based GPUs."
-msgstr ""
+msgstr "AMD/ATI 기반의 GPUs GraphicsEnabler 자동 인식을 건너뜁니다."
 
 #. type: "EnableBacklight_title"
 #: Resources/templates/Localizable.strings:482
@@ -1918,7 +1924,7 @@ msgstr "EnableBacklight=Yes"
 #: Resources/templates/Localizable.strings:483
 #, no-wrap
 msgid "Enables Backlight options for laptop with nVidia cards."
-msgstr ""
+msgstr "nVidia 카드 기반 노트북에 백라이트 옵션을 활성화합니다."
 
 #. type: "EnableDualLink_title"
 #: Resources/templates/Localizable.strings:485
@@ -1930,7 +1936,7 @@ msgstr "EnableDualLink=Yes"
 #: Resources/templates/Localizable.strings:486
 #, no-wrap
 msgid "Enables DualLink options for nVidia and ATi cards."
-msgstr ""
+msgstr "nVidia 또는 ATi 카드용 DualLink 옵션 활성화"
 
 #. type: "Verbose_title"
 #: Resources/templates/Localizable.strings:491
@@ -1990,7 +1996,11 @@ msgstr "npci=0x3000"
 #: Resources/templates/Localizable.strings:504
 #, no-wrap
 msgid "For overcoming a hang at 'PCI configuration begin' on some systems. 0x3000 is the kIOPCIConfiguratorPFM64 flag, as seen in the IOPCIFamily source code."
-msgstr "몇몇 시스템에서 볼 수 있는 'PCI configurationbegin'과 함께 나타나는 멈춤 현상을 고치는 대 쓰입니다. IOPCIFamily 소스 코드에서 볼 수 있는 0x3000은 kIOPCIConfiguratorPFM64 플래그입니다."
+msgstr ""
+"관련 정보: 커널 캐쉬가 몇몇 디스크에만 사용될 때 나타나는 Waiting for root device +FIX(영문)\n"
+"http://www.insanelymac.com/forum/topic/280062-waiting-for-root-device-when-"
+"kernel-cache-used-only-with-some-disks-fix/\n"
+"bcc9님이 찾아주셨습니다."
 
 #. type: "WaitingRootDevice_title"
 #: Resources/templates/Localizable.strings:506
@@ -2006,6 +2016,10 @@ msgid ""
 "http://www.insanelymac.com/forum/topic/280062-waiting-for-root-device-when-kernel-cache-used-only-with-some-disks-fix/\n"
 "Findings credits to bcc9."
 msgstr ""
+"정보: 커널 캐쉬가 몇몇 디스크에만 사용될 경우 나타나는 Waiting for root device +FIX(영문)\n"
+"http://www.insanelymac.com/forum/topic/280062-waiting-for-root-device-when-"
+"kernel-cache-used-only-with-some-disks-fix/\n"
+"bcc9님이 찾아주셨니다."
 
 #. type: "Darkwake_title"
 #: Resources/templates/Localizable.strings:511
@@ -2137,13 +2151,13 @@ msgstr "보기좋고 심플한 NoSmokingBandit님의 테마,  2009년 4월 작�
 #: Resources/templates/Localizable.strings:558
 #, no-wrap
 msgid "Audio"
-msgstr ""
+msgstr "오디오"
 
 #. type: "Audio_description"
 #: Resources/templates/Localizable.strings:559
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "A selection of options that deal with audio."
-msgstr "그래픽 카드들과 관련된 옵션들입니다"
+msgstr "오디오와 관련된 선택 옵션들입니다."
 
 #. type: "Control_title"
 #: Resources/templates/Localizable.strings:562
@@ -2209,7 +2223,7 @@ msgstr "HDEF Layout"
 #: Resources/templates/Localizable.strings:583
 #, no-wrap
 msgid "Set one HDEF Layout ID to use for your HDA controller."
-msgstr ""
+msgstr "HDA  컨트롤러 사용을 위한 HDEF Layout ID 설정."
 
 #. type: "HDAULayout_title"
 #: Resources/templates/Localizable.strings:586
@@ -2221,7 +2235,7 @@ msgstr "HDAU Layout"
 #: Resources/templates/Localizable.strings:587
 #, no-wrap
 msgid "Set one HDAU Layout ID to use for your HDMi controller."
-msgstr ""
+msgstr "HDMi 컨트롤러 사용을 위한 HDAU Layout ID 설정."
 
 #. type: "GmaIG_title"
 #: Resources/templates/Localizable.strings:590
@@ -2233,7 +2247,7 @@ msgstr "Intel HD4000 Layout"
 #: Resources/templates/Localizable.strings:591
 #, no-wrap
 msgid "Set one AAPL,ig-platform-id to use for your Intel HD4000."
-msgstr ""
+msgstr "Intel HD4000 을 위한 one AAPL,ig-platform-id 설정"
 
 #. type: "HDEFPinConfiguration_title"
 #: Resources/templates/Localizable.strings:594
@@ -2243,9 +2257,9 @@ msgstr "HDEF PinConfiguration"
 
 #. type: "HDEFPinConfiguration_description"
 #: Resources/templates/Localizable.strings:595
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "Set one HDEF PinConfiguration to use."
-msgstr "부팅 시 사용될 한 해상도를 선택하거나 고르지 않으려면 선택 안함을 선택하세요."
+msgstr "사용할 HDEF PinConfiguration 설정"
 
 #. type: "Video_title"
 #: Resources/templates/Localizable.strings:598
