@@ -151,6 +151,21 @@ Dependencies: none";
 "DropSSDT_title" = "DropSSDT=Yes";
 "DropSSDT_description" = "Discard the motherboard's built-in SSDT tables.";
 
+"DropHPET_title" = "DropHPET=Yes";
+"DropHPET_description" = "Discard the motherboard's built-in HPET table.";
+
+"DropSBST_title" = "DropSBST=Yes";
+"DropSBST_description" = "Discard the motherboard's built-in SBST table.";
+
+"DropECDT_title" = "DropECDT=Yes";
+"DropECDT_description" = "Discard the motherboard's built-in ECDT table.";
+
+"DropASFT_title" = "DropASFT=Yes";
+"DropASFT_description" = "Discard the motherboard's built-in ASF! table.";
+
+"DropDMAR_title" = "DropDMAR=Yes";
+"DropDMAR_description" = "Discard the motherboard's built-in DMAR table, this key action resolve the problem with VT-d panics.";
+
 "EnableC2State_title" = "EnableC2State=Yes";
 "EnableC2State_description" = "Enable specific Processor power state, C2.";
 
@@ -160,11 +175,17 @@ Dependencies: none";
 "EnableC4State_title" = "EnableC4State=Yes";
 "EnableC4State_description" = "Enable specific Processor power state, C4.";
 
+"EnableC6State_title" = "EnableC6State=Yes";
+"EnableC6State_description" = "Enable specific Processor power state, C6.";
+
 "GenerateCStates_title" = "GenerateCStates=Yes";
 "GenerateCStates_description" = "Enable auto generation of processor idle sleep states (C-States).";
 
 "GeneratePStates_title" = "GeneratePStates=Yes";
 "GeneratePStates_description" = "Enable auto generation of processor power performance states (P-States).";
+
+"GenerateTStates_title" = "GenerateTStates=Yes";
+"GenerateTStates_description" = "Enable auto generation of processor power performance states (T-States).";
 
 // ----------------------------------------------------------------------------
 
@@ -511,6 +532,9 @@ Findings credits to bcc9.";
 "Darkwake_title" = "darkwake=0";
 "Darkwake_description" = "Lion only. Disables the 'low power wake' feature which can sometimes leave the screen black after wake from sleep.";
 
+"Dart0_title" = "dart=0";
+"Dart0_description" = "Avoiding the DMAR processing causing by VT-d function in Osx (Virtualization).
+More information by bcc9 here: http://www.insanelymac.com/forum/topic/282989-vtd0-fault-after-1082-google-hasnt-heard-of-it-any-help/#entry1867000";
 
 // ----------------------------------------------------------------------------
 // Boot options - KEYMAPS
