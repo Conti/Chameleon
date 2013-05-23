@@ -215,7 +215,7 @@ static void showBootPrompt(int row, bool visible)
 		clearScreenRows( row, kScreenLastRow );
 	}
 
-    clearBootArgs();
+	clearBootArgs();
 
 	if (visible) {
 		if (bootArgs->Video.v_display == VGA_TEXT_MODE) {
@@ -223,7 +223,7 @@ static void showBootPrompt(int row, bool visible)
 				printf( bootRescanPrompt );
 			} else {
 				printf( bootPrompt );
-                printf( gBootArgs );
+				printf( gBootArgs );
 			}
 		}
 	} else {
@@ -851,7 +851,7 @@ int getBootOptions(bool firstRun)
 		goto done;
 	}
 
-	if (gDeviceCount) {
+	if (gDeviceCount > 0) {
 		// Allocate memory for an array of menu items.
 		menuItems = malloc(sizeof(MenuItem) * gDeviceCount);
 		if (menuItems == NULL) {
@@ -873,11 +873,10 @@ int getBootOptions(bool firstRun)
 		if ( selectIndex == -1 )
 		{
 			selectIndex = 0;
-			if ( gDeviceCount > 0 )
-			{
-				menuBVR = (BVRef)(menuItems[selectIndex].param);
-				// what happen is bvChain is empty ?
-			}
+
+			// gDeviceCount is actually > 0, so menuItems[selectIndex] exists
+			menuBVR = (BVRef)(menuItems[selectIndex].param);
+			// what happen is bvChain is empty ?
 		}
 	}
 
@@ -1048,7 +1047,7 @@ int getBootOptions(bool firstRun)
 					gui.redraw = true;
 					setVideoMode(GRAPHICS_MODE, 0);
 					updateVRAM();
-					updateGraphicBootPrompt();
+                    			updateGraphicBootPrompt();
 				}
 			}
 			key = 0;

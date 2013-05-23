@@ -19,6 +19,7 @@
    - Apple Software RAID support.
    - stage2 loader (boot) can be placed as a regular file in the boot
      partition's root folder.
+   - Modules
      
 
                         Installation
@@ -70,14 +71,14 @@
   --------
   
   If you have any questions, issues etc. feel free to join us
-  at irc.voodooprojects.org #chameleon
+  at irc.voodooprojects.org #chameleon or http://forum.voodooprojects.org/
   
 
   Source Code
   -----------
 
   For downloading the source code please visit the project page at
-  http://chameleon.osx86.hu
+  http://forge.voodooprojects.org/p/chameleon/
 
 
   Licensing

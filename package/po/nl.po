@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Chameleon 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-16 00:04+0200\n"
-"PO-Revision-Date: 2013-05-11 17:43-0000\n"
+"POT-Creation-Date: 2013-05-19 12:19+0200\n"
+"PO-Revision-Date: 2013-05-15 00:36+0000\n"
 "Last-Translator: beta992 <beta992@gmail.com>\n"
 "Language-Team: nl <nl@li.org>\n"
 "Language: nl\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Pootle 2.5.0-rc1\n"
-"X-POOTLE-MTIME: 1368280430.0\n"
+"X-POOTLE-MTIME: 1368578199.0\n"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:22
@@ -612,8 +612,7 @@ msgstr "EnableWifi=Yes"
 
 #. type: "EnableWifi_description"
 #: Resources/templates/Localizable.strings:123
-#, fuzzy, no-wrap
-#| msgid "Enables the option of adding 'built-in' to your ethernet devices."
+#, no-wrap
 msgid "Enables the option of adding AirPort values to your wireless device."
 msgstr "Schakelt de optie voor het toevoegen van AirPort eigenschappen aan je draadloze apparaten in."
 
@@ -1778,8 +1777,7 @@ msgstr "GraphicsEnabler=Yes"
 
 #. type: "GraphicsEnabler_description"
 #: Resources/templates/Localizable.strings:480
-#, fuzzy, no-wrap
-#| msgid "Enables the option to autodetect NVIDIA based GPUs and inject the correct info."
+#, no-wrap
 msgid "Enables the option to autodetect NVIDIA, AMD/ATI or Intel based GPUs and inject the correct info."
 msgstr "Schakelt de optie in om op NVIDIA, AMD/ATI of Intel gebaseerde GPU's te detecteren en de correcte info te injecteren."
 

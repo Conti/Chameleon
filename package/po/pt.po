@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Chameleon 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-16 00:04+0200\n"
-"PO-Revision-Date: 2013-05-11 17:01-0000\n"
+"POT-Creation-Date: 2013-05-19 12:19+0200\n"
+"PO-Revision-Date: 2013-05-23 10:13+0000\n"
 "Last-Translator: artur_pt <artursimoes.pt@gmail.com>\n"
 "Language-Team: pt-PT <pt-PT@li.org>\n"
 "Language: pt\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Pootle 2.5.0-rc1\n"
-"X-POOTLE-MTIME: 1368282182.0\n"
+"X-POOTLE-MTIME: 1369304028.0\n"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:22
@@ -392,6 +392,9 @@ msgid ""
 "Useful to fix yellow icon issue (can also fix an issue with the Apple's dvd player application in Mountain lion).\n"
 "Dependencies: none"
 msgstr ""
+"Modulo Sata, conhecido por YellowIconFixer cparm's branch.\n"
+"Usado para resolver o problema do icon amarelo (também usado para resolver problema com a aplicação DVD player em Mountain Lion).\n"
+"Dependências: nenhuma"
 
 #. type: "Resolution_title"
 #: Resources/templates/Localizable.strings:60
@@ -450,6 +453,12 @@ msgid ""
 "*Removes a panic in commpage_stuff_routine\n"
 "Dependencies: none"
 msgstr ""
+"O modulo KernelPatcher fornece patchs para o seguinte:\n"
+"*Ativao uso de Kernelcache com /Extra/Extensions e /Extra/Extensions.mkext\n"
+"*Remove a verificação de CPUID\n"
+"*Remove os pânicos de LAPIC\n"
+"*Remove pânico em commpage_stuff_routine\n"
+"Dependências: nenhuma"
 
 #. type: "KextPatcher_title"
 #: Resources/templates/Localizable.strings:79
@@ -464,6 +473,8 @@ msgid ""
 "The KextPatcher module provides patches for the following:\n"
 "Dependencies: none"
 msgstr ""
+"O modulo KextPatcher fornece patches para o seguinte:\n"
+"Dependências: nenhuma"
 
 #. type: "Options_title"
 #: Resources/templates/Localizable.strings:87
@@ -775,7 +786,7 @@ msgstr "DropDMAR=Yes"
 #: Resources/templates/Localizable.strings:167
 #, no-wrap
 msgid "Discard the motherboard's built-in DMAR table, this key action resolve the problem with VT-d panics."
-msgstr ""
+msgstr "Ignora a tabela DMAR da bios placa mãe, esta ação resolve o problema com os panicos VT-d."
 
 #. type: "EnableC2State_title"
 #: Resources/templates/Localizable.strings:169
@@ -1048,6 +1059,8 @@ msgid ""
 "Set HDEF layout-it to 2:\n"
 "002 (0x02, 0x00, 0x00, 0x00)."
 msgstr ""
+"Injeta HDEF layout-it para 2:\n"
+"002 (0x02, 0x00, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx03_title"
 #: Resources/templates/Localizable.strings:241
@@ -1063,6 +1076,8 @@ msgid ""
 "Set HDEF layout-it to 3:\n"
 "003 (0x03, 0x00, 0x00, 0x00)."
 msgstr ""
+"Injeta HDEF layout-it para 3:\n"
+"003 (0x03, 0x00, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx12_title"
 #: Resources/templates/Localizable.strings:245
@@ -1078,6 +1093,8 @@ msgid ""
 "Set HDEF layout-it to 12:\n"
 "00C (0x0C, 0x00, 0x00, 0x00)."
 msgstr ""
+"injeta HDEF layout-it para 12:\n"
+"00C (0x0C, 0x00, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx40_title"
 #: Resources/templates/Localizable.strings:249
@@ -1093,6 +1110,8 @@ msgid ""
 "Set HDEF layout-it to 40:\n"
 "028 (0x28, 0x00, 0x00, 0x00)."
 msgstr ""
+"Injeta HDEF layout-it para 40:\n"
+"028 (0x28, 0x00, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx65_title"
 #: Resources/templates/Localizable.strings:253
@@ -1108,6 +1127,8 @@ msgid ""
 "Set HDEF layout-it to 65:\n"
 "041 (0x41, 0x00, 0x00, 0x00)."
 msgstr ""
+"Injeta HDEF layout-it para 65:\n"
+"041 (0x41, 0x00, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx99_title"
 #: Resources/templates/Localizable.strings:257
@@ -1123,6 +1144,8 @@ msgid ""
 "Set HDEF layout-it to 99:\n"
 "063 (0x63, 0x00, 0x00, 0x00)."
 msgstr ""
+"Injeta HDEF layout-it para 99:\n"
+"063 (0x63, 0x00, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx269_title"
 #: Resources/templates/Localizable.strings:261
@@ -1138,6 +1161,8 @@ msgid ""
 "Set HDEF layout-it to 269:\n"
 "10D (0x0D, 0x01, 0x00, 0x00)."
 msgstr ""
+"Injeta HDEF layout-it para 269:\n"
+"10D (0x0D, 0x01, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx387_title"
 #: Resources/templates/Localizable.strings:265
@@ -1153,6 +1178,8 @@ msgid ""
 "Set HDEF layout-it to 387:\n"
 "183 (0x83, 0x01, 0x00, 0x00)."
 msgstr ""
+"Injeta HDEF layout-it para 387:\n"
+"183 (0x83, 0x01, 0x00, 0x00)"
 
 #. type: "HDAULayoutIDx388_title"
 #: Resources/templates/Localizable.strings:269
@@ -1168,6 +1195,8 @@ msgid ""
 "Set HDEF layout-it to 388:\n"
 "184 (0x84, 0x01, 0x00, 0x00)."
 msgstr ""
+"Injeta HDEF layout-it para 388:\n"
+"184 (0x84, 0x01, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx389_title"
 #: Resources/templates/Localizable.strings:273
@@ -1183,6 +1212,8 @@ msgid ""
 "Set HDEF layout-it to 389:\n"
 "185 (0x85, 0x01, 0x00, 0x00)."
 msgstr ""
+"Injeta HDEF layout-it para 389:\n"
+"185 (0x85, 0x01, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx392_title"
 #: Resources/templates/Localizable.strings:277
@@ -1198,6 +1229,8 @@ msgid ""
 "Set HDEF layout-it to 392:\n"
 "188 (0x88, 0x01, 0x00, 0x00)."
 msgstr ""
+"Injeta HDEF layout-it para 392:\n"
+"188 (0x88, 0x01, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx398_title"
 #: Resources/templates/Localizable.strings:281
@@ -1213,6 +1246,8 @@ msgid ""
 "Set HDEF layout-it to 398:\n"
 "18E (0x8E, 0x01, 0x00, 0x00)."
 msgstr ""
+"Injeta HDEF layout-it para 398:\n"
+"18E (0x8E, 0x01, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx662_title"
 #: Resources/templates/Localizable.strings:285
@@ -1228,6 +1263,8 @@ msgid ""
 "Set HDEF layout-it to 662:\n"
 "296 (0x96, 0x02, 0x00, 0x00)."
 msgstr ""
+"Injeta HDEF layout-it para 662:\n"
+"296 (0x96, 0x02, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx663_title"
 #: Resources/templates/Localizable.strings:289
@@ -1243,6 +1280,8 @@ msgid ""
 "Set HDEF layout-it to 663:\n"
 "297 (0x97, 0x02, 0x00, 0x00)."
 msgstr ""
+"Injeta HDEF layout-it para 663:\n"
+"297 (0x97, 0x02, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx664_title"
 #: Resources/templates/Localizable.strings:293
@@ -1258,6 +1297,8 @@ msgid ""
 "Set HDEF layout-it to 664:\n"
 "298 (0x98, 0x02, 0x00, 0x00)."
 msgstr ""
+"Injeta HDEF layout-it para 664:\n"
+"298 (0x98, 0x02, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx885_title"
 #: Resources/templates/Localizable.strings:297
@@ -1273,6 +1314,8 @@ msgid ""
 "Set HDEF layout-it to 885:\n"
 "375 (0x75, 0x03, 0x00, 0x00)."
 msgstr ""
+"Injeta HDEF layout-it para 885:\n"
+"375 (0x75, 0x03, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx887_title"
 #: Resources/templates/Localizable.strings:301
@@ -1288,6 +1331,8 @@ msgid ""
 "Set HDEF layout-it to 887:\n"
 "377 (0x77, 0x03, 0x00, 0x00)."
 msgstr ""
+"Injeta HDEF layout-it para 887:\n"
+"377 (0x77, 0x03, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx888_title"
 #: Resources/templates/Localizable.strings:305
@@ -1303,6 +1348,8 @@ msgid ""
 "Set HDEF layout-it to 888:\n"
 "378 (0x78, 0x03, 0x00, 0x00)."
 msgstr ""
+"Injeta HDEF layout-it para 888:\n"
+"378 (0x78, 0x03, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx889_title"
 #: Resources/templates/Localizable.strings:309
@@ -1318,6 +1365,8 @@ msgid ""
 "Set HDEF layout-it to 889:\n"
 "379 (0x79, 0x03, 0x00, 0x00)."
 msgstr ""
+"Injeta HDEF layout-it para 889:\n"
+"379 (0x79, 0x03, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx892_title"
 #: Resources/templates/Localizable.strings:313
@@ -1333,6 +1382,8 @@ msgid ""
 "Set HDEF layout-it to 892:\n"
 "37C (0x7C, 0x03, 0x00, 0x00)."
 msgstr ""
+"Injeta HDEF layout-it para 892:\n"
+"37C (0x7C, 0x03, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx898_title"
 #: Resources/templates/Localizable.strings:317
@@ -1348,6 +1399,8 @@ msgid ""
 "Set HDEF layout-it to 898:\n"
 "382 (0x82, 0x03, 0x00, 0x00)."
 msgstr ""
+"Injeta HDEF layout-it para 898:\n"
+"382 (0x82, 0x03, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDxBD7_title"
 #: Resources/templates/Localizable.strings:321
@@ -1363,6 +1416,8 @@ msgid ""
 "Set HDEF layout-it to 1981:\n"
 "7BD (0xBD, 0x07, 0x00, 0x00)."
 msgstr ""
+"Injeta HDEF layout-it para 1981:\n"
+"7BD (0xBD, 0x07, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx01_description"
 #: Resources/templates/Localizable.strings:328
@@ -1371,6 +1426,8 @@ msgid ""
 "Set HDAU layout-it to 1:\n"
 "001 (0x01, 0x00, 0x00, 0x00)."
 msgstr ""
+"injeta HDAU layout-it para 1:\n"
+"001 (0x01, 0x00, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx02_description"
 #: Resources/templates/Localizable.strings:332
@@ -1379,6 +1436,8 @@ msgid ""
 "Set HDAU layout-it to 2:\n"
 "002 (0x02, 0x00, 0x00, 0x00)."
 msgstr ""
+"Injeta HDAU layout-it para 2:\n"
+"002 (0x02, 0x00, 0x00, 0x00)"
 
 #. type: "HDAULayoutIDx03_description"
 #: Resources/templates/Localizable.strings:336
@@ -1387,6 +1446,8 @@ msgid ""
 "Set HDAU layout-it to 3:\n"
 "003 (0x03, 0x00, 0x00, 0x00)."
 msgstr ""
+"Injeta HDAU layout-it para 3:\n"
+"003 (0x03, 0x00, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx12_description"
 #: Resources/templates/Localizable.strings:340
@@ -1395,6 +1456,8 @@ msgid ""
 "Set HDAU layout-it to 12:\n"
 "00C (0x0C, 0x00, 0x00, 0x00)."
 msgstr ""
+"Injeta HDAU layout-it para 12:\n"
+"00C (0x0C, 0x00, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx40_description"
 #: Resources/templates/Localizable.strings:344
@@ -1403,6 +1466,8 @@ msgid ""
 "Set HDAU layout-it to 40:\n"
 "028 (0x28, 0x00, 0x00, 0x00)."
 msgstr ""
+"Injeta HDAU layout-it para 40:\n"
+"028 (0x28, 0x00, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx65_description"
 #: Resources/templates/Localizable.strings:348
@@ -1411,6 +1476,8 @@ msgid ""
 "Set HDAU layout-it to 65:\n"
 "041 (0x41, 0x00, 0x00, 0x00)."
 msgstr ""
+"Injeta HDAU layout-it para 65:\n"
+"041 (0x41, 0x00, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx99_description"
 #: Resources/templates/Localizable.strings:352
@@ -1419,6 +1486,8 @@ msgid ""
 "Set HDAU layout-it to 99:\n"
 "063 (0x63, 0x00, 0x00, 0x00)."
 msgstr ""
+"Injeta HDAU layout-it para 99:\n"
+"063 (0x63, 0x00, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx269_description"
 #: Resources/templates/Localizable.strings:356
@@ -1427,6 +1496,8 @@ msgid ""
 "Set HDAU layout-it to 269:\n"
 "10D (0x0D, 0x01, 0x00, 0x00)."
 msgstr ""
+"injeta HDAU layout-it para 269:\n"
+"10D (0x0D, 0x01, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx387_description"
 #: Resources/templates/Localizable.strings:360
@@ -1435,6 +1506,8 @@ msgid ""
 "Set HDAU layout-it to 387:\n"
 "183 (0x83, 0x01, 0x00, 0x00)."
 msgstr ""
+"Injeta HDAU layout-it para 387:\n"
+"183 (0x83, 0x01, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx388_description"
 #: Resources/templates/Localizable.strings:364
@@ -1443,6 +1516,8 @@ msgid ""
 "Set HDAU layout-it to 388:\n"
 "184 (0x84, 0x01, 0x00, 0x00)."
 msgstr ""
+"Injeta HDAU layout-it para 388:\n"
+"184 (0x84, 0x01, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx389_description"
 #: Resources/templates/Localizable.strings:368
@@ -1451,6 +1526,8 @@ msgid ""
 "Set HDAU layout-it to 389:\n"
 "185 (0x85, 0x01, 0x00, 0x00)."
 msgstr ""
+"Injeta HDAU layout-it para 389:\n"
+"185 (0x85, 0x01, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx392_description"
 #: Resources/templates/Localizable.strings:372
@@ -1459,6 +1536,8 @@ msgid ""
 "Set HDAU layout-it to 392:\n"
 "188 (0x88, 0x01, 0x00, 0x00)."
 msgstr ""
+"injeta HDAU layout-it para 392:\n"
+"188 (0x88, 0x01, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx398_description"
 #: Resources/templates/Localizable.strings:376
@@ -1467,6 +1546,8 @@ msgid ""
 "Set HDAU layout-it to 398:\n"
 "18E (0x8E, 0x01, 0x00, 0x00)."
 msgstr ""
+"Injeta HDAU layout-it para 398:\n"
+"18E (0x8E, 0x01, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx662_description"
 #: Resources/templates/Localizable.strings:380
@@ -1475,6 +1556,8 @@ msgid ""
 "Set HDAU layout-it to 662:\n"
 "296 (0x96, 0x02, 0x00, 0x00)."
 msgstr ""
+"Injeta HDAU layout-it para 662:\n"
+"296 (0x96, 0x02, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx663_description"
 #: Resources/templates/Localizable.strings:384
@@ -1483,6 +1566,8 @@ msgid ""
 "Set HDAU layout-it to 663:\n"
 "297 (0x97, 0x02, 0x00, 0x00)."
 msgstr ""
+"Injeta HDAU layout-it para 663:\n"
+"297 (0x97, 0x02, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx664_description"
 #: Resources/templates/Localizable.strings:388
@@ -1491,6 +1576,8 @@ msgid ""
 "Set HDAU layout-it to 664:\n"
 "298 (0x98, 0x02, 0x00, 0x00)."
 msgstr ""
+"Injeta HDAU layout-it para 664:\n"
+"298 (0x98, 0x02, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx885_description"
 #: Resources/templates/Localizable.strings:392
@@ -1499,6 +1586,8 @@ msgid ""
 "Set HDAU layout-it to 885:\n"
 "375 (0x75, 0x03, 0x00, 0x00)."
 msgstr ""
+"Injeta HDAU layout-it para 885:\n"
+"375 (0x75, 0x03, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx887_description"
 #: Resources/templates/Localizable.strings:396
@@ -1507,6 +1596,8 @@ msgid ""
 "Set HDAU layout-it to 887:\n"
 "377 (0x77, 0x03, 0x00, 0x00)."
 msgstr ""
+"Injeta HDAU layout-it para 887:\n"
+"377 (0x77, 0x03, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx888_description"
 #: Resources/templates/Localizable.strings:400
@@ -1515,6 +1606,8 @@ msgid ""
 "Set HDAU layout-it to 888:\n"
 "378 (0x78, 0x03, 0x00, 0x00)."
 msgstr ""
+"Injeta HDAU layout-it para 888:\n"
+"378 (0x78, 0x03, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx889_description"
 #: Resources/templates/Localizable.strings:404
@@ -1523,6 +1616,8 @@ msgid ""
 "Set HDAU layout-it to 889:\n"
 "379 (0x79, 0x03, 0x00, 0x00)."
 msgstr ""
+"Injeta HDAU layout-it para 889:\n"
+"379 (0x79, 0x03, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx892_description"
 #: Resources/templates/Localizable.strings:408
@@ -1531,6 +1626,8 @@ msgid ""
 "Set HDAU layout-it to 892:\n"
 "37C (0x7C, 0x03, 0x00, 0x00)."
 msgstr ""
+"Injeta HDAU layout-it para 892:\n"
+"37C (0x7C, 0x03, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx898_description"
 #: Resources/templates/Localizable.strings:412
@@ -1539,6 +1636,8 @@ msgid ""
 "Set HDAU layout-it to 898:\n"
 "382 (0x82, 0x03, 0x00, 0x00)."
 msgstr ""
+"Injeta HDAU layout-it para 898:\n"
+"382 (0x82, 0x03, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDxBD7_description"
 #: Resources/templates/Localizable.strings:416
@@ -1547,6 +1646,8 @@ msgid ""
 "Set HDAU layout-it to 1981:\n"
 "7BD (0xBD, 0x07, 0x00, 0x00)."
 msgstr ""
+"Injeta HDAU layout-it para 1981:\n"
+"7BD (0xBD, 0x07, 0x00, 0x00)."
 
 #. type: "HD4K-igx00_title"
 #: Resources/templates/Localizable.strings:421
@@ -1558,7 +1659,7 @@ msgstr "01660000"
 #: Resources/templates/Localizable.strings:422
 #, no-wrap
 msgid "Set 01660000 for Intel HD4000 (Mobile) AAPL,ig-platform-id ."
-msgstr ""
+msgstr "Injeta 01660000 para Intel HD4000 (Mobile) AAPL,ig-platform-id ."
 
 #. type: "HD4K-igx01_title"
 #: Resources/templates/Localizable.strings:424
@@ -1570,7 +1671,7 @@ msgstr "01660001"
 #: Resources/templates/Localizable.strings:425
 #, no-wrap
 msgid "Set 01660001 for Intel HD4000 (Mobile) AAPL,ig-platform-id ."
-msgstr ""
+msgstr "Injeta 01660001 para Intel HD4000 (Mobile) AAPL,ig-platform-id ."
 
 #. type: "HD4K-igx02_title"
 #: Resources/templates/Localizable.strings:427
@@ -1582,7 +1683,7 @@ msgstr "01660002"
 #: Resources/templates/Localizable.strings:428
 #, no-wrap
 msgid "Set 01660002 for Intel HD4000 (Mobile) AAPL,ig-platform-id ."
-msgstr ""
+msgstr "Injeta 01660002 para Intel HD4000 (Mobile) AAPL,ig-platform-id ."
 
 #. type: "HD4K-igx03_title"
 #: Resources/templates/Localizable.strings:430
@@ -1594,7 +1695,7 @@ msgstr "01660003"
 #: Resources/templates/Localizable.strings:431
 #, no-wrap
 msgid "Set 01660003 for Intel HD4000 (Mobile) AAPL,ig-platform-id ."
-msgstr ""
+msgstr "Injeta 01660003 para Intel HD4000 (Mobile) AAPL,ig-platform-id ."
 
 #. type: "HD4K-igx04_title"
 #: Resources/templates/Localizable.strings:433
@@ -1606,7 +1707,7 @@ msgstr "01660004"
 #: Resources/templates/Localizable.strings:434
 #, no-wrap
 msgid "Set 01660004 for Intel HD4000 (Mobile) AAPL,ig-platform-id ."
-msgstr ""
+msgstr "Injeta 01660004 para Intel HD4000 (Mobile) AAPL,ig-platform-id ."
 
 #. type: "HD4K-igx05_title"
 #: Resources/templates/Localizable.strings:436
@@ -1618,7 +1719,7 @@ msgstr "01620005"
 #: Resources/templates/Localizable.strings:437
 #, no-wrap
 msgid "Set 01620005 for Intel HD4000 (Desktop) AAPL,ig-platform-id ."
-msgstr ""
+msgstr "injeta 01620005 para Intel HD4000 (Desktop) AAPL,ig-platform-id ."
 
 #. type: "HD4K-igx06_title"
 #: Resources/templates/Localizable.strings:439
@@ -1630,7 +1731,7 @@ msgstr "01620006"
 #: Resources/templates/Localizable.strings:440
 #, no-wrap
 msgid "Set 01620006 for Intel HD4000 (Desktop) AAPL,ig-platform-id ."
-msgstr ""
+msgstr "Injeta 01620006 para Intel HD4000 (Desktop) AAPL,ig-platform-id ."
 
 #. type: "HD4K-igx07_title"
 #: Resources/templates/Localizable.strings:442
@@ -1642,7 +1743,7 @@ msgstr "01620007"
 #: Resources/templates/Localizable.strings:443
 #, no-wrap
 msgid "Set 01620007 for Intel HD4000 (Desktop) AAPL,ig-platform-id ."
-msgstr ""
+msgstr "Injeta 01620007 para Intel HD4000 (Desktop) AAPL,ig-platform-id ."
 
 #. type: "HD4K-igx08_title"
 #: Resources/templates/Localizable.strings:445
@@ -1654,7 +1755,7 @@ msgstr "01660008"
 #: Resources/templates/Localizable.strings:446
 #, no-wrap
 msgid "Set 01660008 for Intel HD4000 (Mobile) AAPL,ig-platform-id ."
-msgstr ""
+msgstr "Injeta 01660008 para Intel HD4000 (Mobile) AAPL,ig-platform-id ."
 
 #. type: "HD4K-igx09_title"
 #: Resources/templates/Localizable.strings:448
@@ -1666,7 +1767,7 @@ msgstr "01660009"
 #: Resources/templates/Localizable.strings:449
 #, no-wrap
 msgid "Set 01660009 for Intel HD4000 (Mobile) AAPL,ig-platform-id ."
-msgstr ""
+msgstr "Injeta 01660009 para Intel HD4000 (Mobile) AAPL,ig-platform-id ."
 
 #. type: "HD4K-igx10_title"
 #: Resources/templates/Localizable.strings:451
@@ -1678,7 +1779,7 @@ msgstr "0166000a"
 #: Resources/templates/Localizable.strings:452
 #, no-wrap
 msgid "Set 0166000a for Intel HD4000 (Mobile) AAPL,ig-platform-id ."
-msgstr ""
+msgstr "Injeta 0166000a para Intel HD4000 (Mobile) AAPL,ig-platform-id ."
 
 #. type: "HD4K-igx11_title"
 #: Resources/templates/Localizable.strings:454
@@ -1690,7 +1791,7 @@ msgstr "0166000b"
 #: Resources/templates/Localizable.strings:455
 #, no-wrap
 msgid "Set 0166000b for Intel HD4000 (Mobile) AAPL,ig-platform-id ."
-msgstr ""
+msgstr "Injeta 0166000b para Intel HD4000 (Mobile) AAPL,ig-platform-id ."
 
 #. type: "AD2000B_PinConf_title"
 #: Resources/templates/Localizable.strings:459
@@ -1702,7 +1803,7 @@ msgstr "AD2000b"
 #: Resources/templates/Localizable.strings:460
 #, no-wrap
 msgid "Set HDEF PinConfiguration for Analog Devices AD2000b."
-msgstr ""
+msgstr "Injeta HDEF PinConfiguration para Analog Devices AD2000b."
 
 #. type: "AD1981HD_PinConf_title"
 #: Resources/templates/Localizable.strings:462
@@ -1714,7 +1815,7 @@ msgstr "AD1981HD"
 #: Resources/templates/Localizable.strings:463
 #, no-wrap
 msgid "Set HDEF PinConfiguration for Analog Devices AD1981HD."
-msgstr ""
+msgstr "Injeta HDEF PinConfiguration para Analog Devices AD1981HD."
 
 #. type: "AD1988B_PinConf_title"
 #: Resources/templates/Localizable.strings:465
@@ -1726,7 +1827,7 @@ msgstr "AD1988b"
 #: Resources/templates/Localizable.strings:466
 #, no-wrap
 msgid "Set HDEF PinConfiguration for Analog Devices AD1988b."
-msgstr ""
+msgstr "Injeta HDEF PinConfiguration para Dispositivos Analogicos AD1988b."
 
 #. type: "ALC888_PinConf_title"
 #: Resources/templates/Localizable.strings:468
@@ -1738,7 +1839,7 @@ msgstr "ALC888"
 #: Resources/templates/Localizable.strings:469
 #, no-wrap
 msgid "Set HDEF PinConfiguration for Realtek ALC888."
-msgstr ""
+msgstr "Injeta HDEF PinConfiguration para Realtek ALC888."
 
 #. type: "ALC1200_PinConf_title"
 #: Resources/templates/Localizable.strings:471
@@ -1750,7 +1851,7 @@ msgstr "ALC1200"
 #: Resources/templates/Localizable.strings:472
 #, no-wrap
 msgid "Set HDEF PinConfiguration for Realtek ALC1200."
-msgstr ""
+msgstr "Injeta HDEF PinConfiguration para Realtek ALC1200."
 
 #. type: "00_PinConf_title"
 #: Resources/templates/Localizable.strings:474
@@ -1762,7 +1863,7 @@ msgstr "00"
 #: Resources/templates/Localizable.strings:475
 #, no-wrap
 msgid "Set HDEF PinConfiguration for ???."
-msgstr ""
+msgstr "Injeta HDEF PinConfiguration para ???."
 
 #. type: "GraphicsEnabler_title"
 #: Resources/templates/Localizable.strings:479
@@ -1834,7 +1935,7 @@ msgstr "SkipIntelGfx=Yes"
 #: Resources/templates/Localizable.strings:495
 #, no-wrap
 msgid "Skip the GraphicsEnbaler autodetect for Intel based GPUs."
-msgstr ""
+msgstr "Saltar GraphicsEnbaler autodetectado para GPUs baseados em Intel."
 
 #. type: "SkipNvidiaGfx_title"
 #: Resources/templates/Localizable.strings:497
@@ -1846,7 +1947,7 @@ msgstr "SkipNvidiaGfx=Yes"
 #: Resources/templates/Localizable.strings:498
 #, no-wrap
 msgid "Skip the GraphicsEnbaler autodetect for NVIDIA based GPUs."
-msgstr ""
+msgstr "Saltar GraphicsEnabler autodectado para GPUs Baseadas em NVIDIA."
 
 #. type: "SkipAtiGfx_title"
 #: Resources/templates/Localizable.strings:500
@@ -1858,7 +1959,7 @@ msgstr "SkipAtiGfx=Yes"
 #: Resources/templates/Localizable.strings:501
 #, no-wrap
 msgid "Skip the GraphicsEnbaler autodetect for AMD/ATI based GPUs."
-msgstr ""
+msgstr "Saltar GraphicsEnabler autodetectado para GPUs baseadas em AMD/ATI."
 
 #. type: "EnableBacklight_title"
 #: Resources/templates/Localizable.strings:503
@@ -1870,7 +1971,7 @@ msgstr "EnableBacklight=Yes"
 #: Resources/templates/Localizable.strings:504
 #, no-wrap
 msgid "Enables Backlight options for laptop with nVidia cards."
-msgstr ""
+msgstr "Ativa opções Backlight para laptop com nVidia."
 
 #. type: "EnableDualLink_title"
 #: Resources/templates/Localizable.strings:506
@@ -1882,7 +1983,7 @@ msgstr "EnableDualLink=Yes"
 #: Resources/templates/Localizable.strings:507
 #, no-wrap
 msgid "Enables DualLink options for nVidia and ATi cards."
-msgstr ""
+msgstr "Ativa opções DualLink para nVidia e Ati. "
 
 #. type: "Verbose_title"
 #: Resources/templates/Localizable.strings:512
@@ -1958,6 +2059,9 @@ msgid ""
 "http://www.insanelymac.com/forum/topic/280062-waiting-for-root-device-when-kernel-cache-used-only-with-some-disks-fix/\n"
 "Findings credits to bcc9."
 msgstr ""
+"Info em: Esperando dispositivo root com uso de kernel cache só em alguns HD + FIX\n"
+"http://www.insanelymac.com/forum/topic/280062-waiting-for-root-device-when-kernel-cache-used-only-with-some-disks-fix/\n"
+"Créditos para bcc9."
 
 #. type: "Darkwake_title"
 #: Resources/templates/Localizable.strings:532
@@ -1984,6 +2088,8 @@ msgid ""
 "Avoiding the DMAR processing causing by VT-d function in Osx (Virtualization).\n"
 "More information by bcc9 here: http://www.insanelymac.com/forum/topic/282989-vtd0-fault-after-1082-google-hasnt-heard-of-it-any-help/#entry1867000"
 msgstr ""
+"Evitar o processo DMAR causado pela função VT -d em Osx (Virtualização).\n"
+"Por bcc9 Info here: http://www.insanelymac.com/forum/topic/282989-vtd0-fault-after-1082-google-hasnt-heard-of-it-any-help/#entry1867000"
 
 #. type: "mac-de_title"
 #: Resources/templates/Localizable.strings:542
@@ -2103,7 +2209,7 @@ msgstr "O tema Bullet por NoSmokingBandit"
 #: Resources/templates/Localizable.strings:582
 #, no-wrap
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 #. type: "Audio_description"
 #: Resources/templates/Localizable.strings:583
@@ -2175,7 +2281,7 @@ msgstr "HDEF Layout"
 #: Resources/templates/Localizable.strings:607
 #, no-wrap
 msgid "Set one HDEF Layout ID to use for your HDA controller."
-msgstr ""
+msgstr "Injeta um HDEF Layout ID para usar no seu controlador HDA."
 
 #. type: "HDAULayout_title"
 #: Resources/templates/Localizable.strings:610
@@ -2187,7 +2293,7 @@ msgstr "HDAU Layout"
 #: Resources/templates/Localizable.strings:611
 #, no-wrap
 msgid "Set one HDAU Layout ID to use for your HDMi controller."
-msgstr ""
+msgstr "Injeta um HDAU Layout ID para usar com seu controlador HDMi."
 
 #. type: "GmaIG_title"
 #: Resources/templates/Localizable.strings:614
@@ -2199,20 +2305,19 @@ msgstr "Intel HD4000 Layout"
 #: Resources/templates/Localizable.strings:615
 #, no-wrap
 msgid "Set one AAPL,ig-platform-id to use for your Intel HD4000."
-msgstr ""
+msgstr "Injeta um HDAU Layout ID para usar na sua Intel HD4000."
 
 #. type: "HDEFPinConfiguration_title"
 #: Resources/templates/Localizable.strings:618
 #, no-wrap
 msgid "HDEF PinConfiguration"
-msgstr ""
+msgstr "HDEF PinConfiguration"
 
 #. type: "HDEFPinConfiguration_description"
 #: Resources/templates/Localizable.strings:619
-#, fuzzy, no-wrap
-#| msgid "Set one resolution to use."
+#, no-wrap
 msgid "Set one HDEF PinConfiguration to use."
-msgstr "Configura a resolução do écran"
+msgstr "Injeta um HDEF PinConfiguration para usar."
 
 #. type: "Video_title"
 #: Resources/templates/Localizable.strings:622

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Chameleon 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-16 00:04+0200\n"
-"PO-Revision-Date: 2013-05-15 01:31+0000\n"
+"POT-Creation-Date: 2013-05-19 12:19+0200\n"
+"PO-Revision-Date: 2013-05-20 02:42+0000\n"
 "Last-Translator: !Xabbu <holger_frey07@web.de>\n"
 "Language-Team: de <de@li.org>\n"
 "Language: de\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Pootle 2.5.0-rc1\n"
-"X-POOTLE-MTIME: 1368581503.0\n"
+"X-POOTLE-MTIME: 1369017776.0\n"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:22
@@ -730,72 +730,63 @@ msgstr "Überspringt das Einlesen der SSDT-Tabellen des BIOS."
 
 #. type: "DropHPET_title"
 #: Resources/templates/Localizable.strings:154
-#, fuzzy, no-wrap
-#| msgid "DropSSDT=Yes"
+#, no-wrap
 msgid "DropHPET=Yes"
-msgstr "DropSSDT=Ja"
+msgstr "DropHPET=Ja"
 
 #. type: "DropHPET_description"
 #: Resources/templates/Localizable.strings:155
-#, fuzzy, no-wrap
-#| msgid "Discard the motherboard's built-in SSDT tables."
+#, no-wrap
 msgid "Discard the motherboard's built-in HPET table."
-msgstr "Überspringt das Einlesen der SSDT-Tabellen des BIOS."
+msgstr "Überspringt das Einlesen der HPET-Tabelle des BIOS."
 
 #. type: "DropSBST_title"
 #: Resources/templates/Localizable.strings:157
-#, fuzzy, no-wrap
-#| msgid "DropSSDT=Yes"
+#, no-wrap
 msgid "DropSBST=Yes"
-msgstr "DropSSDT=Ja"
+msgstr "DropSBST=Ja"
 
 #. type: "DropSBST_description"
 #: Resources/templates/Localizable.strings:158
-#, fuzzy, no-wrap
-#| msgid "Discard the motherboard's built-in SSDT tables."
+#, no-wrap
 msgid "Discard the motherboard's built-in SBST table."
-msgstr "Überspringt das Einlesen der SSDT-Tabellen des BIOS."
+msgstr "Überspringt das Einlesen der SBST-Tabelle des BIOS."
 
 #. type: "DropECDT_title"
 #: Resources/templates/Localizable.strings:160
-#, fuzzy, no-wrap
-#| msgid "DropSSDT=Yes"
+#, no-wrap
 msgid "DropECDT=Yes"
-msgstr "DropSSDT=Ja"
+msgstr "DropECDT=Ja"
 
 #. type: "DropECDT_description"
 #: Resources/templates/Localizable.strings:161
-#, fuzzy, no-wrap
-#| msgid "Discard the motherboard's built-in SSDT tables."
+#, no-wrap
 msgid "Discard the motherboard's built-in ECDT table."
-msgstr "Überspringt das Einlesen der SSDT-Tabellen des BIOS."
+msgstr "Überspringt das Einlesen der ECDT-Tabelle des BIOS."
 
 #. type: "DropASFT_title"
 #: Resources/templates/Localizable.strings:163
-#, fuzzy, no-wrap
-#| msgid "DropSSDT=Yes"
+#, no-wrap
 msgid "DropASFT=Yes"
-msgstr "DropSSDT=Ja"
+msgstr "DropASFT=Ja"
 
 #. type: "DropASFT_description"
 #: Resources/templates/Localizable.strings:164
-#, fuzzy, no-wrap
-#| msgid "Discard the motherboard's built-in SSDT tables."
+#, no-wrap
 msgid "Discard the motherboard's built-in ASF! table."
-msgstr "Überspringt das Einlesen der SSDT-Tabellen des BIOS."
+msgstr "Überspringt das Einlesen der ASFT-Tabelle des BIOS."
 
 #. type: "DropDMAR_title"
 #: Resources/templates/Localizable.strings:166
-#, fuzzy, no-wrap
-#| msgid "DropSSDT=Yes"
+#, no-wrap
 msgid "DropDMAR=Yes"
-msgstr "DropSSDT=Ja"
+msgstr "DropDMAR=Ja"
 
 #. type: "DropDMAR_description"
 #: Resources/templates/Localizable.strings:167
 #, no-wrap
 msgid "Discard the motherboard's built-in DMAR table, this key action resolve the problem with VT-d panics."
-msgstr ""
+msgstr "Uberspringt das Einlesen der DMAR Tabelle des BIOS, verhindert das Problem der VT-d Paniken."
 
 #. type: "EnableC2State_title"
 #: Resources/templates/Localizable.strings:169
@@ -871,10 +862,9 @@ msgstr "Generiert automatisch die P-States des Prozessors."
 
 #. type: "GenerateTStates_title"
 #: Resources/templates/Localizable.strings:187
-#, fuzzy, no-wrap
-#| msgid "GenerateCStates=Yes"
+#, no-wrap
 msgid "GenerateTStates=Yes"
-msgstr "GenerateCStates=Yes"
+msgstr "GenerateTStates=Ja"
 
 #. type: "GenerateTStates_description"
 #: Resources/templates/Localizable.strings:188
@@ -1897,7 +1887,7 @@ msgstr "EnableHDMIAudio=Ja"
 #: Resources/templates/Localizable.strings:483
 #, no-wrap
 msgid "Inject HDMi audio for NVIDIA or AMD/ATI."
-msgstr ""
+msgstr "Einfügen von HDMI Audio für NVIDIA oder AMD/ATI Karten."
 
 #. type: "UseAtiROM_title"
 #: Resources/templates/Localizable.strings:485
@@ -1993,7 +1983,7 @@ msgstr "EnableDualLink=Ja"
 #: Resources/templates/Localizable.strings:507
 #, no-wrap
 msgid "Enables DualLink options for nVidia and ATi cards."
-msgstr ""
+msgstr "Ermöglicht DualLink Optionen für NVIDIA und ATI Karten."
 
 #. type: "Verbose_title"
 #: Resources/templates/Localizable.strings:512
@@ -2218,10 +2208,9 @@ msgstr ""
 
 #. type: "Audio_description"
 #: Resources/templates/Localizable.strings:583
-#, fuzzy, no-wrap
-#| msgid "A selection of options that deal with video."
+#, no-wrap
 msgid "A selection of options that deal with audio."
-msgstr "Optionen zur Grafik."
+msgstr "Eine Auswahl von Optionen für Audio."
 
 #. type: "Control_title"
 #: Resources/templates/Localizable.strings:586
@@ -2287,7 +2276,7 @@ msgstr "HDEF Layout"
 #: Resources/templates/Localizable.strings:607
 #, no-wrap
 msgid "Set one HDEF Layout ID to use for your HDA controller."
-msgstr ""
+msgstr "Wähle eine HDEF Layout-ID zur Nutzung des HDA Kontrollers."
 
 #. type: "HDAULayout_title"
 #: Resources/templates/Localizable.strings:610
@@ -2299,7 +2288,7 @@ msgstr "HDAU Layout"
 #: Resources/templates/Localizable.strings:611
 #, no-wrap
 msgid "Set one HDAU Layout ID to use for your HDMi controller."
-msgstr ""
+msgstr "Wähle eine HDAU Layout-ID zur Nutzung des HDMI Kontrollers."
 
 #. type: "GmaIG_title"
 #: Resources/templates/Localizable.strings:614
@@ -2311,20 +2300,19 @@ msgstr "Intel HD4000 Layout"
 #: Resources/templates/Localizable.strings:615
 #, no-wrap
 msgid "Set one AAPL,ig-platform-id to use for your Intel HD4000."
-msgstr ""
+msgstr "Wähle eine AAPL,ig-platform-id zur Nutzung der Intel HD4000 Grafik."
 
 #. type: "HDEFPinConfiguration_title"
 #: Resources/templates/Localizable.strings:618
 #, no-wrap
 msgid "HDEF PinConfiguration"
-msgstr ""
+msgstr "HDEF PinKonfiguration"
 
 #. type: "HDEFPinConfiguration_description"
 #: Resources/templates/Localizable.strings:619
-#, fuzzy, no-wrap
-#| msgid "Set one resolution to use."
+#, no-wrap
 msgid "Set one HDEF PinConfiguration to use."
-msgstr "Setzt die Bildschirmauflösung für den Bootprozess."
+msgstr "Wähle die zu benutzende HDEF PinKonfiguration."
 
 #. type: "Video_title"
 #: Resources/templates/Localizable.strings:622

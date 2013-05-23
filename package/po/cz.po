@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Chameleon 2.1svn-r1870\n"
-"POT-Creation-Date: 2013-05-14 23:50+0200\n"
-"PO-Revision-Date: 2013-05-15 10:45+0000\n"
+"POT-Creation-Date: 2013-05-19 12:19+0200\n"
+"PO-Revision-Date: 2013-05-23 09:34+0000\n"
 "Last-Translator: martin63 <martin.badin@gmail.com>\n"
 "Language-Team: cs <cs@li.org>\n"
 "Language: cz\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Pootle 2.5.0-rc1\n"
-"X-POOTLE-MTIME: 1368614733.0\n"
+"X-POOTLE-MTIME: 1369301676.0\n"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:22
@@ -715,10 +715,9 @@ msgstr "Vyřadí SSDT tabulky obsažené v základní desce."
 
 #. type: "DropHPET_title"
 #: Resources/templates/Localizable.strings:154
-#, fuzzy, no-wrap
-#| msgid "DropSSDT=Yes"
+#, no-wrap
 msgid "DropHPET=Yes"
-msgstr "DropSSDT=Yes"
+msgstr "DropHPET=Yes"
 
 #. type: "DropHPET_description"
 #: Resources/templates/Localizable.strings:155
@@ -729,10 +728,9 @@ msgstr "Vyřadí SSDT tabulky obsažené v základní desce."
 
 #. type: "DropSBST_title"
 #: Resources/templates/Localizable.strings:157
-#, fuzzy, no-wrap
-#| msgid "DropSSDT=Yes"
+#, no-wrap
 msgid "DropSBST=Yes"
-msgstr "DropSSDT=Yes"
+msgstr "DropSBST=Yes"
 
 #. type: "DropSBST_description"
 #: Resources/templates/Localizable.strings:158
@@ -743,10 +741,9 @@ msgstr "Vyřadí SSDT tabulky obsažené v základní desce."
 
 #. type: "DropECDT_title"
 #: Resources/templates/Localizable.strings:160
-#, fuzzy, no-wrap
-#| msgid "DropSSDT=Yes"
+#, no-wrap
 msgid "DropECDT=Yes"
-msgstr "DropSSDT=Yes"
+msgstr "DropECDT=Yes"
 
 #. type: "DropECDT_description"
 #: Resources/templates/Localizable.strings:161
@@ -757,10 +754,9 @@ msgstr "Vyřadí SSDT tabulky obsažené v základní desce."
 
 #. type: "DropASFT_title"
 #: Resources/templates/Localizable.strings:163
-#, fuzzy, no-wrap
-#| msgid "DropSSDT=Yes"
+#, no-wrap
 msgid "DropASFT=Yes"
-msgstr "DropSSDT=Yes"
+msgstr "DropASFT=Yes"
 
 #. type: "DropASFT_description"
 #: Resources/templates/Localizable.strings:164
@@ -771,10 +767,9 @@ msgstr "Vyřadí SSDT tabulky obsažené v základní desce."
 
 #. type: "DropDMAR_title"
 #: Resources/templates/Localizable.strings:166
-#, fuzzy, no-wrap
-#| msgid "DropSSDT=Yes"
+#, no-wrap
 msgid "DropDMAR=Yes"
-msgstr "DropSSDT=Yes"
+msgstr "DropDMAR=Yes"
 
 #. type: "DropDMAR_description"
 #: Resources/templates/Localizable.strings:167
