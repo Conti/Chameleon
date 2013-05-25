@@ -80,6 +80,18 @@ Dependencies: none";
 "KextPatcher_description" = "The KextPatcher module provides patches for the following:
 Dependencies: none";
 
+"NVIDIAGraphicsEnabler_title" = "NVIDIAGraphicsEnabler";
+"NVIDIAGraphicsEnabler_description" = "The GraphicsEnabler nVidia code ported to a module.
+Dependencies: none";
+
+"AMDGraphicsEnabler_title" = "AMDGraphicsEnabler";
+"AMDGraphicsEnabler_description" = "The GraphicsEnabler AMD/ATi code ported to a module.
+Dependencies: none";
+
+"IntelGraphicsEnabler_title" = "IntelGraphicsEnabler";
+"IntelGraphicsEnabler_description" = "The GraphicsEnabler gma(Intel) code ported to a module.
+Dependencies: none";
+
 // ============================================================================
 // Boot Options - The follow options are split to match the layout OptionalSettings text files.
 // but they can be changed to suit however anyone wants to do it.
@@ -531,6 +543,12 @@ Findings credits to bcc9.";
 
 "Darkwake_title" = "darkwake=0";
 "Darkwake_description" = "Lion only. Disables the 'low power wake' feature which can sometimes leave the screen black after wake from sleep.";
+
+"NvdaDrv1_title" = "nvda_drv=1";
+"NvdaDrv1_description" = "It introduces a new Preference Pane under System Preferences that allows you to enable the Nvidia Web Driver.
+Info here: New Nvidia Retail Driver Install Solution
+http://www.insanelymac.com/forum/topic/288582-new-nvidia-retail-driver-install-solution/
+Findings credits to meklort and Rampage Dev.";
 
 "Dart0_title" = "dart=0";
 "Dart0_description" = "Avoiding the DMAR processing causing by VT-d function in Osx (Virtualization).

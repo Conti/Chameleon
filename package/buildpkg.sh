@@ -31,6 +31,9 @@ export LC_CTYPE='C'
 # ====== CONFIGURATION ======
 CONFIG_MODULES=""
 CONFIG_ACPICODEC_MODULE=""
+CONFIG_AMDGE_MODULE=""
+CONFIG_GMAGE_MODULE=""
+CONFIG_NVIDIAGE_MODULE=""
 CONFIG_KERNELPATCHER_MODULE=""
 CONFIG_KEXTPATCHER_MODULE=""
 CONFIG_KEYLAYOUT_MODULE=""
@@ -531,13 +534,18 @@ if [[ "${CONFIG_MODULES}" == 'y' ]];then
     # Supported Modules           #
     ###############################
     # ACPICodec.dylib             #
+    # AMDGraphicsEnabler.dylib    #
+    # ATiGraphicsEnabler.dylib    #
+    # FileNVRAM.dylib             #
+    # HDAEnabler.dylib            #
+    # HelloWorld.dylib            #
+    # IntelGraphicsEnabler.dylib  #
     # KernelPatcher.dylib         #
     # KextPatcher.dylib           #
     # Keylayout.dylib             #
     # klibc.dylib                 #
+    # NVDIAGraphicEnabler.dylib   #
     # Resolution.dylib            #
-    # HDAEnabler.dylib            #
-    # FileNVRAM.dylib             #
     # Sata.dylib                  #
     # uClibcxx.dylib              #
     ###############################
@@ -562,6 +570,63 @@ if [[ "${CONFIG_MODULES}" == 'y' ]];then
             buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/Extra/modules"
             addChoice --group="Module"  --start-selected="false"  --pkg-refs="$packageRefId" "${choiceId}"
             # End build ACPICodec package module
+        }
+        fi
+# -
+        if [[ "${CONFIG_NVIDIAGE_MODULE}" == 'y' && -f "${SYMROOT}/i386/modules/NVIDIAGraphicEnabler.dylib" ]]; then
+        {
+            # Start build NvidiaGraphicsEnabler package module
+            choiceId="NVIDIAGraphicsEnabler"
+            moduleFile="NVIDIAGraphicEnabler.dylib"
+            mkdir -p "${PKG_BUILD_DIR}/${choiceId}/Root"
+            ditto --noextattr --noqtn "${SYMROOT}/i386/modules/$moduleFile" "${PKG_BUILD_DIR}/${choiceId}/Root"
+            addTemplateScripts --pkg-rootdir="${PKG_BUILD_DIR}/${choiceId}" \
+                               --subst="moduleName=$choiceId"               \
+                               --subst="moduleFile=$moduleFile"             \
+                               InstallModule
+
+            packageRefId=$(getPackageRefId "${modules_packages_identity}" "${choiceId}")
+            buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/Extra/modules"
+            addChoice --group="Module"  --start-selected="false"  --pkg-refs="$packageRefId" "${choiceId}"
+            # End build NvidiaGraphicsEnabler package module
+        }
+        fi
+# -
+        if [[ "${CONFIG_AMDGE_MODULE}" == 'y' && -f "${SYMROOT}/i386/modules/AMDGraphicsEnabler.dylib" ]]; then
+        {
+            # Start build AMDGraphicsEnabler package module
+            choiceId="AMDGraphicsEnabler"
+            moduleFile="AMDGraphicsEnabler_title.dylib"
+            mkdir -p "${PKG_BUILD_DIR}/${choiceId}/Root"
+            ditto --noextattr --noqtn "${SYMROOT}/i386/modules/$moduleFile" "${PKG_BUILD_DIR}/${choiceId}/Root"
+            addTemplateScripts --pkg-rootdir="${PKG_BUILD_DIR}/${choiceId}" \
+                               --subst="moduleName=$choiceId"               \
+                               --subst="moduleFile=$moduleFile"             \
+                               InstallModule
+
+            packageRefId=$(getPackageRefId "${modules_packages_identity}" "${choiceId}")
+            buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/Extra/modules"
+            addChoice --group="Module"  --start-selected="false"  --pkg-refs="$packageRefId" "${choiceId}"
+            # End build AMDGraphicsEnabler package module
+        }
+        fi
+# -
+        if [[ "${CONFIG_GMAGE_MODULE}" == 'y' && -f "${SYMROOT}/i386/modules/IntelGraphicsEnabler.dylib" ]]; then
+        {
+            # Start build IntelGraphicsEnabler package module
+            choiceId="IntelGraphicsEnabler"
+            moduleFile="IntelGraphicsEnabler_title.dylib"
+            mkdir -p "${PKG_BUILD_DIR}/${choiceId}/Root"
+            ditto --noextattr --noqtn "${SYMROOT}/i386/modules/$moduleFile" "${PKG_BUILD_DIR}/${choiceId}/Root"
+            addTemplateScripts --pkg-rootdir="${PKG_BUILD_DIR}/${choiceId}" \
+                               --subst="moduleName=$choiceId"               \
+                               --subst="moduleFile=$moduleFile"             \
+                               InstallModule
+
+            packageRefId=$(getPackageRefId "${modules_packages_identity}" "${choiceId}")
+            buildpackage "$packageRefId" "${choiceId}" "${PKG_BUILD_DIR}/${choiceId}" "/Extra/modules"
+            addChoice --group="Module"  --start-selected="false"  --pkg-refs="$packageRefId" "${choiceId}"
+            # End build IntelGraphicsEnabler package module
         }
         fi
 # -

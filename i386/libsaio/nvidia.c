@@ -1037,6 +1037,7 @@ static nvidia_pci_info_t nvidia_card_generic[] = {
 	{ 0x10DE0FFF,	"Quadro 410" },
 	// 1000 - 100F
 	{ 0x10DE1003,	"GeForce GTX Titan LE" },
+	{ 0x10DE1004,	"GeForce GTX 780" },
 	{ 0x10DE1005,	"GeForce GTX Titan" },
 	// 1010 - 101F
 	{ 0x10DE101F,	"Tesla K20" },
@@ -1054,6 +1055,7 @@ static nvidia_pci_info_t nvidia_card_generic[] = {
 	{ 0x10DE1048,	"GeForce 605" },
 	{ 0x10DE1049,	"GeForce GT 620" },
 	{ 0x10DE104A,	"GeForce GT 610" },
+	{ 0x10DE104B,	"GeForce GT 625" },
 	// 1050 - 105F
 	{ 0x10DE1050,	"GeForce GT 520M" },
 	{ 0x10DE1051,	"GeForce GT 520MX" },
@@ -1065,6 +1067,7 @@ static nvidia_pci_info_t nvidia_card_generic[] = {
 	{ 0x10DE1058,	"GeForce GT 610M" },
 	{ 0x10DE1059,	"GeForce 610M" },
 	{ 0x10DE105A,	"GeForce 610M" },
+	{ 0x10DE105B,	"GeForce 705A" },
 	// 1060 - 106F
 	// 1070 - 107F
 	{ 0x10DE107C,	"Quadro NVS 315" },
@@ -1949,11 +1952,11 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 					printf("ERROR: Unable to locate nVidia Video BIOS\n");
 					return false;
 				}
-                else
-                {
-                    DBG("ROM Address 0x%x Signature 0x%02x%02x\n", nvRom, rom[0], rom[1]);
-                }
-            			}//end PRAM check
+                		else
+                		{
+                			    DBG("ROM Address 0x%x Signature 0x%02x%02x\n", nvRom, rom[0], rom[1]);
+                		}
+            		}//end PRAM check
                 }//end PROM check
     	}//end load rom from bios
 

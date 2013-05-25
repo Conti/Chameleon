@@ -32,4 +32,5 @@ List@Npci:Kernel Flags=npci=0x2000
 List@Npci3:Kernel Flags=npci=0x3000
 List@WaitingRootDevice:Kernel Flags=ahcidisk=1 debug=8
 List@Darkwake:Kernel Flags=darkwake=0
+List@NvdaDrv1:Kernel Flags=nvda_drv=1
 List@Dart0:Kernel Flags=dart=0

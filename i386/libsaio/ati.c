@@ -330,7 +330,7 @@ static radeon_card_info_t radeon_cards[] = {
 
 	{ 0x9553,	0x18751043, CHIP_FAMILY_RV710,		"ATI Mobility Radeon HD 4570",			kShrike		},
 	{ 0x9553,	0x1B321043, CHIP_FAMILY_RV710,		"ATI Mobility Radeon HD 4570",			kShrike		},
-	{ 0x9553,	0x215B17AA, CHIP_FAMILY_RV710,		"ATI Mobility Radeon HD 4530/4570",			kShrike		},
+	{ 0x9553,	0x215B17AA, CHIP_FAMILY_RV710,		"ATI Mobility Radeon HD 4530/4570",		kShrike		},
 	{ 0x9553,	0x3092174B, CHIP_FAMILY_RV710,		"ATI Radeon HD 4300/4500 Series",		kPeregrine		},
 	{ 0x9553,	0x39291642, CHIP_FAMILY_RV710,		"ATI Mobility Radeon HD 4570",			kPeregrine		},
 	{ 0x9553,	0xFD001179, CHIP_FAMILY_RV710,		"ATI Mobility Radeon HD 5145",			kPeregrine		},
@@ -558,6 +558,7 @@ static radeon_card_info_t radeon_cards[] = {
 	{ 0x68D8,	0x03561043, CHIP_FAMILY_REDWOOD,	"ATI Radeon HD 5670",                   kBaboon		},
 	{ 0x68D8,	0x03C01043, CHIP_FAMILY_REDWOOD,	"ATI Radeon HD 5670",                   kNull		},
 	{ 0x68D8,	0x20091787, CHIP_FAMILY_REDWOOD,	"ATI Radeon HD 5670",                   kNull		},
+	{ 0x68D8,	0x200B1787, CHIP_FAMILY_REDWOOD,	"HIS ATI HD5670 XT Redwood ICEQ",       kBaboon		}, // catalinz
 	{ 0x68D8,	0x21D91458, CHIP_FAMILY_REDWOOD,	"ATI Radeon HD 5670",                   kBaboon		},
 	{ 0x68D8,	0x21F41458, CHIP_FAMILY_REDWOOD,	"ATI Radeon HD 5670",                   kNull		},
 	{ 0x68D8,	0x22051462, CHIP_FAMILY_REDWOOD,	"ATI Radeon HD 5690",                   kNull		},
@@ -850,6 +851,13 @@ static radeon_card_info_t radeon_cards[] = {
 	{ 0x6760,	0x1CB21043, CHIP_FAMILY_CAICOS,		"AMD Radeon HD 6470M",                  kIpomoea	},
 	{ 0x6760,	0x20011043, CHIP_FAMILY_CAICOS,		"AMD Radeon HD 6470M",                  kIpomoea	},
 	{ 0x6760,	0x85171043, CHIP_FAMILY_CAICOS,		"AMD Radeon HD 7470M",                  kNull		},
+
+	{ 0x6778,	0x00241019, CHIP_FAMILY_CAICOS,		"AMD Radeon HD 7470",                   kBulrushes	}, // Elitegroup
+	{ 0x6778,	0x00271019, CHIP_FAMILY_CAICOS,		"AMD Radeon HD 8470",                   kBulrushes	}, // Elitegroup
+	{ 0x6778,	0x21201028, CHIP_FAMILY_CAICOS,		"AMD Radeon HD 7470",                   kBulrushes	}, // Dell
+	{ 0x6778,	0xB4911462, CHIP_FAMILY_CAICOS,		"AMD Radeon HD 8470",                   kBulrushes	}, // MSi
+	{ 0x6778,	0xB4921462, CHIP_FAMILY_CAICOS,		"AMD Radeon HD 8470",                   kBulrushes	}, // MSi
+	{ 0x6778,	0xB4931462, CHIP_FAMILY_CAICOS,		"AMD Radeon HD 8470",                   kBulrushes	}, // MSi
 
 	{ 0x6779,	0x00001002, CHIP_FAMILY_CAICOS,		"AMD Radeon HD 6450",                   kBulrushes	},
 	{ 0x6779,	0x03DA1043, CHIP_FAMILY_CAICOS,		"AMD Radeon HD 6450",                   kBulrushes	},
@@ -1156,7 +1164,7 @@ static radeon_card_info_t radeon_cards[] = {
 	{ 0x71C3,	0x00000000, CHIP_FAMILY_RV530,		"ATI Radeon HD Desktop ",               kWormy		 },
 	{ 0x71C4,	0x00000000, CHIP_FAMILY_RV530,		"ATI Radeon HD Mobile ",                kWormy		 },
 
-	{ 0x71C5,	0x00000000, CHIP_FAMILY_RV530,		"ATI Radeon HD Mobile ",                kWormy		 },
+	{ 0x71C5,	0x00000000, CHIP_FAMILY_RV530,		"ATI Radeon HD 1600 Mobile ",                kWormy		 },
 	{ 0x71C6,	0x00000000, CHIP_FAMILY_RV530,		"ATI Radeon HD Desktop ",               kWormy		 },
 	{ 0x71C7,	0x00000000, CHIP_FAMILY_RV530,		"ATI Radeon HD Desktop ",               kWormy		 },
 
@@ -1194,7 +1202,7 @@ static radeon_card_info_t radeon_cards[] = {
 	{ 0x724E,	0x00000000, CHIP_FAMILY_R580,		"ATI Radeon HD Desktop ",               kAlopias		 },
 	{ 0x724F,	0x00000000, CHIP_FAMILY_R580,		"ATI Radeon HD Desktop ",               kAlopias		 },
 
-	{ 0x7280,	0x00000000, CHIP_FAMILY_RV570,		"ATI Radeon HD Desktop ",               kAlopias		 },
+	{ 0x7280,	0x00000000, CHIP_FAMILY_RV570,		"ATI Radeon HD X1950 Pro ",               kAlopias		 },
 	{ 0x7281,	0x00000000, CHIP_FAMILY_RV560,		"ATI Radeon HD Desktop ",               kAlopias		 },
 	{ 0x7283,	0x00000000, CHIP_FAMILY_RV560,		"ATI Radeon HD Desktop ",               kAlopias		 },
 	{ 0x7284,	0x00000000, CHIP_FAMILY_R580,		"ATI Radeon HD Mobile ",                kAlopias		 },
@@ -1233,9 +1241,9 @@ static radeon_card_info_t radeon_cards[] = {
 	{ 0x940B,	0x00000000, CHIP_FAMILY_R600,		"ATI Radeon HD 2900 GT",                kNull		},
 	{ 0x940F,	0x00000000, CHIP_FAMILY_R600,		"ATI Radeon HD 2900 GT",                kNull		},
 
-	{ 0x9440,	0x00000000, CHIP_FAMILY_RV770,		"ATI Radeon HD 4800 Series",		kMotmot		},
+	{ 0x9440,	0x00000000, CHIP_FAMILY_RV770,		"ATI Radeon HD 4870 ",		kMotmot		},
 	{ 0x9441,	0x00000000, CHIP_FAMILY_RV770,		"ATI Radeon HD 4870 X2",                kMotmot		},
-	{ 0x9442,	0x00000000, CHIP_FAMILY_RV770,		"ATI Radeon HD 4800 Series",		kMotmot		},
+	{ 0x9442,	0x00000000, CHIP_FAMILY_RV770,		"ATI Radeon HD 4850 Series",		kMotmot		},
 	{ 0x9443,	0x00000000, CHIP_FAMILY_RV770,		"ATI Radeon HD 4850 X2",                kMotmot		},
 	{ 0x9444,	0x00000000, CHIP_FAMILY_RV770,		"ATI FirePro V8750 (FireGL)",           kMotmot		},
 	{ 0x9446,	0x00000000, CHIP_FAMILY_RV770,		"ATI FirePro V7770 (FireGL)",		kMotmot		},
@@ -1349,9 +1357,11 @@ static radeon_card_info_t radeon_cards[] = {
 
 	{ 0x9598,	0x00000000, CHIP_FAMILY_RV630,		"ATI Radeon HD 3600 Series",			kMegalodon	},
 
-	{ 0x95C0,	0x00000000, CHIP_FAMILY_RV620,		"ATI Radeon HD 3400 Series",			kIago		},
+	{ 0x95C0,	0x00000000, CHIP_FAMILY_RV620,		"ATI Radeon HD 3550 Series",			kIago		},
 
-	{ 0x95C5,	0x00000000, CHIP_FAMILY_RV620,		"ATI Radeon HD 3400 Series",			kIago		},
+	{ 0x95C4,	0x00000000, CHIP_FAMILY_RV620,		"ATI Radeon HD 3470 Series",			kIago		},
+
+	{ 0x95C5,	0x00000000, CHIP_FAMILY_RV620,		"ATI Radeon HD 3450 Series",			kIago		},
 
 	/* IGP */
 	{ 0x9610,	0x00000000, CHIP_FAMILY_RS780,		"ATI Radeon HD 3200 Graphics",			kNull		},
@@ -1906,7 +1916,7 @@ bool read_vbios(bool from_pci)
 	if (from_pci)
 	{
 		rom_addr = (option_rom_header_t *)(pci_config_read32(card->pci_dev->dev.addr, PCI_ROM_ADDRESS) & ~0x7ff);
-		verbose(" @0x%x", rom_addr);
+		verbose(" @0x%x\n", rom_addr);
 	}
 	else
 		rom_addr = (option_rom_header_t *)0xc0000;
@@ -2111,8 +2121,8 @@ static bool init_card(pci_dt_t *pci_dev)
 
 	if (card->info == NULL) // Jief
 	{
-		verbose("Unsupported ATI card! Device ID: [%04x:%04x] Subsystem ID: [%08x] \n", 
-				pci_dev->vendor_id, pci_dev->device_id, pci_dev->subsys_id);
+		verbose("Unsupported ATI card! Device ID: [%04x:%04x] Subsystem ID: [%04x:%04x] \n", 
+				pci_dev->vendor_id, pci_dev->device_id, pci_dev->subsys_id.subsys.vendor_id, pci_dev->subsys_id.subsys.device_id);
 		return false;
 	}
 	
@@ -2243,7 +2253,7 @@ bool setup_ati_devprop(pci_dt_t *ati_dev)
 			ati_dev->vendor_id, ati_dev->device_id,
 			ati_dev->subsys_id.subsys.vendor_id, ati_dev->subsys_id.subsys.device_id,
 			devicepath);
-	
+
 	free(card);
 	
 	return true;
