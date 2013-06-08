@@ -96,6 +96,7 @@ Dependencies: none";
 // Boot Options - The follow options are split to match the layout OptionalSettings text files.
 // but they can be changed to suit however anyone wants to do it.
 // ----------------------------------------------------------------------------
+
 "Options_title" = "Settings";
 "Options_description" = "Create an /Extra/org.chameleon.Boot.plist by selecting any of these boot options and kernel flags.";
 
@@ -258,6 +259,10 @@ Dependencies: none";
 "HDEFLayoutIDx12_description" = "Set HDEF layout-it to 12:
 00C (0x0C, 0x00, 0x00, 0x00).";
 
+"HDEFLayoutIDx32_title" = "LayoutID=32";
+"HDEFLayoutIDx32_description" = "Set HDEF layout-it to 32:
+020 (0x20, 0x00, 0x00, 0x00).";
+
 "HDEFLayoutIDx40_title" = "LayoutID=40";
 "HDEFLayoutIDx40_description" = "Set HDEF layout-it to 40:
 028 (0x28, 0x00, 0x00, 0x00).";
@@ -351,6 +356,10 @@ Dependencies: none";
 "HDAULayoutIDx12_title" = "LayoutID=12";
 "HDAULayoutIDx12_description" = "Set HDAU layout-it to 12:
 00C (0x0C, 0x00, 0x00, 0x00).";
+
+"HDAULayoutIDx32_title" = "LayoutID=32";
+"HDAULayoutIDx32_description" = "Set HDAU layout-it to 32:
+020 (0x20, 0x00, 0x00, 0x00).";
 
 "HDAULayoutIDx40_title" = "LayoutID=40";
 "HDAULayoutIDx40_description" = "Set HDAU layout-it to 40:
@@ -521,6 +530,7 @@ Dependencies: none";
 // ----------------------------------------------------------------------------
 // Boot options - KERNEL FLAGS
 // ----------------------------------------------------------------------------
+
 "Verbose_title" = "Verbose Mode";
 "Verbose_description" = "Turns on verbose logging and allows you to see messages from both Chameleon and the OS X kernel at boot time. Essential for troubleshooting.";
 
@@ -557,6 +567,7 @@ More information by bcc9 here: http://www.insanelymac.com/forum/topic/282989-vtd
 // ----------------------------------------------------------------------------
 // Boot options - KEYMAPS
 // ----------------------------------------------------------------------------
+
 "mac-de_title" = "German Mac Keyboard";
 "mac-de_description" = "Use the keyboard layout for a German Mac keyboard";
 
@@ -579,6 +590,7 @@ More information by bcc9 here: http://www.insanelymac.com/forum/topic/282989-vtd
 // ----------------------------------------------------------------------------
 // Boot options - THEMES
 // ----------------------------------------------------------------------------
+
 "Embed_title" = "Embed";
 "Embed_description" = "A smaller simple version of the new default theme used when building a version of Chameleon which requires an embedded theme.";
 
@@ -596,6 +608,7 @@ More information by bcc9 here: http://www.insanelymac.com/forum/topic/282989-vtd
 // The filenames from OptionalSettings text files' become sub menu headings.
 // These sub menu headings need titles and descriptions.
 // ----------------------------------------------------------------------------
+
 // Audio
 "Audio_title" = "Audio";
 "Audio_description" = "A selection of options that deal with audio.";

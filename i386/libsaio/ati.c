@@ -63,7 +63,6 @@ static const char *chip_family_name[] = {
 	""
 };
 
-
 static card_config_t card_configs[] = {
 	{NULL,		0},
 	/* OLDController */
@@ -137,10 +136,6 @@ static card_config_t card_configs[] = {
 	{"Ikura",       6},
 	{"IkuraS",      1}
 };
-
-
-
-
 
 static radeon_card_info_t radeon_cards[] = {
 	
@@ -834,6 +829,8 @@ static radeon_card_info_t radeon_cards[] = {
 	{ 0x6758,	0xE194174B, CHIP_FAMILY_TURKS,		"AMD Radeon HD 6670",                   kMangabey	}, 
 
 	{ 0x6759,	0x20121787, CHIP_FAMILY_TURKS,		"AMD Radeon HD 6570",                   kPithecia	},
+	{ 0x6759,	0x31951682, CHIP_FAMILY_TURKS,		"AMD Radeon HD 6570",                   kGibba	},
+	{ 0x6759,	0x32801682, CHIP_FAMILY_TURKS,		"AMD Radeon HD 7570",                   kPithecia	},
 	{ 0x6759,	0xE193174B, CHIP_FAMILY_TURKS,		"AMD Radeon HD 6570",                   kPithecia	},
 
 	{ 0x675F,	0x23141787, CHIP_FAMILY_TURKS,		"AMD Radeon HD 5570",                   kNull		},
@@ -1567,7 +1564,7 @@ static radeon_card_info_t radeon_cards[] = {
 dev_prop_t ati_devprop_list[] = {
 	{FLAGTRUE,	false,	"@0,AAPL,boot-display",		get_bootdisplay_val,	NULVAL							},
 //	{FLAGTRUE,	false,	"@0,ATY,EFIDisplay",		NULL,					STRVAL("TMDSA")					},
-	
+
 //	{FLAGTRUE,	true,	"@0,AAPL,vram-memory",		get_vrammemory_val,		NULVAL							},
 //	{FLAGTRUE,	true,	"@0,compatible",			get_name_val,			NULVAL							},
 //	{FLAGTRUE,	true,	"@0,connector-type",		get_conntype_val,		NULVAL							},
@@ -1576,28 +1573,28 @@ dev_prop_t ati_devprop_list[] = {
 //	{FLAGTRUE,	true,	"@0,display-type",			NULL,					STRVAL("NONE")					},
 	{FLAGTRUE,	true,	"@0,name",					get_name_val,			NULVAL							},
 //	{FLAGTRUE,	true,	"@0,VRAM,memsize",			get_vrammemsize_val,	NULVAL							},
-	
-//	{FLAGTRUE,	false,	"AAPL,aux-power-connected", NULL,					DWRVAL((uint32_t)1)				},
+
+//	{FLAGTRUE,	false,	"AAPL,aux-power-connected",		NULL,					DWRVAL((uint32_t)1)				},
 //	{FLAGTRUE,	false,	"AAPL,backlight-control",	NULL,					DWRVAL((uint32_t)0)				},
 	{FLAGTRUE,	false,	"ATY,bin_image",			get_binimage_val,		NULVAL							},
 	{FLAGTRUE,	false,	"ATY,Copyright",			NULL,	STRVAL("Copyright AMD Inc. All Rights Reserved. 2005-2010") },
 	{FLAGTRUE,	false,	"ATY,Card#",				get_romrevision_val,	NULVAL							},
 	{FLAGTRUE,	false,	"ATY,VendorID",				NULL,					WRDVAL((uint16_t)0x1002)		},
 	{FLAGTRUE,	false,	"ATY,DeviceID",				get_deviceid_val,		NULVAL							},
-	
-//	{FLAGTRUE,	false,	"ATY,MCLK",					get_mclk_val,			NULVAL							},
-//	{FLAGTRUE,	false,	"ATY,SCLK",					get_sclk_val,			NULVAL							},
+
+//	{FLAGTRUE,	false,	"ATY,MCLK",				get_mclk_val,			NULVAL							},
+//	{FLAGTRUE,	false,	"ATY,SCLK",				get_sclk_val,			NULVAL							},
 //	{FLAGTRUE,	false,	"ATY,RefCLK",				get_refclk_val,			DWRVAL((uint32_t)0x0a8c)		},
 	
 //	{FLAGTRUE,	false,	"ATY,PlatformInfo",			get_platforminfo_val,	NULVAL							},
-	
-	{FLAGTRUE,	false,	"name",						get_nameparent_val,		NULVAL							},
+
+	{FLAGTRUE,	false,	"name",					get_nameparent_val,		NULVAL							},
 	{FLAGTRUE,	false,	"device_type",				get_nameparent_val,		NULVAL							},
-	{FLAGTRUE,	false,	"model",					get_model_val,			STRVAL("ATI Radeon")			},
+	{FLAGTRUE,	false,	"model",				get_model_val,			STRVAL("ATI Radeon")			},
 //	{FLAGTRUE,	false,	"VRAM,totalsize",			get_vramtotalsize_val,	NULVAL							},
-	{FLAGTRUE,	false, "hda-gfx",					get_hdmiaudio,	NULVAL},
-	
-	{FLAGTRUE,	false,	NULL,						NULL,					NULVAL							}
+	{FLAGTRUE,	false,	"hda-gfx",				get_hdmiaudio,	NULVAL},
+
+	{FLAGTRUE,	false,	NULL,					NULL,					NULVAL							}
 };
 
 bool get_hdmiaudio(value_t * val)
@@ -1618,11 +1615,13 @@ bool get_bootdisplay_val(value_t *val)
 	static uint32_t v = 0;
 	
 	if (v)
+	{
 		return false;
-	
+	}
 	if (!card->posted)
+	{
 		return false;
-	
+	}
 	v = 1;
 	val->type = kCst;
 	val->size = 4;
@@ -1669,9 +1668,13 @@ bool get_model_val(value_t *val)
 bool get_conntype_val(value_t *val)
 {
 //Connector types:
-//0x4 : DisplayPort
-//0x400: DL DVI-I
-//0x800: HDMI
+//0x00000010: VGA
+//0x00000004: DL DVI-I
+//0x00000200: SL DVI-I
+//0x00000080: S-V
+//0x00000800: HDMI
+//0x00000400: DisplayPort
+//0x00000002: LVDS
 
 	return false;
 }
@@ -1684,8 +1687,9 @@ bool get_vrammemsize_val(value_t *val)
 	idx++;
 	memsize = ((uint64_t)card->vram_size << 32);
 	if (idx == 0)
+	{
 		memsize = memsize | (uint64_t)card->vram_size;
-	
+	}
 	val->type = kCst;
 	val->size = 8;
 	val->data = (uint8_t *)&memsize;
@@ -1696,8 +1700,9 @@ bool get_vrammemsize_val(value_t *val)
 bool get_binimage_val(value_t *val)
 {
 	if (!card->rom)
+	{
 		return false;
-	
+	}
 	val->type = kPtr;
 	val->size = card->rom_size;
 	val->data = card->rom;
@@ -1709,7 +1714,9 @@ bool get_romrevision_val(value_t *val)
 {
 	uint8_t *rev;
 	if (!card->rom)
+	{
 		return false;
+	}
 
 	rev = card->rom + *(uint8_t *)(card->rom + OFFSET_TO_GET_ATOMBIOS_STRINGS_START);
 
@@ -1718,7 +1725,9 @@ bool get_romrevision_val(value_t *val)
 	val->data = malloc(val->size);
 	
 	if (!val->data)
+	{
 		return false;
+	}
 
 	memcpy(val->data, rev, val->size);
 	
@@ -1753,8 +1762,9 @@ bool get_platforminfo_val(value_t *val)
 {
 	val->data = malloc(0x80);
 	if (!val->data)
+	{
 		return false;
-	
+	}
 	bzero(val->data, 0x80);
 	
 	val->type		= kPtr;
@@ -1766,6 +1776,7 @@ bool get_platforminfo_val(value_t *val)
 
 bool get_vramtotalsize_val(value_t *val)
 {
+
 	val->type = kCst;
 	val->size = 4;
 	val->data = (uint8_t *)&card->vram_size;
@@ -1776,15 +1787,17 @@ bool get_vramtotalsize_val(value_t *val)
 void free_val(value_t *val)
 {
 	if (val->type == kPtr)
+	{
 		free(val->data);
+	}
 	
 	bzero(val, sizeof(value_t));
 }
 
 void devprop_add_list(dev_prop_t devprop_list[])
 {
-	value_t *val = malloc(sizeof(value_t));
 	int i, pnum;
+	value_t *val = malloc(sizeof(value_t));
 	
 	for (i = 0; devprop_list[i].name != NULL; i++)
 	{
@@ -1846,15 +1859,21 @@ bool validate_rom(option_rom_header_t *rom_header, pci_dt_t *pci_dev)
 	option_rom_pci_header_t *rom_pci_header;
 	
 	if (rom_header->signature != 0xaa55)
+	{
 		return false;
+	}
 
 	rom_pci_header = (option_rom_pci_header_t *)((uint8_t *)rom_header + rom_header->pci_header_offset);
 	
 	if (rom_pci_header->signature != 0x52494350)
+	{
 		return false;
+	}
 	
 	if (rom_pci_header->vendor_id != pci_dev->vendor_id || rom_pci_header->device_id != pci_dev->device_id)
+	{
 		return false;
+	}
 	
 	return true;
 }
@@ -1867,16 +1886,22 @@ bool load_vbios_file(const char *key, uint16_t vendor_id, uint16_t device_id, ui
 
 	getBoolForKey(key, &do_load, &bootInfo->chameleonConfig);
 	if (!do_load)
+	{
 		return false;
+	}
 
 	sprintf(file_name, "/Extra/%04x_%04x_%08x.rom", vendor_id, device_id, subsys_id);
 	if ((fd = open_bvdev("bt(0,0)", file_name, 0)) < 0)
+	{
 		return false;
+	}
 
 	card->rom_size = file_size(fd);
 	card->rom = malloc(card->rom_size);
 	if (!card->rom)
+	{
 		return false;
+	}
 
 	read(fd, (char *)card->rom, card->rom_size);
 
@@ -1901,12 +1926,18 @@ void get_vram_size(void)
 	card->vram_size = 0;
 
 	if (chip_family >= CHIP_FAMILY_CEDAR)
+	{
 		// size in MB on evergreen
 		// XXX watch for overflow!!!
 		card->vram_size = RegRead32(R600_CONFIG_MEMSIZE) * 1024 * 1024;
+	}
 	else
+	{
 		if (chip_family >= CHIP_FAMILY_R600)
+		{
 			card->vram_size = RegRead32(R600_CONFIG_MEMSIZE);
+		}
+	}
 }
 
 bool read_vbios(bool from_pci)
@@ -1922,11 +1953,14 @@ bool read_vbios(bool from_pci)
 		rom_addr = (option_rom_header_t *)0xc0000;
 	
 	if (!validate_rom(rom_addr, card->pci_dev))
+	{
 		return false;
-	
+	}
 	card->rom_size = rom_addr->rom_size * 512;
 	if (!card->rom_size)
+	{
 		return false;
+	}
 	
 	card->rom = malloc(card->rom_size);
 	if (!card->rom)
@@ -1945,11 +1979,11 @@ bool read_disabled_vbios(void)
 	if (chip_family >= CHIP_FAMILY_RV770)
 	{
 		uint32_t viph_control		= RegRead32(RADEON_VIPH_CONTROL);
-		uint32_t bus_cntl			= RegRead32(RADEON_BUS_CNTL);
+		uint32_t bus_cntl		= RegRead32(RADEON_BUS_CNTL);
 		uint32_t d1vga_control		= RegRead32(AVIVO_D1VGA_CONTROL);
 		uint32_t d2vga_control		= RegRead32(AVIVO_D2VGA_CONTROL);
-		uint32_t vga_render_control = RegRead32(AVIVO_VGA_RENDER_CONTROL);
-		uint32_t rom_cntl			= RegRead32(R600_ROM_CNTL);
+		uint32_t vga_render_control	= RegRead32(AVIVO_VGA_RENDER_CONTROL);
+		uint32_t rom_cntl		= RegRead32(R600_ROM_CNTL);
 		uint32_t cg_spll_func_cntl	= 0;
 		uint32_t cg_spll_status;
 		
@@ -1979,7 +2013,9 @@ bool read_disabled_vbios(void)
 			RegWrite32(R600_ROM_CNTL, (rom_cntl & ~R600_SCK_OVERWRITE));
 		}
 		else
+		{
 			RegWrite32(R600_ROM_CNTL, (rom_cntl | R600_SCK_OVERWRITE));
+		}
 
 		ret = read_vbios(true);
 		
@@ -2004,16 +2040,16 @@ bool read_disabled_vbios(void)
 		if (chip_family >= CHIP_FAMILY_R600)
 		{
 			uint32_t viph_control				= RegRead32(RADEON_VIPH_CONTROL);
-			uint32_t bus_cntl					= RegRead32(RADEON_BUS_CNTL);
+			uint32_t bus_cntl				= RegRead32(RADEON_BUS_CNTL);
 			uint32_t d1vga_control				= RegRead32(AVIVO_D1VGA_CONTROL);
 			uint32_t d2vga_control				= RegRead32(AVIVO_D2VGA_CONTROL);
 			uint32_t vga_render_control			= RegRead32(AVIVO_VGA_RENDER_CONTROL);
-			uint32_t rom_cntl					= RegRead32(R600_ROM_CNTL);
+			uint32_t rom_cntl				= RegRead32(R600_ROM_CNTL);
 			uint32_t general_pwrmgt				= RegRead32(R600_GENERAL_PWRMGT);
-			uint32_t low_vid_lower_gpio_cntl	= RegRead32(R600_LOW_VID_LOWER_GPIO_CNTL);
-			uint32_t medium_vid_lower_gpio_cntl = RegRead32(R600_MEDIUM_VID_LOWER_GPIO_CNTL);
-			uint32_t high_vid_lower_gpio_cntl	= RegRead32(R600_HIGH_VID_LOWER_GPIO_CNTL);
-			uint32_t ctxsw_vid_lower_gpio_cntl	= RegRead32(R600_CTXSW_VID_LOWER_GPIO_CNTL);
+			uint32_t low_vid_lower_gpio_cntl		= RegRead32(R600_LOW_VID_LOWER_GPIO_CNTL);
+			uint32_t medium_vid_lower_gpio_cntl		= RegRead32(R600_MEDIUM_VID_LOWER_GPIO_CNTL);
+			uint32_t high_vid_lower_gpio_cntl		= RegRead32(R600_HIGH_VID_LOWER_GPIO_CNTL);
+			uint32_t ctxsw_vid_lower_gpio_cntl		= RegRead32(R600_CTXSW_VID_LOWER_GPIO_CNTL);
 			uint32_t lower_gpio_enable			= RegRead32(R600_LOWER_GPIO_ENABLE);
 			
 			// disable VIP
@@ -2061,12 +2097,16 @@ bool radeon_card_posted(void)
 	// first check CRTCs
 	reg = RegRead32(RADEON_CRTC_GEN_CNTL) | RegRead32(RADEON_CRTC2_GEN_CNTL);
 	if (reg & RADEON_CRTC_EN)
+	{
 		return true;
+	}
 	
 	// then check MEM_SIZE, in case something turned the crtcs off
 	reg = RegRead32(R600_CONFIG_MEMSIZE);
 	if (reg)
+	{
 		return true;
+	}
 	
 	return false;
 }
@@ -2078,7 +2118,9 @@ bool devprop_add_pci_config_space(void)
 	
 	uint8_t *config_space = malloc(0x100);
 	if (!config_space)
+	{
 		return false;
+	}
 	
 	for (offset = 0; offset < 0x100; offset += 4)
 		config_space[offset / 4] = pci_config_read32(card->pci_dev->dev.addr, offset);
@@ -2100,7 +2142,9 @@ static bool init_card(pci_dt_t *pci_dev)
 	
 	card = malloc(sizeof(card_t));
 	if (!card)
+	{
 		return false;
+	}
 	bzero(card, sizeof(card_t));
 
 	card->pci_dev = pci_dev;
@@ -2109,15 +2153,13 @@ static bool init_card(pci_dt_t *pci_dev)
 	{
 		if (radeon_cards[i].device_id == pci_dev->device_id)
 		{
-			//card->info = &radeon_cards[i]; // Jief
 			if ((radeon_cards[i].subsys_id == 0x00000000) || (radeon_cards[i].subsys_id == pci_dev->subsys_id.subsys_id))
+			{
 				card->info = &radeon_cards[i];
 				break;
+			}
 		}
 	}
-
-	//why can't this check go down to 1411?
-	//If we move it down we would still allow the cfg_name check
 
 	if (card->info == NULL) // Jief
 	{
@@ -2144,11 +2186,15 @@ static bool init_card(pci_dt_t *pci_dev)
 	{
 		if (!load_vbios_file(kUseAtiROM, pci_dev->vendor_id, pci_dev->device_id, pci_dev->subsys_id.subsys_id))
 		{
-			verbose("reading VBIOS from %s", card->posted ? "legacy space" : "PCI ROM");
+			verbose("reading Video BIOS from %s", card->posted ? "legacy space" : "PCI ROM");
 			if (card->posted)
+			{
 				read_vbios(false);
+			}
 			else
+			{
 				read_disabled_vbios();
+			}
 			verbose("\n");
 		}
 	}
@@ -2191,7 +2237,9 @@ static bool init_card(pci_dt_t *pci_dev)
 		// else, match cfg_name with card_configs list and retrive default nr of ports.
 		for (i = 0; i < kCfgEnd; i++)
 			if (strcmp(card->cfg_name, card_configs[i].name) == 0)
+			{
 				card->ports = card_configs[i].ports; // default
+			}
 
 		verbose("# of ports set to framebuffer's default: %d\n", card->ports);
 	}
@@ -2215,17 +2263,22 @@ bool setup_ati_devprop(pci_dt_t *ati_dev)
 	char *devicepath;
 
 	if (!init_card(ati_dev))
+	{
 		return false;
+	}
 
 	// -------------------------------------------------
 	// Find a better way to do this (in device_inject.c)
 	if (!string)
+	{
 		string = devprop_create_string();
-	
+	}
 	devicepath = get_pci_dev_path(ati_dev);
 	card->device = devprop_add_device(string, devicepath);
 	if (!card->device)
+	{
 		return false;
+	}
 	// -------------------------------------------------
 	
 #if 0
@@ -2255,6 +2308,6 @@ bool setup_ati_devprop(pci_dt_t *ati_dev)
 			devicepath);
 
 	free(card);
-	
+
 	return true;
 }
