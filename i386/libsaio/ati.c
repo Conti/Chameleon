@@ -1950,7 +1950,9 @@ bool read_vbios(bool from_pci)
 		verbose(" @0x%x\n", rom_addr);
 	}
 	else
+	{
 		rom_addr = (option_rom_header_t *)0xc0000;
+	}
 	
 	if (!validate_rom(rom_addr, card->pci_dev))
 	{
@@ -1964,7 +1966,9 @@ bool read_vbios(bool from_pci)
 	
 	card->rom = malloc(card->rom_size);
 	if (!card->rom)
+	{
 		return false;
+	}
 	
 	memcpy(card->rom, (void *)rom_addr, card->rom_size);
 	
@@ -2008,7 +2012,9 @@ bool read_disabled_vbios(void)
 			// wait for SPLL_CHG_STATUS to change to 1
 			cg_spll_status = 0;
 			while (!(cg_spll_status & R600_SPLL_CHG_STATUS))
+			{
 				cg_spll_status = RegRead32(R600_CG_SPLL_STATUS);
+			}
 			
 			RegWrite32(R600_ROM_CNTL, (rom_cntl & ~R600_SCK_OVERWRITE));
 		}
@@ -2123,7 +2129,9 @@ bool devprop_add_pci_config_space(void)
 	}
 	
 	for (offset = 0; offset < 0x100; offset += 4)
+	{
 		config_space[offset / 4] = pci_config_read32(card->pci_dev->dev.addr, offset);
+	}
 	
 	devprop_add_value(card->device, "ATY,PCIConfigSpace", config_space, 0x100);
 	free(config_space);
@@ -2139,7 +2147,7 @@ static bool init_card(pci_dt_t *pci_dev)
 	char	name_parent[24];
 	int		i;
 	int		n_ports = 0;
-	
+
 	card = malloc(sizeof(card_t));
 	if (!card)
 	{

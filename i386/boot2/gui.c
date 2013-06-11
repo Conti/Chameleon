@@ -39,151 +39,159 @@ enum {
     iBackground = 0,
     iLogo,
 
-    iDeviceGeneric,
-    iDeviceGeneric_o,
-    iDeviceHFS,
-    iDeviceHFS_o,
-    iDeviceHFS_ML,
-    iDeviceHFS_ML_o,
-    iDeviceHFS_Lion,
-    iDeviceHFS_Lion_o,
-    iDeviceHFS_SL,
-    iDeviceHFS_SL_o,
-    iDeviceHFS_Leo,
-    iDeviceHFS_Leo_o,
-    iDeviceHFS_Tiger,
-    iDeviceHFS_Tiger_o,
-    iDeviceHFSRAID,
-    iDeviceHFSRAID_o,
-    iDeviceHFSRAID_ML,
-    iDeviceHFSRAID_ML_o,
-    iDeviceHFSRAID_Lion,
-    iDeviceHFSRAID_Lion_o,
-    iDeviceHFSRAID_SL,
-    iDeviceHFSRAID_SL_o,
-    iDeviceHFSRAID_Leo,
-    iDeviceHFSRAID_Leo_o,
-    iDeviceHFSRAID_Tiger,
-    iDeviceHFSRAID_Tiger_o,
-    iDeviceEXT3,
-    iDeviceEXT3_o,
-    iDeviceFreeBSD,     /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
-    iDeviceFreeBSD_o,   /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
-    iDeviceOpenBSD,     /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
-    iDeviceOpenBSD_o,   /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
-    iDeviceBEFS,        /* Haiku detection and Icon credits to scorpius  */
-    iDeviceBEFS_o,      /* Haiku detection and Icon credits to scorpius  */
-    iDeviceFAT,
-    iDeviceFAT_o,
-    iDeviceFAT16,
-    iDeviceFAT16_o,
-    iDeviceFAT32,
-    iDeviceFAT32_o,
-    iDeviceNTFS,
-    iDeviceNTFS_o,
-    iDeviceCDROM,
-    iDeviceCDROM_o,
+	iDeviceGeneric,
+	iDeviceGeneric_o,
+	iDeviceHFS,
+	iDeviceHFS_o,
+	iDeviceHFS_mav,
+	iDeviceHFS_mav_o,
+	iDeviceHFS_ML,
+	iDeviceHFS_ML_o,
+	iDeviceHFS_Lion,
+	iDeviceHFS_Lion_o,
+	iDeviceHFS_SL,
+	iDeviceHFS_SL_o,
+	iDeviceHFS_Leo,
+	iDeviceHFS_Leo_o,
+	iDeviceHFS_Tiger,
+	iDeviceHFS_Tiger_o,
+	iDeviceHFSRAID,
+	iDeviceHFSRAID_o,
+	iDeviceHFSRAID_mav,
+	iDeviceHFSRAID_mav_o,
+	iDeviceHFSRAID_ML,
+	iDeviceHFSRAID_ML_o,
+	iDeviceHFSRAID_Lion,
+	iDeviceHFSRAID_Lion_o,
+	iDeviceHFSRAID_SL,
+	iDeviceHFSRAID_SL_o,
+	iDeviceHFSRAID_Leo,
+	iDeviceHFSRAID_Leo_o,
+	iDeviceHFSRAID_Tiger,
+	iDeviceHFSRAID_Tiger_o,
+	iDeviceEXT3,
+	iDeviceEXT3_o,
+	iDeviceFreeBSD,     /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
+	iDeviceFreeBSD_o,   /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
+	iDeviceOpenBSD,     /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
+	iDeviceOpenBSD_o,   /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
+	iDeviceBEFS,        /* Haiku detection and Icon credits to scorpius  */
+	iDeviceBEFS_o,      /* Haiku detection and Icon credits to scorpius  */
+	iDeviceFAT,
+	iDeviceFAT_o,
+	iDeviceFAT16,
+	iDeviceFAT16_o,
+	iDeviceFAT32,
+	iDeviceFAT32_o,
+	iDeviceNTFS,
+	iDeviceNTFS_o,
+	iDeviceCDROM,
+	iDeviceCDROM_o,
 
-    iSelection,
-    iDeviceScrollPrev,
-    iDeviceScrollNext,
+	iSelection,
+	iDeviceScrollPrev,
+	iDeviceScrollNext,
 
-    iMenuBoot,
-    iMenuVerbose,
-    iMenuIgnoreCaches,
-    iMenuSingleUser,
-    iMenuMemoryInfo,
-    iMenuVideoInfo,
-    iMenuHelp,
-    iMenuVerboseDisabled,
-    iMenuIgnoreCachesDisabled,
-    iMenuSingleUserDisabled,
-    iMenuSelection,
+	iMenuBoot,
+	iMenuVerbose,
+	iMenuIgnoreCaches,
+	iMenuSingleUser,
+	iMenuMemoryInfo,
+	iMenuVideoInfo,
+	iMenuHelp,
+	iMenuVerboseDisabled,
+	iMenuIgnoreCachesDisabled,
+	iMenuSingleUserDisabled,
+	iMenuSelection,
 
-    iProgressBar,
-    iProgressBarBackground,
+	iProgressBar,
+	iProgressBarBackground,
 
-    iTextScrollPrev,
-    iTextScrollNext,
+	iTextScrollPrev,
+	iTextScrollNext,
 
-    iFontConsole,
-    iFontSmall,
+	iFontConsole,
+	iFontSmall,
 };
 
 image_t images[] = {
-    {.name = "background",                  .image = NULL},
-    {.name = "logo",                        .image = NULL},
-    
-    {.name = "device_generic",              .image = NULL},
-    {.name = "device_generic_o",            .image = NULL},
-    {.name = "device_hfsplus",              .image = NULL},
-    {.name = "device_hfsplus_o",            .image = NULL},
-    {.name = "device_hfsplus_ml",           .image = NULL},
-    {.name = "device_hfsplus_ml_o",         .image = NULL},
-    {.name = "device_hfsplus_lion",         .image = NULL},
-    {.name = "device_hfsplus_lion_o",       .image = NULL},
-    {.name = "device_hfsplus_sl",           .image = NULL},
-    {.name = "device_hfsplus_sl_o",         .image = NULL},
-    {.name = "device_hfsplus_leo",          .image = NULL},
-    {.name = "device_hfsplus_leo_o",        .image = NULL},
-    {.name = "device_hfsplus_tiger",        .image = NULL},
-    {.name = "device_hfsplus_tiger_o",      .image = NULL},
+	{.name = "background",                  .image = NULL},
+	{.name = "logo",                        .image = NULL},
 
-    {.name = "device_hfsraid",              .image = NULL},
-    {.name = "device_hfsraid_o",            .image = NULL},
-    {.name = "device_hfsraid_ml",           .image = NULL},
-    {.name = "device_hfsraid_ml_o",         .image = NULL},
-    {.name = "device_hfsraid_lion",         .image = NULL},
-    {.name = "device_hfsraid_lion_o",       .image = NULL},
-    {.name = "device_hfsraid_sl",           .image = NULL},
-    {.name = "device_hfsraid_sl_o",         .image = NULL},
-    {.name = "device_hfsraid_leo",          .image = NULL},
-    {.name = "device_hfsraid_leo_o",        .image = NULL},
-    {.name = "device_hfsraid_tiger",        .image = NULL},
-    {.name = "device_hfsraid_tiger_o",      .image = NULL},
-    {.name = "device_ext3",                 .image = NULL},
-    {.name = "device_ext3_o",               .image = NULL},
-    {.name = "device_freebsd",              .image = NULL},     /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
-    {.name = "device_freebsd_o",            .image = NULL},     /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
-    {.name = "device_openbsd",              .image = NULL},     /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
-    {.name = "device_openbsd_o",            .image = NULL},     /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
-    {.name = "device_befs",                 .image = NULL},     /* Haiku detection and Icon credits to scorpius  */
-    {.name = "device_befs_o",               .image = NULL},     /* Haiku detection and Icon credits to scorpius  */
-    {.name = "device_fat",                  .image = NULL},
-    {.name = "device_fat_o",                .image = NULL},
-    {.name = "device_fat16",                .image = NULL},
-    {.name = "device_fat16_o",              .image = NULL},
-    {.name = "device_fat32",                .image = NULL},
-    {.name = "device_fat32_o",              .image = NULL},
-    {.name = "device_ntfs",                 .image = NULL},
-    {.name = "device_ntfs_o",               .image = NULL},
-    {.name = "device_cdrom",                .image = NULL},
-    {.name = "device_cdrom_o",              .image = NULL},
+	{.name = "device_generic",              .image = NULL},
+	{.name = "device_generic_o",            .image = NULL},
+	{.name = "device_hfsplus",              .image = NULL},
+	{.name = "device_hfsplus_o",            .image = NULL},
+	{.name = "device_hfsplus_mav",          .image = NULL},
+	{.name = "device_hfsplus_mav_o",        .image = NULL},
+	{.name = "device_hfsplus_ml",           .image = NULL},
+	{.name = "device_hfsplus_ml_o",         .image = NULL},
+	{.name = "device_hfsplus_lion",         .image = NULL},
+	{.name = "device_hfsplus_lion_o",       .image = NULL},
+	{.name = "device_hfsplus_sl",           .image = NULL},
+	{.name = "device_hfsplus_sl_o",         .image = NULL},
+	{.name = "device_hfsplus_leo",          .image = NULL},
+	{.name = "device_hfsplus_leo_o",        .image = NULL},
+	{.name = "device_hfsplus_tiger",        .image = NULL},
+	{.name = "device_hfsplus_tiger_o",      .image = NULL},
 
-    {.name = "device_selection",            .image = NULL},
-    {.name = "device_scroll_prev",          .image = NULL},
-    {.name = "device_scroll_next",          .image = NULL},
-    
-    {.name = "menu_boot",                   .image = NULL},
-    {.name = "menu_verbose",                .image = NULL},
-    {.name = "menu_ignore_caches",          .image = NULL},
-    {.name = "menu_single_user",            .image = NULL},
-    {.name = "menu_memory_info",            .image = NULL},
-    {.name = "menu_video_info",             .image = NULL},
-    {.name = "menu_help",                   .image = NULL},
-    {.name = "menu_verbose_disabled",       .image = NULL},
-    {.name = "menu_ignore_caches_disabled", .image = NULL},
-    {.name = "menu_single_user_disabled",   .image = NULL},
-    {.name = "menu_selection",              .image = NULL},
-    
-    {.name = "progress_bar",                .image = NULL},
-    {.name = "progress_bar_background",     .image = NULL},
-    
-    {.name = "text_scroll_prev",            .image = NULL},
-    {.name = "text_scroll_next",            .image = NULL},
-    
-    {.name = "font_console",                .image = NULL},
-    {.name = "font_small",                  .image = NULL},
+	{.name = "device_hfsraid",              .image = NULL},
+	{.name = "device_hfsraid_o",            .image = NULL},
+	{.name = "device_hfsraid_mav",          .image = NULL},
+	{.name = "device_hfsraid_mav_o",        .image = NULL},
+	{.name = "device_hfsraid_ml",           .image = NULL},
+	{.name = "device_hfsraid_ml_o",         .image = NULL},
+	{.name = "device_hfsraid_lion",         .image = NULL},
+	{.name = "device_hfsraid_lion_o",       .image = NULL},
+	{.name = "device_hfsraid_sl",           .image = NULL},
+	{.name = "device_hfsraid_sl_o",         .image = NULL},
+	{.name = "device_hfsraid_leo",          .image = NULL},
+	{.name = "device_hfsraid_leo_o",        .image = NULL},
+	{.name = "device_hfsraid_tiger",        .image = NULL},
+	{.name = "device_hfsraid_tiger_o",      .image = NULL},
+	{.name = "device_ext3",                 .image = NULL},
+	{.name = "device_ext3_o",               .image = NULL},
+	{.name = "device_freebsd",              .image = NULL},     /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
+	{.name = "device_freebsd_o",            .image = NULL},     /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
+	{.name = "device_openbsd",              .image = NULL},     /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
+	{.name = "device_openbsd_o",            .image = NULL},     /* FreeBSD/OpenBSD detection,nawcom's code by valv, Icon credits to blackosx  */
+	{.name = "device_befs",                 .image = NULL},     /* Haiku detection and Icon credits to scorpius  */
+	{.name = "device_befs_o",               .image = NULL},     /* Haiku detection and Icon credits to scorpius  */
+	{.name = "device_fat",                  .image = NULL},
+	{.name = "device_fat_o",                .image = NULL},
+	{.name = "device_fat16",                .image = NULL},
+	{.name = "device_fat16_o",              .image = NULL},
+	{.name = "device_fat32",                .image = NULL},
+	{.name = "device_fat32_o",              .image = NULL},
+	{.name = "device_ntfs",                 .image = NULL},
+	{.name = "device_ntfs_o",               .image = NULL},
+	{.name = "device_cdrom",                .image = NULL},
+	{.name = "device_cdrom_o",              .image = NULL},
+
+	{.name = "device_selection",            .image = NULL},
+	{.name = "device_scroll_prev",          .image = NULL},
+	{.name = "device_scroll_next",          .image = NULL},
+
+	{.name = "menu_boot",                   .image = NULL},
+	{.name = "menu_verbose",                .image = NULL},
+	{.name = "menu_ignore_caches",          .image = NULL},
+	{.name = "menu_single_user",            .image = NULL},
+	{.name = "menu_memory_info",            .image = NULL},
+	{.name = "menu_video_info",             .image = NULL},
+	{.name = "menu_help",                   .image = NULL},
+	{.name = "menu_verbose_disabled",       .image = NULL},
+	{.name = "menu_ignore_caches_disabled", .image = NULL},
+	{.name = "menu_single_user_disabled",   .image = NULL},
+	{.name = "menu_selection",              .image = NULL},
+
+	{.name = "progress_bar",                .image = NULL},
+	{.name = "progress_bar_background",     .image = NULL},
+
+	{.name = "text_scroll_prev",            .image = NULL},
+	{.name = "text_scroll_next",            .image = NULL},
+
+	{.name = "font_console",                .image = NULL},
+	{.name = "font_small",                  .image = NULL},
 };
 
 int imageCnt = 0;
@@ -224,11 +232,13 @@ static unsigned long screen_params[4] = {DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HE
 
 static int getImageIndexByName(const char *name)
 {
-    int i;
+	int i;
 	for (i = 0; i < sizeof(images) / sizeof(images[0]); i++)
 	{
-	    if (strcmp(name, images[i].name) == 0)
-	        return i; // found the name
+		if (strcmp(name, images[i].name) == 0)
+		{
+			return i; // found the name
+		}
 	}
 	return -1;
 }
@@ -351,6 +361,8 @@ static int loadGraphics(void)
 	LOADPNG(device_generic_o,               iDeviceGeneric);
 	LOADPNG(device_hfsplus,                 iDeviceGeneric);
 	LOADPNG(device_hfsplus_o,               iDeviceHFS);
+	LOADPNG(device_hfsplus_mav,             iDeviceHFS);
+	LOADPNG(device_hfsplus_mav_o,           iDeviceHFS_mav);
 	LOADPNG(device_hfsplus_ml,              iDeviceHFS);
 	LOADPNG(device_hfsplus_ml_o,            iDeviceHFS_ML);
 	LOADPNG(device_hfsplus_lion,            iDeviceHFS);
@@ -364,6 +376,8 @@ static int loadGraphics(void)
 
 	LOADPNG(device_hfsraid,                 iDeviceHFS);
 	LOADPNG(device_hfsraid_o,               iDeviceHFSRAID);
+	LOADPNG(device_hfsraid_mav,             iDeviceHFSRAID);
+	LOADPNG(device_hfsraid_mav_o,           iDeviceHFSRAID_mav);
 	LOADPNG(device_hfsraid_ml,              iDeviceHFSRAID);
 	LOADPNG(device_hfsraid_ml_o,            iDeviceHFSRAID_ML);
 	LOADPNG(device_hfsraid_lion,            iDeviceHFSRAID);
@@ -884,6 +898,9 @@ void drawDeviceIcon(BVRef device, pixmap_t *buffer, position_t p, bool isSelecte
 			{
 				// Use HFS or HFSRAID icon depending on bvr flags. Fallbacks are handled by alt_image above.
 				switch (device->OSVersion[3]) {
+					case '9':
+						devicetype = (device->flags & kBVFlagBooter ? iDeviceHFSRAID_mav : iDeviceHFS_mav);
+						break;
 					case '8':
 						devicetype = (device->flags & kBVFlagBooter ? iDeviceHFSRAID_ML : iDeviceHFS_ML);
 						break;
@@ -936,7 +953,7 @@ void drawDeviceIcon(BVRef device, pixmap_t *buffer, position_t p, bool isSelecte
 				break;
 
 			default:
-				devicetype = iDeviceGeneric;	// Use Generic icon
+				devicetype = iDeviceGeneric;		// Use Generic icon
 				break;
 		}
 	}

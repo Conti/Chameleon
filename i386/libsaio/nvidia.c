@@ -1906,6 +1906,7 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 		else
 		{
 			printf("ERROR: unable to open nVidia Video BIOS File %s\n", nvFilename);
+			free(rom);
 			return false;
 		}
 	}
@@ -2050,7 +2051,7 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 			}
 		}
 	}
-	
+
 	sprintf(biosVersion, "%s", (nvBiosOveride > 0) ? nvFilename : version_str);
 	sprintf(kNVCAP, "NVCAP_%04x", nvda_dev->device_id);
 
