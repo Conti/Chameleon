@@ -161,7 +161,7 @@ bool setup_gma_devprop(pci_dt_t *gma_dev)
 	char					*model;
 	uint8_t BuiltIn =		0x00;
 	uint8_t ClassFix[4] =	{ 0x00, 0x00, 0x03, 0x00 };
-	unsigned int			device_id;	
+	unsigned int			device_id;
 	
 	devicepath = get_pci_dev_path(gma_dev);
 	
@@ -188,7 +188,7 @@ bool setup_gma_devprop(pci_dt_t *gma_dev)
 	}
 	
 	devprop_add_value(device, "model", (uint8_t*)model, (strlen(model) + 1));
-	devprop_add_value(device, "device_type", (uint8_t*)"display", 8);	
+	devprop_add_value(device, "device_type", (uint8_t*)"display", 8);
 	
 	if ((model == (char *)&"Mobile GMA950")
 		|| (model == (char *)&"Mobile GMA3150"))
@@ -233,7 +233,7 @@ bool setup_gma_devprop(pci_dt_t *gma_dev)
 	else if (model == (char *)&"HD Graphics 2000 Mobile")
 	{
 		devprop_add_value(device, "class-code", ClassFix, 4);
-		devprop_add_value(device, "hda-gfx", (uint8_t *)"onboard-1", 10); 
+		devprop_add_value(device, "hda-gfx", (uint8_t *)"onboard-1", 10);
 		devprop_add_value(device, "AAPL00,PixelFormat", HD2000_vals[0], 4);
 		devprop_add_value(device, "AAPL00,T1", HD2000_vals[1], 4);
 		devprop_add_value(device, "AAPL00,T2", HD2000_vals[2], 4);
@@ -254,7 +254,7 @@ bool setup_gma_devprop(pci_dt_t *gma_dev)
 	else if (model == (char *)&"HD Graphics 3000 Mobile")
 	{
 		devprop_add_value(device, "class-code", ClassFix, 4);
-		devprop_add_value(device, "hda-gfx", (uint8_t *)"onboard-1", 10); 
+		devprop_add_value(device, "hda-gfx", (uint8_t *)"onboard-1", 10);
 		devprop_add_value(device, "AAPL00,PixelFormat", HD3000_vals[0], 4);
 		devprop_add_value(device, "AAPL00,T1", HD3000_vals[1], 4);
 		devprop_add_value(device, "AAPL00,T2", HD3000_vals[2], 4);
@@ -277,7 +277,7 @@ bool setup_gma_devprop(pci_dt_t *gma_dev)
 		devprop_add_value(device, "built-in", &BuiltIn, 1);
 		devprop_add_value(device, "class-code", ClassFix, 4);
 		devprop_add_value(device, "device-id", (uint8_t*)&device_id, sizeof(device_id));
-		devprop_add_value(device, "hda-gfx", (uint8_t *)"onboard-1", 10); 
+		devprop_add_value(device, "hda-gfx", (uint8_t *)"onboard-1", 10);
 		devprop_add_value(device, "AAPL,tbl-info", HD2000_tbl_info, 18);
 		devprop_add_value(device, "AAPL,os-info", HD2000_os_info, 20);
 	}
@@ -304,12 +304,12 @@ bool setup_gma_devprop(pci_dt_t *gma_dev)
 			case 96:
 				ig_platform_id = 0x01660000; // 96mb
 				break;
-					
+
 			case 64:
 				ig_platform_id = 0x01660009; // 64mb
 				break;
 				
-			case 32:					
+			case 32:
 				ig_platform_id = 0x01620005; // 32mb
 				break;
 			default:
@@ -325,8 +325,8 @@ bool setup_gma_devprop(pci_dt_t *gma_dev)
 		devprop_add_value(device, "hda-gfx", (uint8_t *)"onboard-1", 10);
 		devprop_add_value(device, "AAPL,ig-platform-id", (uint8_t*)&ig_platform_id, 4);
 	}
-	
-    stringdata = malloc(sizeof(uint8_t) * string->length);
+
+	stringdata = malloc(sizeof(uint8_t) * string->length);
 	if (!stringdata)
 	{
 		printf("No stringdata.\n");

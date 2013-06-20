@@ -1,3 +1,9 @@
+- Fix issue booting x86 after rev.2175 (Credits to Mario, Alex and Leon).
+- ErmaC : Add new CPU Model IDs
+- Add boot support to 10.9 (thx old napalm)
+- ErmaC : Update gui Icons OS detection
+- Update default theme Icon set (thx BlackOsx)
+- Add Linux GPT Partition Label
 - Fix menuBVR initialization problem
 - Implement ErmaC's HDAEnabler.dylib module
 - Fix Bug in the loop that look for an ATI card. Credits to Jief Luce

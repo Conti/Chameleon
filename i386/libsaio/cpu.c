@@ -27,30 +27,30 @@
  */
 uint64_t timeRDTSC(void)
 {
-    int		attempts = 0;
-    uint64_t    latchTime;
-    uint64_t	saveTime,intermediate;
-    unsigned int timerValue, lastValue;
-    //boolean_t	int_enabled;
-    /*
-     * Table of correction factors to account for
-     *	 - timer counter quantization errors, and
-     *	 - undercounts 0..5
-     */
+	int		attempts = 0;
+	uint64_t    latchTime;
+	uint64_t	saveTime,intermediate;
+	unsigned int timerValue, lastValue;
+	//boolean_t	int_enabled;
+	/*
+	 * Table of correction factors to account for
+	 *	 - timer counter quantization errors, and
+	 *	 - undercounts 0..5
+	 */
 #define SAMPLE_CLKS_EXACT	(((double) CLKNUM) / 20.0)
 #define SAMPLE_CLKS_INT		((int) CLKNUM / 20)
 #define SAMPLE_NSECS		(2000000000LL)
 #define SAMPLE_MULTIPLIER	(((double)SAMPLE_NSECS)*SAMPLE_CLKS_EXACT)
 #define ROUND64(x)		((uint64_t)((x) + 0.5))
-    uint64_t	scale[6] = {
+	uint64_t	scale[6] = {
 		ROUND64(SAMPLE_MULTIPLIER/(double)(SAMPLE_CLKS_INT-0)), 
 		ROUND64(SAMPLE_MULTIPLIER/(double)(SAMPLE_CLKS_INT-1)), 
 		ROUND64(SAMPLE_MULTIPLIER/(double)(SAMPLE_CLKS_INT-2)), 
 		ROUND64(SAMPLE_MULTIPLIER/(double)(SAMPLE_CLKS_INT-3)), 
 		ROUND64(SAMPLE_MULTIPLIER/(double)(SAMPLE_CLKS_INT-4)), 
 		ROUND64(SAMPLE_MULTIPLIER/(double)(SAMPLE_CLKS_INT-5))
-    };
-    
+	};
+
 restart:
     if (attempts >= 9) // increase to up to 9 attempts.
         // This will flash-reboot. TODO: Use tscPanic instead.
@@ -137,7 +137,7 @@ static uint64_t measure_tsc_frequency(void)
 	 * Hz so we need to convert our milliseconds to seconds. Since we're
 	 * dividing by the milliseconds, we simply multiply by 1000.
 	 */
-	
+
 	/* Unlike linux, we're not limited to 32-bit, but we do need to take care
 	 * that we're going to multiply by 1000 first so we do need at least some
 	 * arithmetic headroom. For now, 32-bit should be enough.
@@ -227,10 +227,10 @@ void scan_cpu(PlatformInfo_t *p)
 	int			len, myfsb;
 	uint8_t		bus_ratio_min;
 	uint32_t	max_ratio, min_ratio;
-	
+
 	max_ratio = min_ratio = myfsb = bus_ratio_min = 0;
 	maxcoef = maxdiv = bus_ratio_max = currcoef = currdiv = 0;
-	
+
 	/* get cpuid values */
 	do_cpuid(0x00000000, p->CPU.CPUID[CPUID_0]);
 	do_cpuid(0x00000001, p->CPU.CPUID[CPUID_1]);
@@ -238,11 +238,11 @@ void scan_cpu(PlatformInfo_t *p)
 	do_cpuid(0x00000003, p->CPU.CPUID[CPUID_3]);
 	do_cpuid2(0x00000004, 0, p->CPU.CPUID[CPUID_4]);
 	do_cpuid(0x80000000, p->CPU.CPUID[CPUID_80]);
-	if (p->CPU.CPUID[CPUID_0][0] >= 0x5) {		
-		do_cpuid(5,  p->CPU.CPUID[CPUID_5]);        	
-	}	
+	if (p->CPU.CPUID[CPUID_0][0] >= 0x5) {
+		do_cpuid(5,  p->CPU.CPUID[CPUID_5]);
+	}
 	if (p->CPU.CPUID[CPUID_0][0] >= 6) {
-		do_cpuid(6, p->CPU.CPUID[CPUID_6]);		
+		do_cpuid(6, p->CPU.CPUID[CPUID_6]);
 	}
 	if ((p->CPU.CPUID[CPUID_80][0] & 0x0000000f) >= 8) {
 		do_cpuid(0x80000008, p->CPU.CPUID[CPUID_88]);
@@ -251,7 +251,7 @@ void scan_cpu(PlatformInfo_t *p)
 	else if ((p->CPU.CPUID[CPUID_80][0] & 0x0000000f) >= 1) {
 		do_cpuid(0x80000001, p->CPU.CPUID[CPUID_81]);
 	}
-	
+
 #if DEBUG_CPU
 	{
 		int		i;
@@ -263,7 +263,7 @@ void scan_cpu(PlatformInfo_t *p)
 		}
 	}
 #endif
-	
+
 	p->CPU.Vendor		= p->CPU.CPUID[CPUID_0][1];
 	p->CPU.Signature	= p->CPU.CPUID[CPUID_1][0];
 	p->CPU.Stepping		= bitfield(p->CPU.CPUID[CPUID_1][0], 3, 0);
@@ -271,9 +271,9 @@ void scan_cpu(PlatformInfo_t *p)
 	p->CPU.Family		= bitfield(p->CPU.CPUID[CPUID_1][0], 11, 8);
 	p->CPU.ExtModel		= bitfield(p->CPU.CPUID[CPUID_1][0], 19, 16);
 	p->CPU.ExtFamily	= bitfield(p->CPU.CPUID[CPUID_1][0], 27, 20);
-	
+
 	p->CPU.Model += (p->CPU.ExtModel << 4);
-	
+
 	if (p->CPU.Vendor == CPUID_VENDOR_INTEL &&
 		p->CPU.Family == 0x06 &&
 		p->CPU.Model >= CPUID_MODEL_NEHALEM &&
@@ -295,7 +295,7 @@ void scan_cpu(PlatformInfo_t *p)
 		p->CPU.NoThreads	= bitfield(p->CPU.CPUID[CPUID_1][1], 23, 16);
 		p->CPU.NoCores		= bitfield(p->CPU.CPUID[CPUID_4][0], 31, 26) + 1;
 	}
-	
+
 	/* get brand string (if supported) */
 	/* Copyright: from Apple's XNU cpuid.c */
 	if (p->CPU.CPUID[CPUID_80][0] > 0x80000004) {
@@ -355,7 +355,7 @@ void scan_cpu(PlatformInfo_t *p)
 	if (p->CPU.NoThreads > p->CPU.NoCores) {
 		p->CPU.Features |= CPU_FEATURE_HTT;
 	}
-	
+
 	tscFrequency = measure_tsc_frequency();
 	/* if usual method failed */
 	if ( tscFrequency < 1000 )
@@ -364,21 +364,28 @@ void scan_cpu(PlatformInfo_t *p)
 	}
 	fsbFrequency = 0;
 	cpuFrequency = 0;
-	
+
 	if ((p->CPU.Vendor == CPUID_VENDOR_INTEL) && ((p->CPU.Family == 0x06) || (p->CPU.Family == 0x0f))) {
 		int intelCPU = p->CPU.Model;
 		if ((p->CPU.Family == 0x06 && p->CPU.Model >= 0x0c) || (p->CPU.Family == 0x0f && p->CPU.Model >= 0x03)) {
 			/* Nehalem CPU model */
-			if (p->CPU.Family == 0x06 && (p->CPU.Model == CPU_MODEL_NEHALEM ||
-										  p->CPU.Model == CPU_MODEL_FIELDS ||
-										  p->CPU.Model == CPU_MODEL_DALES ||
-										  p->CPU.Model == CPU_MODEL_DALES_32NM ||
-										  p->CPU.Model == CPU_MODEL_WESTMERE ||
-										  p->CPU.Model == CPU_MODEL_NEHALEM_EX ||
+			if (p->CPU.Family == 0x06 && (p->CPU.Model == CPU_MODEL_NEHALEM		||
+										  p->CPU.Model == CPU_MODEL_FIELDS	||
+										  p->CPU.Model == CPU_MODEL_DALES	||
+										  p->CPU.Model == CPU_MODEL_CLARKDALE	||
+										  p->CPU.Model == CPU_MODEL_WESTMERE	||
+										  p->CPU.Model == CPU_MODEL_NEHALEM_EX	||
 										  p->CPU.Model == CPU_MODEL_WESTMERE_EX ||
 										  p->CPU.Model == CPU_MODEL_SANDYBRIDGE ||
-										  p->CPU.Model == CPU_MODEL_JAKETOWN ||
-										  p->CPU.Model == CPU_MODEL_IVYBRIDGE)) {
+										  p->CPU.Model == CPU_MODEL_SANDYBRIDGE_XEON ||
+										  p->CPU.Model == CPU_MODEL_IVYBRIDGE_XEON	||
+										  p->CPU.Model == CPU_MODEL_IVYBRIDGE  ||
+										  p->CPU.Model == CPU_MODEL_HASWELL_DT  ||
+										  p->CPU.Model == CPU_MODEL_HASWELL_MB  ||
+										  //p->CPU.Model == CPU_MODEL_HASWELL_H  ||
+										  p->CPU.Model == CPU_MODEL_HASWELL_ULT  ||
+										  p->CPU.Model == CPU_MODEL_HASWELL_ULX ))
+			{
 				msr = rdmsr64(MSR_PLATFORM_INFO);
 				DBG("msr(%d): platform_info %08x\n", __LINE__, bitfield(msr, 31, 0));
 				bus_ratio_max = bitfield(msr, 14, 8);
@@ -406,7 +413,7 @@ void scan_cpu(PlatformInfo_t *p)
 						}
 					}
 				}
-				
+
 				if (bus_ratio_max) {
 					fsbFrequency = (tscFrequency / bus_ratio_max);
 				}
@@ -422,9 +429,9 @@ void scan_cpu(PlatformInfo_t *p)
 					max_ratio = atoi(newratio);
 					max_ratio = (max_ratio * 10);
 					if (len >= 3) max_ratio = (max_ratio + 5);
-					
+
 					verbose("Bus-Ratio: min=%d, max=%s\n", bus_ratio_min, newratio);
-					
+
 					// extreme overclockers may love 320 ;)
 					if ((max_ratio >= min_ratio) && (max_ratio <= 320)) {
 						cpuFrequency = (fsbFrequency * max_ratio) / 10;
@@ -438,7 +445,7 @@ void scan_cpu(PlatformInfo_t *p)
 				/*if (bus_ratio_max > 0) bus_ratio = flex_ratio;*/
 				p->CPU.MaxRatio = max_ratio;
 				p->CPU.MinRatio = min_ratio;
-				
+
 				myfsb = fsbFrequency / 1000000;
 				verbose("Sticking with [BCLK: %dMhz, Bus-Ratio: %d]\n", myfsb, max_ratio);
 				currcoef = bus_ratio_max;
@@ -450,7 +457,7 @@ void scan_cpu(PlatformInfo_t *p)
 				maxdiv = bitfield(msr, 46, 46);
 				/* Non-integer bus ratio for the current-multi (undocumented)*/
 				currdiv = bitfield(msr, 14, 14);
-				
+
 				// This will always be model >= 3
 				if ((p->CPU.Family == 0x06 && p->CPU.Model >= 0x0e) || (p->CPU.Family == 0x0f))
 				{
@@ -461,7 +468,7 @@ void scan_cpu(PlatformInfo_t *p)
 					/* XXX */
 					maxcoef = currcoef;
 				}
-				
+
 				if (maxcoef) {
 					if (maxdiv) {
 						fsbFrequency = ((tscFrequency * 2) / ((maxcoef * 2) + 1));
@@ -491,7 +498,7 @@ void scan_cpu(PlatformInfo_t *p)
 				maxcoef = bitfield(msr, 21, 16) / 2 + 4;
 				currcoef = bitfield(msr, 5, 0) / 2 + 4;
 				break;
-				
+
 			case 0x01: /* K10 */
 				msr = rdmsr64(K10_COFVID_STATUS);
 				do_cpuid2(0x00000006, 0, p->CPU.CPUID[CPUID_6]);
@@ -507,22 +514,22 @@ void scan_cpu(PlatformInfo_t *p)
 				maxcoef	 = bitfield(msr, 54, 49) / 2 + 4;
 				currcoef = bitfield(msr, 5, 0) + 0x10;
 				currdiv = 2 << bitfield(msr, 8, 6);
-				
+
 				break;
-				
+
 			case 0x05: /* K14 */
 				msr = rdmsr64(K10_COFVID_STATUS);
 				currcoef  = (bitfield(msr, 54, 49) + 0x10) << 2;
 				currdiv = (bitfield(msr, 8, 4) + 1) << 2;
 				currdiv += bitfield(msr, 3, 0);
-				
+
 				break;
-				
+
 			case 0x02: /* K11 */
 				// not implimented
 				break;
 		}
-		
+
 		if (maxcoef)
 		{
 			if (currdiv)
@@ -563,7 +570,7 @@ void scan_cpu(PlatformInfo_t *p)
 		DBG("0 ! using the default value for FSB !\n");
 	}
 #endif
-	
+
 	p->CPU.MaxCoef = maxcoef;
 	p->CPU.MaxDiv = maxdiv;
 	p->CPU.CurrCoef = currcoef;
@@ -571,7 +578,7 @@ void scan_cpu(PlatformInfo_t *p)
 	p->CPU.TSCFrequency = tscFrequency;
 	p->CPU.FSBFrequency = fsbFrequency;
 	p->CPU.CPUFrequency = cpuFrequency;
-	
+
 	// keep formatted with spaces instead of tabs
 	DBG("CPU: Brand String:             %s\n",              p->CPU.BrandString);
     DBG("CPU: Vendor/Family/ExtFamily:  0x%x/0x%x/0x%x\n",  p->CPU.Vendor, p->CPU.Family, p->CPU.ExtFamily);

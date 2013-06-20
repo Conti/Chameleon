@@ -8,15 +8,16 @@ msgstr ""
 "Project-Id-Version: Chameleon 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-05-26 23:38+0200\n"
-"PO-Revision-Date: 2013-05-26 23:31-0000\n"
+"PO-Revision-Date: 2013-06-17 12:02+0000\n"
 "Last-Translator: Maniac <emafrias@gmail.com>\n"
 "Language-Team: es <es@li.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0-rc1\n"
-"X-POOTLE-MTIME: 1368281268.0\n"
+"X-POOTLE-MTIME: 1371470563.0\n"
 
 #. type: Content of: <html><body><div><p>
 #: Resources/templates/Welcome.html:22
@@ -342,6 +343,8 @@ msgid ""
 "This module provides a substitute for the internal acpi patcher.\n"
 "Dependencies: none"
 msgstr ""
+"Este módulo sustituye el parcheador ACPI interno.\n"
+"Dependencias: ninguna"
 
 #. type: "HDAEnabler_title"
 #: Resources/templates/Localizable.strings:47
@@ -356,6 +359,9 @@ msgid ""
 "HDAEnabler module, this module provides a substitute for the Hight Definition Audio DSDT Edits.\n"
 "Dependencies: none"
 msgstr ""
+"Módulo HDAEnabler, este módulo provee un sustituto a la edición DSDT para "
+"Audio de Alta Definición.\n"
+"Dependencias: ninguna"
 
 #. type: "FileNVRAM_title"
 #: Resources/templates/Localizable.strings:51
@@ -370,6 +376,8 @@ msgid ""
 "FileNVRAM module for preloading NVRAM values.\n"
 "Dependencies: none"
 msgstr ""
+"Módulo para el pre-cargado de valores NVRAM.\n"
+"Dependencias: ninguna"
 
 #. type: "Sata_title"
 #: Resources/templates/Localizable.strings:55
@@ -385,6 +393,10 @@ msgid ""
 "Useful to fix yellow icon issue (can also fix an issue with the Apple's dvd player application in Mountain lion).\n"
 "Dependencies: none"
 msgstr ""
+"Módulo sata, conocido como YellowIconFixer en la rama de cparm.\n"
+"Útil para solucionar el problema con iconos amarillos (puede también "
+"solucionar un problema con el reproductor de DVD de Apple en Mountain Lion).\n"
+"Dependencias: ninguna"
 
 #. type: "Resolution_title"
 #: Resources/templates/Localizable.strings:60
@@ -1134,7 +1146,7 @@ msgstr "LayoutID=32"
 
 #. type: "HDEFLayoutIDx32_description"
 #: Resources/templates/Localizable.strings:263
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid ""
 #| "Set HDEF layout-it to 20:\n"
 #| "020 (0x20, 0x00, 0x00, 0x00)."
@@ -1142,7 +1154,7 @@ msgid ""
 "Set HDEF layout-it to 32:\n"
 "020 (0x20, 0x00, 0x00, 0x00)."
 msgstr ""
-"Establecer el Modo de HDEF layout-it en 20:\n"
+"Establecer el Modo de HDEF layout-it en 32:\n"
 "020 (0x20, 0x00, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx40_title"
@@ -1510,7 +1522,7 @@ msgstr ""
 
 #. type: "HDAULayoutIDx32_description"
 #: Resources/templates/Localizable.strings:361
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid ""
 #| "Set HDAU layout-it to 20:\n"
 #| "020 (0x20, 0x00, 0x00, 0x00)."
@@ -1518,7 +1530,7 @@ msgid ""
 "Set HDAU layout-it to 32:\n"
 "020 (0x20, 0x00, 0x00, 0x00)."
 msgstr ""
-"Establecer el Modo de HDAU layout-it en 20:\n"
+"Establecer el Modo de HDAU layout-it en 32:\n"
 "020 (0x20, 0x00, 0x00, 0x00)."
 
 #. type: "HDAULayoutIDx40_description"

@@ -1578,6 +1578,9 @@ static int patch_nvidia_rom(uint8_t *rom)
 								entries[i+1].type = TYPE_GROUPED;
 							}
 							break;
+						default:
+							break;
+
 					}
 					break;
 				}
@@ -1769,7 +1772,7 @@ int hex2bin(const char *hex, uint8_t *bin, int len)
 unsigned long long mem_detect(volatile uint8_t *regs, uint8_t nvCardType, pci_dt_t *nvda_dev, uint32_t device_id, uint32_t subsys_id)
 {
 	unsigned long long vram_size = 0;
-	
+
 	// First check if any value exist in the plist
 	cardList_t * nvcard = FindCardWithIds(device_id, subsys_id);
 	if (nvcard) 
@@ -1955,7 +1958,7 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 				}
                 		else
                 		{
-                			    DBG("ROM Address 0x%x Signature 0x%02x%02x\n", nvRom, rom[0], rom[1]);
+					DBG("ROM Address 0x%x Signature 0x%02x%02x\n", nvRom, rom[0], rom[1]);
                 		}
             		}//end PRAM check
                 }//end PROM check

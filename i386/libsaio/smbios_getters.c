@@ -22,7 +22,7 @@
 bool getProcessorInformationExternalClock(returnType *value)
 {
 	if (Platform.CPU.Vendor == CPUID_VENDOR_INTEL) // Intel
-	{		
+	{
 		switch (Platform.CPU.Family)
 		{
 			case 0x06:
@@ -31,7 +31,8 @@ bool getProcessorInformationExternalClock(returnType *value)
 				{
 						// set external clock to 0 for SANDY
 						// removes FSB info from system profiler as on real mac's.     
-					case CPU_MODEL_SANDYBRIDGE:     
+					case CPU_MODEL_SANDYBRIDGE:
+					case CPU_MODEL_IVYBRIDGE_XEON:
 					case CPU_MODEL_IVYBRIDGE:
 						value->word = 0;
 						break;
@@ -40,7 +41,7 @@ bool getProcessorInformationExternalClock(returnType *value)
 				}
 			}
 				break;
-				
+
 			default:
 				value->word = Platform.CPU.FSBFrequency/1000000;
 		}
@@ -79,7 +80,7 @@ bool getSMBOemProcessorBusSpeed(returnType *value)
 					case CPU_MODEL_NEHALEM:		// Intel Core i7, Xeon W35xx, Xeon X55xx, Xeon E55xx LGA1366 (45nm)
 					case CPU_MODEL_FIELDS:		// Intel Core i5, i7, Xeon X34xx LGA1156 (45nm)
 					case CPU_MODEL_DALES:
-					case CPU_MODEL_DALES_32NM:	// Intel Core i3, i5 LGA1156 (32nm)
+					case CPU_MODEL_CLARKDALE:	// Intel Core i3, i5 LGA1156 (32nm)
 					case CPU_MODEL_WESTMERE:	// Intel Core i7, Xeon X56xx, Xeon E56xx, Xeon W36xx LGA1366 (32nm) 6 Core
 					case CPU_MODEL_NEHALEM_EX:	// Intel Xeon X75xx, Xeon X65xx, Xeon E75xx, Xeon E65x
 					case CPU_MODEL_WESTMERE_EX:	// Intel Xeon E7
@@ -102,7 +103,7 @@ bool getSMBOemProcessorBusSpeed(returnType *value)
 							if(vid == 0x8086 && did >= 0x2C00)
 								nhm_bus = possible_nhm_bus[i]; 
 						}
-						
+
 						unsigned long qpimult, qpibusspeed;
 						qpimult = pci_config_read32(PCIADDR(nhm_bus, 2, 1), 0x50);
 						qpimult &= 0x7F;
@@ -138,7 +139,7 @@ uint16_t simpleGetSMBOemProcessorType(void)
 bool getSMBOemProcessorType(returnType *value)
 {
 	static bool done = false;		
-		
+
 	value->word = simpleGetSMBOemProcessorType();
 
 	if (Platform.CPU.Vendor == CPUID_VENDOR_INTEL) // Intel
@@ -148,7 +149,7 @@ bool getSMBOemProcessorType(returnType *value)
 			verbose("CPU is %s, family 0x%x, model 0x%x\n", Platform.CPU.BrandString, Platform.CPU.Family, Platform.CPU.Model);
 			done = true;
 		}
-		
+
 		switch (Platform.CPU.Family) 
 		{
 			case 0x06:
@@ -165,7 +166,7 @@ bool getSMBOemProcessorType(returnType *value)
 					case CPU_MODEL_NEHALEM:				// Intel Core i7, Xeon W35xx, Xeon X55xx, Xeon E55xx LGA1366 (45nm)
 					case CPU_MODEL_WESTMERE:			// Intel Core i7, Xeon X56xx, Xeon E56xx, Xeon W36xx LGA1366 (32nm) 6 Core
 					case CPU_MODEL_WESTMERE_EX:			// Intel Xeon E7
-					case CPU_MODEL_JAKETOWN:			// Intel Core i7, Xeon E5 LGA2011 (32nm)
+					case CPU_MODEL_SANDYBRIDGE_XEON:			// Intel Core i7, Xeon E5-xxxx LGA2011 (32nm)
 						if (strstr(Platform.CPU.BrandString, "Xeon(R)"))
 							value->word = 0x0501;			// Xeon 
 						else
@@ -191,7 +192,7 @@ bool getSMBOemProcessorType(returnType *value)
 
 					case CPU_MODEL_SANDYBRIDGE:			// Intel Core i3, i5, i7 LGA1155 (32nm)
 					case CPU_MODEL_IVYBRIDGE:			// Intel Core i3, i5, i7 LGA1155 (22nm)
-					case CPU_MODEL_DALES_32NM:			// Intel Core i3, i5 LGA1156 (32nm)
+					case CPU_MODEL_CLARKDALE:			// Intel Core i3, i5 LGA1156 (32nm)
 						if (strstr(Platform.CPU.BrandString, "Core(TM) i3"))
 							value->word = 0x0901;			// Core i3
 						else
