@@ -12,27 +12,35 @@
 
 #include "IOKit/IOKitLib.h"
 
-
 int main(int argc, char *argv[])
 {
-	io_registry_entry_t root = IORegistryEntryFromPath(kIOMasterPortDefault, "IOService:/");
-	if (!root)
+	io_registry_entry_t root;
+	CFTypeRef bootLog = NULL;
+
+	root = IORegistryEntryFromPath(kIOMasterPortDefault, "IOService:/");
+
+	if (root)
+		bootLog = IORegistryEntryCreateCFProperty(root, CFSTR("boot-log"), kCFAllocatorDefault, 0);
+
+	if (!bootLog)
 	{
-		printf("IORegistryEntry \"IOIOService:/\" not found.\n");
-		return 0;
+		// Check for Clover boot log
+		root = IORegistryEntryFromPath(kIOMasterPortDefault, "IODeviceTree:/efi/platform");
+
+		if (root)
+			bootLog = IORegistryEntryCreateCFProperty(root, CFSTR("boot-log"), kCFAllocatorDefault, 0);
 	}
 
-	CFTypeRef bootLog = IORegistryEntryCreateCFProperty(root, CFSTR("boot-log"), kCFAllocatorDefault, 0);
 	if (!bootLog)
 	{
 		printf("\"boot-log\" property not found.\n");
 		return 0;
 	}
-	//CFShow(bootLog);
+
 	const UInt8 *msglog = CFDataGetBytePtr((CFDataRef)bootLog);
+
 	if (msglog)
 		printf("%s\n", msglog);
 
 	return 0;
 }
-
