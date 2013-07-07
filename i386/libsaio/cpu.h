@@ -58,19 +58,19 @@ extern void scan_cpu(PlatformInfo_t *);
 #define CPUID_MODEL_XEON_MP		29  // 0x1D MP 7400
 #define CPUID_MODEL_FIELDS		30  // 0x1E Intel Core i5, i7, Xeon X34xx LGA1156 (45nm),(Clarksfiled, Lynnfield, Jasper Forest)
 #define CPUID_MODEL_DALES		31  // 0x1F Havendale, Auburndale
-#define CPUID_MODEL_CLARKDALE		37  // 0x25 Intel Core i3, i5 LGA1156 (32nm), (Arrandale, Clarksdale)
+#define CPUID_MODEL_DALES_32NM		37  // 0x25 Intel Core i3, i5 LGA1156 (32nm), (Arrandale, Clarksdale)
 #define CPUID_MODEL_ATOM_SAN		38  // 0x26
 #define CPUID_MODEL_LINCROFT		39  // 0x27 Intel Atom (45nm) Z6xx (single core)
 #define CPUID_MODEL_SANDYBRIDGE		42  // 0x2A Intel Core i3, i5, i7 LGA1155 (32nm)
 #define CPUID_MODEL_WESTMERE		44  // 0x2C Intel Core i7, Xeon X56xx, Xeon E56xx, Xeon W36xx LGA1366 (32nm) 6 Core
-#define CPUID_MODEL_SANDYBRIDGE_XEON	45  // 0x2D Intel Xeon E5 LGA2011 (32nm), SandyBridge-E, SandyBridge-EN, SandyBridge-EP
+#define CPUID_MODEL_JAKETOWN        45  // 0x2D Intel Xeon E5 LGA2011 (32nm), SandyBridge-E, SandyBridge-EN, SandyBridge-EP
 #define CPUID_MODEL_NEHALEM_EX		46  // 0x2E Intel Xeon X75xx, Xeon X65xx, Xeon E75xx, Xeon E65x
 #define CPUID_MODEL_WESTMERE_EX		47  // 0x2F Intel Xeon E7
 #define CPUID_MODEL_ATOM_2000		54  // 0x36 Intel Atom (32nm) Cedarview
 #define CPUID_MODEL_IVYBRIDGE		58  // 0x3A Intel Core i5, i7 LGA1155 (22nm)
-#define CPUID_MODEL_HASWELL_DT		60  // 0x3C
+#define CPUID_MODEL_HASWELL		60  // 0x3C Desktop version
 #define CPUID_MODEL_IVYBRIDGE_XEON	62  // 0x3E
-#define CPUID_MODEL_HASWELL_MB		63  // 0x3F
+#define CPUID_MODEL_HASWELL_MB		63  // 0x3F Mobile/Laptop version
 //#define CPUID_MODEL_HASWELL_H		??  // 0x??
 #define CPUID_MODEL_HASWELL_ULT		69  // 0x45
 #define CPUID_MODEL_HASWELL_ULX		70  // 0x46

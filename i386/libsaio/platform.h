@@ -46,17 +46,17 @@ extern void dumpPhysAddr(const char * title, void * a, int len);
 #define CPU_MODEL_XEON_MP		0x1D			// MP 7400
 #define CPU_MODEL_FIELDS		0x1E			// Lynnfield, Clarksfield, Jasper Forest
 #define CPU_MODEL_DALES			0x1F			// Havendale, Auburndale
-#define CPU_MODEL_CLARKDALE		0x25			// Clarkdale, Arrandale
+#define CPU_MODEL_DALES_32NM		0x25			// Clarkdale, Arrandale
 #define CPU_MODEL_ATOM_SAN		0x26			// Lincroft
 #define CPU_MODEL_LINCROFT		0x27			// 
 #define CPU_MODEL_SANDYBRIDGE		0x2A			// Sandy Bridge
 #define CPU_MODEL_WESTMERE		0x2C			// Gulftown, Westmere-EP, Westmere-WS
-#define CPU_MODEL_SANDYBRIDGE_XEON	0x2D			// Sandy Bridge-E, Sandy Bridge-EP
+#define CPU_MODEL_JAKETOWN		0x2D			// Sandy Bridge-E, Sandy Bridge-EP
 #define CPU_MODEL_NEHALEM_EX		0x2E			// Beckton
 #define CPU_MODEL_WESTMERE_EX		0x2F			// Westmere-EX
 #define CPU_MODEL_ATOM_2000		0x36			// Cedarview
 #define CPU_MODEL_IVYBRIDGE		0x3A			// Ivy Bridge
-#define CPU_MODEL_HASWELL_DT		0x3C			// Haswell DT
+#define CPU_MODEL_HASWELL		0x3C			// Haswell DT
 #define CPU_MODEL_IVYBRIDGE_XEON	0x3E			// Ivy Bridge Xeon
 #define CPU_MODEL_HASWELL_MB		0x3F			// Haswell MB
 //#define CPU_MODEL_HASWELL_H		0x??			// Haswell H
@@ -152,7 +152,7 @@ typedef struct _PlatformInfo_t {
 		char			BrandString[48];		// 48 Byte Branding String
 		uint32_t		CPUID[CPUID_MAX][4];	// CPUID 0..4, 80..81 Raw Values
 	} CPU;
-	
+
 	struct RAM {
 		uint64_t		Frequency;				// Ram Frequency
 		uint32_t		Divider;				// Memory divider
@@ -165,14 +165,14 @@ typedef struct _PlatformInfo_t {
 		uint8_t			Type;					// Standard SMBIOS v2.5 Memory Type
 		RamSlotInfo_t	DIMM[MAX_RAM_SLOTS];	// Information about each slot
 	} RAM;
-	
+
 	struct DMI {
 		int			MaxMemorySlots;				// number of memory slots populated by SMBIOS
 		int			CntMemorySlots;				// number of memory slots counted
 		int			MemoryModules;				// number of memory modules installed
 		int			DIMM[MAX_RAM_SLOTS];		// Information and SPD mapping for each slot
 	} DMI;
-	
+
 	uint8_t				Type; // System Type: 1=Desktop, 2=Portable... according ACPI2.0 (FACP: PM_Profile)
 	uint8_t				*UUID;
 } PlatformInfo_t;

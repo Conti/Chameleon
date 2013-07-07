@@ -30,10 +30,15 @@ bool getProcessorInformationExternalClock(returnType *value)
 				switch (Platform.CPU.Model)
 				{
 						// set external clock to 0 for SANDY
-						// removes FSB info from system profiler as on real mac's.     
+						// removes FSB info from system profiler as on real mac's.
 					case CPU_MODEL_SANDYBRIDGE:
 					case CPU_MODEL_IVYBRIDGE_XEON:
 					case CPU_MODEL_IVYBRIDGE:
+					case CPU_MODEL_HASWELL:
+					case CPU_MODEL_HASWELL_MB:
+					case CPU_MODEL_HASWELL_ULT:
+					case CPU_MODEL_HASWELL_ULX:
+
 						value->word = 0;
 						break;
 					default:
@@ -80,7 +85,7 @@ bool getSMBOemProcessorBusSpeed(returnType *value)
 					case CPU_MODEL_NEHALEM:		// Intel Core i7, Xeon W35xx, Xeon X55xx, Xeon E55xx LGA1366 (45nm)
 					case CPU_MODEL_FIELDS:		// Intel Core i5, i7, Xeon X34xx LGA1156 (45nm)
 					case CPU_MODEL_DALES:
-					case CPU_MODEL_CLARKDALE:	// Intel Core i3, i5 LGA1156 (32nm)
+					case CPU_MODEL_DALES_32NM:	// Intel Core i3, i5 LGA1156 (32nm)
 					case CPU_MODEL_WESTMERE:	// Intel Core i7, Xeon X56xx, Xeon E56xx, Xeon W36xx LGA1366 (32nm) 6 Core
 					case CPU_MODEL_NEHALEM_EX:	// Intel Xeon X75xx, Xeon X65xx, Xeon E75xx, Xeon E65x
 					case CPU_MODEL_WESTMERE_EX:	// Intel Xeon E7
@@ -166,7 +171,7 @@ bool getSMBOemProcessorType(returnType *value)
 					case CPU_MODEL_NEHALEM:				// Intel Core i7, Xeon W35xx, Xeon X55xx, Xeon E55xx LGA1366 (45nm)
 					case CPU_MODEL_WESTMERE:			// Intel Core i7, Xeon X56xx, Xeon E56xx, Xeon W36xx LGA1366 (32nm) 6 Core
 					case CPU_MODEL_WESTMERE_EX:			// Intel Xeon E7
-					case CPU_MODEL_SANDYBRIDGE_XEON:			// Intel Core i7, Xeon E5-xxxx LGA2011 (32nm)
+					case CPU_MODEL_JAKETOWN:			// Intel Core i7, Xeon E5-xxxx LGA2011 (32nm)
 						if (strstr(Platform.CPU.BrandString, "Xeon(R)"))
 							value->word = 0x0501;			// Xeon 
 						else
@@ -192,7 +197,11 @@ bool getSMBOemProcessorType(returnType *value)
 
 					case CPU_MODEL_SANDYBRIDGE:			// Intel Core i3, i5, i7 LGA1155 (32nm)
 					case CPU_MODEL_IVYBRIDGE:			// Intel Core i3, i5, i7 LGA1155 (22nm)
-					case CPU_MODEL_CLARKDALE:			// Intel Core i3, i5 LGA1156 (32nm)
+					case CPU_MODEL_DALES_32NM:			// Intel Core i3, i5 LGA1156 (32nm)
+					case CPU_MODEL_HASWELL:
+					case CPU_MODEL_HASWELL_MB:
+					case CPU_MODEL_HASWELL_ULT:
+					case CPU_MODEL_HASWELL_ULX:
 						if (strstr(Platform.CPU.BrandString, "Core(TM) i3"))
 							value->word = 0x0901;			// Core i3
 						else
@@ -229,6 +238,12 @@ bool getSMBMemoryDeviceMemoryType(returnType *value)
 	return false;
 //	value->byte = SMB_MEM_TYPE_DDR2;
 //	return true;
+}
+
+bool getSMBMemoryDeviceMemoryErrorHandle(returnType *value)
+{
+	value->word = 0xFFFF;
+	return true;
 }
 
 bool getSMBMemoryDeviceMemorySpeed(returnType *value)
@@ -271,7 +286,9 @@ bool getSMBMemoryDeviceManufacturer(returnType *value)
 	}
 
 	if (!bootInfo->memDetect)
+	{
 		return false;
+	}
 	value->string = NOT_AVAILABLE;
 	return true;
 }
@@ -297,7 +314,9 @@ bool getSMBMemoryDeviceSerialNumber(returnType *value)
 	}
 
 	if (!bootInfo->memDetect)
+	{
 		return false;
+	}
 	value->string = NOT_AVAILABLE;
 	return true;
 }
@@ -320,7 +339,9 @@ bool getSMBMemoryDevicePartNumber(returnType *value)
 	}
 
 	if (!bootInfo->memDetect)
+	{
 		return false;
+	}
 	value->string = NOT_AVAILABLE;
 	return true;
 }

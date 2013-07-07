@@ -83,7 +83,7 @@ const char *nvidia_compatible_0[]       =	{ "@0,compatible",	"NVDA,NVMac"	 };
 const char *nvidia_compatible_1[]       =	{ "@1,compatible",	"NVDA,NVMac"	 };
 const char *nvidia_device_type_0[]      =	{ "@0,device_type",	"display"	 };
 const char *nvidia_device_type_1[]      =	{ "@1,device_type",	"display"	 };
-const char *nvidia_device_type[]        =	{ "device_type",	"NVDA,Parent"	 };
+const char *nvidia_device_type_parent[] =	{ "device_type",	"NVDA,Parent"	 };
 const char *nvidia_device_type_child[]	=	{ "device_type",	"NVDA,Child"	 };
 const char *nvidia_name_0[]             =	{ "@0,name",		"NVDA,Display-A" };
 const char *nvidia_name_1[]             =	{ "@1,name",		"NVDA,Display-B" };
@@ -1127,6 +1127,7 @@ static nvidia_pci_info_t nvidia_card_generic[] = {
 	// 1180 - 118F
 	{ 0x10DE1180,	"GeForce GTX 680" },
 	{ 0x10DE1183,	"GeForce GTX 660 Ti" },
+	{ 0x10DE1184,	"GeForce GTX 770" },
 	{ 0x10DE1185,	"GeForce GTX 660" },
 	{ 0x10DE1188,	"GeForce GTX 690" },
 	{ 0x10DE1189,	"GeForce GTX 670" },
@@ -1152,6 +1153,7 @@ static nvidia_pci_info_t nvidia_card_generic[] = {
 	{ 0x10DE11C4,	"GeForce GTX 645" },
 	{ 0x10DE11C6,	"GeForce GTX 650 Ti" },
 	// 11D0 - 11DF
+	{ 0x10DE11D0,	"GK106-INT353" },
 	// 11E0 - 11EF
 	{ 0x10DE11E0,	"GeForce GTX 770M" },
 	{ 0x10DE11E1,	"N14E-GE-B-A1" },
@@ -1189,6 +1191,8 @@ static nvidia_pci_info_t nvidia_card_generic[] = {
 	// 1270 - 127F
 	// 1280 - 128F
 	{ 0x10DE1280,	"GeForce GT 635" },
+	{ 0x10DE1282,	"GeForce GT 640" },
+	{ 0x10DE1284,	"GeForce GT 630" },
 	// 1290 - 129F
 	{ 0x10DE1290,	"GeForce GT 730M" },
 	{ 0x10DE1291,	"GeForce GT 735M" },
@@ -1724,13 +1728,13 @@ static int devprop_add_nvidia_template(struct DevPropDevice *device)
 		return 0;
 	if (devices_number == 1)
 	{
-	  if (!DP_ADD_TEMP_VAL(device, nvidia_device_type))
-		  return 0;
+		if (!DP_ADD_TEMP_VAL(device, nvidia_device_type_parent))
+			return 0;
 	}
 	else
 	{
-	  if (!DP_ADD_TEMP_VAL(device, nvidia_device_type_child))
-		  return 0;
+		if (!DP_ADD_TEMP_VAL(device, nvidia_device_type_child))
+			return 0;
 	}
 
 	// Rek : Dont use sprintf return, it does not WORK !! our custom sprintf() always return 0!
@@ -1854,30 +1858,30 @@ unsigned long long mem_detect(volatile uint8_t *regs, uint8_t nvCardType, pci_dt
 }
 
 static bool checkNvRomSig(uint8_t * aRom){
-    return aRom != NULL && (aRom[0] == 0x55 && aRom[1] == 0xaa);
+	return aRom != NULL && (aRom[0] == 0x55 && aRom[1] == 0xaa);
 }
 
 bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 {
-	struct DevPropDevice	*device;
-	char					*devicepath;
-	option_rom_pci_header_t *rom_pci_header;
+	struct DevPropDevice		*device = NULL;
+	char				*devicepath = NULL;
+	option_rom_pci_header_t		*rom_pci_header;
 	volatile uint8_t		*regs;
-	uint8_t					*rom;
-	uint8_t					*nvRom;
-	uint8_t					nvCardType;
-	unsigned long long		videoRam;
-	uint32_t				nvBiosOveride;
-	uint32_t				bar[7];
-	uint32_t				boot_display;
-	int						nvPatch;
-	int						len;
-	char					biosVersion[32];
-	char					nvFilename[32];
-	char					kNVCAP[12];
-	char					*model;
-	const char				*value;
-	bool					doit;
+	uint8_t				*rom = NULL;
+	uint8_t				*nvRom;
+	uint8_t				nvCardType = 0;
+	unsigned long long		videoRam = 0;
+	uint32_t			nvBiosOveride;
+	uint32_t			bar[7];
+	uint32_t			boot_display = 0;
+	int				nvPatch = 0;
+	int				len;
+	char				biosVersion[64];
+	char				nvFilename[64];
+	char				kNVCAP[12];
+	char				*model = NULL;
+	const char			*value;
+	bool				doit;
 
 	fill_card_list();
 
@@ -1915,41 +1919,41 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 	}
 	else
 	{
-        rom = malloc(NVIDIA_ROM_SIZE);
+		rom = malloc(NVIDIA_ROM_SIZE);
 
 		// Otherwise read bios from card
 		nvBiosOveride = 0;
 
-        // PROM first
-        // Enable PROM access
-        (REG32(NV_PBUS_PCI_NV_20)) = NV_PBUS_PCI_NV_20_ROM_SHADOW_DISABLED;
-        nvRom = (uint8_t*)&regs[NV_PROM_OFFSET];
+		// PROM first
+		// Enable PROM access
+		(REG32(NV_PBUS_PCI_NV_20)) = NV_PBUS_PCI_NV_20_ROM_SHADOW_DISABLED;
+		nvRom = (uint8_t*)&regs[NV_PROM_OFFSET];
 
-        // Valid Signature ?
+		// Valid Signature ?
 		if (checkNvRomSig(nvRom))
 		{
-            bcopy((uint8_t *)nvRom, rom, NVIDIA_ROM_SIZE);
-            DBG("PROM Address 0x%x Signature 0x%02x%02x\n", nvRom, rom[0], rom[1]);
-        }
-        else
-        {
+			bcopy((uint8_t *)nvRom, rom, NVIDIA_ROM_SIZE);
+			DBG("PROM Address 0x%x Signature 0x%02x%02x\n", nvRom, rom[0], rom[1]);
+		}
+		else
+		{
 
-            // disable PROM access
-            (REG32(NV_PBUS_PCI_NV_20)) = NV_PBUS_PCI_NV_20_ROM_SHADOW_ENABLED;
+			// disable PROM access
+			(REG32(NV_PBUS_PCI_NV_20)) = NV_PBUS_PCI_NV_20_ROM_SHADOW_ENABLED;
 
-	    //PRAM next
-            nvRom = (uint8_t*)&regs[NV_PRAMIN_OFFSET];
+			//PRAM next
+			nvRom = (uint8_t*)&regs[NV_PRAMIN_OFFSET];
 
-            if(checkNvRomSig(nvRom))
-            {
-                bcopy((uint32_t *)nvRom, rom, NVIDIA_ROM_SIZE);
-                DBG("PRAM Address 0x%x Signature 0x%02x%02x\n", nvRom, rom[0], rom[1]);
-            }
-            else
-    		{
+			if(checkNvRomSig(nvRom))
+			{
+				bcopy((uint32_t *)nvRom, rom, NVIDIA_ROM_SIZE);
+				DBG("PRAM Address 0x%x Signature 0x%02x%02x\n", nvRom, rom[0], rom[1]);
+			}
+			else
+			{
 				// 0xC0000 last
 				bcopy((char *)0xc0000, rom, NVIDIA_ROM_SIZE);
-				
+
 				// Valid Signature ?
 				if (!checkNvRomSig(rom))
 				{
@@ -1958,7 +1962,7 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 				}
                 		else
                 		{
-					DBG("ROM Address 0x%x Signature 0x%02x%02x\n", nvRom, rom[0], rom[1]);
+                			    DBG("ROM Address 0x%x Signature 0x%02x%02x\n", nvRom, rom[0], rom[1]);
                 		}
             		}//end PRAM check
                 }//end PROM check
@@ -2105,7 +2109,7 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 	default_NVCAP[12], default_NVCAP[13], default_NVCAP[14], default_NVCAP[15],
 	default_NVCAP[16], default_NVCAP[17], default_NVCAP[18], default_NVCAP[19]);
 #endif
-	
+
 	devprop_add_nvidia_template(device);
 	devprop_add_value(device, "NVCAP", default_NVCAP, NVCAP_LEN);
 	devprop_add_value(device, "NVPM", default_NVPM, NVPM_LEN);

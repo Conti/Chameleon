@@ -52,9 +52,11 @@ uint64_t timeRDTSC(void)
 	};
 
 restart:
-    if (attempts >= 9) // increase to up to 9 attempts.
-        // This will flash-reboot. TODO: Use tscPanic instead.
-        printf("Timestamp counter calibation failed with %d attempts\n", attempts);
+	if (attempts >= 9) // increase to up to 9 attempts.
+	{
+	        // This will flash-reboot. TODO: Use tscPanic instead.
+		printf("Timestamp counter calibation failed with %d attempts\n", attempts);
+	}
     attempts++;
     enable_PIT2();		// turn on PIT2
     set_PIT2(0);		// reset timer 2 to be zero
@@ -276,8 +278,8 @@ void scan_cpu(PlatformInfo_t *p)
 
 	if (p->CPU.Vendor == CPUID_VENDOR_INTEL &&
 		p->CPU.Family == 0x06 &&
-		p->CPU.Model >= CPUID_MODEL_NEHALEM &&
-		p->CPU.Model != CPUID_MODEL_ATOM		// MSR is *NOT* available on the Intel Atom CPU
+		p->CPU.Model >= CPU_MODEL_NEHALEM &&
+		p->CPU.Model != CPU_MODEL_ATOM		// MSR is *NOT* available on the Intel Atom CPU
 		)
 	{
 		msr = rdmsr64(MSR_CORE_THREAD_COUNT);					// Undocumented MSR in Nehalem and newer CPUs
@@ -372,15 +374,15 @@ void scan_cpu(PlatformInfo_t *p)
 			if (p->CPU.Family == 0x06 && (p->CPU.Model == CPU_MODEL_NEHALEM		||
 										  p->CPU.Model == CPU_MODEL_FIELDS	||
 										  p->CPU.Model == CPU_MODEL_DALES	||
-										  p->CPU.Model == CPU_MODEL_CLARKDALE	||
+										  p->CPU.Model == CPU_MODEL_DALES_32NM	||
 										  p->CPU.Model == CPU_MODEL_WESTMERE	||
 										  p->CPU.Model == CPU_MODEL_NEHALEM_EX	||
 										  p->CPU.Model == CPU_MODEL_WESTMERE_EX ||
 										  p->CPU.Model == CPU_MODEL_SANDYBRIDGE ||
-										  p->CPU.Model == CPU_MODEL_SANDYBRIDGE_XEON ||
+										  p->CPU.Model == CPU_MODEL_JAKETOWN ||
 										  p->CPU.Model == CPU_MODEL_IVYBRIDGE_XEON	||
 										  p->CPU.Model == CPU_MODEL_IVYBRIDGE  ||
-										  p->CPU.Model == CPU_MODEL_HASWELL_DT  ||
+										  p->CPU.Model == CPU_MODEL_HASWELL  ||
 										  p->CPU.Model == CPU_MODEL_HASWELL_MB  ||
 										  //p->CPU.Model == CPU_MODEL_HASWELL_H  ||
 										  p->CPU.Model == CPU_MODEL_HASWELL_ULT  ||
@@ -388,12 +390,12 @@ void scan_cpu(PlatformInfo_t *p)
 			{
 				msr = rdmsr64(MSR_PLATFORM_INFO);
 				DBG("msr(%d): platform_info %08x\n", __LINE__, bitfield(msr, 31, 0));
-				bus_ratio_max = bitfield(msr, 14, 8);
-				bus_ratio_min = bitfield(msr, 46, 40); //valv: not sure about this one (Remarq.1)
+				bus_ratio_max = bitfield(msr, 15, 8);
+				bus_ratio_min = bitfield(msr, 47, 40); //valv: not sure about this one (Remarq.1)
 				msr = rdmsr64(MSR_FLEX_RATIO);
 				DBG("msr(%d): flex_ratio %08x\n", __LINE__, bitfield(msr, 31, 0));
 				if (bitfield(msr, 16, 16)) {
-					flex_ratio = bitfield(msr, 14, 8);
+					flex_ratio = bitfield(msr, 15, 8);
 					/* bcc9: at least on the gigabyte h67ma-ud2h,
 					 where the cpu multipler can't be changed to
 					 allow overclocking, the flex_ratio msr has unexpected (to OSX)

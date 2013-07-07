@@ -41,7 +41,9 @@ static void setup_p35(pci_dt_t *dram_dev)
 	// Activate MMR I/O
 	dev0 = pci_config_read32(dram_dev->dev.addr, 0x48);
 	if (!(dev0 & 0x1))
+	{
 		pci_config_write8(dram_dev->dev.addr, 0x48, (dev0 | 1));
+	}
 }
 
 int nhm_bus = 0x3F;
@@ -63,7 +65,9 @@ static void setup_nhm(pci_dt_t *dram_dev)
 		did &= 0xFF00;
 		
 		if(vid == 0x8086 && did >= 0x2C00)
+		{
 			nhm_bus = possible_nhm_bus[i]; 
+		}
 	}
 }
 
@@ -103,17 +107,17 @@ static void get_fsb_i965(pci_dt_t *dram_dev)
 	switch (mch_fsb)
 	{
 		case 533:
-			switch ((mch_cfg >> 4) & 7)
+		switch ((mch_cfg >> 4) & 7)
 		{
 			case 1:	mch_ratio = 200000; break;
 			case 2:	mch_ratio = 250000; break;
 			case 3:	mch_ratio = 300000; break;
 		}
-			break;
+		break;
 			
 		default:
 		case 800:
-			switch ((mch_cfg >> 4) & 7)
+		switch ((mch_cfg >> 4) & 7)
 		{
 			case 0:	mch_ratio = 100000; break;
 			case 1:	mch_ratio = 125000; break;
@@ -122,10 +126,10 @@ static void get_fsb_i965(pci_dt_t *dram_dev)
 			case 4:	mch_ratio = 266667; break; // 2.666666667
 			case 5:	mch_ratio = 333333; break; // 3.333333333
 		}
-			break;
+		break;
 			
 		case 1066:
-			switch ((mch_cfg >> 4) & 7)
+		switch ((mch_cfg >> 4) & 7)
 		{
 			case 1:	mch_ratio = 100000; break;
 			case 2:	mch_ratio = 125000; break;
@@ -133,27 +137,27 @@ static void get_fsb_i965(pci_dt_t *dram_dev)
 			case 4:	mch_ratio = 200000; break;
 			case 5:	mch_ratio = 250000; break;
 		}
-			break;
+		break;
 			
 		case 1333:
-			switch ((mch_cfg >> 4) & 7)
+		switch ((mch_cfg >> 4) & 7)
 		{
 			case 2:	mch_ratio = 100000; break;
 			case 3:	mch_ratio = 120000; break;
 			case 4:	mch_ratio = 160000; break;
 			case 5:	mch_ratio = 200000; break;
 		}
-			break;
+		break;
 			
 		case 1600:
-			switch ((mch_cfg >> 4) & 7)
+		switch ((mch_cfg >> 4) & 7)
 		{
 			case 3:	mch_ratio = 100000; break;
 			case 4:	mch_ratio = 133333; break; // 1.333333333
 			case 5:	mch_ratio = 150000; break;
 			case 6:	mch_ratio = 200000; break;
 		}
-			break;
+		break;
 	}
 	
 	DBG("mch_ratio %d\n", mch_ratio);
@@ -223,7 +227,8 @@ static void get_fsb_im965(pci_dt_t *dram_dev)
 			}
 			break;
 		case 1066:
-			switch ((mch_cfg >> 4)&7) {
+			switch ((mch_cfg >> 4)&7)
+			{
 				case 5:	mch_ratio = 150000; break;
 				case 6:	mch_ratio = 200000; break;
 			}
@@ -247,7 +252,7 @@ static void get_fsb_nhm(pci_dt_t *dram_dev)
 	// Compute RAM Frequency
 	Platform.RAM.Frequency = Platform.CPU.FSBFrequency * mch_ratio / 2;
 }
- 
+
 /*
  * Retrieve memory controller info functions
  */
@@ -416,13 +421,13 @@ static void get_timings_p35(pci_dt_t *dram_dev)
 		Platform.RAM.Type = SMB_MEM_TYPE_DDR2;
 	else
 		Platform.RAM.Type = SMB_MEM_TYPE_DDR3;
-	
+
 	// CAS Latency (tCAS)
 	if(dram_dev->device_id > 0x2E00)
 		Platform.RAM.CAS = ((ODT_Control_Register >> 8) & 0x3F) - 6;
 	else
 		Platform.RAM.CAS = ((ODT_Control_Register >> 8) & 0x3F) - 9;
-	
+
 	// RAS-To-CAS (tRCD)
 	Platform.RAM.TRC = (Read_Register >> 17) & 0xF;
 	
@@ -459,7 +464,7 @@ static void get_timings_nhm(pci_dt_t *dram_dev)
 		fvc_bn = 5; 
 	else if(mc_control & 7) 
 		fvc_bn = 6; 
-	
+
 	// Now, detect timings
 	mc_channel_bank_timing = pci_config_read32(PCIADDR(nhm_bus, fvc_bn, 0), 0x88);
 	mc_channel_mrs_value = pci_config_read32(PCIADDR(nhm_bus, fvc_bn, 0), 0x70);
@@ -543,10 +548,10 @@ void scan_dram_controller(pci_dt_t *dram_dev)
 			
 			if (dram_controllers[i].initialise != NULL)
 				dram_controllers[i].initialise(dram_dev);
-							
+
 			if (dram_controllers[i].poll_timings != NULL)
 				dram_controllers[i].poll_timings(dram_dev);
-								
+
 			if (dram_controllers[i].poll_speed != NULL)
 				dram_controllers[i].poll_speed(dram_dev);
 
@@ -558,5 +563,5 @@ void scan_dram_controller(pci_dt_t *dram_dev)
 					,Platform.RAM.CAS, Platform.RAM.TRC, Platform.RAM.TRP, Platform.RAM.RAS
 					);
 //			getchar();		
-		}	
-}	
+		}
+}

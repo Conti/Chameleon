@@ -1,7 +1,7 @@
 /*
  * spd.c - serial presence detect memory information
  *
- * Originally restored from pcefi10.5
+ * Originally restored from pcefi10.5 by netkas
  * Dynamic mem detection original impl. by Rekursor
  * System profiler fix and other fixes by Mozodojo.
  */
@@ -373,9 +373,11 @@ static struct smbus_controllers_t smbus_controllers[] = {
 	{0x8086, 0x3A60, "ICH10B",		read_smb_intel },
 	{0x8086, 0x3B30, "5 Series",		read_smb_intel },
 	{0x8086, 0x1C22, "6 Series",		read_smb_intel },
+	{0x8086, 0x1D22, "C600/X79 Series",	read_smb_intel },
 	{0x8086, 0x1E22, "7 Series",		read_smb_intel },
 	{0x8086, 0x5032, "EP80579",		read_smb_intel },
-	{0x8086, 0x1D22, "X79 Series",		read_smb_intel },
+	{0x8086, 0x8C22, "8 Series",		read_smb_intel },
+	{0x8086, 0x9C22, "Lynx Point-LP",       read_smb_intel }
 
 };
 

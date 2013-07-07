@@ -246,6 +246,8 @@ SMBValueSetter SMBSetters[] =
 
 	{kSMBTypeMemoryDevice,	kSMBString,	getFieldOffset(SMBMemoryDevice, assetTag),		NULL,	NULL,	NULL},
 
+	{kSMBTypeMemoryDevice,	kSMBWord,	getFieldOffset(SMBMemoryDevice, errorHandle),   NULL,   getSMBMemoryDeviceMemoryErrorHandle,    NULL},
+
 	{kSMBTypeMemoryDevice,	kSMBString,	getFieldOffset(SMBMemoryDevice, partNumber),	kSMBMemoryDevicePartNumberKey,		
 		getSMBMemoryDevicePartNumber,	NULL},
 
@@ -327,14 +329,13 @@ void setDefaultSMBData(void)
 						{
 							case CPU_MODEL_FIELDS:			// Intel Core i5, i7, Xeon X34xx LGA1156 (45nm)
 							case CPU_MODEL_DALES:
-							case CPU_MODEL_CLARKDALE:		// Intel Core i3, i5 LGA1156 (32nm)
+							case CPU_MODEL_DALES_32NM:		// Intel Core i3, i5 LGA1156 (32nm)
 								defaultBIOSInfo.version			= kDefaultiMacNehalemBIOSVersion;
 								defaultSystemInfo.productName	= kDefaultiMacNehalem;
 								defaultSystemInfo.family		= kDefaultiMacFamily;
 								break;
 
 							case CPU_MODEL_SANDYBRIDGE:			// Intel Core i3, i5, i7 LGA1155 (32nm)
-							case CPU_MODEL_SANDYBRIDGE_XEON:			// Intel Core i7, Xeon E5 LGA2011 (32nm)
 							case CPU_MODEL_IVYBRIDGE:			// Intel Core i3, i5, i7 LGA1155 (22nm)
 								defaultBIOSInfo.version			= kDefaultiMacSandyBIOSVersion;
 								defaultSystemInfo.productName	= kDefaultiMacSandy;
@@ -349,6 +350,7 @@ void setDefaultSMBData(void)
 
 							case CPU_MODEL_WESTMERE:		// Intel Core i7, Xeon X56xx, Xeon E56xx, Xeon W36xx LGA1366 (32nm) 6 Core
 							case CPU_MODEL_WESTMERE_EX:		// Intel Xeon E7
+							case CPU_MODEL_JAKETOWN:		// Intel Core i7, Xeon E5 LGA2011 (32nm)
 								defaultBIOSInfo.version			= kDefaultMacProWestmereBIOSVersion;
 								defaultBIOSInfo.releaseDate		= kDefaulMacProWestmereBIOSReleaseDate;
 								defaultSystemInfo.productName	= kDefaultMacProWestmere;
@@ -571,7 +573,7 @@ void addSMBOemProcessorBusSpeed(SMBStructPtrs *structPtr)
 			{
 				case CPU_MODEL_FIELDS:		// Intel Core i5, i7, Xeon X34xx LGA1156 (45nm)
 				case CPU_MODEL_DALES:
-				case CPU_MODEL_CLARKDALE:	// Intel Core i3, i5 LGA1156 (32nm)
+				case CPU_MODEL_DALES_32NM:	// Intel Core i3, i5 LGA1156 (32nm)
 				case CPU_MODEL_NEHALEM:		// Intel Core i7, Xeon W35xx, Xeon X55xx, Xeon E55xx LGA1366 (45nm)
 				case CPU_MODEL_NEHALEM_EX:	// Intel Xeon X75xx, Xeon X65xx, Xeon E75xx, Xeon E65x
 				case CPU_MODEL_WESTMERE:	// Intel Core i7, Xeon X56xx, Xeon E56xx, Xeon W36xx LGA1366 (32nm) 6 Core
@@ -579,7 +581,12 @@ void addSMBOemProcessorBusSpeed(SMBStructPtrs *structPtr)
 				case CPU_MODEL_SANDYBRIDGE:	// Intel Core i3, i5, i7 LGA1155 (32nm)
 				case CPU_MODEL_IVYBRIDGE:	// Intel Core i3, i5, i7 LGA1155 (22nm)
 				case CPU_MODEL_IVYBRIDGE_XEON:
-				case CPU_MODEL_SANDYBRIDGE_XEON:// Intel Core i7, Xeon E5 LGA2011 (32nm)
+				case CPU_MODEL_JAKETOWN:	// Intel Core i7, Xeon E5 LGA2011 (32nm)
+				case CPU_MODEL_HASWELL:
+				case CPU_MODEL_HASWELL_MB:
+				case CPU_MODEL_HASWELL_ULT:
+				case CPU_MODEL_HASWELL_ULX:
+
 					break;
 
 				default:

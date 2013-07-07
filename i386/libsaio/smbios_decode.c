@@ -165,6 +165,7 @@ void decodeMemoryDevice(SMBMemoryDevice *structHeader)
 	if (minorVersion < 3 || structHeader->header.length < 27)
 		return;
 	DBG("\tmemorySpeed: %dMHz\n", structHeader->memorySpeed);
+	DBG("\terrorHandle: %x\n", structHeader->errorHandle);
 	DBG("\tmanufacturer: %s\n", getSMBStringForField((SMBStructHeader *)structHeader, structHeader->manufacturer));
 	DBG("\tserialNumber: %s\n", getSMBStringForField((SMBStructHeader *)structHeader, structHeader->serialNumber));
 	DBG("\tassetTag: %s\n", getSMBStringForField((SMBStructHeader *)structHeader, structHeader->assetTag));
@@ -257,7 +258,9 @@ void decodeSMBIOSTable(SMBEntryPoint *eps)
 		for (; ((uint16_t *)ptr)[0] != 0; ptr++);
 
 		if (((uint16_t *)ptr)[0] == 0)
+		{
 			ptr += 2;
+		}
 
 		structHeader = (SMBStructHeader *)ptr;
 	}

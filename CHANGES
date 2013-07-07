@@ -1,10 +1,14 @@
-- Fix issue booting x86 after rev.2175 (Credits to Mario, Alex and Leon).
-- ErmaC : Add new CPU Model IDs
-- Add boot support to 10.9 (thx old napalm)
-- ErmaC : Update gui Icons OS detection
-- Update default theme Icon set (thx BlackOsx)
-- Add Linux GPT Partition Label
-- Fix menuBVR initialization problem
+- 2252: revert define processors name to match with xnu kernel name 
+- 2252: Merge from Enoch the Geoff Seeley patch http://forge.voodooprojects.org/p/chameleon/issues/59/
+- 2251: bdmesg can show Chameleon and Clover boot logs
+- 2248: Infos about lack for 32/64 bit (Credits to Pike R. Alpha)
+- 2248: Fix issue booting x86 after rev.2175 (Credits to Bronxteck, Alex Burma and Leon).
+- 2245: ErmaC : Add new CPU Model IDs
+- 2245: Add boot support to 10.9 (thx old napalm)
+- 2245: ErmaC : Update gui Icons OS detection
+- 2245: Update default theme Icon set (thx BlackOsx)
+- 2243: Add Linux GPT Partition Label
+- 2234: Fix menuBVR initialization problem
 - Implement ErmaC's HDAEnabler.dylib module
 - Fix Bug in the loop that look for an ATI card. Credits to Jief Luce
 - Fix extension without kPropOSBundleRequired property weren't loaded. Credits to Jief Luce

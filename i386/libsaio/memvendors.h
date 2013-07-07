@@ -1,16 +1,17 @@
 /*
  * Memory module vendors as published by JEDEC 106AA 
  *
- * Special thanks to indi, memtest and theking for the table
+ * Special thanks to iNDi, memtest and THeKiNG for the table
  *
  */
 #ifndef __MEMVEN_H
 #define __MEMVEN_H
 
-typedef struct _vidTag {
-    uint8_t bank;
-    uint8_t code;
-    const char*  name;
+typedef struct _vidTag
+{
+	uint8_t		bank;
+	uint8_t		code;
+	const char*	name;
 } VenIdName;
 
 VenIdName vendorMap[] = {

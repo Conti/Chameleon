@@ -149,7 +149,7 @@ int load_module(char* module)
 	}
 	
 	unsigned int moduleSize = file_size(fh);
-    
+
     if(moduleSize == 0)
     {
         DBG("WARNING: The module %s has a file size of %d, the module will not be loaded.\n", modString, moduleSize);

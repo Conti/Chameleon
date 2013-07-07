@@ -778,7 +778,7 @@ static bool is_sandybridge(void)
 
 static bool is_jaketown(void)
 {
-    return Platform.CPU.Model == CPU_MODEL_SANDYBRIDGE_XEON;
+    return Platform.CPU.Model == CPU_MODEL_JAKETOWN;
 }
 
 static U32 get_bclk(void)
@@ -1121,13 +1121,13 @@ static void collect_cpu_info(CPU_DETAILS * cpu)
 				} 
 				case CPU_MODEL_FIELDS:
 				case CPU_MODEL_DALES:
-				case CPU_MODEL_CLARKDALE:
+				case CPU_MODEL_DALES_32NM:
 				case CPU_MODEL_NEHALEM: 
 				case CPU_MODEL_NEHALEM_EX:
 				case CPU_MODEL_WESTMERE:
 				case CPU_MODEL_WESTMERE_EX:
 				case CPU_MODEL_SANDYBRIDGE:
-				case CPU_MODEL_SANDYBRIDGE_XEON:
+				case CPU_MODEL_JAKETOWN:
 				{		
 					
 					cpu->core_c1_supported = ((sub_Cstates >> 4) & 0xf) ? 1 : 0;
@@ -1455,13 +1455,13 @@ static U32 BuildPstateInfo(CPU_DETAILS * cpu)
 					} 
 					case CPU_MODEL_FIELDS:
 					case CPU_MODEL_DALES:
-					case CPU_MODEL_CLARKDALE:
+					case CPU_MODEL_DALES_32NM:
 					case CPU_MODEL_NEHALEM: 
 					case CPU_MODEL_NEHALEM_EX:
 					case CPU_MODEL_WESTMERE:
 					case CPU_MODEL_WESTMERE_EX:
 					case CPU_MODEL_SANDYBRIDGE:
-					case CPU_MODEL_SANDYBRIDGE_XEON:
+					case CPU_MODEL_JAKETOWN:
 					{		
 						
 						maximum.Control = rdmsr64(MSR_IA32_PERF_STATUS) & 0xff; // Seems it always contains maximum multiplier value (with turbo, that's we need)...
@@ -1770,11 +1770,11 @@ static U32 BuildCstateInfo(CPU_DETAILS * cpu, U32 pmbase)
 	{ 
         
 		TagPtr CstateTag = NULL;
-        U32 entry_count = 0;
+		U32 entry_count = 0;
         
         if (bootInfo->chameleonConfig.dictionary) 
         {
-            CstateTag = XMLCastDict(XMLGetProperty(bootInfo->chameleonConfig.dictionary, (const char*)"C-States"));
+		CstateTag = XMLCastDict(XMLGetProperty(bootInfo->chameleonConfig.dictionary, (const char*)"C-States"));
         }       
         
 		if (CstateTag)

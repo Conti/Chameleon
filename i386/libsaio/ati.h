@@ -96,9 +96,9 @@ typedef enum {
 	/* Southern Islands */
 	CHIP_FAMILY_TAHITI,
 	CHIP_FAMILY_PITCAIRN,
-    	CHIP_FAMILY_VERDE,
-    	CHIP_FAMILY_THAMES,
-    	CHIP_FAMILY_LOMBOK,
+	CHIP_FAMILY_VERDE,
+	CHIP_FAMILY_THAMES,
+	CHIP_FAMILY_LOMBOK,
     //	CHIP_FAMILY_NEWZEALAND,
 	CHIP_FAMILY_LAST
 } ati_chip_family_t;
@@ -193,10 +193,10 @@ typedef struct {
 
 //radeon card (includes teh AtiConfig)
 typedef struct {
-	uint16_t				device_id;
-	uint32_t				subsys_id;
+	uint16_t			device_id;
+	uint32_t			subsys_id;
 	ati_chip_family_t		chip_family;
-	const char				*model_name;
+	const char			*model_name;
 	ati_config_name_t		cfg_name;
 } radeon_card_info_t;
 
@@ -210,19 +210,19 @@ typedef struct {
 } dev_prop_t;
 
 typedef struct {
-	struct DevPropDevice	*device;
+	struct DevPropDevice		*device;
 	radeon_card_info_t		*info;
-	pci_dt_t				*pci_dev;
-	uint8_t					*fb;
-	uint8_t					*mmio;
-	uint8_t					*io;
-	uint8_t					*rom;
-	uint32_t				rom_size;
-	uint32_t				vram_size;
-	const char				*cfg_name;
-	uint8_t					ports;
-	uint32_t				flags;
-	bool					posted;
+	pci_dt_t			*pci_dev;
+	uint8_t				*fb;
+	uint8_t				*mmio;
+	uint8_t				*io;
+	uint8_t				*rom;
+	uint64_t			rom_size;
+	uint64_t			vram_size;
+	const char			*cfg_name;
+	uint8_t				ports;
+	uint32_t			flags;
+	bool				posted;
 } card_t;
 
 
