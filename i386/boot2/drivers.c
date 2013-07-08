@@ -748,8 +748,8 @@ ParseXML( char * buffer, ModulePtr * module, TagPtr * personalities )
 
 	required = XMLGetProperty(moduleDict, kPropOSBundleRequired);
 
-	if ( (required != NULL)  &&  (required->type == kTagTypeString)  &&  !strcmp(required->string, "Safe Boot"))
-	//if ( (required == 0) || (required->type != kTagTypeString) || !strcmp(required->string, "Safe Boot"))
+	//if ( (required != NULL)  &&  (required->type == kTagTypeString)  &&  !strcmp(required->string, "Safe Boot"))
+	if ( (required == 0) || (required->type != kTagTypeString) || !strcmp(required->string, "Safe Boot"))
 	{
 		XMLFreeTag(moduleDict);
 		return -2;
