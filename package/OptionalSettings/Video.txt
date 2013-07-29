@@ -29,3 +29,6 @@ Bool@GraphicsEnabler:GraphicsEnabler=Yes
 Bool@UseAtiROM:UseAtiROM=Yes
 Bool@UseNvidiaROM:UseNvidiaROM=Yes
 Bool@VBIOS:VBIOS=Yes
+Bool@SkipIntelGfx:SkipIntelGfx=Yes
+Bool@SkipNvidiaGfx:SkipNvidiaGfx=Yes
+Bool@SkipAtiGfx:SkipAtiGfx=Yes

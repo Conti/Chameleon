@@ -17,7 +17,7 @@ extern pci_dt_t *dram_controller_dev;
 void setup_pci_devs(pci_dt_t *pci_dt)
 {
 	char *devicepath;
-	bool do_eth_devprop, do_gfx_devprop, do_enable_hpet;
+	bool doit, do_eth_devprop, do_gfx_devprop, do_enable_hpet;
 	pci_dt_t *current = pci_dt;
 
 	do_eth_devprop = do_gfx_devprop = do_enable_hpet = false;
@@ -33,32 +33,57 @@ void setup_pci_devs(pci_dt_t *pci_dt)
 		switch (current->class_id)
 		{
 			case PCI_CLASS_BRIDGE_HOST:
-					if (current->dev.addr == PCIADDR(0, 0, 0))
-						dram_controller_dev = current;
+				if (current->dev.addr == PCIADDR(0, 0, 0))
+				{
+					dram_controller_dev = current;
+				}
 				break;
 				
 			case PCI_CLASS_NETWORK_ETHERNET: 
 				if (do_eth_devprop)
 					set_eth_builtin(current);
 				break;
-				
+
 			case PCI_CLASS_DISPLAY_VGA:
 				if (do_gfx_devprop)
+				{
 					switch (current->vendor_id)
 					{
 						case PCI_VENDOR_ID_ATI:
-							setup_ati_devprop(current); 
+							if (getBoolForKey(kSkipAtiGfx, &doit, &bootInfo->chameleonConfig) && doit)
+							{
+								verbose("Skip ATi/AMD gfx device!\n");
+							}
+							else
+							{
+								setup_ati_devprop(current);
+							}
 							break;
-					
+
 						case PCI_VENDOR_ID_INTEL:
-							setup_gma_devprop(current);
+							if (getBoolForKey(kSkipIntelGfx, &doit, &bootInfo->chameleonConfig) && doit)
+							{
+								verbose("Skip Intel gfx device!\n");
+							}
+							else
+							{
+								setup_gma_devprop(current);
+							}
 							break;
-					
-						case PCI_VENDOR_ID_NVIDIA: 
-							setup_nvidia_devprop(current);
+
+						case PCI_VENDOR_ID_NVIDIA:
+							if (getBoolForKey(kSkipNvidiaGfx, &doit, &bootInfo->chameleonConfig) && doit)
+							{
+								verbose("Skip Nvidia gfx device!\n");
+							}
+								else
+							{
+								setup_nvidia_devprop(current);
+							}
 							break;
+						}
 					}
-				break;
+					break;
 
 			case PCI_CLASS_SERIAL_USB:
 				notify_usb_dev(current);

@@ -49,36 +49,76 @@
 #define kTextModeKey		"Text Mode"
 #define kQuietBootKey		"Quiet Boot"
 #define kKernelFlagsKey		"Kernel Flags"
-#define kKernelArchKey      "Kernel Architecture"
-#define karch				"arch"				/* boot.c */
-#define kProductVersion		"ProductVersion"	/* boot.c */
+#define kKernelArchKey		"Kernel Architecture"
 #define kMKextCacheKey		"MKext Cache"
 #define kKernelNameKey		"Kernel"
 #define kKernelCacheKey		"Kernel Cache"
 #define kUseKernelCache		"UseKernelCache"	/* boot.c */
 #define kBootDeviceKey		"Boot Device"
-#define kTimeoutKey			"Timeout"
+#define kTimeoutKey		"Timeout"
 #define kRootDeviceKey		"rd"
 #define kBootUUIDKey		"boot-uuid"
 #define kHelperRootUUIDKey	"Root UUID"
 #define kPlatformKey		"platform"
-#define kACPIKey			"acpi"
+#define kACPIKey		"acpi"
 #define kCDROMPromptKey		"CD-ROM Prompt"
 #define kCDROMOptionKey		"CD-ROM Option Key"
 #define kRescanPromptKey	"Rescan Prompt"
-#define kRescanKey		    "Rescan"
+#define kRescanKey		"Rescan"
 #define kScanSingleDriveKey	"Scan Single Drive"
 #define kInstantMenuKey		"Instant Menu"
 #define kDefaultKernel		"mach_kernel"
-#define kGUIKey				"GUI"
+#define kGUIKey			"GUI"
 #define kBootBannerKey		"Boot Banner"
-#define kShowInfoKey		"ShowInfo"			// gui.c
+#define kShowInfoKey		"ShowInfo"		// gui.c
 #define kWaitForKeypressKey	"Wait"
 
-#define kDSDT				"DSDT"				/* acpi_patcher.c */
-#define kDropSSDT			"DropSSDT"			/* acpi_patcher.c */
-#define kRestartFix			"RestartFix"		/* acpi_patcher.c */
+/* AsereBLN: added these keys */
+#define kUseAtiROM		"UseAtiROM"		/* ati.c */
+#define kWake			"Wake"			/* boot.c */
+#define kForceWake		"ForceWake"		/* boot.c */
+#define kWakeImage		"WakeImage"		/* boot.c */
+#define kProductVersion		"ProductVersion"	/* boot.c */
+#define karch			"arch"			/* boot.c */
+#define kDSDT			"DSDT"			/* acpi_patcher.c */
+#define kDropSSDT		"DropSSDT"		/* acpi_patcher.c */
+#define kDeviceProperties	"device-properties"	/* device_inject.c */
+#define kHidePartition		"Hide Partition"	/* disk.c */
+#define kRenamePartition	"Rename Partition"	/* disk.c */
+#define kSMBIOSKey		"SMBIOS"		/* fake_efi.c */
+#define kSystemID		"SystemId"		/* fake_efi.c */
+#define kSystemType		"SystemType"		/* fake_efi.c */
+#define kUseNvidiaROM		"UseNvidiaROM"		/* nvidia.c */
+#define kVBIOS			"VBIOS"			/* nvidia.c && ati.c */
+#define kPCIRootUID		"PCIRootUID"		/* pci_root.c */
+#define kEthernetBuiltIn	"EthernetBuiltIn"	/* pci_setup.c */
+#define kGraphicsEnabler	"GraphicsEnabler"	/* pci_setup.c */
+#define kForceHPET		"ForceHPET"		/* pci_setup.c */
+#define kUseMemDetect		"UseMemDetect"		/* platform.c */
+#define kSMBIOSdefaults		"SMBIOSdefaults"	/* smbios_patcher.c */
+#define kUSBBusFix		"USBBusFix"		/* usb.c */
+#define kEHCIacquire		"EHCIacquire"		/* usb.c */
+#define kUHCIreset		"UHCIreset"		/* usb.c */
+#define kEHCIhard		"EHCIhard"		/* usb.c */
+#define kDefaultPartition	"Default Partition"	/* sys.c */
+
+/* Duvel300: added this */
+#define kRestartFix		"RestartFix"		/* acpi_patcher.c */
+
+/* Slice: added this */
 #define kPS2RestartFix		"PS2RestartFix"		/* acpi_patcher.c */
+
+/* Signal64: added this key */
+#define kLegacyOff		"USBLegacyOff"		/* usb.c */
+
+/* Lebidou: added this key */
+
+/* Meklort: added this key */
+#define kMD0Image		"md0"			/* ramdisk.h */
+
+/* Andyvand: added these keys */
+
+/* Mojodojo: added these keys */
 #define kGeneratePStates	"GeneratePStates"	/* acpi_patcher.c */
 #define kGenerateCStates	"GenerateCStates"	/* acpi_patcher.c */
 #define kCSTUsingSystemIO	"CSTUsingSystemIO"	/* acpi_patcher.c */
@@ -86,49 +126,25 @@
 #define kEnableC3State		"EnableC3State"		/* acpi_patcher.c */
 #define kEnableC4State		"EnableC4State"		/* acpi_patcher.c */
 
-#define kWake				"Wake"				/* boot.c */
-#define kForceWake			"ForceWake"			/* boot.c */
-#define kWakeImage			"WakeImage"			/* boot.c */
+/* valv: added these keys */
+#define kbusratio		"busratio"		/* cpu.c */
+#define kDcfg0			"display_0"		/* nvidia.c */
+#define kDcfg1			"display_1"		/* nvidia.c */
 
-#define kbusratio			"busratio"			/* cpu.c */
-
-#define kDeviceProperties	"device-properties"	/* device_inject.c */
-
-#define kHidePartition		"Hide Partition"	/* disk.c */
-#define kRenamePartition	"Rename Partition"	/* disk.c */
-#define kDefaultPartition	"Default Partition"	/* sys.c */
-
-#define kSMBIOSKey			"SMBIOS"			/* fake_efi.c */
-#define kSMBIOSdefaults		"SMBIOSdefaults"	/* smbios_patcher.c */
-#define kSystemID			"SystemId"			/* fake_efi.c */
-#define kSystemType			"SystemType"		/* fake_efi.c */
-
-#define kUseMemDetect		"UseMemDetect"	    /* platform.c */
-
-#define kPCIRootUID			"PCIRootUID"		/* pci_root.c */
-
-#define kUseAtiROM			"UseAtiROM"			/* ati.c */
-#define kAtiConfig			"AtiConfig"			/* ati.c */
-#define kAtiPorts			"AtiPorts"			/* ati.c */
+/* Kabyl: added these keys */
+#define kAtiConfig		"AtiConfig"		/* ati.c */
+#define kAtiPorts		"AtiPorts"		/* ati.c */
 #define kATYbinimage		"ATYbinimage"		/* ati.c */
 
-#define kUseNvidiaROM		"UseNvidiaROM"		/* nvidia.c */
-#define kVBIOS				"VBIOS"				/* nvidia.c */
-#define kDcfg0				"display_0"			/* nvidia.c */
-#define kDcfg1				"display_1"			/* nvidia.c */
+/* cosmo1: added these keys */
+#define kEnableHDMIAudio	"EnableHDMIAudio"	/* ati.c && nvidia.c */
 
-#define kEthernetBuiltIn	"EthernetBuiltIn"	/* pci_setup.c */
-#define kGraphicsEnabler	"GraphicsEnabler"	/* pci_setup.c */
-#define kEnableHDMIAudio	"EnableHDMIAudio"	/*ati.c && nvidia.c */
-#define kForceHPET			"ForceHPET"			/* pci_setup.c */
+/* cparm: added these keys */
 
-#define kMD0Image			"md0"				/* ramdisk.h */
-
-#define kUSBBusFix			"USBBusFix"			/* usb.c */
-#define kEHCIacquire		"EHCIacquire"		/* usb.c */
-#define kUHCIreset			"UHCIreset"			/* usb.c */
-#define kLegacyOff			"USBLegacyOff"		/* usb.c */
-#define kEHCIhard			"EHCIhard"			/* usb.c */
+/* ErmaC: added these keys */
+#define kSkipIntelGfx		"SkipIntelGfx"		/* pci_setup.c */
+#define kSkipNvidiaGfx		"SkipNvidiaGfx"		/* pci_setup.c */
+#define kSkipAtiGfx		"SkipAtiGfx"		/* pci_setup.c */
 
 /*
  * Flags to the booter or kernel
@@ -146,8 +162,7 @@
 #define kCDBootTimeout       8
 
 /*
- * A global set by boot() to record the device that the booter
- * was loaded from.
+ * A global set by boot() to record the device that the booter was loaded from.
  */
 #define ROOT_DEVICE_SIZE 512
 extern int  gBIOSDev;

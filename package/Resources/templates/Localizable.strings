@@ -477,6 +477,56 @@ Dependencies: none";
 
 // ----------------------------------------------------------------------------
 
+"HD5K-igx00_title" = "00000604";
+"HD5K-igx00_description" = "Set 00000604 for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
+
+"HD5K-igx01_title" = "00001604";
+"HD5K-igx01_description" = "Set 00001604 for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
+
+"HD5K-igx02_title" = "02001604";
+"HD5K-igx02_description" = "Set 02001604 for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
+
+"HD5K-igx03_title" = "00002604";
+"HD5K-igx03_description" = "Set 00002604 for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
+
+"HD5K-igx04_title" = "0000160a";
+"HD5K-igx04_description" = "Set 0000160a for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
+
+"HD5K-igx05_title" = "0000260a";
+"HD5K-igx05_description" = "Set 0000260a for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
+
+"HD5K-igx06_title" = "0500260a";
+"HD5K-igx06_description" = "Set 0500260a for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
+
+"HD5K-igx07_title" = "0600260a";
+"HD5K-igx07_description" = "Set 0600260a for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
+
+"HD5K-igx08_title" = "0800260a";
+"HD5K-igx08_description" = "Set 0800260a for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
+
+"HD5K-igx09_title" = "08002e0a";
+"HD5K-igx09_description" = "Set 08002e0a for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
+
+"HD5K-igx10_title" = "0000060c";
+"HD5K-igx10_description" = "Set 0000060c for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
+
+"HD5K-igx11_title" = "0000160c";
+"HD5K-igx11_description" = "Set 0000160c for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
+
+"HD5K-igx12_title" = "0000260c";
+"HD5K-igx12_description" = "Set 0000260c for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
+
+"HD5K-igx13_title" = "0300220d";
+"HD5K-igx13_description" = "Set 0300220d for Intel HD5000 (Desktop) AAPL,ig-platform-id.";
+
+"HD5K-igx14_title" = "0000260d";
+"HD5K-igx14_description" = "Set 0000260d for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
+
+"HD5K-igx15_title" = "0700260d";
+"HD5K-igx15_description" = "Set 0700260d for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
+
+// ----------------------------------------------------------------------------
+
 "AD2000B_PinConf_title" = "AD2000b";
 "AD2000B_PinConf_description" = "Set HDEF PinConfiguration for Analog Devices AD2000b.";
 
@@ -642,8 +692,12 @@ More information by bcc9 here: http://www.insanelymac.com/forum/topic/282989-vtd
 "HDAULayout_description" = "Set one HDAU Layout ID to use for your HDMi controller.";
 
 // HD4000 Layout
-"GmaIG_title" = "Intel HD4000 Layout";
-"GmaIG_description" = "Set one AAPL,ig-platform-id to use for your Intel HD4000.";
+"HD4000_title" = "Intel HD4000 Layout";
+"HD4000_description" = "Set one AAPL,ig-platform-id to use for your Intel HD4000.";
+
+// HD5000 Layout
+"HD5000_title" = "Intel HD5000 Layout";
+"HD5000_description" = "Set one AAPL,ig-platform-id to use for your Intel HD5000.";
 
 // PinConfiguration
 "HDEFPinConfiguration_title" = "HDEF PinConfiguration";
