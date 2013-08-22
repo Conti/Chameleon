@@ -20,10 +20,8 @@
  * under the License.
  * 
  * @APPLE_LICENSE_HEADER_END@
- */
-/*
- * Copyright 1994 NeXT Computer, Inc.
- * All rights reserved.
+ *
+ * Copyright 1994 NeXT Computer, Inc. All rights reserved.
  */
 
 #ifndef __BOOT2_BOOT_H
@@ -142,9 +140,12 @@
 /* cparm: added these keys */
 
 /* ErmaC: added these keys */
+#define kEnableDualLink		"EnableDualLink"	/* nvidia.c && gma.c*/
 #define kSkipIntelGfx		"SkipIntelGfx"		/* pci_setup.c */
 #define kSkipNvidiaGfx		"SkipNvidiaGfx"		/* pci_setup.c */
 #define kSkipAtiGfx		"SkipAtiGfx"		/* pci_setup.c */
+#define kHD4Kig			"HD4K-ig"		/* gma.c */
+#define kHD5Kig			"HD5K-ig"		/* gma.c */
 
 /*
  * Flags to the booter or kernel
