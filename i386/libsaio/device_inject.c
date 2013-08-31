@@ -113,14 +113,14 @@ struct DevPropDevice *devprop_add_device(struct DevPropString *string, char *pat
 				sprintf(buff, "%c%c", path[curr], path[curr+1]);
 			else if(x-curr == 1)
 				sprintf(buff, "%c", path[curr]);
-			else 
+			else
 			{
 				printf("ERROR parsing device path\n");
 				numpaths = 0;
 				break;
 			}
 			device->pci_dev_path[numpaths].device =	ascii_hex_to_int(buff);
-			
+
 			x += 3; // 0x
 			curr = x;
 			while(path[++x] != ')');
@@ -135,7 +135,7 @@ struct DevPropDevice *devprop_add_device(struct DevPropString *string, char *pat
 				break;
 			}
 			device->pci_dev_path[numpaths].function = ascii_hex_to_int(buff); // TODO: find dev from char *path
-			
+
 			numpaths++;
 		}
 	}
@@ -253,7 +253,7 @@ char *devprop_generate_string(struct DevPropString *string)
 			dp_swap16(string->numentries), string->WHAT3);
 	buffer += 24;
 	int i = 0, x = 0;
-	
+
 	while(i < string->numentries)
 	{
 		sprintf(buffer, "%08x%04x%04x", dp_swap32(string->entries[i]->length),
@@ -297,7 +297,7 @@ void devprop_free_string(struct DevPropString *string)
 {
 	if(!string)
 		return;
-	
+
 	int i;
 	for(i = 0; i < string->numentries; i++)
 	{
@@ -312,10 +312,48 @@ void devprop_free_string(struct DevPropString *string)
 			string->entries[i] = NULL;
 		}
 	}
-	
+
 	free(string);
 	string = NULL;
 }
+
+/* ======================================================= */
+
+
+/*******************************************************************
+ * Decodes a sequence of 'len' hexadecimal chars from 'hex' into   *
+ * a binary. returns -1 in case of error (i.e. badly formed chars) *
+ *******************************************************************/
+int hex2bin(const char *hex, uint8_t *bin, int len)
+{
+	char	*p;
+	int	i;
+	char	buf[3];
+
+	if (hex == NULL || bin == NULL || len <= 0 || strlen(hex) != len * 2)
+	{
+		printf("[ERROR] bin2hex input error\n");
+		return -1;
+	}
+
+	buf[2] = '\0';
+	p = (char *) hex;
+
+	for (i = 0; i < len; i++)
+	{
+		if (p[0] == '\0' || p[1] == '\0' || !isxdigit(p[0]) || !isxdigit(p[1]))
+		{
+			printf("[ERROR] bin2hex '%s' syntax error\n", hex);
+			return -2;
+		}
+		buf[0] = *p++;
+		buf[1] = *p++;
+		bin[i] = (unsigned char) strtoul(buf, NULL, 16);
+	}
+	return 0;
+}
+
+/* ======================================================= */
 
 /* a fine place for this code */
 

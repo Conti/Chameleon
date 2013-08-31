@@ -14,10 +14,6 @@
 
 #define DEV_PROP_DEVICE_MAX_ENTRIES 64
 
-extern struct DevPropString *string;
-extern uint8_t *stringdata;
-extern uint32_t stringlength;
-
 extern void setupDeviceProperties(Node *node);
 
 struct ACPIDevPath {
@@ -45,7 +41,7 @@ struct DevicePathEnd {
 struct DevPropDevice {
 	uint32_t length;
 	uint16_t numentries;
-	uint16_t WHAT2;										// 0x0000 ?
+	uint16_t WHAT2;								// 0x0000 ?
 	struct ACPIDevPath acpi_dev_path;					// = 0x02010c00 0xd041030a
 	struct PCIDevPath  pci_dev_path[MAX_PCI_DEV_PATHS]; // = 0x01010600 func dev
 	struct DevicePathEnd path_end;						// = 0x7fff0400
@@ -65,12 +61,16 @@ struct DevPropString {
 	struct DevPropDevice **entries;
 };
 
-char			*efi_inject_get_devprop_string(uint32_t *len);
-int			devprop_add_network_template(struct DevPropDevice *device, uint16_t vendor_id);
+extern struct DevPropString *string;
+extern uint8_t *stringdata;
+extern uint32_t stringlength;
 struct DevPropString	*devprop_create_string(void);
 struct DevPropDevice	*devprop_add_device(struct DevPropString *string, char *path);
+char			*efi_inject_get_devprop_string(uint32_t *len);
 int			devprop_add_value(struct DevPropDevice *device, char *nm, uint8_t *vl, uint32_t len);
 char			*devprop_generate_string(struct DevPropString *string);
 void			devprop_free_string(struct DevPropString *string);
 
+int			devprop_add_network_template(struct DevPropDevice *device, uint16_t vendor_id);
+int			hex2bin(const char *hex, uint8_t *bin, int len);
 #endif /* !__LIBSAIO_DEVICE_INJECT_H */

@@ -1161,6 +1161,7 @@ static nvidia_pci_info_t nvidia_card_generic[] = {
 	{ 0x10DE11E3,	"GeForce GTX 760M" },
 	// 11F0 - 11FF
 	{ 0x10DE11FA,	"Quadro K4000" },
+	{ 0x10DE11FC,	"Quadro 2100M" },
 	// 1200 - 120F
 	{ 0x10DE1200,	"GeForce GTX 560 Ti" },
 	{ 0x10DE1201,	"GeForce GTX 560" },
@@ -1199,8 +1200,12 @@ static nvidia_pci_info_t nvidia_card_generic[] = {
 	{ 0x10DE1292,	"GeForce GT 740M" },
 	{ 0x10DE1293,	"GeForce GT 730M" },
 	{ 0x10DE1294,	"GeForce GT 740M" },
+	{ 0x10DE1295,	"GeForce GT 710M" },
 	// 12A0 - 12AF
 	//{ 0x10DE12A0,	"GeForce GT ???" },
+	{ 0x10DE12AF,	"GK208-INT" },
+	{ 0x10DE12B0,	"GK208-CS-Q" },
+	{ 0x10DE12BA,	"Quadro K510M" }
 	// 12B0 - 12BF
 	// 12C0 - 12CF
 	// 12D0 - 12DF
@@ -1472,7 +1477,9 @@ static int patch_nvidia_rom(uint8_t *rom)
 	}
 	
 	if (numentries >= MAX_NUM_DCB_ENTRIES)
+	{
 		numentries = MAX_NUM_DCB_ENTRIES;
+	}
 
 	uint8_t num_outputs = 0, i = 0;
 
@@ -1490,11 +1497,17 @@ static int patch_nvidia_rom(uint8_t *rom)
 
 		/* Should we allow discontinuous DCBs? Certainly DCB I2C tables can be discontinuous */
 		if ((connection & 0x0000000f) == 0x0000000f) /* end of records */ 
+		{
 			continue;
+		}
 		if (connection == 0x00000000) /* seen on an NV11 with DCB v1.5 */ 
+		{
 			continue;
+		}
 		if ((connection & 0xf) == 0x6) /* we skip type 6 as it doesnt appear on macbook nvcaps */
+		{
 			continue;
+		}
 
 		entries[num_outputs].type = connection & 0xf;
 		entries[num_outputs].index = num_outputs;
@@ -1522,7 +1535,9 @@ static int patch_nvidia_rom(uint8_t *rom)
 		for (i = 0; i < num_outputs; i++)
 		{
 			if (entries[i].type == TYPE_GROUPED)
+			{
 				continue;
+			}
 
 			channel2 |= ( 0x1 << entries[i].index);
 			entries[i].type = TYPE_GROUPED;
@@ -1537,7 +1552,9 @@ static int patch_nvidia_rom(uint8_t *rom)
 			for (i=0; i<num_outputs; i++)
 			{
 				if (entries[i].type == TYPE_GROUPED)
+				{
 					continue;
+				}
 				// if type is TMDS, the prior output is ANALOG
 				// we always group ANALOG and TMDS
 				// if there is a TV output after TMDS, we group it to that channel as well
@@ -1697,11 +1714,12 @@ static uint32_t load_nvidia_bios_file(const char *filename, uint8_t **buf)
 	}
 
 	size = file_size(fd);
-    if(size)
-    {
-        *buf = malloc(size);
-        size = read(fd, (char *)buf, size);
-    }
+
+	if (size)
+	{
+		*buf = malloc(size);
+		size = read(fd, (char *)buf, size);
+	}
 	close(fd);
 
 	return size > 0 ? size : 0;
@@ -1744,33 +1762,6 @@ static int devprop_add_nvidia_template(struct DevPropDevice *device)
 	devices_number++;
 
 	return 1;
-}
-
-int hex2bin(const char *hex, uint8_t *bin, int len)
-{
-	char	*p;
-	int	i;
-	char	buf[3];
-
-	if (hex == NULL || bin == NULL || len <= 0 || strlen(hex) != len * 2) {
-		printf("[ERROR] bin2hex input error\n");
-		return -1;
-	}
-
-	buf[2] = '\0';
-	p = (char *) hex;
-
-	for (i = 0; i < len; i++)
-	{
-		if (p[0] == '\0' || p[1] == '\0' || !isxdigit(p[0]) || !isxdigit(p[1])) {
-			printf("[ERROR] bin2hex '%s' syntax error\n", hex);
-			return -2;
-		}
-		buf[0] = *p++;
-		buf[1] = *p++;
-		bin[i] = (unsigned char) strtoul(buf, NULL, 16);
-	}
-	return 0;
 }
 
 unsigned long long mem_detect(volatile uint8_t *regs, uint8_t nvCardType, pci_dt_t *nvda_dev, uint32_t device_id, uint32_t subsys_id)
@@ -1819,6 +1810,13 @@ unsigned long long mem_detect(volatile uint8_t *regs, uint8_t nvCardType, pci_dt
 		case 0x0DF4: // GT 540M
 		case 0x0DF5: // GT 525M 0DF5
 			vram_size = 1024*1024*1024;
+			break;
+		case 0x0F00:	// GT 630
+			// 10DE0F0014583544 2GB VRAM
+			//if (((nvda_dev->subsys_id.subsys.vendor_id << 16) | nvda_dev->subsys_id.subsys.device_id) == 0x14583544 )
+			//{
+				vram_size = -2147483648UL;//2147483648;
+			//}
 			break;
 		case 0x11C6:	// GTX650TI 11C6
 			// 10DE11C61043842A 1GB VRAM
@@ -2119,12 +2117,30 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 	devprop_add_value(device, "@0,display-cfg", default_dcfg_0, DCFG0_LEN);
 	devprop_add_value(device, "@1,display-cfg", default_dcfg_1, DCFG1_LEN);
 
-	if (getBoolForKey(kVBIOS, &doit, &bootInfo->chameleonConfig) && doit)
+	/******************** Added Marchrius.**********************/
+	//              For the AppleBacklightDisplay              //
+	/***********************************************************/
+	if (getBoolForKey(kEnableBacklight, &doit, &bootInfo->chameleonConfig) && doit)
 	{
-		devprop_add_value(device, "vbios", rom, (nvBiosOveride > 0) ? nvBiosOveride : (rom[2] * 512));
+		uint8_t AAPL_value[] = {0x01, 0x00, 0x00, 0x00}; //Is the same for all
+		devprop_add_value(device, "AAPL,HasPanel", AAPL_value, 4);
+		devprop_add_value(device, "AAPL,Haslid", AAPL_value, 4);
+		devprop_add_value(device, "AAPL,backlight-control", AAPL_value, 4);
+		devprop_add_value(device, "@0,backlight-control", AAPL_value, 4);
 	}
+	/************************** End ****************************/
 
-	//add HDMI Audio back to nvidia
+	/***********************************************************/
+	//                    For the DualLink                     //
+	/***********************************************************/
+	if (getBoolForKey(kEnableDualLink, &doit, &bootInfo->chameleonConfig) && doit)
+	{
+		uint8_t AAPL00_value[] = {0x01, 0x00, 0x00, 0x00};
+		devprop_add_value(device, "AAPL00,DualLink", AAPL00_value, 4);
+	}
+	/************************** End ****************************/
+
+	/************************ HDMI Audio ***********************/
 	doit = false;
 	//http://forge.voodooprojects.org/p/chameleon/issues/67/
 	if(getBoolForKey(kEnableHDMIAudio, &doit, &bootInfo->chameleonConfig) && doit)
@@ -2132,7 +2148,12 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 		static uint8_t connector_type_1[]= {0x00, 0x08, 0x00, 0x00};
 		devprop_add_value(device, "@1,connector-type",connector_type_1, 4);
 	}
-	//end Nvidia HDMI Audio
+	/************************ End Audio *************************/
+
+	if (getBoolForKey(kVBIOS, &doit, &bootInfo->chameleonConfig) && doit)
+	{
+		devprop_add_value(device, "vbios", rom, (nvBiosOveride > 0) ? nvBiosOveride : (rom[2] * 512));
+	}
 
 	stringdata = malloc(sizeof(uint8_t) * string->length);
 	memcpy(stringdata, (uint8_t*)devprop_generate_string(string), string->length);

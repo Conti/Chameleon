@@ -439,91 +439,91 @@ Dependencies: none";
 
 // ----------------------------------------------------------------------------
 
-"HD4K-igx00_title" = "01660000";
-"HD4K-igx00_description" = "Set 01660000 for Intel HD4000 (Mobile) AAPL,ig-platform-id .";
+"IntelCaprix00_title" = "01660000";
+"IntelCaprix00_description" = "Set 01660000 for Intel HD4000 (Mobile) AAPL,ig-platform-id .";
 
-"HD4K-igx01_title" = "01660001";
-"HD4K-igx01_description" = "Set 01660001 for Intel HD4000 (Mobile) AAPL,ig-platform-id .";
+"IntelCaprix01_title" = "01660001";
+"IntelCaprix01_description" = "Set 01660001 for Intel HD4000 (Mobile) AAPL,ig-platform-id .";
 
-"HD4K-igx02_title" = "01660002";
-"HD4K-igx02_description" = "Set 01660002 for Intel HD4000 (Mobile) AAPL,ig-platform-id .";
+"IntelCaprix02_title" = "01660002";
+"IntelCaprix02_description" = "Set 01660002 for Intel HD4000 (Mobile) AAPL,ig-platform-id .";
 
-"HD4K-igx03_title" = "01660003";
-"HD4K-igx03_description" = "Set 01660003 for Intel HD4000 (Mobile) AAPL,ig-platform-id .";
+"IntelCaprix03_title" = "01660003";
+"IntelCaprix03_description" = "Set 01660003 for Intel HD4000 (Mobile) AAPL,ig-platform-id .";
 
-"HD4K-igx04_title" = "01660004";
-"HD4K-igx04_description" = "Set 01660004 for Intel HD4000 (Mobile) AAPL,ig-platform-id .";
+"IntelCaprix04_title" = "01660004";
+"IntelCaprix04_description" = "Set 01660004 for Intel HD4000 (Mobile) AAPL,ig-platform-id .";
 
-"HD4K-igx05_title" = "01620005";
-"HD4K-igx05_description" = "Set 01620005 for Intel HD4000 (Desktop) AAPL,ig-platform-id .";
+"IntelCaprix05_title" = "01620005";
+"IntelCaprix05_description" = "Set 01620005 for Intel HD4000 (Desktop) AAPL,ig-platform-id .";
 
-"HD4K-igx06_title" = "01620006";
-"HD4K-igx06_description" = "Set 01620006 for Intel HD4000 (Desktop) AAPL,ig-platform-id .";
+"IntelCaprix06_title" = "01620006";
+"IntelCaprix06_description" = "Set 01620006 for Intel HD4000 (Desktop) AAPL,ig-platform-id .";
 
-"HD4K-igx07_title" = "01620007";
-"HD4K-igx07_description" = "Set 01620007 for Intel HD4000 (Desktop) AAPL,ig-platform-id .";
+"IntelCaprix07_title" = "01620007";
+"IntelCaprix07_description" = "Set 01620007 for Intel HD4000 (Desktop) AAPL,ig-platform-id .";
 
-"HD4K-igx08_title" = "01660008";
-"HD4K-igx08_description" = "Set 01660008 for Intel HD4000 (Mobile) AAPL,ig-platform-id .";
+"IntelCaprix08_title" = "01660008";
+"IntelCaprix08_description" = "Set 01660008 for Intel HD4000 (Mobile) AAPL,ig-platform-id .";
 
-"HD4K-igx09_title" = "01660009";
-"HD4K-igx09_description" = "Set 01660009 for Intel HD4000 (Mobile) AAPL,ig-platform-id .";
+"IntelCaprix09_title" = "01660009";
+"IntelCaprix09_description" = "Set 01660009 for Intel HD4000 (Mobile) AAPL,ig-platform-id .";
 
-"HD4K-igx10_title" = "0166000a";
-"HD4K-igx10_description" = "Set 0166000a for Intel HD4000 (Mobile) AAPL,ig-platform-id .";
+"IntelCaprix10_title" = "0166000a";
+"IntelCaprix10_description" = "Set 0166000a for Intel HD4000 (Mobile) AAPL,ig-platform-id .";
 
-"HD4K-igx11_title" = "0166000b";
-"HD4K-igx11_description" = "Set 0166000b for Intel HD4000 (Mobile) AAPL,ig-platform-id .";
+"IntelCaprix11_title" = "0166000b";
+"IntelCaprix11_description" = "Set 0166000b for Intel HD4000 (Mobile) AAPL,ig-platform-id .";
 
 // ----------------------------------------------------------------------------
 
-"HD5K-igx00_title" = "00000604";
-"HD5K-igx00_description" = "Set 00000604 for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
+"IntelAzulx00_title" = "00000604";
+"IntelAzulx00_description" = "Set 00000604 for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
 
-"HD5K-igx01_title" = "00001604";
-"HD5K-igx01_description" = "Set 00001604 for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
+"IntelAzulx01_title" = "0000060c";
+"IntelAzulx01_description" = "Set 0000060c for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
 
-"HD5K-igx02_title" = "02001604";
-"HD5K-igx02_description" = "Set 02001604 for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
+"IntelAzulx02_title" = "00001604";
+"IntelAzulx02_description" = "Set 00001604 for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
 
-"HD5K-igx03_title" = "00002604";
-"HD5K-igx03_description" = "Set 00002604 for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
+"IntelAzulx03_title" = "0000160a";
+"IntelAzulx03_description" = "Set 0000160a for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
 
-"HD5K-igx04_title" = "0000160a";
-"HD5K-igx04_description" = "Set 0000160a for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
+"IntelAzulx04_title" = "0000160c";
+"IntelAzulx04_description" = "Set 0000160c for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
 
-"HD5K-igx05_title" = "0000260a";
-"HD5K-igx05_description" = "Set 0000260a for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
+"IntelAzulx05_title" = "00002604";
+"IntelAzulx05_description" = "Set 00002604 for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
 
-"HD5K-igx06_title" = "0500260a";
-"HD5K-igx06_description" = "Set 0500260a for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
+"IntelAzulx06_title" = "0000260a";
+"IntelAzulx06_description" = "Set 0000260a for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
 
-"HD5K-igx07_title" = "0600260a";
-"HD5K-igx07_description" = "Set 0600260a for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
+"IntelAzulx07_title" = "0000260c";
+"IntelAzulx07_description" = "Set 0600260c for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
 
-"HD5K-igx08_title" = "0800260a";
-"HD5K-igx08_description" = "Set 0800260a for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
+"IntelAzulx08_title" = "0000260d";
+"IntelAzulx08_description" = "Set 0000260d for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
 
-"HD5K-igx09_title" = "08002e0a";
-"HD5K-igx09_description" = "Set 08002e0a for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
+"IntelAzulx09_title" = "02001604";
+"IntelAzulx09_description" = "Set 02001604 for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
 
-"HD5K-igx10_title" = "0000060c";
-"HD5K-igx10_description" = "Set 0000060c for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
+"IntelAzulx10_title" = "0300220d";
+"IntelAzulx10_description" = "Set 0300220d for Intel HD5000 (Desktop) AAPL,ig-platform-id.";
 
-"HD5K-igx11_title" = "0000160c";
-"HD5K-igx11_description" = "Set 0000160c for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
+"IntelAzulx11_title" = "0500260a";
+"IntelAzulx11_description" = "Set 0500260a for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
 
-"HD5K-igx12_title" = "0000260c";
-"HD5K-igx12_description" = "Set 0000260c for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
+"IntelAzulx12_title" = "0600260a";
+"IntelAzulx12_description" = "Set 0600260a for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
 
-"HD5K-igx13_title" = "0300220d";
-"HD5K-igx13_description" = "Set 0300220d for Intel HD5000 (Desktop) AAPL,ig-platform-id.";
+"IntelAzulx13_title" = "0700260d";
+"IntelAzulx13_description" = "Set 0700260d for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
 
-"HD5K-igx14_title" = "0000260d";
-"HD5K-igx14_description" = "Set 0000260d for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
+"IntelAzulx14_title" = "0800260a";
+"IntelAzulx14_description" = "Set 0800260a for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
 
-"HD5K-igx15_title" = "0700260d";
-"HD5K-igx15_description" = "Set 0700260d for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
+"IntelAzulx15_title" = "08002e0a";
+"IntelAzulx15_description" = "Set 08002e0a for Intel HD5000 (Mobile) AAPL,ig-platform-id.";
 
 // ----------------------------------------------------------------------------
 
@@ -692,12 +692,12 @@ More information by bcc9 here: http://www.insanelymac.com/forum/topic/282989-vtd
 "HDAULayout_description" = "Set one HDAU Layout ID to use for your HDMi controller.";
 
 // HD4000 Layout
-"HD4000_title" = "Intel HD4000 Layout";
-"HD4000_description" = "Set one AAPL,ig-platform-id to use for your Intel HD4000.";
+"IntelCapri_title" = "Intel Capri AAPL,ig-platform-id";
+"IntelCapri_description" = "Set one AAPL,ig-platform-id to use for your Intel HD4000.";
 
 // HD5000 Layout
-"HD5000_title" = "Intel HD5000 Layout";
-"HD5000_description" = "Set one AAPL,ig-platform-id to use for your Intel HD5000.";
+"IntelAzul_title" = "Intel Azul AAPL,ig-platform-id";
+"IntelAzul_description" = "Set one AAPL,ig-platform-id to use for your Intel HD5000.";
 
 // PinConfiguration
 "HDEFPinConfiguration_title" = "HDEF PinConfiguration";

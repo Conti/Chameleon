@@ -203,7 +203,7 @@ long LoadDrivers( char * dirSpec )
 	            // Next try a specfic OS version folder ie 10.5
                 sprintf(dirSpecExtra, "bt(0,0)/Extra/%s/", &gMacOSVersion);
 	            if (FileLoadDrivers(dirSpecExtra, 0) != 0)
-	            {	
+	            {
 	                // Next we'll try the base
 	                strcpy(dirSpecExtra, "bt(0,0)/Extra/");
 	                FileLoadDrivers(dirSpecExtra, 0);
@@ -749,7 +749,7 @@ ParseXML( char * buffer, ModulePtr * module, TagPtr * personalities )
 	required = XMLGetProperty(moduleDict, kPropOSBundleRequired);
 
 	//if ( (required != NULL)  &&  (required->type == kTagTypeString)  &&  !strcmp(required->string, "Safe Boot"))
-	if ( (required == 0) || (required->type != kTagTypeString) || !strcmp(required->string, "Safe Boot"))
+	if ( (required != NULL)  && ((required->type != kTagTypeString) || (!strcmp(required->string, "Safe Boot"))) )
 	{
 		XMLFreeTag(moduleDict);
 		return -2;

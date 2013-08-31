@@ -155,41 +155,43 @@ char *get_gma_model(uint32_t id) {
 
 bool setup_gma_devprop(pci_dt_t *gma_dev)
 {
-	char				*devicepath;
+	char				*devicepath = NULL;
 	volatile uint8_t		*regs;
-	uint32_t				bar[7];
-	char					*model;
+	uint32_t			bar[7];
+	char				*model = NULL;
 	uint8_t BuiltIn =		0x00;
-	uint8_t ClassFix[4] =	{ 0x00, 0x00, 0x03, 0x00 };
+	uint8_t ClassFix[4] =           { 0x00, 0x00, 0x03, 0x00 };
 	unsigned int			device_id;
-	
+
 	devicepath = get_pci_dev_path(gma_dev);
-	
+
 	bar[0] = pci_config_read32(gma_dev->dev.addr, 0x10);
 	regs = (uint8_t *) (bar[0] & ~0x0f);
-	
+
 	model = get_gma_model((gma_dev->vendor_id << 16) | gma_dev->device_id);
 	device_id = gma_dev->device_id;
-	
+
 	verbose("Intel %s [%04x:%04x] :: %s\n",
 			model, gma_dev->vendor_id, gma_dev->device_id, devicepath);
-	
+
 	if (!string)
+	{
 		string = devprop_create_string();
-	
+	}
+
 	struct DevPropDevice *device = malloc(sizeof(struct DevPropDevice));
 	device = devprop_add_device(string, devicepath);
-	
+
 	if (!device)
 	{
 		printf("Failed initializing dev-prop string dev-entry.\n");
 		pause();
 		return false;
 	}
-	
+
 	devprop_add_value(device, "model", (uint8_t*)model, (strlen(model) + 1));
 	devprop_add_value(device, "device_type", (uint8_t*)"display", 8);
-	
+
 	if ((model == (char *)&"Mobile GMA950")
 		|| (model == (char *)&"Mobile GMA3150"))
 	{
@@ -333,9 +335,9 @@ bool setup_gma_devprop(pci_dt_t *gma_dev)
 		pause();
 		return false;
 	}
-	
+
 	memcpy(stringdata, (uint8_t*)devprop_generate_string(string), string->length);
 	stringlength = string->length;
-	
+
 	return true;
 }

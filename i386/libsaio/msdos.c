@@ -721,7 +721,7 @@ long MSDOSGetDirEntry(CICell ih, char * dirPath, long long * dirIndex,
 		*flags = kFileTypeFlat;
 	
 	// Calculate a fake timestamp using modification date and time values.
-	*time = (dirp->deMDate & 0x7FFF) << 16 + dirp->deMTime;
+	*time = ((dirp->deMDate & 0x7FFF) << 16) + dirp->deMTime;
 	
 	if (infoValid)
 		*infoValid = 1;
@@ -777,7 +777,7 @@ MSDOSReadFile(CICell ih, char * filePath, void *base, uint64_t offset, uint64_t 
 		toread-=msdosclustersize;
 	}
 	
-  getDeviceDescription(ih, devStr);
+	getDeviceDescription(ih, devStr);
 	verbose("Read FAT%d file: [%s/%s] %d bytes.\n",
             msdosfatbits, devStr, filePath, (uint32_t)( toread<0 ) ? wastoread : wastoread-toread);
 	free (buf);
@@ -840,7 +840,7 @@ MSDOSGetFileBlock(CICell ih, char *filePath, unsigned long long *firstBlock)
 
 long MSDOSLoadFile(CICell ih, char * filePath)
 {
-    return MSDOSReadFile(ih, filePath, (void *)gFSLoadAddress, 0, 0);
+	return MSDOSReadFile(ih, filePath, (void *)gFSLoadAddress, 0, 0);
 }
 
 /* Fix up volume label. */

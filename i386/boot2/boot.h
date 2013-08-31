@@ -129,6 +129,9 @@
 #define kDcfg0			"display_0"		/* nvidia.c */
 #define kDcfg1			"display_1"		/* nvidia.c */
 
+/* Marchrius: added these keys */
+#define kEnableBacklight	"EnableBacklight"	/* nvidia.c */
+
 /* Kabyl: added these keys */
 #define kAtiConfig		"AtiConfig"		/* ati.c */
 #define kAtiPorts		"AtiPorts"		/* ati.c */
@@ -144,8 +147,9 @@
 #define kSkipIntelGfx		"SkipIntelGfx"		/* pci_setup.c */
 #define kSkipNvidiaGfx		"SkipNvidiaGfx"		/* pci_setup.c */
 #define kSkipAtiGfx		"SkipAtiGfx"		/* pci_setup.c */
-#define kHD4Kig			"HD4K-ig"		/* gma.c */
-#define kHD5Kig			"HD5K-ig"		/* gma.c */
+#define kIntelCapriFB	"IntelCapriFB"			/* gma.c was HD4K-ig */
+#define kIntelAzulFB	"IntelAzulFB"			/* gma.c was HD5K-ig */
+#define kAAPLCustomIG	"InjectIntel-ig"		/* gma.c */
 
 /*
  * Flags to the booter or kernel

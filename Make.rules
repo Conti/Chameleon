@@ -122,11 +122,11 @@ $(RECURSIVE_CLEAN_TARGETS):
 				target=`echo $@ | sed s/-recursive//`; \
 				for subdir in $$rev; do \
 					echo "Making $$target in $$subdir"; \
-          if test "$$subdir" = "."; then \
-            local_target="$$target-local"; \
-          else \
-            local_target="$$target"; \
-          fi; \
+					if test "$$subdir" = "."; then \
+						local_target="$$target-local"; \
+					else \
+						local_target="$$target"; \
+					fi; \
 					(cd $$subdir && $(MAKE) $$local_target) \
 					|| eval $$failcom; \
 				done
@@ -149,7 +149,7 @@ clean: clean-recursive clean-dep
 	 fi
 	@rm -rf $(OBJROOT) $(SYMROOT) $(DSTROOT)        \
             $(SRCROOT)/i386/modules/module_includes 
-            
+
 distclean: distclean-recursive clean-local clean-dep
 		@find . $(FIND_IGNORE) \
 				\( -name '*.orig' -o -name '*.rej' -o -name '*~' \

@@ -28,6 +28,7 @@ Exclusive=False
 Text@arch:arch=i386
 Bool@EHCIacquire:EHCIacquire=Yes
 Bool@EthernetBuiltIn:EthernetBuiltIn=Yes
+#Bool@EnableWifi:EnableWifi=Yes
 Bool@ForceHPET:ForceHPET=Yes
 Bool@ForceWake:ForceWake=Yes
 Bool@RestartFix:RestartFix=No
