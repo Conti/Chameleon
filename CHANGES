@@ -1,3 +1,4 @@
+- ErmaC: Port from Enoch the support for IVY Bridge and Haswell Intel Graphics cards. http://www.insanelymac.com/forum/topic/288241-intel-hd4000-and-haswell-inject-aaplig-platform-id/
 - 2255: ErmaC add Skip flag key for Intel/nVidia/ATi from Enoch
 - 2252: revert define processors name to match with xnu kernel name 
 - 2252: Merge from Enoch the Geoff Seeley patch http://forge.voodooprojects.org/p/chameleon/issues/59/
