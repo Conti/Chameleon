@@ -1,0 +1,43 @@
+# ---------------------------------------------
+# Chameleon Optional Settings List.
+# ---------------------------------------------
+# Add boot options or kernel flags to the bottom of this file.
+# They will appear under the package installer's Settings menu
+# in a sub menu named with the filename of this file.
+# Use one file or many files - it's flexible to make it easy
+# to group different options under separate sub menus.
+# ---------------------------------------------
+# To add boot option: Structure is:
+#     type@name:key=value
+# example1: Bool@InstantMenu:Instant Menu=Yes
+# example2: Text@1024x600x32:Graphics Mode=1024x600x32
+# example3: List@Npci:Kernel Flags=npci=0x2000
+# ---------------------------------------------
+# type can be: Bool, Text or List
+# ---------------------------------------------
+# The package installer has a setting which controls what
+# the user is allowed to choose.
+# A) User can select every option from the list.
+# B) User can select only one of the options from the list.
+# Set Exclusive=False for A, or Exclusive=True for B.
+#
+Exclusive=True
+# ---------------------------------------------
+# Note: There must be a carriage return at end of last line
+# ---------------------------------------------
+Text@IntelAzulx00:IntelAzulFB=0
+Text@IntelAzulx01:IntelAzulFB=1
+Text@IntelAzulx02:IntelAzulFB=2
+Text@IntelAzulx03:IntelAzulFB=3
+Text@IntelAzulx04:IntelAzulFB=4
+Text@IntelAzulx05:IntelAzulFB=5
+Text@IntelAzulx06:IntelAzulFB=6
+Text@IntelAzulx07:IntelAzulFB=7
+Text@IntelAzulx08:IntelAzulFB=8
+Text@IntelAzulx09:IntelAzulFB=9
+Text@IntelAzulx10:IntelAzulFB=10
+Text@IntelAzulx11:IntelAzulFB=11
+Text@IntelAzulx12:IntelAzulFB=12
+Text@IntelAzulx13:IntelAzulFB=13
+Text@IntelAzulx14:IntelAzulFB=14
+Text@IntelAzulx15:IntelAzulFB=15
