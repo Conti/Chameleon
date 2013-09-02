@@ -80,6 +80,10 @@ Options useful in the org.chameleon.Boot.plist file:
                             (e.g. KeyLayout=mac-fr)
 
   GraphicsEnabler=Yes|No    Automatic device-properties generation for graphics cards.
+    SkipIntelGfx=Yes|No     Skip the Automatic device-properties generation for Intel cards.
+    SkipNvidiaGfx=Yes|No    Skip the Automatic device-properties generation for Nvidia cards.
+    SkipAtiGfx=Yes|No       Skip the Automatic device-properties generation for Ati cards.
+
     AtiConfig=<cardcfg>   Use a different card config, e.g. AtiConfig=Megalodon.
     AtiPorts=<value>      Specify the number of ports, e.g. AtiPorts=2.
   UseAtiROM=Yes|No      Use an alternate Ati ROM image
@@ -89,6 +93,12 @@ Options useful in the org.chameleon.Boot.plist file:
   VBIOS=Yes|No            Inject VBIOS to device-properties.
     display_0=<value>     Inject alternate value of display-cfg into NVDA,Display-A@0 (HEX).
     display_1=<value>     Inject alternate value of display-cfg into NVDA,Display-B@1 (HEX).
+    IntelCapriFB=<value>       For Intel HD 4xxx, range 0-11.
+    IntelAzulFB=<value>        For Intel HD 5xxx/IRIS, range 0-15.
+    InjectIntel-ig=<value>     Inject alternate value into AAPL,ig-platform-id (HEX).
+
+  EnableBacklight=Yes	  Enable Back light option for NVIDIA and ATI
+  EnableDualLink=Yes	  Enable DualLink option for NVIDIA and ATI
   EnableHDMIAudio=Yes	  Inject HDMI audio for NVIDIA and ATI.
 
   EthernetBuiltIn=Yes|No  Automatic "built-in"=YES device-properties generation
