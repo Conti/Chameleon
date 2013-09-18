@@ -118,20 +118,6 @@ uint8_t haswell_ig_vals[16][4] = { /* - TESTING DATA --*/
 	{ 0x08,0x00,0x2e,0x0a },	// 15 "AAPL,ig-platform-id" //FB: 64MB, Pipes: 3, Ports: 3, FBMem: 3 - ULT reserved GT3
 };
 
-/*
-platform-Id
-00 00 06 04	//Intel Haswell Mobile (GT1)
-00 00 16 04	//Intel Haswell Mobile (GT2)
-00 00 26 04	//Intel Haswell Mobile (GT3)
-00 00 16 0A	//Intel Haswell ULT Mobile (GT2)
-00 00 26 0A	//Intel Haswell ULT Mobile (GT3)
-00 00 26 0D	//Intel Haswell CRW Mobile (GT3) - ???
-00 00 26 0C	//Intel Haswell SDV Mobile (GT3) - Software Development Vehicle
-00 00 16 0C	//Intel Haswell SDV Mobile HD 4600 (GT2) - Software Development Vehicle
-00 00 06 0C	//Intel Haswell SDV Mobile (GT1) - Software Development Vehicle
-00 00 26 0A	//Intel Haswell ULT Mobile (GT3)
-*/
-
 uint8_t HD2000_vals[16][4] = {
 	{ 0x00,0x00,0x00,0x00 },    //0 "AAPL00,PixelFormat"
 	{ 0x00,0x00,0x00,0x00 },    //1 "AAPL00,T1"
@@ -187,6 +173,12 @@ uint8_t HD4000_vals[15][4] = {
 	{ 0xc3,0x8c,0x64,0x00 },    //12 "AAPL,gray-value"
 	{ 0x01,0x00,0x00,0x00 },    //13 "AAPL,gray-page"
 	{ 0x0c,0x00,0x00,0x00 }     //14 "graphics-options"
+};
+
+// http://www.insanelymac.com/forum/topic/286092-guide-1st-generation-intel-hd-graphics-qeci/
+uint8_t HDx000_os_info[20] = {
+	0x30,0x49,0x01,0x11,0x01,0x10,0x08,0x00,0x00,0x01,
+	0x00,0x00,0x00,0x00,0x00,0x00,0xFF,0xFF,0xFF,0xFF
 };
 
 uint8_t HD2000_tbl_info[18] = {
@@ -418,6 +410,13 @@ bool setup_gma_devprop(pci_dt_t *gma_dev)
 
 	switch ((device_id << 16) | vendor_id)
 	{
+        case GMA_IRONLAKE_D_G: // 0042
+        case GMA_IRONLAKE_M_G: // 0046
+            devprop_add_value(device, "built-in", &BuiltIn, 1);
+            devprop_add_value(device, "class-code", ClassFix, 4);
+            devprop_add_value(device, "hda-gfx",			(uint8_t *)"onboard-1", 10);
+            devprop_add_value(device, "AAPL,os-info",			HDx000_os_info, 20);
+            break;
             /* 27A2, 27AE, 27A6, A001, A011, A012, */
         case GMA_I945_GM: // Mobile GMA950 Mobile GMA3150
         case GMA_I945_GME:

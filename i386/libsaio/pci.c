@@ -121,7 +121,9 @@ void enable_pci_devs(void)
 	id = pci_config_read16(PCIADDR(0, 0x00, 0), 0x00);
 	/* make sure we're on Intel chipset */
 	if (id != 0x8086)
+	{
 		return;
+	}
 	rcba = pci_config_read32(PCIADDR(0, 0x1f, 0), 0xf0) & ~1;
 	fd = (uint32_t *)(rcba + 0x3418);
 	/* set SMBus Disable (SD) to 0 */

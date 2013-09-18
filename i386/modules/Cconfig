@@ -12,5 +12,5 @@ source "i386/modules/Keylayout/Cconfig"
 source "i386/modules/ACPIcodec/Cconfig"
 source "i386/modules/KernelPatcher/Cconfig"
 source "i386/modules/FileNVRAM/Cconfig"
-source "i386/modules/HDAEnabler/Cconfig"
+#source "i386/modules/HDAEnabler/Cconfig"
 endmenu

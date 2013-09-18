@@ -31,7 +31,8 @@ uint32_t stringlength = 0;
 
 char *efi_inject_get_devprop_string(uint32_t *len)
 {
-	if(string) {
+	if(string)
+	{
 		*len = string->length;
 		return devprop_generate_string(string);
 	}
@@ -55,17 +56,20 @@ void setupDeviceProperties(Node *node)
   /* Use the static "device-properties" boot config key contents if available,
    * otheriwse use the generated one.
    */  
-  if (!getValueForKey(kDeviceProperties, &val, &cnt, &bootInfo->chameleonConfig) && string)
-  {
-    val = (const char*)string;
-    cnt = strlength * 2;
-  } 
-    
-  if (cnt > 1)
-  {
-    binStr = convertHexStr2Binary(val, &cnt2);
-    if (cnt2 > 0) DT__AddProperty(node, DEVICE_PROPERTIES_PROP, cnt2, binStr);
-  }
+	if (!getValueForKey(kDeviceProperties, &val, &cnt, &bootInfo->chameleonConfig) && string)
+	{
+		val = (const char*)string;
+		cnt = strlength * 2;
+	}
+
+	if (cnt > 1)
+	{
+		binStr = convertHexStr2Binary(val, &cnt2);
+		if (cnt2 > 0)
+		{
+			DT__AddProperty(node, DEVICE_PROPERTIES_PROP, cnt2, binStr);
+		}
+	}
 }
 
 struct DevPropString *devprop_create_string(void)
@@ -190,8 +194,10 @@ int devprop_add_value(struct DevPropDevice *device, char *nm, uint8_t *vl, uint3
 	uint8_t *data = (uint8_t*)malloc(length);
 	{
 		if(!data)
+		{
 			return 0;
-		
+		}
+
 		memset(data, 0, length);
 		uint32_t off= 0;
 		data[off+1] = ((strlen(nm) * 2) + 6) >> 8;
@@ -203,7 +209,7 @@ int devprop_add_value(struct DevPropDevice *device, char *nm, uint8_t *vl, uint3
 		{
 			data[off] = *nm++;
 		}
-		
+
 		off += 2;
 		l = len;
 		uint32_t *datalength = (uint32_t*)&data[off];
@@ -219,25 +225,35 @@ int devprop_add_value(struct DevPropDevice *device, char *nm, uint8_t *vl, uint3
 	
 	uint8_t *newdata = (uint8_t*)malloc((length + offset));
 	if(!newdata)
+	{
 		return 0;
+	}
 	if(device->data)
+	{
 		if(offset > 1)
+		{
 			memcpy(newdata, device->data, offset);
+		}
+	}
 
 	memcpy(newdata + offset, data, length);
 	
 	device->length += length;
 	device->string->length += length;
 	device->numentries++;
-	
+
 	if(!device->data)
+	{
 		device->data = (uint8_t*)malloc(sizeof(uint8_t));
+	}
 	else
+	{
 		free(device->data);
-	
+	}
+
 	free(data);
 	device->data = newdata;
-	
+
 	return 1;
 }
 
@@ -245,9 +261,11 @@ char *devprop_generate_string(struct DevPropString *string)
 {
 	char *buffer = (char*)malloc(string->length * 2);
 	char *ptr = buffer;
-	
+
 	if(!buffer)
+	{
 		return NULL;
+	}
 
 	sprintf(buffer, "%08x%08x%04x%04x", dp_swap32(string->length), string->WHAT2,
 			dp_swap16(string->numentries), string->WHAT3);
@@ -295,8 +313,11 @@ char *devprop_generate_string(struct DevPropString *string)
 
 void devprop_free_string(struct DevPropString *string)
 {
+
 	if(!string)
+	{
 		return;
+	}
 
 	int i;
 	for(i = 0; i < string->numentries; i++)

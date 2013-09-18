@@ -37,7 +37,7 @@ SAIO_OBJS = table.o asm.o bios.o biosfn.o \
 	smbios.o smbios_getters.o smbios_decode.o \
 	fake_efi.o ext2fs.o \
 	hpet.o dram_controllers.o spd.o usb.o pci_setup.o \
-	device_inject.o nvidia_helper.o nvidia.o ati.o gma.o pci_root.o \
+	device_inject.o nvidia_helper.o nvidia.o ati.o gma.o hda.o pci_root.o \
 	convert.o aml_generator.o console.o exfat.o base64-decode.o
 
 SAIO_OBJS := $(addprefix $(OBJROOT)/, $(SAIO_OBJS))

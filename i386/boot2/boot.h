@@ -147,9 +147,12 @@
 #define kSkipIntelGfx		"SkipIntelGfx"		/* pci_setup.c */
 #define kSkipNvidiaGfx		"SkipNvidiaGfx"		/* pci_setup.c */
 #define kSkipAtiGfx		"SkipAtiGfx"		/* pci_setup.c */
-#define kIntelCapriFB	"IntelCapriFB"			/* gma.c was HD4K-ig */
-#define kIntelAzulFB	"IntelAzulFB"			/* gma.c was HD5K-ig */
-#define kAAPLCustomIG	"InjectIntel-ig"		/* gma.c */
+#define kIntelCapriFB		"IntelCapriFB"		/* gma.c was HD4K-ig */
+#define kIntelAzulFB		"IntelAzulFB"		/* gma.c was HD5K-ig */
+#define kAAPLCustomIG		"InjectIntel-ig"	/* gma.c */
+#define kHDAEnabler		"HDAEnabler"		/* pci_setup.c */
+#define kHDEFLayoutID		"HDEFLayoutID"		/* hda.c */
+#define kHDAULayoutID		"HDAULayoutID"		/* hda.c */
 
 /*
  * Flags to the booter or kernel

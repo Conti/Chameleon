@@ -79,6 +79,10 @@ Options useful in the org.chameleon.Boot.plist file:
   KeyLayout=keymap        Use to change the keyboard mapping of the bootloader
                             (e.g. KeyLayout=mac-fr)
 
+  HDAEnabler=Yes|No    Automatic device-properties generation for audio controllers.
+    HDEFLayoutID=<value>     Inject alternate value of layout-id for HDEF (HEX).
+    HDAULayoutID=<value>     Inject alternate value of layout-id for HDAU (HEX).
+
   GraphicsEnabler=Yes|No    Automatic device-properties generation for graphics cards.
     SkipIntelGfx=Yes|No     Skip the Automatic device-properties generation for Intel cards.
     SkipNvidiaGfx=Yes|No    Skip the Automatic device-properties generation for Nvidia cards.
