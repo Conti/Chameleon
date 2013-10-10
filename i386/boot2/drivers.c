@@ -134,9 +134,9 @@ Adler32( unsigned char * buffer, long length )
 
 	lowHalf  %= 65521L;
 	highHalf %= 65521L;
-  
+
 	result = (highHalf << 16) | lowHalf;
-  
+
 	return result;
 }
 
@@ -243,6 +243,11 @@ long LoadDrivers( char * dirSpec )
             }
             else
             {
+				if (gMacOSVersion[3] == '9') {
+					strcpy(gExtensionsSpec, dirSpec);
+					strcat(gExtensionsSpec, "Library/");
+					FileLoadDrivers(gExtensionsSpec, 0);
+				}
                 strcpy(gExtensionsSpec, dirSpec);
                 strcat(gExtensionsSpec, "System/Library/");
                 FileLoadDrivers(gExtensionsSpec, 0);
@@ -275,18 +280,18 @@ FileLoadMKext( const char * dirSpec, const char * extDirSpec )
 	
 	sprintf (altDirSpec, "%s%s", dirSpec, extDirSpec);
 	ret = GetFileInfo(altDirSpec, "Extensions.mkext", &flags, &time);
-	
+
 	if ((ret == 0) && ((flags & kFileTypeMask) == kFileTypeFlat))
 	{
 		ret = GetFileInfo(dirSpec, "Extensions", &flags, &time2);
-		
+
 		if ((ret != 0)
 			|| ((flags & kFileTypeMask) != kFileTypeDirectory)
 			|| (((gBootMode & kBootModeSafe) == 0) && (time == (time2 + 1))))
 		{
 			sprintf(gDriverSpec, "%sExtensions.mkext", altDirSpec);
 			verbose("LoadDrivers: Loading from [%s]\n", gDriverSpec);
-			
+
 			if (LoadDriverMKext(gDriverSpec) == 0)
 				return 0;
 		}
@@ -389,7 +394,7 @@ NetLoadDrivers( char * dirSpec )
     }
     if (tries == -1) return -1;
 
-    return 0;
+	return 0;
 }
 
 //==========================================================================
@@ -558,7 +563,6 @@ LoadMatchedModules( void )
 	long		  length, driverAddr, driverLength;
 	void		  *executableAddr = 0;
 
-  
 	module = gModuleHead;
 
 	while (module != 0)
@@ -748,8 +752,7 @@ ParseXML( char * buffer, ModulePtr * module, TagPtr * personalities )
 
 	required = XMLGetProperty(moduleDict, kPropOSBundleRequired);
 
-	//if ( (required != NULL)  &&  (required->type == kTagTypeString)  &&  !strcmp(required->string, "Safe Boot"))
-	if ( (required != NULL)  && ((required->type != kTagTypeString) || (!strcmp(required->string, "Safe Boot"))) )
+	if ( (required == 0) || (required->type != kTagTypeString) || !strcmp(required->string, "Safe Boot"))
 	{
 		XMLFreeTag(moduleDict);
 		return -2;
@@ -798,7 +801,7 @@ DecodeKernel(void *binary, entry_t *rentry, char **raddr, int *rsize)
 	printf("compressed_size: 0x%x\n", kernel_header->compressed_size);
 	getchar();
 #endif
-	
+
 	if (kernel_header->signature == OSSwapBigToHostConstInt32('comp'))
 	{
 		if (kernel_header->compress_type != OSSwapBigToHostConstInt32('lzss'))
@@ -808,10 +811,15 @@ DecodeKernel(void *binary, entry_t *rentry, char **raddr, int *rsize)
 		}
 #if NOTDEF
 		if (kernel_header->platform_name[0] && strcmp(gPlatformName, kernel_header->platform_name))
+		{
 			return -1;
+		}
 		if (kernel_header->root_path[0] && strcmp(gBootFile, kernel_header->root_path))
+		{
 			return -1;
+		}
 #endif
+
 		uncompressed_size = OSSwapBigToHostInt32(kernel_header->uncompressed_size);
 		binary = buffer = malloc(uncompressed_size);
 		
