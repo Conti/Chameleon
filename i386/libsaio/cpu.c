@@ -57,38 +57,39 @@ restart:
 	        // This will flash-reboot. TODO: Use tscPanic instead.
 		printf("Timestamp counter calibation failed with %d attempts\n", attempts);
 	}
-    attempts++;
-    enable_PIT2();		// turn on PIT2
-    set_PIT2(0);		// reset timer 2 to be zero
-    latchTime = rdtsc64();	// get the time stamp to time 
-    latchTime = get_PIT2(&timerValue) - latchTime; // time how long this takes
-    set_PIT2(SAMPLE_CLKS_INT);	// set up the timer for (almost) 1/20th a second
-    saveTime = rdtsc64();	// now time how long a 20th a second is...
-    get_PIT2(&lastValue);
-    get_PIT2(&lastValue);	// read twice, first value may be unreliable
-    do {
+	attempts++;
+	enable_PIT2();		// turn on PIT2
+	set_PIT2(0);		// reset timer 2 to be zero
+	latchTime = rdtsc64();	// get the time stamp to time 
+	latchTime = get_PIT2(&timerValue) - latchTime; // time how long this takes
+	set_PIT2(SAMPLE_CLKS_INT);	// set up the timer for (almost) 1/20th a second
+	saveTime = rdtsc64();	// now time how long a 20th a second is...
+	get_PIT2(&lastValue);
+	get_PIT2(&lastValue);	// read twice, first value may be unreliable
+	do {
 		intermediate = get_PIT2(&timerValue);
-		if (timerValue > lastValue) {
+		if (timerValue > lastValue)
+		{
 			// Timer wrapped
 			set_PIT2(0);
 			disable_PIT2();
 			goto restart;
 		}
 		lastValue = timerValue;
-    } while (timerValue > 5);
-    printf("timerValue	  %d\n",timerValue);
-    printf("intermediate 0x%016llx\n",intermediate);
-    printf("saveTime	  0x%016llx\n",saveTime);
+	} while (timerValue > 5);
+	printf("timerValue	  %d\n",timerValue);
+	printf("intermediate 0x%016llx\n",intermediate);
+	printf("saveTime	  0x%016llx\n",saveTime);
     
-    intermediate -= saveTime;		// raw count for about 1/20 second
-    intermediate *= scale[timerValue];	// rescale measured time spent
-    intermediate /= SAMPLE_NSECS;	// so its exactly 1/20 a second
-    intermediate += latchTime;		// add on our save fudge
+	intermediate -= saveTime;		// raw count for about 1/20 second
+	intermediate *= scale[timerValue];	// rescale measured time spent
+	intermediate /= SAMPLE_NSECS;	// so its exactly 1/20 a second
+	intermediate += latchTime;		// add on our save fudge
     
-    set_PIT2(0);			// reset timer 2 to be zero
-    disable_PIT2();			// turn off PIT 2
+	set_PIT2(0);			// reset timer 2 to be zero
+	disable_PIT2();			// turn off PIT 2
 	
-    return intermediate;
+	return intermediate;
 }
 
 /*
@@ -121,16 +122,22 @@ static uint64_t measure_tsc_frequency(void)
 		tscEnd = rdtsc64();
 		/* The poll loop must have run at least a few times for accuracy */
 		if (pollCount <= 1)
+		{
 			continue;
+		}
 		/* The TSC must increment at LEAST once every millisecond.
 		 * We should have waited exactly 30 msec so the TSC delta should
 		 * be >= 30. Anything less and the processor is way too slow.
 		 */
 		if ((tscEnd - tscStart) <= CALIBRATE_TIME_MSEC)
+		{
 			continue;
+		}
 		// tscDelta = MIN(tscDelta, (tscEnd - tscStart))
 		if ( (tscEnd - tscStart) < tscDelta )
+		{
 			tscDelta = tscEnd - tscStart;
+		}
 	}
 	/* tscDelta is now the least number of TSC ticks the processor made in
 	 * a timespan of 0.03 s (e.g. 30 milliseconds)
@@ -146,7 +153,9 @@ static uint64_t measure_tsc_frequency(void)
 	 * Also unlike Linux, our compiler can do 64-bit integer arithmetic.
 	 */
 	if (tscDelta > (1ULL<<32))
+	{
 		retval = 0;
+	}
 	else
 	{
 		retval = tscDelta * 1000 / 30;
@@ -187,23 +196,31 @@ static uint64_t measure_aperf_frequency(void)
 		aperfEnd = rdmsr64(MSR_AMD_APERF);
 		/* The poll loop must have run at least a few times for accuracy */
 		if (pollCount <= 1)
+		{
 			continue;
+		}
 		/* The TSC must increment at LEAST once every millisecond.
 		 * We should have waited exactly 30 msec so the APERF delta should
 		 * be >= 30. Anything less and the processor is way too slow.
 		 */
 		if ((aperfEnd - aperfStart) <= CALIBRATE_TIME_MSEC)
+		{
 			continue;
+		}
 		// tscDelta = MIN(tscDelta, (tscEnd - tscStart))
 		if ( (aperfEnd - aperfStart) < aperfDelta )
+		{
 			aperfDelta = aperfEnd - aperfStart;
+		}
 	}
 	/* mperfDelta is now the least number of MPERF ticks the processor made in
 	 * a timespan of 0.03 s (e.g. 30 milliseconds)
 	 */
 	
 	if (aperfDelta > (1ULL<<32))
+	{
 		retval = 0;
+	}
 	else
 	{
 		retval = aperfDelta * 1000 / 30;
@@ -240,17 +257,21 @@ void scan_cpu(PlatformInfo_t *p)
 	do_cpuid(0x00000003, p->CPU.CPUID[CPUID_3]);
 	do_cpuid2(0x00000004, 0, p->CPU.CPUID[CPUID_4]);
 	do_cpuid(0x80000000, p->CPU.CPUID[CPUID_80]);
-	if (p->CPU.CPUID[CPUID_0][0] >= 0x5) {
+	if (p->CPU.CPUID[CPUID_0][0] >= 0x5)
+	{
 		do_cpuid(5,  p->CPU.CPUID[CPUID_5]);
 	}
-	if (p->CPU.CPUID[CPUID_0][0] >= 6) {
+	if (p->CPU.CPUID[CPUID_0][0] >= 6)
+	{
 		do_cpuid(6, p->CPU.CPUID[CPUID_6]);
 	}
-	if ((p->CPU.CPUID[CPUID_80][0] & 0x0000000f) >= 8) {
+	if ((p->CPU.CPUID[CPUID_80][0] & 0x0000000f) >= 8)
+	{
 		do_cpuid(0x80000008, p->CPU.CPUID[CPUID_88]);
 		do_cpuid(0x80000001, p->CPU.CPUID[CPUID_81]);
 	}
-	else if ((p->CPU.CPUID[CPUID_80][0] & 0x0000000f) >= 1) {
+	else if ((p->CPU.CPUID[CPUID_80][0] & 0x0000000f) >= 1)
+	{
 		do_cpuid(0x80000001, p->CPU.CPUID[CPUID_81]);
 	}
 
@@ -258,7 +279,8 @@ void scan_cpu(PlatformInfo_t *p)
 	{
 		int		i;
 		printf("CPUID Raw Values:\n");
-		for (i=0; i<CPUID_MAX; i++) {
+		for (i=0; i<CPUID_MAX; i++)
+		{
 			printf("%02d: %08x-%08x-%08x-%08x\n", i,
 				   p->CPU.CPUID[i][0], p->CPU.CPUID[i][1],
 				   p->CPU.CPUID[i][2], p->CPU.CPUID[i][3]);
@@ -300,7 +322,8 @@ void scan_cpu(PlatformInfo_t *p)
 
 	/* get brand string (if supported) */
 	/* Copyright: from Apple's XNU cpuid.c */
-	if (p->CPU.CPUID[CPUID_80][0] > 0x80000004) {
+	if (p->CPU.CPUID[CPUID_80][0] > 0x80000004)
+	{
 		uint32_t	reg[4];
 		char		str[128], *s;
 		/*
@@ -313,13 +336,18 @@ void scan_cpu(PlatformInfo_t *p)
 		bcopy((char *)reg, &str[16], 16);
 		do_cpuid(0x80000004, reg);
 		bcopy((char *)reg, &str[32], 16);
-		for (s = str; *s != '\0'; s++) {
-			if (*s != ' ') break;
+		for (s = str; *s != '\0'; s++)
+		{
+			if (*s != ' ')
+			{
+				break;
+			}
 		}
 		
 		strlcpy(p->CPU.BrandString, s, sizeof(p->CPU.BrandString));
 		
-		if (!strncmp(p->CPU.BrandString, CPU_STRING_UNKNOWN, MIN(sizeof(p->CPU.BrandString), strlen(CPU_STRING_UNKNOWN) + 1))) {
+		if (!strncmp(p->CPU.BrandString, CPU_STRING_UNKNOWN, MIN(sizeof(p->CPU.BrandString), strlen(CPU_STRING_UNKNOWN) + 1)))
+		{
 			/*
 			 * This string means we have a firmware-programmable brand string,
 			 * and the firmware couldn't figure out what sort of CPU we have.
@@ -329,32 +357,41 @@ void scan_cpu(PlatformInfo_t *p)
 	}
 	
 	/* setup features */
-	if ((bit(23) & p->CPU.CPUID[CPUID_1][3]) != 0) {
+	if ((bit(23) & p->CPU.CPUID[CPUID_1][3]) != 0)
+	{
 		p->CPU.Features |= CPU_FEATURE_MMX;
 	}
-	if ((bit(25) & p->CPU.CPUID[CPUID_1][3]) != 0) {
+	if ((bit(25) & p->CPU.CPUID[CPUID_1][3]) != 0)
+	{
 		p->CPU.Features |= CPU_FEATURE_SSE;
 	}
-	if ((bit(26) & p->CPU.CPUID[CPUID_1][3]) != 0) {
+	if ((bit(26) & p->CPU.CPUID[CPUID_1][3]) != 0)
+	{
 		p->CPU.Features |= CPU_FEATURE_SSE2;
 	}
-	if ((bit(0) & p->CPU.CPUID[CPUID_1][2]) != 0) {
+	if ((bit(0) & p->CPU.CPUID[CPUID_1][2]) != 0)
+	{
 		p->CPU.Features |= CPU_FEATURE_SSE3;
 	}
-	if ((bit(19) & p->CPU.CPUID[CPUID_1][2]) != 0) {
+	if ((bit(19) & p->CPU.CPUID[CPUID_1][2]) != 0)
+	{
 		p->CPU.Features |= CPU_FEATURE_SSE41;
 	}
-	if ((bit(20) & p->CPU.CPUID[CPUID_1][2]) != 0) {
+	if ((bit(20) & p->CPU.CPUID[CPUID_1][2]) != 0)
+	{
 		p->CPU.Features |= CPU_FEATURE_SSE42;
 	}
-	if ((bit(29) & p->CPU.CPUID[CPUID_81][3]) != 0) {
+	if ((bit(29) & p->CPU.CPUID[CPUID_81][3]) != 0)
+	{
 		p->CPU.Features |= CPU_FEATURE_EM64T;
 	}
-	if ((bit(5) & p->CPU.CPUID[CPUID_1][3]) != 0) {
+	if ((bit(5) & p->CPU.CPUID[CPUID_1][3]) != 0)
+	{
 		p->CPU.Features |= CPU_FEATURE_MSR;
 	}
 	//if ((bit(28) & p->CPU.CPUID[CPUID_1][3]) != 0) {
-	if (p->CPU.NoThreads > p->CPU.NoCores) {
+	if (p->CPU.NoThreads > p->CPU.NoCores)
+	{
 		p->CPU.Features |= CPU_FEATURE_HTT;
 	}
 
@@ -367,9 +404,11 @@ void scan_cpu(PlatformInfo_t *p)
 	fsbFrequency = 0;
 	cpuFrequency = 0;
 
-	if ((p->CPU.Vendor == CPUID_VENDOR_INTEL) && ((p->CPU.Family == 0x06) || (p->CPU.Family == 0x0f))) {
+	if ((p->CPU.Vendor == CPUID_VENDOR_INTEL) && ((p->CPU.Family == 0x06) || (p->CPU.Family == 0x0f)))
+	{
 		int intelCPU = p->CPU.Model;
-		if ((p->CPU.Family == 0x06 && p->CPU.Model >= 0x0c) || (p->CPU.Family == 0x0f && p->CPU.Model >= 0x03)) {
+		if ((p->CPU.Family == 0x06 && p->CPU.Model >= 0x0c) || (p->CPU.Family == 0x0f && p->CPU.Model >= 0x03))
+		{
 			/* Nehalem CPU model */
 			if (p->CPU.Family == 0x06 && (p->CPU.Model == CPU_MODEL_NEHALEM		||
 										  p->CPU.Model == CPU_MODEL_FIELDS	||
@@ -394,7 +433,8 @@ void scan_cpu(PlatformInfo_t *p)
 				bus_ratio_min = bitfield(msr, 47, 40); //valv: not sure about this one (Remarq.1)
 				msr = rdmsr64(MSR_FLEX_RATIO);
 				DBG("msr(%d): flex_ratio %08x\n", __LINE__, bitfield(msr, 31, 0));
-				if (bitfield(msr, 16, 16)) {
+				if (bitfield(msr, 16, 16))
+				{
 					flex_ratio = bitfield(msr, 15, 8);
 					/* bcc9: at least on the gigabyte h67ma-ud2h,
 					 where the cpu multipler can't be changed to
@@ -404,42 +444,63 @@ void scan_cpu(PlatformInfo_t *p)
 					 causing the system to crash since tscGranularity
 					 is inadvertently set to 0.
 					 */
-					if (flex_ratio == 0) {
+					if (flex_ratio == 0)
+					{
 						/* Clear bit 16 (evidently the presence bit) */
 						wrmsr64(MSR_FLEX_RATIO, (msr & 0xFFFFFFFFFFFEFFFFULL));
 						msr = rdmsr64(MSR_FLEX_RATIO);
 						verbose("Unusable flex ratio detected. Patched MSR now %08x\n", bitfield(msr, 31, 0));
-					} else {
-						if (bus_ratio_max > flex_ratio) {
+					}
+					else
+					{
+						if (bus_ratio_max > flex_ratio)
+						{
 							bus_ratio_max = flex_ratio;
 						}
 					}
 				}
 
-				if (bus_ratio_max) {
+				if (bus_ratio_max)
+				{
 					fsbFrequency = (tscFrequency / bus_ratio_max);
 				}
 				//valv: Turbo Ratio Limit
-				if ((intelCPU != 0x2e) && (intelCPU != 0x2f)) {
+				if ((intelCPU != 0x2e) && (intelCPU != 0x2f))
+				{
 					msr = rdmsr64(MSR_TURBO_RATIO_LIMIT);
 					cpuFrequency = bus_ratio_max * fsbFrequency;
 					max_ratio = bus_ratio_max * 10;
-				} else {
+				}
+				else
+				{
 					cpuFrequency = tscFrequency;
 				}
-				if ((getValueForKey(kbusratio, &newratio, &len, &bootInfo->chameleonConfig)) && (len <= 4)) {
+				if ((getValueForKey(kbusratio, &newratio, &len, &bootInfo->chameleonConfig)) && (len <= 4))
+				{
 					max_ratio = atoi(newratio);
 					max_ratio = (max_ratio * 10);
-					if (len >= 3) max_ratio = (max_ratio + 5);
+					if (len >= 3)
+					{
+						max_ratio = (max_ratio + 5);
+					}
 
 					verbose("Bus-Ratio: min=%d, max=%s\n", bus_ratio_min, newratio);
 
 					// extreme overclockers may love 320 ;)
-					if ((max_ratio >= min_ratio) && (max_ratio <= 320)) {
+					if ((max_ratio >= min_ratio) && (max_ratio <= 320))
+					{
 						cpuFrequency = (fsbFrequency * max_ratio) / 10;
-						if (len >= 3) maxdiv = 1;
-						else maxdiv = 0;
-					} else {
+						if (len >= 3)
+						{
+							maxdiv = 1;
+						}
+						else
+						{
+							maxdiv = 0;
+						}
+					}
+					else
+					{
 						max_ratio = (bus_ratio_max * 10);
 					}
 				}
@@ -451,10 +512,12 @@ void scan_cpu(PlatformInfo_t *p)
 				myfsb = fsbFrequency / 1000000;
 				verbose("Sticking with [BCLK: %dMhz, Bus-Ratio: %d]\n", myfsb, max_ratio);
 				currcoef = bus_ratio_max;
-			} else {
+			}
+			else
+			{
 				msr = rdmsr64(MSR_IA32_PERF_STATUS);
 				DBG("msr(%d): ia32_perf_stat 0x%08x\n", __LINE__, bitfield(msr, 31, 0));
-				currcoef = bitfield(msr, 12, 8);
+				currcoef = bitfield(msr, 15, 8);
 				/* Non-integer bus ratio for the max-multi*/
 				maxdiv = bitfield(msr, 46, 46);
 				/* Non-integer bus ratio for the current-multi (undocumented)*/
@@ -465,21 +528,30 @@ void scan_cpu(PlatformInfo_t *p)
 				{
 					/* On these models, maxcoef defines TSC freq */
 					maxcoef = bitfield(msr, 44, 40);
-				} else {
+				}
+				else
+				{
 					/* On lower models, currcoef defines TSC freq */
 					/* XXX */
 					maxcoef = currcoef;
 				}
 
-				if (maxcoef) {
-					if (maxdiv) {
+				if (maxcoef)
+				{
+					if (maxdiv)
+					{
 						fsbFrequency = ((tscFrequency * 2) / ((maxcoef * 2) + 1));
-					} else {
+					}
+					else
+					{
 						fsbFrequency = (tscFrequency / maxcoef);
 					}
-					if (currdiv) {
+					if (currdiv)
+					{
 						cpuFrequency = (fsbFrequency * ((currcoef * 2) + 1) / 2);
-					} else {
+					}
+					else
+					{
 						cpuFrequency = (fsbFrequency * currcoef);
 					}
 					DBG("max: %d%s current: %d%s\n", maxcoef, maxdiv ? ".5" : "",currcoef, currdiv ? ".5" : "");
@@ -487,7 +559,8 @@ void scan_cpu(PlatformInfo_t *p)
 			}
 		}
 		/* Mobile CPU */
-		if (rdmsr64(MSR_IA32_PLATFORM_ID) & (1<<28)) {
+		if (rdmsr64(MSR_IA32_PLATFORM_ID) & (1<<28))
+		{
 			p->CPU.Features |= CPU_FEATURE_MOBILE;
 		}
 	}
@@ -536,18 +609,31 @@ void scan_cpu(PlatformInfo_t *p)
 		{
 			if (currdiv)
 			{
-				if (!currcoef) currcoef = maxcoef;
+				if (!currcoef)
+				{
+					currcoef = maxcoef;
+				}
+
 				if (!cpuFrequency)
+				{
 					fsbFrequency = ((tscFrequency * currdiv) / currcoef);
+				}
 				else
+				{
 					fsbFrequency = ((cpuFrequency * currdiv) / currcoef);
-				
+				}
 				DBG("%d.%d\n", currcoef / currdiv, ((currcoef % currdiv) * 100) / currdiv);
-			} else {
+			}
+			else
+			{
 				if (!cpuFrequency)
+				{
 					fsbFrequency = (tscFrequency / maxcoef);
+				}
 				else 
+				{
 					fsbFrequency = (cpuFrequency / maxcoef);
+				}
 				DBG("%d\n", currcoef);
 			}
 		}
@@ -557,7 +643,9 @@ void scan_cpu(PlatformInfo_t *p)
 			{
 				fsbFrequency = ((tscFrequency * currdiv) / currcoef);
 				DBG("%d.%d\n", currcoef / currdiv, ((currcoef % currdiv) * 100) / currdiv);
-			} else {
+			}
+			else
+			{
 				fsbFrequency = (tscFrequency / currcoef);
 				DBG("%d\n", currcoef);
 			}
@@ -566,7 +654,8 @@ void scan_cpu(PlatformInfo_t *p)
 	}
 	
 #if 0
-	if (!fsbFrequency) {
+	if (!fsbFrequency)
+	{
 		fsbFrequency = (DEFAULT_FSB * 1000);
 		cpuFrequency = tscFrequency;
 		DBG("0 ! using the default value for FSB !\n");

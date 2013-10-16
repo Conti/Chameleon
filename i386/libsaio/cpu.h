@@ -179,7 +179,7 @@ static inline unsigned long poll_PIT2_gate(void)
         ++count;
         __asm__ volatile(
 						 "inb	$0x61,%0"
-						 : "=q"(nmi_sc_val) /*:*/ /* no input */ /*:*/ /* no clobber */);
+						 : "=a"(nmi_sc_val) /*:*/ /* no input */ /*:*/ /* no clobber */);
     } while( (nmi_sc_val & 0x20) == 0);
     return count;
 }

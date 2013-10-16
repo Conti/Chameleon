@@ -45,6 +45,10 @@ ifdef CONFIG_FILENVRAM_MODULE
 SUBDIRS += FileNVRAM
 endif
 
+#ifdef CONFIG_KEXTPATCHER_MODULE
+#SUBDIRS += KextPatcher
+#endif
+
 #ifdef CONFIG_HDAENABLER_MODULE
 #SUBDIRS += HDAEnabler
 #endif

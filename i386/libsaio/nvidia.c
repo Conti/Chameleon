@@ -1396,6 +1396,7 @@ static nvidia_card_info_t nvidia_card_exceptions[] = {
 	{ 0x10DE11A1,	0x15587102,	"Clevo N13E-GR" },
 
 	{ 0x10DE11C0,	0x10DE0995,	"Inno3D GeForce GTX660" },
+	{ 0x10DE11C0,	0x1458354E,	"GV-N660OC-2GD" },
 
 	{ 0x10DE11C6,	0x1043842A,	"GTX650TI-1GD5" },
 	// 1200 - 12FF
@@ -2146,7 +2147,10 @@ bool setup_nvidia_devprop(pci_dt_t *nvda_dev)
 	if(getBoolForKey(kEnableHDMIAudio, &doit, &bootInfo->chameleonConfig) && doit)
 	{
 		static uint8_t connector_type_1[]= {0x00, 0x08, 0x00, 0x00};
+		devprop_add_value(device, "@0,connector-type",connector_type_1, 4);
 		devprop_add_value(device, "@1,connector-type",connector_type_1, 4);
+		devprop_add_value(device, "@2,connector-type",connector_type_1, 4);
+		devprop_add_value(device, "@3,connector-type",connector_type_1, 4);
 	}
 	/************************ End Audio *************************/
 

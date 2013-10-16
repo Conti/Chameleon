@@ -1,5 +1,5 @@
 MODULE_NAME = HDAEnabler
-MODULE_AUTHOR = "ErmaC"
+MODULE_AUTHOR = ErmaC
 MODULE_DESCRIPTION = This module provides a remplacement for the DSDT edits like HDEF/HDAU
 MODULE_VERSION = "1.0.0"
 MODULE_COMPAT_VERSION = "1.0.0"

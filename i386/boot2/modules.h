@@ -31,7 +31,6 @@ typedef struct symbolList_t
 	struct symbolList_t* next;
 } symbolList_t;
 
-
 typedef struct callbackList_t
 {
 	void(*callback)(void*, void*, void*, void*);
@@ -48,8 +47,8 @@ typedef struct moduleHook_t
 typedef struct modulesList_t
 {
 	const char*				name;
-    const char*             author;
-    const char*             description;
+	const char*             author;
+	const char*             description;
 	UInt32					version;
 	UInt32					compat;
 	struct modulesList_t* next;
@@ -95,11 +94,7 @@ unsigned int	handle_symtable(UInt32 base,
 							 long long(*symbol_handler)(char*, long long, char),
 							 char is64);
 void			rebase_macho(void* base, char* rebase_stream, UInt32 size);
-inline void		rebase_location(UInt32* location, char* base, int type);
 void			bind_macho(void* base, UInt8* bind_stream, UInt32 size);
-inline void		bind_location(UInt32* location, char* value, UInt32 addend, int type);
-
-
 
 
 /********************************************************************************/
