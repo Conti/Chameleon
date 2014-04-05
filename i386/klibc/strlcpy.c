@@ -2,26 +2,54 @@
  * strlcpy.c
  */
 
+/* Use OpenBSD heritage source -- Chucko 2014-01-06 */
+
+/*-
+ * Copyright (c) 1998 Todd C. Miller <Todd.Miller@courtesan.com>
+ *
+ * Permission to use, copy, modify, and distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+ * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ */
+
 #include <string.h>
 #include <klibc/compiler.h>
 
-size_t strlcpy(char *dst, const char *src, size_t size)
+/*
+ * Copy src to string dst of size siz.  At most siz-1 characters
+ * will be copied.  Always NUL terminates (unless siz == 0).
+ * Returns strlen(src); if retval >= siz, truncation occurred.
+ */
+size_t
+strlcpy(char * __restrict dst, const char * __restrict src, size_t siz)
 {
-	size_t bytes = 0;
-	char *q = dst;
-	const char *p = src;
-	char ch;
+  char *d = dst;
+  const char *s = src;
+  size_t n = siz;
 
-	while ((ch = *p++)) {
-		if (bytes + 1 < size)
-			*q++ = ch;
+  /* Copy as many bytes as will fit */
+  if (n != 0) {
+    while (--n != 0) {
+      if ((*d++ = *s++) == '\0')
+        break;
+    }
+  }
 
-		bytes++;
-	}
+  /* Not enough room in dst, add NUL and traverse rest of src */
+  if (n == 0) {
+    if (siz != 0)
+      *d = '\0';              /* NUL-terminate dst */
+    while (*s++)
+      ;
+  }
 
-	/* If size == 0 there is no space for a final null... */
-	if (size)
-		*q = '\0';
-
-	return bytes;
+  return(s - src - 1);    /* count does not include NUL */
 }

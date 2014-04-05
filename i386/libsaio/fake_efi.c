@@ -18,8 +18,6 @@
 #include "pci.h"
 #include "sl.h"
 
-
-
 extern void setup_pci_devs(pci_dt_t *pci_dt);
 
 /*
@@ -78,8 +76,10 @@ static uint64_t ptov64(uint32_t addr)
 static EFI_CHAR16 const FIRMWARE_VENDOR[] = {'C','h','a','m','e','l','e','o','n','_','2','.','2', 0};
 static EFI_UINT32 const FIRMWARE_REVISION = 132; /* FIXME: Find a constant for this. */
 
-/* Default platform system_id (fix by IntVar) */
-static EFI_CHAR8 const SYSTEM_ID[] = "0123456789ABCDEF"; //random value gen by uuidgen
+// Bungo
+/* Default platform system_id (fix by IntVar)
+ static EFI_CHAR8 const SYSTEM_ID[] = "0123456789ABCDEF"; //random value gen by uuidgen
+ */
 
 /* Just a ret instruction */
 static uint8_t const VOIDRET_INSTRUCTIONS[] = {0xc3};
@@ -109,10 +109,14 @@ extern EFI_STATUS addConfigurationTable(EFI_GUID const *pGuid, void *table, char
 
 	// We only do adds, not modifications and deletes like InstallConfigurationTable
 	if (i >= MAX_CONFIGURATION_TABLE_ENTRIES)
+	{
 		stop("Ran out of space for configuration tables.  Increase the reserved size in the code.\n");
+	}
 
 	if (pGuid == NULL)
+	{
 		return EFI_INVALID_PARAMETER;
+	}
 
 	if (table != NULL)
 	{
@@ -132,7 +136,9 @@ extern EFI_STATUS addConfigurationTable(EFI_GUID const *pGuid, void *table, char
 
 		// Assume the alias pointer is a global or static piece of data
 		if (alias != NULL)
+		{
 			DT__AddProperty(tableNode, "alias", strlen(alias)+1, (char*)alias);
+		}
 
 		return EFI_SUCCESS;
 	}
@@ -437,7 +443,8 @@ static const char SYSTEM_SERIAL_PROP[] = "SystemSerialNumber";
 static const char SYSTEM_TYPE_PROP[] = "system-type";
 static const char MODEL_PROP[] = "Model";
 static const char BOARDID_PROP[] = "board-id";
-
+static const char DEV_PATH_SUP[] = "DevicePathsSupported";
+static uint32_t DevPathSup = 1;
 /*
  * Get an smbios option string option to convert to EFI_CHAR16 string
  */
@@ -447,19 +454,26 @@ static EFI_CHAR16* getSmbiosChar16(const char * key, size_t* len)
 	EFI_CHAR16*	 dst = 0;
 	size_t		 i = 0;
 
-	if (!key || !(*key) || !len || !src) return 0;
+	if (!key || !(*key) || !len || !src)
+	{
+		return 0;
+	}
 	
 	*len = strlen(src);
 	dst = (EFI_CHAR16*) malloc( ((*len)+1) * 2 );
-	for (; i < (*len); i++)	 dst[i] = src[i];
+	for (; i < (*len); i++)
+	{
+		dst[i] = src[i];
+	}
 	dst[(*len)] = '\0';
-	*len = ((*len)+1)*2; // return the CHAR16 bufsize in cluding zero terminated CHAR16
+	*len = ((*len)+1)*2; // return the CHAR16 bufsize including zero terminated CHAR16
 	return dst;
 }
 
+// Bungo
 /*
  * Get the SystemID from the bios dmi info
- */
+
 static	EFI_CHAR8* getSmbiosUUID()
 {
 	static EFI_CHAR8		 uuid[UUID_LEN];
@@ -470,8 +484,15 @@ static	EFI_CHAR8* getSmbiosUUID()
 
 	for (i=0, isZero=1, isOnes=1; i<UUID_LEN; i++)
 	{
-		if (p[i] != 0x00) isZero = 0;
-		if (p[i] != 0xff) isOnes = 0;
+		if (p[i] != 0x00)
+		{
+			isZero = 0;
+		}
+
+		if (p[i] != 0xff)
+		{
+			isOnes = 0;
+		}
 	}
 
 	if (isZero || isOnes) // empty or setable means: no uuid present
@@ -484,10 +505,10 @@ static	EFI_CHAR8* getSmbiosUUID()
 	return uuid;
 }
 
-/*
- * return a binary UUID value from the overriden SystemID and SMUUID if found, 
- * or from the bios if not, or from a fixed value if no bios value is found 
- */
+
+// return a binary UUID value from the overriden SystemID and SMUUID if found, 
+// or from the bios if not, or from a fixed value if no bios value is found 
+
 static EFI_CHAR8* getSystemID()
 {
 	// unable to determine UUID for host. Error: 35 fix
@@ -502,12 +523,15 @@ static EFI_CHAR8* getSystemID()
 		sysId = 0;
 	}
 
-	if (!ret) // no bios dmi UUID available, set a fixed value for system-id
+	if (!ret)
+	{
+		// no bios dmi UUID available, set a fixed value for system-id
 		ret=getUUIDFromString((sysId = (const char*) SYSTEM_ID));
-
+	}
 	verbose("Customizing SystemID with : %s\n", getStringFromUUID(ret)); // apply a nice formatting to the displayed output
 	return ret;
 }
+ */
 
 /*
  * Must be called AFTER setup Acpi because we need to take care of correct
@@ -516,7 +540,10 @@ static EFI_CHAR8* getSystemID()
 void setupSystemType()
 {
 	Node *node = DT__FindNode("/", false);
-	if (node == 0) stop("Couldn't get root node");
+	if (node == 0)
+	{
+		stop("Couldn't get root node");
+	}
 	// we need to write this property after facp parsing
 	// Export system-type only if it has been overrriden by the SystemType option
 	DT__AddProperty(node, SYSTEM_TYPE_PROP, sizeof(Platform.Type), &Platform.Type);
@@ -524,26 +551,26 @@ void setupSystemType()
 
 void setupEfiDeviceTree(void)
 {
-	EFI_CHAR8*	 ret = 0;
+	// EFI_CHAR8*	 ret = 0;  Bungo: not used
 	EFI_CHAR16*	 ret16 = 0;
 	size_t		 len = 0;
 	Node		*node;
 
 	node = DT__FindNode("/", false);
 
-	if (node == 0) stop("Couldn't get root node");
+	if (node == 0)
+	{
+		stop("Couldn't get root node");
+	}
 
 	// We could also just do DT__FindNode("/efi/platform", true)
 	// But I think eventually we want to fill stuff in the efi node
 	// too so we might as well create it so we have a pointer for it too.
 	node = DT__AddChild(node, "efi");
 
-	if (archCpuType == CPU_TYPE_I386)
-	{
+	if (archCpuType == CPU_TYPE_I386) {
 		DT__AddProperty(node, FIRMWARE_ABI_PROP, sizeof(FIRMWARE_ABI_32_PROP_VALUE), (char*)FIRMWARE_ABI_32_PROP_VALUE);
-	}
-	else
-	{
+	} else {
 		DT__AddProperty(node, FIRMWARE_ABI_PROP, sizeof(FIRMWARE_ABI_64_PROP_VALUE), (char*)FIRMWARE_ABI_64_PROP_VALUE);
 	}
 
@@ -556,17 +583,14 @@ void setupEfiDeviceTree(void)
 	// is set up.  That is, name and table properties
 	Node *runtimeServicesNode = DT__AddChild(node, "runtime-services");
 
-	if (archCpuType == CPU_TYPE_I386)
-	{
+	if (archCpuType == CPU_TYPE_I386) {
 		// The value of the table property is the 32-bit physical address for the RuntimeServices table.
 		// Since the EFI system table already has a pointer to it, we simply use the address of that pointer
 		// for the pointer to the property data.  Warning.. DT finalization calls free on that but we're not
 		// the only thing to use a non-malloc'd pointer for something in the DT
 
 		DT__AddProperty(runtimeServicesNode, "table", sizeof(uint64_t), &gST32->RuntimeServices);
-	}
-	else
-	{
+	} else {
 		DT__AddProperty(runtimeServicesNode, "table", sizeof(uint64_t), &gST64->RuntimeServices);
 	}
 
@@ -581,27 +605,39 @@ void setupEfiDeviceTree(void)
 	// the value in the fsbFrequency global and not an malloc'd pointer
 	// because the DT_AddProperty function does not copy its args.
 
-	if (Platform.CPU.FSBFrequency != 0)
+	if (Platform.CPU.FSBFrequency != 0) {
 		DT__AddProperty(efiPlatformNode, FSB_Frequency_prop, sizeof(uint64_t), &Platform.CPU.FSBFrequency);
+	}
 
 	// Export TSC and CPU frequencies for use by the kernel or KEXTs
-	if (Platform.CPU.TSCFrequency != 0)
+	if (Platform.CPU.TSCFrequency != 0) {
 		DT__AddProperty(efiPlatformNode, TSC_Frequency_prop, sizeof(uint64_t), &Platform.CPU.TSCFrequency);
+	}
 
-	if (Platform.CPU.CPUFrequency != 0)
+	if (Platform.CPU.CPUFrequency != 0) {
 		DT__AddProperty(efiPlatformNode, CPU_Frequency_prop, sizeof(uint64_t), &Platform.CPU.CPUFrequency);
+	}
 
-	// Export system-id. Can be disabled with SystemId=No in com.apple.Boot.plist
-	if ((ret=getSystemID()))
+	DT__AddProperty(efiPlatformNode,DEV_PATH_SUP, sizeof(uint32_t), &DevPathSup);
+
+	// Bungo
+	/* Export system-id. Can be disabled with SystemId=No in com.apple.Boot.plist
+	if ((ret=getSystemID())) {
 		DT__AddProperty(efiPlatformNode, SYSTEM_ID_PROP, UUID_LEN, (EFI_UINT32*) ret);
+	}
+	*/
+
+	DT__AddProperty(efiPlatformNode, SYSTEM_ID_PROP, UUID_LEN, (EFI_UINT32 *)Platform.UUID);
 
 	// Export SystemSerialNumber if present
-	if ((ret16=getSmbiosChar16("SMserial", &len)))
+	if ((ret16=getSmbiosChar16("SMserial", &len))) {
 		DT__AddProperty(efiPlatformNode, SYSTEM_SERIAL_PROP, len, ret16);
+	}
 
 	// Export Model if present
-	if ((ret16=getSmbiosChar16("SMproductname", &len)))
+	if ((ret16=getSmbiosChar16("SMproductname", &len))) {
 		DT__AddProperty(efiPlatformNode, MODEL_PROP, len, ret16);
+	}
 
 	// Fill /efi/device-properties node.
 	setupDeviceProperties(node);
@@ -614,12 +650,15 @@ void setupBoardId()
 {
 	Node *node;
 	node = DT__FindNode("/", false);
-	if (node == 0) {
+	if (node == 0)
+	{
 		stop("Couldn't get root node");
 	}
 	const char *boardid = getStringForKey("SMboardproduct", &bootInfo->smbiosConfig);
 	if (boardid)
+	{
 		DT__AddProperty(node, BOARDID_PROP, strlen(boardid)+1, (EFI_CHAR16*)boardid);
+	}
 }
 
 /*
@@ -631,11 +670,15 @@ void setupChosenNode()
 	Node *chosenNode;
 	chosenNode = DT__FindNode("/chosen", false);
 	if (chosenNode == 0)
+	{
 		stop("Couldn't get chosen node");
+	}
 
 	int bootUUIDLength = strlen(gBootUUIDString);
 	if (bootUUIDLength)
+	{
 		DT__AddProperty(chosenNode, "boot-uuid", bootUUIDLength + 1, gBootUUIDString);
+	}
 }
 
 /*
@@ -644,8 +687,8 @@ void setupChosenNode()
 static void setupSmbiosConfigFile(const char *filename)
 {
 	char		dirSpecSMBIOS[128];
-	const char *override_pathname = NULL;
-	int			len = 0, err = 0;
+	const char	*override_pathname = NULL;
+	int		len = 0, err = 0;
 	extern void scan_mem();
 
 	// Take in account user overriding

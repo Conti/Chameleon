@@ -57,7 +57,7 @@
 #define BOOT2_SEG			0x2000
 #define BOOT2_OFS			0x0200	// 512 byte disk sector offset
 
-#define BOOT2_MAX_LENGTH	0x6FE00	// Maximum size for boot2 is currentl 447kb
+#define BOOT2_MAX_LENGTH		0x6FE00	// Maximum size for boot2 is currentl 447kb
 
 #define BIOS_ADDR			0x8000	// BIOS disk I/O buffer
 #define BIOS_LEN			0x8000	// 32K - divisible by 512 and 2048
@@ -118,9 +118,10 @@
 #define OFFSET(addr)      ((addr) & 0xFFFF)
 #define SEGMENT(addr)     (((addr) & 0xF0000) >> 4)
 
-/*  Extract segment/offset in normalized form so that the resulting far pointer
-    will point to something that is very unlikely to straddle a segment.
-    This is sometimes known as a "huge" pointer.
+/*
+ * Extract segment/offset in normalized form so that the resulting far pointer
+ * will point to something that is very unlikely to straddle a segment.
+ * This is sometimes known as a "huge" pointer.
  */
 #define NORMALIZED_OFFSET(addr)      ((addr) & 0x000F)
 #define NORMALIZED_SEGMENT(addr)     (((addr) & 0xFFFF0) >> 4)
@@ -131,7 +132,7 @@
 #define MIN_SYS_MEM_KB  (32 * 1024)
 
 /*
- * The number of descriptor entries in the GDT.
+ * The number of descriptor entries in the GDT (Global Descriptor Table).
  */
 #define NGDTENT   7
 
@@ -139,6 +140,6 @@
  * The total size of the GDT in bytes.
  * Each descriptor entry require 8 bytes.
  */
-#define GDTLIMIT  ( NGDTENT * 8 )
+#define GDTLIMIT  (NGDTENT * 8)
 
 #endif /* !__BOOT_MEMORY_H */

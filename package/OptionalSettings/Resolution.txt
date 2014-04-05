@@ -1,0 +1,40 @@
+# ---------------------------------------------
+# Chameleon Optional Settings List.
+# ---------------------------------------------
+# Add boot options or kernel flags to the bottom of this file.
+# They will appear under the package installer's Settings menu
+# in a sub menu named with the filename of this file.
+# Use one file or many files - it's flexible to make it easy
+# to group different options under separate sub menus.
+# ---------------------------------------------
+# To add boot option: Structure is:
+#     type@name:key=value
+# example1: Bool@InstantMenu:Instant Menu=Yes
+# example2: Text@1024x600x32:Graphics Mode=1024x600x32
+# example3: List@Npci:Kernel Flags=npci=0x2000
+# ---------------------------------------------
+# type can be: Bool, Text or List
+# ---------------------------------------------
+# The package installer has a setting which controls what
+# the user is allowed to choose.
+# A) User can select every option from the list.
+# B) User can select only one of the options from the list.
+# Set Exclusive=False for A, or Exclusive=True for B.
+#
+Exclusive=True
+# ---------------------------------------------
+# Note: There must be a carriage return at end of last line
+# ---------------------------------------------
+Text@1024x600x32:Graphics Mode=1024x600x32
+Text@1024x768x32:Graphics Mode=1024x768x32
+Text@1280x768x32:Graphics Mode=1280x768x32
+Text@1280x800x32:Graphics Mode=1280x800x32
+Text@1280x960x32:Graphics Mode=1280x960x32
+Text@1280x1024x32:Graphics Mode=1280x1024x32
+Text@1366x768x32:Graphics Mode=1366x768x32
+Text@1440x900x32:Graphics Mode=1440x900x32
+Text@1600x900x32:Graphics Mode=1600x900x32
+Text@1600x1200x32:Graphics Mode=1600x1200x32
+Text@1680x1050x32:Graphics Mode=1680x1050x32
+Text@1920x1080x32:Graphics Mode=1920x1080x32
+Text@1920x1200x32:Graphics Mode=1920x1200x32

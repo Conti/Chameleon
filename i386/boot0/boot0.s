@@ -1,7 +1,7 @@
 ; Copyright (c) 1999-2003 Apple Computer, Inc. All rights reserved.
 ;
 ; @APPLE_LICENSE_HEADER_START@
-; 
+;
 ; Portions Copyright (c) 1999-2003 Apple Computer, Inc.  All Rights
 ; Reserved.  This file contains Original Code and/or Modifications of
 ; Original Code as defined in and that are subject to the Apple Public
@@ -9,7 +9,7 @@
 ; except in compliance with the License.  Please obtain a copy of the
 ; License at http://www.apple.com/publicsource and read it before using
 ; this file.
-; 
+;
 ; The Original Code and all software distributed under the License are
 ; distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, EITHER
 ; EXPRESS OR IMPLIED, AND APPLE HEREBY DISCLAIMS ALL SUCH WARRANTIES,
@@ -17,7 +17,7 @@
 ; FITNESS FOR A PARTICULAR PURPOSE OR NON- INFRINGEMENT.  Please see the
 ; License for the specific language governing rights and limitations
 ; under the License.
-; 
+;
 ; @APPLE_LICENSE_HEADER_END@
 ;
 ; Boot Loader: boot0
@@ -26,7 +26,7 @@
 ; responsibility is to locate the active partition, load the
 ; partition booter into memory, and jump to the booter's entry point.
 ; It leaves the boot drive in DL and a pointer to the partition entry in SI.
-; 
+;
 ; This boot loader must be placed in the Master Boot Record.
 ;
 ; In order to coexist with a fdisk partition table (64 bytes), and
@@ -79,7 +79,7 @@ kBootSignature		EQU  0xAA55			; boot sector signature
 kHFSPSignature		EQU  'H+'			; HFS+ volume signature
 kHFSPCaseSignature	EQU  'HX'			; HFS+ volume case-sensitive signature
 kFAT32BootCodeOffset EQU  0x5a			; offset of boot code in FAT32 boot sector
-kBoot1FAT32Magic	EQU  'BO'			; Magic string to detect our boot1f32 code 
+kBoot1FAT32Magic	EQU  'BO'			; Magic string to detect our boot1f32 code
 
 
 kGPTSignatureLow	EQU  'EFI '			; GUID Partition Table Header Signature
@@ -92,7 +92,7 @@ kPartTypePMBR		EQU  0xee			; On all GUID Partition Table disks a Protective MBR 
 										; in LBA 0 (that is, the first block) precedes the
 										; GUID Partition Table Header to maintain compatibility
 										; with existing tools that do not understand GPT partition structures.
-							  			; The Protective MBR has the same format as a legacy MBR 
+							  			; The Protective MBR has the same format as a legacy MBR
 					  					; and contains one partition entry with an OSType set to 0xEE
 										; reserving the entire space used on the disk by the GPT partitions,
 										; including all headers.
@@ -100,7 +100,7 @@ kPartTypePMBR		EQU  0xee			; On all GUID Partition Table disks a Protective MBR 
 kPartActive	        EQU  0x80			; active flag enabled
 kPartInactive	    EQU  0x00			; active flag disabled
 kHFSGUID	        EQU  0x48465300		; first 4 bytes of Apple HFS Partition Type GUID.
-kAppleGUID			EQU  0xACEC4365		; last 4 bytes of Apple type GUIDs. 
+kAppleGUID			EQU  0xACEC4365		; last 4 bytes of Apple type GUIDs.
 kEFISystemGUID		EQU  0x3BC93EC9		; last 4 bytes of EFI System Partition Type GUID:
 										; C12A7328-F81F-11D2-BA4B-00A0C93EC93B
 
@@ -117,7 +117,7 @@ kDriveNumber		EQU  0x80
 ; giving the size of the structure.
 ;
            struc part
-.bootid    resb 1      ; bootable or not 
+.bootid    resb 1      ; bootable or not
 .head      resb 1      ; starting head, sector, cylinder
 .sect      resb 1      ;
 .cyl       resb 1      ;
@@ -133,7 +133,7 @@ kDriveNumber		EQU  0x80
 ; Format of GPT Partition Table Header
 ;
 							struc	gpth
-.Signature 					resb	8 
+.Signature 					resb	8
 .Revision  					resb	4
 .HeaderSize					resb	4
 .HeaderCRC32				resb	4
@@ -149,7 +149,7 @@ kDriveNumber		EQU  0x80
 .PartitionEntryArrayCRC32	resb	4
 							endstruc
 
-;				
+;
 ; Format of GUID Partition Entry Array
 ;
 						  	struc	gpta
@@ -186,7 +186,7 @@ kDriveNumber		EQU  0x80
     SEGMENT .text
 
     ORG     kBoot0RelocAddr
-    
+
 ;--------------------------------------------------------------------------
 ; Boot code is loaded at 0:7C00h.
 ;
@@ -404,6 +404,7 @@ checkGPT:
     mov     [my_lba], eax								; save starting LBA for read_lba function
     mov     cx, [si + gpth.NumberOfPartitionEntries]	; number of GUID Partition Array entries
     mov     bx, [si + gpth.SizeOfPartitionEntry]		; size of GUID Partition Array entry
+
     push    bx											; push size of GUID Partition entry
 
     ;
@@ -444,7 +445,7 @@ checkGPT:
 .gpt_loop:
 
     mov     eax, [si + gpta.PartitionTypeGUID + kGUIDLastDwordOffs]
-	
+
 	cmp		eax, kAppleGUID			; check current GUID Partition for Apple's GUID type
 	je		.gpt_ok
 
@@ -472,7 +473,6 @@ checkGPT:
     jmp	    SHORT initBootLoader    
     
 .gpt_continue:
-
     add	    si, bx									; advance SI to next partition entry
     loop    .gpt_loop								; loop through all partition entries	
 
@@ -496,7 +496,7 @@ checkGPT:
 ;
 loadBootSector:
     pusha
-    
+
     mov     al, 3
     mov     bx, kBoot0LoadAddr
     call    load
@@ -535,9 +535,7 @@ loadBootSector:
     cmp     WORD [di + kSectorBytes - 2], kBootSignature
 
 .exit:
-
     popa
-
     ret
 
 
@@ -648,7 +646,7 @@ read_lba:
     popad
     ret
 
-    
+
 ;--------------------------------------------------------------------------
 ; Write a string with 'boot0: ' prefix to the console.
 ;
@@ -660,7 +658,7 @@ read_lba:
 ;
 log_string:
     pusha
-        
+
     push	di
     mov		si, log_title_str
     call	print_string
@@ -669,10 +667,10 @@ log_string:
     call	print_string
 
     popa
-    
+
     ret
 
-    
+
 ;--------------------------------------------------------------------------
 ; Write a string to the console.
 ;
@@ -757,7 +755,7 @@ getc:
     popa
     ret
 %endif ;DEBUG
-	
+
 
 ;--------------------------------------------------------------------------
 ; NULL terminated strings.
@@ -793,8 +791,8 @@ pad_boot:
 pad_table_and_sig:
     times 510-($-$$) db 0
     dw    kBootSignature
-	
-	
+
+
 	ABSOLUTE 0xE400
 
 ;

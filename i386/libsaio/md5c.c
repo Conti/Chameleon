@@ -1,5 +1,33 @@
 /*
- * MD5C.C - RSA Data Security, Inc., MD5 message-digest algorithm
+ * Copyright (c) 2000-2006 Apple Computer, Inc. All rights reserved.
+ *
+ * @APPLE_OSREFERENCE_LICENSE_HEADER_START@
+ * 
+ * This file contains Original Code and/or Modifications of Original Code
+ * as defined in and that are subject to the Apple Public Source License
+ * Version 2.0 (the 'License'). You may not use this file except in
+ * compliance with the License. The rights granted to you under the License
+ * may not be used to create, or enable the creation or redistribution of,
+ * unlawful or unlicensed copies of an Apple operating system, or to
+ * circumvent, violate, or enable the circumvention or violation of, any
+ * terms of an Apple operating system software license agreement.
+ * 
+ * Please obtain a copy of the License at
+ * http://www.opensource.apple.com/apsl/ and read it before using this file.
+ * 
+ * The Original Code and all software distributed under the License are
+ * distributed on an 'AS IS' basis, WITHOUT WARRANTY OF ANY KIND, EITHER
+ * EXPRESS OR IMPLIED, AND APPLE HEREBY DISCLAIMS ALL SUCH WARRANTIES,
+ * INCLUDING WITHOUT LIMITATION, ANY WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE, QUIET ENJOYMENT OR NON-INFRINGEMENT.
+ * Please see the License for the specific language governing rights and
+ * limitations under the License.
+ * 
+ * @APPLE_OSREFERENCE_LICENSE_HEADER_END@
+ */
+
+/*
+ * MD5.C - RSA Data Security, Inc., MD5 message-digest algorithm
  *
  * Copyright (C) 1991-2, RSA Data Security, Inc. Created 1991. All
  * rights reserved.
@@ -35,40 +63,50 @@
 #define Encode memcpy
 #define Decode memcpy
 
+//------------------------------------------------------------------------------
+
 static unsigned char PADDING[64] = {
   0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
-/* F, G, H and I are basic MD5 functions. */
+
+//------------------------------------------------------------------------------
+// F, G, H and I are basic MD5 functions.
+
 #define F(x, y, z) (((x) & (y)) | ((~x) & (z)))
 #define G(x, y, z) (((x) & (z)) | ((y) & (~z)))
 #define H(x, y, z) ((x) ^ (y) ^ (z))
 #define I(x, y, z) ((y) ^ ((x) | (~z)))
 
-/* ROTATE_LEFT rotates x left n bits. */
+//------------------------------------------------------------------------------
+// ROTATE_LEFT rotates x left n bits.
+
 #define ROTATE_LEFT(x, n) (((x) << (n)) | ((x) >> (32-(n))))
 
-/*
- * FF, GG, HH, and II transformations for rounds 1, 2, 3, and 4.
- * Rotation is separate from addition to prevent recomputation.
- */
+//------------------------------------------------------------------------------
+// FF, GG, HH, and II transformations for rounds 1, 2, 3, and 4.
+// Rotation is separate from addition to prevent recomputation.
+
 #define FF(a, b, c, d, x, s, ac) { \
 	(a) += F ((b), (c), (d)) + (x) + (u_int32_t)(ac); \
 	(a) = ROTATE_LEFT ((a), (s)); \
 	(a) += (b); \
 	}
+
 #define GG(a, b, c, d, x, s, ac) { \
 	(a) += G ((b), (c), (d)) + (x) + (u_int32_t)(ac); \
 	(a) = ROTATE_LEFT ((a), (s)); \
 	(a) += (b); \
 	}
+
 #define HH(a, b, c, d, x, s, ac) { \
 	(a) += H ((b), (c), (d)) + (x) + (u_int32_t)(ac); \
 	(a) = ROTATE_LEFT ((a), (s)); \
 	(a) += (b); \
 	}
+
 #define II(a, b, c, d, x, s, ac) { \
 	(a) += I ((b), (c), (d)) + (x) + (u_int32_t)(ac); \
 	(a) = ROTATE_LEFT ((a), (s)); \
@@ -79,14 +117,12 @@ static void MD5Transform (u_int32_t state[4], const unsigned char block[64]);
 
 /* MD5 initialization. Begins an MD5 operation, writing a new context. */
 
-void
-MD5Init (context)
+void MD5Init (context)
 	MD5_CTX *context;
 {
-
 	context->count[0] = context->count[1] = 0;
 
-	/* Load magic initialization constants.  */
+	// Load magic initialization constants.
 	context->state[0] = 0x67452301;
 	context->state[1] = 0xefcdab89;
 	context->state[2] = 0x98badcfe;
@@ -115,26 +151,28 @@ MD5Update (context, input, inputLen)
 	index = (unsigned int)((context->count[0] >> 3) & 0x3F);
 
 	/* Update number of bits */
-	if ((context->count[0] += ((u_int32_t)inputLen << 3))
-	    < ((u_int32_t)inputLen << 3))
+	if ((context->count[0] += ((u_int32_t)inputLen << 3)) < ((u_int32_t)inputLen << 3)) {
 		context->count[1]++;
+	}
+
 	context->count[1] += ((u_int32_t)inputLen >> 29);
 
 	partLen = 64 - index;
 
 	/* Transform as many times as possible. */
+
 	if (inputLen >= partLen) {
 		memcpy((void *)&context->buffer[index], (const void *)input,
 		    partLen);
 		MD5Transform (context->state, context->buffer);
 
-		for (i = partLen; i + 63 < inputLen; i += 64)
+		for (i = partLen; i + 63 < inputLen; i += 64) {
 			MD5Transform (context->state, &((const unsigned char *)input)[i]);
-
+		}
 		index = 0;
-	}
-	else
+	} else {
 		i = 0;
+	}
 
 	/* Buffer remaining input */
 	memcpy ((void *)&context->buffer[index], (const void *)&((const unsigned char*)input)[i],
@@ -227,7 +265,7 @@ MD5Transform (state, block)
 	GG (c, d, a, b, x[11], S23, 0x265e5a51); /* 19 */
 	GG (b, c, d, a, x[ 0], S24, 0xe9b6c7aa); /* 20 */
 	GG (a, b, c, d, x[ 5], S21, 0xd62f105d); /* 21 */
-	GG (d, a, b, c, x[10], S22,  0x2441453); /* 22 */
+	GG (d, a, b, c, x[10], S22, 0x02441453); /* 22 */
 	GG (c, d, a, b, x[15], S23, 0xd8a1e681); /* 23 */
 	GG (b, c, d, a, x[ 4], S24, 0xe7d3fbc8); /* 24 */
 	GG (a, b, c, d, x[ 9], S21, 0x21e1cde6); /* 25 */
@@ -255,7 +293,7 @@ MD5Transform (state, block)
 	HH (a, b, c, d, x[13], S31, 0x289b7ec6); /* 41 */
 	HH (d, a, b, c, x[ 0], S32, 0xeaa127fa); /* 42 */
 	HH (c, d, a, b, x[ 3], S33, 0xd4ef3085); /* 43 */
-	HH (b, c, d, a, x[ 6], S34,  0x4881d05); /* 44 */
+	HH (b, c, d, a, x[ 6], S34, 0x04881d05); /* 44 */
 	HH (a, b, c, d, x[ 9], S31, 0xd9d4d039); /* 45 */
 	HH (d, a, b, c, x[12], S32, 0xe6db99e5); /* 46 */
 	HH (c, d, a, b, x[15], S33, 0x1fa27cf8); /* 47 */

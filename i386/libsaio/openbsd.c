@@ -3,10 +3,11 @@
 #include "openbsd.h"
 
 #define OpenBSDProbeSize	2048
+#define DISKMAGIC	((uint32_t)0x82564557)	/* The disk magic number */
 
 bool OpenBSDProbe (const void *buf)
 {
-	return (OSReadLittleInt32(buf+0x200,0)==0x82564557);
+	return (OSReadLittleInt32(buf+0x200,0) == DISKMAGIC);
 }
 void OpenBSDGetDescription(CICell ih, char *str, long strMaxLen)
 {

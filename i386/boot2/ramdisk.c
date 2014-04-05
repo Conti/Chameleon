@@ -29,17 +29,17 @@ void md0Ramdisk()
 				   &bootInfo->chameleonConfig))
 	{
 		// Use user specified md0 file
-		sprintf(filename, "%s", override_filename);
+		snprintf(filename, sizeof(filename), "%s", override_filename);
 		fh = open(filename, 0);
 		
 		if(fh < 0)
 		{
-			sprintf(filename, "rd(0,0)/Extra/%s", override_filename);
+			snprintf(filename, sizeof(filename), "rd(0,0)/Extra/%s", override_filename);
 			fh = open(filename, 0);
 
 			if(fh < 0)
 			{
-				sprintf(filename, "/Extra/%s", override_filename);
+				snprintf(filename, sizeof(filename), "/Extra/%s", override_filename);
 				fh = open(filename, 0);
 			}
 		}		
@@ -151,7 +151,7 @@ int mountRAMDisk(const char * param)
 	if (error == 0)
 	{
 		// Save filename in gRAMDiskFile to display information.
-		strcpy(gRAMDiskFile, param);
+		strlcpy(gRAMDiskFile, param, sizeof(gRAMDiskFile));
 
 		// Set gMI as well for the multiboot ramdisk driver hook.
 		gMI = gRAMDiskMI = malloc(sizeof(multiboot_info));
@@ -182,7 +182,7 @@ int mountRAMDisk(const char * param)
 				char dirSpec[128];
 
 				// Reading ramdisk configuration.
-				strcpy(dirSpec, RAMDISKCONFIG_FILENAME);
+				strlcpy(dirSpec, RAMDISKCONFIG_FILENAME, sizeof(dirSpec));
 
 				if (loadConfigFile(dirSpec, &bootInfo->ramdiskConfig) == 0)
 				{

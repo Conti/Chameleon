@@ -22,17 +22,16 @@ void EX2GetDescription(CICell ih, char *str, long strMaxLen)
 {
 	char * buf=malloc (EX2ProbeSize);
 	str[0]=0;
-	if (!buf)
+	if (!buf) {
 		return;
+	}
 	Seek(ih, 0);
 	Read(ih, (long)buf, EX2ProbeSize);
-	if (!EX2Probe (buf))
-	{
+	if (!EX2Probe (buf)) {
 		free (buf);
 		return;
 	}
-	if (OSReadLittleInt32 (buf+0x44c,0)<1)
-	{
+	if (OSReadLittleInt32 (buf+0x44c,0)<1) {
 		free (buf);
 		return;
 	}
@@ -44,17 +43,16 @@ void EX2GetDescription(CICell ih, char *str, long strMaxLen)
 long EX2GetUUID(CICell ih, char *uuidStr)
 {
 	uint8_t *b, *buf=malloc (EX2ProbeSize);
-	if (!buf)
+	if (!buf) {
 		return -1;
+	}
 	Seek(ih, 0);
 	Read(ih, (long)buf, EX2ProbeSize);
-	if (!EX2Probe (buf))
-	{
+	if (!EX2Probe (buf)) {
 		free (buf);
 		return -1;
 	}
-	if (OSReadLittleInt32 (buf+0x44c,0)<1)
-	{
+	if (OSReadLittleInt32 (buf+0x44c,0)<1) {
 		free (buf);
 		return -1;
 	}

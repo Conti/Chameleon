@@ -105,15 +105,12 @@ void load_all_modules()
 	long flags;
 	long time;
 	struct dirstuff* moduleDir = opendir("/Extra/modules/");
-	while(readdir(moduleDir, (const char**)&name, &flags, &time) >= 0)
-	{
-		if(strcmp(&name[strlen(name) - sizeof("dylib")], ".dylib") == 0)
-		{
+	while (readdir(moduleDir, (const char**)&name, &flags, &time) >= 0) {
+		if(strcmp(&name[strlen(name) - sizeof("dylib")], ".dylib") == 0) {
 			char* tmp = malloc(strlen(name) + 1);
 			strcpy(tmp, name);
 
-			if(!load_module(tmp))
-			{
+			if(!load_module(tmp)) {
 				// failed to load
 				// free(tmp);
 			}
@@ -124,6 +121,7 @@ void load_all_modules()
 		}
 
 	}
+	closedir(moduleDir);
 }
 
 
@@ -143,7 +141,7 @@ int load_module(char* module)
 		return 1;
 	}
 	
-	sprintf(modString, MODULE_PATH "%s", module);
+	snprintf(modString, sizeof(modString), MODULE_PATH "%s", module);
 	fh = open(modString, 0);
 	if(fh < 0)
 	{
@@ -607,21 +605,18 @@ void rebase_macho(void* base, char* rebase_stream, UInt32 size)
 
 				unsigned int binIndex = 0;
 				index = 0;
-				do
-				{
+				do {
 					segCommand = base + sizeof(struct mach_header) +  binIndex;
 
 					binIndex += segCommand->cmdsize;
 					index++;
-				}
-				while(index <= immediate);
+				} while(index <= immediate);
 
 				segmentAddress = segCommand->fileoff;
 				
 				tmp = 0;
 				bits = 0;
-				do
-				{
+				do {
 					tmp |= (rebase_stream[++i] & 0x7f) << bits;
 					bits += 7;
 				}
@@ -630,18 +625,15 @@ void rebase_macho(void* base, char* rebase_stream, UInt32 size)
 				segmentAddress += tmp;
 				break;
 
-
 			case REBASE_OPCODE_ADD_ADDR_ULEB:
 				// Add value to rebase address
 				tmp = 0;
 				bits = 0;
-				do
-				{
+				do {
 					tmp <<= bits;
 					tmp |= rebase_stream[++i] & 0x7f;
 					bits += 7;
-				}
-				while(rebase_stream[i] & 0x80);
+				} while(rebase_stream[i] & 0x80);
 				
 				segmentAddress +=	tmp; 
 				break;
@@ -649,8 +641,8 @@ void rebase_macho(void* base, char* rebase_stream, UInt32 size)
 			case REBASE_OPCODE_ADD_ADDR_IMM_SCALED:
 				segmentAddress += immediate * sizeof(void*);
 				break;
-				
-				
+
+
 			case REBASE_OPCODE_DO_REBASE_IMM_TIMES:
 				index = 0;
 				for (index = 0; index < immediate; ++index) {
@@ -662,13 +654,11 @@ void rebase_macho(void* base, char* rebase_stream, UInt32 size)
 			case REBASE_OPCODE_DO_REBASE_ULEB_TIMES:
 				tmp = 0;
 				bits = 0;
-				do
-				{
+				do {
 					tmp |= (rebase_stream[++i] & 0x7f) << bits;
 					bits += 7;
-				}
-				while(rebase_stream[i] & 0x80);
-				
+				} while(rebase_stream[i] & 0x80);
+
 				index = 0;
 				for (index = 0; index < tmp; ++index) {
 					//DBG("\tRebasing 0x%X\n", segmentAddress);
@@ -680,12 +670,10 @@ void rebase_macho(void* base, char* rebase_stream, UInt32 size)
 			case REBASE_OPCODE_DO_REBASE_ADD_ADDR_ULEB:
 				tmp = 0;
 				bits = 0;
-				do
-				{
+				do {
 					tmp |= (rebase_stream[++i] & 0x7f) << bits;
 					bits += 7;
-				}
-				while(rebase_stream[i] & 0x80);
+				} while(rebase_stream[i] & 0x80);
 				
 				rebase_location(base + segmentAddress, (char*)base, type);
 				
@@ -695,23 +683,19 @@ void rebase_macho(void* base, char* rebase_stream, UInt32 size)
 			case REBASE_OPCODE_DO_REBASE_ULEB_TIMES_SKIPPING_ULEB:
 				tmp = 0;
 				bits = 0;
-				do
-				{
+				do {
 					tmp |= (rebase_stream[++i] & 0x7f) << bits;
 					bits += 7;
-				}
-				while(rebase_stream[i] & 0x80);
+				} while(rebase_stream[i] & 0x80);
 				
 				
 				tmp2 =  0;
 				bits = 0;
-				do
-				{
+				do {
 					tmp2 |= (rebase_stream[++i] & 0x7f) << bits;
 					bits += 7;
-				}
-				while(rebase_stream[i] & 0x80);
-				
+				} while(rebase_stream[i] & 0x80);
+
 				index = 0;
 				for (index = 0; index < tmp; ++index) {
 					
@@ -730,23 +714,18 @@ void rebase_macho(void* base, char* rebase_stream, UInt32 size)
 
 UInt32 read_uleb(UInt8* bind_stream, unsigned int* i)
 {
-    // Read in offset
-    UInt32 tmp  = 0;
-    UInt8 bits = 0;
-    do
-    {
-        if(bits < sizeof(UInt32)*8)   // hack
-        {
-            tmp |= (bind_stream[++(*i)] & 0x7f) << bits;
-            bits += 7;
-        }
-        else
-        {
-            ++(*i);
-        }
-    }
-    while(bind_stream[*i] & 0x80);
-    return tmp;
+	// Read in offset
+	UInt32 tmp  = 0;
+	UInt8 bits = 0;
+	do {
+		if(bits < sizeof(UInt32)*8) {  // hack
+			tmp |= (bind_stream[++(*i)] & 0x7f) << bits;
+			bits += 7;
+		} else {
+		++(*i);
+		}
+	} while(bind_stream[*i] & 0x80);
+	return tmp;
 }
 
 
@@ -832,7 +811,7 @@ void bind_macho(void* base, UInt8* bind_stream, UInt32 size)
 
 				// Locate address
 				struct segment_command* segCommand = NULL;	// NOTE: 32bit only
-				
+
 				unsigned int binIndex = 0;
 				index = 0;
 				do
@@ -982,13 +961,12 @@ static inline void bind_location(UInt32* location, char* value, UInt32 addend, i
 */
 int replace_function(const char* symbol, void* newAddress)
 {
-	UInt32* jumpPointer = malloc(sizeof(UInt32*));	 
 	UInt32 addr = lookup_all_symbols(symbol);
-	
-	char* binary = (char*)addr;
 	if(addr != 0xFFFFFFFF)
 	{
 		//DBG("Replacing %s to point to 0x%x\n", symbol, newAddress);
+		UInt32* jumpPointer = malloc(sizeof(UInt32*));
+		char* binary = (char*)addr;
 		*binary++ = 0xFF;	// Jump
 		*binary++ = 0x25;	// Long Jump
 		*((UInt32*)binary) = (UInt32)jumpPointer;

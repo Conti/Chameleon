@@ -1,3 +1,30 @@
+- bitshoveler : Optimized basic string functions strlen, strncmp, strncat, strcat
+- ErmaC : Replaced sprintf with snprintf in spd.c.
+- bitshoveler : Fixed inadvertent text buffer overflow in getDDRSerial
+- bitshoveler : optimize get_hda_controller_name()
+- Bungo : One of the changes as of rev2284 is boot option SystemId has now been deprecated. Instead use key SMsystemuuid in smbios.plist.
+- bitshoveler : Defend against buffer overruns
+- bitshoveler : Fix memory leak, defend against buffer overruns, add a check for malloc() failure
+- bitshoveler : getMemoryInfoString: defend against buffer overruns, change O(n^2) algorithm to O(n)
+- bitshoveler : Add closedir() to match opendir() call; relocate a malloc() call to fix a memory leak on error; better defense against buffer overruns
+- bitshoveler : Improve robustness against buffer overruns
+- bitshoveler : Add closedir() for every opendir() call, make more robust against buffer overruns
+- bitshoveler : Fix memory leak
+- bitshoveler : Fix cppcheck detected memory leak and error, make more robust against buffer overrun
+- bitshoveler : get_pci_dev_path: get rid of tmp buffer, use snprintf, improved O(n) algorithm instead of O(n^2) (whoopee); dump_pci_dt: hack fix for printf format string vs. args mismatch
+- bitshoveler : Fix memory leak; use snprintf instead of sprintf to make more robust
+- bitshoveler : Fix badly formed comment inside #ifdef
+- bitshoveler : setup_gma_devprop: fix memory leak
+- bitshoveler : setup_nhm: fix cppcheck error
+- bitshoveler : Correct cppcheck detected errors, make more robust against errors
+- bitshoveler : AllocateMemoryRange: fix cppcheck detected memory leak
+- bitshoveler : search_and_get_acpi_fd: fix pointer-to-temporary return problem; use snprintf instead of sprintf to prevent buffer overflows
+- bitshoveler : sym_expand_string_value(): fix cppcheck errors; more to be done here
+- bitshoveler : append_string(): fix cppcheck errors
+- bitshoveler : conf_write_autoconf(): fix cppcheck errors
+- bitshoveler : Fix memory leak for new_layout in main()
+- bitshoveler : Implement snprintf(); implement missing zero-fill in strncpy()
+- bitshoveler : Use original *BSD source for strlcpy()
 - ErmaC: Port from Enoch the support for IVY Bridge and Haswell Intel Graphics cards. http://www.insanelymac.com/forum/topic/288241-intel-hd4000-and-haswell-inject-aaplig-platform-id/
 - 2255: ErmaC add Skip flag key for Intel/nVidia/ATi from Enoch
 - 2252: revert define processors name to match with xnu kernel name 

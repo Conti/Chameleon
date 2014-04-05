@@ -94,6 +94,7 @@ unsigned int	handle_symtable(UInt32 base,
 							 long long(*symbol_handler)(char*, long long, char),
 							 char is64);
 void			rebase_macho(void* base, char* rebase_stream, UInt32 size);
+
 void			bind_macho(void* base, UInt8* bind_stream, UInt32 size);
 
 

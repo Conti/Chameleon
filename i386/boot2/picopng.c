@@ -60,14 +60,21 @@ void png_alloc_add_node(void *addr, size_t size)
 
 void png_alloc_remove_node(png_alloc_node_t *node)
 {
-	if (node->prev)
+	if (!node) {
+		return;
+	}
+	if (node->prev) {
 		node->prev->next = node->next;
-	if (node->next)
+	}
+	if (node->next) {
 		node->next->prev = node->prev;
-	if (node == png_alloc_head)
+	}
+	if (node == png_alloc_head) {
 		png_alloc_head = node->next;
-	if (node == png_alloc_tail)
+	}
+	if (node == png_alloc_tail) {
 		png_alloc_tail = node->prev;
+	}
 	node->prev = node->next = node->addr = NULL;
 	free(node);
 }
@@ -81,25 +88,37 @@ void *png_alloc_malloc(size_t size)
 
 void *png_alloc_realloc(void *addr, size_t size)
 {
-	void *new_addr;
-	if (!addr)
+	void *new_addr = NULL;
+	if (!addr) {
 		return png_alloc_malloc(size);
-	new_addr = realloc(addr, size);
-	if (new_addr != addr) {
-		png_alloc_node_t *old_node;
-		old_node = png_alloc_find_node(addr);
-		png_alloc_remove_node(old_node);
-		png_alloc_add_node(new_addr, size);
 	}
+
+	png_alloc_node_t *old_node;
+	old_node = png_alloc_find_node(addr);
+
+	if (old_node)
+	{
+		new_addr = realloc(addr, size);
+		if (new_addr && (new_addr != addr))
+		{
+			png_alloc_remove_node(old_node);
+			png_alloc_add_node(new_addr, size);
+		}
+	}
+
 	return new_addr;
 }
 
 void png_alloc_free(void *addr)
 {
-	png_alloc_node_t *node = png_alloc_find_node(addr);
-	if (!node)
+	if (!addr) {
 		return;
-	png_alloc_remove_node(node);
+	}
+
+	png_alloc_node_t *node = png_alloc_find_node(addr);
+	if (node) {
+		png_alloc_remove_node(node);
+	}
 	free(addr);
 }
 
@@ -157,9 +176,15 @@ void vector32_init(vector32_t *p)
 vector32_t *vector32_new(size_t size, uint32_t value)
 {
 	vector32_t *p = png_alloc_malloc(sizeof (vector32_t));
-	vector32_init(p);
-	if (size && !vector32_resizev(p, size, value))
+	if (!p) {
 		return NULL;
+	}
+	vector32_init(p);
+	if (size && !vector32_resizev(p, size, value)) {
+		vector32_cleanup(p);
+		png_alloc_free(p);
+		return NULL;
+	}
 	return p;
 }
 
@@ -211,9 +236,17 @@ void vector8_init(vector8_t *p)
 vector8_t *vector8_new(size_t size, uint8_t value)
 {
 	vector8_t *p = png_alloc_malloc(sizeof (vector8_t));
+	if(!p)
+	{
+		return NULL;
+	}
 	vector8_init(p);
 	if (size && !vector8_resizev(p, size, value))
+	{
+		vector8_cleanup(p);
+		png_alloc_free(p);
 		return NULL;
+	}
 	return p;
 }
 
@@ -221,6 +254,10 @@ vector8_t *vector8_copy(vector8_t *p)
 {
 	vector8_t *q = vector8_new(p->size, 0);
 	uint32_t n;
+	if (!q)
+	{
+        	return NULL;
+	}
 	for (n = 0; n < q->size; n++)
 		q->data[n] = p->data[n];
 	return q;
@@ -229,13 +266,13 @@ vector8_t *vector8_copy(vector8_t *p)
 /*************************************************************************************************/
 
 const uint32_t LENBASE[29] = { 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31, 35, 43, 51,
-		59, 67, 83, 99, 115, 131, 163, 195, 227, 258 };
+	59, 67, 83, 99, 115, 131, 163, 195, 227, 258 };
 const uint32_t LENEXTRA[29] = { 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4,
-		4, 5, 5, 5, 5, 0 };
+	4, 5, 5, 5, 5, 0 };
 const uint32_t DISTBASE[30] = { 1, 2, 3, 4, 5, 7, 9, 13, 17, 25, 33, 49, 65, 97, 129, 193, 257, 385,
-		513, 769, 1025, 1537, 2049, 3073, 4097, 6145, 8193, 12289, 16385, 24577 };
+	513, 769, 1025, 1537, 2049, 3073, 4097, 6145, 8193, 12289, 16385, 24577 };
 const uint32_t DISTEXTRA[30] = { 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9,
-		10, 10, 11, 11, 12, 12, 13, 13 };
+	10, 10, 11, 11, 12, 12, 13, 13 };
 // code length code lengths
 const uint32_t CLCL[19] = { 16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15 };
 
@@ -250,6 +287,10 @@ typedef struct {
 HuffmanTree *HuffmanTree_new()
 {
 	HuffmanTree *tree = png_alloc_malloc(sizeof (HuffmanTree));
+	if (!tree)
+	{
+		return NULL;
+	}
 	tree->tree2d = NULL;
 	return tree;
 }
@@ -262,6 +303,10 @@ int HuffmanTree_makeFromLengths(HuffmanTree *tree, const vector32_t *bitlen, uin
 	tree1d = vector32_new(numcodes, 0);
 	blcount = vector32_new(maxbitlen + 1, 0);
 	nextcode = vector32_new(maxbitlen + 1, 0);
+	if (!tree1d || !blcount || !nextcode || !nextcode->data)
+	{
+		goto error;
+	}
 	for (bits = 0; bits < numcodes; bits++)
 		blcount->data[bitlen->data[bits]]++; // count number of instances of each code length
 	for (bits = 1; bits <= maxbitlen; bits++)
@@ -289,6 +334,23 @@ int HuffmanTree_makeFromLengths(HuffmanTree *tree, const vector32_t *bitlen, uin
 				treepos = tree2d->data[2 * treepos + bit] - numcodes;
 		}
 	return 0;
+error:
+	if (tree1d)
+	{
+		vector32_cleanup(tree1d);
+		png_alloc_free(tree1d);
+	}
+	if (blcount)
+	{
+		vector32_cleanup(blcount);
+		png_alloc_free(blcount);
+	}
+	if (nextcode)
+	{
+		vector32_cleanup(nextcode);
+		png_alloc_free(nextcode);
+	}
+	return 1;
 }
 
 int HuffmanTree_decode(const HuffmanTree *tree, bool *decoded, uint32_t *result, size_t *treepos,
@@ -362,6 +424,11 @@ void Inflator_getTreeInflateDynamic(HuffmanTree *tree, HuffmanTree *treeD, const
 {	// get the tree of a deflated block with dynamic tree, the tree itself is also Huffman
 	// compressed with a known tree
 	size_t i, n;
+	size_t HLIT;
+	size_t HDIST;
+	size_t HCLEN;
+	size_t replength;
+	vector32_t *codelengthcode;
 	HuffmanTree *codelengthcodetree = HuffmanTree_new(); // the code tree for code length codes
 	vector32_t *bitlen, *bitlenD;
 	bitlen = vector32_new(288, 0);
@@ -370,46 +437,53 @@ void Inflator_getTreeInflateDynamic(HuffmanTree *tree, HuffmanTree *treeD, const
 		Inflator_error = 49; // the bit pointer is or will go past the memory
 		return;
 	}
-	size_t HLIT = Zlib_readBitsFromStream(bp, in, 5) + 257;	// number of literal/length codes + 257
-	size_t HDIST = Zlib_readBitsFromStream(bp, in, 5) + 1;	// number of dist codes + 1
-	size_t HCLEN = Zlib_readBitsFromStream(bp, in, 4) + 4;	// number of code length codes + 4
-	vector32_t *codelengthcode; // lengths of tree to decode the lengths of the dynamic tree
+	HLIT = Zlib_readBitsFromStream(bp, in, 5) + 257;	// number of literal/length codes + 257
+	HDIST = Zlib_readBitsFromStream(bp, in, 5) + 1;	// number of dist codes + 1
+	HCLEN = Zlib_readBitsFromStream(bp, in, 4) + 4;	// number of code length codes + 4
+	// lengths of tree to decode the lengths of the dynamic tree
 	codelengthcode = vector32_new(19, 0);
 	for (i = 0; i < 19; i++)
 		codelengthcode->data[CLCL[i]] = (i < HCLEN) ? Zlib_readBitsFromStream(bp, in, 3) : 0;
 	Inflator_error = HuffmanTree_makeFromLengths(codelengthcodetree, codelengthcode, 7);
 	if (Inflator_error)
 		return;
-	size_t replength;
+
 	for (i = 0; i < HLIT + HDIST; ) {
 		uint32_t code = Inflator_huffmanDecodeSymbol(in, bp, codelengthcodetree, inlength);
-		if (Inflator_error)
+		if (Inflator_error) {
 			return;
+		}
 		if (code <= 15) { // a length code
-			if (i < HLIT)
+			if (i < HLIT) {
 				bitlen->data[i++] = code;
-			else
+			} else {
 				bitlenD->data[i++ - HLIT] = code;
-		} else if (code == 16) { // repeat previous
-			if (*bp >> 3 >= inlength) {
+			}
+		} else if (code == 16)
+		{ // repeat previous
+			uint32_t value; // set value to the previous code
+			if (*bp >> 3 >= inlength)
+			{
 				Inflator_error = 50; // error, bit pointer jumps past memory
 				return;
 			}
 			replength = 3 + Zlib_readBitsFromStream(bp, in, 2);
-			uint32_t value; // set value to the previous code
-			if ((i - 1) < HLIT)
+
+			if ((i - 1) < HLIT) {
 				value = bitlen->data[i - 1];
-			else
+			} else {
 				value = bitlenD->data[i - HLIT - 1];
+			}
 			for (n = 0; n < replength; n++) { // repeat this value in the next lengths
 				if (i >= HLIT + HDIST) {
 					Inflator_error = 13; // error: i is larger than the amount of codes
 					return;
 				}
-				if (i < HLIT)
+				if (i < HLIT) {
 					bitlen->data[i++] = value;
-				else
+				} else {
 					bitlenD->data[i++ - HLIT] = value;
+				}
 			}
 		} else if (code == 17) { // repeat "0" 3-10 times
 			if (*bp >> 3 >= inlength) {
@@ -423,9 +497,13 @@ void Inflator_getTreeInflateDynamic(HuffmanTree *tree, HuffmanTree *treeD, const
 					return;
 				}
 				if (i < HLIT)
+				{
 					bitlen->data[i++] = 0;
+				}
 				else
+				{
 					bitlenD->data[i++ - HLIT] = 0;
+				}
 			}
 		} else if (code == 18) { // repeat "0" 11-138 times
 			if (*bp >> 3 >= inlength) {
@@ -439,9 +517,13 @@ void Inflator_getTreeInflateDynamic(HuffmanTree *tree, HuffmanTree *treeD, const
 					return;
 				}
 				if (i < HLIT)
+				{
 					bitlen->data[i++] = 0;
+				}
 				else
+				{
 					bitlenD->data[i++ - HLIT] = 0;
+				}
 			}
 		} else {
 			Inflator_error = 16; // error: an nonexitent code appeared. This can never happen.
@@ -479,14 +561,20 @@ void Inflator_inflateHuffmanBlock(vector8_t *out, const uint8_t *in, size_t *bp,
 		if (Inflator_error)
 			return;
 		if (code == 256) // end code
+		{
 			return;
+		}
 		else if (code <= 255) { // literal symbol
 			if (*pos >= out->size)
+			{
 				vector8_resize(out, (*pos + 1) * 2); // reserve more room
+			}
 			out->data[(*pos)++] = (uint8_t) code;
-		} else if (code >= 257 && code <= 285) { // length code
+		} else if (code >= 257 && code <= 285)
+		{ // length code
 			size_t length = LENBASE[code - 257], numextrabits = LENEXTRA[code - 257];
-			if ((*bp >> 3) >= inlength) {
+			if ((*bp >> 3) >= inlength)
+			{
 				Inflator_error = 51; // error, bit pointer will jump past memory
 				return;
 			}
@@ -582,14 +670,17 @@ int Zlib_decompress(vector8_t *out, const vector8_t *in) // returns error value
 		// supposed to be made that way
 		return 24;
 	uint32_t CM = in->data[0] & 15, CINFO = (in->data[0] >> 4) & 15, FDICT = (in->data[1] >> 5) & 1;
-	if (CM != 8 || CINFO > 7)
+	if (CM != 8 || CINFO > 7){
 		// error: only compression method 8: inflate with sliding window of 32k is supported by
 		// the PNG spec
+
 		return 25;
-	if (FDICT != 0)
+	}
+	if (FDICT != 0) {
 		// error: the specification of PNG says about the zlib stream: "The additional flags shall
 		// not specify a preset dictionary."
 		return 26;
+	}
 	Inflator_inflate(out, in, 2);
 	return Inflator_error; // note: adler32 checksum was skipped and ignored
 }
@@ -659,11 +750,17 @@ uint32_t PNG_getBpp(const PNG_info_t *info)
 	bitDepth = info->bitDepth;
 	colorType = info->colorType;
 	if (colorType == 2)
+	{
 		return (3 * bitDepth);
+	}
 	else if (colorType >= 4)
+	{
 		return (colorType - 2) * bitDepth;
+	}
 	else
+	{
 		return bitDepth;
+	}
 }
 
 void PNG_readPngHeader(PNG_info_t *info, const uint8_t *in, size_t inlength)
@@ -887,6 +984,10 @@ int PNG_convert(const PNG_info_t *info, vector8_t *out, const uint8_t *in)
 PNG_info_t *PNG_info_new()
 {
 	PNG_info_t *info = png_alloc_malloc(sizeof (PNG_info_t));
+	if (!info)
+	{
+		return NULL;
+	}
 	uint32_t i;
 	for (i = 0; i < sizeof (PNG_info_t); i++)
 		((uint8_t *) info)[i] = 0;
@@ -937,6 +1038,12 @@ PNG_info_t *PNG_decode(const uint8_t *in, uint32_t size)
 				vector8_resize(idat, offset + chunkLength);
 			} else
 				idat = vector8_new(chunkLength, 0);
+
+			if (!idat)
+			{
+				PNG_error = 1;
+				return NULL;
+			}
 			for (i = 0; i < chunkLength; i++)
 				idat->data[offset + i] = in[pos + 4 + i];
 			pos += (4 + chunkLength);
@@ -1002,6 +1109,10 @@ PNG_info_t *PNG_decode(const uint8_t *in, uint32_t size)
 	uint32_t bpp = PNG_getBpp(info);
 	vector8_t *scanlines; // now the out buffer will be filled
 	scanlines = vector8_new(((info->width * (info->height * bpp + 7)) / 8) + info->height, 0);
+	if (!scanlines) {
+		PNG_error = 1;
+		return NULL;
+	}
 	PNG_error = Zlib_decompress(scanlines, idat);
 	if (PNG_error)
 		return NULL; // stop if the zlib decompressor returned an error
@@ -1068,7 +1179,13 @@ PNG_info_t *PNG_decode(const uint8_t *in, uint32_t size)
 	}
 	if (info->colorType != 6 || info->bitDepth != 8) { // conversion needed
 		vector8_t *copy = vector8_copy(info->image); // xxx: is this copy necessary?
+		if (!copy) {
+			return NULL;
+		}
 		PNG_error = PNG_convert(info, info->image, copy->data);
+		if (PNG_error) {
+			return NULL;
+	        }
 	}
 	return info;
 }
@@ -1097,14 +1214,22 @@ int main(int argc, char **argv)
 		printf("file empty\n");
 		return 1;
 	}
-	insize = (uint32_t) statbuf.st_size;
-	inbuf = malloc(insize);
 	infp = fopen(fname, "rb");
 	if (!infp) {
 		perror("fopen");
 		return 1;
-	} else if (fread(inbuf, 1, insize, infp) != insize) {
+	}
+	insize = (uint32_t) statbuf.st_size;
+	inbuf = malloc(insize);
+	if (!inbuf) {
+		perror("malloc");
+		fclose(infp);
+		return 1;
+	}
+	if (fread(inbuf, 1, insize, infp) != insize) {
 		perror("fread");
+		free(inbuf);
+		fclose(infp);
 		return 1;
 	}
 	fclose(infp);

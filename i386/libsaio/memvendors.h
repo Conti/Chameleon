@@ -646,7 +646,7 @@ VenIdName vendorMap[] = {
 		{ 4, 0xfd, "Focus Enhancements"},
 		{ 4, 0xfe, "Xyratex"},
 		{ 5, 0x01, "Specular Networks"},
-		{ 5, 0x02, "PDP Systems"},
+		{ 5, 0x02, "Patriot Memory (PDP Systems)"},
 		{ 5, 0x83, "U-Chip Technology Corp."},
 		{ 5, 0x04, "Silicon Optix"},
 		{ 5, 0x85, "Greenfield Networks"},

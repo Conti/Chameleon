@@ -58,10 +58,10 @@ extern void dumpPhysAddr(const char * title, void * a, int len);
 #define CPU_MODEL_IVYBRIDGE		0x3A			// Ivy Bridge
 #define CPU_MODEL_HASWELL		0x3C			// Haswell DT
 #define CPU_MODEL_IVYBRIDGE_XEON	0x3E			// Ivy Bridge Xeon
-#define CPU_MODEL_HASWELL_MB		0x3F			// Haswell MB
+#define CPU_MODEL_HASWELL_SVR		0x3F			// Haswell MB
 //#define CPU_MODEL_HASWELL_H		0x??			// Haswell H
 #define CPU_MODEL_HASWELL_ULT		0x45			// Haswell ULT
-#define CPU_MODEL_HASWELL_ULX		0x46			// Haswell ULX
+#define CPU_MODEL_CRYSTALWELL		0x46			// Haswell ULX
 
 /* CPU Features */
 #define CPU_FEATURE_MMX			0x00000001		// MMX Instruction Set
@@ -115,25 +115,29 @@ extern void dumpPhysAddr(const char * title, void * a, int len);
 /* Size of SMBIOS UUID in bytes */
 #define UUID_LEN			16
 
-typedef struct _RamSlotInfo_t {
-    uint32_t		ModuleSize;					// Size of Module in MB
-    uint32_t		Frequency;					// in Mhz
-    const char*		Vendor;
-    const char*		PartNo;
-    const char*		SerialNo;
-    char*			spd;						// SPD Dump
-    bool			InUse;
-    uint8_t			Type;
-    uint8_t			BankConnections;			// table type 6, see (3.3.7)
-    uint8_t			BankConnCnt;
+typedef struct _RamSlotInfo_t
+{
+	uint32_t		ModuleSize;					// Size of Module in MB
+	uint32_t		Frequency;					// in Mhz
+	const char*		Vendor;
+	const char*		PartNo;
+	const char*		SerialNo;
+	char*			spd;						// SPD Dump
+	bool			InUse;
+	uint8_t			Type;
+	uint8_t			BankConnections;			// table type 6, see (3.3.7)
+	uint8_t			BankConnCnt;
 } RamSlotInfo_t;
+
+//==============================================================================
 
 typedef struct _PlatformInfo_t {
 	struct CPU {
 		uint32_t		Features;				// CPU Features like MMX, SSE2, VT, MobileCPU
 		uint32_t		Vendor;					// Vendor
-		uint32_t		Signature;				// Signature
+		uint32_t		Signature;				// Processor Signature
 		uint32_t		Stepping;				// Stepping
+		//uint16_t		Type;					// Type
 		uint32_t		Model;					// Model
 		uint32_t		ExtModel;				// Extended Model
 		uint32_t		Family;					// Family
@@ -141,16 +145,16 @@ typedef struct _PlatformInfo_t {
 		uint32_t		NoCores;				// No Cores per Package
 		uint32_t		NoThreads;				// Threads per Package
 		uint8_t			MaxCoef;				// Max Multiplier
-		uint8_t			MaxDiv;
+		uint8_t			MaxDiv;					// Min Multiplier
 		uint8_t			CurrCoef;				// Current Multiplier
 		uint8_t			CurrDiv;
-		uint64_t		TSCFrequency;			// TSC Frequency Hz
-		uint64_t		FSBFrequency;			// FSB Frequency Hz
-		uint64_t		CPUFrequency;			// CPU Frequency Hz
+		uint64_t		TSCFrequency;				// TSC Frequency Hz
+		uint64_t		FSBFrequency;				// FSB Frequency Hz
+		uint64_t		CPUFrequency;				// CPU Frequency Hz
 		uint32_t		MaxRatio;				// Max Bus Ratio
 		uint32_t		MinRatio;				// Min Bus Ratio
-		char			BrandString[48];		// 48 Byte Branding String
-		uint32_t		CPUID[CPUID_MAX][4];	// CPUID 0..4, 80..81 Raw Values
+		char			BrandString[48];			// 48 Byte Branding String
+		uint32_t		CPUID[CPUID_MAX][4];			// CPUID 0..4, 80..81 Raw Values
 	} CPU;
 
 	struct RAM {
@@ -167,13 +171,13 @@ typedef struct _PlatformInfo_t {
 	} RAM;
 
 	struct DMI {
-		int			MaxMemorySlots;				// number of memory slots populated by SMBIOS
-		int			CntMemorySlots;				// number of memory slots counted
-		int			MemoryModules;				// number of memory modules installed
-		int			DIMM[MAX_RAM_SLOTS];		// Information and SPD mapping for each slot
+		int			MaxMemorySlots;		// number of memory slots populated by SMBIOS
+		int			CntMemorySlots;		// number of memory slots counted
+		int			MemoryModules;		// number of memory modules installed
+		int			DIMM[MAX_RAM_SLOTS];	// Information and SPD mapping for each slot
 	} DMI;
 
-	uint8_t				Type; // System Type: 1=Desktop, 2=Portable... according ACPI2.0 (FACP: PM_Profile)
+	uint8_t				Type;			// System Type: 1=Desktop, 2=Portable... according ACPI2.0 (FACP: PM_Profile)
 	uint8_t				*UUID;
 } PlatformInfo_t;
 

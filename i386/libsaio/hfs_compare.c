@@ -123,14 +123,14 @@ int32_t	FastRelString(u_int8_t * str1, u_int8_t * str2)
 			if (aSortWord < bSortWord)
 				return -1;
 		}
-		
+
 		/*
 		 * If characters match exactly, then go on to next character
 		 * immediately without doing any extra work.
 		 */
 	}
 	
-	/* if you got to here, then return bestGuess */
+	/* If you got to here, then return bestGuess */
 	return bestGuess;
 }	
 

@@ -110,9 +110,9 @@ void bzero(void * dst, size_t len)
 
 size_t strlen(const char * s)
 {
-	int n = 0;
-	while (*s++) n++;
-	return(n);
+  const char* save = s;
+  while (*s++);
+  return (--s) - save;
 }
 
 /*#endif*/
@@ -138,13 +138,19 @@ strcmp(const char * s1, const char * s2)
 	return (*s1 - *s2);
 }
 
-int strncmp(const char * s1, const char * s2, size_t len)
+/* Derived from FreeBSD source */
+int strncmp(const char * s1, const char * s2, size_t n)
 {
-	register int n = len;
-	while (--n >= 0 && *s1 == *s2++)
-		if (*s1++ == '\0')
-			return(0);
-	return(n<0 ? 0 : *s1 - *--s2);
+  if (!n)
+    return 0;
+  do {
+    if (*s1 != *s2++)
+      return (*(const unsigned char *)s1 -
+              *(const unsigned char *)(s2 - 1));
+    if (!*s1++)
+      break;
+  } while (--n);
+  return 0;
 }
 
 char *
@@ -157,12 +163,34 @@ strcpy(char * s1, const char * s2)
 }
 
 char *
+stpcpy(char * s1, const char * s2)
+{
+	while ((*s1++ = *s2++)) {
+		continue;
+	}
+	return --s1;
+}
+
+char *
 strncpy(char * s1, const char * s2, size_t n)
 {
 	register char *ret = s1;
 	while (n && (*s1++ = *s2++))
-		n--;
+      --n;
+	if (n > 0) {
+		bzero(s1, n);
+	}
 	return ret;
+}
+
+char *
+stpncpy(char * s1, const char * s2, size_t n)
+{
+	while (n && (*s1++ = *s2++))
+      --n;
+	if (n > 0)
+      bzero(s1, n);
+    return s1;
 }
 
 char *
@@ -220,15 +248,17 @@ char *strncat(char *s1, const char *s2, size_t n)
 	register char *ret = s1;
 	while (*s1)
 		s1++;
-	while (n-- && *s2)
-		*s1++ = *s2++;
-	*s1 = '\0';
+	while (n-- && (*s1++ = *s2++));
 	return ret;
 }
 
 char *strcat(char *s1, const char *s2)
 {
-	return(strncat(s1, s2, strlen(s2)));
+	register char *ret = s1;
+	while (*s1)
+		s1++;
+	while ((*s1++ = *s2++));
+	return ret;
 }
 
 char *strdup(const char *s1)
@@ -275,7 +305,7 @@ char* strbreak(const char *str, char **next, long *len)
     if (*start == '"')
     {
         start++;
-        
+
         end = strchr(start, '"');
         if(end)
             quoted = true;
@@ -287,12 +317,12 @@ char* strbreak(const char *str, char **next, long *len)
         for ( end = start; *end && !isspace(*end); end++ )
         {}
     }
-    
+
     *len = end - start;
-    
+
     if(next)
         *next = quoted ? end+1 : end;
-    
+
     return start;
 }
 
@@ -303,9 +333,9 @@ uint8_t checksum8( void * start, unsigned int length )
     uint8_t * cp = (uint8_t *) start;
     unsigned int i;
 
-    for ( i = 0; i < length; i++)
-        csum += *cp++;
-
-    return csum;
+	for ( i = 0; i < length; i++) {
+		csum += *cp++;
+	}
+	return csum;
 }
 

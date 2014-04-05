@@ -433,7 +433,7 @@ static inline uint32_t multiboot(int multiboot_magic, struct multiboot_info *mi)
                 multiboot_skip_partition = intVal;
                 multiboot_skip_partition_set = 1;
             }
-        }				
+        }
     }
     if(doSelectDevice)
     {

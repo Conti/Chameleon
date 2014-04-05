@@ -68,7 +68,7 @@ enum {
  * These directories and their contents are not exported from the filesystem
  * under Mac OS X.
  */
-#define HFSPLUSMETADATAFOLDER       "\xE2\x90\x80\xE2\x90\x80\xE2\x90\x80\xE2\x90\x80HFS+ Private Data"
+#define HFSPLUSMETADATAFOLDER       "\xE0\x80\x80\xE0\x80\x80\xE0\x80\x80\xE0\x80\x80HFS+ Private Data"
 #define HFSPLUS_DIR_METADATA_FOLDER ".HFS+ Private Directory Data\xd"
 
 /*

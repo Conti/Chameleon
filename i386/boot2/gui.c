@@ -36,8 +36,8 @@ int lasttime = 0; // we need this for animating maybe
  * ATTENTION: the enum and the following array images[] MUST match !!!
  */
 enum {
-    iBackground = 0,
-    iLogo,
+	iBackground = 0,
+	iLogo,
 
 	iDeviceGeneric,
 	iDeviceGeneric_o,
@@ -55,6 +55,7 @@ enum {
 	iDeviceHFS_Leo_o,
 	iDeviceHFS_Tiger,
 	iDeviceHFS_Tiger_o,
+
 	iDeviceHFSRAID,
 	iDeviceHFSRAID_o,
 	iDeviceHFSRAID_mav,
@@ -233,10 +234,8 @@ static unsigned long screen_params[4] = {DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HE
 static int getImageIndexByName(const char *name)
 {
 	int i;
-	for (i = 0; i < sizeof(images) / sizeof(images[0]); i++)
-	{
-		if (strcmp(name, images[i].name) == 0)
-		{
+	for (i = 0; i < sizeof(images) / sizeof(images[0]); i++) {
+		if (strcmp(name, images[i].name) == 0) {
 			return i; // found the name
 		}
 	}
@@ -256,26 +255,18 @@ static int getEmbeddedImageIndexByName(const char *name)
 	// generated manualy, this *will* fail to work properly.
 	while((result = strcmp(name, embeddedImages[compareIndex].name)) != 0)
 	{
-		if (result > 0)	// We need to search a HIGHER index
-		{
-			if (compareIndex != lowerLimit)
-			{
+		if (result > 0)	{ // We need to search a HIGHER index
+			if (compareIndex != lowerLimit) {
 				lowerLimit = compareIndex;
-			}
-			else
-			{
+			} else {
 				return -1;
 			}
 			compareIndex = (upperLimit + lowerLimit + 1) >> 1;	// Midpoint, round up
 		}
-		else  // We Need to search a LOWER index
-		{
-			if (compareIndex != upperLimit)
-			{
+		else { // We Need to search a LOWER index
+			if (compareIndex != upperLimit) {
 				upperLimit = compareIndex;
-			}
-			else
-			{
+			} else {
 				return -1;
 			}
 			compareIndex = (upperLimit + lowerLimit) >> 1;	// Midpoint, round down
@@ -296,44 +287,43 @@ static int loadThemeImage(const char *image, int alt_image)
 	uint16_t	height;
 	uint8_t		*imagedata;
 
-	if ((strlen(image) + strlen(theme_name) + 20) > sizeof(dirspec))
+	if ((strlen(image) + strlen(theme_name) + 20) > sizeof(dirspec)) {
 		return 1;
-	if ((i = getImageIndexByName(image)) < 0)
+	}
+	if ((i = getImageIndexByName(image)) < 0) {
 		return 1;
-	if (!images[i].image && !(images[i].image = malloc(sizeof(pixmap_t))))
+	}
+	if (!images[i].image && !(images[i].image = malloc(sizeof(pixmap_t)))) {
 		return 1;
-        sprintf(dirspec, "/Extra/Themes/%s/%s.png", theme_name, image);
-        width = 0;
-        height = 0;
-        imagedata = NULL;
-        if ((loadPngImage(dirspec, &width, &height, &imagedata)) == 0)
-        {
-            images[i].image->width = width;
-            images[i].image->height = height;
-            images[i].image->pixels = (pixel_t *)imagedata;
-            flipRB(images[i].image);
-            return 0;
-        }
+	}
+	sprintf(dirspec, "/Extra/Themes/%s/%s.png", theme_name, image);
+	width = 0;
+	height = 0;
+	imagedata = NULL;
+	if ((loadPngImage(dirspec, &width, &height, &imagedata)) == 0) {
+		images[i].image->width = width;
+		images[i].image->height = height;
+		images[i].image->pixels = (pixel_t *)imagedata;
+		flipRB(images[i].image);
+		return 0;
+	}
 #ifdef CONFIG_EMBED_THEME
-        else if ((e = getEmbeddedImageIndexByName(image)) >= 0)
-        {
-            unsigned char *embed_data;
-            unsigned int embed_size;
-            embed_data = embeddedImages[e].pngdata;
-            embed_size = *embeddedImages[e].length;
+	else if ((e = getEmbeddedImageIndexByName(image)) >= 0) {
+		unsigned char *embed_data;
+		unsigned int embed_size;
+		embed_data = embeddedImages[e].pngdata;
+		embed_size = *embeddedImages[e].length;
 
-            if (loadEmbeddedPngImage(embed_data, embed_size, &width, &height, &imagedata) == 0)
-            {
-                images[i].image->width = width;
-                images[i].image->height = height;
-                images[i].image->pixels = (pixel_t *)imagedata;
-                flipRB(images[i].image);
-                return 0;
+		if (loadEmbeddedPngImage(embed_data, embed_size, &width, &height, &imagedata) == 0) {
+			images[i].image->width = width;
+			images[i].image->height = height;
+			images[i].image->pixels = (pixel_t *)imagedata;
+			flipRB(images[i].image);
+			return 0;
             }
         }
 #endif
-        else if (alt_image != IMG_REQUIRED && is_image_loaded(alt_image))
-        {
+        else if (alt_image != IMG_REQUIRED && is_image_loaded(alt_image)) {
             // Using the passed alternate image for non-mandatory images.
             // We don't clone the already existing pixmap, but using its properties instead!
             images[i].image->width = images[alt_image].image->width;
@@ -440,17 +430,17 @@ static int loadGraphics(void)
 
 static int unloadGraphics(void)
 {
-    int i;
+	int i;
 
-    destroyFont(&font_console);
-    destroyFont(&font_small);
-	for (i = 0; i < sizeof(images) / sizeof(images[0]); i++)
-	{
-	    if (images[i].image)
-	    {
-	    	if (images[i].image->pixels) free(images[i].image->pixels);
-	    	free (images[i].image);
-	    	images[i].image = 0;
+	destroyFont(&font_console);
+	destroyFont(&font_small);
+	for (i = 0; i < sizeof(images) / sizeof(images[0]); i++) {
+		if (images[i].image) {
+			if (images[i].image->pixels) {
+				free(images[i].image->pixels);
+			}
+			free (images[i].image);
+			images[i].image = 0;
 	    }
 	}
 	return 0;
@@ -458,37 +448,34 @@ static int unloadGraphics(void)
 
 int freeBackBuffer( window_t *window )
 {
-    if (gui.backbuffer && gui.backbuffer->pixels)
-        {
-            free(gui.backbuffer->pixels);
-            free(gui.backbuffer);
-            gui.backbuffer = 0;
-            return 0;
-        }
+	if (gui.backbuffer && gui.backbuffer->pixels) {
+		free(gui.backbuffer->pixels);
+		free(gui.backbuffer);
+		gui.backbuffer = 0;
+		return 0;
+	}
 
-    return 1;
+	return 1;
 }
 
 pixmap_t *getCroppedPixmapAtPosition( pixmap_t *from, position_t pos, uint16_t width, uint16_t height )
 {
-	
 	pixmap_t *cropped = malloc( sizeof( pixmap_t ) );
-	if( !cropped )
+	if( !cropped ) {
 		return 0;
+	}
 	cropped->pixels = malloc( width * height * 4 );
-	if ( !cropped->pixels )
+	if ( !cropped->pixels ) {
 		return 0;
-	
+	}
 	cropped->width = width;
 	cropped->height = height;
 	
 	int destx = 0, desty = 0;
 	int srcx = pos.x, srcy = pos.y;
 	
-	for( ; desty < height; desty++, srcy++)
-	{
-		for( destx = 0, srcx = pos.x; destx < width; destx++, srcx++ )
-		{
+	for( ; desty < height; desty++, srcy++) {
+		for( destx = 0, srcx = pos.x; destx < width; destx++, srcx++ ) {
 			pixel( cropped, destx, desty ).value = pixel( from, srcx, srcy ).value;
 		}
 	}
@@ -498,13 +485,11 @@ pixmap_t *getCroppedPixmapAtPosition( pixmap_t *from, position_t pos, uint16_t w
 int createBackBuffer( window_t *window )
 {
 	gui.backbuffer = malloc(sizeof(pixmap_t));
-	if(!gui.backbuffer)
-	{
+	if(!gui.backbuffer) {
 		return 1;
 	}
 	gui.backbuffer->pixels = malloc( window->width * window->height * 4 );
-	if(!gui.backbuffer->pixels)
-	{
+	if(!gui.backbuffer->pixels) {
 		free(gui.backbuffer);
 		gui.backbuffer = 0;
 		return 1;
@@ -519,14 +504,12 @@ int createBackBuffer( window_t *window )
 int createWindowBuffer( window_t *window )
 {
 	window->pixmap = malloc(sizeof(pixmap_t));
-	if(!window->pixmap)
-	{
+	if(!window->pixmap) {
 		return 1;
 	}
 
 	window->pixmap->pixels = malloc( window->width * window->height * 4 );
-	if(!window->pixmap->pixels)
-	{
+	if(!window->pixmap->pixels) {
 		free(window->pixmap);
 		window->pixmap = 0;
 		return 1;
@@ -540,13 +523,11 @@ int createWindowBuffer( window_t *window )
 
 int freeWindowBuffer( window_t *window )
 {
-	if (window->pixmap && window->pixmap->pixels)
-    {
+	if (window->pixmap && window->pixmap->pixels) {
 		free(window->pixmap->pixels);
 		free(window->pixmap);
 		return 0;
 	}
-
 	return 1;
 }
 
@@ -555,9 +536,11 @@ void fillPixmapWithColor(pixmap_t *pm, uint32_t color)
 	int x,y;
 	
 	// fill with given color AARRGGBB
-	for( x=0; x < pm->width; x++ )
-		for( y=0; y< pm->height; y++)
+	for( x=0; x < pm->width; x++ ) {
+		for( y=0; y< pm->height; y++) {
 			pixel(pm,x,y).value = color;
+		}
+	}
 }
 
 void drawBackground()
@@ -574,7 +557,7 @@ void drawBackground()
 	// draw logo.png into background buffer
 	if (gui.logo.draw)
 	{
-    	blend( images[iLogo].image, gui.screen.pixmap, gui.logo.pos);
+		blend( images[iLogo].image, gui.screen.pixmap, gui.logo.pos);
 	}
 	
 	memcpy( gui.backbuffer->pixels, gui.screen.pixmap->pixels, gui.backbuffer->width * gui.backbuffer->height * 4 );
@@ -583,16 +566,18 @@ void drawBackground()
 void setupDeviceList(config_file_t *theme)
 {
 	unsigned int pixel;
-	int	alpha;				// transparency level 0 (obligue) - 255 (transparent)
+	int	alpha;			// transparency level 0 (obligue) - 255 (transparent)
 	uint32_t color;			// color value formatted RRGGBB
 	int val, len;
 	const char *string;	
 
-	if(getIntForKey("devices_max_visible", &val, theme ))
+	if(getIntForKey("devices_max_visible", &val, theme )) {
 		gui.maxdevices = MIN( val, gDeviceCount );
+	}
 
-	if(getIntForKey("devices_iconspacing", &val, theme ))
+	if(getIntForKey("devices_iconspacing", &val, theme )) {
 		gui.devicelist.iconspacing = val;
+	}
 
 	// check layout for horizontal or vertical
 	gui.layout = HorizontalLayout;
@@ -607,11 +592,13 @@ void setupDeviceList(config_file_t *theme)
 		gui.devicelist.height = ((images[iSelection].image->height + font_console.chars[0]->height + gui.devicelist.iconspacing) * MIN(gui.maxdevices, gDeviceCount) + (images[iDeviceScrollPrev].image->height + images[iDeviceScrollNext].image->height) + gui.devicelist.iconspacing);
 		gui.devicelist.width  = (images[iSelection].image->width + gui.devicelist.iconspacing);
 
-		if(getDimensionForKey("devices_pos_x", &pixel, theme, gui.screen.width , images[iSelection].image->width ) )
+		if(getDimensionForKey("devices_pos_x", &pixel, theme, gui.screen.width , images[iSelection].image->width ) ) {
 			gui.devicelist.pos.x = pixel;
+		}
 
-		if(getDimensionForKey("devices_pos_y", &pixel, theme, gui.screen.height , gui.devicelist.height ) )
+		if(getDimensionForKey("devices_pos_y", &pixel, theme, gui.screen.height , gui.devicelist.height ) ) {
 			gui.devicelist.pos.y = pixel;
+		}
 		break;
 
 	case HorizontalLayout:
@@ -619,29 +606,33 @@ void setupDeviceList(config_file_t *theme)
 		gui.devicelist.width = ((images[iSelection].image->width + gui.devicelist.iconspacing) * MIN(gui.maxdevices, gDeviceCount) + (images[iDeviceScrollPrev].image->width + images[iDeviceScrollNext].image->width) + gui.devicelist.iconspacing);
 		gui.devicelist.height = (images[iSelection].image->height + font_console.chars[0]->height + gui.devicelist.iconspacing);
 
-		if(getDimensionForKey("devices_pos_x", &pixel, theme, gui.screen.width , gui.devicelist.width ) )
+		if(getDimensionForKey("devices_pos_x", &pixel, theme, gui.screen.width , gui.devicelist.width ) ) {
 			gui.devicelist.pos.x = pixel;
-		else
+		} else {
 			gui.devicelist.pos.x = ( gui.screen.width - gui.devicelist.width ) / 2;
-		
+		}
+
 		if(getDimensionForKey("devices_pos_y", &pixel, theme, gui.screen.height , images[iSelection].image->height ) )
+		{
 			gui.devicelist.pos.y = pixel;
-		else
+		} else {
 			gui.devicelist.pos.y = ( gui.screen.height - gui.devicelist.height ) / 2;
+		}
 		break;
 	}
 
-	if(getColorForKey("devices_bgcolor", &color, theme))
+	if(getColorForKey("devices_bgcolor", &color, theme)) {
 		gui.devicelist.bgcolor = (color & 0x00FFFFFF);
+	}
 
-	if(getIntForKey("devices_transparency", &alpha, theme))
+	if(getIntForKey("devices_transparency", &alpha, theme)) {
 		gui.devicelist.bgcolor = gui.devicelist.bgcolor | (( 255 - ( alpha & 0xFF) ) << 24);
+	}
 
-	if (gui.devicelist.pixmap)
-	{
-	    freeWindowBuffer(&gui.devicelist);
-        createWindowBuffer(&gui.devicelist);
-    }
+	if (gui.devicelist.pixmap) {
+		freeWindowBuffer(&gui.devicelist);
+		createWindowBuffer(&gui.devicelist);
+	}
 }
 
 void loadThemeValues(config_file_t *theme)
@@ -649,21 +640,22 @@ void loadThemeValues(config_file_t *theme)
 	unsigned int screen_width  = gui.screen.width;
 	unsigned int screen_height = gui.screen.height;
 	unsigned int pixel;
-	int	alpha;				// transparency level 0 (obligue) - 255 (transparent)
+	int	alpha;			// transparency level 0 (obligue) - 255 (transparent)
 	uint32_t color;			// color value formatted RRGGBB
 	int val;
 
 	/*
 	 * Parse screen parameters
 	 */
-	if(getColorForKey("screen_bgcolor", &color, theme ))
+	if(getColorForKey("screen_bgcolor", &color, theme )) {
 		gui.screen.bgcolor = (color & 0x00FFFFFF);
-
-	if(getIntForKey("screen_textmargin_h", &val, theme))
+	}
+	if(getIntForKey("screen_textmargin_h", &val, theme)) {
 		gui.screen.hborder = MIN( gui.screen.width , val );
-
-	if(getIntForKey("screen_textmargin_v", &val, theme))
+	}
+	if(getIntForKey("screen_textmargin_v", &val, theme)) {
 		gui.screen.vborder = MIN( gui.screen.height , val );
+	}
 
 	/*
 	 * Parse background parameters
@@ -671,35 +663,47 @@ void loadThemeValues(config_file_t *theme)
 	if(getDimensionForKey("background_pos_x", &pixel, theme, screen_width , images[iBackground].image->width ) )
 		gui.background.pos.x = pixel;
 
-	if(getDimensionForKey("background_pos_y", &pixel, theme, screen_height , images[iBackground].image->height ) )
+	if(getDimensionForKey("background_pos_y", &pixel, theme, screen_height , images[iBackground].image->height ) ) {
 		gui.background.pos.y = pixel;
+	}
 
 	/*
 	 * Parse logo parameters
 	 */
-	if(getDimensionForKey("logo_pos_x", &pixel, theme, screen_width , images[iLogo].image->width ) )
+	if(getDimensionForKey("logo_pos_x", &pixel, theme, screen_width , images[iLogo].image->width ) ) {
 		gui.logo.pos.x = pixel;
+	}
 
 	if(getDimensionForKey("logo_pos_y", &pixel, theme, screen_height , images[iLogo].image->height ) )
+	{
 		gui.logo.pos.y = pixel;
+	}
 
 	/*
 	 * Parse progress bar parameters
 	 */
 	if(getDimensionForKey("progressbar_pos_x", &pixel, theme, screen_width , 0 ) )
+	{
 		gui.progressbar.pos.x = pixel;
+	}
 
 	if(getDimensionForKey("progressbar_pos_y", &pixel, theme, screen_height , 0 ) )
+	{
 		gui.progressbar.pos.y = pixel;
+	}
 
 	/*
 	 * Parse countdown text parameters
 	 */
 	if(getDimensionForKey("countdown_pos_x", &pixel, theme, screen_width , 0 ) )
+	{
 		gui.countdown.pos.x = pixel;
+	}
 
 	if(getDimensionForKey("countdown_pos_y", &pixel, theme, screen_height , 0 ) )
+	{
 		gui.countdown.pos.y = pixel;
+	}
 
     /*
 	 * Parse devicelist parameters
@@ -710,92 +714,124 @@ void loadThemeValues(config_file_t *theme)
 	 * Parse infobox parameters
 	 */
 	if(getIntForKey("infobox_width", &val, theme))
+	{
 		gui.infobox.width = MIN( screen_width , val );
-
+	}
 	if(getIntForKey("infobox_height", &val, theme))
+	{
 		gui.infobox.height = MIN( screen_height , val );
-
+	}
 	if(getDimensionForKey("infobox_pos_x", &pixel, theme, screen_width , gui.infobox.width ) )
+	{
 		gui.infobox.pos.x = pixel;
-
+	}
 	if(getDimensionForKey("infobox_pos_y", &pixel, theme, screen_height , gui.infobox.height ) )
+	{
 		gui.infobox.pos.y = pixel;
-
+	}
 	if(getIntForKey("infobox_textmargin_h", &val, theme))
+	{
 		gui.infobox.hborder = MIN( gui.infobox.width , val );
-
+	}
 	if(getIntForKey("infobox_textmargin_v", &val, theme))
+	{
 		gui.infobox.vborder = MIN( gui.infobox.height , val );
-
+	}
 	if(getColorForKey("infobox_bgcolor", &color, theme))
+	{
 		gui.infobox.bgcolor = (color & 0x00FFFFFF);
-
+	}
 	if(getIntForKey("infobox_transparency", &alpha, theme))
+	{
 		gui.infobox.bgcolor = gui.infobox.bgcolor | (( 255 - ( alpha & 0xFF) ) << 24);
-
+	}
 	/*
 	 * Parse menu parameters
 	 */
 	if(getDimensionForKey("menu_width", &pixel, theme, gui.screen.width , 0 ) )
+	{
 		gui.menu.width = pixel;
+	}
 	else
+	{
 		gui.menu.width = images[iMenuSelection].image->width;
-
+	}
 	if(getDimensionForKey("menu_height", &pixel, theme, gui.screen.height , 0 ) )
+	{
 		gui.menu.height = pixel;
+	}
 	else
+	{
 		gui.menu.height = (infoMenuItemsCount) * images[iMenuSelection].image->height;
-
+	}
 	if(getDimensionForKey("menu_pos_x", &pixel, theme, screen_width , gui.menu.width ) )
+	{
 		gui.menu.pos.x = pixel;
-
+	}
 	if(getDimensionForKey("menu_pos_y", &pixel, theme, screen_height , gui.menu.height ) )
+	{
 		gui.menu.pos.y = pixel;
-
+	}
 	if(getIntForKey("menu_textmargin_h", &val, theme))
+	{
 		gui.menu.hborder = MIN( gui.menu.width , val );
-
+	}
 	if(getIntForKey("menu_textmargin_v", &val, theme))
+	{
 		gui.menu.vborder = MIN( gui.menu.height , val );
-
+	}
 	if(getColorForKey("menu_bgcolor", &color, theme))
+	{
 		gui.menu.bgcolor = (color & 0x00FFFFFF);
-
+	}
 	if(getIntForKey("menu_transparency", &alpha, theme))
+	{
 		gui.menu.bgcolor = gui.menu.bgcolor | (( 255 - ( alpha & 0xFF) ) << 24);		
+	}
 
 	/*
 	 * Parse bootprompt parameters
 	 */
 	if(getDimensionForKey("bootprompt_width", &pixel, theme, screen_width , 0 ) )
+	{
 		gui.bootprompt.width = pixel;
-
+	}
 	if(getIntForKey("bootprompt_height", &val, theme))
+	{
 		gui.bootprompt.height = MIN( screen_height , val );
-
+	}
 	if(getDimensionForKey("bootprompt_pos_x", &pixel, theme, screen_width , gui.bootprompt.width ) )
+	{
 		gui.bootprompt.pos.x = pixel;
-
+	}
 	if(getDimensionForKey("bootprompt_pos_y", &pixel, theme, screen_height , gui.bootprompt.height ) )
+	{
 		gui.bootprompt.pos.y = pixel;
-
+	}
 	if(getIntForKey("bootprompt_textmargin_h", &val, theme))
+	{
 		gui.bootprompt.hborder = MIN( gui.bootprompt.width , val );
-
+	}
 	if(getIntForKey("bootprompt_textmargin_v", &val, theme))
+	{
 		gui.bootprompt.vborder = MIN( gui.bootprompt.height , val );
-
+	}
 	if(getColorForKey("bootprompt_bgcolor", &color, theme))
+	{
 		gui.bootprompt.bgcolor = (color & 0x00FFFFFF);
-
+	}
 	if(getIntForKey("bootprompt_transparency", &alpha, theme))
+	{
 		gui.bootprompt.bgcolor = gui.bootprompt.bgcolor | (( 255 - ( alpha & 0xFF) ) << 24);
-
+	}
 	if(getColorForKey("font_small_color", &color, theme))
+	{
 		gui.screen.font_small_color = (color & 0x00FFFFFF);
-
+	}
 	if(getColorForKey("font_console_color", &color, theme))
+	{
 		gui.screen.font_console_color = (color & 0x00FFFFFF);
+	}
 }
 
 int initGUI(void)
@@ -811,12 +847,12 @@ int initGUI(void)
 	sprintf(dirspec, "/Extra/Themes/%s/theme.plist", theme_name);
 	if (loadConfigFile(dirspec, &bootInfo->themeConfig) != 0) {
 #ifdef CONFIG_EMBED_THEME
-    config_file_t	*config;
+	config_file_t	*config;
     
-    config = &bootInfo->themeConfig;
-    if (ParseXMLFile((char *)__theme_plist, &config->dictionary) != 0) {
-      return 1;
-    }
+	config = &bootInfo->themeConfig;
+	if (ParseXMLFile((char *)__theme_plist, &config->dictionary) != 0) {
+	return 1;
+	}
 #else
 		return 1;
 #endif
@@ -852,7 +888,7 @@ int initGUI(void)
 					if (createWindowBuffer(&gui.bootprompt) == 0) {
 						if (createWindowBuffer(&gui.infobox) == 0) {
 							if (createWindowBuffer(&gui.menu) == 0) {
-							    gui.logo.draw = true;
+								gui.logo.draw = true;
 								drawBackground();
 								// lets copy the screen into the back buffer
 								memcpy( gui.backbuffer->pixels, gui.screen.pixmap->pixels, gui.backbuffer->width * gui.backbuffer->height * 4 );
@@ -888,10 +924,9 @@ void drawDeviceIcon(BVRef device, pixmap_t *buffer, position_t p, bool isSelecte
 {
 	int devicetype;
 
-	if( diskIsCDROM(device) )
+	if( diskIsCDROM(device) ) {
 		devicetype = iDeviceCDROM;				// Use CDROM icon
-	else
-	{
+	} else {
 		switch (device->part_type)
 		{
 			case kPartitionTypeHFS:
@@ -923,7 +958,7 @@ void drawDeviceIcon(BVRef device, pixmap_t *buffer, position_t p, bool isSelecte
 				
 				break;
 				
-			}				
+			}
 			case kPartitionTypeHPFS:
 				devicetype = iDeviceNTFS;		// Use HPFS / NTFS icon
 				break;
@@ -988,8 +1023,7 @@ void drawDeviceList (int start, int end, int selection)
 
 	makeRoundedCorners( gui.devicelist.pixmap);
 
-	switch (gui.layout)
-	{
+	switch (gui.layout) {
 
 		case VerticalLayout:
 			p.x = (gui.devicelist.width /2);
@@ -1016,31 +1050,26 @@ void drawDeviceList (int start, int end, int selection)
 	}
 	
 	// draw visible device icons
-	for (i = 0; i < gui.maxdevices; i++)
-	{
+	for (i = 0; i < gui.maxdevices; i++) {
 		BVRef param = menuItems[start + i].param;
 
-        bool isSelected = ((start + i) == selection) ? true : false;
-		if (isSelected)
-		{
-            if (param->flags & kBVFlagNativeBoot)
-            {
-                infoMenuNativeBoot = true;
-            }
-            else
-            {
-                infoMenuNativeBoot = false;
-                if(infoMenuSelection >= INFOMENU_NATIVEBOOT_START && infoMenuSelection <= INFOMENU_NATIVEBOOT_END)
-                infoMenuSelection = 0;
-            }
+		bool isSelected = ((start + i) == selection) ? true : false;
+		if (isSelected) {
+			if (param->flags & kBVFlagNativeBoot) {
+				infoMenuNativeBoot = true;
+			} else {
+				infoMenuNativeBoot = false;
+				if(infoMenuSelection >= INFOMENU_NATIVEBOOT_START && infoMenuSelection <= INFOMENU_NATIVEBOOT_END) {
+					infoMenuSelection = 0;
+				}
+			}
 
-			if (gui.menu.draw)
+			if (gui.menu.draw) {
 				drawInfoMenuItems();
-			
+			}
 			getBoolForKey(kShowInfoKey, &shoWinfo, &bootInfo->chameleonConfig);
 			
-			if (shoWinfo && showBootBanner)
-			{
+			if (shoWinfo && showBootBanner) {
 				gui.debug.cursor = pos( 10, 100);
 				dprintf( &gui.screen, "label:     %s\n",   param->label );
 				dprintf( &gui.screen, "biosdev:   0x%x\n", param->biosdev );
@@ -1063,24 +1092,22 @@ void drawDeviceList (int start, int end, int selection)
 		
 		drawDeviceIcon( param, gui.devicelist.pixmap, p, isSelected);
 		
-		if (gui.layout == HorizontalLayout)
-		{
+		if (gui.layout == HorizontalLayout) {
 			p.x += images[iSelection].image->width + gui.devicelist.iconspacing; 
 		}
-		if (gui.layout == VerticalLayout)
-		{
+		if (gui.layout == VerticalLayout) {
 			p.y += ( images[iSelection].image->height + font_console.chars[0]->height + gui.devicelist.iconspacing ); 
 		}
 	}
 
 	// draw prev indicator
-	if (start)
+	if (start) {
 		blend( images[iDeviceScrollPrev].image, gui.devicelist.pixmap, centeredAt( images[iDeviceScrollPrev].image, p_prev ) );
-
+	}
 	// draw next indicator
-	if ( end < gDeviceCount - 1 )
+	if ( end < gDeviceCount - 1 ) {
 		blend( images[iDeviceScrollNext].image, gui.devicelist.pixmap, centeredAt( images[iDeviceScrollNext].image, p_next ) );
-
+	}
 	gui.redraw = true;
 	
 	updateVRAM();
@@ -1094,8 +1121,7 @@ void clearGraphicBootPrompt()
 	//prompt_pos=0;
 
 	
-	if(	gui.bootprompt.draw == true )
-	{
+	if( gui.bootprompt.draw == true ) {
 		gui.bootprompt.draw = false;
 		gui.redraw = true;
 		// this causes extra frames to be drawn
@@ -1133,20 +1159,17 @@ void updateGraphicBootPrompt()
 static inline
 void vramwrite (void *data, int width, int height)
 {
-	if (VIDEO (depth) == 32 && VIDEO (rowBytes) == gui.backbuffer->width * 4)
+	if (VIDEO (depth) == 32 && VIDEO (rowBytes) == gui.backbuffer->width * 4) {
 		memcpy((uint8_t *)vram, gui.backbuffer->pixels, VIDEO (rowBytes)*VIDEO (height));
-	else
-	{
+	} else {
 		uint32_t r, g, b;
 		int i, j;
-		for (i = 0; i < VIDEO (height); i++)
-			for (j = 0; j < VIDEO (width); j++)
-			{
+		for (i = 0; i < VIDEO (height); i++) {
+			for (j = 0; j < VIDEO (width); j++) {
 				b = ((uint8_t *) data)[4*i*width + 4*j];
 				g = ((uint8_t *) data)[4*i*width + 4*j + 1];
 				r = ((uint8_t *) data)[4*i*width + 4*j + 2];
-				switch (VIDEO (depth))
-				{
+				switch (VIDEO (depth)) {
 					case 32:
 						*(uint32_t *)(((uint8_t *)vram)+i*VIDEO (rowBytes) + j*4) = (b&0xff) | ((g&0xff)<<8) | ((r&0xff)<<16);
 						break;
@@ -1163,30 +1186,30 @@ void vramwrite (void *data, int width, int height)
 						break;	
 				}
 			}
+		}
 	}
 }
 
 void updateVRAM()
 {
-	if (gui.redraw)
-	{
-		if (gui.devicelist.draw)
+	if (gui.redraw) {
+		if (gui.devicelist.draw) {
 			blend( gui.devicelist.pixmap, gui.backbuffer, gui.devicelist.pos );
-
-		if (gui.bootprompt.draw)
+		}
+		if (gui.bootprompt.draw) {
 			blend( gui.bootprompt.pixmap, gui.backbuffer, gui.bootprompt.pos );
-
-		if (gui.menu.draw)
+		}
+		if (gui.menu.draw) {
 			blend( gui.menu.pixmap, gui.backbuffer, gui.menu.pos );
-		
-		if (gui.infobox.draw)
+		}
+		if (gui.infobox.draw) {
 			blend( gui.infobox.pixmap, gui.backbuffer, gui.infobox.pos );
+		}
 	}
 
 	vramwrite ( gui.backbuffer->pixels, gui.backbuffer->width, gui.backbuffer->height );
 
-	if (gui.redraw)
-	{
+	if (gui.redraw) {
 		memcpy( gui.backbuffer->pixels, gui.screen.pixmap->pixels, gui.backbuffer->width * gui.backbuffer->height * 4 );
 		gui.redraw = false;
 	}
@@ -1194,20 +1217,21 @@ void updateVRAM()
 
 struct putc_info //Azi: exists on console.c & printf.c
 {
-    char * str;
-    char * last_str;
+	char * str;
+	char * last_str;
 };
 
 static int
 sputc(int c, struct putc_info * pi) //Azi: same as above
 {
-    if (pi->last_str)
-        if (pi->str == pi->last_str) {
-            *(pi->str) = '\0';
-            return 0;
-        }
-    *(pi->str)++ = c;
-    return c;
+	if (pi->last_str) {
+		if (pi->str == pi->last_str) {
+			*(pi->str) = '\0';
+			return 0;
+		}
+	}
+	*(pi->str)++ = c;
+	return c;
 }
 
 int gprintf( window_t * window, const char * fmt, ...)
@@ -1242,44 +1266,44 @@ int gprintf( window_t * window, const char * fmt, ...)
 
 		font_t *font = &font_console;
 
-		for( i=0; i< strlen(formattedtext); i++ )
-		{
+		for( i=0; i< strlen(formattedtext); i++ ) {
 			character = formattedtext[i];
 			
 			character -= 32;
 
 			// newline ?
-			if( formattedtext[i] == '\n' )
-			{
+			if( formattedtext[i] == '\n' ) {
 				cursor.x = window->hborder;
 				cursor.y += font->height;
 
-				if ( cursor.y > bounds.y )
+				if ( cursor.y > bounds.y ) {
 					cursor.y = origin.y;
-
+				}
 				continue;
 			}
 
 			// tab ?
-			if( formattedtext[i] == '\t' )
+			if( formattedtext[i] == '\t' ) {
 				cursor.x += ( font->chars[0]->width * 5 );
-			
+			}
+
 			// draw the character
-			if( font->chars[character])
+			if( font->chars[character]) {
 				blend(font->chars[character], window->pixmap, cursor);
+			}
 
 			cursor.x += font->chars[character]->width;
 
 			// check x pos and do newline
-			if ( cursor.x > bounds.x )
-			{
+			if ( cursor.x > bounds.x ) {
 				cursor.x = origin.x;
 				cursor.y += font->height;
 			}
 			
 			// check y pos and reset to origin.y
-			if ( cursor.y > bounds.y )
+			if ( cursor.y > bounds.y ) {
 				cursor.y = origin.y;
+			}
 		}
 
 		// update cursor postition
@@ -1288,7 +1312,6 @@ int gprintf( window_t * window, const char * fmt, ...)
 		free(formattedtext);
 		
 		return 0;
-
 	}
 	return 1;
 }
@@ -1327,44 +1350,42 @@ int dprintf( window_t * window, const char * fmt, ...)
 		
 		font_t *font = &font_console;
 		
-		for( i=0; i< strlen(formattedtext); i++ )
-		{
+		for( i=0; i< strlen(formattedtext); i++ ) {
 			character = formattedtext[i];
 			
 			character -= 32;
 			
 			// newline ?
-			if( formattedtext[i] == '\n' )
-			{
+			if( formattedtext[i] == '\n' ) {
 				cursor.x = window->hborder;
 				cursor.y += font->height;
 				
-				if ( cursor.y > bounds.y )
+				if ( cursor.y > bounds.y ) {
 					cursor.y = origin.y;
-				
+				}
 				continue;
 			}
 			
 			// tab ?
-			if( formattedtext[i] == '\t' )
+			if( formattedtext[i] == '\t' ) {
 				cursor.x += ( font->chars[0]->width * 5 );
-			
+			}
 			// draw the character
-			if( font->chars[character])
+			if( font->chars[character]) {
 				blend(font->chars[character], gui.backbuffer, cursor);
-
+			}
 			cursor.x += font->chars[character]->width;
 			
 			// check x pos and do newline
-			if ( cursor.x > bounds.x )
-			{
+			if ( cursor.x > bounds.x ) {
 				cursor.x = origin.x;
 				cursor.y += font->height;
 			}
 			
 			// check y pos and reset to origin.y
-			if ( cursor.y > bounds.y )
+			if ( cursor.y > bounds.y ) {
 				cursor.y = origin.y;
+			}
 		}
 		
 		// update cursor postition
@@ -1403,18 +1424,15 @@ int vprf(const char * fmt, va_list ap)
 		bounds.y = ( window->height - ( window->vborder * 2 ) );
 		cursor = origin;
 
-		for( i=0; i< strlen(formattedtext); i++ )
-		{
+		for( i=0; i< strlen(formattedtext); i++ ) {
 			character = formattedtext[i];
 			character -= 32;
 			
 			// newline ?
-			if( formattedtext[i] == '\n' )
-			{
+			if( formattedtext[i] == '\n' ) {
 				cursor.x = window->hborder;
 				cursor.y += font->height;
-				if ( cursor.y > bounds.y )
-				{
+				if ( cursor.y > bounds.y ) {
 					gui.redraw = true;
 					updateVRAM();
 					cursor.y = window->vborder;
@@ -1424,30 +1442,28 @@ int vprf(const char * fmt, va_list ap)
 			}
 
 			// tab ?
-			if( formattedtext[i] == '\t' )
-			{
+			if( formattedtext[i] == '\t' ) {
 				cursor.x = ( cursor.x / ( font->chars[0]->width * 8 ) + 1 ) * ( font->chars[0]->width * 8 );
 				continue;
 			}
 			cursor.x += font->chars[character]->width;
 			
 			// check x pos and do newline
-			if ( cursor.x > bounds.x )
-			{
+			if ( cursor.x > bounds.x ) {
 				cursor.x = origin.x;
 				cursor.y += font->height;
 			}
 
 			// check y pos and reset to origin.y
-			if ( cursor.y > ( bounds.y + font->chars[0]->height) )
-			{
+			if ( cursor.y > ( bounds.y + font->chars[0]->height) ) {
 				gui.redraw = true;
 				updateVRAM();
 				cursor.y = window->vborder;
 			}
 			// draw the character
-			if( font->chars[character])
+			if( font->chars[character]) {
 				blend(font->chars[character], gui.backbuffer, cursor);
+			}
 		}
 		// save cursor postition
 		window->cursor.x = cursor.x;
@@ -1460,22 +1476,21 @@ int vprf(const char * fmt, va_list ap)
 
 pixmap_t* charToPixmap(unsigned char ch, font_t *font) {
 	unsigned int cha = (unsigned int)ch - 32;
-	if (cha >= font->count)
+	if (cha >= font->count) {
 		// return ? if the font for the char doesn't exists
 		cha = '?' - 32;
-
+	}
 	return font->chars[cha] ? font->chars[cha] : NULL;
 }
 
 position_t drawChar(unsigned char ch, font_t *font, pixmap_t *blendInto, position_t p) {
 	pixmap_t* pm = charToPixmap(ch, font);
-	if (pm && ((p.x + pm->width) < blendInto->width))
-	{
+	if (pm && ((p.x + pm->width) < blendInto->width)) {
 		blend(pm, blendInto, p);
 		return pos(p.x + pm->width, p.y);
-	}
-	else
+	} else {
 		return p;
+	}
 }
 
 void drawStr(char *ch, font_t *font, pixmap_t *blendInto, position_t p)
@@ -1483,19 +1498,16 @@ void drawStr(char *ch, font_t *font, pixmap_t *blendInto, position_t p)
 	int i=0;
 	position_t current_pos = pos(p.x, p.y);
 	
-	for (i=0; i < strlen(ch); i++)
-	{
+	for (i=0; i < strlen(ch); i++) {
 		// newline ?
-		if ( ch[i] == '\n' )
-		{
+		if ( ch[i] == '\n' ) {
 			current_pos.x = p.x;
 			current_pos.y += font->height;
 			continue;
 		}
 		
 		// tab ?
-		if ( ch[i] == '\t' )
-		{
+		if ( ch[i] == '\t' ) {
 			current_pos.x += TAB_PIXELS_WIDTH;
 			continue;
 		}
@@ -1513,21 +1525,20 @@ void drawStrCenteredAt(char *text, font_t *font, pixmap_t *blendInto, position_t
 
 	// calculate the width in pixels
 	for (i=0; i < strlen(text); i++) {
-		if (text[i] == '\n')
-		{
+		if (text[i] == '\n') {
 			width = 0;
 			height += font->height;
-		}
-		else if (text[i] == '\t')
+		} else if (text[i] == '\t') {
 			width += TAB_PIXELS_WIDTH;
-		else
-		{
+		} else {
 			pixmap_t* pm = charToPixmap(text[i], font);
-			if (pm)
+			if (pm)	{
 				width += pm->width;
+			}
 		}
-		if (width > max_width)
+		if (width > max_width) {
 			max_width = width;
+		}
 	}
 
 	p.x = ( p.x - ( max_width / 2 ) );
@@ -1538,17 +1549,17 @@ void drawStrCenteredAt(char *text, font_t *font, pixmap_t *blendInto, position_t
 
 int destroyFont(font_t *font)
 {
-    int i;
-    for (i = 0; i < CHARACTERS_COUNT; i++)
-    {
-        if (font->chars[i])
-        {
-            if (font->chars[i]->pixels) free (font->chars[i]->pixels);
-            free (font->chars[i]);
-            font->chars[i] = 0;
-         }
-    }
-    return 0;
+	int i;
+	for (i = 0; i < CHARACTERS_COUNT; i++) {
+		if (font->chars[i]) {
+			if (font->chars[i]->pixels) {
+				free (font->chars[i]->pixels);
+			}
+			free (font->chars[i]);
+			font->chars[i] = 0;
+		}
+	}
+	return 0;
 }
 
 int initFont(font_t *font, image_t *data)
@@ -1561,35 +1572,30 @@ int initFont(font_t *font, image_t *data)
 	
 	font->height = data->image->height;
 
-	for( x = 0; x < data->image->width && count < CHARACTERS_COUNT; x++)
-	{
+	for( x = 0; x < data->image->width && count < CHARACTERS_COUNT; x++) {
 		start = end;
 
 		// if the pixel is red we've reached the end of the char
-		if( pixel( data->image, x, 0 ).value == 0xFFFF0000)
-		{
+		if( pixel( data->image, x, 0 ).value == 0xFFFF0000) {
 			end = x + 1;
 
-			if( (font->chars[count] = malloc(sizeof(pixmap_t)) ) )
-			{
+			if( (font->chars[count] = malloc(sizeof(pixmap_t)) ) ) {
 				font->chars[count]->width = ( end - start) - 1;
 				font->chars[count]->height = font->height;
 			
-				if ( ( font->chars[count]->pixels = malloc( font->chars[count]->width * data->image->height * 4) ) )
-				{
+				if ( ( font->chars[count]->pixels = malloc( font->chars[count]->width * data->image->height * 4) ) ) {
 					space += ( font->chars[count]->width * data->image->height * 4 );
 					// we skip the first line because there are just the red pixels for the char width
-					for( y = 1; y< (font->height); y++)
-					{
-						for( x2 = start, x3 = 0; x2 < end; x2++, x3++)
-						{
+					for( y = 1; y< (font->height); y++) {
+						for( x2 = start, x3 = 0; x2 < end; x2++, x3++) {
 							pixel( font->chars[count], x3, y ) = pixel( data->image, x2, y );
 						}	
 					}
 					
 					// check if font is monospaced
-					if( ( count > 0 ) && ( font->width != font->chars[count]->width ) )
+					if( ( count > 0 ) && ( font->width != font->chars[count]->width ) ) {
 						monospaced = true;
+					}
 
 					font->width = font->chars[count]->width;
 					
@@ -1599,11 +1605,13 @@ int initFont(font_t *font, image_t *data)
 		}
 	}
 
-	for (x = count; x < CHARACTERS_COUNT; x++)
+	for (x = count; x < CHARACTERS_COUNT; x++) {
 		font->chars[x] = NULL;
+	}
 
-	if(monospaced)
+	if(monospaced) {
 		font->width = 0;
+	}
 
 	font->count = count;
 
@@ -1612,24 +1620,21 @@ int initFont(font_t *font, image_t *data)
 
 void colorFont(font_t *font, uint32_t color)
 {
-	if( !color )
+	if( !color ) {
 		return;
-	
+	}
+
 	int x, y, width, height;
 	int count = 0;
 	pixel_t *buff;
 	
-	while( font->chars[count++] )
-	{
+	while( font->chars[count++] ) {
 		width = font->chars[count-1]->width;
 		height = font->chars[count-1]->height;
-		for( y = 0; y < height; y++ )
-		{
-			for( x = 0; x < width; x++ )
-			{
+		for( y = 0; y < height; y++ ) {
+			for( x = 0; x < width; x++ ) {
 				buff = &(pixel( font->chars[count-1], x, y ));
-				if( buff->ch.a )
-				{
+				if( buff->ch.a ) {
 					buff->ch.r = (color & 0xFFFF0000) >> 16;
 					buff->ch.g = (color & 0xFF00FF00) >> 8;
 					buff->ch.b = (color & 0xFF0000FF);
@@ -1662,13 +1667,10 @@ void makeRoundedCorners(pixmap_t *p)
 	
 	uint8_t alpha=0;
 	
-	for( y=0; y<10; y++)
-	{
-		for( x=0; x<10; x++)
-		{
+	for( y=0; y<10; y++) {
+		for( x=0; x<10; x++) {
 			// skip if the pixel should be visible
-			if(roundedCorner[y][x] != 0xFF) 
-			{ 
+			if(roundedCorner[y][x] != 0xFF)	{ 
 				alpha = ( roundedCorner[y][x] ? (uint8_t) (roundedCorner[y][x] * pixel(p, x, y).ch.a) / 255 : 0 );
 				// Upper left corner
 				pixel(p, x, y).ch.a = alpha;
@@ -1695,54 +1697,55 @@ void showInfoBox(char *title, char *text_orig)
 	int cnt=0;
 	int offset=0;
 	
-	if( !title || !text_orig )
+	if( !title || !text_orig ) {
 		return;
-	
+	}
+
 	// Create a copy so that we don't mangle the original
 	text = malloc(strlen(text_orig) + 1);
 	strcpy(text, text_orig);
-	
-	
+
 	position_t pos_title = pos ( gui.infobox.vborder, gui.infobox.vborder );
 
 	// calculate number of lines in the title
-	for ( i = 0, lines = 1; i<strlen(title); i++ )
-		if( title[i] == '\n')
+	for ( i = 0, lines = 1; i<strlen(title); i++ ) {
+		if( title[i] == '\n') {
 			lines++;
-	
+		}
+	}
 	// y position of text is lines in title * height of font
 	position_t pos_text =  pos( pos_title.x , pos_title.y + ( font_console.height * lines ));
 	
 	// calculate number of lines in the text
-	for ( i=0, lines = 1; i<strlen(text); i++ )
-		if( text[i] == '\n')
+	for ( i=0, lines = 1; i<strlen(text); i++ ) {
+		if( text[i] == '\n') {
 			lines++;
-	
+		}
+	}
 	// if text ends with \n strip off
-	if( text[i] == '\n' || text[i] == '\0')
+	if( text[i] == '\n' || text[i] == '\0') {
 		lines--;
-	
+	}
 	visiblelines = ( ( gui.infobox.height - ( gui.infobox.vborder * 2 ) ) / font_console.height ) - 1;
 	
 	// lets display the text and allow scroll thru using up down / arrows
-	while(1)
-	{
+	while(1) {
 		// move to current line in text
-		for( offset = 0, i = 0; offset < strlen(text); offset++ )
-		{
-			if( currentline == i)
+		for( offset = 0, i = 0; offset < strlen(text); offset++ ) {
+			if( currentline == i) {
 				break;
-			if( text[offset] =='\n')
+			}
+			if( text[offset] =='\n') {
 				i++;
+			}
 		}
 
 		// find last visible line in text and place \0
-		for( i = offset, cnt = 0; i < strlen(text); i++)
-		{
-			if(text[i]=='\n')
+		for( i = offset, cnt = 0; i < strlen(text); i++) {
+			if(text[i]=='\n') {
 				cnt++;
-			if ( cnt == visiblelines )
-			{
+			}
+			if ( cnt == visiblelines ) {
 				text[i]='\0';
 				break;
 			}
@@ -1753,27 +1756,25 @@ void showInfoBox(char *title, char *text_orig)
 		makeRoundedCorners( gui.infobox.pixmap);
 
 		// print the title if present
-		if( title )
+		if( title ) {
 			drawStr(title, &font_console, gui.infobox.pixmap, pos_title);
-
+		}
 		// print the text
 		drawStr( text + offset, &font_console, gui.infobox.pixmap, pos_text);
 
 		// restore \n in text
-		if ( cnt == visiblelines )
+		if ( cnt == visiblelines ) {
 			text[i] = '\n';
-		
+		}
 		position_t pos_indicator =  pos( gui.infobox.width - ( images[iTextScrollPrev].image->width - ( gui.infobox.vborder / 2) ), pos_text.y );
 		
 		// draw prev indicator
-		if(offset)
-		{
+		if(offset) {
 			blend( images[iTextScrollPrev].image, gui.infobox.pixmap, centeredAt( images[iTextScrollPrev].image, pos_indicator ));
 		}
 		
 		// draw next indicator
-		if( lines > ( currentline + visiblelines ) )
-		{
+		if( lines > ( currentline + visiblelines ) ) {
 			pos_indicator.y = ( gui.infobox.height - ( ( images[iTextScrollNext].image->width + gui.infobox.vborder ) / 2 ) );
 			blend( images[iTextScrollNext].image, gui.infobox.pixmap, centeredAt( images[iTextScrollNext].image, pos_indicator ) );
 		}
@@ -1786,39 +1787,42 @@ void showInfoBox(char *title, char *text_orig)
 		
 		key = getchar();
 			
-		if( key == KEY_UP )
-			if( currentline > 0 )
+		if( key == KEY_UP ) {
+			if( currentline > 0 ) {
 				currentline--;
+			}
+		}
 
-		if( key == KEY_DOWN )
-			if( lines > ( currentline + visiblelines ) )
+		if( key == KEY_DOWN ) {
+			if( lines > ( currentline + visiblelines ) ) {
 				currentline++;
+			}
+		}
 
-		if( key == KEY_ESC || key == 'q' || key == 'Q')
-		{
+		if( key == KEY_ESC || key == 'q' || key == 'Q') {
 			gui.infobox.draw = false;
 			gui.redraw = true;
 			updateVRAM();
 			break;
 		}
 
-		if(key == ' ') // spacebar = next page
-		{
-			if( lines > ( currentline + visiblelines ) ) 
+		if(key == ' ') { // spacebar = next page
+			if( lines > ( currentline + visiblelines ) ) {
 				currentline += visiblelines;
-			
-			if(lines < (currentline + visiblelines))
+			}
+			if(lines < (currentline + visiblelines)) {
 				currentline = lines - visiblelines;
+			}
 		}
 	}
+	free(text);
 }
 
 void animateProgressBar()
 {
 	int y;
 	
-	if( time18() > lasttime)
-	{
+	if( time18() > lasttime) {
 		lasttime = time18();
 
 		pixmap_t *buffBar = images[iProgressBar].image;
@@ -1827,58 +1831,65 @@ void animateProgressBar()
 	
 		memcpy( buffBar->pixels, buffBar->pixels + 1, ( (buffBar->width*buffBar->height) - 1 ) * 4 );
 
-		for( y = buffBar->height - 1; y > 0; y--)
+		for( y = buffBar->height - 1; y > 0; y--) {
 			pixel(buffBar, buffBar->width - 1, y) = pixel(buffBar, buffBar->width - 1, y - 1);
-
+		}
 		pixel(buffBar, buffBar->width-1, 0).value = buff;
 	}
 }
 
 void drawProgressBar(pixmap_t *blendInto, uint16_t width, position_t p, uint8_t progress)
 {
-	if(progress>100)
+	if(progress>100) {
 		return;
-	
+	}
+
 	p.x = ( p.x - ( width / 2 ) );
 
 	int todraw = (width * progress) / 100;
 
 	pixmap_t *buff = images[iProgressBar].image;
 	pixmap_t *buffBG = images[iProgressBarBackground].image;
-	if(!buff || !buffBG)
+	if(!buff || !buffBG) {
 		return;
-	
+	}
+
 	pixmap_t progressbar;
 	progressbar.pixels=malloc(width * 4 * buff->height);
-	if(!progressbar.pixels)
+	if(!progressbar.pixels) {
 		return; 
-	
+	}
+
 	progressbar.width = width;
 	progressbar.height = buff->height;
 
 	int x=0,x2=0,y=0;
 	
-	for(y=0; y<buff->height; y++)
-	{
-		for(x=0; x<todraw; x++, x2++)
-		{
-			if(x2 == (buff->width-1)) x2=0;
+	for(y=0; y<buff->height; y++) {
+		for(x=0; x<todraw; x++, x2++) {
+			if(x2 == (buff->width-1)) {
+				x2=0;
+			}
 			pixel(&progressbar, x,y).value = pixel(buff, x2,y).value;
 		}
 		x2=0;
 	}
 
-	for(y=0; y<buff->height; y++)
-	{
-		for(x=todraw, x2 = 0; x < width - 1; x++, x2++)
-		{
-			if(x2 == (buffBG->width -2 )) x2 = 0;
+	for(y=0; y<buff->height; y++) {
+		for(x=todraw, x2 = 0; x < width - 1; x++, x2++) {
+			if(x2 == (buffBG->width -2 )) {
+				x2 = 0;
+			}
 			pixel(&progressbar, x,y).value = pixel(buffBG, x2,y).value;
 		}
-		if(progress < 100)
+		if(progress < 100) {
 			pixel(&progressbar, width - 1, y).value = pixel(buffBG, buffBG->width - 1, y).value;
-		if(progress == 0)
+		}
+
+		if(progress == 0) {
 			pixel(&progressbar, 0, y).value = pixel(buffBG, buffBG->width - 1, y).value;
+		}
+
 		x2=0;
 	}
 
@@ -1905,21 +1916,16 @@ void drawInfoMenuItems()
 
 	position = pos(0,0);
 	
-	for ( i = 0, n = iMenuBoot; i < infoMenuItemsCount; i++, n++)
-	{
-		if (i == infoMenuSelection)
-		{
+	for ( i = 0, n = iMenuBoot; i < infoMenuItemsCount; i++, n++) {
+		if (i == infoMenuSelection) {
 			blend(selection, gui.menu.pixmap, position);
 		}
 
 		pbuff = images[n].image;
-		if (offset && i >= INFOMENU_NATIVEBOOT_START && i <= INFOMENU_NATIVEBOOT_END)
-		{
+		if (offset && i >= INFOMENU_NATIVEBOOT_START && i <= INFOMENU_NATIVEBOOT_END) {
 			blend( images[n + (iMenuHelp - iMenuBoot)].image , gui.menu.pixmap, 
 				pos((position.x + (gui.menu.hborder / 2)), position.y + ((selection->height - pbuff->height) / 2)));
-		}
-		else
-		{
+		} else {
 			blend( pbuff, gui.menu.pixmap, 
 				pos((position.x + (gui.menu.hborder / 2)), position.y + ((selection->height - pbuff->height) / 2)));
 		}
@@ -1951,22 +1957,16 @@ int updateInfoMenu(int key)
 	{
 
 		case KEY_UP:	// up arrow
-			if (infoMenuSelection > 0)
-			{
-				if(!infoMenuNativeBoot && infoMenuSelection == INFOMENU_NATIVEBOOT_END + 1)
-				{
+			if (infoMenuSelection > 0) {
+				if(!infoMenuNativeBoot && infoMenuSelection == INFOMENU_NATIVEBOOT_END + 1) {
 					infoMenuSelection -= 4;
-				}
-				else
-				{
+				} else {
 					infoMenuSelection--;
 				}
 				drawInfoMenuItems();
 				updateVRAM();
 
-			}
-			else
-			{
+			} else {
 
 				gui.menu.draw = false;
 				gui.redraw = true;
@@ -1978,12 +1978,13 @@ int updateInfoMenu(int key)
 			break;
 
 		case KEY_DOWN:	// down arrow
-			if (infoMenuSelection < infoMenuItemsCount - 1)
-			{
+			if (infoMenuSelection < infoMenuItemsCount - 1) {
 				if(!infoMenuNativeBoot && infoMenuSelection == INFOMENU_NATIVEBOOT_START - 1)
+				{
 					infoMenuSelection += 4;
-				else
+				} else {
 					infoMenuSelection++;
+				}
 				drawInfoMenuItems();
 				updateVRAM();
 			}
@@ -1991,17 +1992,13 @@ int updateInfoMenu(int key)
 
 		case KEY_ENTER:
 			key = 0;
-			if( infoMenuSelection == MENU_SHOW_MEMORY_INFO )
+			if( infoMenuSelection == MENU_SHOW_MEMORY_INFO ) {
 				showInfoBox( "Memory Info. Press q to quit.\n", getMemoryInfoString());
-
-			else if( infoMenuSelection == MENU_SHOW_VIDEO_INFO )
+			} else if( infoMenuSelection == MENU_SHOW_VIDEO_INFO ) {
 				showInfoBox( getVBEInfoString(), getVBEModeInfoString() );
-			
-			else if( infoMenuSelection == MENU_SHOW_HELP )
+			} else if( infoMenuSelection == MENU_SHOW_HELP ) {
 				showHelp();
-
-			else
-			{
+			} else {
 				int buff = infoMenuSelection;
 				infoMenuSelection = 0;
 				return buff;
@@ -2033,7 +2030,7 @@ static void loadBootGraphics(void)
 	sprintf(dirspec, "/Extra/Themes/%s/boot.png", theme_name);
 	if (loadPngImage(dirspec, &bootImageWidth, &bootImageHeight, &bootImageData) != 0) {
 #ifdef CONFIG_EMBED_THEME
-  	if ((loadEmbeddedPngImage(__boot_png, __boot_png_len, &bootImageWidth, &bootImageHeight, &bootImageData)) != 0)
+		if ((loadEmbeddedPngImage(__boot_png, __boot_png_len, &bootImageWidth, &bootImageHeight, &bootImageData)) != 0)
 #endif
 		usePngImage = false; 
 	}
@@ -2068,7 +2065,7 @@ void drawBootGraphics(void)
 		screen_params[1] = DEFAULT_SCREEN_HEIGHT;
 	}
 
-    // Save current screen resolution.
+	// Save current screen resolution.
 	oldScreenWidth = gui.screen.width;
 	oldScreenHeight = gui.screen.height;
 
@@ -2078,10 +2075,8 @@ void drawBootGraphics(void)
 	// find best matching vesa mode for our requested width & height
 	getGraphicModeParams(screen_params);
 
-    // Set graphics mode if the booter was in text mode or the screen resolution has changed.
-	if (bootArgs->Video.v_display == VGA_TEXT_MODE
-		|| (screen_params[0] != oldScreenWidth && screen_params[1] != oldScreenHeight) )
-	{
+	// Set graphics mode if the booter was in text mode or the screen resolution has changed.
+	if (bootArgs->Video.v_display == VGA_TEXT_MODE || (screen_params[0] != oldScreenWidth && screen_params[1] != oldScreenHeight) ) {
 		setVideoMode(GRAPHICS_MODE, 0);
 	}
 

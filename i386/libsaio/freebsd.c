@@ -3,10 +3,11 @@
 #include "freebsd.h"
 
 #define FreeBSDProbeSize	2048
+#define DISKMAGIC	((uint32_t)0x19540119)	/* The disk magic number */
 
 bool FreeBSDProbe (const void *buf)
 {
-	return (OSReadLittleInt32(buf+0xA55C,0)==0x19540119);
+	return (OSReadLittleInt32(buf+0xA55C,0) == DISKMAGIC);
 }
 void FreeBSDGetDescription(CICell ih, char *str, long strMaxLen)
 {

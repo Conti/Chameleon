@@ -363,8 +363,11 @@ int main (int argc, char *argv[]) {
     }
 
 	struct keyboard_layout* new_layout = create_keylayout(in);
-	if (new_layout)
+	if (new_layout) {
 		write_layout(new_layout, out);
+        free(new_layout);
+        new_layout = NULL;
+    }
 
     fclose(out);
 	fclose(in);

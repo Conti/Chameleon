@@ -270,16 +270,13 @@ NTFSGetDescription(CICell ih, char *str, long strMaxLen)
         //verbose("NTFS: lseek to $Volume failed: %s\n", strerror(errno));
         goto error;
     }
-    if (read(fd, buf, mftRecordSize) != mftRecordSize)
-    {
-        //verbose("NTFS: error reading MFT $Volume record: %s\n",
-                strerror(errno));
+    if (read(fd, buf, mftRecordSize) != mftRecordSize) {
+        //verbose("NTFS: error reading MFT $Volume record: %s\n", strerror(errno));
         goto error;
     }
 #endif
 
-    if (ntfs_fixup(buf, mftRecordSize, NTFS_FILEMAGIC, bytesPerSector) != 0)
-    {
+    if (ntfs_fixup(buf, mftRecordSize, NTFS_FILEMAGIC, bytesPerSector) != 0) {
         //verbose("NTFS: block fixup failed\n");
         goto error;
     }
@@ -311,8 +308,9 @@ long NTFSGetUUID(CICell ih, char *uuidStr)
 
 	struct bootfile *boot;
 	void *buf = malloc(MAX_BLOCK_SIZE);
-	if ( !buf )
+	if ( !buf ) {
 		return -1;
+	}
 
 	/*
 	 * Read the boot sector, check signatures, and do some minimal
@@ -332,29 +330,30 @@ long NTFSGetUUID(CICell ih, char *uuidStr)
 	}
 
 	// Check for non-null volume serial number
-	if( !boot->bf_volsn )
+	if( !boot->bf_volsn ) {
 		return -1;
+	}
 
 	// Use UUID like the one you get on Windows
 	sprintf(uuidStr, "%04X-%04X",	(unsigned short)(boot->bf_volsn >> 16) & 0xFFFF,
 									(unsigned short)boot->bf_volsn & 0xFFFF);
 
 	return 0;
-}    
+}
 
 bool NTFSProbe(const void * buffer)
 {
 	bool result = false;
-	
+
 	const struct bootfile	* part_bootfile = buffer;			// NTFS boot sector structure
-	
+
 	// Looking for NTFS signature.
 	if (strncmp((const char *)part_bootfile->bf_sysid, NTFS_BBID, NTFS_BBIDLEN) == 0)
 		result = true;
-	
+
 	// If not NTFS, maybe it is EXFAT
 	if (!result)
 		result = EXFATProbe(buffer);
-	
+
 	return result;
 }

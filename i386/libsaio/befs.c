@@ -20,7 +20,7 @@
 /* Find BeFS signature */
 bool BeFSProbe (const void *buf)
 {
-	return (OSReadLittleInt32(buf+0x220,0)==SUPER_BLOCK_MAGIC1);
+	return (OSReadLittleInt32(buf+0x220,0) == SUPER_BLOCK_MAGIC1);
 }
 
 /* Find BeFS volume label */
@@ -28,8 +28,9 @@ void BeFSGetDescription(CICell ih, char *str, long strMaxLen)
 {
 	char * buf=malloc (BeFSProbeSize);
 	str[0]=0;
-	if (!buf)
+	if (!buf) {
 		return;
+	}
 	Seek(ih, 0);
 	Read(ih, (long)buf, BeFSProbeSize);
 	if (!BeFSProbe (buf))

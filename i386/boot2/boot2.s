@@ -64,7 +64,7 @@ EXPORT(_chainbootflag) .byte 0x00
 #
 # Returns:
 #
-LABEL(boot2)
+LABEL(boot2)                    # Entry point at 0:BOOTER_ADDR (will be called by boot1)
     pushl   %ecx                # Save general purpose registers
     pushl   %ebx
     pushl   %ebp

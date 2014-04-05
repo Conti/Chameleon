@@ -69,7 +69,8 @@ typedef struct {
 
 #define DCB_MAX_NUM_ENTRIES 16
 #define DCB_MAX_NUM_I2C_ENTRIES 16
-
+#define DCB_MAX_NUM_GPIO_ENTRIES 32
+#define DCB_MAX_NUM_CONNECTOR_ENTRIES 16
 #define DCB_LOC_ON_CHIP 0
 
 struct bios {
@@ -77,21 +78,22 @@ struct bios {
 	uint8_t		size;			/* Size in multiples of 512 */
 };
 
-#define NV_PMC_OFFSET							0x000000
-#define NV_PMC_SIZE                             0x2ffff
+#define NV_PMC_OFFSET							0x00000000
+#define NV_PMC_SIZE                                                     0x00001000 // 0x2ffff
 #define NV_PDISPLAY_OFFSET						0x610000
 #define NV_PDISPLAY_SIZE						0x10000
 
-#define NV_PROM_OFFSET							0x300000
-#define NV_PROM_SIZE							0x0000ffff
+#define NV_PROM_OFFSET							0x00300000
+#define NV_PROM_SIZE							0x00010000
 #define NV_PRAMIN_OFFSET						0x00700000
 #define NV_PRAMIN_SIZE							0x00100000
 #define NV04_PFB_FIFO_DATA						0x0010020c
-#define NV10_PFB_FIFO_DATA_RAM_AMOUNT_MB_MASK	0xfff00000
-#define NV10_PFB_FIFO_DATA_RAM_AMOUNT_MB_SHIFT	20
-#define NVC0_MEM_CTRLR_COUNT					0x00121c74
-#define NVC0_MEM_CTRLR_RAM_AMOUNT				0x0010f20c
+#define NV10_PFB_FIFO_DATA_RAM_AMOUNT_MB_MASK				0xfff00000
+#define NV10_PFB_FIFO_DATA_RAM_AMOUNT_MB_SHIFT				20
+#define NVC0_MEM_CTRLR_RAM_AMOUNT					0x0010f20c
+#define NVC0_MEM_CTRLR_COUNT						0x00121c74
 
+#define NV_PBUS_PCI_NV_19						0x0000184C
 #define NV_PBUS_PCI_NV_20						0x00001850
 #define NV_PBUS_PCI_NV_20_ROM_SHADOW_DISABLED	(0 << 0)
 #define NV_PBUS_PCI_NV_20_ROM_SHADOW_ENABLED	(1 << 0)
@@ -108,6 +110,8 @@ struct bios {
 #define NV_ARCH_40              0x40
 #define NV_ARCH_50              0x50
 #define NV_ARCH_C0              0xC0
+#define NV_ARCH_D0              0xD0
+#define NV_ARCH_E0              0xE0
 
 #define CHIPSET_NV03            0x0010
 #define CHIPSET_NV04            0x0020

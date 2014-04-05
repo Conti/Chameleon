@@ -33,44 +33,55 @@ static long  gImageLastKernelAddr;
 #define RoundPage(x)  ((((unsigned)(x)) + kPageSize - 1) & ~(kPageSize - 1))
 
 
+//==============================================================================
+
 long
 AllocateMemoryRange(char * rangeName, long start, long length, long type)
 {
-    char *nameBuf;
-    uint32_t *buffer;
-    
-    nameBuf = malloc(strlen(rangeName) + 1);
-    if (nameBuf == 0) return -1;
-    strcpy(nameBuf, rangeName);
-    
-    buffer = malloc(2 * sizeof(uint32_t));
-    if (buffer == 0) return -1;
-    
-    buffer[0] = start;
-    buffer[1] = length;
-    
-    DT__AddProperty(gMemoryMapNode, nameBuf, 2 * sizeof(uint32_t), (char *)buffer);
-    
-    return 0;
+	char *nameBuf;
+	uint32_t *buffer;
+
+	nameBuf = malloc(strlen(rangeName) + 1);
+
+	if (nameBuf == 0) {
+		return -1;
+	}
+
+	buffer = malloc(2 * sizeof(uint32_t));
+
+	if (buffer == 0) {
+		free(nameBuf);
+		return -1;
+	}
+
+	strcpy(nameBuf, rangeName);
+	buffer[0] = start;
+	buffer[1] = length;
+
+	DT__AddProperty(gMemoryMapNode, nameBuf, 2 * sizeof(uint32_t), (char *)buffer);
+
+	return 0;
 }
 
+
+//==============================================================================
+
 long
-AllocateKernelMemory( long inSize )
+AllocateKernelMemory(long inSize)
 {
-    long addr;
+	long addr;
 
-    if (gImageLastKernelAddr == 0) {
-        gImageLastKernelAddr = RoundPage( bootArgs->kaddr +
-                                          bootArgs->ksize );
-    }
-    addr = gImageLastKernelAddr;
-    gImageLastKernelAddr += RoundPage(inSize);
+	if (gImageLastKernelAddr == 0) {
+		gImageLastKernelAddr = RoundPage(bootArgs->kaddr + bootArgs->ksize);
+	}
+	addr = gImageLastKernelAddr;
+	gImageLastKernelAddr += RoundPage(inSize);
 
-    if ( gImageLastKernelAddr >= (KERNEL_ADDR + KERNEL_LEN) ) {
-        stop ("AllocateKernelMemory error");
-    }
-        
-    bootArgs->ksize = gImageLastKernelAddr - bootArgs->kaddr;
+	if ( gImageLastKernelAddr >= (KERNEL_ADDR + KERNEL_LEN) ) {
+		stop ("AllocateKernelMemory error");
+	}
 
-    return addr;
+	bootArgs->ksize = gImageLastKernelAddr - bootArgs->kaddr;
+
+	return addr;
 }

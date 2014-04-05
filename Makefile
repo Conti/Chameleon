@@ -6,6 +6,7 @@ DSTROOT = $(SRCROOT)/dst
 DOCROOT = $(SRCROOT)/doc
 IMGSKELROOT = $(SRCROOT)/imgskel
 CDBOOT = ${IMGROOT}/usr/standalone/i386/cdboot
+PKG_BUILD_DIR = $(SYMROOT)/package
 
 include Make.rules
 
@@ -13,8 +14,8 @@ include Make.rules
 THEME = default
 
 VERSION = `cat ${SRCROOT}/version`
-MYHACKVERSION = `cat ${SRCROOT}/myhackversion`
-PRODUCT = Chameleon-$(VERSION)
+REVISION = `cat ${SRCROOT}/revision`
+PRODUCT = Chameleon-$(VERSION)-r$(REVISION)
 CDLABEL = ${PRODUCT}
 ISOIMAGE = ${SYMROOT}/${CDLABEL}.iso
 DISTFILE = ${SYMROOT}/${PRODUCT}
@@ -33,13 +34,16 @@ GENERIC_SUBDIRS =
 SUBDIRS = $(GENERIC_SUBDIRS) i386
 DIST_SUBDIRS = $(SUBDIRS)
 
+$(SRCROOT)/revision:
+	@svnversion -n | tr -d [:alpha:] > $(SRCROOT)/revision
+
 #
 # Currently builds for i386
 #
 config rebuild_config:
 	@make -C $(SRCROOT)/i386/config $@
 
-all: $(SYMROOT) $(OBJROOT) $(CONFIG_HEADERS) $(HEADER_VERSION) $(SRCROOT)/myhackversion
+all: $(SYMROOT) $(OBJROOT) $(CONFIG_HEADERS) $(HEADER_VERSION) $(SRCROOT)/revision
 	@$(MAKE) all-recursive
 
 dist image: all
@@ -98,7 +102,8 @@ endif
 clean-local:
 	@if [ -d "$(PKG_BUILD_DIR)" ];then echo "\t[RMDIR] $(PKG_BUILD_DIR)"; fi
 	@if [ -f "$(HEADER_VERSION)" ];then echo "\t[RM] $(HEADER_VERSION)"; fi
-	@rm -rf "$(HEADER_VERSION)"
+	@if [ -f "$(SRCROOT)/revision" ];then echo "\t[RM] $(SRCROOT)/revision"; fi
+	@rm -rf "$(PKG_BUILD_DIR)" $(HEADER_VERSION) $(SRCROOT)/revision
 
 AUTOCONF_FILES = $(SRCROOT)/auto.conf    $(SRCROOT)/autoconf.h \
 				 $(SRCROOT)/autoconf.inc $(SRCROOT)/.config $(SRCROOT)/.config.old
@@ -115,6 +120,10 @@ distclean-local:
             $(SRCROOT)/i386/modules/module_includes \
             $(AUTOCONF_FILES)
 
+pkg installer: all
+	@echo "================= Building Package ================="
+	@${SRCROOT}/package/buildpkg.sh "$(SRCROOT)" "$(SYMROOT)" "$(PKG_BUILD_DIR)"
+
 help:
 	@echo   'Configuration target:'
 	@echo   '  config    - Show configuration menu'
@@ -122,6 +131,7 @@ help:
 	@echo   'Build targets:'
 	@echo   '  all       - Build all targets [DEFAULT]'
 	@echo   '  dist      - Build distribution tarball'
+	@echo   '  pkg       - Build installer package'
 	@echo
 	@echo   'Cleaning targets:'
 	@echo   '  clean     - Remove most generated files'
@@ -133,5 +143,6 @@ help:
 .PHONY: config
 .PHONY: clean
 .PHONY: image
+.PHONY: pkg
 .PHONY: installer
 .PHONY: help

@@ -881,8 +881,13 @@ const char *sym_expand_string_value(const char *in)
 
 		newlen = strlen(res) + strlen(symval) + strlen(src) + 1;
 		if (newlen > reslen) {
+			char* newres = NULL;
+			if (!(newres = realloc(res, newlen))) {
+				/* TODO: handle error gracefully - for now, punt */
+				break;
+			}
+			res = newres;
 			reslen = newlen;
-			res = realloc(res, reslen);
 		}
 
 		strcat(res, symval);

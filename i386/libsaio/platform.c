@@ -37,30 +37,34 @@ bool platformCPUFeature(uint32_t feature)
 }
 
 /** scan mem for memory autodection purpose */
-void scan_mem() {
-    static bool done = false;
-    if (done) return;
+void scan_mem()
+{
+	static bool done = false;
+	if (done) {
+		return;
+	}
 
 	/* our code only works on Intel chipsets so make sure here */
-	if (pci_config_read16(PCIADDR(0, 0x00, 0), 0x00) != 0x8086)
+	if (pci_config_read16(PCIADDR(0, 0x00, 0), 0x00) != 0x8086) {
 		bootInfo->memDetect = false;
-    else
+	} else {
 		bootInfo->memDetect = true;
+	}
 	/* manually */
-    getBoolForKey(kUseMemDetect, &bootInfo->memDetect, &bootInfo->chameleonConfig);
+	getBoolForKey(kUseMemDetect, &bootInfo->memDetect, &bootInfo->chameleonConfig);
 
-    if (bootInfo->memDetect) {
+	if (bootInfo->memDetect) {
 		if (dram_controller_dev != NULL) {
 			scan_dram_controller(dram_controller_dev); // Rek: pci dev ram controller direct and fully informative scan ...
 		}
-        scan_spd(&Platform);
-    }
-    done = true;
+		scan_spd(&Platform);
+	}
+	done = true;
 }
 
-/** 
-    Scan platform hardware information, called by the main entry point (common_boot() ) 
-    _before_ bootConfig xml parsing settings are loaded
+/*
+ * Scan platform hardware information, called by the main entry point (common_boot() ) 
+ * _before_ bootConfig xml parsing settings are loaded
 */
 void scan_platform(void)
 {

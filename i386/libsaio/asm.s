@@ -82,7 +82,7 @@
  * New boot0 (boot1 has been deprecated). Booter must now reside in its own partition, no disk label required.
  *
  * Revision 1.1.1.2  1999/08/04 21:16:57  wsanchez
- * Impoort of boot-66
+ * Import of boot-66
  *
  * Revision 1.3  1999/08/04 21:12:12  wsanchez
  * Update APSL
@@ -348,7 +348,7 @@ LABEL(_startprog)
     push    %ebp
     mov     %esp, %ebp
 
-    mov     0xc(%ebp), %eax  // argument to program
+    mov     0xc(%ebp), %eax  // argument to program - bootargs to mach_kernel
     mov     0x8(%ebp), %ecx  // entry offset 
     mov     $0x28, %ebx      // segment
     push    %ebx

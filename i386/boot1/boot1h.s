@@ -25,7 +25,7 @@
 ; This program is designed to reside in sector 0+1 of an HFS+ partition.
 ; It expects that the MBR has left the drive number in DL
 ; and a pointer to the partition entry in SI.
-; 
+;
 ; This version requires a BIOS with EBIOS (LBA) support.
 ;
 ; This code is written for the NASM assembler.
@@ -256,7 +256,7 @@ kForkTypeResource	EQU		0xFF
 .fileMode			resw	1
 .special			resd	1
 					endstruc
-					
+
 ;
 ; FileInfo
 ;
@@ -368,6 +368,7 @@ start:
     ; Set up the stack to grow down from kBoot1StackSegment:kBoot1StackAddress.
     ; Interrupts should be off while the stack is being manipulated.
     ;
+
     cli                             ; interrupts off
     xor		ax, ax                  ; zero ax
     mov		ss, ax                  ; ss <- 0
@@ -510,7 +511,7 @@ hang:
 ; Arguments:
 ;   AX = number of 512-byte sectors to read (valid from 1-1280).
 ;   EDX = pointer to where the sectors should be stored.
-;   ECX = sector offset in partition 
+;   ECX = sector offset in partition
 ;
 ; Returns:
 ;   CF = 0  success
@@ -546,7 +547,7 @@ readSectors:
 ; Arguments:
 ;   AL = number of 512-byte sectors to read (valid from 1-127).
 ;   EDX = pointer to where the sectors should be stored.
-;   ECX = sector offset in partition 
+;   ECX = sector offset in partition
 ;   [bios_drive_number] = drive number (0x80 + unit number)
 ;
 ; Returns:
@@ -656,7 +657,7 @@ log_string:
     call	print_string
 
     popad
-    
+
     ret
 
 ;-------------------------------------------------------------------------
@@ -714,7 +715,7 @@ print_hex:
 
     popad
     ret
-	
+
 print_nibble:
     and     al, 0x0f
     add     al, '0'
@@ -773,7 +774,7 @@ ConvertStrToUni:
     inc		cl								; increment string length count
     cmp		al, NULL						; check for string terminator
     jne		.loop
-    
+
     pop		di								; restore unicode string length pointer
     dec		cl								; ignoring terminator from length count
     mov		[di], cl						; save string length
@@ -842,15 +843,15 @@ ConvertHFSUniStr255ToLE:
 ;
 compareHFSPlusExtentKeys:
 	pushad
-	
+
 	mov		dl, 0							; DL = result of comparison, DH = bestGuess
 	mov		eax, [si + HFSPlusExtentKey.fileID]
 	cmp		eax, [di + HFSPlusExtentKey.fileID]
 	jne		.checkFlags
-	
+
 	cmp		BYTE [si + HFSPlusExtentKey.forkType], kForkTypeData
 	jne		.checkFlags
-	
+
 	mov		eax, [si + HFSPlusExtentKey.startBlock]
 	cmp		eax, [di + HFSPlusExtentKey.startBlock]
 	je		compareHFSPlusCatalogKeys.exit
@@ -913,10 +914,10 @@ compareHFSPlusCatalogKeys:
 .trialKeyGreater:
     dec		dl
     jmp		.exit
-    
+
 .searchKeyGreater:
     inc		dl
-	
+
 .exit:
 	mov		[bp + BTree.searchResult], dl
     cmp		dl, 0							; set flags to check relation between keys

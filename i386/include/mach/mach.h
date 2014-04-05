@@ -49,9 +49,7 @@
  * 
  * any improvements or extensions that they make and grant Carnegie Mellon
  * the rights to redistribute these changes.
- */
-
-/* 
+ *
  *  Includes all the types that a normal user
  *  of Mach programs should need
  */

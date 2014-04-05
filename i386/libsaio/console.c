@@ -50,8 +50,8 @@
 
 extern int	vprf(const char * fmt, va_list ap);
 
-bool gVerboseMode;
-bool gErrors;
+bool gVerboseMode = false;
+bool gErrors = false;
 
 /*
  *  Azi: Doubled available log size; this seems to fix some hangs and instant reboots caused by
@@ -69,8 +69,8 @@ char *cursor = 0;
 
 struct putc_info //Azi: exists on gui.c & printf.c
 {
-    char * str;
-    char * last_str;
+	char * str;
+	char * last_str;
 };
 
 static int
@@ -83,7 +83,7 @@ sputc(int c, struct putc_info * pi) //Azi: same as above
 		return 0;
 	}
 	*(pi->str)++ = c;
-    return c;
+	return c;
 }
 
 void initBooterLog(void)
@@ -91,7 +91,7 @@ void initBooterLog(void)
 	msgbuf = malloc(BOOTER_LOG_SIZE);
 	bzero(msgbuf, BOOTER_LOG_SIZE);
 	cursor = msgbuf;
-	msglog("%s\n", "Chameleon " I386BOOT_CHAMELEONVERSION " - myHack " I386BOOT_MYHACKVERSION " [" I386BOOT_BUILDDATE "]");
+	msglog("%s\n", "Chameleon " I386BOOT_CHAMELEONVERSION " (svn-r" I386BOOT_CHAMELEONREVISION ")" " [" I386BOOT_BUILDDATE "]");
 }
 
 void msglog(const char * fmt, ...)
@@ -99,11 +99,13 @@ void msglog(const char * fmt, ...)
 	va_list ap;
 	struct putc_info pi;
 
-	if (!msgbuf)
+	if (!msgbuf) {
 		return;
+	}
 
-	if (((cursor - msgbuf) > (BOOTER_LOG_SIZE - SAFE_LOG_SIZE)))
+	if (((cursor - msgbuf) > (BOOTER_LOG_SIZE - SAFE_LOG_SIZE))) {
 		return;
+	}
 
 	va_start(ap, fmt);
 	pi.str = cursor;
@@ -115,8 +117,9 @@ void msglog(const char * fmt, ...)
 
 void setupBooterLog(void)
 {
-	if (!msgbuf)
+	if (!msgbuf) {
 		return;
+	}
 
 	Node *node = DT__FindNode("/", false);
 	if (node)
@@ -129,30 +132,29 @@ void setupBooterLog(void)
  */
 int putchar(int c)
 {
-	if ( c == '\t' )
-	{
+	if ( c == '\t' ) {
 		for (c = 0; c < 8; c++) bios_putchar(' ');
 		return c;
 	}
 
-	if ( c == '\n' )
-    {
+	if ( c == '\n' ) {
 		bios_putchar('\r');
-    }
+	}
 
 	bios_putchar(c);
     
-    return c;
+	return c;
 }
 
 int getc()
 {
-    int c = bgetc();
+	int c = bgetc();
 
-    if ((c & 0xff) == 0)
-        return c;
-    else
-        return (c & 0xff);
+	if ((c & 0xff) == 0) {
+		return c;
+	} else {
+		return (c & 0xff);
+	}
 }
 
 // Read and echo a character from console.  This doesn't echo backspace
@@ -165,28 +167,31 @@ int getchar()
 //	if ( c == '\r' ) c = '\n';
 
 //	if ( c >= ' ' && c < 0x7f) putchar(c);
-	
+
 	return (c);
 }
 
 int printf(const char * fmt, ...)
 {
-    va_list ap;
+	va_list ap;
 	va_start(ap, fmt);
-	if (bootArgs->Video.v_display == VGA_TEXT_MODE)
+	if (bootArgs->Video.v_display == VGA_TEXT_MODE) {
 		prf(fmt, ap, putchar, 0);
-	else
+	} else {
 		vprf(fmt, ap);
+	}
 
 	{
 		// Kabyl: BooterLog
 		struct putc_info pi;
 
-		if (!msgbuf)
+		if (!msgbuf) {
 			return 0;
+		}
 
-		if (((cursor - msgbuf) > (BOOTER_LOG_SIZE - SAFE_LOG_SIZE)))
+		if (((cursor - msgbuf) > (BOOTER_LOG_SIZE - SAFE_LOG_SIZE))) {
 			return 0;
+		}
 		pi.str = cursor;
 		pi.last_str = 0;
 		prf(fmt, ap, sputc, &pi);
@@ -194,52 +199,55 @@ int printf(const char * fmt, ...)
 	}
 
 	va_end(ap);
-    return 0;
+	return 0;
 }
 
 int verbose(const char * fmt, ...)
 {
-    va_list ap;
+	va_list ap;
 
 	va_start(ap, fmt);
-    if (gVerboseMode)
-    {
-		if (bootArgs->Video.v_display == VGA_TEXT_MODE)
+	if (gVerboseMode) {
+		if (bootArgs->Video.v_display == VGA_TEXT_MODE) {
 			prf(fmt, ap, putchar, 0);
-		else
+		} else {
 			vprf(fmt, ap);
-    }
+		}
+	}
 
 	{
 		// Kabyl: BooterLog
 		struct putc_info pi;
 
-		if (!msgbuf)
+		if (!msgbuf) {
 			return 0;
+		}
 
-		if (((cursor - msgbuf) > (BOOTER_LOG_SIZE - SAFE_LOG_SIZE)))
+		if (((cursor - msgbuf) > (BOOTER_LOG_SIZE - SAFE_LOG_SIZE))) {
 			return 0;
+		}
 		pi.str = cursor;
 		pi.last_str = 0;
 		prf(fmt, ap, sputc, &pi);
 		cursor +=  strlen((char *)cursor);
 	}
 
-    va_end(ap);
-    return(0);
+	va_end(ap);
+	return(0);
 }
 
 int error(const char * fmt, ...)
 {
-    va_list ap;
-    gErrors = true;
-    va_start(ap, fmt);
-	if (bootArgs->Video.v_display == VGA_TEXT_MODE)
+	va_list ap;
+	gErrors = true;
+	va_start(ap, fmt);
+	if (bootArgs->Video.v_display == VGA_TEXT_MODE) {
 		prf(fmt, ap, putchar, 0);
-    else
+	} else {
 		vprf(fmt, ap);
+	}
 	va_end(ap);
-    return(0);
+	return(0);
 }
 
 void stop(const char * fmt, ...)

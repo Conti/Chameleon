@@ -73,7 +73,7 @@ printn(n, b, flag, minwidth, putfn_p, putfn_arg)
 	}
 	cp = prbuf;
 	do {
-                *cp++ = "0123456789abcdef0123456789ABCDEF"[(flag & UCASE) + n%b];
+		*cp++ = "0123456789abcdef0123456789ABCDEF"[(flag & UCASE) + n%b];
 		n /= b;
 		width++;
 	} while (n);
@@ -84,7 +84,7 @@ printn(n, b, flag, minwidth, putfn_p, putfn_arg)
 	}
 	while (width++ < minwidth)
 		(*putfn_p)( (flag & ZERO) ? '0' : ' ', putfn_arg);
-		
+	
 	do
 		(*putfn_p)(*--cp, putfn_arg);
 	while (cp > prbuf);
@@ -100,7 +100,7 @@ void prf(
 	int b, c;
 	char *s;
 	int flag = 0, width = 0;
-        int minwidth;
+	int minwidth;
 
 loop:
 	while ((c = *fmt++) != '%') {

@@ -1,0 +1,57 @@
+#!/bin/bash
+
+set -u
+
+targetVolume="$3"
+
+key="@optionKey@"
+value="@optionValue@"
+type="@optionType@"
+logName="@LOG_FILENAME@"
+logFile="${targetVolume}/$logName"
+
+# Check if target volume exists
+if [[ ! -d "$targetVolume" ]]; then
+    echo "$targetVolume volume does not exist!" >&2
+    exit 1
+fi
+
+exec >>"${logFile}" 2>&1
+
+echo "Added boot option: ${key}=${value}"
+
+key="${key// /\\ }"     # Escape spaces
+value="${value// /\\ }" # Escape spaces
+
+bootPListFile="${targetVolume}/Extra/org.chameleon.Boot.plist"
+
+case "$type" in
+    bool|text)
+          /usr/libexec/plistbuddy -c "Add :${key} string ${value}" "$bootPListFile"
+          ;;
+    list)
+          current_values=$( /usr/libexec/plistbuddy -c "Print :${key}" \
+           "$bootPListFile" 2>/dev/null )
+          result=$?
+          current_values="${current_values// /\\ }"    # Escape spaces
+          current_values="${current_values//\"/\\\"}"  # Escape double quotes
+
+          if [[ $result -eq 0 ]]; then
+              # Append our new values
+              if [[ "$current_values" = "" ]]; then
+                  new_values="${value}"
+              else
+                  new_values="${current_values}\ ${value}"
+              fi
+              /usr/libexec/plistbuddy -c "Set :${key} ${new_values}" \
+               "$bootPListFile"
+          else
+              # Create a new option
+              new_values="${value}"
+              /usr/libexec/plistbuddy -c "Add :${key} string ${new_values}" \
+               "$bootPListFile"
+          fi
+          ;;
+esac
+
+exit 0

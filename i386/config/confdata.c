@@ -16,6 +16,16 @@
 #define LKC_DIRECT_LINK
 #include "lkc.h"
 
+#define max(a, b) ({\
+		typeof(a) _a = a;\
+		typeof(b) _b = b;\
+		_a > _b ? _a : _b; })
+
+#define min(a, b) ({\
+		typeof(a) _a = a;\
+		typeof(b) _b = b;\
+		_a < _b ? _a : _b; })
+
 static void conf_warning(const char *fmt, ...)
 	__attribute__ ((format (printf, 1, 2)));
 
@@ -75,29 +85,47 @@ const char *conf_get_autoconfig_name(void)
 	return name ? name : "auto.conf";
 }
 
+/* TODO: figure out if symbols are always null-terminated */
 static char *conf_expand_value(const char *in)
 {
-	struct symbol *sym;
+	static char res_value[SYMBOL_MAXLENGTH + 1];
+	char name[SYMBOL_MAXLENGTH];
+	size_t res_rem = SYMBOL_MAXLENGTH;
+	char *res_ptr = res_value;
 	const char *src;
-	static char res_value[SYMBOL_MAXLENGTH];
-	char *dst, name[SYMBOL_MAXLENGTH];
-
-	res_value[0] = 0;
-	dst = name;
+	*res_ptr = 0;
+	res_ptr[SYMBOL_MAXLENGTH] = 0;
 	while ((src = strchr(in, '$'))) {
-		strncat(res_value, in, src - in);
+		struct symbol *sym;
+		const char *symval;
+		char *name_ptr = name;
+		size_t n = min(res_rem, src - in);
+
+		res_ptr = stpncpy(res_ptr, in, n);
+		if (!(res_rem -= n)) {
+			return res_value; /* buffer full, quit now */
+		}
 		src++;
-		dst = name;
-		while (isalnum(*src) || *src == '_')
-			*dst++ = *src++;
-		*dst = 0;
+
+		*name_ptr = 0;
+		while (isalnum(*src) || *src == '_') {
+			*name_ptr++ = *src++;
+		}
+		*name_ptr = 0;
+
 		sym = sym_lookup(name, 0);
 		sym_calc_value(sym);
-		strcat(res_value, sym_get_string_value(sym));
+		symval = sym_get_string_value(sym);
+		n = min(res_rem, strlen(symval));
+
+		res_ptr = stpncpy(res_ptr, symval, n);
+		if (!(res_rem -= n)) {
+			return res_value; /* buffer full, quit now */
+		}
 		in = src;
 	}
-	strcat(res_value, in);
 
+	strncpy(res_ptr, in, res_rem + 1);
 	return res_value;
 }
 
@@ -110,7 +138,7 @@ char *conf_get_default_confname(void)
 	name = conf_expand_value(conf_defname);
 	env = getenv(SRCTREE);
 	if (env) {
-		sprintf(fullname, "%s/%s", env, name);
+		snprintf(fullname, PATH_MAX+1, "%s/%s", env, name);
 		if (!stat(fullname, &buf))
 			return fullname;
 	}
@@ -570,38 +598,41 @@ int conf_write(const char *name)
 		char *slash;
 
 		if (!stat(name, &st) && S_ISDIR(st.st_mode)) {
-			strcpy(dirname, name);
-			strcat(dirname, "/");
+			/* FIXME: add length check */
+			strcpy(stpcpy(dirname, name), "/");
 			basename = conf_get_configname();
 		} else if ((slash = strrchr(name, '/'))) {
-			int size = slash - name + 1;
+			size_t size = slash - name + 1;
 			memcpy(dirname, name, size);
 			dirname[size] = 0;
-			if (slash[1])
+			if (slash[1]) {
 				basename = slash + 1;
-			else
+			} else {
 				basename = conf_get_configname();
-		} else
+			}
+		} else {
 			basename = name;
-	} else
+		}
+	} else {
 		basename = conf_get_configname();
-
-	sprintf(newname, "%s%s", dirname, basename);
+	}
+	snprintf(newname, PATH_MAX+1, "%s%s", dirname, basename);
 	env = getenv("KCONFIG_OVERWRITECONFIG");
 	if (!env || !*env) {
-		sprintf(tmpname, "%s.tmpconfig.%d", dirname, (int)getpid());
+		snprintf(tmpname, PATH_MAX+1, "%s.tmpconfig.%d", dirname, (int)getpid());
 		out = fopen(tmpname, "w");
 	} else {
 		*tmpname = 0;
 		out = fopen(newname, "w");
 	}
-	if (!out)
+	if (!out) {
 		return 1;
-
+	}
 	time(&now);
 	env = getenv("KCONFIG_NOTIMESTAMP");
-	if (env && *env)
+	if (env && *env) {
 		use_timestamp = 0;
+	}
 
 	fprintf(out, _("#\n"
 		       "# Automatically generated make config: don't edit\n"
@@ -640,9 +671,9 @@ next:
 			menu = menu->list;
 			continue;
 		}
-		if (menu->next)
+		if (menu->next) {
 			menu = menu->next;
-		else while ((menu = menu->parent)) {
+		} else while ((menu = menu->parent)) {
 			if (menu->next) {
 				menu = menu->next;
 				break;
@@ -655,8 +686,9 @@ next:
 		strcat(dirname, basename);
 		strcat(dirname, ".old");
 		rename(newname, dirname);
-		if (rename(tmpname, newname))
+		if (rename(tmpname, newname)) {
 			return 1;
+		}
 	}
 
 //	conf_message(_("configuration written to %s"), newname);
@@ -810,7 +842,7 @@ int conf_write_autoconf(void)
 	}
 
     out_inc = fopen(".tmpconfig.inc", "w");
-	if (!out_h) {
+	if (!out_inc) {
 		fclose(out);
         fclose(out_h);
 		return 1;
@@ -902,6 +934,7 @@ int conf_write_autoconf(void)
 	}
 	fclose(out);
 	fclose(out_h);
+	fclose(out_inc);
 
 	name = getenv("CCONFIG_AUTOHEADER");
 	if (!name) name = "autoconf.h";

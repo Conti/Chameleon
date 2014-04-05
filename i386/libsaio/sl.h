@@ -39,22 +39,22 @@
 
 // File Permissions and Types
 enum {
-    kPermOtherExecute  = 1 << 0,
-    kPermOtherWrite    = 1 << 1,
-    kPermOtherRead     = 1 << 2,
-    kPermGroupExecute  = 1 << 3,
-    kPermGroupWrite    = 1 << 4,
-    kPermGroupRead     = 1 << 5,
-    kPermOwnerExecute  = 1 << 6,
-    kPermOwnerWrite    = 1 << 7,
-    kPermOwnerRead     = 1 << 8,
-    kPermMask          = 0x1FF,
-    kOwnerNotRoot      = 1 << 9,
-    kFileTypeUnknown   = 0x0 << 16,
-    kFileTypeFlat      = 0x1 << 16,
-    kFileTypeDirectory = 0x2 << 16,
-    kFileTypeLink      = 0x3 << 16,
-    kFileTypeMask      = 0x3 << 16
+	kPermOtherExecute  = 1 << 0,
+	kPermOtherWrite    = 1 << 1,
+	kPermOtherRead     = 1 << 2,
+	kPermGroupExecute  = 1 << 3,
+	kPermGroupWrite    = 1 << 4,
+	kPermGroupRead     = 1 << 5,
+	kPermOwnerExecute  = 1 << 6,
+	kPermOwnerWrite    = 1 << 7,
+	kPermOwnerRead     = 1 << 8,
+	kPermMask          = 0x1FF,
+	kOwnerNotRoot      = 1 << 9,
+	kFileTypeUnknown   = 0x0 << 16,
+	kFileTypeFlat      = 0x1 << 16,
+	kFileTypeDirectory = 0x2 << 16,
+	kFileTypeLink      = 0x3 << 16,
+	kFileTypeMask      = 0x3 << 16
 };
 
 #define Seek(c, p)     diskSeek(c, p);

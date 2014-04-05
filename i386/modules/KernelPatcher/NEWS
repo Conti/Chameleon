@@ -1,0 +1,4 @@
+KernelPatcher Release Notes
+
+========= Version 1.2.0 =======
+* Enables lapic panic removal on both 32 and 64bit kernels.

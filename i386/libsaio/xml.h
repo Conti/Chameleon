@@ -26,16 +26,16 @@
 #define __LIBSAIO_XML_H
 
 enum xmltype {
-  kTagTypeNone = 0,
-  kTagTypeDict,
-  kTagTypeKey,
-  kTagTypeString,
-  kTagTypeInteger,
-  kTagTypeData,
-  kTagTypeDate,
-  kTagTypeFalse,
-  kTagTypeTrue,
-  kTagTypeArray
+	kTagTypeNone = 0,
+	kTagTypeDict,
+	kTagTypeKey,
+	kTagTypeString,
+	kTagTypeInteger,
+	kTagTypeData,
+	kTagTypeDate,
+	kTagTypeFalse,
+	kTagTypeTrue,
+	kTagTypeArray
 };
 
 struct string_ref
@@ -48,19 +48,20 @@ typedef struct string_ref string_ref;
 
 extern string_ref* ref_strings;
 
-#define kXMLTagPList   "plist "
-#define kXMLTagDict    "dict"
-#define kXMLTagKey     "key"
-#define kXMLTagString  "string"
-#define kXMLTagInteger "integer"
-#define kXMLTagData    "data"
-#define kXMLTagDate    "date"
-#define kXMLTagFalse   "false/"
-#define kXMLTagTrue    "true/"
-#define kXMLTagArray   "array"
-
-#define kXMLStringID	"ID="
-#define kXMLStringIDRef "IDREF="
+#define kXMLTagPList        "plist "
+#define kXMLTagDict         "dict"
+#define kXMLTagKey          "key"
+#define kXMLTagString       "string"
+#define kXMLTagInteger      "integer"
+#define kXMLTagData         "data"
+#define kXMLTagDate         "date"
+#define kXMLTagFalse        "false/"
+#define kXMLTagTrue         "true/"
+#define kXMLTagArray        "array"
+// for back-references used by libkern serializer
+#define kXMLTagReference    "reference"
+#define kXMLStringID        "ID="
+#define kXMLStringIDRef     "IDREF="
 
 #define kPropCFBundleIdentifier ("CFBundleIdentifier")
 #define kPropCFBundleExecutable ("CFBundleExecutable")
@@ -71,10 +72,10 @@ extern string_ref* ref_strings;
 
 /*
 struct Tag {
-  long       type;
-  char       *string;
-  struct Tag *tag;
-  struct Tag *tagNext;
+	long       type;
+	char       *string;
+	struct Tag *tag;
+	struct Tag *tagNext;
 };
 typedef struct Tag Tag, *TagPtr;
  */

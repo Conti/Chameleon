@@ -16,7 +16,7 @@ struct smbus_controllers_t {
 	uint32_t	vendor;
 	uint32_t	device;
 	char		*name;
-    void (*read_smb)(pci_dt_t *smbus_dev);
+	void (*read_smb)(pci_dt_t *smbus_dev);
 };
 
 
@@ -38,6 +38,7 @@ struct smbus_controllers_t {
 /* Byte numbers. */
 #define SPD_NUM_MANUFACTURER_BYTES          0  /* Number of bytes used by module manufacturer */
 #define SPD_TOTAL_SPD_MEMORY_SIZE           1  /* Total SPD memory size */
+// (Essentially) common to DDR & DDR2
 #define SPD_MEMORY_TYPE                     2  /* (Fundamental) memory type */
 #define SPD_NUM_ROWS                        3  /* Number of row address bits */
 #define SPD_NUM_COLUMNS                     4  /* Number of column address bits */
@@ -130,6 +131,9 @@ struct smbus_controllers_t {
 #define ERROR_SCHEME_NONE					0
 #define ERROR_SCHEME_PARITY					1
 #define ERROR_SCHEME_ECC					2
+#define DDR2_DATA_PARITY					(1<<0)
+#define DDR2_DATA_ECC						(1<<1)
+#define DDR2_ADDRESS_PARITY					(1<<2)
 
 /* SPD_ACCEPTABLE_CAS_LATENCIES values. */
 // TODO: Check values.
@@ -141,6 +145,7 @@ struct smbus_controllers_t {
 #define SPD_CAS_LATENCY_3_5					0x20
 #define SPD_CAS_LATENCY_4_0					0x40
 
+#define SPD_CAS_LATENCY_DDR2_2				(1 << 2)
 #define SPD_CAS_LATENCY_DDR2_3				(1 << 3)
 #define SPD_CAS_LATENCY_DDR2_4				(1 << 4)
 #define SPD_CAS_LATENCY_DDR2_5				(1 << 5)

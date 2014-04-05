@@ -31,9 +31,9 @@
 // #include <fs.h>
 
 struct CacheEntry {
-  CICell    ih;
-  long      time;
-  long long offset;
+	CICell    ih;
+	long      time;
+	long long offset;
 };
 typedef struct CacheEntry CacheEntry;
 
@@ -48,128 +48,155 @@ static long       gCacheNumEntries;
 static long       gCacheTime;
 
 #ifdef __i386__
-static CacheEntry *gCacheEntries;
-static char       *gCacheBuffer;
+	static CacheEntry *gCacheEntries;
+	static char       *gCacheBuffer;
 #else
-static CacheEntry gCacheEntries[kCacheMaxEntries];
-static char       gCacheBuffer[kCacheSize];
+	static CacheEntry gCacheEntries[kCacheMaxEntries];
+	static char       gCacheBuffer[kCacheSize];
 #endif
 
 #if CACHE_STATS
-unsigned long     gCacheHits;
-unsigned long     gCacheMisses;
-unsigned long     gCacheEvicts;
+	unsigned long     gCacheHits;
+	unsigned long     gCacheMisses;
+	unsigned long     gCacheEvicts;
 #endif
 
 void CacheReset()
 {
-    gCacheIH = NULL;
+	gCacheIH = NULL;
 }
 
 void CacheInit( CICell ih, long blockSize )
 {
 #ifdef __i386__
-    if ((ih == gCacheIH) && (blockSize == gCacheBlockSize))
-        return;
+	if ((ih == gCacheIH) && (blockSize == gCacheBlockSize))
+	{
+		return;
+	}
 #endif
 
-    if ((blockSize  < kCacheMinBlockSize) ||
-        (blockSize > kCacheMaxBlockSize))
-        return;
+	if ((blockSize  < kCacheMinBlockSize) || (blockSize > kCacheMaxBlockSize))
+	{
+		return;
+	}
 
-    gCacheBlockSize = blockSize;
-    gCacheNumEntries = kCacheSize / gCacheBlockSize;
-    gCacheTime = 0;
+	gCacheBlockSize = blockSize;
+	gCacheNumEntries = kCacheSize / gCacheBlockSize;
+	gCacheTime = 0;
     
 #if CACHE_STATS
-    gCacheHits = 0;
-    gCacheMisses = 0;
-    gCacheEvicts = 0;
+	gCacheHits	= 0;
+	gCacheMisses	= 0;
+	gCacheEvicts	= 0;
 #endif
 
     gCacheIH = ih;
 
 #ifdef __i386__
-    if (!gCacheBuffer) gCacheBuffer = (char *) malloc(kCacheSize);
-    if (!gCacheEntries) gCacheEntries = (CacheEntry *) malloc(kCacheMaxEntries * sizeof(CacheEntry));
-    if ( !gCacheBuffer || !gCacheEntries )
-    {
-        gCacheIH = 0;  // invalidate cache
-        return;
-    }
+	if (!gCacheBuffer)
+	{
+		gCacheBuffer = (char *) malloc(kCacheSize);
+	}
+
+	if (!gCacheEntries)
+	{
+		gCacheEntries = (CacheEntry *) malloc(kCacheMaxEntries * sizeof(CacheEntry));
+	}
+
+	if (!gCacheBuffer || !gCacheEntries)
+	{
+		gCacheIH = 0;  // invalidate cache
+		return;
+	}
 #endif
 
-    bzero(gCacheEntries, kCacheMaxEntries * sizeof(CacheEntry));
+	bzero(gCacheEntries, kCacheMaxEntries * sizeof(CacheEntry));
 }
 
-long CacheRead( CICell ih, char * buffer, long long offset,
-	            long length, long cache )
+long CacheRead(CICell ih, char * buffer, long long offset, long length, long cache)
 {
-    long       cnt, oldestEntry = 0, oldestTime, loadCache = 0;
-    CacheEntry *entry;
+	long cnt, oldestEntry = 0, oldestTime, loadCache = 0;
+	CacheEntry *entry;
 
-    // See if the data can be cached.
-    if (cache && (gCacheIH == ih) && (length == gCacheBlockSize)) {
-        // Look for the data in the cache.
-        for (cnt = 0; cnt < gCacheNumEntries; cnt++) {
-            entry = &gCacheEntries[cnt];
-            if ((entry->ih == ih) && (entry->offset == offset)) {
-                entry->time = ++gCacheTime;
-                break;
-            }
-        }
+	// See if the data can be cached.
+	if (cache && (gCacheIH == ih) && (length == gCacheBlockSize))
+	{
+		// Look for the data in the cache.
+		for (cnt = 0; cnt < gCacheNumEntries; cnt++)
+		{
+			entry = &gCacheEntries[cnt];
 
-        // If the data was found copy it to the caller.
-        if (cnt != gCacheNumEntries) {
-            bcopy(gCacheBuffer + cnt * gCacheBlockSize, buffer, gCacheBlockSize);
+			if ((entry->ih == ih) && (entry->offset == offset))
+			{
+				entry->time = ++gCacheTime;
+				break;
+			}
+		}
+
+		// If the data was found copy it to the caller.
+		if (cnt != gCacheNumEntries)
+		{
+			bcopy(gCacheBuffer + cnt * gCacheBlockSize, buffer, gCacheBlockSize);
 #if CACHE_STATS
-            gCacheHits++;
+			gCacheHits++;
 #endif
-            return gCacheBlockSize;
-        }
+			return gCacheBlockSize;
+		}
 
-        // Could not find the data in the cache.
-        loadCache = 1;
-    }
+		// Could not find the data in the cache.
+		loadCache = 1;
+	}
 
-    // Read the data from the disk.
-    Seek(ih, offset);
-    Read(ih, (long)buffer, length);
+	// Read the data from the disk.
+	Seek(ih, offset);
+	Read(ih, (long)buffer, length);
+
 #if CACHE_STATS
-    if (cache) gCacheMisses++;
+	if (cache)
+	{
+		gCacheMisses++;
+	}
 #endif
 
-    // Put the data from the disk in the cache if needed.
-    if (loadCache) {
-        // Find a free entry.
-        oldestTime = gCacheTime;
-        for (cnt = 0; cnt < gCacheNumEntries; cnt++) {
-            entry = &gCacheEntries[cnt];
+	// Put the data from the disk in the cache if needed.
+	if (loadCache)
+	{
+		// Find a free entry.
+		oldestTime = gCacheTime;
 
-            // Found a free entry.
-            if (entry->ih == 0) break;
-        
-            if (entry->time < oldestTime) {
-                oldestTime = entry->time;
-                oldestEntry = cnt;
-            }
-        }
+		for (cnt = 0; cnt < gCacheNumEntries; cnt++)
+		{
+			entry = &gCacheEntries[cnt];
 
-        // If no free entry was found, use the oldest.
-        if (cnt == gCacheNumEntries) {
-            cnt = oldestEntry;
+			// Found a free entry.
+			if (entry->ih == 0)
+			{
+				break;
+			}
+
+			if (entry->time < oldestTime)
+			{
+				oldestTime = entry->time;
+				oldestEntry = cnt;
+			}
+		}
+
+		// If no free entry was found, use the oldest.
+		if (cnt == gCacheNumEntries)
+		{
+			cnt = oldestEntry;
 #if CACHE_STATS
-            gCacheEvicts++;
+			gCacheEvicts++;
 #endif
-        }
+		}
 
-        // Copy the data from disk to the new entry.
-        entry = &gCacheEntries[cnt];
-        entry->ih = ih;
-        entry->time = ++gCacheTime;
-        entry->offset = offset;
-        bcopy(buffer, gCacheBuffer + cnt * gCacheBlockSize, gCacheBlockSize);
-    }
+		// Copy the data from disk to the new entry.
+		entry = &gCacheEntries[cnt];
+		entry->ih = ih;
+		entry->time = ++gCacheTime;
+		entry->offset = offset;
+		bcopy(buffer, gCacheBuffer + cnt * gCacheBlockSize, gCacheBlockSize);
+	}
 
-    return length;
+	return length;
 }

@@ -70,8 +70,8 @@ typedef struct Tag Tag, *TagPtr;
 
 typedef struct {
 	char	plist[IO_CONFIG_DATA_SIZE];	// buffer for plist
-	TagPtr	dictionary;		// buffer for xml dictionary
-	bool	canOverride;	// flag to mark a dictionary can be overriden
+	TagPtr	dictionary;     		// buffer for xml dictionary
+	bool	canOverride;			// flag to mark a dictionary can be overriden
 } config_file_t;
 
 /*
@@ -79,48 +79,50 @@ typedef struct {
  */
 struct boot_drive_info {
 	struct drive_params {
-	unsigned short buf_size;
-	unsigned short info_flags;
-	unsigned long  phys_cyls;
-	unsigned long  phys_heads;
-	unsigned long  phys_spt;
-	unsigned long long phys_sectors;
-	unsigned short phys_nbps;
-	unsigned short dpte_offset;
-	unsigned short dpte_segment;
-	unsigned short key;
-	unsigned char  path_len;
-	unsigned char  reserved1;
-	unsigned short reserved2;
-	unsigned char  bus_type[4];
-	unsigned char  interface_type[8];
-	unsigned char  interface_path[8];
-	unsigned char  dev_path[8];
-	unsigned char  reserved3;
-	unsigned char  checksum;
+		unsigned short buf_size;
+		unsigned short info_flags;
+		unsigned long  phys_cyls;
+		unsigned long  phys_heads;
+		unsigned long  phys_spt;
+		unsigned long long phys_sectors;
+		unsigned short phys_nbps;
+		unsigned short dpte_offset;
+		unsigned short dpte_segment;
+		unsigned short key;
+		unsigned char  path_len;
+		unsigned char  reserved1;
+		unsigned short reserved2;
+		unsigned char  bus_type[4];
+		unsigned char  interface_type[8];
+		unsigned char  interface_path[8];
+		unsigned char  dev_path[8];
+		unsigned char  reserved3;
+		unsigned char  checksum;
 	} params;
+
 	struct drive_dpte {
-	unsigned short io_port_base;
-	unsigned short control_port_base;
-	unsigned char  head_flags;
-	unsigned char  vendor_info;
-	unsigned char  irq		   : 4;
-	unsigned char  irq_unused  : 4;
-	unsigned char  block_count;
-	unsigned char  dma_channel : 4;
-	unsigned char  dma_type	   : 4;
-	unsigned char  pio_type	   : 4;
-	unsigned char  pio_unused  : 4;
-	unsigned short option_flags;
-	unsigned short reserved;
-	unsigned char  revision;
-	unsigned char  checksum;
-	} dpte;
+		unsigned short io_port_base;
+		unsigned short control_port_base;
+		unsigned char  head_flags;
+		unsigned char  vendor_info;
+		unsigned char  irq         : 4;
+		unsigned char  irq_unused  : 4;
+		unsigned char  block_count;
+		unsigned char  dma_channel : 4;
+		unsigned char  dma_type    : 4;
+		unsigned char  pio_type    : 4;
+		unsigned char  pio_unused  : 4;
+		unsigned short option_flags;
+		unsigned short reserved;
+		unsigned char  revision;
+		unsigned char  checksum;
+    } dpte;
 } __attribute__((packed));
 typedef struct boot_drive_info boot_drive_info_t;
 
 struct driveInfo {
 	boot_drive_info_t di;
+
 	int uses_ebios;
 	int no_emulation;
 	int biosdev;
@@ -131,7 +133,8 @@ typedef struct FinderInfo {
 	unsigned char data[16];
 } FinderInfo;
 
-struct		   BootVolume;
+
+struct		BootVolume;
 typedef struct BootVolume * BVRef;
 typedef struct BootVolume * CICell;
 
@@ -154,7 +157,7 @@ struct iob {
 	char *		   i_buf;			/* file load address */
 };
 
-#define BPS		   512				/* sector size of the device */
+#define BPS	   512				/* sector size of the device */
 #define F_READ	   0x1				/* file opened for reading */
 #define F_WRITE	   0x2				/* file opened for writing */
 #define F_ALLOC	   0x4				/* buffer allocated */
@@ -166,39 +169,39 @@ struct iob {
 struct dirstuff {
 	char *		   dir_path;		/* directory path */
 	long long	   dir_index;		/* directory entry index */
-	BVRef		   dir_bvr;			/* volume reference */
+	BVRef		   dir_bvr;		/* volume reference */
 };
 
 #define BVSTRLEN 32
 
 struct BootVolume {
-	BVRef			 next;			  /* list linkage pointer */
-	int				 biosdev;		  /* BIOS device number */
-	int				 type;			  /* device type (floppy, hd, network) */
-	unsigned int	 flags;			  /* attribute flags */
-	BVGetDescription description;	  /* BVGetDescription function */
-	int				 part_no;		  /* partition number (1 based) */
-	unsigned int	 part_boff;		  /* partition block offset */
-	unsigned int	 part_type;		  /* partition type */
-	unsigned int	 fs_boff;		  /* 1st block # of next read */
-	unsigned int	 fs_byteoff;	  /* Byte offset for read within block */
-	FSLoadFile		 fs_loadfile;	  /* FSLoadFile function */
-	FSReadFile		 fs_readfile;	  /* FSReadFile function */
-	FSGetDirEntry	 fs_getdirentry;  /* FSGetDirEntry function */
-	FSGetFileBlock	 fs_getfileblock; /* FSGetFileBlock function */
-	FSGetUUID		 fs_getuuid;	  /* FSGetUUID function */
-	unsigned int	 bps;			  /* bytes per sector for this device */
-	char			 name[BVSTRLEN];  /* (name of partition) */
-	char			 type_name[BVSTRLEN]; /* (type of partition, eg. Apple_HFS) */
-	BVFree			 bv_free;		  /* BVFree function */
-	uint32_t		 modTime;
-	char			 label[BVSTRLEN]; /* partition volume label */
-	char			 altlabel[BVSTRLEN]; /* partition volume label */
-	bool			 filtered;		  /* newFilteredBVChain() will set to TRUE */
-	bool			 visible;		  /* will shown in the device list */
-    char			 OSVersion[8];
-    bool             OSisServer;      /* 1 = OS X server , 0 = OS X client */
-	bool             OSisInstaller;   /* 1 = OS X Install partition / recover partition , 0 = OS X Install */
+	BVRef			next;			/* list linkage pointer */
+	int			biosdev;		/* BIOS device number */
+	int			type;			/* device type (floppy, hd, network) */
+	unsigned int		flags;			/* attribute flags */
+	BVGetDescription	description;		/* BVGetDescription function */
+	int			part_no;		/* partition number (1 based) */
+	unsigned int		part_boff;		/* partition block offset */
+	unsigned int		part_type;		/* partition type */
+	unsigned int		fs_boff;		/* 1st block # of next read */
+	unsigned int		fs_byteoff;		/* Byte offset for read within block */
+	FSLoadFile		fs_loadfile;		/* FSLoadFile function */
+	FSReadFile		fs_readfile;		/* FSReadFile function */
+	FSGetDirEntry		fs_getdirentry;		/* FSGetDirEntry function */
+	FSGetFileBlock		fs_getfileblock;	/* FSGetFileBlock function */
+	FSGetUUID		fs_getuuid;		/* FSGetUUID function */
+	unsigned int		bps;			/* bytes per sector for this device */
+	char			name[BVSTRLEN];		/* (name of partition) */
+	char			type_name[BVSTRLEN];	/* (type of partition, eg. Apple_HFS) */
+	BVFree			bv_free;		/* BVFree function */
+	uint32_t		modTime;
+	char			label[BVSTRLEN];	/* partition volume label */
+	char			altlabel[BVSTRLEN];	/* partition volume label */
+	bool			filtered;		/* newFilteredBVChain() will set to TRUE */
+	bool			visible;		/* will shown in the device list */
+	char			OSVersion[8];
+	bool			OSisServer;		/* 1 = OS X server , 0 = OS X client */
+	bool			OSisInstaller;		/* 1 = OS X Install partition / recover partition , 0 = OS X Install */
 
 };
 
@@ -214,7 +217,7 @@ enum {
 
 enum {
 	kBIOSDevTypeFloppy		= 0x00,
-	kBIOSDevTypeHardDrive	= 0x80,
+	kBIOSDevTypeHardDrive		= 0x80,
 	kBIOSDevTypeNetwork		= 0xE0,
 	kBIOSDevUnitMask		= 0x0F,
 	kBIOSDevTypeMask		= 0xF0,
@@ -235,9 +238,8 @@ enum {
 //#define BIOS_DEV_TYPE(d)	((d) & kBIOSDevTypeMask)
 #define BIOS_DEV_UNIT(bvr)	((bvr)->biosdev - (bvr)->type)
 
-/*
- * KernBootStruct device types.
- */
+// KernBootStruct device types.
+
 enum {
 	DEV_SD = 0,
 	DEV_HD = 1,
@@ -268,7 +270,7 @@ enum {
 }; //gBootFileType_t;
 
 enum {
-	kCursorTypeHidden	 = 0x0100,
+	kCursorTypeHidden    = 0x0100,
 	kCursorTypeUnderline = 0x0607
 };
 

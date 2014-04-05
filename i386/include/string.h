@@ -108,6 +108,7 @@ char	*strncat(char *, const char *, size_t);
 int	 strncmp(const char *, const char *, size_t);
 char	*strncpy(char *, const char *, size_t);
 #if !defined(_POSIX_C_SOURCE) || defined(_DARWIN_C_SOURCE)
+char	*stpncpy(char *, const char *, size_t);
 char	*strnstr(const char *, const char *, size_t);
 #endif	/* (!_POSIX_C_SOURCE || _DARWIN_C_SOURCE) */
 char	*strpbrk(const char *, const char *);

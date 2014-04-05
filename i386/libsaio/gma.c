@@ -276,10 +276,10 @@ static intel_gfx_info_t intel_gfx_chipsets[] = {
 	{GMA_IVYBRIDGE_D_GT1,          HD_GRAPHICS_2500 },
 	{GMA_IVYBRIDGE_D_GT2,          HD_GRAPHICS_4000 },
 	{GMA_IVYBRIDGE_S_GT1,          HD_GRAPHICS },
-    // 015E /* ??? */
 	{GMA_IVYBRIDGE_S_GT2,          "HD Graphics P4000" },
-    // 0172 /* HD Graphics 2500 Mobile */
-    // 0176 /* HD Graphics 2500 Mobile */
+	{GMA_IVYBRIDGE_S_GT3,          HD_GRAPHICS }, // 015e
+ 	{GMA_IVYBRIDGE_S_GT4,          HD_GRAPHICS_2500 },  // 0172 /* HD Graphics 2500 Mobile */
+  	{GMA_IVYBRIDGE_S_GT5,          HD_GRAPHICS_2500 },  // 0176 /* HD Graphics 2500 Mobile */
 
     /* Haswell */
     // 0090 /* ??? */
@@ -337,7 +337,8 @@ static intel_gfx_info_t intel_gfx_chipsets[] = {
 	{GMA_HASWELL_CRW_B_GT3,		IRIS_5200 },
 	{GMA_HASWELL_CRW_E_GT1,		HD_GRAPHICS }, /* ??? */
 	{GMA_HASWELL_CRW_E_GT2,		HD_GRAPHICS }, /* ??? */
-	{GMA_HASWELL_CRW_E_GT3,		IRIS_5200 }
+	{GMA_HASWELL_CRW_E_GT3,		IRIS_5200 },
+	{GMA_HASWELL_CRW_M_GT2_PLUS_IG,		HD_GRAPHICS }
 };
 
 #define GFX_DEVICES_LEN (sizeof(intel_gfx_chipsets) / sizeof(intel_gfx_chipsets[0]))
@@ -354,13 +355,11 @@ static char *get_gma_controller_name(uint16_t device_id, uint16_t vendor_id)
 	{
 		if (intel_gfx_chipsets[i].model == ((device_id << 16) | vendor_id))
 		{
-			sprintf(desc, "%s %s", INTEL_NAME, intel_gfx_chipsets[i].label_info);
-			desc[sizeof(desc) - 1] = '\0';
+			snprintf(desc, sizeof(desc), "%s %s", INTEL_NAME, intel_gfx_chipsets[i].label_info);
 			return desc;
 		}
 	}
-	sprintf(desc, "Unknown %s Graphics card", INTEL_NAME);
-	desc[sizeof(desc) - 1] = '\0';
+	snprintf(desc, sizeof(desc), "Unknown %s Graphics card", INTEL_NAME);
 	return desc;
 }
 
@@ -390,16 +389,12 @@ bool setup_gma_devprop(pci_dt_t *gma_dev)
 	verbose("Class code: [%04x]\n%s [%04x:%04x] (rev %02x)\nSubsystem: [%04x:%04x] :: %s\n",
 			gma_dev->class_id, model, gma_dev->vendor_id, gma_dev->device_id, gma_dev->revision_id, gma_dev->subsys_id.subsys.vendor_id, gma_dev->subsys_id.subsys.device_id, devicepath);
 
-	if (!string)
-	{
+	if (!string) {
 		string = devprop_create_string();
 	}
 
-	struct DevPropDevice *device = malloc(sizeof(struct DevPropDevice));
-	device = devprop_add_device(string, devicepath);
-
-	if (!device)
-	{
+	struct DevPropDevice *device = devprop_add_device(string, devicepath);
+	if (!device) {
 		printf("Failed initializing dev-prop string dev-entry.\n");
 		pause();
 		return false;
@@ -543,12 +538,12 @@ bool setup_gma_devprop(pci_dt_t *gma_dev)
         case GMA_IVYBRIDGE_D_GT1: // HD Graphics 4000, HD Graphics 4000 Mobile, HD Graphics P4000, HD Graphics 2500 HD, Graphics 2500 Mobile
         case GMA_IVYBRIDGE_M_GT1:
         case GMA_IVYBRIDGE_S_GT1:
-        //case 0x8086015e:
+        case GMA_IVYBRIDGE_S_GT3: // 015e
         case GMA_IVYBRIDGE_D_GT2:
         case GMA_IVYBRIDGE_M_GT2:
         case GMA_IVYBRIDGE_S_GT2:
-        //case 0x80860172:
-        //case 0x80860176:
+        case GMA_IVYBRIDGE_S_GT4: // 0172:
+        case GMA_IVYBRIDGE_S_GT5: // 0176:
 
             if (getValueForKey(kAAPLCustomIG, &value, &len, &bootInfo->chameleonConfig) && len == AAPL_LEN_IVY * 2)
             {
@@ -620,6 +615,9 @@ bool setup_gma_devprop(pci_dt_t *gma_dev)
         case GMA_HASWELL_D_GT2: // 0412
         case GMA_HASWELL_M_GT2: // 0416
         case GMA_HASWELL_S_GT2: // 041a
+        case GMA_HASWELL_E_GT1: // 040e
+        case GMA_HASWELL_E_GT2: // 041e
+        case GMA_HASWELL_E_GT3: // 042e
         case GMA_HASWELL_D_GT3: // 0422
         case GMA_HASWELL_M_GT3: // 0426
         case GMA_HASWELL_S_GT3: // 042a
@@ -637,11 +635,22 @@ bool setup_gma_devprop(pci_dt_t *gma_dev)
         //case GMA_HASWELL_SDV_M_GT2_IG: // 0c16
         //case GMA_HASWELL_SDV_D_GT2_PLUS_IG: // 0c22
         //case GMA_HASWELL_SDV_M_GT2_PLUS_IG: // 0c26
+        case GMA_HASWELL_CRW_D_GT1: // 0d02
         case GMA_HASWELL_CRW_D_GT2: // 0d12
         case GMA_HASWELL_CRW_D_GT3: // 0d22
+        case GMA_HASWELL_CRW_M_GT1: // 0d06
         case GMA_HASWELL_CRW_M_GT2: // 0d16
         case GMA_HASWELL_CRW_M_GT3: // 0d26
-        //case GMA_HASWELL_CRW_M_GT2_PLUS_IG: // 0d36
+        case GMA_HASWELL_CRW_S_GT1: // 0d0a
+        case GMA_HASWELL_CRW_S_GT2: // 0d1a
+        case GMA_HASWELL_CRW_S_GT3: // 0d2a
+        case GMA_HASWELL_CRW_B_GT1: // 0d0b
+        case GMA_HASWELL_CRW_B_GT2: // 0d1b
+        case GMA_HASWELL_CRW_B_GT3: // 0d2b
+        case GMA_HASWELL_CRW_E_GT1: // 0d0e
+        case GMA_HASWELL_CRW_E_GT2: // 0d1e
+        case GMA_HASWELL_CRW_E_GT3: // 0d2e
+        case GMA_HASWELL_CRW_M_GT2_PLUS_IG: // 0d36
 
             if (getValueForKey(kAAPLCustomIG, &value, &len, &bootInfo->chameleonConfig) && len == AAPL_LEN_HSW * 2)
             {

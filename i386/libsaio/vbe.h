@@ -57,18 +57,18 @@
  * Functions
  */
 enum {
-    funcGetControllerInfo    = 0x4F00,
-    funcGetModeInfo          = 0x4F01,
-    funcSetMode              = 0x4F02,
-    funcGetCurrentMode       = 0x4F03,
-    funcSaveRestoreState     = 0x4F04,
-    funcWindowControl        = 0x4F05,
-    funcGetSetScanLineLength = 0x4F06,
-    funcGetSetDisplayStart   = 0x4F07,
-    funcGetSetPaletteFormat  = 0x4F08,
-    funcGetSetPaletteData    = 0x4F09,
-    funcGetProtModeInterdace = 0x4F0A,
-    funcGetSetPixelClock     = 0x4F0B
+	funcGetControllerInfo		= 0x4F00,
+	funcGetModeInfo			= 0x4F01,
+	funcSetMode			= 0x4F02,
+	funcGetCurrentMode		= 0x4F03,
+	funcSaveRestoreState		= 0x4F04,
+	funcWindowControl		= 0x4F05,
+	funcGetSetScanLineLength	= 0x4F06,
+	funcGetSetDisplayStart		= 0x4F07,
+	funcGetSetPaletteFormat		= 0x4F08,
+	funcGetSetPaletteData		= 0x4F09,
+	funcGetProtModeInterdace	= 0x4F0A,
+	funcGetSetPixelClock		= 0x4F0B
 };
 
 enum {

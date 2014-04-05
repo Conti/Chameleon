@@ -822,9 +822,13 @@ static void append_string(const char *str, int size)
 {
 	int new_size = text_size + size + 1;
 	if (new_size > text_asize) {
+		char* new_text = NULL;
 		new_size += START_STRSIZE - 1;
 		new_size &= -START_STRSIZE;
-		text = realloc(text, new_size);
+		if (!(new_text = realloc(text, new_size))) {
+			return;
+		}
+		text = new_text;
 		text_asize = new_size;
 	}
 	memcpy(text + text_size, str, size);

@@ -36,8 +36,7 @@ char *BASE64Decode(const char* src, int in_len, int* out_len)
     {
         /* Wrong base64 string length */
         return NULL;
-
-    }    
+    }
     result = dest = malloc(in_len / 4 * 3 + 1);
     if (result == NULL)
         return NULL; /* out of memory */

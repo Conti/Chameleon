@@ -155,10 +155,10 @@ typedef struct{
 #define GMA_IVYBRIDGE_D_GT2        GFX_MODEL_CONSTRUCT(INTEL, 0x0162) // HD Graphics 4000
 //#define GMA_IVYBRIDGE_S_HB        GFX_MODEL_CONSTRUCT(INTEL, 0x0158) /* Server */
 #define GMA_IVYBRIDGE_S_GT1        GFX_MODEL_CONSTRUCT(INTEL, 0x015A) // HD Graphics 4000
-// 015E // ??
 #define GMA_IVYBRIDGE_S_GT2        GFX_MODEL_CONSTRUCT(INTEL, 0x016A) // HD Graphics P4000
-// 0172 // HD Graphics 2500 Mobile
-// 0176 // HD Graphics 2500 Mobile
+#define GMA_IVYBRIDGE_S_GT3        GFX_MODEL_CONSTRUCT(INTEL, 0x015E) // Xeon E3-1200 v2/3rd Gen Core processor Graphics Controller
+#define GMA_IVYBRIDGE_S_GT4        GFX_MODEL_CONSTRUCT(INTEL, 0x0172) // HD Graphics 2500 Mobile // Xeon E3-1200 v2/3rd Gen Core processor Graphics Controller
+#define GMA_IVYBRIDGE_S_GT5        GFX_MODEL_CONSTRUCT(INTEL, 0x0176) // HD Graphics 2500 Mobile // 3rd Gen Core processor Graphics Controller
 /* ==================================== */
 
 //#define GMA_VALLEYVIEW_HB          GFX_MODEL_CONSTRUCT(INTEL, 0x0F00) /* VLV1 */
@@ -230,7 +230,7 @@ typedef struct{
 #define GMA_HASWELL_CRW_E_GT1      GFX_MODEL_CONSTRUCT(INTEL, 0x0D0E)
 #define GMA_HASWELL_CRW_E_GT2      GFX_MODEL_CONSTRUCT(INTEL, 0x0D1E)
 #define GMA_HASWELL_CRW_E_GT3      GFX_MODEL_CONSTRUCT(INTEL, 0x0D2E)
-//#define GMA_HASWELL_CRW_M_GT2_PLUS_IG    GFX_MODEL_CONSTRUCT(INTEL, 0x0D36)
+#define GMA_HASWELL_CRW_M_GT2_PLUS_IG    GFX_MODEL_CONSTRUCT(INTEL, 0x0D36)
 //#define GMA_HASWELL_CRW_S_GT2_PLUS_IG    GFX_MODEL_CONSTRUCT(INTEL, 0x0D3A)
 
 /* END */

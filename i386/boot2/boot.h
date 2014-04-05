@@ -144,6 +144,7 @@
 
 /* ErmaC: added these keys */
 #define kEnableDualLink		"EnableDualLink"	/* nvidia.c && gma.c*/
+#define kNvidiaGeneric		"NvidiaGeneric"		/* nvidia.c */
 #define kSkipIntelGfx		"SkipIntelGfx"		/* pci_setup.c */
 #define kSkipNvidiaGfx		"SkipNvidiaGfx"		/* pci_setup.c */
 #define kSkipAtiGfx		"SkipAtiGfx"		/* pci_setup.c */
@@ -153,6 +154,13 @@
 #define kHDAEnabler		"HDAEnabler"		/* pci_setup.c */
 #define kHDEFLayoutID		"HDEFLayoutID"		/* hda.c */
 #define kHDAULayoutID		"HDAULayoutID"		/* hda.c */
+
+/* Karas: added these keys */
+#define kMemFullInfo		"ForceFullMemInfo"	/* smbios.c */
+
+/* Bungo: added these keys */
+// mask private data or no
+#define kPrivateData		"PrivateData"		/* smbios_decode.c */
 
 /*
  * Flags to the booter or kernel
@@ -190,10 +198,10 @@ extern bool useGUI;
  * Boot Modes
  */
 enum {
-    kBootModeNormal = 0,
-    kBootModeSafe   = 1,
-    kBootModeSecure = 2,
-    kBootModeQuiet  = 4
+	kBootModeNormal = 0,
+	kBootModeSafe   = 1,
+	kBootModeSecure = 2,
+	kBootModeQuiet  = 4
 };
 
 extern void initialize_runtime();
@@ -212,16 +220,20 @@ extern void setVideoMode(int mode, int drawgraphics);
 extern int  getVideoMode();
 extern void spinActivityIndicator();
 extern void clearActivityIndicator();
-extern void drawColorRectangle( unsigned short x,
-                                unsigned short y,
-                                unsigned short width,
-                                unsigned short height,
-                                unsigned char  colorIndex );
-extern void drawDataRectangle( unsigned short  x,
-                               unsigned short  y,
-                               unsigned short  width,
-                               unsigned short  height,
-                               unsigned char * data );
+extern void drawColorRectangle(
+                               unsigned short x,
+                               unsigned short y,
+                               unsigned short width,
+                               unsigned short height,
+                               unsigned char  colorIndex
+                               );
+extern void drawDataRectangle(
+                              unsigned short  x,
+                              unsigned short  y,
+                              unsigned short  width,
+                              unsigned short  height,
+                              unsigned char * data
+                              );
 extern int
 convertImage( unsigned short width,
               unsigned short height,
@@ -262,8 +274,8 @@ void showTextFile();
 char *getMemoryInfoString();
 
 typedef struct {
-    char   name[80];
-    void * param;
+	char   name[80];
+	void * param;
 } MenuItem;
 
 /*
@@ -272,15 +284,15 @@ typedef struct {
 extern int decompress_lzss(u_int8_t *dst, u_int8_t *src, u_int32_t srclen);
 
 struct compressed_kernel_header {
-  u_int32_t signature;
-  u_int32_t compress_type;
-  u_int32_t adler32;
-  u_int32_t uncompressed_size;
-  u_int32_t compressed_size;
-  u_int32_t reserved[11];
-  char      platform_name[64];
-  char      root_path[256];
-  u_int8_t  data[0];
+	u_int32_t signature;
+	u_int32_t compress_type;
+	u_int32_t adler32;
+	u_int32_t uncompressed_size;
+	u_int32_t compressed_size;
+	u_int32_t reserved[11];
+	char      platform_name[64];
+	char      root_path[256];
+	 u_int8_t  data[0];
 };
 typedef struct compressed_kernel_header compressed_kernel_header;
 
